@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Страница устройств</title>
+  <script type="text/javascript">
+   function load(){
+    if (window.XMLHttpRequest) {
+     xhttp = new XMLHttpRequest();
+    } else {
+     xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    iplocation();
+
+    var dt = new Date();
+    document.getElementById('date').innerHTML = dt.getDate()+' '+["Воскресенья","Понидельник","Вторник","Среда","Четверг","Пятница","Суббота"][dt.getDay()]+'<small class="show">'+["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"][dt.getMonth()]+' '+dt.getFullYear()+'г.<\/small>';
+   }
+
+   function finddevice() {
+    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"></div><strong>Пожалуйста подождите, идет сканирование сети.</strong></div>';
+    xhttp.open("GET", "/devices?"+Math.floor(Math.random()*10000), false);
+    xhttp.send();
+    setTimeout(function(){iplocation()}, 7000);
+   }
+
+   function iplocation() {
+    document.getElementById('content').innerHTML='';
+    xhttp.open("GET", "/iplocation.xml?"+Math.floor(Math.random()*10000), false);
+    xhttp.send();
+    xmlDoc = xhttp.responseXML;
+    var count=xmlDoc.getElementsByTagName("ip").length;
+    for (i = 0; i < count; i++) {
+     var ipval = xmlDoc.getElementsByTagName("ip")[i].childNodes[0].textContent;
+     if (ipval == '0.0.0.0') {
+      location.href = "/setup.htm";
+     } else {
+      loadBlock(ipval);
+     }
+    }
+   }
+
+   function loadBlock(ipval) {
+    xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), false);
+    xhttp.send();
+    data = xhttp.responseText;
+    xhttp.open("GET", "http://"+ipval+"/config.xml?"+Math.floor(Math.random()*10000), false);
+    xhttp.send();
+    data2 = xhttp.responseXML;
+    var new_string;
+    var $kids = data2.getElementsByTagName("Donnees")[0].childNodes;
+    [].forEach.call($kids, (el) => {
+     var tagName = el.tagName;
+     var cols = data2.getElementsByTagName(tagName)[0].textContent;
+     new_string = data.replace(new RegExp('{{'+tagName+'}}', 'g'), cols);
+     data = new_string;
+    });
+    document.getElementById('content').innerHTML+=new_string;
+   }
+
+   function ajax(blockid, pagename, submit) {
+    old_submit = submit.value;
+    var d = new Date(); // for now
+    datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+    parent = submit.parentNode.childNodes[1].innerHTML;
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" onclick="this.childNodes[3].className=\'\';"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden"><hr>URL: http://'+blockid+'/'+pagename+'</small></span></li>');
+    submit.value = 'Подождите...';
+    submit_disabled(true);
+    //$("input").prop('disabled', true);
+    xhttp.open("GET", "http://"+blockid+"/"+pagename, false);
+    xhttp.send();
+    submit.value = xhttp.responseText;
+    setTimeout(function(){
+     submit.value=old_submit;
+     submit_disabled(false);
+    }, 1000);
+   }
+
+   function submit_disabled(request){
+    var inputs = document.getElementsByTagName("input");
+    for (var i = 0; i < inputs.length; i++) {
+     if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
+    }
+   }
+  </script>
+ </head>
+ <body onload="load();">
+  <div class="container device">
+   <div class="header">
+    <h4><small class="pull-right col-md-4 hidden-xs" style="padding:15px 0;">Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github <a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb" target="_blank">RGB</a>. Появились какие-то вопросы, пишите <a href="https://github.com/tretyakovsa/jaluzi/issues/new" target="_blank">сюда(жалюзи)</a> или <a href="https://github.com/renat2985/rgb/issues/new" target="_blank">cюда(rgb)</a>.</small></h4>
+    <h1 id="date"><br><small></small></h1>
+   </div>
+   <div class="row">
+    <div class="col-sm-3">
+     <h5 style="background-color:#C0C7CA">История</h5>
+     <ul id="history">
+     </ul>
+     <hr>
+     <div class="block col-md-11">
+      <h5 class=" alert-danger">Поиск</h5>
+      <div class="alert alert-dismissible alert-info">Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:</div>
+      <hr><a onclick="finddevice();" class="btn btn-block btn-default" href="#">Найти устройства</a>
+     </div>
+    </div>
+    <div class="col-sm-offset-0 col-sm-9" style="text-align:center;" id="content">
+     <div class="loader"></div><p>Загрузка...</p>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

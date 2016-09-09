@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <script type="text/javascript" src="/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Страница управления</title>
+  <script type="text/javascript">
+    function handleServerResponse(){
+    if(xmlHttp.readyState==4 && xmlHttp.status==200){
+     // XML, ID
+     xml_to_val('timeled','led');
+     xml_to_val('times1' ,'time1');
+     xml_to_val('times2','time2');
+     document.getElementById('ssdp').innerHTML=xml('SSDP');
+    }
+   }
+   function irsend(submit,code){
+    server = "/ir?code="+code+"&device=12";
+    send_request(submit,server);
+   }
+  </script>
+ <style>.container .row input {display:inline-block;width:32%}</style>
+ </head>
+ <body onload="load();">
+  <div class="container">
+   <div class="row" style="text-align:center;">
+    <h1 style="margin:50px;">Страница управления</h1>
+
+    <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+     <h5 class="alert-info">{{SSDP}}</h5>
+     <a class="btn btn-block btn-danger" href="/">Страница устройств</a>
+     <hr>
+     <a class="btn btn-block btn-default" href="/device.htm">Люстра</a>
+     <hr>
+    <div class="alert alert-dismissible alert-info">Телевизор LG</div>
+     <input class="btn btn-block btn-primary" style="width:49%" onclick="irsend(this,551489775)" value="Включить" type="submit">
+     <input class="btn btn-block btn-primary" style="width:49%" onclick="irsend(this,551489775)" value="Выключить" type="submit">
+     <input class="btn btn-block btn-primary" style="width:24%" onclick="irsend(this,551489520)" value="TV/RAD" type="submit">
+     <input class="btn btn-block btn-primary" style="width:24%" onclick="irsend(this,551525985)" value="RATIO" type="submit">
+     <input class="btn btn-block btn-primary" style="width:24%" onclick="irsend(this,551538735)" value="INPUT" type="submit">
+     <input class="btn btn-block btn-primary" style="width:24%" onclick="irsend(this,551488755)" value="AV/MODE" type="submit">
+     <hr>
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551502015)" value="+" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551516295)" value="FAN" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551485695)" value="&#9650;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551500740)" value="3D" type="submit"><br>
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551534655)" value="-" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551522415)" value="MUTE" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551518335)" value="&#9660;" type="submit">
+	 <hr>
+     <input class="btn btn-block btn-info" onclick="irsend(this,551520375)" value="1" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551504055)" value="2" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551536695)" value="3" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551495895)" value="4" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551528535)" value="5" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551512215)" value="6" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551544855)" value="7" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551491815)" value="8" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551524455)" value="9" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551537205)" value="LIST" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551487735)" value="0" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551508135)" value="Q.VIEW" type="submit">
+     <hr>
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551535165)" value="SETINGS" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551507370)" value="INFO" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551527005)" value="Q.MENU" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551486205)" value="&#9650;" type="submit"><br>
+     <input class="btn btn-block btn-info" onclick="irsend(this,551542815)" value="&#9668;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551494365)" value="OK" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551510175)" value="&#9658;" type="submit">
+     <input class="btn btn-block btn-info" onclick="irsend(this,551518845)" value="&#9660;" type="submit"><br>
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551490795)" value="BACK" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551540010)" value="GUIDE" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551541285)" value="EXIT" type="submit">
+     <hr>
+     <div class="btn-group btn-group-justified">
+      <input class="btn btn-block btn-info" style="width:24%" onclick="irsend(this,551505585)" value="&#8226;" type="submit">
+      <input class="btn btn-block btn-info" style="width:24%" onclick="irsend(this,551521905)" value="&#8226;&#8226;" type="submit">
+      <input class="btn btn-block btn-info" style="width:24%" onclick="irsend(this,551536185)" value="&#8226;&#8226;&#8226;" type="submit">
+      <input class="btn btn-block btn-info" style="width:24%" onclick="irsend(this,551519865)" value="&#8226;&#8226;&#8226;&#8226;" type="submit">
+     </div>
+     <hr>
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551486715)" value="TEXT" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551519355)" value="T.OPT" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551525475)" value="SUBTITLE" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551521650)" value="&#9632;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551489010)" value="&#9658;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551509410)" value="II" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551547150)" value="&#9668;&#9668;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551514510)" value="&#9658;&#9658;" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551517825)" value="SIMPLINK" type="submit">
+     <input class="btn btn-block btn-primary" onclick="irsend(this,551520630)" value="AD" type="submit">
+
+
+     <hr>
+     <a class="btn btn-block btn-default" href="/setup.htm">Доп. настройки</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
