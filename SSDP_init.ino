@@ -6,7 +6,7 @@ void SSDP_init(void) {
   SSDP.setURL("/");
   SSDP.setModelName("Sonoff V2.0");
   SSDP.setModelNumber("000000000001");
-  SSDP.setModelURL("http://esp8266-arduinoide.ru/Sonoff/");
+  SSDP.setModelURL("http://esp8266-arduinoide.ru/sonoff/");
   SSDP.setManufacturer("Tretyakov Sergey");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
   SSDP.begin();

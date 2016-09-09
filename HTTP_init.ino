@@ -179,9 +179,6 @@ void handle_ConfigXML() {
  XML += state0;
  XML += "</state>";
 
-  XML += "<ledVolume>";
- XML += ledVolume;
- XML += "</ledVolume>";
  // IP устройства
  XML += "<ip>";
  XML += WiFi.localIP().toString();

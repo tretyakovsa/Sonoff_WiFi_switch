@@ -11,30 +11,22 @@ void Tach_0() {
 
 
 void Time01() {
-  tickerSetLow.attach(TimeLed, setT1, 0);
+  tickerSetLow.attach(TimeLed*60, setT1, 0);
   chaing = 1;
-
 }
 
 void Time02() {
-  tickerSetLow.attach(TimeLed, setT2, 0);
-  Serial.println(TimeLed);
-  Serial.println("Time2");
+  tickerSetLow.attach(TimeLed*60, setT2, 0);
   chaing = 1;
-
 }
 
 void setT1(int state) {
  tickerSetLow.detach();
- Serial.println("Time1-OFF");
  chaing = 1;
-
 }
 
 void setT2(int state) {
  tickerSetLow.detach();
- Serial.println("Time2-OFF");
  chaing = 1;
-
 }
 

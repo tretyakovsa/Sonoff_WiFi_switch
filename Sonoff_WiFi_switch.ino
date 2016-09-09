@@ -44,12 +44,9 @@ String kolibrTime = "03:00:00"; // Время колибровки часов
 // Для работы с лампой
 String times1 = "00:00:00";      // Таймер 1
 String times2 = "00:00:00";    // Таймер 2
-int TimeLed = 10;  // Время работы Ламп
-int ledVolume = 0;
-
+int TimeLed = 10;  // Время работы реле
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
-volatile int  chaingRip = LOW;
 int state0 = 0;
 
 unsigned int localPort = 2390;
@@ -93,7 +90,8 @@ void loop() {
 
  if (chaing) {
     noInterrupts();
-    digitalWrite(rele1,!state0);
+    state0=!state0;
+    digitalWrite(rele1,state0);
     chaing = 0;
     interrupts();
   }
@@ -112,10 +110,12 @@ void loop() {
 void alert() {
  String Time=XmlTime();
  if (times1.compareTo(Time) == 0 && times1 != "00:00:00") {
+  Serial.println("timer1");
  Time01();
  }
  if (times2.compareTo(Time) == 0 && times2 != "00:00:00") {
- Time01();
+  Serial.println("timer2");
+ Time02();
  }
  if (kolibrTime.compareTo(Time) == 0) {
   chaingtime=1;
