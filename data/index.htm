@@ -23,10 +23,10 @@
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"></div><strong>Пожалуйста подождите, идет сканирование сети.</strong></div>';
     xhttp.open("GET", "/devices?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
-    setTimeout(function(){iplocation()}, 7000);
+    setTimeout(function(){iplocation('search')}, 7000);
    }
 
-   function iplocation() {
+   function iplocation(searc) {
     document.getElementById('content').innerHTML='';
     xhttp.open("GET", "/iplocation.xml?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
@@ -34,6 +34,10 @@
     var count=xmlDoc.getElementsByTagName("ip").length;
     for (i = 0; i < count; i++) {
      var ipval = xmlDoc.getElementsByTagName("ip")[i].childNodes[0].textContent;
+     if (searc == 'search') {
+      xhttp.open("GET", "http://"+ipval+"/devices?"+Math.floor(Math.random()*10000), false);
+      xhttp.send();
+     }
      if (ipval == '0.0.0.0') {
       location.href = "/setup.htm";
      } else {
