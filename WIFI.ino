@@ -22,9 +22,8 @@ bool StartAPMode()
   Serial.println("start in AP mode");
   WiFi.disconnect();
   WiFi.mode(WIFI_AP);
-  IPAddress ip(192, 168, 4, 1);
-  IPAddress mask(255, 255, 255, 0);
-  WiFi.softAPConfig(ip, ip, mask);
+  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   WiFi.softAP(_ssidAP.c_str(), _passwordAP.c_str());
+  dnsServer.start(DNS_PORT, "*", apIP);
   return true;
 }
