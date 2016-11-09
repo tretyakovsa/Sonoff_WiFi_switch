@@ -1,1 +1,1 @@
-{"onOffAP":"0","SSDPName":"RGB","ssidAPName":"RGB","ssidAPPassword":"","ssidName":"home","ssidPassword":"i12345678","timezone":8,"times1":"12:00:00","times2":"13:00:00","DDNS":"http://dyndns.dk/opdat.php?name=smartroom&domain=dyndns.dk&pw=20fHZ2naLXOIY&silent=1"}
+{"onOffAP":"0","SSDPName":"Sonoff","ssidAPName":"Sonoff","ssidAPPassword":"","ssidName":"home","ssidPassword":"passs","timezone":8,"times1":"12:00:00","times2":"13:00:00","DDNS":"http://dyndns.dk"}
