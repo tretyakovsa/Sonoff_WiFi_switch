@@ -12,8 +12,14 @@
 #include <Ticker.h>             //Содержится в пакете
 #include <WiFiUdp.h>            //Содержится в пакете
 #include <ESP8266HTTPUpdateServer.h> //Содержится в пакете
+#include <ESP8266HTTPClient.h>
+#include <DNSServer.h>
 #include <ArduinoJson.h>
 
+const byte DNS_PORT = 53;
+IPAddress apIP(192, 168, 4, 1);
+DNSServer dnsServer;
+int httpPort = 80;
 // Web интерфейс для устройства
 ESP8266WebServer HTTP(80);
 ESP8266HTTPUpdateServer httpUpdater;
@@ -48,6 +54,7 @@ int TimeLed = 10;  // Время работы реле
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
+String DDNS ="";      // адрес сайта DDNS
 
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;
@@ -58,10 +65,8 @@ WiFiUDP udp;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
-   pinMode(rele1, OUTPUT);
- // Параметры памяти ESP справочно можно закаментировать
- CheckFlashConfig();
- // Включаем работу с файловой системой
+ pinMode(rele1, OUTPUT);
+  // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
@@ -81,6 +86,7 @@ void setup() {
  Time_init(timezone);
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
+  ip_wan();
 }
 
 void loop() {
@@ -90,9 +96,23 @@ void loop() {
 
  if (chaing) {
     noInterrupts();
-    state0=!state0;
+     switch (state0) {
+   case 0:
+     state0=!state0;
     digitalWrite(rele1,state0);
     chaing = 0;
+    break;
+   case 1:
+     state0=!state0;
+    digitalWrite(rele1,state0);
+    chaing = 0;
+    break;
+   case 3:
+   ip_wan();
+   chaing=0;
+    break;
+  }
+
     interrupts();
   }
 
@@ -116,6 +136,12 @@ void alert() {
  if (times2.compareTo(Time) == 0 && times2 != "00:00:00") {
   Serial.println("timer2");
  Time02();
+  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
+  // Каждые 15 минут делаем запрос на сервер DDNS
+ if (Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") {
+  chaing=1;
+  state0=3;
+ }
  }
  if (kolibrTime.compareTo(Time) == 0) {
   chaingtime=1;

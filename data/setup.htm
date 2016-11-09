@@ -8,9 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Доп. настройки</title>
   <script type="text/javascript">
+   var set_real_time;
    function handleServerResponse(){
-    if (xml('onOffAP')=='0') {checkedAP=false;} else {checkedAP=true;}
-    document.getElementById('onOffAP').checked=checkedAP;
+    clearTimeout(set_real_time);
+    var res = jsonResponse.time.split(":");
+    real_time(hours=res[0],min=res[1],sec=res[2]);
+    document.body.style.backgroundColor="rgb("+jsonResponse.rgb+")";
+   }
+   function real_time(hours,min,sec) {
+   sec=Number(sec)+1;
+    if (sec>=60){min=Number(min)+1;sec=0;}
+    if (min>=60){hours=Number(hours)+1;min=0;}
+    if (hours>=24){hours=0};
+    document.getElementById("time").innerHTML = hours+":"+min+":"+sec;
+    set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
    }
    function load_time(submit){
     server = "/Time";
@@ -33,16 +44,17 @@
     send_request(submit,server);
    }
    function set_ssid_ap(submit){
-    server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+val('passwordAp')+"&onOffAP="+document.getElementById('onOffAP').checked;
+    server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+val('passwordAp');
     send_request(submit,server);
+    restart(this,"Вам необходимо перезагрузить устройство, что бы Wifi имя и пароль вступили в силу.");
    }
    function set_ssdp(submit){
     server = "/ssdp?ssdp="+val('ssdp');
     send_request(submit,server);
     document.getElementById('ssdp_t').innerHTML = val('ssdp');
    }
-   function restart(submit){
-    if (confirm("Вы действительно хотите перезагрузить устройство?")) {
+   function restart(submit,texts){
+    if (confirm(texts)) {
      server = "/restart?device=ok";
      send_request(submit,server);
      return true;
@@ -59,6 +71,7 @@
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-info" id="ssdp_t">{{SSDP}}</h5>
      <a class="btn btn-block btn-danger" href="/">Страница устройств</a>
+     <a class="btn btn-block btn-default" href="/device.htm">Страница управления</a>
      <hr>
      <div class="alert alert-dismissible alert-warning"><strong>Пожалуйста подключитесь к своему роутеру и укажите ниже вашу GMT зону.</strong>
       Это позволит управлять вашим устройством в локальной сети и синхронизировать время используя ваш роутер.</div>
@@ -77,7 +90,7 @@
      <hr>
      <h2>Подключение к WiFi роутеру</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="Имя WiFi сети">
-     <input id="password" value="{{password}}" pattern="[0-9a-zA-Z.]{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+     <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
      <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
      <hr>
      <h2>Временная зона GMT</h2>
@@ -90,17 +103,16 @@
      <h2>Точка доступа</h2>
      <div class="row">
       <div class="col-sm-6">
-       <label class="form-control"><input type="checkbox" id="onOffAP"> <b>Включить <abbr title="Точка доступа">AP</abbr></b></label>
        <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="Имя WiFi сети">
-       <input id="passwordAp" value="{{passwordAP}}" pattern="[0-9a-zA-Z.]{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
+       <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
        <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
       </div>
       <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Здесь вы можете указать новое название WiFi жалюзи, пароль или отключить его. После сохранения необходимо перезагрузить ESP, имена WiFi не могут быть оденаковыми! </div>
+       <div class="alert alert-dismissible alert-warning">Здесь вы можете указать новое название WiFi жалюзи и пароль.</div>
       </div>
      </div>
      <hr>
-     <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this);" type="submit">
+     <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
      <a class="btn btn-block btn-default" href="/device.htm">Страница управления</a>
     </div>
    </div>

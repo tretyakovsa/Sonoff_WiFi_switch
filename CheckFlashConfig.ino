@@ -37,20 +37,26 @@ bool loadConfig() {
   String SSDPName = json["SSDPName"];
   SSDP_Name = SSDPName;
   String ssid = json["ssidName"];
+   Serial.println(ssid);
   _ssid = ssid;
+   Serial.println(_ssid);
   String password = json["ssidPassword"];
+  Serial.println(password);
   _password = password;
+  Serial.println(_password);
   int setAP = json["onOffAP"];
   _setAP=setAP;
   String _times1 = json["times1"];
   times1 = _times1;
   String _times2 = json["times2"];
   times2 = _times2;
+    String _DDNS = json["DDNS"];
+  DDNS = _DDNS;
   return true;
 }
 
 bool saveConfig() {
-  StaticJsonBuffer<300> jsonBuffer;
+  StaticJsonBuffer<400> jsonBuffer;
   JsonObject& json = jsonBuffer.createObject();
   json["onOffAP"] = _setAP;
   json["SSDPName"] = SSDP_Name;
@@ -61,6 +67,7 @@ bool saveConfig() {
   json["timezone"] = timezone;
   json["times1"] = times1;
   json["times2"] = times2;
+  json["DDNS"] = DDNS;
   File configFile = SPIFFS.open("/config.json", "w");
   if (!configFile) {
     //Serial.println("Failed to open config file for writing");
@@ -71,22 +78,3 @@ bool saveConfig() {
   return true;
 }
 
-void CheckFlashConfig() {
-  uint32_t realSize = ESP.getFlashChipRealSize();
-  uint32_t ideSize = ESP.getFlashChipSize();
-  FlashMode_t ideMode = ESP.getFlashChipMode();
-
-  //Serial.printf("Flash real id:   %08X\n", ESP.getFlashChipId());
-  //Serial.printf("Flash real size: %u\n\n", realSize);
-
-  //Serial.printf("Flash ide  size: %u\n", ideSize);
-  //Serial.printf("Flash ide speed: %u\n", ESP.getFlashChipSpeed());
-  //Serial.printf("Flash ide mode:  %s\n", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
-
-  if (ideSize != realSize) {
-    //Serial.println("Flash Chip configuration wrong!\n");
-  } else {
-    //Serial.println("Flash Chip configuration ok.\n");
-  }
-  delay(5000);
-}

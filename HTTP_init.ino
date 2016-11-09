@@ -1,3 +1,17 @@
+// Меняет флаг для включения выключения Led
+void LedActiv() {
+ chaing = 1;
+ HTTP.send(200, "text/plain", "OK");
+}
+
+// Установка адреса DDNS сети
+void handle_ddns() {
+ DDNS = HTTP.arg("url");
+ ip_wan();
+ saveConfig();
+ HTTP.send(200, "text/plain", "OK");
+}
+
 // Перезагрузка модуля
 void handle_Restart() {
 String restart=HTTP.arg("device");
@@ -88,6 +102,7 @@ void HTTP_init(void) {
  });
  // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
+ HTTP.on("/led", LedActiv);                // задать цвет ленты и включить.
  HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
  HTTP.on("/TimeLed", handle_TimeLed);      // установка времени работы лампы
  HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
@@ -98,9 +113,10 @@ void HTTP_init(void) {
  HTTP.on("/ssid", handle_Set_Ssid);        // Установить имя и пароль роутера
  HTTP.on("/ssidap", handle_Set_Ssidap);    // Установить имя и пароль для точки доступа
  HTTP.on("/Save", handle_saveConfig);      // Сохранить настройки в файл
- HTTP.on("/config.xml", handle_ConfigXML); // формирование config_xml страницы для передачи данных в web интерфейс
+ HTTP.on("/configs.json", handle_ConfigXML); // формирование config_xml страницы для передачи данных в web интерфейс
  HTTP.on("/iplocation.xml", handle_IplocationXML);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
  HTTP.on("/restart", handle_Restart);               // Перезагрузка модуля
+  HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
  // Запускаем HTTP сервер
  // HTTP.sendHeader("Cache-Control","max-age=2592000, must-revalidate");
  HTTP.on("/devices", inquirySSDP);         // Блок для
@@ -120,71 +136,59 @@ String XmlTime(void) {
 }
 
 void handle_ConfigXML() {
- XML = "<?xml version='1.0'?>";
- XML += "<Donnees>";
+ XML = "{";
+  // Имя DDNS
+ XML += "\"DDNS\":\"";
+ XML += DDNS;
  // Имя SSDP
- XML += "<SSDP>";
+ XML += "\",\"SSDP\":\"";
  XML += SSDP_Name;
- XML += "</SSDP>";
  // Статус AP
- XML += "<onOffAP>";
+ XML += "\",\"onOffAP\":\"";
  XML += _setAP;
- XML += "</onOffAP>";
  // Имя сети
- XML += "<ssid>";
+ XML += "\",\"ssid\":\"";
  XML += _ssid;
- XML += "</ssid>";
  // Пароль сети
- XML += "<password>";
+ XML += "\",\"password\":\"";
  if (_password == NULL) {
   XML += " ";
  } else {
   XML += _password;
  }
- XML += "</password>";
  // Имя точки доступа
- XML += "<ssidAP>";
+ XML += "\",\"ssidAP\":\"";
  XML += _ssidAP;
- XML += "</ssidAP>";
  // Пароль точки доступа
- XML += "<passwordAP>";
+ XML += "\",\"passwordAP\":\"";
  if (_passwordAP == NULL) {
   XML += " ";
  } else {
   XML += _passwordAP;
  }
- XML += "</passwordAP>";
  // Времянная зона
- XML += "<timezone>";
+ XML += "\",\"timezone\":\"";
  XML += timezone;
- XML += "</timezone>";
  //  Время работы
- XML += "<timeled>";
+ XML += "\",\"timeled\":\"";
  XML += TimeLed;
- XML += "</timeled>";
  // Время 1
- XML += "<times1>";
+ XML += "\",\"times1\":\"";
  XML += times1;
- XML += "</times1>";
  // Время 2
- XML += "<times2>";
+ XML += "\",\"times2\":\"";
  XML += times2;
- XML += "</times2>";
  // Текущее время
- XML += "<time>";
+ XML += "\",\"time\":\"";
  XML += XmlTime();
- XML += "</time>";
  // Статус
- XML += "<state>";
+ XML += "\",\"state\":\"";
  XML += state0;
- XML += "</state>";
-
- // IP устройства
- XML += "<ip>";
+  // IP устройства
+ XML += "\",\"ip\":\"";
  XML += WiFi.localIP().toString();
- XML += "</ip>";
- XML += "</Donnees>";
- HTTP.send(200, "text/xml", XML);
+ XML += "\"}";
+ HTTP.send(200, "text/json", XML);
 }
 
 void handle_IplocationXML() {
