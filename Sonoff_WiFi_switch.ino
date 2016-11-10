@@ -1,7 +1,7 @@
 /*
  * Sonoff - WiFi switch
  * Arduino IDE 1.6.5
- * esp8266 2.0.0
+ * esp8266 2.3.0
  * ArduinoJson 5.2.0
  */
 #include <ESP8266WiFi.h>        //Содержится в пакете
@@ -90,6 +90,7 @@ void setup() {
 }
 
 void loop() {
+  dnsServer.processNextRequest();
  HTTP.handleClient();
  delay(1);
  handleUDP();
