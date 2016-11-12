@@ -9,101 +9,6 @@
   <title>Страница управления</title>
   <script type="text/javascript">
    function handleServerResponse(){
-    var img = _('.thumb img'),
-        canvas = _('#cs'),
-        result = _('.result'),
-        preview = _('.preview'),x = '',y = '';
-    // click function
-    img.addEventListener('click', function(e){
-     // chrome
-     if(e.offsetX) {
-      x = e.offsetX;
-      y = e.offsetY;
-     }
-     // firefox
-     else if(e.layerX) {
-      x = e.layerX;
-      y = e.layerY;
-     }
-     useCanvas(canvas,img,function(){
-      // get image data
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      r_rgb =p[0];
-      g_rgb =p[1];
-      b_rgb =p[2];
-      document.getElementById('set-time').style.display="block";
-      //on_rgb(this,p[0],p[1],p[2]);
-     });
-    },false);
-    // preview function mousemove
-    img.addEventListener('mousemove', function(e){
-     // chrome
-     if(e.offsetX) {
-      x = e.offsetX;
-      y = e.offsetY;
-     }
-     // firefox
-     else if(e.layerX) {
-      x = e.layerX;
-      y = e.layerY;
-     }
-     useCanvas(canvas,img,function(){
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      preview.style.background = rgbToHex(p[0],p[1],p[2]);
-     });
-    },false);
-    document.body.style.backgroundColor="rgb("+jsonResponse.rgb+")";
-   }
-
-   function useCanvas(el,image,callback){
-    el.width = image.width;
-    el.height = image.height;
-    el.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
-    return callback();
-   }
-   function _(el){
-    return document.querySelector(el);
-   };
-   function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-   }
-   function rgbToHex(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-   }
-   function findPos(obj) {
-    var curleft = 0, curtop = 0;
-    if (obj.offsetParent) {
-     do {
-      curleft += obj.offsetLeft;
-      curtop += obj.offsetTop;
-     } while (obj = obj.offsetParent);
-     return { x: curleft, y: curtop };
-    }
-    return undefined;
-   }
-
-   function led(submit){
-    server = "/led";
-    send_request(submit,server);
-   }
-   function set_rgb(submit,r,g,b,t){
-    document.body.style.background=rgbToHex(r,g,b);
-    server = "/rgb?r="+r+"&g="+g+"&b="+b+"&t="+t+"&s="+val('sound')*10;
-    document.getElementById('url1').innerHTML='<a href="http://'+document.domain+server+'" target="_blank">http://'+document.domain+server+'</a>';
-    if(navigator.onLine) {
-     xhr = new XMLHttpRequest();
-     xhr.open("GET","https://api.ipify.org?format=text",true);
-     xhr.onload = function () {
-      if (xhr.readyState === xhr.DONE) {
-       if (xhr.status === 200) {
-        document.getElementById('url2').innerHTML='<a href="http://'+xhr.responseText+server+'" target="_blank">http://'+xhr.responseText+server+'</a>';
-       }
-      }
-     };
-     xhr.send(null);
-    }
-    send_request(submit,server);
    }
    function on_rgb(submit,t){
     document.getElementById('set-time').style.display="none";
@@ -170,9 +75,6 @@
         <input type="submit" class="btn btn-primary btn-sm" onclick="on_rgb(this,7200)" value="2:00">
         <input type="submit" class="btn btn-primary btn-sm" onclick="on_rgb(this,10800)" value="3:00">
        </div>
-       <hr>
-       <h4>Время работы сигнала:</h4>
-       <input class="form-control" value="0.1" pattern="[-+]?[0-9]*[.]?[0-9]+"  id="sound">
        <hr>
        <a href="#" onclick="document.getElementById('set-time').style.display='none';return false" class="btn btn-block btn-default">Отмена</a>
       </div>

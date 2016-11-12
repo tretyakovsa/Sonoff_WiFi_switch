@@ -40,13 +40,14 @@
     send_request(submit,server);
    }
    function set_ssid(submit){
-    server = "/ssid?ssid="+val('ssid')+"&password="+val('password');
+    server = "/ssid?ssid="+val('ssid')+"&password="+encodeURIComponent(val('password'));
     send_request(submit,server);
+    alert("Измененя вступят в силу после перезагрузки. Пожалуйта перезагрузите esp.");
    }
    function set_ssid_ap(submit){
-    server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+val('passwordAp');
+    server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+encodeURIComponent(val('passwordAp'));
     send_request(submit,server);
-    restart(this,"Вам необходимо перезагрузить устройство, что бы Wifi имя и пароль вступили в силу.");
+    alert("Вам необходимо перезагрузить устройство, что бы Wifi имя и пароль вступили в силу.");
    }
    function set_ssdp(submit){
     server = "/ssdp?ssdp="+val('ssdp');
@@ -55,8 +56,6 @@
    }
    function restart(submit,texts){
     if (confirm(texts)) {
-     server = "/restart?device=ok";
-     send_request(submit,server);
      return true;
     } else {
      return false;
@@ -76,7 +75,7 @@
      <div class="alert alert-dismissible alert-warning"><strong>Пожалуйста подключитесь к своему роутеру и укажите ниже вашу GMT зону.</strong>
       Это позволит управлять вашим устройством в локальной сети и синхронизировать время используя ваш роутер.</div>
      <div class="alert alert-dismissible alert-info">
-      <b>Обновление: <a href="/edit" target="_blank">Открыть редактор HTML</a>, загрузить профишвку (bin)</b>
+      <b>Обновление: <a href="/edit" target="_blank">Открыть редактор HTML</a>, загрузить прошивку (bin)</b>
       <form method="POST" action="/update" enctype="multipart/form-data">
        <div class="btn-group">
         <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
