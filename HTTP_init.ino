@@ -1,5 +1,5 @@
-// Меняет флаг для включения выключения Led
-void LedActiv() {
+// Меняет флаг для включения выключения sonoff
+void sonoffActiv() {
  chaing = 1;
  HTTP.send(200, "text/plain", "OK");
 }
@@ -32,8 +32,8 @@ void handle_saveConfig() {
 }
 
 // Время вращения сервопривода
-void handle_TimeLed() {
- TimeLed = HTTP.arg("t").toInt();
+void handle_Timesonoff() {
+ Timesonoff = HTTP.arg("t").toInt();
  saveConfig();
  HTTP.send(200, "text/plain", "OK");
 }
@@ -102,9 +102,9 @@ void HTTP_init(void) {
  });
  // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
- HTTP.on("/led", LedActiv);                // задать цвет ленты и включить.
+ HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
  HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
- HTTP.on("/TimeLed", handle_TimeLed);      // установка времени работы лампы
+ HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
  HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
  HTTP.on("/Time", handle_Time);            // Синхронизировать время из сети
  HTTP.on("/times1", handle_Time_1);        // Установить время 1
@@ -170,8 +170,8 @@ void handle_ConfigXML() {
  XML += "\",\"timezone\":\"";
  XML += timezone;
  //  Время работы
- XML += "\",\"timeled\":\"";
- XML += TimeLed;
+ XML += "\",\"timesonoff\":\"";
+ XML += Timesonoff;
  // Время 1
  XML += "\",\"times1\":\"";
  XML += times1;

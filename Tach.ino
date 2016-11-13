@@ -11,12 +11,12 @@ void Tach_0() {
 
 
 void Time01() {
-  tickerSetLow.attach(TimeLed*60, setT1, 0);
+  tickerSetLow.attach(Timesonoff*60, setT1, 0);
   chaing = 1;
 }
 
 void Time02() {
-  tickerSetLow.attach(TimeLed*60, setT2, 0);
+  tickerSetLow.attach(Timesonoff*60, setT2, 0);
   chaing = 1;
 }
 

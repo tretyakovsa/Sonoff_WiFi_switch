@@ -50,7 +50,7 @@ String kolibrTime = "03:00:00"; // Время колибровки часов
 // Для работы с лампой
 String times1 = "00:00:00";      // Таймер 1
 String times2 = "00:00:00";    // Таймер 2
-int TimeLed = 10;  // Время работы реле
+int Timesonoff = 10;  // Время работы реле
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
