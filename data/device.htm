@@ -12,14 +12,14 @@
    }
    function sonoff(submit){
     server = "/sonoff";
-    document.getElementById('url1').innerHTML='<a href="http://'+document.domain+':'+jsonResponse.DDNSPort+server+'" target="_blank">http://'+document.domain+':'+jsonResponse.DDNSPort+server+'</a>';
+    document.getElementById('url1').innerHTML='<a href="'+document.domain+':'+jsonResponse.DDNSPort+server+'" target="_blank">'+document.domain+':'+jsonResponse.DDNSPort+server+'</a>';
     if(navigator.onLine) {
      xhr = new XMLHttpRequest();
      xhr.open("GET","https://api.ipify.org?format=text",true);
      xhr.onload = function () {
       if (xhr.readyState === xhr.DONE) {
        if (xhr.status === 200) {
-        document.getElementById('url2').innerHTML='<a href="http://'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'" target="_blank">http://'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'</a>';
+        document.getElementById('url2').innerHTML='<a href="'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'" target="_blank">'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'</a>';
        }
       }
      };
@@ -39,21 +39,7 @@
     server = "/times2?time2="+val('time2');
     send_request(submit,server);
    }
-   function ddns(submit){
-    server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
-    send_request(submit,server);
-   }
   </script>
-  <style type="text/css">
-   #set-time {
-    z-index:111;
-    background-color:#fff;
-    box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
-    padding:20px;
-    margin-top:-45%;
-    position:relative;
-   }
-  </style>
  </head>
  <body onload="load();">
   <div class="container">
@@ -105,15 +91,6 @@
        <input class="btn btn-block btn-success" value="Сохранить" onclick="set_time(this);" type="submit">
       </div>
      </div>
-     <hr>
-     <h2>Dynamic DNS</h2>
-     <div class="alert alert-dismissible alert-info">В 15, 30, 45 минут каждого часа устройство переходить по ссылке. Вы можете воспользоваться <a href="http://dyndns.dk" target="_blank">dyndns.dk</a> и таким образом сделать себе домен на динамическом IP. Что позволит комфортно пользоваться <a href="https://ifttt.com" target="_blank">ifttt.com</a></div>
-     <div class="input-group" style="width:100%;">
-      <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
-      <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]+" placeholder="Host port">
-     </div>
-     <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="ddns(this);" type="submit">
      <hr>
      <a class="btn btn-block btn-default" href="/setup.htm">Доп. настройки</a>
     </div>
