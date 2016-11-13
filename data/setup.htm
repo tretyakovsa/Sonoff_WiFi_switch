@@ -13,7 +13,6 @@
     clearTimeout(set_real_time);
     var res = jsonResponse.time.split(":");
     real_time(hours=res[0],min=res[1],sec=res[2]);
-    document.body.style.backgroundColor="rgb("+jsonResponse.rgb+")";
    }
    function real_time(hours,min,sec) {
    sec=Number(sec)+1;

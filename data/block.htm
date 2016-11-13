@@ -1,13 +1,12 @@
 <div class="block col-md-5">
  <h5 class="alert-info">{{SSDP}}</h5>
  <div class="alert alert-dismissible alert-warning">
-  Будильник 1: <b>{{times1}}</b>
-  <br>Будильник 2:  <b>{{times2}}</b>
-  <br>Продолжительность работы будильника: <b>{{timeled}}</b>сек.
+  Таймер 1: <b>{{times1}}</b>
+  <br>Таймер 2:  <b>{{times2}}</b>
+  <br>Продолжительность работы таймера: <b>{{timeled}}</b>сек.
  </div>
  <hr>
-  <div class="input-group btn-block">
-   <input type="submit" onclick="ajax('{{ip}}','led',this);document.getElementById('color-{{ip}}').value='#000000';" value="Включить\Выключить" class="btn btn-block btn-primary">
+ <input type="submit" onclick="ajax('{{ip}}','led',this);" value="Включить\Выключить" class="btn btn-block btn-lg btn-primary">
  <hr>
  <div class="alert alert-dismissible alert-info">Изменить конфигурацию устройсва вы можете на странице управления</div>
  <a class="btn btn-block btn-default" href="http://{{ip}}/device.htm">Страница управления</a>

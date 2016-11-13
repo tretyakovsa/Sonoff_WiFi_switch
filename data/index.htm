@@ -92,7 +92,7 @@
     var d = new Date(); // for now
     datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: http://'+blockid+'/'+pagename+'</small></span></li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockid+'/'+pagename+'">http://'+blockid+'/'+pagename+'</a></small></span></li>');
     submit.value = 'Подождите...';
     submit_disabled(true);
     //$("input").prop('disabled', true);
@@ -121,7 +121,7 @@
  <body>
   <div class="container device">
    <div class="header">
-    <h4><small class="pull-right col-md-4 hidden-xs" style="padding:15px 0;">Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github <a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb" target="_blank">RGB</a>. Появились какие-то вопросы, пишите <a href="https://github.com/tretyakovsa/jaluzi/issues/new" target="_blank">сюда(жалюзи)</a> или <a href="https://github.com/renat2985/rgb/issues/new" target="_blank">cюда(rgb)</a>.</small></h4>
+    <h4><small class="pull-right col-md-4 hidden-xs" style="padding:15px 0;">Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github <a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch" target="_blank">Sonoff</a>. Появились какие-то вопросы, пишите <a href="https://github.com/tretyakovsa/jaluzi/issues/new" target="_blank">сюда(жалюзи)</a>, <a href="https://github.com/renat2985/rgb/issues/new" target="_blank">cюда(rgb)</a> или <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" target="_blank">cюда(Sonoff)</a>.</small></h4>
     <h1 id="date"><br><small></small></h1>
    </div>
    <div class="row">
