@@ -59,6 +59,8 @@
    }
    function restart(submit,texts){
     if (confirm(texts)) {
+     server = "/restart?device=ok";
+     send_request(submit,server);
      return true;
     } else {
      return false;
