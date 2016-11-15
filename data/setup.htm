@@ -13,6 +13,9 @@
     clearTimeout(set_real_time);
     var res = jsonResponse.time.split(":");
     real_time(hours=res[0],min=res[1],sec=res[2]);
+    if (window.location.hash == '#wifi-connect') {
+     document.getElementById('wifi-info').style.display='block';
+    }
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -77,21 +80,25 @@
      <a class="btn btn-block btn-danger" href="/">Страница устройств</a>
      <a class="btn btn-block btn-default" href="/device.htm">Страница управления</a>
      <hr>
-     <div class="alert alert-dismissible alert-warning"><strong>Пожалуйста подключитесь к своему роутеру и укажите ниже вашу GMT зону.</strong>
-      Это позволит управлять вашим устройством в локальной сети и синхронизировать время используя ваш роутер.</div>
      <div class="alert alert-dismissible alert-info">
-      <b>Обновление: <a href="/edit" target="_blank">Открыть редактор HTML</a>, загрузить прошивку (bin)</b>
-      <form method="POST" action="/update" enctype="multipart/form-data">
-       <div class="btn-group">
-        <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
-        <input type="submit" class="btn btn-default btn-sm" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
-       </div>
-      </form>
+      <b><a href="#" onclick="toggle('hide');return false">Открыть найтройки разработчика</a></b>
+      <br>Осторожно, непродуманные действия могут повредить устройство.
+      <span id="hide" class="hidden">
+       <b>Нажав <a href="/edit" target="_blank">сюда</a> вы сможете изменить html, css, js файлы проекта.
+        <br>Так же ниже вы можете загрузить новую прошивку (*.bin байл):</b>
+       <form method="POST" action="/update" enctype="multipart/form-data">
+        <div class="btn-group">
+         <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
+         <input type="submit" class="btn btn-default btn-sm" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
+        </div>
+       </form>
+      </span>
      </div>
      <h2>Имя устройства</h2>
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="Имя устройства">
      <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
-     <hr>
+     <hr id="wifi-connect">
+     <div class="alert alert-dismissible alert-danger" id="wifi-info" style="display:none"><strong>Пожалуйста подключитесь к своему роутеру и укажите ниже вашу GMT зону.</strong> Это позволит управлять вашим устройством в локальной сети и синхронизировать время используя ваш роутер.</div>
      <h2>Подключение к WiFi роутеру</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="Имя WiFi сети">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
