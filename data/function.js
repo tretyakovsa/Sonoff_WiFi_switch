@@ -12,20 +12,25 @@ function load(){
   xmlHttp.open('PUT','/configs.json',true);
   xmlHttp.send(null);
   xmlHttp.onload = function(e) {
-   jsonResponse=JSON.parse(xmlHttp.responseText);
-   loadBlock();
+   jsonResponse1=JSON.parse(xmlHttp.responseText);
+   xmlHttp.open('PUT','/lang.'+jsonResponse1.lang+'.json',true);
+   xmlHttp.send(null);
+   xmlHttp.onload = function(e) {
+    jsonResponse2=JSON.parse(xmlHttp.responseText);
+    jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+    loadBlock(jsonResponse);
+   }
   }
  }
 }
 
-function loadBlock(data2) {
- data2 = JSON.parse(xmlHttp.responseText);
+function loadBlock(jsonResponse) {
  data = document.getElementsByTagName('body')[0].innerHTML;
  var new_string;
-for (var key in data2) {
- new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), data2[key]);
- data = new_string;
-}
+ for (var key in jsonResponse) {
+  new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+  data = new_string;
+ }
  document.getElementsByTagName('body')[0].innerHTML = new_string;
  handleServerResponse();
 }
@@ -60,6 +65,20 @@ function submit_disabled(request){
  }
 }
 function toggle(target) {
- var curVal = document.getElementById(target).className;
- document.getElementById(target).className = (curVal === 'hidden') ? 'show' : 'hidden';
+ var curVal = document.getElementById(target).classList;
+ if (curVal.contains('hidden')) {
+  curVal.remove('hidden');
+  curVal.add('show');
+ } else {
+  curVal.remove('show');
+  curVal.add('hidden');
+ }
+}
+
+function language(set,submit){
+ server = "/lang?set="+set;
+ send_request(submit,server);
+ setTimeout(function(){
+  location.reload();
+ }, 1000);
 }

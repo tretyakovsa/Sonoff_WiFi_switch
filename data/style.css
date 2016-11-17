@@ -1,6 +1,14 @@
 body, html {
  background-color:#E9F0F0;
 }
+#pop-up {
+ z-index:111;
+ background-color:#fff;
+ box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
+ padding:20px;
+ margin-top:-45%;
+ position:relative;
+}
 
 /* Setup */
 input:invalid {

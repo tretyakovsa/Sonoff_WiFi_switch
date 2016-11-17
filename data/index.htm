@@ -43,32 +43,6 @@
       loadBlock(ipval);
      }
     }
-    // xhr = new XMLHttpRequest();
-    // xhr.open('GET', '/iplocation.xml?'+Math.floor(Math.random()*10000), true);
-    // xhr.responseType = 'document';
-    // xhr.overrideMimeType('text/xml');
-    // xhr.onload = function () {
-    //  if (xhr.readyState === xhr.DONE) {
-    //   if (xhr.status === 200) {
-    //    document.getElementById('content').innerHTML='';
-    //    xmlDoc = xhr.responseXML;
-    //    var count=xmlDoc.getElementsByTagName("ip").length;
-    //    for (i = 0; i < count; i++) {
-    //     var ipval = xmlDoc.getElementsByTagName("ip")[i].childNodes[0].textContent;
-    //     if (searc == 'search') {
-    //      xhttp.open("GET", "http://"+ipval+"/devices?"+Math.floor(Math.random()*10000), false);
-    //      xhttp.send();
-    //     }
-    //     if (ipval == '0.0.0.0') {
-    //      location.href = "/setup.htm";
-    //     } else {
-    //      loadBlock(ipval);
-    //     }
-    //    }
-    //   }
-    //  }
-    // };
-    // xhr.send(null);
    }
 
    function loadBlock(ipval) {
@@ -113,8 +87,19 @@
    }
 
    function toggle(target) {
-    var curVal = document.getElementById(target).className;
-    document.getElementById(target).className = (curVal === 'hidden') ? 'show' : 'hidden';
+    var curVal = document.getElementById(target).classList;
+    if (curVal.contains('hidden')) {
+     curVal.remove('hidden');
+     curVal.add('show');
+    } else {
+     curVal.remove('show');
+     curVal.add('hidden');
+    }
+   }
+
+   function val(id){
+    var v = document.getElementById(id).value;
+    return v;
    }
   </script>
  </head>

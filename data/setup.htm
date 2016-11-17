@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script type="text/javascript" src="/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Доп. настройки</title>
+  <title>Settings page</title>
   <script type="text/javascript">
    var set_real_time;
    function handleServerResponse(){
@@ -14,7 +14,7 @@
     var res = jsonResponse.time.split(":");
     real_time(hours=res[0],min=res[1],sec=res[2]);
     if (window.location.hash == '#wifi-connect') {
-     document.getElementById('wifi-info').style.display='block';
+     toggle('wifi-info');
     }
    }
    function real_time(hours,min,sec) {
@@ -44,12 +44,12 @@
    function set_ssid(submit){
     server = "/ssid?ssid="+val('ssid')+"&password="+encodeURIComponent(val('password'));
     send_request(submit,server);
-    alert("Измененя вступят в силу после перезагрузки. Пожалуйта перезагрузите устройство.");
+    alert(jsonResponse.LangReset2);
    }
    function set_ssid_ap(submit){
     server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+encodeURIComponent(val('passwordAp'));
     send_request(submit,server);
-    alert("Измененя вступят в силу после перезагрузки. Пожалуйта перезагрузите устройство.");
+    alert(jsonResponse.LangReset2);
    }
    function set_ssdp(submit){
     server = "/ssdp?ssdp="+val('ssdp');
@@ -74,66 +74,70 @@
  <body onload="load();">
   <div class="container">
    <div class="row" style="text-align:center;">
-    <h1 style="margin:50px;">Доп. настройки</h1>
+    <h1 style="margin:50px;">{{LangSetting3}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
-     <a class="btn btn-block btn-danger" href="/">Страница устройств</a>
-     <a class="btn btn-block btn-default" href="/device.htm">Страница управления</a>
+     <select class="btn btn-default" name="language" style="margin-top:-45px;float:right">
+      <option value="en">{{LangLanguage}}</option>
+      <option value="ru" onclick="language('ru',this)">Русский</option>
+      <option value="en" onclick="language('en',this)">English</option>
+      <option value="lv" onclick="language('lv',this)">Latviski</option>
+     </select>
+     <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info">
-      <b><a href="#" onclick="toggle('hide');return false">Открыть найтройки разработчика</a></b>
-      <br>Осторожно, непродуманные действия могут повредить устройство.
+      {{LangSetting4}}
       <span id="hide" class="hidden">
-       <b>Нажав <a href="/edit" target="_blank">сюда</a> вы сможете изменить html, css, js файлы проекта.
-        <br>Так же ниже вы можете загрузить новую прошивку (*.bin байл):</b>
+       <b>{{LangSetting5}}</b>
        <form method="POST" action="/update" enctype="multipart/form-data">
         <div class="btn-group">
          <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;">
-         <input type="submit" class="btn btn-default btn-sm" value="загрузить" onclick="this.value='Подождите...';" style="height: 33px;">
+         <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height: 33px;">
         </div>
        </form>
       </span>
      </div>
-     <h2>Имя устройства</h2>
-     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="Имя устройства">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssdp(this);" type="submit">
+     <h2>{{LangDevice}}</h2>
+     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="{{LangDevice}}">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="submit">
      <hr id="wifi-connect">
-     <div class="alert alert-dismissible alert-danger" id="wifi-info" style="display:none"><strong>Пожалуйста подключитесь к своему роутеру и укажите ниже вашу GMT зону.</strong> Это позволит управлять вашим устройством в локальной сети и синхронизировать время используя ваш роутер.</div>
-     <h2>Подключение к WiFi роутеру</h2>
-     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="Имя WiFi сети">
-     <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid(this);" type="submit">
+     <div class="alert alert-dismissible alert-danger hidden" id="wifi-info">{{LangWiFi3}}</div>
+     <h2>{{LangWiFi2}}</h2>
+     <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
+     <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="submit">
      <hr>
-     <h2>Временная зона GMT</h2>
+     <h2>{{LangGMT1}}</h2>
      <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="time_zone(this);" type="submit">
-     <input class="btn btn-block btn-primary" value="Авто определение и сохранение зоны" onclick="set_time_zone(this);" type="submit">
-     <h2>На устройстве сейчас <strong id="time">{{time}}</strong></h2>
-     <input class="btn btn-block btn-primary" value="Синхронизировать время" onclick="load_time(this);" type="submit">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="time_zone(this);" type="submit">
+     <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="submit">
+     <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
+     <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="load_time(this);" type="submit">
      <hr>
-     <h2>Точка доступа</h2>
+     <h2>{{LangAP}}</h2>
      <div class="row">
       <div class="col-sm-6">
-       <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="Имя WiFi сети">
-       <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="Пароль">
-       <input class="btn btn-block btn-success" value="Сохранить" onclick="set_ssid_ap(this);" type="submit">
+       <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
+       <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="submit">
       </div>
       <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">Здесь вы можете указать новое название WiFi жалюзи и пароль.</div>
+       <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
       </div>
      </div>
      <hr>
-     <h2>Dynamic DNS</h2>
-     <div class="alert alert-dismissible alert-info">В 15, 30, 45 минут каждого часа устройство переходить по ссылке. Вы можете воспользоваться <a href="http://dyndns.dk" target="_blank">dyndns.dk</a> и таким образом сделать себе домен на динамическом IP. Что позволит комфортно пользоваться <a href="https://ifttt.com" target="_blank">ifttt.com</a></div>
+     <h2>{{LangDDNS1}}</h2>
+     <div class="alert alert-dismissible alert-info">{{LangDDNS2}}</div>
      <div class="input-group" style="width:100%;">
       <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
-      <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]+" placeholder="Host port">
+      <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
      </div>
      <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-     <input class="btn btn-block btn-success" value="Сохранить" onclick="ddns(this);" type="submit">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="submit">
      <hr>
-     <input class="btn btn-block btn-warning" value="Перезагрузить устройство" onclick="restart(this,'Вы действительно хотите перезагрузить устройство?');" type="submit">
-     <a class="btn btn-block btn-default" href="/device.htm">Страница управления</a>
+     <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}');" type="submit">
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>
    </div>
   </div>
