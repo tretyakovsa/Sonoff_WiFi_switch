@@ -51,6 +51,7 @@ String kolibrTime = "03:00:00"; // Время колибровки часов
 String times1 = "00:00:00";      // Таймер 1
 String times2 = "00:00:00";    // Таймер 2
 int Timesonoff = 10;  // Время работы реле
+String Language ="ru";  // язык web интерфейса
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;

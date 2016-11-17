@@ -37,6 +37,12 @@ void handle_Timesonoff() {
  saveConfig();
  HTTP.send(200, "text/plain", "OK");
 }
+// Установка языка
+void handle_SetLeng() {
+ Language = HTTP.arg("set");
+ saveConfig();
+ HTTP.send(200, "text/plain", "OK");
+}
 
 // Установка времянной зоны
 void handle_TimeZone() {
@@ -116,6 +122,7 @@ void HTTP_init(void) {
  HTTP.on("/configs.json", handle_ConfigXML); // формирование config_xml страницы для передачи данных в web интерфейс
  HTTP.on("/iplocation.xml", handle_IplocationXML);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
  HTTP.on("/restart", handle_Restart);               // Перезагрузка модуля
+  HTTP.on("/lang", handle_SetLeng);               // Установить язык
   HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
  // Запускаем HTTP сервер
  // HTTP.sendHeader("Cache-Control","max-age=2592000, must-revalidate");
@@ -181,6 +188,13 @@ void handle_ConfigXML() {
  // Текущее время
  XML += "\",\"time\":\"";
  XML += XmlTime();
+  // Язык
+ XML += "\",\"lang\":\"";
+ if (Language == NULL) {
+  XML += "ru";
+ } else {
+  XML += Language;
+ }
  // Статус
  XML += "\",\"state\":\"";
  XML += state0;
