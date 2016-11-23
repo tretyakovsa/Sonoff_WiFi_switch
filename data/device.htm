@@ -44,7 +44,7 @@
  <body onload="load();">
   <div class="container">
    <div class="row" style="text-align:center;">
-    <h1 style="margin:50px;">Страница управления</h1>
+    <h1 style="margin:50px;">{{LangOptions1}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <select class="btn btn-default" name="language" style="margin-top:-45px;float:right" onchange="language(this.value,this);">
@@ -53,27 +53,26 @@
       <option value="en">English</option>
       <option value="lv">Latviski</option>
      </select>
-     <a class="btn btn-block btn-danger" href="/">Страница устройств</a>
-     <a class="btn btn-block btn-default" href="/setup.htm">Доп. настройки</a>
+     <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
-     <div class="alert alert-dismissible alert-info">С помощью сервиса <a href="https://ifttt.com/myrecipes/personal" target="_blank">ifttt.com</a> Sonoff может включатся по множествам сценариев, например: новое сообщение в facebook, twitter, <a href="#" onclick="toggle('hide');return false">подробнее...</a><span id="hide" class="hidden">задания в Google calendar, почта и многое другое. Подробней о том как это сделать вы можете посмотреть видео <a href="https://youtu.be/3PVQYLQ-XDQ" target="_blank">здесь</a>.<strong><br>Локальная ссылка: <span id="url1"></span><br>Глобальная ссылка: <span id="url2"></span></strong></span>
-     </div>
-     <input class="btn btn-block btn-lg btn-primary" id="off-on" value="Включить\Выключить" onclick="sonoff(this);" type="submit">
+     <div class="alert alert-dismissible alert-info">{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
+     <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="submit">
      <hr>
      <h2>Таймеры</h2>
      <div class="row">
       <div class="col-sm-6">
        <h4>Таймер 1:</h4>
-       <input id="time1" value="{{times1}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="Пример: 07:10:30">
+       <input id="time1" value="{{times1}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%;">
-        <input class="btn btn-success" style="width:70%;" value="Сохранить" onclick="set_time1(this);" type="submit">
-        <input class="btn btn-default" style="width:30%;" value="Выкл." onclick="document.getElementById('time1').value='';set_time1(this);" type="submit">
+        <input class="btn btn-success" style="width:70%;" value="{{LangSave}}" onclick="set_time1(this);" type="submit">
+        <input class="btn btn-default" style="width:30%;" value="{{LangOff}}" onclick="document.getElementById('time1').value='';set_time1(this);" type="submit">
        </div>
        <h4>Таймер 2:</h4>
-       <input id="time2" value="{{times2}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="Пример: 07:10:30">
+       <input id="time2" value="{{times2}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%;">
-        <input class="btn btn-success" style="width:70%;" value="Сохранить" onclick="set_time2(this);" type="submit">
-        <input class="btn btn-default" style="width:30%;" value="Выкл." onclick="document.getElementById('time2').value='';set_time2(this);" type="submit">
+        <input class="btn btn-success" style="width:70%;" value="{{LangSave}}" onclick="set_time2(this);" type="submit">
+        <input class="btn btn-default" style="width:30%;" value="{{LangOff}}" onclick="document.getElementById('time2').value='';set_time2(this);" type="submit">
        </div>
       </div>
       <div class="col-sm-6">
@@ -92,13 +91,13 @@
       <div class="col-sm-4">
        <div class="input-group">
         <input id="sonoff" value="{{timesonoff}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
-        <span class="input-group-addon">сек.</span>
+        <span class="input-group-addon">{{LangSec}}</span>
        </div>
-       <input class="btn btn-block btn-success" value="Сохранить" onclick="set_time(this);" type="submit">
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_time(this);" type="submit">
       </div>
      </div>
      <hr>
-     <a class="btn btn-block btn-default" href="/setup.htm">Доп. настройки</a>
+     <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
     </div>
    </div>
   </div>
