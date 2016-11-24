@@ -49,13 +49,19 @@
     xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
     data = xhttp.responseText;
+
     xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
-    data2 = xhttp.responseXML;
-    data2 = JSON.parse(xhttp.responseText);
+    jsonResponse1 = JSON.parse(xhttp.responseText);
+
+    xhttp.open("GET", "http://"+ipval+"/lang."+jsonResponse1.lang+".json?"+Math.floor(Math.random()*10000), false);
+    xhttp.send();
+    jsonResponse2=JSON.parse(xhttp.responseText);
+    jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+
     var new_string;
-    for (var key in data2) {
-     new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), data2[key]);
+    for (var key in jsonResponse) {
+     new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
      data = new_string;
     }
     document.getElementById('content').innerHTML+=new_string;

@@ -3,7 +3,7 @@
  "LangInfo":"Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github: <a href=\"https://github.com/tretyakovsa/jaluzi\" target=\"_blank\">Жалюзи</a>, <a href=\"https://github.com/renat2985/rgb\" target=\"_blank\">RGB</a>, <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch\" target=\"_blank\">Sonoff</a>. Если появились какие-то вопросы, пишите сюда: <a href=\"https://github.com/tretyakovsa/jaluzi/issues/new\" target=\"_blank\">Жалюзи</a>, <a href=\"https://github.com/renat2985/rgb/issues/new\" target=\"_blank\">RGB</a>, <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new\" target=\"_blank\">Sonoff</a>.",
  "LangDevices":"Ierīces lapa",
  "LangOptions1":"Vadības lapa",
- "LangSetting3":"Ekstras. iestatījumi",
+ "LangSetting3":"Ekstras iestatījumi",
  "LangExample":"Piemērs",
  "LangSec":"Sek.",
  "LangOff":"Izsl.",
@@ -45,16 +45,8 @@
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">vairāk...</a>",
  "LangIfttt2":"pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"url1\">Izvēlieties krāsu</span><br>Global saite: <span id=\"url2\">Izvēlieties krāsu</span>",
 
+ "LangTimer1":"Taimeri",
+ "LangTimer2":"Taimeris",
  "LangOnOff":"Ieslēgt / Izslēgt",
- "LangTime3":"Modinātāji",
- "LangTime4":"Modinātājs",
- "LangTime5":"Signāla darba laiks",
- "LangTime7":"Laiks sekundēs, cik ilgi būs darbosies modinātāja signāls un degs LED gaisma.",
- "LangTime8":"Uz cik minūtes ieslegt?",
- "LangTime9":"minūtes",
- "LangTime10":"Laiks",
- "LangColor1":"Sarkans",
- "LangColor2":"Zaļš",
- "LangColor3":"Zils",
  "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }
