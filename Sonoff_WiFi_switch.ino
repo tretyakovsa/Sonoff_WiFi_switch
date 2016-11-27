@@ -109,10 +109,6 @@ void loop() {
     digitalWrite(rele1,state0);
     chaing = 0;
     break;
-   case 3:
-   ip_wan();
-   chaing=0;
-    break;
   }
 
     interrupts();
@@ -141,8 +137,7 @@ void alert() {
   Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
   // Каждые 15 минут делаем запрос на сервер DDNS
  if (Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") {
-  chaing=1;
-  state0=3;
+ip_wan();
  }
  }
  if (kolibrTime.compareTo(Time) == 0) {
