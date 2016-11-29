@@ -133,7 +133,7 @@ void alert() {
  }
  if (times2.compareTo(Time) == 0) {
   Serial.println("timer2");
-  Time02();
+  Time01();
  }
  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
  // В 15, 30, 45 минут каждого часа идет запрос на сервер DDNS

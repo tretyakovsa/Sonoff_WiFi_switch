@@ -15,18 +15,7 @@ void Time01() {
   chaing = 1;
 }
 
-void Time02() {
-  tickerSetLow.attach(Timesonoff*60, setT2, 0);
-  chaing = 1;
-}
-
 void setT1(int state) {
  tickerSetLow.detach();
  chaing = 1;
 }
-
-void setT2(int state) {
- tickerSetLow.detach();
- chaing = 1;
-}
-
