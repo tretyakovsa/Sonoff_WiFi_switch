@@ -67,7 +67,7 @@ void setup() {
  Serial.begin(115200);
  Serial.println("");
  pinMode(rele1, OUTPUT);
-  // Включаем работу с файловой системой
+ // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
@@ -87,37 +87,37 @@ void setup() {
  Time_init(timezone);
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
-  ip_wan();
+ ip_wan();
 }
 
 void loop() {
-  dnsServer.processNextRequest();
+ dnsServer.processNextRequest();
  HTTP.handleClient();
  delay(1);
  handleUDP();
 
  if (chaing) {
-    noInterrupts();
-     switch (state0) {
+  noInterrupts();
+  switch (state0) {
    case 0:
-     state0=!state0;
+    state0=!state0;
     digitalWrite(rele1,state0);
     chaing = 0;
     break;
    case 1:
-     state0=!state0;
+    state0=!state0;
     digitalWrite(rele1,state0);
     chaing = 0;
     break;
   }
 
-    interrupts();
-  }
+  interrupts();
+ }
 
-  if (chaingtime) {
-    Time_init(timezone);
-    chaingtime = 0;
-  }
+ if (chaingtime) {
+  Time_init(timezone);
+  chaingtime = 0;
+ }
  if (chaingtime) {
   Time_init(timezone);
   chaingtime=0;
@@ -129,16 +129,16 @@ void alert() {
  String Time=XmlTime();
  if (times1.compareTo(Time) == 0) {
   Serial.println("timer1");
- Time01();
+  Time01();
  }
  if (times2.compareTo(Time) == 0) {
   Serial.println("timer2");
- Time02();
-  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
-  // Каждые 15 минут делаем запрос на сервер DDNS
- if (Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") {
-ip_wan();
+  Time02();
  }
+ Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
+ // В 15, 30, 45 минут каждого часа идет запрос на сервер DDNS
+ if (Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") {
+  ip_wan();
  }
  if (kolibrTime.compareTo(Time) == 0) {
   chaingtime=1;
