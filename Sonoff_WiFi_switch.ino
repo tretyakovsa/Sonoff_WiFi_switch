@@ -137,7 +137,7 @@ void alert() {
  }
  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
  // В 15, 30, 45 минут каждого часа идет запрос на сервер DDNS
- if (Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") {
+ if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && DDNS != "") {
   ip_wan();
  }
  if (kolibrTime.compareTo(Time) == 0) {
