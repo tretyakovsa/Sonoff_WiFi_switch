@@ -48,8 +48,8 @@ String Devices = "";    // IP адреса устройств в сети
 int timezone = 3;        // часовой пояс GTM
 String kolibrTime = "03:00:00"; // Время колибровки часов
 // Для работы с лампой
-String times1 = "00:00:00";      // Таймер 1
-String times2 = "00:00:00";    // Таймер 2
+String times1 = "";      // Таймер 1
+String times2 = "";    // Таймер 2
 int Timesonoff = 10;  // Время работы реле
 String Language ="ru";  // язык web интерфейса
 volatile int chaingtime = LOW;
@@ -127,11 +127,11 @@ void loop() {
 // Вызывается каждую секунду в обход основного циклу.
 void alert() {
  String Time=XmlTime();
- if (times1.compareTo(Time) == 0 && times1 != "00:00:00") {
+ if (times1.compareTo(Time) == 0) {
   Serial.println("timer1");
  Time01();
  }
- if (times2.compareTo(Time) == 0 && times2 != "00:00:00") {
+ if (times2.compareTo(Time) == 0) {
   Serial.println("timer2");
  Time02();
   Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
