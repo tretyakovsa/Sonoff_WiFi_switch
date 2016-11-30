@@ -12,14 +12,14 @@
    }
    function sonoff(submit){
     server = "/sonoff";
-    document.getElementById('url1').innerHTML='<a href="'+document.domain+':'+jsonResponse.DDNSPort+server+'" target="_blank">'+document.domain+':'+jsonResponse.DDNSPort+server+'</a>';
+    document.getElementById('url1').innerHTML='<a href="http://'+document.domain+server+'" target="_blank">http://'+document.domain+server+'</a>';
     if(navigator.onLine) {
      xhr = new XMLHttpRequest();
      xhr.open("GET","https://api.ipify.org?format=text",true);
      xhr.onload = function () {
       if (xhr.readyState === xhr.DONE) {
        if (xhr.status === 200) {
-        document.getElementById('url2').innerHTML='<a href="'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'" target="_blank">'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'</a>';
+        document.getElementById('url2').innerHTML='<a href="http://'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'" target="_blank">http://'+(jsonResponse.DDNSName?(jsonResponse.DDNSName+':'+jsonResponse.DDNSPort+server):xhr.responseText+':'+jsonResponse.DDNSPort+server)+'</a>';
        }
       }
      };
