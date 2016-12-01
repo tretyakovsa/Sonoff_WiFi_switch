@@ -3,22 +3,22 @@
 ![alt](https://raw.githubusercontent.com/tretyakovsa/jaluzi/master/tutorial/screen.png)
 
 
-##Видео youtube
+##Video youtube
 
-###Загрузка (Windows)
+###Upload (Windows)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jMK9mySGHio/0.jpg)](https://www.youtube.com/watch?v=jMK9mySGHio)
 
-###Загрузка, урезанная версия (Linux)
+###Upload, small version (Linux)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1TAHlRqZ46k/0.jpg)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
-###Пример работы
+###Example
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI&index=3&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
 
-##Смотрите так же
+##Othe...
 
 Жалюзи: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
 
