@@ -14,7 +14,10 @@
     var res = jsonResponse.time.split(":");
     real_time(hours=res[0],min=res[1],sec=res[2]);
     if (window.location.hash == '#wifi-connect') {
+     toggle('dev-opt');
      toggle('wifi-info');
+     toggle('dev-othe');
+     toggle('hide-btn1');
     }
    }
    function real_time(hours,min,sec) {
@@ -83,20 +86,22 @@
       <option value="en">English</option>
       <option value="lv">Latviski</option>
      </select>
-     <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
-     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
-     <hr>
-     <div class="alert alert-dismissible alert-info">
-      {{LangSetting4}}
-      <span id="hide" class="hidden">
-       <b>{{LangSetting5}}</b>
-       <form method="POST" action="/update" enctype="multipart/form-data">
-        <div class="btn-group">
-         <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;" accept=".bin">
-         <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height: 33px;">
-        </div>
-       </form>
-      </span>
+     <div id="dev-opt">
+      <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
+      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+      <hr id="hide-hr1">
+      <div class="alert alert-dismissible alert-info">
+       {{LangSetting4}}
+       <span id="hide" class="hidden">
+        <b>{{LangSetting5}}</b>
+        <form method="POST" action="/update" enctype="multipart/form-data">
+         <div class="btn-group">
+          <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;" accept=".bin">
+          <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height: 33px;">
+         </div>
+        </form>
+       </span>
+      </div>
      </div>
      <h2>{{LangDevice}}</h2>
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="{{LangDevice}}">
@@ -112,32 +117,34 @@
      <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="time_zone(this);" type="submit">
      <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="submit">
-     <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
-     <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="load_time(this);" type="submit">
-     <hr>
-     <h2>{{LangAP}}</h2>
-     <div class="row">
-      <div class="col-sm-6">
-       <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
-       <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
-       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="submit">
+     <div id="dev-othe">
+      <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
+      <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="load_time(this);" type="submit">
+      <hr>
+      <h2>{{LangAP}}</h2>
+      <div class="row">
+       <div class="col-sm-6">
+        <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
+        <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="submit">
+       </div>
+       <div class="col-sm-6">
+        <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
+       </div>
       </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
+      <hr>
+      <h2>{{LangDDNS1}}</h2>
+      <div class="alert alert-dismissible alert-info">{{LangDDNS2}}</div>
+      <div class="input-group" style="width:100%;">
+       <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
+       <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
       </div>
+      <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
+      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="submit">
      </div>
-     <hr>
-     <h2>{{LangDDNS1}}</h2>
-     <div class="alert alert-dismissible alert-info">{{LangDDNS2}}</div>
-     <div class="input-group" style="width:100%;">
-      <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
-      <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
-     </div>
-     <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="submit">
      <hr>
      <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}');" type="submit">
-     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <a class="btn btn-block btn-default" id="hide-btn1" href="/device.htm">{{LangOptions1}}</a>
     </div>
    </div>
   </div>
