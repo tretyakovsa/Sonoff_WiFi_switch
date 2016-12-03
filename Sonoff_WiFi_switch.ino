@@ -35,6 +35,9 @@ Ticker tickerAlert;
 
 // Реле на ногах
 #define rele1 12
+// Светодиод на ноге
+#define led 13
+
 // Определяем переменные
 //Обшие настройки
 String _ssid     = "WiFi"; // Для хранения SSID
@@ -67,13 +70,21 @@ void setup() {
  Serial.begin(115200);
  Serial.println("");
  pinMode(rele1, OUTPUT);
+ pinMode(led, OUTPUT);
  // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
  // Кнопка будет работать по прерыванию
  attachInterrupt(Tach0, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
- //Запускаем WIFI
+ //Индикация включения
+for (int i=0; i <= 50; i++){
+  digitalWrite(led, HIGH);
+  delay(100);
+  digitalWrite(led, LOW);
+  delay(100);
+}
+//Запускаем WIFI
  WIFIAP_Client();
  // Закускаем UDP
  udp.begin(localPort);
