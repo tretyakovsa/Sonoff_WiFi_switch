@@ -9,7 +9,7 @@
   <title>Options page</title>
   <script type="text/javascript">
    function handleServerResponse(){
-    if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
+    if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn1;} else {blockval=jsonResponse.LangOff1;}
     document.getElementById('off-on').value = blockval;
    }
    function sonoff(submit){
@@ -27,6 +27,8 @@
      };
      xhr.send(null);
     }
+    if (blockval==jsonResponse.LangOn1) {blockval=jsonResponse.LangOff1;} else {blockval=jsonResponse.LangOn1;}
+    document.getElementById('off-on').value = blockval;
     send_request(submit,server);
    }
    function set_time(submit){
