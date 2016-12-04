@@ -109,20 +109,10 @@ void loop() {
 
  if (chaing) {
   noInterrupts();
-  switch (state0) {
-   case 0:
     state0=!state0;
     digitalWrite(rele1,state0);
     chaing = 0;
-    break;
-   case 1:
-    state0=!state0;
-    digitalWrite(rele1,state0);
-    chaing = 0;
-    break;
-  }
-
-  interrupts();
+    interrupts();
  }
 
  if (chaingtime) {
