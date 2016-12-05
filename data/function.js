@@ -54,11 +54,12 @@ function save_status(submit,request){
   if (request.readyState != 4) return;
   submit.value = request.responseText;
   setTimeout(function(){
-   submit.value=old_submit;
+  // submit.value=old_submit;
    submit_disabled(false);
+     load();
   }, 1000);
  }
- submit.value = 'Подождите...';
+ submit.value = 'Loading...';
  submit_disabled(true);
 }
 function submit_disabled(request){

@@ -20,6 +20,9 @@
 
 ##Othe...
 
-Жалюзи: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
+Jalousie: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
 
 RGB: [https://github.com/renat2985/rgb](https://github.com/renat2985/rgb)
+
+
+####Themes you can download here: [http://bootswatch.com/](http://bootswatch.com/)
