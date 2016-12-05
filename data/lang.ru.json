@@ -6,7 +6,7 @@
  "LangSetting3":"Доп. настройки",
  "LangExample":"Пример",
  "LangSec":"Сек.",
- "LangOff":"Выкл.",
+ "LangOff.":"Выкл.",
  "LangSave":"Сохранить",
  "LangCancel":"Отмена",
  "LangHistory":"История",
@@ -49,7 +49,7 @@
  "LangTimer2":"Таймер",
  "LangMin":"Мин.",
  "LangOnOff":"Включить/Выключить",
- "LangOn1":"Включить",
- "LangOff1":"Выключить",
+ "LangOn":"Включить",
+ "LangOff":"Выключить",
  "LangIfttt3":"Больше настроек вы можете получить на <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }

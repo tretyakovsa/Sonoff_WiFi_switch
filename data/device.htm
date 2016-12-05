@@ -9,7 +9,7 @@
   <title>Options page</title>
   <script type="text/javascript">
    function handleServerResponse(){
-    if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn1;} else {blockval=jsonResponse.LangOff1;}
+    if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     document.getElementById('off-on').value = blockval;
    }
    function sonoff(submit){
@@ -27,9 +27,8 @@
      };
      xhr.send(null);
     }
-    if (blockval==jsonResponse.LangOn1) {blockval=jsonResponse.LangOff1;} else {blockval=jsonResponse.LangOn1;}
-    document.getElementById('off-on').value = blockval;
     send_request(submit,server);
+    load();
    }
    function set_time(submit){
     server = "/Timesonoff?t="+val('sonoff');
@@ -70,13 +69,13 @@
        <input id="time1" value="{{times1}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%;">
         <input class="btn btn-success" style="width:70%;" value="{{LangSave}}" onclick="set_time1(this);" type="submit">
-        <input class="btn btn-default" style="width:30%;" value="{{LangOff}}" onclick="document.getElementById('time1').value='';set_time1(this);" type="submit">
+        <input class="btn btn-default" style="width:30%;" value="{{LangOff.}}" onclick="document.getElementById('time1').value='';set_time1(this);" type="submit">
        </div>
        <h4>{{LangTimer2}} 2:</h4>
        <input id="time2" value="{{times2}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%;">
         <input class="btn btn-success" style="width:70%;" value="{{LangSave}}" onclick="set_time2(this);" type="submit">
-        <input class="btn btn-default" style="width:30%;" value="{{LangOff}}" onclick="document.getElementById('time2').value='';set_time2(this);" type="submit">
+        <input class="btn btn-default" style="width:30%;" value="{{LangOff.}}" onclick="document.getElementById('time2').value='';set_time2(this);" type="submit">
        </div>
       </div>
       <div class="col-sm-6">
