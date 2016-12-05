@@ -43,24 +43,19 @@ function val(id){
  return v;
 }
 function send_request(submit,server){
- request = new XMLHttpRequest();
- request.open("GET", server, true);
- request.send();
- save_status(submit,request);
-}
-function save_status(submit,request){
  old_submit = submit.value;
- request.onreadystatechange = function() {
-  if (request.readyState != 4) return;
-  submit.value = request.responseText;
-  setTimeout(function(){
-   submit.value=old_submit;
-   submit_disabled(false);
-  }, 1000);
- }
  submit.value = 'Loading...';
  submit_disabled(true);
+ request = new XMLHttpRequest();
+ request.open("GET", server, true);
+ request.send(null);
+ request.onload = function(e) {
+  submit.value=old_submit;
+  submit_disabled(false);
+ }
+ load();
 }
+
 function submit_disabled(request){
  var inputs = document.getElementsByTagName("input");
  for (var i = 0; i < inputs.length; i++) {
