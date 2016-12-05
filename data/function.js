@@ -52,8 +52,8 @@ function send_request(submit,server){
  request.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
+  load();
  }
- load();
 }
 
 function submit_disabled(request){
