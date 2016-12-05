@@ -7,7 +7,7 @@ function createXmlHttpObject(){
  }
  return xmlHttp;
 }
-function load(){
+function load(first){
  if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
   xmlHttp.open('PUT','/configs.json',true);
   xmlHttp.send(null);
@@ -18,13 +18,13 @@ function load(){
    xmlHttp.onload = function(e) {
     jsonResponse2=JSON.parse(xmlHttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-    loadBlock(jsonResponse);
+    loadBlock(jsonResponse,first);
    }
   }
  }
 }
 
-function loadBlock(jsonResponse) {
+function loadBlock(jsonResponse,first) {
  data = document.getElementsByTagName('body')[0].innerHTML;
  var new_string;
  for (var key in jsonResponse) {
@@ -33,6 +33,9 @@ function loadBlock(jsonResponse) {
  }
  document.getElementsByTagName('body')[0].innerHTML = new_string;
  handleServerResponse();
+ if (first == 'first') {
+  toggle('content');
+ }
 }
 
 function val(id){
