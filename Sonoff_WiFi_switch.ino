@@ -77,14 +77,7 @@ void setup() {
  loadConfig();
  // Кнопка будет работать по прерыванию
  attachInterrupt(Tach0, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
- //Индикация включения
-for (int i=0; i <= 50; i++){
-  digitalWrite(led, HIGH);
-  delay(100);
-  digitalWrite(led, LOW);
-  delay(100);
-}
-//Запускаем WIFI
+ //Запускаем WIFI
  WIFIAP_Client();
  // Закускаем UDP
  udp.begin(localPort);
