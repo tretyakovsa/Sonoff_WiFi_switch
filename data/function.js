@@ -62,14 +62,18 @@ function submit_disabled(request){
   if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
  }
 }
-function toggle(target) {
+function toggle(target,status) {
  var curVal = document.getElementById(target).classList;
  if (curVal.contains('hidden')) {
-  curVal.remove('hidden');
-  curVal.add('show');
+  if (status != 'show') {
+   curVal.remove('hidden');
+   curVal.add('show');
+  }
  } else {
-  curVal.remove('show');
-  curVal.add('hidden');
+  if (status != 'hidden') {
+   curVal.remove('show');
+   curVal.add('hidden');
+  }
  }
 }
 

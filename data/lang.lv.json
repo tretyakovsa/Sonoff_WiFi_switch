@@ -19,6 +19,8 @@
  "LangMonth":"'Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'",
  "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat Vadība lapa",
  "LangLanguage":"Latviski",
+ "LangConnect":"Pagaidiet, ierīce savienojas ar tīklu. <br> IP adresi ierīces jūsu tīklā būs:",
+ "LangRedirect":"Auto novirzīšana caur",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",
@@ -39,6 +41,8 @@
  "LangReset1":"Pārlādēt šo ierīci",
  "LangReset2":"Izmaiņas stāsies spēkā pēc restarta. Lūdzu, restartējiet ierīci.",
  "LangReset3":"Vai jūs tiešām vēlaties restartēt ierīci?",
+ "LangConnect":"Pagaidiet, ierīce savienojas ar tīklu. <br> IP adresi ierīces jūsu tīklā būs:",
+ "LangRedirect":"Auto novirzīšana caur",
 
  "_comment": "---DEVICE.HTM---",
  "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa. Piemērs: 03:09:10. Modinātājs zvana katru dienu.",

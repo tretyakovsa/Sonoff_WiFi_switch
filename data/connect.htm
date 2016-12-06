@@ -24,12 +24,11 @@
       <option value="en">English</option>
       <option value="lv">Latviski</option>
      </select>
-     <div class="loader"></div><p>Загрузка...</p>
+     <div class="loader"></div><p>{{LangLoading}}</p>
      <hr>
-     <div class="alert alert-dismissible alert-warning">Подождите, устройство подключается к вашей сети. <br>
-      IP адрес устройства в вашей сети будет: <b>{{ip}}</b>
+     <div class="alert alert-dismissible alert-warning">{{LangConnect}} <b>{{ip}}</b>
      </div>
-     <small class="pull-right">Авто перенаправление через 7 секунд.</small>
+     <small class="pull-right">{{LangRedirect}} 7 {{LangSec}}</small>
      <script>setTimeout(function(){window.location="http://"+jsonResponse.ip;},7000);</script>
     </div>
    </div>
