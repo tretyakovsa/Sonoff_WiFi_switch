@@ -30,7 +30,7 @@
       IP адрес устройства в вашей сети будет: <b>{{ip}}</b>
      </div>
      <small class="pull-right">Авто перенаправление через 7 секунд.</small>
-     <script>setTimeout(function(){window.location="http://{{ip}}";},7000);</script>
+     <script>setTimeout(function(){window.location="http://"+jsonResponse.ip;},7000);</script>
     </div>
    </div>
   </div>
