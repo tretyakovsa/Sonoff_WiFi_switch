@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" href="bootstrap.min.css">
@@ -14,11 +14,11 @@
  </head>
  <body onload="load('first');">
   <div class="container">
-   <div class="row hidden" id="content" style="text-align:center;">
-    <h1 style="margin:50px;"> </h1>
+   <div class="row hidden" id="content">
+    <h1 id="title"> </h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-info">{{SSDP}}</h5>
-     <select class="btn btn-default" name="language" style="margin-top:-45px;float:right" onchange="language(this.value,this);">
+     <select class="btn btn-default" id="language" onchange="language(this.value,this);">
       <option value="en">{{LangLanguage}}</option>
       <option value="ru">Русский</option>
       <option value="en">English</option>

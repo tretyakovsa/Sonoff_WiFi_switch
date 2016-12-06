@@ -1,13 +1,12 @@
 body, html {
  background-color:#E9F0F0;
 }
-#pop-up {
+.pop-up {
  z-index:111;
  background-color:#fff;
  box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
  padding:20px;
- margin-top:-45%;
- position:relative;
+ position:absolute;
 }
 
 /* Setup */
@@ -77,6 +76,16 @@ h5 {
 }
 #date {
  text-transform:capitalize;
+}
+#content {
+ text-align:center;
+}
+#title {
+ margin:50px;
+}
+#language {
+ margin-top:-45px;
+ float:right;
 }
 
 /* loader */
