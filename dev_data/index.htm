@@ -2,8 +2,8 @@
 <html lang="en">
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Страница устройств</title>
   <script type="text/javascript">
@@ -54,7 +54,7 @@
     xhttp.send();
     jsonResponse1 = JSON.parse(xhttp.responseText);
 
-    xhttp.open("GET", "http://"+ipval+"/lang."+jsonResponse1.lang+".json?"+Math.floor(Math.random()*10000), false);
+    xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", false);
     xhttp.send();
     jsonResponse2=JSON.parse(xhttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
