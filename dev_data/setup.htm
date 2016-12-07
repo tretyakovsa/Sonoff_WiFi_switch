@@ -16,9 +16,10 @@
     if (window.location.hash == '#wifi-connect') {
      document.getElementById("title").innerHTML = " ";
      toggle('dev-opt', 'show');
-     toggle('wifi-info', 'show');
      toggle('dev-othe', 'show');
-     toggle('hide-btn1', 'show');
+     toggle('wifi-connect1','hidden');
+     toggle('first-restart', 'hidden');
+     //set_time_zone(this);
     }
     document.body.style.backgroundColor="#"+jsonResponse.color;
    }
@@ -64,9 +65,9 @@
     server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
     send_request(submit,server);
    }
-   function restart(submit,texts){
+   function restart(submit,texts,server){
     if (confirm(texts)) {
-     server = "/restart?device=ok";
+     // server = "/restart?device=ok";
      send_request(submit,server);
      return true;
     } else {
@@ -108,17 +109,19 @@
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="{{LangDevice}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="submit">
      <hr id="wifi-connect">
-     <div class="alert alert-dismissible alert-danger hidden" id="wifi-info">{{LangWiFi3}}</div>
+     <div class="hidden" id="wifi-connect1">
+      <div class="alert alert-dismissible alert-danger">{{LangWiFi3}}</div>
+     </div>
      <h2>{{LangWiFi2}}</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="submit">
      <hr>
-     <h2>{{LangGMT1}}</h2>
-     <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="time_zone(this);" type="submit">
-     <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="submit">
      <div id="dev-othe">
+      <h2>{{LangGMT1}}</h2>
+      <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
+      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="time_zone(this);" type="submit">
+      <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="submit">
       <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
       <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="load_time(this);" type="submit">
       <hr>
@@ -142,10 +145,11 @@
       </div>
       <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="submit">
+      <hr>
+      <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}','/restart?device=ok');" type="submit">
+      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      </div>
-     <hr>
-     <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}');" type="submit">
-     <a class="btn btn-block btn-default" id="hide-btn1" href="/device.htm">{{LangOptions1}}</a>
+     <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}','/restartWiFi');" type="submit">
     </div>
    </div>
   </div>
