@@ -15,7 +15,13 @@ void handle_ddns() {
 // Перезагрузка модуля
 void handle_Restart() {
 String restart=HTTP.arg("device");
- if (restart=="ok") ESP.restart();
+ if (restart == "ok") {                         // Если значение равно Ок
+    HTTP.send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
+  ESP.restart();                                // перезагружаем модуль
+  }
+  else {                                        // иначе
+    HTTP.send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
+  }
 }
 
 // Меняет флаг для запуска
@@ -108,7 +114,8 @@ void HTTP_init(void) {
  });
  // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
- HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
+ HTTP.on("/restartWiFi", RestartWiFi);                // задать цвет ленты и включить.
+  HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
  HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
  HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
  HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
