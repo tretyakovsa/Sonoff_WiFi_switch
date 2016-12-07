@@ -19,7 +19,8 @@
  "LangMonth":"'Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'",
  "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat Vadība lapa",
  "LangLanguage":"Latviski",
- "LangConnect":"Pagaidiet, ierīce savienojas ar tīklu. <br> IP adresi ierīces jūsu tīklā būs:",
+ "LangConnect1":"Pagaidiet, ierīce savienojas ar tīklu.",
+ "LangConnect2":"IP adresi ierīces jūsu tīklā būs:",
  "LangRedirect":"Auto novirzīšana caur",
 
  "_comment": "---SETUP.HTM---",

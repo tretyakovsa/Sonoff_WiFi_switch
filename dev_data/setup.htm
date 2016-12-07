@@ -65,10 +65,21 @@
     server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
     send_request(submit,server);
    }
-   function restart(submit,texts,server){
+   function restart(submit,texts){
     if (confirm(texts)) {
-     // server = "/restart?device=ok";
+     server = "/restart?device=ok";
      send_request(submit,server);
+     return true;
+    } else {
+     return false;
+    }
+   }
+   function first_restart(submit,texts){
+    if (confirm(texts)) {
+     server = "/restartWiFi";
+     send_request(submit,server);
+     toggle('pop-up');
+     setInterval('load();', 2000);
      return true;
     } else {
      return false;
@@ -112,6 +123,10 @@
      <div class="hidden" id="wifi-connect1">
       <div class="alert alert-dismissible alert-danger">{{LangWiFi3}}</div>
      </div>
+     <div class="col-sm-offset-2 col-sm-8 pop-up hidden" id="pop-up">
+      <h5 class="alert-warning">{{LangLoading}}</h5>
+      <div class="alert alert-dismissible alert-info"><div class="loader"></div> {{LangConnect1}}<br><b>{{LangConnect2}}</b> <big><a href="http://{{ip}}">{{ip}}</a></big></div>
+     </div>
      <h2>{{LangWiFi2}}</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
@@ -149,7 +164,7 @@
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}','/restart?device=ok');" type="submit">
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      </div>
-     <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}','/restartWiFi');" type="submit">
+     <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="submit">
     </div>
    </div>
   </div>
