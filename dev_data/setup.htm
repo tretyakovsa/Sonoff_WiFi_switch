@@ -75,6 +75,8 @@
     }
    }
    function first_restart(submit,texts){
+    var LangConnect2 = jsonResponse.LangConnect2;
+    var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 7 '+jsonResponse.LangSec+'</small>';
     if (confirm(texts)) {
      toggle('pop-up');
      if (window.XMLHttpRequest) {
@@ -85,7 +87,10 @@
      xhttp.open("POST", "/restartWiFi", true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      document.getElementById('url-ip').innerHTML = jsonResponse.LangConnect2+' <h3><a href="http://'+xhttp.responseText+'">'+xhttp.responseText+'</a></h3>';
+      document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xhttp.responseText+'">'+xhttp.responseText+'</a></h3>'+LangRedirect;
+      setTimeout(function(){
+       window.location.href = 'http://'+xhttp.responseText;
+      }, 7000);
      }
      // setInterval('load();', 2000);
      return true;
@@ -130,7 +135,9 @@
      <hr id="wifi-connect">
      <div class="col-sm-offset-2 col-sm-8 pop-up hidden" id="pop-up">
       <h5 class="alert-warning">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info" id="url-ip"><div class="loader"></div> {{LangConnect1}}</div>
+      <div class="alert alert-dismissible alert-info" id="url-ip">
+       <div class="loader"></div> {{LangConnect1}}
+      </div>
      </div>
      <div class="hidden" id="wifi-connect1">
       <div class="alert alert-dismissible alert-danger">{{LangWiFi3}}</div>
