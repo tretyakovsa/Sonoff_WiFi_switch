@@ -29,18 +29,25 @@ bool StartAPMode()
 bool RestartWiFi() {
   //Холодный перезапуск WiFi при первой настройке
   Serial.println("WiFi reconnect");
+  // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.mode(WIFI_AP_STA );
   WiFi.begin(_ssid.c_str(), _password.c_str());
+  delay(1000);
   tries(30);
+
   Serial.println("");
   Serial.println(WiFi.localIP());
+  //Грузим страницу редиректа
   //handleFileRead("/connect.htm");
-
+/*
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"10;http://";
   refresh += WiFi.localIP().toString();
   refresh += "\"></head></html>";
   HTTP.send(200, "text/html", refresh);
-
+  */
+  HTTP.send(200, "text/html", "ОК");
+  // Отключаем точку доступа и переподключаемся к роутеру
+  delay(1000);
   WiFi.mode(WIFI_STA);
   WiFi.begin();
   tries(11);
