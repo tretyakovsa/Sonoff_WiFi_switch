@@ -14,6 +14,7 @@ void handle_ddns() {
 
 // Перезагрузка модуля
 void handle_Restart() {
+<<<<<<< HEAD
 String restart=HTTP.arg("device");
  if (restart == "ok") {                         // Если значение равно Ок
     HTTP.send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
@@ -22,11 +23,15 @@ String restart=HTTP.arg("device");
   else {                                        // иначе
     HTTP.send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
   }
+=======
+ String restart=HTTP.arg("device");
+ if (restart=="ok") ESP.restart();
+>>>>>>> origin/master
 }
 
 // Меняет флаг для запуска
 void releyActiv() {
-  Serial.println(state0);
+ Serial.println(state0);
  chaing = 1;
  HTTP.send(200, "text/plain", "OK");
 }
@@ -113,9 +118,15 @@ void HTTP_init(void) {
   SSDP.schema(HTTP.client());
  });
  // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
-  httpUpdater.setup(&HTTP);
+ httpUpdater.setup(&HTTP);
  HTTP.on("/restartWiFi", RestartWiFi);                // задать цвет ленты и включить.
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
+ httpUpdater.setup(&HTTP);
+ HTTP.serveStatic("/css/", SPIFFS, "/css/", "max-age=31536000"); // кеширование на 1 год
+ HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
+ HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
+ //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
+ HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
  HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
  HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
  HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
@@ -129,8 +140,8 @@ void HTTP_init(void) {
  HTTP.on("/configs.json", handle_ConfigXML); // формирование config_xml страницы для передачи данных в web интерфейс
  HTTP.on("/iplocation.xml", handle_IplocationXML);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
  HTTP.on("/restart", handle_Restart);               // Перезагрузка модуля
-  HTTP.on("/lang", handle_SetLeng);               // Установить язык
-  HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
+ HTTP.on("/lang", handle_SetLeng);               // Установить язык
+ HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
  // Запускаем HTTP сервер
  // HTTP.sendHeader("Cache-Control","max-age=2592000, must-revalidate");
  HTTP.on("/devices", inquirySSDP);         // Блок для
@@ -151,7 +162,7 @@ String XmlTime(void) {
 
 void handle_ConfigXML() {
  XML = "{";
-  // Имя DDNS
+ // Имя DDNS
  XML += "\"DDNS\":\"";
  XML += DDNS;
  // Имя SSDP
@@ -195,7 +206,7 @@ void handle_ConfigXML() {
  // Текущее время
  XML += "\",\"time\":\"";
  XML += XmlTime();
-  // Язык
+ // Язык
  XML += "\",\"lang\":\"";
  if (Language == NULL) {
   XML += "ru";
@@ -205,7 +216,7 @@ void handle_ConfigXML() {
  // Статус
  XML += "\",\"state\":\"";
  XML += state0;
-  // IP устройства
+ // IP устройства
  XML += "\",\"ip\":\"";
  XML += WiFi.localIP().toString();
  XML += "\"}";

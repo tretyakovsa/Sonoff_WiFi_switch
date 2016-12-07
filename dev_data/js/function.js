@@ -13,19 +13,24 @@ function load(first){
   xmlHttp.send(null);
   xmlHttp.onload = function(e) {
    jsonResponse1=JSON.parse(xmlHttp.responseText);
-   xmlHttp.open('PUT','/lang.'+jsonResponse1.lang+'.json',true);
+   xmlHttp.open('GET','/lang/lang.'+jsonResponse1.lang+'.json',true);
    xmlHttp.send(null);
    xmlHttp.onload = function(e) {
     jsonResponse2=JSON.parse(xmlHttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-    loadBlock(jsonResponse,first);
+    if (first == 'first') {
+     toggle('content');
+     loadBlock(jsonResponse,first);
+    } else {
+      handleServerResponse();
+    }
    }
   }
  }
 }
 
 function loadBlock(jsonResponse,first) {
- data = document.getElementsByTagName('body')[0].innerHTML;
+ var data = document.getElementsByTagName('body')[0].innerHTML;
  var new_string;
  for (var key in jsonResponse) {
   new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
@@ -33,9 +38,6 @@ function loadBlock(jsonResponse,first) {
  }
  document.getElementsByTagName('body')[0].innerHTML = new_string;
  handleServerResponse();
- if (first == 'first') {
-  toggle('content');
- }
 }
 
 function val(id){
@@ -52,8 +54,8 @@ function send_request(submit,server){
  request.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
+   load();
  }
- load();
 }
 
 function submit_disabled(request){
@@ -62,14 +64,18 @@ function submit_disabled(request){
   if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
  }
 }
-function toggle(target) {
+function toggle(target,status) {
  var curVal = document.getElementById(target).classList;
  if (curVal.contains('hidden')) {
-  curVal.remove('hidden');
-  curVal.add('show');
+  if (status != 'show') {
+   curVal.remove('hidden');
+   curVal.add('show');
+  }
  } else {
-  curVal.remove('show');
-  curVal.add('hidden');
+  if (status != 'hidden') {
+   curVal.remove('show');
+   curVal.add('hidden');
+  }
  }
 }
 

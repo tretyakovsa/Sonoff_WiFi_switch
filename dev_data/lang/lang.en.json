@@ -19,6 +19,8 @@
  "LangMonth":"'January','February','March','April','may','June','July','August','September','October','November','December'",
  "LangOptions2":"Change the configuration of the device, you can Options page,",
  "LangLanguage":"English",
+ "LangConnect":"Please wait, device connected to your network <br> IP address of the device on your network:",
+ "LangRedirect":"Auto redirection through",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Device Name",

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script type="text/javascript" src="function.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" src="js/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings page</title>
   <script type="text/javascript">
@@ -15,11 +15,12 @@
     real_time(hours=res[0],min=res[1],sec=res[2]);
     if (window.location.hash == '#wifi-connect') {
      document.getElementById("title").innerHTML = " ";
-     toggle('dev-opt');
-     toggle('wifi-info');
-     toggle('dev-othe');
-     toggle('hide-btn1');
+     toggle('dev-opt', 'show');
+     toggle('wifi-info', 'show');
+     toggle('dev-othe', 'show');
+     toggle('hide-btn1', 'show');
     }
+    document.body.style.backgroundColor="#"+jsonResponse.color;
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -32,7 +33,6 @@
    function load_time(submit){
     server = "/Time";
     send_request(submit,server);
-    load();
    }
    function time_zone(submit){
     server = "/TimeZone?timezone="+val('timezone');
@@ -77,11 +77,11 @@
  </head>
  <body onload="load('first');">
   <div class="container">
-   <div class="row hidden" id="content" style="text-align:center;">
-    <h1 style="margin:50px;" id="title">{{LangSetting3}}</h1>
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangSetting3}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
-     <select class="btn btn-default" name="language" style="margin-top:-45px;float:right" onchange="language(this.value,this);">
+     <select class="btn btn-default" id="language" onchange="language(this.value,this);">
       <option value="en">{{LangLanguage}}</option>
       <option value="ru">Русский</option>
       <option value="en">English</option>
