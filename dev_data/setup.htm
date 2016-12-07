@@ -76,10 +76,18 @@
    }
    function first_restart(submit,texts){
     if (confirm(texts)) {
-     server = "/restartWiFi";
-     send_request(submit,server);
      toggle('pop-up');
-     setInterval('load();', 2000);
+     if (window.XMLHttpRequest) {
+      xhttp = new XMLHttpRequest();
+     } else {
+      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+     }
+     xhttp.open("POST", "/restartWiFi", true);
+     xhttp.send(null);
+     xhttp.onload = function(e) {
+      document.getElementById('url-ip').innerHTML = jsonResponse.LangConnect2+' <h3><a href="http://'+xhttp.responseText+'">'+xhttp.responseText+'</a></h3>';
+     }
+     // setInterval('load();', 2000);
      return true;
     } else {
      return false;
@@ -120,12 +128,12 @@
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="{{LangDevice}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="submit">
      <hr id="wifi-connect">
+     <div class="col-sm-offset-2 col-sm-8 pop-up hidden" id="pop-up">
+      <h5 class="alert-warning">{{LangSearch1}}</h5>
+      <div class="alert alert-dismissible alert-info" id="url-ip"><div class="loader"></div> {{LangConnect1}}</div>
+     </div>
      <div class="hidden" id="wifi-connect1">
       <div class="alert alert-dismissible alert-danger">{{LangWiFi3}}</div>
-     </div>
-     <div class="col-sm-offset-2 col-sm-8 pop-up hidden" id="pop-up">
-      <h5 class="alert-warning">{{LangLoading}}</h5>
-      <div class="alert alert-dismissible alert-info"><div class="loader"></div> {{LangConnect1}}<br><b>{{LangConnect2}}</b> <big><a href="http://{{ip}}">{{ip}}</a></big></div>
      </div>
      <h2>{{LangWiFi2}}</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
