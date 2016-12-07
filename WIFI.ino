@@ -37,6 +37,7 @@ bool RestartWiFi() {
   Serial.println("");
   Serial.println(WiFi.localIP());
   HTTP.send(200, "text/plain", WiFi.localIP().toString());
+  delay(5000);
   // Отключаем точку доступа и переподключаемся к роутеру
   WiFi.mode(WIFI_STA);
   WiFi.begin();

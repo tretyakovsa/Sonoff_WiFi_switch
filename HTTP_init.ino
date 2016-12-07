@@ -170,21 +170,13 @@ void handle_ConfigXML() {
   XML += _ssid;
   // Пароль сети
   XML += "\",\"password\":\"";
-  if (_password == NULL) {
-    XML += " ";
-  } else {
-    XML += _password;
-  }
+  XML += _password;
   // Имя точки доступа
   XML += "\",\"ssidAP\":\"";
   XML += _ssidAP;
   // Пароль точки доступа
   XML += "\",\"passwordAP\":\"";
-  if (_passwordAP == NULL) {
-    XML += " ";
-  } else {
-    XML += _passwordAP;
-  }
+  XML += _passwordAP;
   // Времянная зона
   XML += "\",\"timezone\":\"";
   XML += timezone;
