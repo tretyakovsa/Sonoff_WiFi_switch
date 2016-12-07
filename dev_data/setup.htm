@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -76,7 +76,7 @@
    }
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;
-    var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 7 '+jsonResponse.LangSec+'</small>';
+    var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 15 '+jsonResponse.LangSec+'</small>';
     if (confirm(texts)) {
      toggle('pop-up');
      if (window.XMLHttpRequest) {
@@ -90,7 +90,7 @@
       document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xhttp.responseText+'">'+xhttp.responseText+'</a></h3>'+LangRedirect;
       setTimeout(function(){
        window.location.href = 'http://'+xhttp.responseText;
-      }, 7000);
+      }, 15000);
      }
      // setInterval('load();', 2000);
      return true;

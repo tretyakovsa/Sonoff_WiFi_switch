@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -40,12 +40,12 @@
      if (ipval == '0.0.0.0') {
       location.href = "/setup.htm#wifi-connect";
      } else {
-      loadBlock(ipval);
+      loadBlock(ipval,'content');
      }
     }
    }
 
-   function loadBlock(ipval) {
+   function loadBlock(ipval, content) {
     xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
     data = xhttp.responseText;
@@ -59,30 +59,64 @@
     jsonResponse2=JSON.parse(xhttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
+    //if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
+    //document.getElementById('off-on').value = blockval;
+
     var new_string;
     for (var key in jsonResponse) {
      new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
      data = new_string;
     }
-    document.getElementById('content').innerHTML+=new_string;
+    document.getElementById(content).innerHTML+='<div id="block-'+ipval+'">'+new_string+'</div>';
+    //handleServerResponse_+ipval+();
    }
 
-   function ajax(blockid, pagename, submit) {
+
+   function loadBlock2(ipval, content) {
+    xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     data = xhttp.responseText;
+
+     xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.floor(Math.random()*10000), true);
+     xhttp.send(null);
+     xhttp.onload = function(e) {
+      jsonResponse1 = JSON.parse(xhttp.responseText);
+
+      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+      xhttp.send(null);
+      xhttp.onload = function(e) {
+       jsonResponse2=JSON.parse(xhttp.responseText);
+       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+
+       var new_string;
+       for (var key in jsonResponse) {
+        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+        data = new_string;
+       }
+       document.getElementById("block-"+ipval).innerHTML=new_string;
+      }
+     }
+    }
+   }
+
+   function ajax(blockIp, pagename, submit) {
     old_submit = submit.value;
     var d = new Date(); // for now
     datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockid+'/'+pagename+'">http://'+blockid+'/'+pagename+'</a></small></span></li>');
-    submit.value = 'Подождите...';
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockIp+'/'+pagename+'">http://'+blockIp+'/'+pagename+'</a></small></span></li>');
+    submit.value = 'Loading...';
     submit_disabled(true);
     //$("input").prop('disabled', true);
-    xhttp.open("GET", "http://"+blockid+"/"+pagename, false);
-    xhttp.send();
+    xhttp.open("GET", "http://"+blockIp+"/"+pagename, true);
+    xhttp.send(null);
     submit.value = xhttp.responseText;
-    setTimeout(function(){
+    xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-    }, 1000);
+     loadBlock2(blockIp,'block-'+blockIp);
+    }
    }
 
    function submit_disabled(request){
