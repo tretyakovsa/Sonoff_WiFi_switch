@@ -115,6 +115,11 @@ void HTTP_init(void) {
   // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
   HTTP.on("/restartWiFi", RestartWiFi);                // задать цвет ленты и включить.
+ // HTTP.on("/webupdatespiffs", webUpdateSpiffs);                // задать цвет ленты и включить.
+  HTTP.serveStatic("/css/", SPIFFS, "/css/", "max-age=31536000"); // кеширование на 1 год
+  HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
+  HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
+ //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
