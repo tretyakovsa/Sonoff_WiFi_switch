@@ -32,7 +32,7 @@ bool RestartWiFi() {
   // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.mode(WIFI_AP_STA );
   WiFi.begin(_ssid.c_str(), _password.c_str());
-  delay(1000);
+  delay(5000);
   tries(30);
 
   Serial.println("");
@@ -45,9 +45,11 @@ bool RestartWiFi() {
   refresh += "\"></head></html>";
   HTTP.send(200, "text/html", refresh);
   */
-  HTTP.send(200, "text/html", "ОК");
+  String refresh = "";
+  refresh += WiFi.localIP();
+  HTTP.send(200, "text/plain", refresh);
   // Отключаем точку доступа и переподключаемся к роутеру
-  delay(1000);
+  delay(5000);
   WiFi.mode(WIFI_STA);
   WiFi.begin();
   tries(11);
