@@ -27,7 +27,7 @@ bool StartAPMode()
 }
 
 bool RestartWiFi() {
-  //Холодный перезапуск WiFi при первой настройке
+  //Холодный перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
   // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.mode(WIFI_AP_STA );

@@ -19,7 +19,6 @@
      toggle('dev-othe', 'show');
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
-     //set_time_zone(this);
     }
     document.body.style.backgroundColor="#"+jsonResponse.color;
    }
@@ -77,19 +76,15 @@
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;
     var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 15 '+jsonResponse.LangSec+'</small>';
+    set_time_zone(this);
     if (confirm(texts)) {
      toggle('pop-up');
-     if (window.XMLHttpRequest) {
-      xhttp = new XMLHttpRequest();
-     } else {
-      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-     }
-     xhttp.open("POST", "/restartWiFi", true);
-     xhttp.send(null);
-     xhttp.onload = function(e) {
-      document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xhttp.responseText+'">'+xhttp.responseText+'</a></h3>'+LangRedirect;
+     xmlHttp.open("POST", "/restartWiFi", true);
+     xmlHttp.send(null);
+     xmlHttp.onload = function(e) {
+      document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xmlHttp.responseText+'">http://'+xmlHttp.responseText+'</a></h3>'+LangRedirect;
       setTimeout(function(){
-       window.location.href = 'http://'+xhttp.responseText;
+       window.location.href = 'http://'+xmlHttp.responseText;
       }, 15000);
      }
      // setInterval('load();', 2000);
@@ -133,15 +128,15 @@
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я. ]{1,20}" placeholder="{{LangDevice}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="submit">
      <hr id="wifi-connect">
-     <div class="col-sm-offset-2 col-sm-8 pop-up hidden" id="pop-up">
-      <h5 class="alert-warning">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info" id="url-ip">
-       <div class="loader"></div> {{LangConnect1}}
+     <div class="row hidden" id="pop-up">
+      <div class="col-sm-offset-2 col-sm-8 pop-up">
+       <h5 class="alert-warning">{{LangSearch1}}</h5>
+       <div class="alert alert-dismissible alert-info" id="url-ip">
+        <div class="loader"></div> {{LangConnect1}}
+       </div>
       </div>
      </div>
-     <div class="hidden" id="wifi-connect1">
-      <div class="alert alert-dismissible alert-danger">{{LangWiFi3}}</div>
-     </div>
+     <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
      <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">

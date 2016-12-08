@@ -112,7 +112,7 @@ void HTTP_init(void) {
   HTTP.on("/description.xml", HTTP_GET, []() {
     SSDP.schema(HTTP.client());
   });
-  // Добавляем функцию Update для перезаписи прошивки по WiFi при 1М(256K SPIFFS) и выше
+  // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
   HTTP.on("/restartWiFi", RestartWiFi);                // задать цвет ленты и включить.
  // HTTP.on("/webupdatespiffs", webUpdateSpiffs);                // задать цвет ленты и включить.

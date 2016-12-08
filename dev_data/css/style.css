@@ -96,7 +96,8 @@ h5 {
  width:70px;
  height:70px;
  animation:spin 1s linear infinite;
- margin-left:45%;
+ display:block;
+ margin:0 auto;
 }
 @keyframes spin {
  0% { transform:rotate(0deg); }

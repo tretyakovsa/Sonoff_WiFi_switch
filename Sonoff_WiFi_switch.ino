@@ -1,5 +1,5 @@
 /*
- * Sonoff - WiFi switch
+ * Sonoff - Wi-Fi switch
  * Arduino IDE 1.6.5
  * esp8266 2.3.0
  * ArduinoJson 5.2.0
