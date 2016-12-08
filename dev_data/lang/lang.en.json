@@ -54,5 +54,7 @@
  "LangOnOff":"On/Off",
  "LangOn":"On",
  "LangOff":"Off",
+ "LangTemperature":"Temperature",
+ "LangHumidity":"Humidity",
  "LangIfttt3":"More options can be found at <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }

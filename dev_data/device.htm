@@ -11,6 +11,8 @@
    function handleServerResponse(){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     document.getElementById('off-on').value = blockval;
+    if (jsonResponse.temperature!='-127') {toggle('sensors', 'show');}
+    if (jsonResponse.humidity != '') {toggle('humidity', 'show');}
    }
    function sonoff(submit){
     server = "/sonoff";
@@ -59,6 +61,9 @@
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info">{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
+     <div class="alert alert-dismissible alert-warning hidden" id="sensors">{{LangTemperature}}: <b>{{Temperature}}<sup><sup>0</sup>C</sup></b>
+      <span id="humidity" class="hidden"><br>{{LangHumidity}}: <b>{{Humidity}}<sup>%</sup></b></span>
+     </div>
      <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="submit">
      <hr>
      <h2>{{LangTimer1}}</h2>

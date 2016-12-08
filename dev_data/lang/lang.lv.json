@@ -56,5 +56,7 @@
  "LangOnOff":"Ieslēgt/Izslēgt",
  "LangOn":"Ieslēgt",
  "LangOff":"Izslēgt",
+ "LangTemperature":"Temperatūra",
+ "LangHumidity":"Mitrums",
  "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }
