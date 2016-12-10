@@ -87,15 +87,16 @@ function language(set,submit){
  }, 1000);
 }
 
-function view_wifi(){
+function view_wifi(ssids){
+    document.getElementById("ssid").innerHTML  += '<option value="">Loading...</option>';
  xmlHttp.open('GET','/wifiscan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   jsonWifi=JSON.parse(xmlHttp.responseText);
-  html = "";
+  html = "<option value="+ssids+">"+ssids+"</option>";
   for(var key in jsonWifi) {
-   html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + " (" +jsonWifi[key].signal + " dBm)</option>"
+   html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
   }
-  document.getElementById("ssid").innerHTML += html;
+  document.getElementById("ssid").innerHTML = html;
  }
 }
