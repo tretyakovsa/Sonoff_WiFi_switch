@@ -11,13 +11,13 @@ void handle_wifiScan() {
       wifiScan += "\"ssid\":\"";
       wifiScan += WiFi.SSID(i);
       wifiScan += "\",";
-      wifiScan += "\"signal\":";
+      wifiScan += "\"dbm\":";
       wifiScan +=WiFi.RSSI(i);
       wifiScan += ",";
-      wifiScan += "\"pass\":";
-      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?"0":"1";
+      wifiScan += "\"pass\":\"";
+      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?"":"*";
       //wifiScan += WiFi.encryptionType(i);
-      wifiScan += "}";
+      wifiScan += "\"}";
       if (i != n - 2) wifiScan += ",";
       delay(10);
     }
