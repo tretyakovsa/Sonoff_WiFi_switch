@@ -1,3 +1,32 @@
+void handle_wifiScan() {
+  int n = WiFi.scanNetworks();
+  String wifiScan = "[";
+  if (n == 0)
+    wifiScan = "{\"ssid\":\"none\"}";
+  else
+  {
+    wifiScan += "{";
+    for (int i = 0; i < n - 1; ++i)
+    {
+      wifiScan += "\"ssid\":\"";
+      wifiScan += WiFi.SSID(i);
+      wifiScan += "\",";
+      wifiScan += "\"signal\":";
+      wifiScan +=WiFi.RSSI(i);
+      wifiScan += "\",";
+      wifiScan += "\"pass\":";
+      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?"0":"1";
+      //wifiScan += WiFi.encryptionType(i);
+      wifiScan += "}";
+      //if (i != n - 2) wifiScan += ",";
+      delay(10);
+    }
+    wifiScan += "]";
+  }
+  HTTP.send(200, "text/json", wifiScan);
+}
+
+
 // Меняет флаг для включения выключения sonoff
 void sonoffActiv() {
   chaing = 1;
@@ -115,14 +144,15 @@ void HTTP_init(void) {
   // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
   HTTP.on("/restartWiFi", RestartWiFi);                // задать цвет ленты и включить.
- // HTTP.on("/webupdatespiffs", webUpdateSpiffs);                // задать цвет ленты и включить.
+  // HTTP.on("/webupdatespiffs", webUpdateSpiffs);                // задать цвет ленты и включить.
   HTTP.serveStatic("/css/", SPIFFS, "/css/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
- //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
+  //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
+  HTTP.on("/wifiscan.json", handle_wifiScan);      // сканирование ssid
   HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
   HTTP.on("/Time", handle_Time);            // Синхронизировать время из сети
   HTTP.on("/times1", handle_Time_1);        // Установить время 1
