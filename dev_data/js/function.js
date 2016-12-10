@@ -22,7 +22,7 @@ function load(first){
      toggle('content');
      loadBlock(jsonResponse,first);
     } else {
-      handleServerResponse();
+     handleServerResponse();
     }
    }
   }
@@ -54,7 +54,7 @@ function send_request(submit,server){
  request.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
-   load();
+  load();
  }
 }
 
@@ -85,4 +85,17 @@ function language(set,submit){
  setTimeout(function(){
   location.reload();
  }, 1000);
+}
+
+function view_wifi(){
+ xmlHttp.open('GET','/wifiscan.json',true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  jsonWifi=JSON.parse(xmlHttp.responseText);
+  html = "";
+  for(var key in jsonWifi) {
+   html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + " (" +jsonWifi[key].signal + " dBm)</option>"
+  }
+  document.getElementById("ssid").innerHTML += html;
+ }
 }
