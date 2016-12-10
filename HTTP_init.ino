@@ -5,20 +5,20 @@ void handle_wifiScan() {
     wifiScan = "{\"ssid\":\"none\"}";
   else
   {
-    wifiScan += "{";
     for (int i = 0; i < n - 1; ++i)
     {
+      wifiScan += "{";
       wifiScan += "\"ssid\":\"";
       wifiScan += WiFi.SSID(i);
       wifiScan += "\",";
       wifiScan += "\"signal\":";
       wifiScan +=WiFi.RSSI(i);
-      wifiScan += "\",";
+      wifiScan += ",";
       wifiScan += "\"pass\":";
       wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?"0":"1";
       //wifiScan += WiFi.encryptionType(i);
       wifiScan += "}";
-      //if (i != n - 2) wifiScan += ",";
+      if (i != n - 2) wifiScan += ",";
       delay(10);
     }
     wifiScan += "]";
