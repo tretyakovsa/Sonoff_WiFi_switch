@@ -44,6 +44,7 @@
  "LangReset3":"Vai jūs tiešām vēlaties restartēt ierīci?",
  "LangConnect":"Pagaidiet, ierīce savienojas ar tīklu. <br> IP adresi ierīces jūsu tīklā būs:",
  "LangRedirect":"Auto novirzīšana caur",
+ "LangHiddenWifi":"Savienojumu ar slēpto WiFi tīklam",
 
  "_comment": "---DEVICE.HTM---",
  "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa. Piemērs: 03:09:10. Modinātājs zvana katru dienu.",

@@ -42,6 +42,7 @@
  "LangReset1":"Reload this device",
  "LangReset2":"Changes will take effect after a reboot. Please reboot your device.",
  "LangReset3":"Are you sure you want to reboot the device?",
+ "LangHiddenWifi":"Connect to hidden WiFi network",
 
  "_comment": "---DEVICE.HTM---",
  "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit. Example: 03:09:10. Alarm Clock repeated calls every day.",

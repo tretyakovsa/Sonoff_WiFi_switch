@@ -21,7 +21,7 @@
      toggle('first-restart', 'hidden');
     }
     document.body.style.backgroundColor="#"+jsonResponse.color;
-    view_wifi(jsonResponse.ssid);
+    LoadWifi(jsonResponse.ssid);
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -139,8 +139,8 @@
      </div>
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
-     <select id="ssid" class="form-control"><option value="">{{ssid}}</option></select>
-     <!-- <input id="ssid" value="{{ssid}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}"> -->
+     <select id="ssid-select" class="form-control" onchange="document.getElementById('ssid').value=val('ssid-select')"><option value="">{{ssid}}</option></select>
+     <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="submit">
      <hr>

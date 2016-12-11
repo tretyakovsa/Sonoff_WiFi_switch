@@ -87,8 +87,8 @@ function language(set,submit){
  }, 1000);
 }
 
-function view_wifi(ssids){
-    document.getElementById("ssid").innerHTML  += '<option value="">Loading...</option>';
+function LoadWifi(ssids){
+ document.getElementById("ssid-select").innerHTML  += '<option value="">Loading...</option>';
  xmlHttp.open('GET','/wifiscan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
@@ -97,6 +97,6 @@ function view_wifi(ssids){
   for(var key in jsonWifi) {
    html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
   }
-  document.getElementById("ssid").innerHTML = html;
+  document.getElementById("ssid-select").innerHTML = html+'<option value="" disabled>———</option><option value="" onclick="toggle(\'ssid-select\');toggle(\'ssid\');">'+jsonResponse.LangHiddenWifi+'</option>';
  }
 }
