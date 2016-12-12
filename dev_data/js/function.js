@@ -97,6 +97,6 @@ function LoadWifi(ssids){
   for(var key in jsonWifi) {
    html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
   }
-  document.getElementById("ssid-select").innerHTML = html+'<option value="" disabled>———</option><option value="" onclick="toggle(\'ssid-select\');toggle(\'ssid\');">'+jsonResponse.LangHiddenWifi+'</option>';
+  document.getElementById("ssid-select").innerHTML = html+'<option value="" disabled>———</option><option value="">'+jsonResponse.LangHiddenWifi+'</option>';
  }
 }
