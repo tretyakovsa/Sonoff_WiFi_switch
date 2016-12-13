@@ -86,6 +86,10 @@ void handleFileList() {
     return;
   }
   String path = HTTP.arg("dir");
+  HTTP.send(200, "text/json", FileList(path));
+}
+
+String FileList(String path) {
   Dir dir = SPIFFS.openDir(path);
   path = String();
   String output = "[";
@@ -101,8 +105,9 @@ void handleFileList() {
     entry.close();
   }
   output += "]";
-  HTTP.send(200, "text/json", output);
+  return output;
 }
+
 
 // Инициализация FFS
 void FS_init(void) {
@@ -113,6 +118,7 @@ void FS_init(void) {
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
     }
+    Lang = FileList("/lang");
   }
   //HTTP страницы для работы с FFS
   //list directory

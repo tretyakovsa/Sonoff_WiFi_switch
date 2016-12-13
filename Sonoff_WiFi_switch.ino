@@ -55,6 +55,7 @@ String times1 = "";      // Таймер 1
 String times2 = "";    // Таймер 2
 int Timesonoff = 10;  // Время работы реле
 String Language ="ru";  // язык web интерфейса
+String Lang ="";  // файлы языка web интерфейса
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
