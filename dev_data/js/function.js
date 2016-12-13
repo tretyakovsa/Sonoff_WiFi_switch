@@ -8,6 +8,7 @@ function createXmlHttpObject(){
  return xmlHttp;
 }
 function load(first){
+ var xmlHttp=createXmlHttpObject();
  if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
   xmlHttp.open('PUT','/configs.json',true);
   xmlHttp.send(null);
@@ -44,14 +45,15 @@ function val(id){
  var v = document.getElementById(id).value;
  return v;
 }
+
 function send_request(submit,server){
  old_submit = submit.value;
  submit.value = 'Loading...';
  submit_disabled(true);
- request = new XMLHttpRequest();
- request.open("GET", server, true);
- request.send(null);
- request.onload = function(e) {
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open("GET", server, true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
   load();
@@ -89,6 +91,7 @@ function language(set,submit){
 
 function LoadWifi(ssids){
  document.getElementById("ssid-select").innerHTML  += '<option value="">Loading...</option>';
+ var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifiscan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
@@ -102,13 +105,14 @@ function LoadWifi(ssids){
 }
 
 function LoadLang(language){
+ var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/lang.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
-  jsonWifi=JSON.parse(xmlHttp.responseText);
+  jsonLang=JSON.parse(xmlHttp.responseText);
   html = "<option value="+language+">"+language+"</option>";
-  for(var key in jsonWifi) {
-   view_lang = jsonWifi[key].name.substr(10,2);
+  for(var key in jsonLang) {
+   view_lang = jsonLang[key].name.substr(10,2);
    html += "<option value="+view_lang+">"+view_lang+"</option>"
   }
   document.getElementById("language").innerHTML = html;
