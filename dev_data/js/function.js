@@ -100,3 +100,17 @@ function LoadWifi(ssids){
   document.getElementById("ssid-select").innerHTML = html+'<option value="" disabled>———</option><option value="">'+jsonResponse.LangHiddenWifi+'</option>';
  }
 }
+
+function LoadLang(language){
+ xmlHttp.open('GET','/lang.json',true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  jsonWifi=JSON.parse(xmlHttp.responseText);
+  html = "<option value="+language+">"+language+"</option>";
+  for(var key in jsonWifi) {
+   view_lang = jsonWifi[key].name.substr(10,2);
+   html += "<option value="+view_lang+">"+view_lang+"</option>"
+  }
+  document.getElementById("language").innerHTML = html;
+ }
+}

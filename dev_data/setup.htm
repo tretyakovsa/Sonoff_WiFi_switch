@@ -22,6 +22,7 @@
     }
     document.body.style.backgroundColor="#"+jsonResponse.color;
     LoadWifi(jsonResponse.ssid);
+    LoadLang(jsonResponse.lang);
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -103,10 +104,7 @@
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
      <select class="btn btn-default" id="language" onchange="language(this.value,this);">
-      <option value="en">{{LangLanguage}}</option>
-      <option value="ru">Русский</option>
-      <option value="en">English</option>
-      <option value="lv">Latviski</option>
+      <option value="en">{{lang}}</option>
      </select>
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
