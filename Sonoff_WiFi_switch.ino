@@ -16,8 +16,8 @@
 #include <DNSServer.h>
 #include <ArduinoJson.h>
 
-#include <Adafruit_Sensor.h>
-#include <DHT.h>
+#include <Adafruit_Sensor.h> // https://github.com/adafruit/Adafruit_Sensor
+#include <DHT.h> // https://github.com/adafruit/DHT-sensor-library
 #include <DHT_U.h>
 
 const byte DNS_PORT = 53;

@@ -12,8 +12,8 @@
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     document.getElementById('off-on').value = blockval;
     LoadLang(jsonResponse.lang);
-    //if (jsonResponse.Temperature != '-127') {toggle('sensors');}
-    //if (jsonResponse.Humidity != '') {toggle('humidity');}
+    if (jsonResponse.Temperature != '') {toggle('sensors');}
+    if (jsonResponse.Humidity != '') {toggle('humidity');}
    }
    function sonoff(submit){
     server = "/sonoff";
