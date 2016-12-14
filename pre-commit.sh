@@ -10,12 +10,12 @@ mv dev_data/css/*.css.gz data/css
 mv dev_data/lang/*.json.gz data/lang
 
 #test -f *.generic.bin && cp *.generic.bin build/build.generic_flash_size_1Mb.254Kb_`date '+%G.%m.%d'`.bin
-FILE_SUM=`md5sum *.generic.bin`
+FILE_SUM=`md5sum Sonoff_WiFi_switch.ino.generic.bin`
 COPY_SUM=`md5sum ./build/$(ls -lt ./build | head -n2 |tail -n1 | awk '{print $9}')`
 if [ "$FILE_SUM" != "$COPY_SUM" ]
 then
-cp *.generic.bin build/build.0x00000_flash_size_1Mb.254Kb_`date '+%G.%m.%d'`.bin
+cp Sonoff_WiFi_switch.ino.generic.bin build/build.0x00000_flash_size_1Mb.256Kb_`date '+%G.%m.%d'`.bin
 fi
 
 
-cp /tmp/buil*.spiffs/Sonoff_WiFi_switch.spiffs.bin ./build/spiffs.0xBB000_flash_size_1Mb.254Kb_`date '+%G.%m.%d'`.bin
+cp /tmp/buil*.spiffs/Sonoff_WiFi_switch.spiffs.bin ./build/spiffs.0xBB000_flash_size_1Mb.256Kb_`date '+%G.%m.%d'`.bin
