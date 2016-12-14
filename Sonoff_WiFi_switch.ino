@@ -16,6 +16,10 @@
 #include <DNSServer.h>
 #include <ArduinoJson.h>
 
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
 DNSServer dnsServer;
@@ -37,6 +41,9 @@ Ticker tickerAlert;
 #define rele1 12
 // Светодиод на ноге
 #define led 13
+
+// DHT на ноге
+#define DHTPIN            14         // Pin which is connected to the DHT sensor.
 
 // Определяем переменные
 //Обшие настройки
@@ -60,6 +67,7 @@ volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
 String DDNS ="";      // адрес сайта DDNS
+String sensors="";
 
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;
@@ -70,6 +78,7 @@ WiFiUDP udp;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
+ dht_init(DHTPIN);
  pinMode(rele1, OUTPUT);
  pinMode(led, OUTPUT);
  // Включаем работу с файловой системой
