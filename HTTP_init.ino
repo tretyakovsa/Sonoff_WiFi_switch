@@ -12,10 +12,10 @@ void handle_wifiScan() {
       wifiScan += WiFi.SSID(i);
       wifiScan += "\",";
       wifiScan += "\"dbm\":";
-      wifiScan +=WiFi.RSSI(i);
+      wifiScan += WiFi.RSSI(i);
       wifiScan += ",";
       wifiScan += "\"pass\":\"";
-      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?"":"*";
+      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
       //wifiScan += WiFi.encryptionType(i);
       wifiScan += "\"}";
       if (i != n - 2) wifiScan += ",";
@@ -190,6 +190,12 @@ void handle_ConfigXML() {
   // Имя DDNS
   XML += "\"DDNS\":\"";
   XML += DDNS;
+  // Температура
+  XML += "\",\"Temperature\":\"";
+  XML += dht.readTemperature();
+  // Влажность
+  XML += "\",\"Humidity\":\"";
+  XML += dht.readHumidity();
   // Имя SSDP
   XML += "\",\"SSDP\":\"";
   XML += SSDP_Name;
@@ -253,6 +259,6 @@ void handle_IplocationXML() {
   HTTP.send(200, "text/xml", XML);
 }
 
-void handle_Leng(){
-   HTTP.send(200, "text/json", Lang);
-    }
+void handle_Leng() {
+  HTTP.send(200, "text/json", Lang);
+}

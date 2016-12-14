@@ -44,7 +44,7 @@ Ticker tickerAlert;
 
 // DHT на ноге
 #define DHTPIN            14         // Pin which is connected to the DHT sensor.
-
+DHT dht(DHTPIN, DHT22);
 // Определяем переменные
 //Обшие настройки
 String _ssid     = "WiFi"; // Для хранения SSID
@@ -78,7 +78,7 @@ WiFiUDP udp;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
- dht_init(DHTPIN);
+ dht_init();
  pinMode(rele1, OUTPUT);
  pinMode(led, OUTPUT);
  // Включаем работу с файловой системой
