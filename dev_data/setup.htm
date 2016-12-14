@@ -20,7 +20,6 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
-    document.body.style.backgroundColor="#"+jsonResponse.color;
     LoadWifi(jsonResponse.ssid);
     LoadLang(jsonResponse.lang);
    }
@@ -81,6 +80,7 @@
     set_time_zone(this);
     if (confirm(texts)) {
      toggle('pop-up');
+     var xmlHttp=createXmlHttpObject();
      xmlHttp.open("POST", "/restartWiFi", true);
      xmlHttp.send(null);
      xmlHttp.onload = function(e) {
