@@ -7,12 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Страница устройств</title>
   <script type="text/javascript">
-   window.onload = function() {
-    if (window.XMLHttpRequest) {
-     xhttp = new XMLHttpRequest();
-    } else {
-     xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+   var xhttp=createXmlHttpObject();
+   function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+     xhttp=new XMLHttpRequest();
+    }else{
+     xhttp=new ActiveXObject('Microsoft.XMLHTTP');
     }
+    return xhttp;
+   }
+
+   window.onload = function() {
     iplocation();
     var dt = new Date();
     document.getElementById('date').innerHTML = dt.getDate()+' '+["Воскресенья","Понидельник","Вторник","Среда","Четверг","Пятница","Суббота"][dt.getDay()]+'<small class="show">'+["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"][dt.getMonth()]+' '+dt.getFullYear()+'г.<\/small>';
@@ -20,6 +25,7 @@
 
    function finddevice() {
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"></div><strong>Пожалуйста подождите, идет сканирование сети.</strong></div>';
+    var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
     setTimeout(function(){iplocation('search')}, 7000);
@@ -27,9 +33,10 @@
 
    function iplocation(searc) {
     document.getElementById('content').innerHTML='';
+    var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/iplocation.xml?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
-    xmlDoc = xhttp.responseXML;
+    var xmlDoc = xhttp.responseXML;
     var count=xmlDoc.getElementsByTagName("ip").length;
     for (i = 0; i < count; i++) {
      var ipval = xmlDoc.getElementsByTagName("ip")[i].childNodes[0].textContent;
@@ -40,82 +47,65 @@
      if (ipval == '0.0.0.0') {
       location.href = "/setup.htm#wifi-connect";
      } else {
-      loadBlock(ipval,'content');
+      loadBlock(ipval,'content','first');
      }
     }
    }
 
-   function loadBlock(ipval, content) {
-    xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), false);
-    xhttp.send();
-    data = xhttp.responseText;
-
-    xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.floor(Math.random()*10000), false);
-    xhttp.send();
-    jsonResponse1 = JSON.parse(xhttp.responseText);
-
-    xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", false);
-    xhttp.send();
-    jsonResponse2=JSON.parse(xhttp.responseText);
-    jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-
-    //if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
-    //document.getElementById('off-on').value = blockval;
-
-    var new_string;
-    for (var key in jsonResponse) {
-     new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-     data = new_string;
+   function loadBlock(ipval, content, status) {
+    if (status == 'first'){
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"></div></div></div>';
     }
-    document.getElementById(content).innerHTML+='<div id="block-'+ipval+'">'+new_string+'</div>';
-    //handleServerResponse_+ipval+();
-   }
 
-
-   function loadBlock2(ipval, content) {
+    var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
-     data = xhttp.responseText;
+     var data = xhttp.responseText;
 
      xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      jsonResponse1 = JSON.parse(xhttp.responseText);
+      var jsonResponse1 = JSON.parse(xhttp.responseText);
 
       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
       xhttp.send(null);
       xhttp.onload = function(e) {
-       jsonResponse2=JSON.parse(xhttp.responseText);
-       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+       var jsonResponse2=JSON.parse(xhttp.responseText);
+       var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+
+       if (jsonResponse.state == 0){
+        jsonResponse.state = jsonResponse.LangOn;
+       } else {
+        jsonResponse.state = jsonResponse.LangOff;
+       }
 
        var new_string;
        for (var key in jsonResponse) {
         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
         data = new_string;
        }
-       document.getElementById("block-"+ipval).innerHTML=new_string;
+        document.getElementById("block-"+ipval).innerHTML=new_string;
       }
      }
     }
    }
 
    function ajax(blockIp, pagename, submit) {
-    old_submit = submit.value;
+    var old_submit = submit.value;
     var d = new Date(); // for now
-    datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-    parent = submit.parentNode.childNodes[1].innerHTML;
+    var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+    var parent = submit.parentNode.childNodes[1].innerHTML;
     document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockIp+'/'+pagename+'">http://'+blockIp+'/'+pagename+'</a></small></span></li>');
     submit.value = 'Loading...';
     submit_disabled(true);
-    //$("input").prop('disabled', true);
+    var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+blockIp+"/"+pagename, true);
     xhttp.send(null);
-    submit.value = xhttp.responseText;
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-     loadBlock2(blockIp,'block-'+blockIp);
+     loadBlock(blockIp,'block-'+blockIp, '');
     }
    }
 

@@ -13,11 +13,11 @@ function load(first){
   xmlHttp.open('PUT','/configs.json',true);
   xmlHttp.send(null);
   xmlHttp.onload = function(e) {
-   jsonResponse1=JSON.parse(xmlHttp.responseText);
+   var jsonResponse1=JSON.parse(xmlHttp.responseText);
    xmlHttp.open('GET','/lang/lang.'+jsonResponse1.lang+'.json',true);
    xmlHttp.send(null);
    xmlHttp.onload = function(e) {
-    jsonResponse2=JSON.parse(xmlHttp.responseText);
+   var jsonResponse2=JSON.parse(xmlHttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
     if (first == 'first') {
      toggle('content');
@@ -47,7 +47,7 @@ function val(id){
 }
 
 function send_request(submit,server){
- old_submit = submit.value;
+ var old_submit = submit.value;
  submit.value = 'Loading...';
  submit_disabled(true);
  var xmlHttp=createXmlHttpObject();
@@ -82,7 +82,7 @@ function toggle(target,status) {
 }
 
 function language(set,submit){
- server = "/lang?set="+set;
+ var server = "/lang?set="+set;
  send_request(submit,server);
  setTimeout(function(){
   location.reload();
@@ -90,13 +90,13 @@ function language(set,submit){
 }
 
 function LoadWifi(ssids){
- document.getElementById("ssid-select").innerHTML  += '<option value="">Loading...</option>';
+ document.getElementById("ssid-select").innerHTML += '<option value="">Loading...</option>';
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifiscan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
-  jsonWifi=JSON.parse(xmlHttp.responseText);
-  html = "<option value="+ssids+">"+ssids+"</option>";
+  var jsonWifi=JSON.parse(xmlHttp.responseText);
+  var html = "<option value="+ssids+">"+ssids+"</option>";
   for(var key in jsonWifi) {
    html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
   }
@@ -109,10 +109,10 @@ function LoadLang(language){
  xmlHttp.open('GET','/lang.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
-  jsonLang=JSON.parse(xmlHttp.responseText);
-  html = "<option value="+language+">"+language+"</option>";
+  var jsonLang=JSON.parse(xmlHttp.responseText);
+  var html = "<option value="+language+">"+language+"</option>";
   for(var key in jsonLang) {
-   view_lang = jsonLang[key].name.substr(10,2);
+   var view_lang = jsonLang[key].name.substr(10,2);
    html += "<option value="+view_lang+">"+view_lang+"</option>"
   }
   document.getElementById("language").innerHTML = html;
