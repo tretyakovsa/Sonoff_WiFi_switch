@@ -20,7 +20,7 @@
    window.onload = function() {
     iplocation();
     var dt = new Date();
-    document.getElementById('date').innerHTML = dt.getDate()+' '+["Воскресенья","Понидельник","Вторник","Среда","Четверг","Пятница","Суббота"][dt.getDay()]+'<small class="show">'+["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"][dt.getMonth()]+' '+dt.getFullYear()+'г.<\/small>';
+    document.getElementById('date').innerHTML = dt.getDate()+' '+["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"][dt.getDay()]+'<small class="show">'+["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"][dt.getMonth()]+' '+dt.getFullYear()+'г.<\/small>';
    }
 
    function finddevice() {
@@ -54,7 +54,7 @@
 
    function loadBlock(ipval, content, status) {
     if (status == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"></div></div></div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"></div> <a href="http://'+ipval+'">http://'+ipval+'</a> </div></div>';
     }
 
     var xhttp=createXmlHttpObject();
