@@ -17,11 +17,11 @@ function load(first){
    xmlHttp.open('GET','/lang/lang.'+jsonResponse1.lang+'.json',true);
    xmlHttp.send(null);
    xmlHttp.onload = function(e) {
-   var jsonResponse2=JSON.parse(xmlHttp.responseText);
+    var jsonResponse2=JSON.parse(xmlHttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
     if (first == 'first') {
      toggle('content');
-     loadBlock(jsonResponse,first);
+     loadBlock(jsonResponse);
     } else {
      handleServerResponse();
     }
@@ -30,7 +30,7 @@ function load(first){
  }
 }
 
-function loadBlock(jsonResponse,first) {
+function loadBlock(jsonResponse) {
  var data = document.getElementsByTagName('body')[0].innerHTML;
  var new_string;
  for (var key in jsonResponse) {
@@ -82,11 +82,12 @@ function toggle(target,status) {
 }
 
 function language(set,submit){
- var server = "/lang?set="+set;
- send_request(submit,server);
- setTimeout(function(){
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET',"/lang?set="+set,true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
   location.reload();
- }, 1000);
+ }
 }
 
 function LoadWifi(ssids){
@@ -113,7 +114,7 @@ function LoadLang(language){
   var html = "<option value="+language+">"+language+"</option>";
   for(var key in jsonLang) {
    var view_lang = jsonLang[key].name.substr(10,2);
-   html += "<option value="+view_lang+">"+view_lang+"</option>"
+   html += "<option value="+view_lang+">"+view_lang+"</option>";
   }
   document.getElementById("language").innerHTML = html;
  }

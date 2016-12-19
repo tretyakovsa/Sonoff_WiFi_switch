@@ -34,20 +34,21 @@
    function iplocation(searc) {
     document.getElementById('content').innerHTML='';
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/iplocation.xml?"+Math.floor(Math.random()*10000), false);
-    xhttp.send();
-    var xmlDoc = xhttp.responseXML;
-    var count=xmlDoc.getElementsByTagName("ip").length;
-    for (i = 0; i < count; i++) {
-     var ipval = xmlDoc.getElementsByTagName("ip")[i].childNodes[0].textContent;
-     if (searc == 'search') {
-      xhttp.open("GET", "http://"+ipval+"/devices?"+Math.floor(Math.random()*10000), false);
-      xhttp.send();
-     }
-     if (ipval == '0.0.0.0') {
-      location.href = "/setup.htm#wifi-connect";
-     } else {
-      loadBlock(ipval,'content','first');
+    xhttp.open("GET", "/iplocation.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var ipModule=JSON.parse("["+xhttp.responseText+"]");
+     for(var key in ipModule) {
+      var ipval = ipModule[key].ip;
+      if (searc == 'search') {
+       xhttp.open("GET", "http://"+ipval+"/devices?"+Math.floor(Math.random()*10000), false);
+       xhttp.send();
+      }
+      if (ipval == '0.0.0.0') {
+       location.href = "/setup.htm#wifi-connect";
+      } else {
+       loadBlock(ipval,'content','first');
+      }
      }
     }
    }
@@ -85,7 +86,7 @@
         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
         data = new_string;
        }
-        document.getElementById("block-"+ipval).innerHTML=new_string;
+       document.getElementById("block-"+ipval).innerHTML=new_string;
       }
      }
     }
@@ -139,22 +140,18 @@
     <h4><small class="pull-right col-md-4 hidden-xs" style="padding:15px 0;">Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github: <a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch" target="_blank">Sonoff</a>. Если появились какие-то вопросы, пишите сюда: <a href="https://github.com/tretyakovsa/jaluzi/issues/new" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb/issues/new" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" target="_blank">Sonoff</a>.</small></h4>
     <h1 id="date"><br><small></small></h1>
    </div>
-   <div class="row">
-    <div class="col-sm-3">
-     <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">История</h5>
-     <ul id="history"></ul>
-     <hr>
-     <div class="row">
-      <div class="block col-md-11">
-       <h5 class="alert-danger">Поиск</h5>
-       <div class="alert alert-dismissible alert-info">Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:</div>
-       <a onclick="finddevice();" class="btn btn-block btn-default" href="#">Найти устройства</a>
-      </div>
-     </div>
+   <div class="col-sm-12 col-md-3">
+    <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">История</h5>
+    <ul id="history"></ul>
+    <hr>
+    <div class="block">
+     <h5 class="alert-danger">Поиск</h5>
+     <div class="alert alert-dismissible alert-info">Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:</div>
+     <a onclick="finddevice();" class="btn btn-block btn-default" href="#">Найти устройства</a>
     </div>
-    <div class="col-sm-offset-0 col-sm-9" style="text-align:center;" id="content">
-     <div class="loader"></div><p>Загрузка...</p>
-    </div>
+   </div>
+   <div class="col-sm-12 col-md-9" style="text-align:center;" id="content">
+    <div class="loader"></div><p>Загрузка...</p>
    </div>
   </div>
  </body>

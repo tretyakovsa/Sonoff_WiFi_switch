@@ -109,5 +109,6 @@ ul#history {
  margin-left: 5px;
 }
 #history li {
- margin-left: -31px;
+ margin-left:-31px;
+ margin-right:20px;
 }
