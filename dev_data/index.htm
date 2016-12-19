@@ -37,7 +37,7 @@
     xhttp.open("GET", "/iplocation.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
-     var ipModule=JSON.parse("["+xhttp.responseText+"]");
+     var ipModule=JSON.parse(xhttp.responseText);
      for(var key in ipModule) {
       var ipval = ipModule[key].ip;
       if (searc == 'search') {
