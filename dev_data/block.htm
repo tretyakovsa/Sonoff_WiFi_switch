@@ -1,3 +1,12 @@
+<style>.nan-{{ip}} {display:none;}</style>
+<div class="block col-md-5 {{Temperature}}-{{ip}}">
+ <h5 class="alert-danger">{{SSDP}}</h5>
+ <div class="alert alert-dismissible alert-info">
+  {{LangTemperature}}: <b>{{Temperature}}<sup><sup>0</sup>C</sup></b> <br>
+  <span class="{{Humidity}}-{{ip}}">{{LangHumidity}}: <b>{{Humidity}}<sup>%</sup></b></span>
+ </div>
+</div>
+
 <div class="block col-md-5">
  <h5 class="alert-danger">{{SSDP}}</h5>
  <div class="alert alert-dismissible alert-warning">
@@ -7,7 +16,6 @@
  </div>
  <hr>
  <input type="submit" onclick="ajax('{{ip}}','sonoff',this);" value="{{state}}" class="btn btn-block btn-lg btn-primary">
- <!--input type="submit" onclick="if(this.value=='{{LangOn}}'){this.value='{{LangOff}}';}else{this.value='{{LangOn}}';}ajax('{{ip}}','sonoff',this);" id="Loading" value="Loading" class="btn btn-block btn-lg btn-primary" -->
  <hr>
  <div class="alert alert-dismissible alert-info">{{LangOptions2}}</div>
  <a class="btn btn-block btn-default" href="http://{{ip}}/device.htm">{{LangOptions1}}</a>

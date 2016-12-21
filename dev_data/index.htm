@@ -75,6 +75,7 @@
        var jsonResponse2=JSON.parse(xhttp.responseText);
        var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
+       jsonResponse.ip = ipval;
        if (jsonResponse.state == 0){
         jsonResponse.state = jsonResponse.LangOn;
        } else {
