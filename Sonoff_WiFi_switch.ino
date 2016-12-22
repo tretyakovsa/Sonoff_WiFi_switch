@@ -46,12 +46,15 @@ Ticker tickerAlert;
 #define DHTPIN            14         // Pin which is connected to the DHT sensor.
 DHT dht(DHTPIN, DHT22);
 // Определяем переменные
+// Количество модулей в устройстве
+int a = 1;
+String module[]={"sonoff"};
+//,"rbg","jalousie"};
 //Обшие настройки
 String _ssid     = "WiFi"; // Для хранения SSID
 String _password = "Pass"; // Для хранения пароля сети
 String _ssidAP = "Sonoff";   // SSID AP точки доступа
 String _passwordAP = ""; // пароль точки доступа
-String XML;              // формирование XML
 String _setAP ="1";           // AP включен
 String SSDP_Name = "Sonoff";      // SSDP
 String Devices = "";    // IP адреса устройств в сети
