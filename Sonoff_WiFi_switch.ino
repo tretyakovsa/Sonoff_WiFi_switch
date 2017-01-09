@@ -57,20 +57,23 @@ String _ssidAP = "Sonoff";   // SSID AP точки доступа
 String _passwordAP = ""; // пароль точки доступа
 String _setAP ="1";           // AP включен
 String SSDP_Name = "Sonoff";      // SSDP
-String Devices = "";    // IP адреса устройств в сети
+// Переменные для обнаружения модулей
+String Devices = "";            // Поиск IP адресов устройств в сети
+String DevicesList = "";            // IP адреса устройств в сети
 int timezone = 3;        // часовой пояс GTM
 String kolibrTime = "03:00:00"; // Время колибровки часов
-// Для работы с лампой
-String times1 = "";      // Таймер 1
-String times2 = "";    // Таймер 2
+// Переменные для таймеров
+String times1 = "";             // Таймер 1
+String times2 = "";             // Таймер 2
 int Timesonoff = 10;  // Время работы реле
 String Language ="ru";  // язык web интерфейса
 String Lang ="";  // файлы языка web интерфейса
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
-String DDNS ="";      // адрес сайта DDNS
-String sensors="";
+// Переменные для DDNS
+String DDNS = "";               // url страницы тестирования WanIP
+String DDNSName = "";           // адрес сайта DDNS
 
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;

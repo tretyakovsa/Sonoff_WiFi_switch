@@ -101,7 +101,7 @@ function language(submit){
 function LoadWifi(ssids){
  document.getElementById("ssid-select").innerHTML += '<option value="">'+jsonResponse.LangLoading+'</option>';
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','/wifiscan.json',true);
+ xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
@@ -115,7 +115,7 @@ function LoadWifi(ssids){
 
 function LoadLang(language){
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','/lang.json',true);
+ xmlHttp.open('GET','/lang.list.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonLang=JSON.parse(xmlHttp.responseText);

@@ -1,4 +1,4 @@
-void handle_wifiScan() {
+void handle_wifi_scan() {
   int n = WiFi.scanNetworks();
   String wifiScan = "[";
   if (n == 0)
@@ -42,7 +42,7 @@ void handle_ddns() {
 }
 
 // Перезагрузка модуля
-void handle_Restart() {
+void handle_restart() {
   String restart = HTTP.arg("device");
   if (restart == "ok") {                         // Если значение равно Ок
     HTTP.send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
@@ -61,26 +61,26 @@ void releyActiv() {
 }
 
 // Сохраняет все настройки в файле
-void handle_saveConfig() {
+void handle_save_config() {
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 // Время вращения сервопривода
-void handle_Timesonoff() {
+void handle_timesonoff() {
   Timesonoff = HTTP.arg("t").toInt();
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 // Установка языка
-void handle_SetLeng() {
+void handle_leng() {
   Language = HTTP.arg("set");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 // Установка времянной зоны
-void handle_TimeZone() {
+void handle_time_zone() {
   timezone = HTTP.arg("timezone").toInt();
   Time_init(timezone);
   saveConfig();
@@ -88,7 +88,7 @@ void handle_TimeZone() {
 }
 
 // Установка параметров сети
-void handle_Set_Ssid() {
+void handle_ssid() {
   _ssid = HTTP.arg("ssid");
   _password = HTTP.arg("password");
   saveConfig();
@@ -96,14 +96,14 @@ void handle_Set_Ssid() {
 }
 
 // Установка параметров сети
-void handle_Set_Ssdp() {
+void handle_ssdp() {
   SSDP_Name = HTTP.arg("ssdp");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 //Установка параметров точки доступа
-void handle_Set_Ssidap() {
+void handle_ssidap() {
   _ssidAP = HTTP.arg("ssidAP");
   _passwordAP = HTTP.arg("passwordAP");
   if (HTTP.arg("onOffAP") == "true") {
@@ -116,21 +116,21 @@ void handle_Set_Ssidap() {
 }
 
 //Время из сети
-void handle_Time() {
+void handle_time() {
   Time_init(timezone);
   String Time = XmlTime();
   HTTP.send(200, "text/plain", "Время синхронизовано: " + Time);
 }
 
 //Таймер 1
-void handle_Time_1() {
+void handle_time_1() {
   times1 = HTTP.arg("time1");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 //Таймер 2
-void handle_Time_2() {
+void handle_time_2() {
   times2 = HTTP.arg("time2");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
@@ -151,23 +151,24 @@ void HTTP_init(void) {
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
-  HTTP.on("/Timesonoff", handle_Timesonoff);      // установка времени работы лампы
-  HTTP.on("/wifiscan.json", handle_wifiScan);      // сканирование ssid
-  HTTP.on("/TimeZone", handle_TimeZone);    // Установка времянной зоны
-  HTTP.on("/Time", handle_Time);            // Синхронизировать время из сети
-  HTTP.on("/times1", handle_Time_1);        // Установить время 1
-  HTTP.on("/times2", handle_Time_2);        // Установить время 2
-  HTTP.on("/ssdp", handle_Set_Ssdp);        // Установить имя устройства
-  HTTP.on("/ssid", handle_Set_Ssid);        // Установить имя и пароль роутера
-  HTTP.on("/ssidap", handle_Set_Ssidap);    // Установить имя и пароль для точки доступа
-  HTTP.on("/Save", handle_saveConfig);      // Сохранить настройки в файл
-  HTTP.on("/configs.json", handle_Configs); // формирование config_xml страницы для передачи данных в web интерфейс
-  HTTP.on("/devices.list.json", handle_Iplocation);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
-  HTTP.on("/restart", handle_Restart);               // Перезагрузка модуля
-  HTTP.on("/lang", handle_SetLeng);               // Установить язык
-  HTTP.on("/lang.json", handle_Leng);               // Установить язык
+  HTTP.on("/Timesonoff", handle_timesonoff);      // установка времени работы лампы
+  HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
+  HTTP.on("/TimeZone", handle_time_zone);    // Установка времянной зоны
+  HTTP.on("/Time", handle_time);            // Синхронизировать время из сети
+  HTTP.on("/times1", handle_time_1);        // Установить время 1
+  HTTP.on("/times2", handle_time_2);        // Установить время 2
+  HTTP.on("/ssdp", handle_ssdp);        // Установить имя устройства
+  HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
+  HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
+  HTTP.on("/Save", handle_save_config);      // Сохранить настройки в файл
+  HTTP.on("/configs.json", handle_config); // формирование config_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/devices.scan.json", inquirySSDP);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/restart", handle_restart);               // Перезагрузка модуля
+  HTTP.on("/lang", handle_leng);               // Установить язык
+  HTTP.on("/lang.list.json", handle_leng_list);               // Установить язык
   HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
-  HTTP.on("/modules", handle_modules);               // Узнать какие модули есть в устройстве
+  HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   // Запускаем HTTP сервер
   HTTP.begin();
 }
@@ -183,7 +184,7 @@ String XmlTime(void) {
   return Time; // Возврашаем полученное время
 }
 
-void handle_Configs() {
+void handle_config() {
   String json = "{";
   // Имя DDNS
   json += "\"DDNS\":\"";
@@ -241,7 +242,12 @@ void handle_Configs() {
   HTTP.send(200, "text/json", json);
 }
 
-void handle_Iplocation() {
+void handle_ip_list() {
+  String json = "{\"ip\":\""+WiFi.localIP().toString()+"\"}"+Devices;
+  HTTP.send(200, "text/json", "["+json+"]");
+}
+
+void handle_ip_scan() {
   inquirySSDP();
   String json = "";
   //Serial.println(Devices);
@@ -250,7 +256,7 @@ void handle_Iplocation() {
     //json += ",";
   }
   json +=modules();
-
+  DevicesList = "["+json+"]";
   //Serial.println(json);
   HTTP.send(200, "text/json", "[" + json + "]");
   Devices="";
@@ -276,6 +282,6 @@ String modules() {
   return json;
 }
 
-void handle_Leng() {
+void handle_leng_list() {
   HTTP.send(200, "text/json", Lang);
 }

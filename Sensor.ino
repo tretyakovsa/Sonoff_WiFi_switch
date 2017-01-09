@@ -4,7 +4,7 @@ void dht_init(){
   }
 
  void sensorType(){
-    HTTP.send(200, "text/json", sensors);
+   // HTTP.send(200, "text/json", sensors);
   }
 
 
