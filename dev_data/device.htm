@@ -28,11 +28,13 @@
      xmlHttp.send(null);
      xmlHttp.onload = function(e) {
       var Module=JSON.parse(xmlHttp.responseText);
-      LineChart.data.series[0].shift();
-      LineChart.data.series[0].push(Module[0].Temperature);
-      LineChart.data.labels.shift();
-      LineChart.data.labels.push(viewTime());
-      LineChart.update();
+      if (Module[0].Temperature != 'nan') {
+       LineChart.data.series[0].shift();
+       LineChart.data.series[0].push(Module[0].Temperature);
+       LineChart.data.labels.shift();
+       LineChart.data.labels.push(viewTime());
+       LineChart.update();
+      }
       var e = document.getElementById("refresh-time");
       var strUser = e.options[e.selectedIndex].value;
       clearInterval(myVar);
@@ -115,7 +117,9 @@
       </div>
       <div class="col-sm-6">
        <div class="alert alert-dismissible alert-warning">{{LangTime6}}</div>
-       <div class="alert alert-dismissible alert-info">{{LangIfttt3}}</div>
+       <div class="alert alert-dismissible alert-info {{g2532}}"><button class="close" onclick="setCookie('g2532','hidden',365,this);" type="button">×</button>
+        {{LangIfttt3}}
+       </div>
       </div>
      </div>
      <div class="row">
