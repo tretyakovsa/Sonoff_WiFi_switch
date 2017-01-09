@@ -169,6 +169,7 @@ void HTTP_init(void) {
   HTTP.on("/lang.list.json", handle_leng_list);               // Установить язык
   HTTP.on("/ddns", handle_ddns);               // Перезагрузка модуля
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
+  HTTP.on("/sensor.json", handle_sensor);               //
   // Запускаем HTTP сервер
   HTTP.begin();
 }
@@ -240,6 +241,15 @@ void handle_config() {
   json += state0;
   json += "\"}";
   HTTP.send(200, "text/json", json);
+}
+
+void handle_sensor() {
+  String json = "\"Temperature\":";
+  json += dht.readTemperature();
+  // Влажность
+  json += ",\"Humidity\":";
+  json += dht.readHumidity();
+  HTTP.send(200, "text/json", "[{"+json+"}]");
 }
 
 void handle_ip_list() {

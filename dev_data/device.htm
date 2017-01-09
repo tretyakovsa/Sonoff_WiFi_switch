@@ -4,16 +4,47 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+  <script src="js/chartist.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Options page</title>
   <script type="text/javascript">
+   var myVar;
    function handleServerResponse(){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     val('off-on', blockval);
     LoadLang(jsonResponse.lang);
     if (jsonResponse.Temperature != 'nan') {toggle('sensors', 'hidden');}
     if (jsonResponse.Humidity != 'nan') {toggle('humidity', 'hidden');}
+
+    function viewTime() {
+     var now = new Date();
+     return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+    }
+    function adddata() {
+     var xmlHttp=createXmlHttpObject();
+     xmlHttp.open("GET", "/sensor.json", true);
+     xmlHttp.send(null);
+     xmlHttp.onload = function(e) {
+      var Module=JSON.parse(xmlHttp.responseText);
+      LineChart.data.series[0].shift();
+      LineChart.data.series[0].push(Module[0].Temperature);
+      LineChart.data.labels.shift();
+      LineChart.data.labels.push(viewTime());
+      LineChart.update();
+      var e = document.getElementById("refresh-time");
+      var strUser = e.options[e.selectedIndex].value;
+      clearInterval(myVar);
+      myVar=setInterval(function(){adddata();}, strUser);
+     }
+    }
+    var LineChart = Chartist.Line('.ct-chart', {
+     labels: [null, null, null, null, null, null, null, null, null, null],
+     series: [[null, null, null, null, null, null, null, null, null, null]]
+    });
+    adddata();
+
    }
    function sonoff(submit){
     server = "/sonoff";
@@ -39,6 +70,7 @@
     send_request(submit,'/times2?time2='+val('time2'));
    }
   </script>
+  <style>.ct-label{font-size:10px;}</style>
  </head>
  <body onload="load('first');">
   <div class="container">
@@ -53,9 +85,16 @@
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="setCookie('g2342','hidden',365,this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
-     <div class="alert alert-dismissible alert-warning hidden" id="sensors">{{LangTemperature}}: <b>{{Temperature}}<sup><sup>0</sup>C</sup></b>
-      <span id="humidity" class="hidden">{{LangHumidity}}: <b>{{Humidity}}<sup>%</sup></b></span>
+     <div class="hidden" id="sensors">
+      <div class="ct-chart" style="height:200px"></div>
+      <select class="form-control" id="refresh-time">
+       <option value="5000">5 {{LangSec}}</option>
+       <option value="30000">30 {{LangSec}}</option>
+       <option value="60000">60 {{LangSec}}</option>
+      </select>
+      <span id="humidity" class="hidden"></span>
      </div>
+     <hr>
      <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="button">
      <hr>
      <h2>{{LangTimer1}}</h2>
