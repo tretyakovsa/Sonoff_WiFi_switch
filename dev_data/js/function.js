@@ -19,6 +19,10 @@ function load(first){
    xmlHttp.onload = function(e) {
     var jsonResponse2=JSON.parse(xmlHttp.responseText);
     jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+    var theCookies = document.cookie.split(';');
+    for (var i = 1 ; i <= theCookies.length; i++) {
+     jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+    }
     if (first == 'first') {
      toggle('content');
      loadBlock(jsonResponse);
@@ -41,14 +45,18 @@ function loadBlock(jsonResponse) {
  handleServerResponse();
 }
 
-function val(id){
- var v = document.getElementById(id).value;
- return v;
+function val(id,val){
+ if (val) {
+  document.getElementById(id).value=(val==' '?'':val);
+ } else {
+  var v = document.getElementById(id).value;
+  return v;
+ }
 }
 
 function send_request(submit,server){
  var old_submit = submit.value;
- submit.value = 'Loading...';
+ submit.value = jsonResponse.LangLoading;
  submit_disabled(true);
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", server, true);
@@ -81,9 +89,9 @@ function toggle(target,status) {
  }
 }
 
-function language(set,submit){
+function language(submit){
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET',"/lang?set="+set,true);
+ xmlHttp.open('GET',"/lang?set="+submit.value,true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   location.reload();
@@ -91,7 +99,7 @@ function language(set,submit){
 }
 
 function LoadWifi(ssids){
- document.getElementById("ssid-select").innerHTML += '<option value="">Loading...</option>';
+ document.getElementById("ssid-select").innerHTML += '<option value="">'+jsonResponse.LangLoading+'</option>';
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifiscan.json',true);
  xmlHttp.send(null);
@@ -101,7 +109,7 @@ function LoadWifi(ssids){
   for(var key in jsonWifi) {
    html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
   }
-  document.getElementById("ssid-select").innerHTML = html+'<option value="" disabled>———</option><option value="">'+jsonResponse.LangHiddenWifi+'</option>';
+  document.getElementById("ssid-select").innerHTML = html+'<option value="">'+jsonResponse.LangHiddenWifi+'</option>';
  }
 }
 
@@ -117,5 +125,26 @@ function LoadLang(language){
    html += "<option value="+view_lang+">"+view_lang+"</option>";
   }
   document.getElementById("language").innerHTML = html;
+ }
+}
+
+function setCookie(name, value, days, submit) {
+ if (days) {
+  var date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  var expires = "; expires=" + date.toGMTString();
+ }
+ else expires = "";
+ document.cookie = name + "=" + value + expires + "; path=/";
+ submit.parentNode.classList.add('hidden');
+}
+
+function delAllCookies() {
+ var cookies = document.cookie.split(";");
+ for (var i = 0; i < cookies.length; i++) {
+  var cookie = cookies[i];
+  var eqPos = cookie.indexOf("=");
+  var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+  document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  }
 }

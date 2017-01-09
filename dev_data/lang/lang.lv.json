@@ -15,13 +15,12 @@
  "LangSearch2":"Ja jums ir vairākas ierīces, kas saistīts ar tīklu, jūs varat pievienot to šeit, noklikšķinot uz zemāk pogu:",
  "LangSearch3":"Atrast ierīces",
  "LangSearch4":"Lūdzu, uzgaidiet, skenējot tīklu.",
- "LangDay":"'Svētdiena','Pirmdiena','Otrdiena','Trešdienas,'Ceturtdiena','Piektdienas,'Sestdienas'",
- "LangMonth":"'Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'",
  "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat Vadība lapa",
  "LangLanguage":"Latviski",
  "LangConnect1":"Pagaidiet, ierīce savienojas ar tīklu.",
  "LangConnect2":"IP adresi ierīces jūsu tīklā būs:",
  "LangRedirect":"Auto novirzīšana caur",
+ "LangCookie":"Atjaunot slēgtas bloki",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",
@@ -51,6 +50,8 @@
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">vairāk...</a>",
  "LangIfttt2":"pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"url1\"></span><br>Global saite: <span id=\"url2\"></span>",
 
+ "LangTime3":"Ilgums taimeri",
+ "LangTime4":"Tas precizē laiku minūtēs, cik ilgi relejs darbojas.",
  "LangTimer1":"Taimeri",
  "LangTimer2":"Taimeris",
  "LangMin":"Min.",

@@ -162,7 +162,7 @@ void HTTP_init(void) {
   HTTP.on("/ssidap", handle_Set_Ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/Save", handle_saveConfig);      // Сохранить настройки в файл
   HTTP.on("/configs.json", handle_Configs); // формирование config_xml страницы для передачи данных в web интерфейс
-  HTTP.on("/iplocation.json", handle_Iplocation);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/devices.list.json", handle_Iplocation);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/restart", handle_Restart);               // Перезагрузка модуля
   HTTP.on("/lang", handle_SetLeng);               // Установить язык
   HTTP.on("/lang.json", handle_Leng);               // Установить язык

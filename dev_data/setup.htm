@@ -31,20 +31,11 @@
     document.getElementById("time").innerHTML = hours+":"+min+":"+sec;
     set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
    }
-   function load_time(submit){
-    server = "/Time";
-    send_request(submit,server);
-   }
-   function time_zone(submit){
-    server = "/TimeZone?timezone="+val('timezone');
-    send_request(submit,server);
-   }
    function set_time_zone(submit){
     var set_date = new Date();
     var gmtHours = -set_date.getTimezoneOffset()/60;
-    document.getElementById('timezone').value = gmtHours;
-    server = "/TimeZone?timezone="+gmtHours;
-    send_request(submit,server);
+    val('timezone', gmtHours);
+    send_request(submit,'/TimeZone?timezone='+gmtHours);
    }
    function set_ssid(submit){
     server = "/ssid?ssid="+val('ssid')+"&password="+encodeURIComponent(val('password'));
@@ -57,22 +48,12 @@
     alert(jsonResponse.LangReset2);
    }
    function set_ssdp(submit){
-    server = "/ssdp?ssdp="+val('ssdp');
-    send_request(submit,server);
+    send_request(submit,'/ssdp?ssdp='+val('ssdp'));
     document.getElementById('ssdp_t').innerHTML = val('ssdp');
    }
    function ddns(submit){
     server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
     send_request(submit,server);
-   }
-   function restart(submit,texts){
-    if (confirm(texts)) {
-     server = "/restart?device=ok";
-     send_request(submit,server);
-     return true;
-    } else {
-     return false;
-    }
    }
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;
@@ -89,10 +70,6 @@
        window.location.href = 'http://'+xmlHttp.responseText;
       }, 15000);
      }
-     // setInterval('load();', 2000);
-     return true;
-    } else {
-     return false;
     }
    }
   </script>
@@ -103,7 +80,7 @@
     <h1 id="title">{{LangSetting3}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
-     <select class="btn btn-default" id="language" onchange="language(this.value,this);">
+     <select class="btn btn-default" id="language" onchange="language(this);">
       <option value="en">{{lang}}</option>
      </select>
      <div id="dev-opt">
@@ -116,8 +93,8 @@
         <b>{{LangSetting5}}</b>
         <form method="POST" action="/update" enctype="multipart/form-data">
          <div class="btn-group">
-          <input type="file" class="btn btn-primary btn-xs" name="update" style="height: 33px;" accept=".bin">
-          <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height: 33px;">
+          <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
+          <input type="button" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height:33px">
          </div>
         </form>
        </span>
@@ -125,7 +102,7 @@
      </div>
      <h2>{{LangDevice}}</h2>
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="submit">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="button">
      <hr id="wifi-connect">
      <div class="row hidden" id="pop-up">
       <div class="col-sm-offset-2 col-sm-8 pop-up">
@@ -137,25 +114,25 @@
      </div>
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
-     <select id="ssid-select" class="form-control" onchange="document.getElementById('ssid').value=val('ssid-select');if(this.value==''){toggle('ssid-select');toggle('ssid');}"><option value="{{ssid}}">{{ssid}}</option></select>
-     <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
+     <select id="ssid-select" class="form-control" onchange="val('ssid',val('ssid-select'));if(this.value==''){toggle('ssid-select');toggle('ssid');}"><option value="{{ssid}}">{{ssid}}</option></select>
+     <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="submit">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
      <hr>
      <div id="dev-othe">
       <h2>{{LangGMT1}}</h2>
       <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="time_zone(this);" type="submit">
-      <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="submit">
+      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/TimeZone?timezone='+val('timezone'));" type="button">
+      <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="button">
       <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
-      <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="load_time(this);" type="submit">
+      <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="send_request(this,'/Time');" type="button">
       <hr>
       <h2>{{LangAP}}</h2>
       <div class="row">
        <div class="col-sm-6">
-        <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern="[0-9a-zA-Z.]{1,15}" placeholder="{{LangWiFi1}}">
+        <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern=".{1,15}" placeholder="{{LangWiFi1}}">
         <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
-        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="submit">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="button">
        </div>
        <div class="col-sm-6">
         <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
@@ -164,17 +141,18 @@
       <hr>
       <h2>{{LangDDNS1}}</h2>
       <div class="alert alert-dismissible alert-info">{{LangDDNS2}}</div>
-      <div class="input-group" style="width:100%;">
+      <div class="input-group" style="width:100%">
        <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
        <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
       </div>
       <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="submit">
+      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
       <hr>
-      <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="restart(this,'{{LangReset3}}','/restart?device=ok');" type="submit">
+      <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();" type="button">
+      <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      </div>
-     <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="submit">
+     <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
     </div>
    </div>
   </div>
