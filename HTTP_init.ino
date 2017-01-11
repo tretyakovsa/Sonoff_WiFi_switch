@@ -236,12 +236,13 @@ void handle_config() {
 }
 
 void handle_sensor() {
-  String json = "\"Temperature\":";
+  String json = "\"Temperature\":\"";
   json += dht.readTemperature();
   // Влажность
-  json += ",\"Humidity\":";
+  json += "\",\"Humidity\":\"";
   json += dht.readHumidity();
-  HTTP.send(200, "text/json", "[{"+json+"}]");
+
+  HTTP.send(200, "text/json", "[{"+json+"\"}]");
 }
 
 void handle_ip_list() {
