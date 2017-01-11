@@ -46,6 +46,9 @@ Ticker tickerAlert;
 #define DHTPIN            14         // Pin which is connected to the DHT sensor.
 DHT dht(DHTPIN, DHT22);
 // Определяем переменные
+
+// Определяем строку для json config
+String jsonConfig = "";
 // Количество модулей в устройстве
 int a = 1;
 //char* module[] = {"rgb", "test"}; //Может ты хотел такую конструкцию сделать? (https://forum.arduino.cc/index.php?topic=424342.0)
