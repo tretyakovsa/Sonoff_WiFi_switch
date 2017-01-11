@@ -48,6 +48,7 @@ DHT dht(DHTPIN, DHT22);
 // Определяем переменные
 // Количество модулей в устройстве
 int a = 1;
+//char* module[] = {"rgb", "test"}; //Может ты хотел такую конструкцию сделать? (https://forum.arduino.cc/index.php?topic=424342.0)
 String module[]={"sonoff"};
 //,"rbg","jalousie"};
 //Обшие настройки
@@ -55,7 +56,6 @@ String _ssid     = "WiFi"; // Для хранения SSID
 String _password = "Pass"; // Для хранения пароля сети
 String _ssidAP = "Sonoff";   // SSID AP точки доступа
 String _passwordAP = ""; // пароль точки доступа
-String _setAP ="1";           // AP включен
 String SSDP_Name = "Sonoff";      // SSDP
 // Переменные для обнаружения модулей
 String Devices = "";            // Поиск IP адресов устройств в сети

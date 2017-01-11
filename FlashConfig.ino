@@ -44,8 +44,6 @@ bool loadConfig() {
   Serial.println(password);
   _password = password;
   Serial.println(_password);
-  int setAP = json["onOffAP"];
-  _setAP=setAP;
   String _times1 = json["times1"];
   times1 = _times1;
   String _times2 = json["times2"];
@@ -62,7 +60,6 @@ bool loadConfig() {
 bool saveConfig() {
   StaticJsonBuffer<400> jsonBuffer;
   JsonObject& json = jsonBuffer.createObject();
-  json["onOffAP"] = _setAP;
   json["SSDPName"] = SSDP_Name;
   json["ssidAPName"] = _ssidAP;
   json["ssidAPPassword"] = _passwordAP;
