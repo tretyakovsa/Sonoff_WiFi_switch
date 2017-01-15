@@ -23,6 +23,9 @@
     LoadWifi(jsonResponse.ssid);
     LoadLang(jsonResponse.lang);
    }
+
+   //  xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.random().toString(36).substr(2,5), true);
+
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
     if (sec>=60){min=Number(min)+1;sec=0;}
@@ -83,6 +86,30 @@
      <select class="btn btn-default" id="language" onchange="language(this);">
       <option value="en">{{lang}}</option>
      </select>
+
+     <div class="col-sm-offset-3 col-sm-6 pop-up hidden" id="add-block">
+      <h5>Добавление эелементов</h5>
+      <select class="form-control" id="type-page">
+       <option value="text">Страница</option>
+       <option value="device">device.htm</option>
+       <option value="setup">setup.htm</option>
+       <option value="index">index.htm</option>
+      </select>
+      <select class="form-control" id="type-block">
+       <option value="text">Тип элемента</option>
+       <option value="text">Text</option>
+       <option value="button">Button</option>
+       <option value="input">Input</option>
+       <option value="alert">Alert</option>
+      </select>
+      <textarea id="val-block" class="form-control" pattern=".{1,50}">Текст в элементе</textarea>
+      <input id="id-block" class="form-control" pattern=".{1,10}" placeholder="ID">
+      <hr>
+      <input type="button" onclick="set_ssdp(this);" value="Добавить" class="btn btn-block btn-success">
+      <input type="button" onclick="" value="Проверить" class="btn btn-block btn-primary">
+      <input type="button" onclick="toggle('add-block');" value="Отмена" class="btn btn-block btn-default">
+     </div>
+
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>

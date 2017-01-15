@@ -31,6 +31,10 @@
       if (Module[0].Temperature != 'nan') {
        LineChart.data.series[0].shift();
        LineChart.data.series[0].push(Module[0].Temperature);
+       if (Module[0].Humidity != 'nan') {
+        LineChart.data.series[1].shift();
+        LineChart.data.series[1].push(Module[0].Humidity);
+       }
        LineChart.data.labels.shift();
        LineChart.data.labels.push(viewTime());
        LineChart.update();
@@ -41,10 +45,14 @@
       myVar=setInterval(function(){adddata();}, strUser);
      }
     }
+    var options = {
+     fullWidth: true
+    };
     var LineChart = Chartist.Line('.ct-chart', {
-     labels: [null, null, null, null, null, null, null, null, null, null],
-     series: [[null, null, null, null, null, null, null, null, null, null]]
-    });
+     labels: [null, null, null, null, null, null, null, null, null, null, null],
+     series: [[null, null, null, null, null, null, null, null, null, null, null],
+              [null, null, null, null, null, null, null, null, null, null, null]]
+    }, options);
     adddata();
 
    }
@@ -90,7 +98,8 @@
      <div class="hidden" id="sensors">
       <div class="ct-chart" style="height:200px"></div>
       <select class="form-control" id="refresh-time">
-       <option value="5000">5 {{LangSec}}</option>
+       <option value="1000">1 {{LangSec}}</option>
+       <option value="5000" selected>5 {{LangSec}}</option>
        <option value="30000">30 {{LangSec}}</option>
        <option value="60000">60 {{LangSec}}</option>
       </select>
