@@ -27,7 +27,7 @@ function load(first){
      toggle('content');
      loadBlock(jsonResponse);
     } else {
-     handleServerResponse();
+     handleServerResponse(first);
     }
    }
   }
@@ -64,7 +64,7 @@ function send_request(submit,server){
  xmlHttp.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
-  load();
+  load('next');
  }
 }
 

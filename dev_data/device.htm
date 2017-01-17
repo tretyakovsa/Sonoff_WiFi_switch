@@ -11,50 +11,51 @@
   <title>Options page</title>
   <script type="text/javascript">
    var myVar;
-   function handleServerResponse(){
+   function handleServerResponse(first){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     val('off-on', blockval);
     LoadLang(jsonResponse.lang);
     if (jsonResponse.Temperature != 'nan') {toggle('sensors', 'hidden');}
     if (jsonResponse.Humidity != 'nan') {toggle('humidity', 'hidden');}
 
-    function viewTime() {
-     var now = new Date();
-     return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-    }
-    function adddata() {
-     var xmlHttp=createXmlHttpObject();
-     xmlHttp.open("GET", "/sensor.json", true);
-     xmlHttp.send(null);
-     xmlHttp.onload = function(e) {
-      var Module=JSON.parse(xmlHttp.responseText);
-      if (Module[0].Temperature != 'nan') {
-       LineChart.data.series[0].shift();
-       LineChart.data.series[0].push(Module[0].Temperature);
-       if (Module[0].Humidity != 'nan') {
-        LineChart.data.series[1].shift();
-        LineChart.data.series[1].push(Module[0].Humidity);
-       }
-       LineChart.data.labels.shift();
-       LineChart.data.labels.push(viewTime());
-       LineChart.update();
-      }
-      var e = document.getElementById("refresh-time");
-      var strUser = e.options[e.selectedIndex].value;
-      clearInterval(myVar);
-      myVar=setInterval(function(){adddata();}, strUser);
+    if (first != 'next') {
+     function viewTime() {
+      var now = new Date();
+      return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
      }
+     function adddata() {
+      var xmlHttp=createXmlHttpObject();
+      xmlHttp.open("GET", "/sensor.json", true);
+      xmlHttp.send(null);
+      xmlHttp.onload = function(e) {
+       var Module=JSON.parse(xmlHttp.responseText);
+       if (Module[0].Temperature != 'nan') {
+        LineChart.data.series[0].shift();
+        LineChart.data.series[0].push(Module[0].Temperature);
+        if (Module[0].Humidity != 'nan') {
+         LineChart.data.series[1].shift();
+         LineChart.data.series[1].push(Module[0].Humidity);
+        }
+        LineChart.data.labels.shift();
+        LineChart.data.labels.push(viewTime());
+        LineChart.update();
+       }
+       var e = document.getElementById("refresh-time");
+       var strUser = e.options[e.selectedIndex].value;
+       clearInterval(myVar);
+       myVar=setInterval(function(){adddata();}, strUser);
+      }
+     }
+     var options = {
+      fullWidth: true
+     };
+     var LineChart = Chartist.Line('.ct-chart', {
+      labels: [null, null, null, null, null, null, null, null, null, null, null],
+      series: [[null, null, null, null, null, null, null, null, null, null, null],
+               [null, null, null, null, null, null, null, null, null, null, null]]
+     }, options);
+     adddata();
     }
-    var options = {
-     fullWidth: true
-    };
-    var LineChart = Chartist.Line('.ct-chart', {
-     labels: [null, null, null, null, null, null, null, null, null, null, null],
-     series: [[null, null, null, null, null, null, null, null, null, null, null],
-              [null, null, null, null, null, null, null, null, null, null, null]]
-    }, options);
-    adddata();
-
    }
    function sonoff(submit){
     server = "/sonoff";
