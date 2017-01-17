@@ -46,14 +46,10 @@
        myVar=setInterval(function(){adddata();}, strUser);
       }
      }
-     var options = {
-      fullWidth: true
-     };
      var LineChart = Chartist.Line('.ct-chart', {
-      labels: [null, null, null, null, null, null, null, null, null, null, null],
-      series: [[null, null, null, null, null, null, null, null, null, null, null],
-               [null, null, null, null, null, null, null, null, null, null, null]]
-     }, options);
+      labels: [, , , , , , , , , , ],
+      series: [[, , , , , , , , , , ],[, , , , , , , , , , ]]
+     }, {fullWidth:true});
      adddata();
     }
    }
