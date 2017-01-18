@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <link rel="stylesheet" type="text/css" href="css/prism.css">
+  <script type="text/javascript" src="js/function.js"></script>
+  <script type="text/javascript" src="js/prism.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Помощь</title>
+  <script type="text/javascript">
+   function load_request(id_element, server){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET',server,true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     document.getElementById(id_element).innerHTML = xmlHttp.responseText;
+     Prism.highlightAll();
+    }
+   }
+   load_request('configs-json','/configs.json');
+   load_request('lang-list-json','/lang.list.json');
+   load_request('lang-json','/lang/lang.ru.json');
+   load_request('devices-list-json','/devices.list.json');
+   load_request('wifi-scan-json','/wifi.scan.json');
+   load_request('modules-json','/modules.json');
+  </script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="row" id="content">
+    <h1 id="title">Помощь</h1>
+    <h3>Вывод данных в JS, HTML</h3>
+    <p>Можно загружать данные с configs.json, Cookies, lang.*.json</p>
+    <pre><code class="language-js">
+jsonResponse.ssid;
+// В данном случае мы получим имя WiFi сети к которой мы подключены
+// Пример:
+alert(jsonResponse.ssid);
+
+// Если вы хотите вывести эти данные в HTML это необходимо сделать следующим способом:
+{{ssid}}
+// Пример:
+&lt;h3>{{ssid}}&lt;/h3>
+        </code></pre>
+    <h3>Ajax GET запросы</h3>
+    <pre><code class="language-js">
+send_request(this,'/test');
+// В данном случае мы отправим GET на /test
+// Пример:
+&lt;input class="btn btn-block btn-success" value="button" onclick="send_request(this,'/test');" type="button">
+        </code></pre>
+    <h3>Работы с input полями</h3>
+    <pre><code class="language-js">
+val('ID_name');
+
+// Пример:
+&lt;input class="form-control" value="" id="param">
+&lt;input class="btn btn-block btn-success" value="button" onclick="send_request(this,'/test='+val('param'));" type="button">
+// Нажав на кнопку мы отпрваим ajax get запрос на /test=значение_с_поля_param
+        </code></pre>
+    <hr>
+    <h2>GET JSON</h2>
+    <h3>GET /configs.json</h3>
+    <p>Здесь хранятся основные настройки устройсва</p>
+    <pre><code class="language-json" id="configs-json">Loading...</code></pre>
+    <h3>GET /devices.list.json</h3>
+    <p>Количество устройст найденых в локальной сети, обновляются через GET /devices.scan.json</p>
+    <pre><code class="language-json" id="devices-list-json">Loading...</code></pre>
+    <h3>GET /wifi.scan.json</h3>
+    <p>Список доступных WiFi сетей</p>
+    <pre><code class="language-json" id="wifi-scan-json">Loading...</code></pre>
+    <h3>GET /modules.json</h3>
+    <pre><code class="language-json" id="modules-json">Loading...</code></pre>
+    <h3>GET /lang.list.json</h3>
+    <p>Список языковых файлов в папке lang</p>
+    <pre><code class="language-json" id="lang-list-json">Loading...</code></pre>
+    <h3>GET /lang/lang.ru.json</h3>
+    <p>Изменить язык можно GET запросом /lang?set=en </p>
+    <pre><code class="language-json" id="lang-json">Loading...</code></pre>
+   </div>
+  </div>
+ </body>
+</html>
