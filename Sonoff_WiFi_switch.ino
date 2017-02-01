@@ -1,8 +1,5 @@
 /*
  * Sonoff - Wi-Fi switch
- * Arduino IDE 1.6.5
- * esp8266 2.3.0
- * ArduinoJson 5.2.0
  */
 #include <ESP8266WiFi.h>        //Содержится в пакете
 #include <ESP8266WebServer.h>   //Содержится в пакете
@@ -16,9 +13,8 @@
 #include <DNSServer.h>
 #include <ArduinoJson.h>
 
-#include <Adafruit_Sensor.h> // https://github.com/adafruit/Adafruit_Sensor
-#include <DHT.h> // https://github.com/adafruit/DHT-sensor-library
-#include <DHT_U.h>
+#include <DHT.h> // http://homes-smart.ru/upload/arduino/DHTAUTO.zip DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
+
 
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
@@ -44,7 +40,7 @@ Ticker tickerAlert;
 
 // DHT на ноге
 #define DHTPIN            14         // Pin which is connected to the DHT sensor.
-DHT dht(DHTPIN, DHT22);
+DHT dht;
 // Определяем переменные
 
 // Определяем строку для json config

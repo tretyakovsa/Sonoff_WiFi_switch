@@ -1,6 +1,6 @@
 void dht_init(){
   HTTP.on("/sensortype", sensorType);      // Определить тип сенсора
-    dht.begin();
+   dht.setup(DHTPIN); // data pin 2
   }
 
  void sensorType(){

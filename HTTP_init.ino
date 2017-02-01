@@ -188,7 +188,7 @@ void handle_config() {
   // Температура
   json += "\",\"Temperature\":\"";
   String temp = "";
-  temp += dht.readTemperature();
+  temp += dht.getTemperature();
   if (temp == "nan") {
     json += "hidden";
   } else {
@@ -197,7 +197,7 @@ void handle_config() {
   // Влажность
   json += "\",\"Humidity\":\"";
   String humi = "";
-  humi += dht.readHumidity();
+  humi += dht.getHumidity();
   if (humi == "nan") {
     json += "hidden";
   } else {
@@ -250,7 +250,7 @@ void handle_config() {
 void handle_sensor() {
   String json = "\"Temperature\":\"";
   String temp = "";
-  temp += dht.readTemperature();
+  temp += dht.getTemperature();
   if (temp == "nan") {
     json += "hidden";
   } else {
@@ -259,7 +259,7 @@ void handle_sensor() {
   // Влажность
   json += "\",\"Humidity\":\"";
   String humi = "";
-  humi += dht.readHumidity();
+  humi += dht.getHumidity();
   if (humi == "nan") {
     json += "hidden";
   } else {
