@@ -13,7 +13,8 @@
 #include <DNSServer.h>
 #include <ArduinoJson.h>
 
-#include <DHT.h> // http://homes-smart.ru/upload/arduino/DHTAUTO.zip DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
+#include <DHT.h> // http://homes-smart.ru/upload/arduino/DHTAUTO.zip
+// DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 
 
 const byte DNS_PORT = 53;
