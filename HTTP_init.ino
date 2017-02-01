@@ -187,10 +187,22 @@ void handle_config() {
   json += DDNS;
   // Температура
   json += "\",\"Temperature\":\"";
-  json += dht.readTemperature();
+  String temp = "";
+  temp += dht.readTemperature();
+  if (temp == "nan") {
+    json += "hidden";
+  } else {
+    json += temp;
+  }
   // Влажность
   json += "\",\"Humidity\":\"";
-  json += dht.readHumidity();
+  String humi = "";
+  humi += dht.readHumidity();
+  if (humi == "nan") {
+    json += "hidden";
+  } else {
+    json += humi;
+  }
   // Имя SSDP
   json += "\",\"SSDP\":\"";
   json += SSDP_Name;
@@ -237,10 +249,22 @@ void handle_config() {
 
 void handle_sensor() {
   String json = "\"Temperature\":\"";
-  json += dht.readTemperature();
+  String temp = "";
+  temp += dht.readTemperature();
+  if (temp == "nan") {
+    json += "hidden";
+  } else {
+    json += temp;
+  }
   // Влажность
   json += "\",\"Humidity\":\"";
-  json += dht.readHumidity();
+  String humi = "";
+  humi += dht.readHumidity();
+  if (humi == "nan") {
+    json += "hidden";
+  } else {
+    json += humi;
+  }
 
   HTTP.send(200, "text/json", "[{"+json+"\"}]");
 }

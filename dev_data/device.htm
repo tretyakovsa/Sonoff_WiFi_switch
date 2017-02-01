@@ -15,8 +15,6 @@
    function handleServerResponse(first){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     val('off-on', blockval);
-    if (jsonResponse.Temperature != 'nan') {toggle('sensors', 'hidden');}
-    if (jsonResponse.Humidity != 'nan') {toggle('humidity', 'hidden');}
 
     if (first != 'next') {
      function viewTime() {
@@ -29,10 +27,10 @@
       xmlHttp.send(null);
       xmlHttp.onload = function(e) {
        var Module=JSON.parse(xmlHttp.responseText);
-       if (Module[0].Temperature != 'nan') {
+       if (Module[0].Temperature != 'hidden') {
         LineChart.data.series[0].shift();
         LineChart.data.series[0].push(Module[0].Temperature);
-        if (Module[0].Humidity != 'nan') {
+        if (Module[0].Humidity != 'hidden') {
          LineChart.data.series[1].shift();
          LineChart.data.series[1].push(Module[0].Humidity);
         }
@@ -93,7 +91,7 @@
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="setCookie('g2342','hidden',365,this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
-     <div class="hidden" id="sensors">
+     <div class="{{Temperature}}" id="sensors">
       <div class="ct-chart" style="height:200px"></div>
       <select class="form-control" id="refresh-time">
        <option value="1000">1 {{LangSec}}</option>
