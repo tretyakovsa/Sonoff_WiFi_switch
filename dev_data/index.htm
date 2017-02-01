@@ -3,6 +3,8 @@
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Страница устройств</title>
   <script type="text/javascript">
@@ -26,11 +28,11 @@
      day: new Date().toLocaleString(lang, {day: 'numeric'}),
      weekday: new Date().toLocaleString(lang, {weekday: 'long'})
     };
-    document.getElementById('date').innerHTML = now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'</small>';
+    document.getElementById('date').innerHTML = now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
 
    function finddevice() {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"></div><strong>Пожалуйста подождите, идет сканирование сети.</strong></div>';
+    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.scan.json?"+Math.floor(Math.random()*10000), false);
     xhttp.send();

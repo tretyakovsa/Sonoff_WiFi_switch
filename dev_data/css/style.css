@@ -13,7 +13,7 @@ body, html {
 input:invalid {
  border:2px solid red !important;
 }
-input:invalid + input[type=submit] {
+input:invalid + input[type=button], input:invalid + div input[type=button] {
  pointer-events:none;
  opacity:0.5;
 }
@@ -111,4 +111,7 @@ ul#history {
 #history li {
  margin-left:-31px;
  margin-right:20px;
+}
+.dropdown-menu {
+ display: block;
 }

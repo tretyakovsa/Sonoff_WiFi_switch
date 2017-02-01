@@ -91,7 +91,7 @@ function toggle(target,status) {
 
 function language(submit){
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET',"/lang?set="+submit.value,true);
+ xmlHttp.open('GET',"/lang?set="+submit,true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   location.reload();
@@ -99,32 +99,31 @@ function language(submit){
 }
 
 function LoadWifi(ssids){
- document.getElementById("ssid-select").innerHTML += '<option value="">'+jsonResponse.LangLoading+'</option>';
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
-  var html = "<option value="+ssids+">"+ssids+"</option>";
+  var html = "";
   for(var key in jsonWifi) {
-   html += "<option value="+jsonWifi[key].ssid+">" +jsonWifi[key].ssid + jsonWifi[key].pass + " (" +jsonWifi[key].dbm + " dBm)</option>"
+   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi[key].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi[key].ssid+'\';return false"><b>' +jsonWifi[key].ssid + jsonWifi[key].pass + '</b> (' +jsonWifi[key].dbm + ' dBm)</a></li>';
   }
-  document.getElementById("ssid-select").innerHTML = html+'<option value="">'+jsonResponse.LangHiddenWifi+'</option>';
+  document.getElementById(ssids).innerHTML = html+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
 }
 
-function LoadLang(language){
+function LoadLang(langids){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/lang.list.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonLang=JSON.parse(xmlHttp.responseText);
-  var html = "<option value="+language+">"+language+"</option>";
+  var html = '';
   for(var key in jsonLang) {
    var view_lang = jsonLang[key].name.substr(10,2);
-   html += "<option value="+view_lang+">"+view_lang+"</option>";
+   html += '<li><a href="#" onclick="language(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
   }
-  document.getElementById("language").innerHTML = html;
+  document.getElementById(langids).innerHTML = html;
  }
 }
 

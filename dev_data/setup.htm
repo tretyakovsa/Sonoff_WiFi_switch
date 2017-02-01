@@ -3,6 +3,8 @@
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <script type="text/javascript" src="js/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings page</title>
@@ -19,12 +21,7 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
-    LoadWifi(jsonResponse.ssid);
-    LoadLang(jsonResponse.lang);
    }
-
-   //  xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.random().toString(36).substr(2,5), true);
-
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
     if (sec>=60){min=Number(min)+1;sec=0;}
@@ -59,7 +56,7 @@
    }
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;
-    var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 15 '+jsonResponse.LangSec+'</small>';
+    var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 15 '+jsonResponse.LangSec+'<\/small>';
     set_time_zone(this);
     if (confirm(texts)) {
      toggle('pop-up');
@@ -67,7 +64,7 @@
      xmlHttp.open("POST", "/restartWiFi", true);
      xmlHttp.send(null);
      xmlHttp.onload = function(e) {
-      document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xmlHttp.responseText+'">http://'+xmlHttp.responseText+'</a></h3>'+LangRedirect;
+      document.getElementById('url-ip').innerHTML = LangConnect2+' <h3><a href="http://'+xmlHttp.responseText+'">http://'+xmlHttp.responseText+'<\/a><\/h3>'+LangRedirect;
       setTimeout(function(){
        window.location.href = 'http://'+xmlHttp.responseText;
       }, 15000);
@@ -82,33 +79,10 @@
     <h1 id="title">{{LangSetting3}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
-     <select class="btn btn-default" id="language" onchange="language(this);">
-      <option value="en">{{lang}}</option>
-     </select>
-
-     <div class="col-sm-offset-3 col-sm-6 pop-up hidden" id="add-block">
-      <h5>Добавление эелементов</h5>
-      <select class="form-control" id="type-page">
-       <option value="text">Страница</option>
-       <option value="device">device.htm</option>
-       <option value="setup">setup.htm</option>
-       <option value="index">index.htm</option>
-      </select>
-      <select class="form-control" id="type-block">
-       <option value="text">Тип элемента</option>
-       <option value="text">Text</option>
-       <option value="button">Button</option>
-       <option value="input">Input</option>
-       <option value="alert">Alert</option>
-      </select>
-      <textarea id="val-block" class="form-control" pattern=".{1,50}">Текст в элементе</textarea>
-      <input id="id-block" class="form-control" pattern=".{1,10}" placeholder="ID">
-      <hr>
-      <input type="button" onclick="set_ssdp(this);" value="Добавить" class="btn btn-block btn-success">
-      <input type="button" onclick="" value="Проверить" class="btn btn-block btn-primary">
-      <input type="button" onclick="toggle('add-block');" value="Отмена" class="btn btn-block btn-default">
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
-
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
@@ -140,7 +114,10 @@
      </div>
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
-     <select id="ssid-select" class="form-control" onchange="val('ssid',val('ssid-select'));if(this.value==''){toggle('ssid-select');toggle('ssid');}"><option value="{{ssid}}">{{ssid}}</option></select>
+     <div class="btn-group btn-block" id="ssid-group">
+      <a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle('ssid-select');LoadWifi('ssid-select');return false"><span id="ssid-name">{{ssid}}</span> <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,15}" placeholder="{{LangWiFi1}}">
      <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
