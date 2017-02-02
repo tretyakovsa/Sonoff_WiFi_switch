@@ -3,13 +3,15 @@
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen.png)
 
 
+###[Upload from NodeMCU Flasher](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
+
 ##Video youtube
 
-###Upload (Windows)
+###Upload (Windows, Arduino)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jMK9mySGHio/0.jpg)](https://www.youtube.com/watch?v=jMK9mySGHio)
 
-###Upload, small version (Linux)
+###Upload (Linux, Arduino)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1TAHlRqZ46k/0.jpg)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
