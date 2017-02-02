@@ -156,7 +156,7 @@ void HTTP_init(void) {
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/Save", handle_save_config);      // Сохранить настройки в файл
-  HTTP.on("/configs.json", handle_config); // формирование config_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/configs.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.scan.json", inquirySSDP);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/restart", handle_restart);               // Перезагрузка модуля
@@ -179,71 +179,51 @@ String XmlTime(void) {
   return Time; // Возврашаем полученное время
 }
 
-void handle_config() {
-  String json = "{";
-  // Имя DDNS
-  json += "\"DDNS\":\"";
-  json += DDNS;
-  // Температура
-  json += "\",\"Temperature\":\"";
+
+void handle_ConfigJSON() {
+  String root = "{}";  // Формировать строку для отправки в браузер json формат
+  //{"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
+  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+  DynamicJsonBuffer jsonBuffer;
+  //  вызовите парсер JSON через экземпляр jsonBuffer
+  JsonObject& json = jsonBuffer.parseObject(root);
+  // Заполняем поля json
+  json["DDNS"] = DDNS;
   String temp = "";
   temp += dht.getTemperature();
   if (temp == "nan") {
-    json += "hidden";
+  json["Temperature"] = "hidden";
   } else {
-    json += temp;
+  json["Temperature"] = temp;
   }
-  // Влажность
-  json += "\",\"Humidity\":\"";
   String humi = "";
   humi += dht.getHumidity();
   if (humi == "nan") {
-    json += "hidden";
+  json["Humidity"] = "hidden";
   } else {
-    json += humi;
+  json["Humidity"] = humi;
   }
-  // Имя SSDP
-  json += "\",\"SSDP\":\"";
-  json += SSDP_Name;
-  // Имя сети
-  json += "\",\"ssid\":\"";
-  json += _ssid;
-  // Пароль сети
-  json += "\",\"password\":\"";
-  json += _password;
-  // Имя точки доступа
-  json += "\",\"ssidAP\":\"";
-  json += _ssidAP;
-  // Пароль точки доступа
-  json += "\",\"passwordAP\":\"";
-  json += _passwordAP;
-  // Времянная зона
-  json += "\",\"timezone\":\"";
-  json += timezone;
-  //  Время работы
-  json += "\",\"timesonoff\":\"";
-  json += Timesonoff;
-  // Время 1
-  json += "\",\"times1\":\"";
-  json += times1;
-  // Время 2
-  json += "\",\"times2\":\"";
-  json += times2;
-  // Текущее время
-  json += "\",\"time\":\"";
-  json += XmlTime();
-  // Язык
-  json += "\",\"lang\":\"";
-  if (Language == NULL) {
-    json += "ru";
+  json["SSDP"] = SSDP_Name;
+  json["ssidAP"] = _ssidAP;
+  json["passwordAP"] = _passwordAP;
+  json["ssid"] = _ssid;
+  json["password"] = _password;
+  json["timezone"] = timezone;
+  json["timesonoff"] = Timesonoff; //  Время работы
+  json["times1"] = times1; // Время 1
+  json["times2"] = times2; // Время 2
+  json["ip"] = WiFi.localIP().toString();
+  json["time"] = XmlTime(); // Текущее время
+  if (Language == "") { // Язык
+  json["lang"] = "ru";
   } else {
-    json += Language;
+  json["lang"] = Language;
   }
-  // Статус
-  json += "\",\"state\":\"";
-  json += state0;
-  json += "\"}";
-  HTTP.send(200, "text/json", json);
+  json["state"] = state0;
+  // Помещаем созданный json в переменную root
+  root="";
+  json.printTo(root);
+  HTTP.send(200, "text/json", root);
 }
 
 void handle_ip_list() {
