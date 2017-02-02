@@ -12,11 +12,11 @@
   <title>Options page</title>
   <script type="text/javascript">
    var myVar;
-   function handleServerResponse(first){
+   function handleServerResponse(stage,jsonResponse){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     val('off-on', blockval);
 
-    if (first != 'next') {
+    if (stage != 'next') {
      function viewTime() {
       var now = new Date();
       return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();

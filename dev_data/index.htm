@@ -61,9 +61,9 @@
     }
    }
 
-   function loadBlock(ipval, content, status) {
-    if (status == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"></div> <a href="http://'+ipval+'">http://'+ipval+'</a> </div></div>';
+   function loadBlock(ipval, content, stage) {
+    if (stage == 'first'){
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a> <\/div><\/div>';
     }
 
     var xhttp=createXmlHttpObject();
@@ -111,7 +111,7 @@
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'</b><br><em>'+old_submit+'</em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockIp+'/'+pagename+'">http://'+blockIp+'/'+pagename+'</a></small></span></li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockIp+'/'+pagename+'">http://'+blockIp+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();

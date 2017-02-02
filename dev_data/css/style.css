@@ -115,3 +115,6 @@ ul#history {
 .dropdown-menu {
  display: block;
 }
+.NaN,.nan {
+ display: none;
+}

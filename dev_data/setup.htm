@@ -10,12 +10,12 @@
   <title>Settings page</title>
   <script type="text/javascript">
    var set_real_time;
-   function handleServerResponse(){
+   function handleServerResponse(stage,jsonResponse){
     clearTimeout(set_real_time);
     var res = jsonResponse.time.split(":");
     real_time(hours=res[0],min=res[1],sec=res[2]);
     if (window.location.hash == '#wifi-connect') {
-     document.getElementById("title").innerHTML = " ";
+     html('title', ' ');
      toggle('dev-opt', 'show');
      toggle('dev-othe', 'show');
      toggle('wifi-connect1','hidden');
@@ -27,7 +27,7 @@
     if (sec>=60){min=Number(min)+1;sec=0;}
     if (min>=60){hours=Number(hours)+1;min=0;}
     if (hours>=24){hours=0};
-    document.getElementById("time").innerHTML = hours+":"+min+":"+sec;
+    html('time',hours+":"+min+":"+sec);
     set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
    }
    function set_time_zone(submit){
@@ -48,7 +48,7 @@
    }
    function set_ssdp(submit){
     send_request(submit,'/ssdp?ssdp='+val('ssdp'));
-    document.getElementById('ssdp_t').innerHTML = val('ssdp');
+    html('ssdp_t',val('ssdp'));
    }
    function ddns(submit){
     server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
