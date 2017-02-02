@@ -25,7 +25,7 @@
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",
  "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Atvērt Izstrādātāja iestatījumus</a></b><br>Uzmanīgi, nepārdomāta rīcība var bojāt ierīci.",
- "LangSetting5":"Noklikšķinot <a target=\"_blank\" href=\"/edit\">šeit</a> jūs varat mainīt HTML, CSS, JS failus projektā.<br>Zemāk jūs varat lejupielādēt jaunāko versiju (*.bin fails):",
+ "LangSetting5":"Noklikšķinot <a target=\"_blank\" href=\"/edit\">šeit</a> jūs varat mainīt HTML, CSS, JS failus projektā.<br>Zemāk jūs varat lejupielādēt jaunāko versiju no šejeni:",
  "LangPass":"Parole",
  "LangWiFi1":"WiFi punkta nosaukums",
  "LangWiFi2":"Pieslēgšanās pie Wi-Fi routera",

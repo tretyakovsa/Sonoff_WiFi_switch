@@ -25,7 +25,7 @@
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Device Name",
  "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Open Developer settings</a></b><br>Carefully, ill-considered actions could damage the device.",
- "LangSetting5":"By clicking <a target=\"_blank\" href=\"/edit\">here</a> you can change the html, css, js files of the project<br>Just below you can download the new firmware (*.bin file):",
+ "LangSetting5":"By clicking <a target=\"_blank\" href=\"/edit\">here</a> you can change the html, css, js files of the project<br>Just below you can download the new firmware from here:",
  "LangPass":"Password",
  "LangWiFi1":"WiFi Network Name",
  "LangWiFi2":"Connecting to the Wi-Fi router",
