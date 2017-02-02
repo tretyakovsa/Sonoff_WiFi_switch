@@ -27,12 +27,12 @@
       xmlHttp.send(null);
       xmlHttp.onload = function(e) {
        var Module=JSON.parse(xmlHttp.responseText);
-       if (Module[0].Temperature != 'hidden') {
+       if (Module.Temperature != 'NaN') {
         LineChart.data.series[0].shift();
-        LineChart.data.series[0].push(Module[0].Temperature);
-        if (Module[0].Humidity != 'hidden') {
+        LineChart.data.series[0].push(Module.Temperature);
+        if (Module.Humidity != 'NaN') {
          LineChart.data.series[1].shift();
-         LineChart.data.series[1].push(Module[0].Humidity);
+         LineChart.data.series[1].push(Module.Humidity);
         }
         LineChart.data.labels.shift();
         LineChart.data.labels.push(viewTime());

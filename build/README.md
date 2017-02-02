@@ -21,5 +21,5 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/esp8266_wiring.png)
 
 
-##Web Upgrade
+##Web Upgrade (Youtube)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/t0jJxRcIoSU/0.jpg)](https://www.youtube.com/watch?v=t0jJxRcIoSU)
