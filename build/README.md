@@ -16,3 +16,6 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 ###Usage
 
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/nodemcu-flasher.png)
+
+
+![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/esp8266_wiring.png)
