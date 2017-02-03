@@ -114,7 +114,7 @@ void handle_ssidap() {
 void handle_time() {
   Time_init(timezone);
   String Time = XmlTime();
-  HTTP.send(200, "text/plain", "Время синхронизовано: " + Time);
+  HTTP.send(200, "text/plain", "OK: " + Time);
 }
 
 //Таймер 1
@@ -189,20 +189,8 @@ void handle_ConfigJSON() {
   JsonObject& json = jsonBuffer.parseObject(root);
   // Заполняем поля json
   json["DDNS"] = DDNS;
-  String temp = "";
-  temp += dht.getTemperature();
-  if (temp == "nan") {
-  json["Temperature"] = "hidden";
-  } else {
-  json["Temperature"] = temp;
-  }
-  String humi = "";
-  humi += dht.getHumidity();
-  if (humi == "nan") {
-  json["Humidity"] = "hidden";
-  } else {
-  json["Humidity"] = humi;
-  }
+  json["Temperature"] = dht.getTemperature();
+  json["Humidity"] = dht.getHumidity();
   json["SSDP"] = SSDP_Name;
   json["ssidAP"] = _ssidAP;
   json["passwordAP"] = _passwordAP;

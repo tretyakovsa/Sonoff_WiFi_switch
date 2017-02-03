@@ -17,7 +17,7 @@
 
 ###Example
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI&index=3&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
 ##Construction
 ###Schematic

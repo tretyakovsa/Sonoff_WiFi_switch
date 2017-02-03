@@ -22,4 +22,4 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 
 
 ##Web Upgrade (Youtube)
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/t0jJxRcIoSU/0.jpg)](https://www.youtube.com/watch?v=t0jJxRcIoSU)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/t0jJxRcIoSU/0.jpg)](https://www.youtube.com/watch?v=t0jJxRcIoSU&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
