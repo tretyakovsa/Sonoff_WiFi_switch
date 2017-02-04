@@ -43,9 +43,13 @@ void sonoffActiv() {
   HTTP.send(200, "text/plain", "OK");
 }
 
-// Установка адреса DDNS сети
+// Установка параметров сети
 void handle_ddns() {
   DDNS = HTTP.arg("url");
+  DDNSName = HTTP.arg("wanurl");
+  DDNSPort = HTTP.arg("wanport").toInt();
+  //Serial.println(HTTP.arg("url"));
+  //Serial.println(HTTP.arg("wanurl"));
   ip_wan();
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
@@ -143,6 +147,7 @@ void HTTP_init(void) {
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
+  HTTPWAN.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/Timesonoff", handle_timesonoff);      // установка времени работы лампы
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
@@ -164,6 +169,7 @@ void HTTP_init(void) {
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   // Запускаем HTTP сервер
   HTTP.begin();
+  HTTPWAN.begin();
 }
 
 // Получение текущего времени
@@ -186,7 +192,10 @@ void handle_ConfigJSON() {
   //  вызовите парсер JSON через экземпляр jsonBuffer
   JsonObject& json = jsonBuffer.parseObject(root);
   // Заполняем поля json
-  json["DDNS"] = DDNS;
+  // Заполняем поля json
+  json["DDNS"] = DDNS;  // Имя DDNS
+  json["DDNSName"] = DDNSName;  // Имя DDNSName
+  json["DDNSPort"] = DDNSPort;  // Имя DDNSPort
   json["Temperature"] = dht.getTemperature();
   json["Humidity"] = dht.getHumidity();
   json["SSDP"] = SSDP_Name;

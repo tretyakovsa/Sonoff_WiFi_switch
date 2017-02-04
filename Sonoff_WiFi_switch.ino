@@ -16,13 +16,14 @@
 #include <DHT.h> // http://homes-smart.ru/upload/arduino/DHTAUTO.zip
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 
-
+// Настройки DNS сервера и адреса точки в режиме AP
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
 DNSServer dnsServer;
-int httpPort = 80;
+int DDNSPort = 8080; // порт для обращение к устройству с wan
 // Web интерфейс для устройства
 ESP8266WebServer HTTP(80);
+ESP8266WebServer HTTPWAN(DDNSPort);
 ESP8266HTTPUpdateServer httpUpdater;
 // Для файловой системы
 File fsUploadFile;
@@ -31,42 +32,36 @@ File fsUploadFile;
 Ticker tickerSetLow;
 Ticker tickerAlert;
 
-// Кнопка управления
-#define Tach0 0
-
-// Реле на ногах
-#define rele1 12
-// Светодиод на ноге
-#define led 13
-
-// DHT на ноге
-#define DHTPIN            14         // Pin which is connected to the DHT sensor.
+#define Tach0 0   // Кнопка управления
+#define rele1 12  // Реле на ногах
+#define led 13    // Светодиод на ноге
+#define DHTPIN 14 // Pin which is connected to the DHT sensor.
 DHT dht;
-// Определяем переменные
 
 // Определяем строку для json config
 String jsonConfig = "";
 
+// Определяем переменные
 String module[]={"sonoff"};
 //,"rbg","jalousie"};
 
 //Обшие настройки
-String _ssid     = "WiFi"; // Для хранения SSID
-String _password = "Pass"; // Для хранения пароля сети
-String _ssidAP = "Sonoff";   // SSID AP точки доступа
-String _passwordAP = ""; // пароль точки доступа
-String SSDP_Name = "Sonoff";      // SSDP
+String _ssid     = "WiFi";      // Для хранения SSID
+String _password = "Pass";      // Для хранения пароля сети
+String _ssidAP = "Sonoff";      // SSID AP точки доступа
+String _passwordAP = "";        // пароль точки доступа
+String SSDP_Name = "Sonoff";    // SSDP
 // Переменные для обнаружения модулей
 String Devices = "";            // Поиск IP адресов устройств в сети
-String DevicesList = "";            // IP адреса устройств в сети
-int timezone = 3;        // часовой пояс GTM
+String DevicesList = "";        // IP адреса устройств в сети
+int timezone = 3;               // часовой пояс GTM
 String kolibrTime = "03:00:00"; // Время колибровки часов
 // Переменные для таймеров
 String times1 = "";             // Таймер 1
 String times2 = "";             // Таймер 2
-int Timesonoff = 10;  // Время работы реле
-String Language ="ru";  // язык web интерфейса
-String Lang ="";  // файлы языка web интерфейса
+int Timesonoff = 10;            // Время работы реле
+String Language ="ru";          // язык web интерфейса
+String Lang ="";                // файлы языка web интерфейса
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
@@ -113,14 +108,16 @@ void loop() {
  dnsServer.processNextRequest();
  HTTP.handleClient();
  delay(1);
+ HTTPWAN.handleClient();
+ delay(1);
  handleUDP();
 
  if (chaing) {
   noInterrupts();
-    state0=!state0;
-    digitalWrite(rele1,state0);
-    chaing = 0;
-    interrupts();
+  state0=!state0;
+  digitalWrite(rele1,state0);
+  chaing = 0;
+  interrupts();
  }
 
  if (chaingtime) {
