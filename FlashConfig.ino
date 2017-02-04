@@ -11,30 +11,31 @@ bool loadConfig() {
     return false;
   }
 
-// загружаем файл конфигурации в глобальную переменную
+  // загружаем файл конфигурации в глобальную переменную
   jsonConfig = configFile.readString();
   Serial.println(jsonConfig);
   //
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(jsonConfig);
-    _ssidAP = root["ssidAPName"].as<String>();
-    _passwordAP = root["ssidAPPassword"].as<String>();
-    timezone = root["timezone"];
-    SSDP_Name = root["SSDPName"].as<String>();
-    _ssid = root["ssidName"].as<String>();
-    _password = root["ssidPassword"].as<String>();
-    times1 = root["times1"].as<String>();
-    times2 = root["times2"].as<String>();
-    Language = root["Lang"].as<String>();
-    DDNS = root["DDNS"].as<String>();
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(jsonConfig);
+  _ssidAP = root["ssidAPName"].as<String>();
+  _passwordAP = root["ssidAPPassword"].as<String>();
+  timezone = root["timezone"];
+  SSDP_Name = root["SSDPName"].as<String>();
+  _ssid = root["ssidName"].as<String>();
+  _password = root["ssidPassword"].as<String>();
+  times1 = root["times1"].as<String>();
+  times2 = root["times2"].as<String>();
+  Language = root["Lang"].as<String>();
+  DDNS = root["DDNS"].as<String>();
+  DDNSName = root["DDNSName"].as<String>();
 
   return true;
 }
 
 bool saveConfig() {
-   DynamicJsonBuffer jsonBuffer;
-   JsonObject& json = jsonBuffer.parseObject(jsonConfig);
-   json["SSDPName"] = SSDP_Name;
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(jsonConfig);
+  json["SSDPName"] = SSDP_Name;
   json["ssidAPName"] = _ssidAP;
   json["ssidAPPassword"] = _passwordAP;
   json["ssidName"] = _ssid;
@@ -52,6 +53,6 @@ bool saveConfig() {
 
   json.printTo(configFile);
   return true;
-  }
+}
 
 

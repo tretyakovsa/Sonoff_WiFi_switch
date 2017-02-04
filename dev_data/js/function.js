@@ -114,8 +114,8 @@ function LoadWifi(ssids){
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
   var html = "";
-  for(var key in jsonWifi) {
-   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi[key].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi[key].ssid+'\';return false"><b>' +jsonWifi[key].ssid + jsonWifi[key].pass + '</b> (' +jsonWifi[key].dbm + ' dBm)</a></li>';
+  for(i = 0;i<jsonWifi.networks.length;i++) {
+   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><b>' +jsonWifi.networks[i].ssid + jsonWifi.networks[i].pass + '</b> (' +jsonWifi.networks[i].dbm + ' dBm)</a></li>';
   }
   document.getElementById(ssids).innerHTML = html+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }

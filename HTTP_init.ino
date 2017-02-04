@@ -1,31 +1,41 @@
 void handle_wifi_scan() {
   int n = WiFi.scanNetworks();
-  String wifiScan = "[";
-  if (n == 0)
-    wifiScan = "{\"ssid\":\"none\"}";
-  else
-  {
-    for (int i = 0; i < n - 1; ++i)
-    {
-      wifiScan += "{";
-      wifiScan += "\"ssid\":\"";
-      wifiScan += WiFi.SSID(i);
-      wifiScan += "\",";
-      wifiScan += "\"dbm\":";
-      wifiScan += WiFi.RSSI(i);
-      wifiScan += ",";
-      wifiScan += "\"pass\":\"";
-      wifiScan += (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
-      //wifiScan += WiFi.encryptionType(i);
-      wifiScan += "\"}";
-      if (i != n - 2) wifiScan += ",";
-      delay(10);
-    }
-    wifiScan += "]";
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.createObject();
+  JsonArray& networks = json.createNestedArray("networks");
+  for(int i=0;i<n;i++) {
+    JsonObject& data = networks.createNestedObject();
+    data["ssid"] = WiFi.SSID(i);
+    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
+    data["dbm"] = WiFi.RSSI(i);
+    //data["bssid"] = WiFi.BSSIDstr(i);
+    //data["channel"] = WiFi.channel(i);
+    //data["isHidden"] = WiFi.isHidden(i);
   }
-  HTTP.send(200, "text/json", wifiScan);
+  String root;
+  json.printTo(root);
+  HTTP.send(200, "text/json", root);
 }
 
+void webUpdateSpiffs() {
+  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
+  refresh += WiFi.localIP().toString();
+  refresh += "\"></head></html>";
+  HTTP.send(200, "text/html", refresh);
+  //t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs("http://backup.privet.lv/rgb_spiffs_1m_256k.bin");
+  saveConfig();
+}
+
+// Перезагрузка модуля
+void handle_restart() {
+  String restart = HTTP.arg("device");
+  if (restart == "ok") {                         // Если значение равно Ок
+    HTTP.send(200, "text/plain", "Reset OK"); // Oтправляем ответ Reset OK
+    ESP.restart();                                // перезагружаем модуль
+  } else {                                        // иначе
+    HTTP.send(200, "text/plain", "No Reset"); // Oтправляем ответ No Reset
+  }
+}
 
 // Меняет флаг для включения выключения sonoff
 void sonoffActiv() {
@@ -39,18 +49,6 @@ void handle_ddns() {
   ip_wan();
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
-}
-
-// Перезагрузка модуля
-void handle_restart() {
-  String restart = HTTP.arg("device");
-  if (restart == "ok") {                         // Если значение равно Ок
-    HTTP.send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
-    ESP.restart();                                // перезагружаем модуль
-  }
-  else {                                        // иначе
-    HTTP.send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
-  }
 }
 
 // Меняет флаг для запуска
@@ -234,13 +232,22 @@ void handle_ip_scan() {
 }
 
 void handle_modules() {
-  HTTP.send(200, "text/json", modules());
+ DynamicJsonBuffer jsonBuffer;
+ JsonObject& json = jsonBuffer.createObject();
+ json["SSDP"] = SSDP_Name;
+ json["state"] = state0;
+  JsonArray& data = json.createNestedArray("module");
+ for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {
+    data.add(module[i]);
+ }
+ String root;
+ json.printTo(root);
+ HTTP.send(200, "text/json", root);
 }
 
 String modules() {
   String json = "";
-  int j = a - 1;
-  for (int i = 0; i <= j; i++) {
+  for (int i = 0; i <= sizeof(module) / sizeof(module[0]); i++) {
     json += "{\"ip\":\"";
     json += WiFi.localIP().toString();
     json += "\",\"module\":\"";
@@ -248,7 +255,7 @@ String modules() {
     //Serial.println(module[i]);
     json += "\"";
     json += "}";
-    if (i != j) json += ",";
+    if (i != sizeof(module) / sizeof(module[0])) json += ",";
   }
   return json;
 }

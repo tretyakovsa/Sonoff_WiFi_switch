@@ -46,11 +46,10 @@ DHT dht;
 
 // Определяем строку для json config
 String jsonConfig = "";
-// Количество модулей в устройстве
-int a = 1;
-//char* module[] = {"rgb", "test"}; //Может ты хотел такую конструкцию сделать? (https://forum.arduino.cc/index.php?topic=424342.0)
+
 String module[]={"sonoff"};
 //,"rbg","jalousie"};
+
 //Обшие настройки
 String _ssid     = "WiFi"; // Для хранения SSID
 String _password = "Pass"; // Для хранения пароля сети

@@ -4,7 +4,7 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Страница устройств</title>
   <script type="text/javascript">
@@ -19,8 +19,7 @@
    }
 
    window.onload = function() {
-    iplocation();
-
+    deviceList('first');
     var lang = window.navigator.language || navigator.userLanguage;
     var now_day = {
      year: new Date().toLocaleString(lang, {year: 'numeric'}),
@@ -28,19 +27,20 @@
      day: new Date().toLocaleString(lang, {day: 'numeric'}),
      weekday: new Date().toLocaleString(lang, {weekday: 'long'})
     };
-    document.getElementById('date').innerHTML = now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
+    document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
 
-   function finddevice() {
+   function findDevice() {
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.scan.json?"+Math.floor(Math.random()*10000), false);
     xhttp.send();
-    setTimeout(function(){iplocation('search')}, 7000);
+    setTimeout(function(){deviceList('search');document.getElementById("content").innerHTML='';}, 7000);
    }
 
-   function iplocation(searc) {
-    document.getElementById('content').innerHTML='';
+   function deviceList(stage) {
+    document.getElementById("ifttt-if").innerHTML='';
+    document.getElementById("ifttt-then").innerHTML='';
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -48,15 +48,14 @@
      var ipModule=JSON.parse(xhttp.responseText);
      for(var key in ipModule) {
       var ipval = ipModule[key].ip;
-      if (searc == 'search') {
+      if (ipval == '0.0.0.0') {location.href = "/setup.htm#wifi-connect";}
+      if (stage == 'search') {
+       loadBlock(ipval,'content','first');
        //xhttp.open("GET", "http://"+ipval+"/devices.scan.json"+Math.floor(Math.random()*10000), false);
        //xhttp.send();
       }
-      if (ipval == '0.0.0.0') {
-       location.href = "/setup.htm#wifi-connect";
-      } else {
-       loadBlock(ipval,'content','first');
-      }
+      if (stage == 'ifttt') {ifttt(ipval);}
+      if (stage == 'first') {loadBlock(ipval,'content','first');}
      }
     }
    }
@@ -161,6 +160,19 @@
     document.cookie = name + "=" + value + expires + "; path=/";
     submit.parentNode.classList.add('hidden');
    }
+
+   function ifttt(ipval) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/modules.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var jsonResponses = JSON.parse(xhttp.responseText);
+     jsonResponses.ip = ipval;
+     document.getElementById("ifttt-if").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+     document.getElementById("ifttt-then").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+    }
+   }
+
   </script>
  </head>
  <body>
@@ -176,11 +188,29 @@
     <div class="block">
      <h5 class="alert-danger">Поиск</h5>
      <div class="alert alert-dismissible alert-info">Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:</div>
-     <input type="button" class="btn btn-block btn-default" value="Найти устройства" onclick="finddevice();">
+     <input type="button" class="btn btn-block btn-default" value="Найти устройства" onclick="findDevice();">
+    </div>
+    <div class="block">
+     <h5 class="alert-warning">Сценарии</h5>
+     <div class="alert alert-dismissible alert-info">Ниже вы можете автоматизировать некотоыре задачи</div>
+     <input type="button" class="btn btn-block btn-default" value="Добавить сценарий" onclick="deviceList('ifttt');toggle('ifttt');">
     </div>
    </div>
+   <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="ifttt">
+    <h5 class="alert-warning">Сценарии</h5>
+    <div class="alert alert-dismissible alert-info">Ниже вы можее добавить всевозможный сценарии</div>
+    <h4>Если <select class="btn btn-default" id="ifttt-if"></select>
+     = <select class="btn btn-default"><option value="0">Вкл</option><option value="0">Выкл</option></select>
+     значит <select class="btn btn-default" id="ifttt-then"></select>
+     сделать  <select class="btn btn-default"><option value="0">Вкл</option><option value="0">Выкл</option></select>
+    </h4>
+    <input type="button" class="btn btn-block btn-success" value="Добавить" onclick="toggle('ifttt');">
+    <hr>
+    <h4>Список всех сценариев</h4>
+    <p id="ifttt-list"></p>
+    <input class="btn btn-block btn-default" value="Отмена" onclick="toggle('ifttt');" type="button">
+   </div>
    <div class="col-sm-12 col-md-9" style="text-align:center;" id="content">
-    <div class="loader"></div><p>Загрузка...</p>
    </div>
   </div>
  </body>
