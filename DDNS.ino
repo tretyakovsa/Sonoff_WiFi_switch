@@ -1,6 +1,6 @@
 int ip_wan() {
   HTTPClient http;
-http.begin(DDNS); //HTTP
+http.begin(ddns); //HTTP
 
         int httpCode = http.GET();
 

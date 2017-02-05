@@ -45,9 +45,9 @@ void sonoffActiv() {
 
 // Установка параметров сети
 void handle_ddns() {
-  DDNS = HTTP.arg("url");
-  DDNSName = HTTP.arg("wanurl");
-  DDNSPort = HTTP.arg("wanport").toInt();
+  ddns = HTTP.arg("url");
+  ddnsName = HTTP.arg("wanurl");
+  ddnsPort = HTTP.arg("wanport").toInt();
   //Serial.println(HTTP.arg("url"));
   //Serial.println(HTTP.arg("wanurl"));
   ip_wan();
@@ -70,7 +70,7 @@ void handle_save_config() {
 
 // Время вращения сервопривода
 void handle_timesonoff() {
-  Timesonoff = HTTP.arg("t").toInt();
+  timeSonoff = HTTP.arg("t").toInt();
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
@@ -83,38 +83,38 @@ void handle_leng() {
 
 // Установка времянной зоны
 void handle_time_zone() {
-  timezone = HTTP.arg("timezone").toInt();
-  Time_init(timezone);
+  timeZone = HTTP.arg("timeZone").toInt();
+  Time_init(timeZone);
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 // Установка параметров сети
 void handle_ssid() {
-  _ssid = HTTP.arg("ssid");
-  _password = HTTP.arg("password");
+  ssidName = HTTP.arg("ssid");
+  ssidPass = HTTP.arg("ssidPass");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 // Установка параметров сети
 void handle_ssdp() {
-  SSDP_Name = HTTP.arg("ssdp");
+  ssdpName = HTTP.arg("ssdp");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 //Установка параметров точки доступа
 void handle_ssidap() {
-  _ssidAP = HTTP.arg("ssidAP");
-  _passwordAP = HTTP.arg("passwordAP");
+  ssidApName = HTTP.arg("ssidAP");
+  ssidApPass = HTTP.arg("ssidApPass");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 //Время из сети
 void handle_time() {
-  Time_init(timezone);
+  Time_init(timeZone);
   String Time = XmlTime();
   HTTP.send(200, "text/plain", "OK: " + Time);
 }
@@ -147,18 +147,18 @@ void HTTP_init(void) {
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
-  HTTPWAN.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
+  HTTPWAN->on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
-  HTTP.on("/Timesonoff", handle_timesonoff);      // установка времени работы лампы
+  HTTP.on("/timeSonoff", handle_timesonoff);      // установка времени работы лампы
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
-  HTTP.on("/TimeZone", handle_time_zone);    // Установка времянной зоны
+  HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
   HTTP.on("/Time", handle_time);            // Синхронизировать время из сети
   HTTP.on("/times1", handle_time_1);        // Установить время 1
   HTTP.on("/times2", handle_time_2);        // Установить время 2
   HTTP.on("/ssdp", handle_ssdp);        // Установить имя устройства
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
-  HTTP.on("/Save", handle_save_config);      // Сохранить настройки в файл
+  HTTP.on("/save", handle_save_config);      // Сохранить настройки в файл
   HTTP.on("/configs.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.scan.json", inquirySSDP);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
@@ -169,7 +169,7 @@ void HTTP_init(void) {
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   // Запускаем HTTP сервер
   HTTP.begin();
-  HTTPWAN.begin();
+  HTTPWAN->begin();
 }
 
 // Получение текущего времени
@@ -186,25 +186,25 @@ String XmlTime(void) {
 
 void handle_ConfigJSON() {
   String root = "{}";  // Формировать строку для отправки в браузер json формат
-  //{"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
+  //{"SSDP":"SSDP-test","ssid":"home","ssidPass":"i12345678","ssidAP":"WiFi","ssidApPass":"","ip":"192.168.0.101"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
   DynamicJsonBuffer jsonBuffer;
   //  вызовите парсер JSON через экземпляр jsonBuffer
   JsonObject& json = jsonBuffer.parseObject(root);
   // Заполняем поля json
   // Заполняем поля json
-  json["DDNS"] = DDNS;  // Имя DDNS
-  json["DDNSName"] = DDNSName;  // Имя DDNSName
-  json["DDNSPort"] = DDNSPort;  // Имя DDNSPort
+  json["ddns"] = ddns;  // Имя ddns
+  json["ddnsName"] = ddnsName;  // Имя ddnsName
+  json["ddnsPort"] = ddnsPort;  // Имя ddnsPort
   json["Temperature"] = dht.getTemperature();
   json["Humidity"] = dht.getHumidity();
-  json["SSDP"] = SSDP_Name;
-  json["ssidAP"] = _ssidAP;
-  json["passwordAP"] = _passwordAP;
-  json["ssid"] = _ssid;
-  json["password"] = _password;
-  json["timezone"] = timezone;
-  json["timesonoff"] = Timesonoff; //  Время работы
+  json["SSDP"] = ssdpName;
+  json["ssidAP"] = ssidApName;
+  json["ssidApPass"] = ssidApPass;
+  json["ssid"] = ssidName;
+  json["ssidPass"] = ssidPass;
+  json["timeZone"] = timeZone;
+  json["timeSonoff"] = timeSonoff; //  Время работы
   json["times1"] = times1; // Время 1
   json["times2"] = times2; // Время 2
   json["ip"] = WiFi.localIP().toString();
@@ -243,7 +243,7 @@ void handle_ip_scan() {
 void handle_modules() {
  DynamicJsonBuffer jsonBuffer;
  JsonObject& json = jsonBuffer.createObject();
- json["SSDP"] = SSDP_Name;
+ json["SSDP"] = ssdpName;
  json["state"] = state0;
   JsonArray& data = json.createNestedArray("module");
  for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {

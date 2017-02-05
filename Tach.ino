@@ -11,7 +11,7 @@ void Tach_0() {
 
 
 void Time01() {
-  tickerSetLow.attach(Timesonoff*60, setT1, 0);
+  tickerSetLow.attach(timeSonoff*60, setT1, 0);
   chaing = 1;
 }
 

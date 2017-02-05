@@ -20,10 +20,10 @@
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
 DNSServer dnsServer;
-int DDNSPort = 8080; // порт для обращение к устройству с wan
 // Web интерфейс для устройства
 ESP8266WebServer HTTP(80);
-ESP8266WebServer HTTPWAN(DDNSPort);
+//ESP8266WebServer HTTPWAN(ddnsPort);
+ESP8266WebServer *HTTPWAN;
 ESP8266HTTPUpdateServer httpUpdater;
 // Для файловой системы
 File fsUploadFile;
@@ -46,28 +46,29 @@ String module[]={"sonoff"};
 //,"rbg","jalousie"};
 
 //Обшие настройки
-String _ssid     = "WiFi";      // Для хранения SSID
-String _password = "Pass";      // Для хранения пароля сети
-String _ssidAP = "Sonoff";      // SSID AP точки доступа
-String _passwordAP = "";        // пароль точки доступа
-String SSDP_Name = "Sonoff";    // SSDP
+String ssidName     = "WiFi";      // Для хранения SSID
+String ssidPass = "Pass";      // Для хранения пароля сети
+String ssidApName = "Sonoff";      // SSID AP точки доступа
+String ssidApPass = "";        // пароль точки доступа
+String ssdpName = "Sonoff";    // SSDP
 // Переменные для обнаружения модулей
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
-int timezone = 3;               // часовой пояс GTM
+int timeZone = 3;               // часовой пояс GTM
 String kolibrTime = "03:00:00"; // Время колибровки часов
 // Переменные для таймеров
 String times1 = "";             // Таймер 1
 String times2 = "";             // Таймер 2
-int Timesonoff = 10;            // Время работы реле
+int timeSonoff = 10;            // Время работы реле
 String Language ="ru";          // язык web интерфейса
 String Lang ="";                // файлы языка web интерфейса
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
-// Переменные для DDNS
-String DDNS = "";               // url страницы тестирования WanIP
-String DDNSName = "";           // адрес сайта DDNS
+// Переменные для ddns
+String ddns = "";               // url страницы тестирования WanIP
+String ddnsName = "";           // адрес сайта ddns
+int ddnsPort = 8080; // порт для обращение к устройству с wan
 
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;
@@ -85,6 +86,7 @@ void setup() {
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
+ HTTPWAN = new ESP8266WebServer(ddnsPort);
  // Кнопка будет работать по прерыванию
  attachInterrupt(Tach0, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
  //Запускаем WIFI
@@ -98,7 +100,7 @@ void setup() {
  SSDP_init();
  //Serial.println("SSDP Ready!");
  // Включаем время из сети
- Time_init(timezone);
+ Time_init(timeZone);
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
  ip_wan();
@@ -108,7 +110,7 @@ void loop() {
  dnsServer.processNextRequest();
  HTTP.handleClient();
  delay(1);
- HTTPWAN.handleClient();
+ HTTPWAN->handleClient();
  delay(1);
  handleUDP();
 
@@ -121,11 +123,11 @@ void loop() {
  }
 
  if (chaingtime) {
-  Time_init(timezone);
+  Time_init(timeZone);
   chaingtime = 0;
  }
  if (chaingtime) {
-  Time_init(timezone);
+  Time_init(timeZone);
   chaingtime=0;
  }
 }
@@ -141,13 +143,13 @@ void alert() {
   Serial.println("timer2");
   Time01();
  }
- Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
- // В 15, 30, 45 минут каждого часа идет запрос на сервер DDNS
- if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && DDNS != "") {
-  ip_wan();
- }
  if (kolibrTime.compareTo(Time) == 0) {
   chaingtime=1;
+ }
+ Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
+ // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
+ if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {
+  ip_wan();
  }
 }
 

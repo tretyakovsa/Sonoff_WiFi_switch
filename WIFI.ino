@@ -1,7 +1,7 @@
 void WIFIAP_Client() {
   WiFi.disconnect();
   WiFi.mode(WIFI_STA);
-  WiFi.begin(_ssid.c_str(), _password.c_str());
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
   tries(11);
   Serial.println("");
   Serial.println("WiFi connected");
@@ -19,7 +19,7 @@ bool StartAPMode()
   WiFi.disconnect();
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
-  WiFi.softAP(_ssidAP.c_str(), _passwordAP.c_str());
+  WiFi.softAP(ssidApName.c_str(), ssidApPass.c_str());
   dnsServer.start(DNS_PORT, "*", apIP);
   //Зажигаем светодиод если находимся в режиме AP
   digitalWrite(led, HIGH);
@@ -31,7 +31,7 @@ bool RestartWiFi() {
   Serial.println("WiFi reconnect");
   // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.mode(WIFI_AP_STA );
-  WiFi.begin(_ssid.c_str(), _password.c_str());
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
   tries(30);
 
   Serial.println("");

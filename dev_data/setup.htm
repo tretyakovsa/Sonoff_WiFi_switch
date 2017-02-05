@@ -33,16 +33,16 @@
    function set_time_zone(submit){
     var set_date = new Date();
     var gmtHours = -set_date.getTimezoneOffset()/60;
-    val('timezone', gmtHours);
-    send_request(submit,'/TimeZone?timezone='+gmtHours);
+    val('timeZone', gmtHours);
+    send_request(submit,'/timeZone?timeZone='+gmtHours);
    }
    function set_ssid(submit){
-    server = "/ssid?ssid="+val('ssid')+"&password="+encodeURIComponent(val('password'));
+    server = "/ssid?ssid="+val('ssid')+"&ssidPass="+encodeURIComponent(val('ssidPass'));
     send_request(submit,server);
     alert(jsonResponse.LangReset2);
    }
    function set_ssid_ap(submit){
-    server = "/ssidap?ssidAP="+val('ssidap')+"&passwordAP="+encodeURIComponent(val('passwordAp'));
+    server = "/ssidap?ssidAP="+val('ssidap')+"&ssidApPass="+encodeURIComponent(val('ssidApPass'));
     send_request(submit,server);
     alert(jsonResponse.LangReset2);
    }
@@ -119,13 +119,13 @@
       <ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,15}" placeholder="{{LangWiFi1}}">
-     <input id="password" value="{{password}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+     <input id="ssidPass" value="{{ssidPass}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
      <hr>
      <div id="dev-othe">
       <h2>{{LangGMT1}}</h2>
-      <input id="timezone" value="{{timezone}}" pattern="[0-9]{1,3}" class="form-control">
-      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/TimeZone?timezone='+val('timezone'));" type="button">
+      <input id="timeZone" value="{{timeZone}}" pattern="[0-9]{1,3}" class="form-control">
+      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeZone?timeZone='+val('timeZone'));" type="button">
       <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="button">
       <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
       <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="send_request(this,'/Time');" type="button">
@@ -134,7 +134,7 @@
       <div class="row">
        <div class="col-sm-6">
         <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern=".{1,15}" placeholder="{{LangWiFi1}}">
-        <input id="passwordAp" value="{{passwordAP}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+        <input id="ssidApPass" value="{{ssidApPass}}" pattern=".{8,15}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
         <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="button">
        </div>
        <div class="col-sm-6">
@@ -142,13 +142,13 @@
        </div>
       </div>
       <hr>
-      <h2>{{LangDDNS1}}</h2>
-      <div class="alert alert-dismissible alert-info">{{LangDDNS2}}</div>
+      <h2>{{LangDdns1}}</h2>
+      <div class="alert alert-dismissible alert-info">{{LangDdns2}}</div>
       <div class="input-group" style="width:100%">
-       <input id="ddns-name" value="{{DDNSName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
-       <input id="ddns-port" value="{{DDNSPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
+       <input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
+       <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
       </div>
-      <input id="ddns" value="{{DDNS}}" class="form-control" pattern="http://.+" placeholder="Service URL">
+      <input id="ddns" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">
       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
       <hr>
       <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();" type="button">

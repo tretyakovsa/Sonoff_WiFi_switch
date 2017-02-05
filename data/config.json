@@ -1,1 +1,1 @@
-{"onOffAP":"0","SSDPName":"Sonoff","ssidAPName":"Sonoff","ssidAPPassword":"","ssidName":"","ssidPassword":"","timezone":3,"times1":"","times2":"","DDNS":""}
+{"onOffAP":"0","ssdpName":"Sonoff","ssidAPName":"Sonoff","ssidApPass":"","ssidName":"Wifi","ssidPass":"","timeZone":3,"times1":"","times2":"","ddns":"","ddnsPort":8080,"lang":"ru"}

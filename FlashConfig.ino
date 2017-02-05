@@ -17,17 +17,18 @@ bool loadConfig() {
   //
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(jsonConfig);
-  _ssidAP = root["ssidAPName"].as<String>();
-  _passwordAP = root["ssidAPPassword"].as<String>();
-  timezone = root["timezone"];
-  SSDP_Name = root["SSDPName"].as<String>();
-  _ssid = root["ssidName"].as<String>();
-  _password = root["ssidPassword"].as<String>();
+  ssidApName = root["ssidAPName"].as<String>();
+  ssidApPass = root["ssidApPass"].as<String>();
+  timeZone = root["timeZone"];
+  ssdpName = root["ssdpName"].as<String>();
+  ssidName = root["ssidName"].as<String>();
+  ssidPass = root["ssidPass"].as<String>();
   times1 = root["times1"].as<String>();
   times2 = root["times2"].as<String>();
   Language = root["Lang"].as<String>();
-  DDNS = root["DDNS"].as<String>();
-  DDNSName = root["DDNSName"].as<String>();
+  ddns = root["ddns"].as<String>();
+  ddnsName = root["ddnsName"].as<String>();
+  ddnsPort = root["ddnsPort"];
 
   return true;
 }
@@ -35,16 +36,18 @@ bool loadConfig() {
 bool saveConfig() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(jsonConfig);
-  json["SSDPName"] = SSDP_Name;
-  json["ssidAPName"] = _ssidAP;
-  json["ssidAPPassword"] = _passwordAP;
-  json["ssidName"] = _ssid;
-  json["ssidPassword"] = _password;
-  json["timezone"] = timezone;
+  json["ssdpName"] = ssdpName;
+  json["ssidAPName"] = ssidApName;
+  json["ssidApPass"] = ssidApPass;
+  json["ssidName"] = ssidName;
+  json["ssidPass"] = ssidPass;
+  json["timeZone"] = timeZone;
   json["times1"] = times1;
   json["times2"] = times2;
   json["Lang"] = Language;
-  json["DDNS"] = DDNS;
+  json["ddns"] = ddns;
+  json["ddnsName"] = ddnsName;
+  json["ddnsPort"] = ddnsPort;
   File configFile = SPIFFS.open("/config.json", "w");
   if (!configFile) {
     //Serial.println("Failed to open config file for writing");
