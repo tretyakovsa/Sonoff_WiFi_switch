@@ -209,11 +209,7 @@ void handle_ConfigJSON() {
   json["times2"] = times2; // Время 2
   json["ip"] = WiFi.localIP().toString();
   json["time"] = XmlTime(); // Текущее время
-  if (Language == "") { // Язык
-  json["lang"] = "ru";
-  } else {
-  json["lang"] = Language;
-  }
+  json["lang"] = Language;  // Язык
   json["state"] = state0;
   // Помещаем созданный json в переменную root
   root="";
