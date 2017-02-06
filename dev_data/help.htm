@@ -20,7 +20,7 @@
      Prism.highlightAll();
     }
    }
-   load_request('configs-json','/configs.json');
+   load_request('configs-json','/config.live.json');
    load_request('lang-list-json','/lang.list.json');
    load_request('lang-json','/lang/lang.ru.json');
    load_request('devices-list-json','/devices.list.json');
@@ -33,7 +33,7 @@
    <div class="row" id="content">
     <h1 id="title">Помощь</h1>
     <h3>Вывод данных в JS, HTML</h3>
-    <p>Можно загружать данные с configs.json, Cookies, lang.*.json</p>
+    <p>Можно загружать данные с config.live.json, Cookies, lang.*.json</p>
     <pre><code class="language-js">
 jsonResponse.ssid;
 // В данном случае мы получим имя WiFi сети к которой мы подключены
@@ -63,7 +63,7 @@ val('ID_name');
         </code></pre>
     <hr>
     <h2>GET JSON</h2>
-    <h3>GET /configs.json</h3>
+    <h3>GET /config.live.json</h3>
     <p>Здесь хранятся основные настройки устройсва</p>
     <pre><code class="language-json" id="configs-json">Loading...</code></pre>
     <h3>GET /devices.list.json</h3>

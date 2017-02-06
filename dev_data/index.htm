@@ -71,7 +71,7 @@
     xhttp.onload = function(e) {
      var data = xhttp.responseText;
 
-     xhttp.open("GET", "http://"+ipval+"/configs.json?"+Math.floor(Math.random()*10000), true);
+     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
       var jsonResponse1 = JSON.parse(xhttp.responseText);

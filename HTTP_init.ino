@@ -45,11 +45,11 @@ void sonoffActiv() {
 
 // Установка параметров сети
 void handle_ddns() {
-  ddns = HTTP.arg("url");
-  ddnsName = HTTP.arg("wanurl");
-  ddnsPort = HTTP.arg("wanport").toInt();
+  ddns = HTTP.arg("ddns");
+  ddnsName = HTTP.arg("ddnsName");
+  ddnsPort = HTTP.arg("ddnsPort").toInt();
   //Serial.println(HTTP.arg("url"));
-  //Serial.println(HTTP.arg("wanurl"));
+  //Serial.println(HTTP.arg("ddnsName"));
   ip_wan();
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
@@ -159,7 +159,7 @@ void HTTP_init(void) {
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/save", handle_save_config);      // Сохранить настройки в файл
-  HTTP.on("/configs.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
+  HTTP.on("/config.live.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.scan.json", inquirySSDP);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
   HTTP.on("/restart", handle_restart);               // Перезагрузка модуля

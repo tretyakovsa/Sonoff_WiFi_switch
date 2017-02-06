@@ -10,7 +10,7 @@ function createXmlHttpObject(){
 function load(stage){
  var xmlHttp=createXmlHttpObject();
  if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
-  xmlHttp.open('PUT','/configs.json',true);
+  xmlHttp.open('PUT','/config.live.json',true);
   xmlHttp.send(null);
   xmlHttp.onload = function(e) {
    var jsonResponse1=JSON.parse(xmlHttp.responseText);

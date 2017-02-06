@@ -21,6 +21,7 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
+    document.body.style.backgroundColor="#"+jsonResponse.color;
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -51,7 +52,7 @@
     html('ssdp_t',val('ssdp'));
    }
    function ddns(submit){
-    server = "/ddns?url="+encodeURIComponent(val('ddns'))+"&wanurl="+val("ddns-name")+"&wanport="+val("ddns-port");
+    server = "/ddns?ddns="+encodeURIComponent(val('ddns'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
     send_request(submit,server);
    }
    function first_restart(submit,texts){
@@ -90,7 +91,7 @@
       <div class="alert alert-dismissible alert-info">
        {{LangSetting4}}
        <span id="hide" class="hidden">
-        <b>{{LangSetting5}} <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">github</a></b>
+        <b>{{LangSetting5}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">github</a></b>
         <form method="POST" action="/update" enctype="multipart/form-data">
          <div class="btn-group">
           <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
