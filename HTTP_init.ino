@@ -196,8 +196,12 @@ void handle_ConfigJSON() {
   json["ddns"] = ddns;  // Имя ddns
   json["ddnsName"] = ddnsName;  // Имя ddnsName
   json["ddnsPort"] = ddnsPort;  // Имя ddnsPort
-  json["Temperature"] = dht.getTemperature();
-  json["Humidity"] = dht.getHumidity();
+  String temp = "";
+  temp += dht.getTemperature();
+  json["Temperature"] = "\""+temp+"\"";
+  temp = "";
+  temp += dht.getHumidity();
+  json["Humidity"] = "\""+temp+"\"";
   json["SSDP"] = ssdpName;
   json["ssidAP"] = ssidApName;
   json["ssidApPass"] = ssidApPass;

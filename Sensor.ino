@@ -13,9 +13,13 @@ void handle_sensor() {
   //  вызовите парсер JSON через экземпляр jsonBuffer
   JsonObject& json = jsonBuffer.parseObject(root);
   // Заполняем поля json
-  json["Temperature"] = dht.getTemperature();
-  //json["Humidity"] = dht.getHumidity();
-  json["Humidity"] = "NaN";
+
+  String temp = "";
+  temp += dht.getTemperature();
+  json["Temperature"] = temp;
+  temp = "";
+  temp += dht.getHumidity();
+  json["Humidity"] = temp;
   json["type"] = dht.getModel();
     // Помещаем созданный json в переменную root
   root="";

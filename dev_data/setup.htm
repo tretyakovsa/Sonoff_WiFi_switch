@@ -21,7 +21,6 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
-    document.body.style.backgroundColor="#"+jsonResponse.color;
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -54,6 +53,7 @@
    function ddns(submit){
     server = "/ddns?ddns="+encodeURIComponent(val('ddns'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
     send_request(submit,server);
+    alert(jsonResponse.LangReset2);
    }
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;

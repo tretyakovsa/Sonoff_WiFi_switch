@@ -3,35 +3,39 @@
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen.png)
 
 
-###[Upload from NodeMCU Flasher](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
 
-##Video youtube
+##Upload instruction
 
-###Upload (Windows, Arduino)
+###[NodeMCU Flasher (Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jMK9mySGHio/0.jpg)](https://www.youtube.com/watch?v=jMK9mySGHio)
+###[Arduino Windows (Video)](https://www.youtube.com/watch?v=jMK9mySGHio)
 
-###Upload (Linux, Arduino)
+###[Arduino Linux (Video)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/1TAHlRqZ46k/0.jpg)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
-###Example
+##Work example (Video)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
 ##Construction
+```
+#define Tach0 0   // Кнопка управления
+#define rele1 12  // Реле на ногах
+#define led 13    // Светодиод на ноге
+#define DHTPIN 14 // Pin which is connected to the DHT sensor.
+```
 ###Schematic
 
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/sonoff.jpg)
 
 ##Othe...
 
-Jalousie: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
+####Jalousie: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
 
-RGB: [https://github.com/renat2985/rgb](https://github.com/renat2985/rgb)
+####RGB: [https://github.com/renat2985/rgb](https://github.com/renat2985/rgb)
 
 
-###Themes you can download here: [http://bootswatch.com/](http://bootswatch.com/)
+####Themes you can download here: [http://bootswatch.com/](http://bootswatch.com/)
 
 
 ##Donation

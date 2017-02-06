@@ -66,7 +66,7 @@
     }
 
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/block.htm?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "http://"+ipval+"/block.htm", true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var data = xhttp.responseText;
