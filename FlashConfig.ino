@@ -14,7 +14,6 @@ bool loadConfig() {
   // загружаем файл конфигурации в глобальную переменную
   jsonConfig = configFile.readString();
   Serial.println(jsonConfig);
-  //
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(jsonConfig);
   ssidApName = root["ssidApName"].as<String>();
@@ -29,7 +28,6 @@ bool loadConfig() {
   ddns = root["ddns"].as<String>();
   ddnsName = root["ddnsName"].as<String>();
   ddnsPort = root["ddnsPort"];
-
   return true;
 }
 

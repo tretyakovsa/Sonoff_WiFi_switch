@@ -22,7 +22,7 @@ bool StartAPMode()
   WiFi.softAP(ssidApName.c_str(), ssidApPass.c_str());
   dnsServer.start(DNS_PORT, "*", apIP);
   //Зажигаем светодиод если находимся в режиме AP
-  digitalWrite(led, HIGH);
+  digitalWrite(LED_PIN, HIGH);
   return true;
 }
 
@@ -51,10 +51,10 @@ void tries(byte tries) {
   while (--tries && WiFi.status() != WL_CONNECTED)
   {
     //Мигаем сетодиодом при попытке подключится к роутеру
-    digitalWrite(led, HIGH);
+    digitalWrite(LED_PIN, HIGH);
     Serial.print(".");
     delay(500);
-    digitalWrite(led, LOW);
+    digitalWrite(LED_PIN, LOW);
     delay(500);
 
   }

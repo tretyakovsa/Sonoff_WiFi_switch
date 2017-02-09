@@ -19,10 +19,10 @@
 
 ##Construction
 ```
-#define Tach0 0   // Кнопка управления
-#define rele1 12  // Реле на ногах
-#define led 13    // Светодиод на ноге
-#define DHTPIN 14 // Pin which is connected to the DHT sensor.
+#define TACH_PIN 0    // Кнопка управления
+#define RELE1_PIN 12  // Реле
+#define LED_PIN 13    // Светодиод
+#define DHTPIN 14     // Pin which is connected to the DHT sensor.
 ```
 ###Schematic
 

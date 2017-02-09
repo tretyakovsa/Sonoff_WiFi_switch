@@ -32,10 +32,10 @@ File fsUploadFile;
 Ticker tickerSetLow;
 Ticker tickerAlert;
 
-#define Tach0 0   // Кнопка управления
-#define rele1 12  // Реле на ногах
-#define led 13    // Светодиод на ноге
-#define DHTPIN 14 // Pin which is connected to the DHT sensor.
+#define TACH_PIN 0    // Кнопка управления
+#define RELE1_PIN 12  // Реле
+#define LED_PIN 13    // Светодиод
+#define DHTPIN 14     // Pin which is connected to the DHT sensor.
 DHT dht;
 
 // Определяем строку для json config
@@ -80,15 +80,15 @@ void setup() {
  Serial.begin(115200);
  Serial.println("");
  dht_init();
- pinMode(rele1, OUTPUT);
- pinMode(led, OUTPUT);
+ pinMode(RELE1_PIN, OUTPUT);
+ pinMode(LED_PIN, OUTPUT);
  // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
  HTTPWAN = new ESP8266WebServer(ddnsPort);
  // Кнопка будет работать по прерыванию
- attachInterrupt(Tach0, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
+ attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
  //Запускаем WIFI
  WIFIAP_Client();
  // Закускаем UDP
@@ -117,7 +117,7 @@ void loop() {
  if (chaing) {
   noInterrupts();
   state0=!state0;
-  digitalWrite(rele1,state0);
+  digitalWrite(RELE1_PIN,state0);
   chaing = 0;
   interrupts();
  }

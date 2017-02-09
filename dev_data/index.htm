@@ -30,17 +30,15 @@
     document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
 
-   function findDevice() {
+   function findDevice(submit) {
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/devices.scan.json?"+Math.floor(Math.random()*10000), false);
-    xhttp.send();
+    ajax(window.location.hostname,'devices.scan.json',submit, '1');
     setTimeout(function(){deviceList('search');document.getElementById("content").innerHTML='';}, 7000);
    }
 
    function deviceList(stage) {
-    document.getElementById("ifttt-if").innerHTML='';
-    document.getElementById("ifttt-then").innerHTML='';
+    document.getElementById("scenery-if").innerHTML='';
+    document.getElementById("scenery-then").innerHTML='';
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -54,7 +52,7 @@
        //xhttp.open("GET", "http://"+ipval+"/devices.scan.json"+Math.floor(Math.random()*10000), false);
        //xhttp.send();
       }
-      if (stage == 'ifttt') {ifttt(ipval);}
+      if (stage == 'scenery') {loadScenery(ipval);}
       if (stage == 'first') {loadBlock(ipval,'content','first');}
      }
     }
@@ -94,6 +92,16 @@
         jsonResponse.state = jsonResponse.LangOff;
        }
 
+       if (window.location.hostname == ipval) {
+        var new_string2;
+        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+        for (var key in jsonResponse) {
+         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         bodyData = new_string2;
+        }
+        document.getElementsByTagName('body')[0].innerHTML = new_string2;
+       }
+
        var new_string;
        for (var key in jsonResponse) {
         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
@@ -105,21 +113,21 @@
     }
    }
 
-   function ajax(blockIp, pagename, submit) {
+   function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+blockIp+'/'+pagename+'">http://'+blockIp+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li>'+datetext+'<span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+blockIp+"/"+pagename, true);
+    xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-     loadBlock(blockIp,'block-'+blockIp, '');
+     if (!loadB) {loadBlock(ipHost,'block-'+ipHost, '');}
     }
    }
 
@@ -161,18 +169,25 @@
     submit.parentNode.classList.add('hidden');
    }
 
-   function ifttt(ipval) {
+   function loadScenery(ipval) {
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var jsonResponses = JSON.parse(xhttp.responseText);
      jsonResponses.ip = ipval;
-     document.getElementById("ifttt-if").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
-     document.getElementById("ifttt-then").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+     document.getElementById("scenery-if").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+     document.getElementById("scenery-then").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
     }
    }
 
+   function findSelect(val) {
+    var e = document.getElementById(val);
+    return e.options[e.selectedIndex].value;
+   }
+   function addScenery(submit) {
+    ajax(findSelect('scenery-if'), "scenery?ifstate="+findSelect('state1')+"&then="+findSelect('scenery-then')+"&state="+findSelect('state2'), submit, '1');
+   }
   </script>
  </head>
  <body>
@@ -182,33 +197,33 @@
     <h1 id="date"><br><small></small></h1>
    </div>
    <div class="col-sm-12 col-md-3">
-    <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">История</h5>
+    <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history"></ul>
     <hr>
     <div class="block">
-     <h5 class="alert-danger">Поиск</h5>
-     <div class="alert alert-dismissible alert-info">Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:</div>
-     <input type="button" class="btn btn-block btn-default" value="Найти устройства" onclick="findDevice();">
+     <h5 class="alert-danger">{{LangSearch1}}</h5>
+     <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
+     <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);">
     </div>
     <div class="block">
-     <h5 class="alert-warning">Сценарии</h5>
-     <div class="alert alert-dismissible alert-info">Ниже вы можете автоматизировать некотоыре задачи</div>
-     <a href="#" onclick="deviceList('ifttt');toggle('ifttt');" class="btn btn-block btn-default">Добавить сценарий</a>
+     <h5 class="alert-warning">{{LangScenery1}}</h5>
+     <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
+     <a href="#" onclick="deviceList('scenery');toggle('scenery');" class="btn btn-block btn-default">{{LangAddScenery}}</a>
     </div>
    </div>
-   <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="ifttt">
-    <h5 class="alert-warning">Сценарии</h5>
-    <div class="alert alert-dismissible alert-info">Ниже вы можее добавить всевозможный сценарии</div>
-    <h4>Если <select class="btn btn-default" id="ifttt-if"></select>
-     = <select class="btn btn-default"><option value="0">Вкл</option><option value="0">Выкл</option></select>
-     значит <select class="btn btn-default" id="ifttt-then"></select>
-     сделать  <select class="btn btn-default"><option value="0">Вкл</option><option value="0">Выкл</option></select>
+   <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="scenery">
+    <h5 class="alert-warning">{{LangScenery1}}</h5>
+    <div class="alert alert-dismissible alert-info">Soon... If you like this project, you can give me a cup of coffee paypal:wul@inbox.lv :) <br> Скоро... Чем больше будит пожерствований на проект, тем быстрее мы сделаем.</div>
+    <h4>{{LangIf}} <select class="btn btn-default" id="scenery-if"></select>
+     = <select class="btn btn-default" id="state1"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
+     {{LangThen}} <select class="btn btn-default" id="scenery-then"></select>
+     = <select class="btn btn-default" id="state2"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
     </h4>
-    <input type="button" class="btn btn-block btn-success" value="Добавить" onclick="toggle('ifttt');">
+    <input type="button" class="btn btn-block btn-success" value="{{LangSave}}" onclick="addScenery(this);toggle('scenery');">
     <hr>
     <h4>Список всех сценариев</h4>
-    <p id="ifttt-list"></p>
-    <input class="btn btn-block btn-default" value="Отмена" onclick="toggle('ifttt');" type="button">
+    <p id="scenery-list"></p>
+    <input class="btn btn-block btn-default" value="{{LangCancel}}" onclick="toggle('scenery');" type="button">
    </div>
    <div class="col-sm-12 col-md-9" style="text-align:center;" id="content">
    </div>
