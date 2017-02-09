@@ -85,7 +85,7 @@
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <div id="dev-opt">
-      <a class="btn btn-block btn-danger" href="/">{{LangDevices}}</a>
+      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
       <hr id="hide-hr1">
       <div class="alert alert-dismissible alert-info">
@@ -155,9 +155,9 @@
       <hr>
       <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();" type="button">
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
-      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      </div>
      <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>
    </div>
   </div>

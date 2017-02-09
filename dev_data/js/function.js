@@ -24,6 +24,7 @@ function load(stage){
      jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
     }
     if (stage == 'first') {
+     if (jsonResponse.ip=='0.0.0.0') { toggle('btn-devices'); }
      toggle('content');
      loadBlock(jsonResponse);
     } else {
