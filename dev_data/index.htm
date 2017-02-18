@@ -169,6 +169,13 @@
     submit.parentNode.classList.add('hidden');
    }
 
+   function hide(name, submit) {
+   // if (confirm(jsonResponse.LangHedden)) {
+     submit.parentNode.classList.add('hidden');
+     setCookie(name,'hidden',365,submit);
+   // }
+   }
+
    function loadScenery(ipval) {
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json?"+Math.floor(Math.random()*10000), true);

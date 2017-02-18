@@ -46,10 +46,6 @@
     send_request(submit,server);
     alert(jsonResponse.LangReset2);
    }
-   function set_ssdp(submit){
-    send_request(submit,'/ssdp?ssdp='+val('ssdp'));
-    html('ssdp_t',val('ssdp'));
-   }
    function ddns(submit){
     server = "/ddns?ddns="+encodeURIComponent(val('ddns'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
     send_request(submit,server);
@@ -104,7 +100,7 @@
      </div>
      <h2>{{LangDevice}}</h2>
      <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssdp(this);" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssdp?ssdp='+val('ssdp'));html('ssdp_t',val('ssdp'));" type="button">
      <hr id="wifi-connect">
      <div class="row hidden" id="pop-up">
       <div class="col-sm-offset-2 col-sm-8 pop-up">

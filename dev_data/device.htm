@@ -4,7 +4,7 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
   <script src="js/chartist.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/function.js"></script>
@@ -68,12 +68,6 @@
     }
     send_request(submit,server);
    }
-   function set_time1(submit){
-    send_request(submit,'/times1?time1='+val('time1'));
-   }
-   function set_time2(submit){
-    send_request(submit,'/times2?time2='+val('time2'));
-   }
   </script>
   <style>.ct-label{font-size:10px;}</style>
  </head>
@@ -90,9 +84,10 @@
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
-     <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="setCookie('g2342','hidden',365,this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
-     <div class="{{Temperature}}" id="sensors">
-      <div class="ct-chart" style="height:200px"></div>
+     <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
+     <div class="{{Temperature}} {{g72895}}" id="sensors">
+      <button class="close" onclick="hide('g72895',this);" type="button">×</button>
+      <div class="ct-chart" style="height:200px;margin-bottom:15px;"></div>
       <select class="form-control" id="refresh-time">
        <option value="1000">1 {{LangSec}}</option>
        <option value="5000" selected>5 {{LangSec}}</option>
@@ -100,8 +95,8 @@
        <option value="60000">60 {{LangSec}}</option>
       </select>
       <span id="humidity" class="hidden"></span>
+      <hr>
      </div>
-     <hr>
      <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="button">
      <hr>
      <h2>{{LangTimer1}}</h2>
@@ -110,25 +105,25 @@
        <h4>{{LangTimer2}} 1:</h4>
        <input id="time1" value="{{times1}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%">
-        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="set_time1(this);" type="button">
-        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time1',' ');set_time1(this);" type="button">
+        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="send_request(this,'/times1?t='+val('time1'));" type="button">
+        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time1',' ');send_request(this,'/times1?t=');" type="button">
        </div>
        <h4>{{LangTimer2}} 2:</h4>
        <input id="time2" value="{{times2}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
        <div class="btn-group" style="width:100%">
-        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="set_time2(this);" type="button">
-        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time2',' ');set_time2(this);" type="button">
+        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="send_request(this,'/times2?t='+val('time2'));" type="button">
+        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time2',' ');send_request(this,'/times2?t=');'" type="button">
        </div>
       </div>
       <div class="col-sm-6">
        <div class="alert alert-dismissible alert-warning">{{LangTime6}}</div>
-       <div class="alert alert-dismissible alert-info {{g2532}}"><button class="close" onclick="setCookie('g2532','hidden',365,this);" type="button">×</button>
+       <div class="alert alert-dismissible alert-info {{g2532}}"><button class="close" onclick="hide('g2532',this);" type="button">×</button>
         {{LangIfttt3}}
        </div>
       </div>
      </div>
+     <h2>{{LangTime3}}</h2>
      <div class="row">
-      <h2>{{LangTime3}}</h2>
       <div class="col-sm-8">
        <div class="alert alert-dismissible alert-info">{{LangTime4}}</div>
       </div>

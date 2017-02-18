@@ -145,7 +145,13 @@ function setCookie(name, value, days, submit) {
  }
  else expires = "";
  document.cookie = name + "=" + value + expires + "; path=/";
- submit.parentNode.classList.add('hidden');
+}
+
+function hide(name, submit) {
+ if (confirm(jsonResponse.LangHedden)) {
+  submit.parentNode.classList.add('hidden');
+  setCookie(name,'hidden',365,submit);
+ }
 }
 
 function delAllCookies() {

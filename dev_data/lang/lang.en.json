@@ -26,6 +26,7 @@
  "LangAddScenery":"Add scenery",
  "LangIf":"If",
  "LangThen":"Then",
+ "LangHedden":"Hide block?\nIt can be restored on the 'Settings page'.",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Device Name",

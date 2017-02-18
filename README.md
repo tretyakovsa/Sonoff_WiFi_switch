@@ -12,6 +12,11 @@
 
 ###[Arduino Linux (Video)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
+####Used Libraries
+- Arduino core for ESP8266 WiFi chip https://github.com/esp8266/Arduino
+- Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
+- C++ JSON library for IoT. Simple and efficient. https://github.com/bblanchon/ArduinoJson
+- Efficient DHT library for Arduino https://github.com/markruys/arduino-DHT
 
 ##Work example (Video)
 

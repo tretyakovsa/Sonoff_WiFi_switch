@@ -121,14 +121,14 @@ void handle_time() {
 
 //Таймер 1
 void handle_time_1() {
-  times1 = HTTP.arg("time1");
+  times1 = HTTP.arg("t");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
 
 //Таймер 2
 void handle_time_2() {
-  times2 = HTTP.arg("time2");
+  times2 = HTTP.arg("t");
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }

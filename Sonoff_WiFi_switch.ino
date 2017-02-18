@@ -1,19 +1,21 @@
 /*
- * Sonoff - Wi-Fi switch
+ * Sonoff - Wi-Fi switch https://github.com/tretyakovsa/Sonoff_WiFi_switch
+ * Arduino core for ESP8266 WiFi chip https://github.com/esp8266/Arduino
+ * Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
  */
-#include <ESP8266WiFi.h>        //Содержится в пакете
-#include <ESP8266WebServer.h>   //Содержится в пакете
-#include <ESP8266SSDP.h>        //Содержится в пакете
-#include <FS.h>                 //Содержится в пакете
-#include <time.h>               //Содержится в пакете
-#include <Ticker.h>             //Содержится в пакете
-#include <WiFiUdp.h>            //Содержится в пакете
+#include <ESP8266WiFi.h>             //Содержится в пакете
+#include <ESP8266WebServer.h>        //Содержится в пакете
+#include <ESP8266SSDP.h>             //Содержится в пакете
+#include <FS.h>                      //Содержится в пакете
+#include <time.h>                    //Содержится в пакете
+#include <Ticker.h>                  //Содержится в пакете
+#include <WiFiUdp.h>                 //Содержится в пакете
 #include <ESP8266HTTPUpdateServer.h> //Содержится в пакете
-#include <ESP8266HTTPClient.h>
-#include <DNSServer.h>
-#include <ArduinoJson.h>
+#include <ESP8266HTTPClient.h>       //Содержится в пакете
+#include <DNSServer.h>               //Содержится в пакете
 
-#include <DHT.h> // http://homes-smart.ru/upload/arduino/DHTAUTO.zip
+#include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
+#include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 
 // Настройки DNS сервера и адреса точки в режиме AP
