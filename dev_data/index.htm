@@ -36,7 +36,7 @@
     setTimeout(function(){deviceList('search');}, 7000);
    }
 
-   function deviceList(stage) {
+   function deviceList(stage,sorting) {
     document.getElementById("scenery-if").innerHTML='';
     document.getElementById("scenery-then").innerHTML='';
     if (stage != 'scenery') document.getElementById('content').innerHTML='';
@@ -54,7 +54,12 @@
        //xhttp.send();
       }
       if (stage == 'scenery') {loadScenery(ipval);}
-      if (stage == 'first') {loadBlock(ipval,'content','first');}
+      if (stage == 'first') {
+       if (sorting == null || sorting == ipModule[key].module[0]) {
+        loadBlock(ipval,'content','first');
+       }
+
+      }
      }
     }
    }
@@ -212,6 +217,13 @@
     <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history"></ul>
     <hr>
+    <div class="block">
+     <h5 class="alert-warning">Sorting</h5>
+      <input type="button" class="btn btn-default" value="ALL" onclick="deviceList('first');">
+      <input type="button" class="btn btn-info" value="RGB" onclick="deviceList('first','rgb');">
+      <input type="button" class="btn btn-success" value="Jalousie" onclick="deviceList('first','jalousie');">
+      <input type="button" class="btn btn-danger" value="SONOFF" onclick="deviceList('first','sonoff');">
+    </div>
     <div class="block">
      <h5 class="alert-danger">{{LangSearch1}}</h5>
      <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
