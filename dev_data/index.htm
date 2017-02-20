@@ -33,12 +33,13 @@
    function findDevice(submit) {
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
     ajax(window.location.hostname,'devices.scan.json',submit, '1');
-    setTimeout(function(){deviceList('search');document.getElementById("content").innerHTML='';}, 7000);
+    setTimeout(function(){deviceList('search');}, 7000);
    }
 
    function deviceList(stage) {
     document.getElementById("scenery-if").innerHTML='';
     document.getElementById("scenery-then").innerHTML='';
+    if (stage != 'scenery') document.getElementById('content').innerHTML='';
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -170,10 +171,10 @@
    }
 
    function hide(name, submit) {
-   // if (confirm(jsonResponse.LangHedden)) {
-     submit.parentNode.classList.add('hidden');
-     setCookie(name,'hidden',365,submit);
-   // }
+    // if (confirm(jsonResponse.LangHedden)) {
+    submit.parentNode.classList.add('hidden');
+    setCookie(name,'hidden',365,submit);
+    // }
    }
 
    function loadScenery(ipval) {
@@ -200,7 +201,11 @@
  <body>
   <div class="container device">
    <div class="header">
-    <h4><small class="pull-right col-md-4 hidden-xs" style="padding:15px 0;">Здесь видны все ваши устройства, скачать прошивки для ESP8266 вы можете на github: <a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch" target="_blank">Sonoff</a>. Если появились какие-то вопросы, пишите сюда: <a href="https://github.com/tretyakovsa/jaluzi/issues/new" target="_blank">Жалюзи</a>, <a href="https://github.com/renat2985/rgb/issues/new" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" target="_blank">Sonoff</a>.</small></h4>
+    <div class="btn-group pull-right" style="margin-top:35px;">
+     <a href="#" class="btn btn-default" onclick="deviceList('first');">Refresh</a>
+     <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');">Help <span class="caret"></span></a>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi">Jalousie</a></li></ul>
+    </div>
     <h1 id="date"><br><small></small></h1>
    </div>
    <div class="col-sm-12 col-md-3">

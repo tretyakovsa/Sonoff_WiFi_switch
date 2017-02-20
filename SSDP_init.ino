@@ -6,9 +6,9 @@ void SSDP_init(void) {
   SSDP.setName(ssdpName);
   SSDP.setSerialNumber("001788102201");
   SSDP.setURL("/");
-  SSDP.setModelName("jalousie");
+  SSDP.setModelName("sonoff");
   SSDP.setModelNumber("000000000001");
-  SSDP.setModelURL("http://esp8266-arduinoide.ru/jalousie/");
+  SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
   SSDP.begin();
@@ -37,9 +37,19 @@ void handleUDP() {
     input_string += packetBuffer;
     if (input_string.indexOf("Arduino") > 0) {
       IPAddress remoteIp = udp.remoteIP();
-      Devices += ",{\"ip\":\"";
-      Devices += udp.remoteIP().toString();
-      Devices += "\"}";
+      // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
+      String urls = "http://" + udp.remoteIP().toString() + "/modules.json";
+      HTTPClient http;
+      http.begin(urls); //HTTP
+      int httpCode = http.GET();
+      if (httpCode == HTTP_CODE_OK) {
+        Devices += ",";
+        Devices += http.getString();
+      }
+      http.end();
+      //Devices += ",{\"ip\":\"";
+      //Devices += udp.remoteIP().toString();
+      //Devices += "\"}";
       //Serial.println(Devices);
     }
   }

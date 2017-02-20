@@ -222,51 +222,26 @@ void handle_ConfigJSON() {
 }
 
 void handle_ip_list() {
-  HTTP.send(200, "text/json", "[{\"ip\":\""+WiFi.localIP().toString()+"\"}"+Devices+"]");
-}
-
-void handle_ip_scan() {
-  inquirySSDP();
-  String json = "";
-  //Serial.println(Devices);
-  if (Devices != "") {
-    json = Devices;
-    //json += ",";
-  }
-  json +=modules();
-  DevicesList = "["+json+"]";
-  //Serial.println(json);
-  HTTP.send(200, "text/json", "[" + json + "]");
-  Devices="";
+  HTTP.send(200, "text/json", "["+modules()+Devices+"]");
 }
 
 void handle_modules() {
- DynamicJsonBuffer jsonBuffer;
- JsonObject& json = jsonBuffer.createObject();
- json["SSDP"] = ssdpName;
- json["state"] = state0;
-  JsonArray& data = json.createNestedArray("module");
- for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {
-    data.add(module[i]);
- }
- String root;
- json.printTo(root);
- HTTP.send(200, "text/json", root);
+  HTTP.send(200, "text/json", modules());
 }
 
 String modules() {
-  String json = "";
-  for (int i = 0; i <= sizeof(module) / sizeof(module[0]); i++) {
-    json += "{\"ip\":\"";
-    json += WiFi.localIP().toString();
-    json += "\",\"module\":\"";
-    json += module[i];
-    //Serial.println(module[i]);
-    json += "\"";
-    json += "}";
-    if (i != sizeof(module) / sizeof(module[0])) json += ",";
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.createObject();
+  json["ip"] = WiFi.localIP().toString();
+  json["SSDP"] = ssdpName;
+  json["state"] = state0;
+  JsonArray& data = json.createNestedArray("module");
+  for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {
+    data.add(module[i]);
   }
-  return json;
+  String root;
+  json.printTo(root);
+  return root;
 }
 
 void handle_leng_list() {
