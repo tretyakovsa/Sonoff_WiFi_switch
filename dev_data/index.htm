@@ -54,11 +54,8 @@
        //xhttp.send();
       }
       if (stage == 'scenery') {loadScenery(ipval);}
-      if (stage == 'first') {
-       if (sorting == null || sorting == ipModule[key].module[0]) {
-        loadBlock(ipval,'content','first');
-       }
-
+      if (stage == 'first' && sorting == null || sorting == ipModule[key].module[0]) {
+       loadBlock(ipval,'content','first');
       }
      }
     }
@@ -219,10 +216,10 @@
     <hr>
     <div class="block">
      <h5 class="alert-warning">Sorting</h5>
-      <input type="button" class="btn btn-default" value="ALL" onclick="deviceList('first');">
-      <input type="button" class="btn btn-info" value="RGB" onclick="deviceList('first','rgb');">
-      <input type="button" class="btn btn-success" value="Jalousie" onclick="deviceList('first','jalousie');">
-      <input type="button" class="btn btn-danger" value="SONOFF" onclick="deviceList('first','sonoff');">
+     <input type="button" class="btn btn-default" value="all" onclick="deviceList('first');">
+     <input type="button" class="btn btn-info" value="rgb" onclick="deviceList('first','rgb');">
+     <input type="button" class="btn btn-success" value="jalousie" onclick="deviceList('first','jalousie');">
+     <input type="button" class="btn btn-danger" value="sonoff" onclick="deviceList('first','sonoff');">
     </div>
     <div class="block">
      <h5 class="alert-danger">{{LangSearch1}}</h5>
