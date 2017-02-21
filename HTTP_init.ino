@@ -43,6 +43,12 @@ void sonoffActiv() {
   HTTP.send(200, "text/plain", "OK");
 }
 
+// Меняет флаг для включения выключения sonoff
+void sonoffActivWan() {
+  chaing = 1;
+  HTTPWAN.send(200, "text/plain", "OK");
+}
+
 // Установка параметров сети
 void handle_ddns() {
   ddns = HTTP.arg("ddns");
@@ -134,6 +140,7 @@ void handle_time_2() {
 }
 
 void HTTP_init(void) {
+  HTTPWAN = ESP8266WebServer (ddnsPort);
   // SSDP дескриптор
   HTTP.on("/description.xml", HTTP_GET, []() {
     SSDP.schema(HTTP.client());
@@ -147,7 +154,7 @@ void HTTP_init(void) {
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
-  HTTPWAN->on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
+  HTTPWAN.on("/sonoff", sonoffActivWan);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/timeSonoff", handle_timesonoff);      // установка времени работы лампы
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
@@ -169,7 +176,7 @@ void HTTP_init(void) {
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   // Запускаем HTTP сервер
   HTTP.begin();
-  HTTPWAN->begin();
+  HTTPWAN.begin();
 }
 
 // Получение текущего времени

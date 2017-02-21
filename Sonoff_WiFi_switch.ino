@@ -25,7 +25,7 @@ DNSServer dnsServer;
 // Web интерфейс для устройства
 ESP8266WebServer HTTP(80);
 //ESP8266WebServer HTTPWAN(ddnsPort);
-ESP8266WebServer *HTTPWAN;
+ESP8266WebServer HTTPWAN;
 ESP8266HTTPUpdateServer httpUpdater;
 // Для файловой системы
 File fsUploadFile;
@@ -89,8 +89,7 @@ void setup() {
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
- HTTPWAN = new ESP8266WebServer(ddnsPort);
- // Кнопка будет работать по прерыванию
+  // Кнопка будет работать по прерыванию
  attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
  //Запускаем WIFI
  WIFIAP_Client();
@@ -113,7 +112,7 @@ void loop() {
  dnsServer.processNextRequest();
  HTTP.handleClient();
  delay(1);
- HTTPWAN->handleClient();
+ HTTPWAN.handleClient();
  delay(1);
  handleUDP();
 
