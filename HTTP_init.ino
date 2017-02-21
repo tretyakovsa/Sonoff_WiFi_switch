@@ -250,7 +250,6 @@ String modules() {
   JsonObject& json = jsonBuffer.createObject();
   json["ip"] = WiFi.localIP().toString();
   json["SSDP"] = ssdpName;
-  json["state"] = state0;
   JsonArray& data = json.createNestedArray("module");
   for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {
     data.add(module[i]);

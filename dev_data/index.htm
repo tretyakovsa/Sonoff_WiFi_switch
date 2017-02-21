@@ -58,6 +58,17 @@
        loadBlock(ipval,'content','first');
       }
      }
+     if (stage == 'first' or stage == 'search') {
+      var moduleArray = [];
+      var lookup  = {};
+      for (var i in ipModule) {lookup[ipModule[i].module[0]] = ipModule[i];}
+      for (i in lookup) {moduleArray.push(lookup[i]);}
+      if (moduleArray.length > 1) {toggle('sorting','hidden');}
+      document.getElementById("sorting").innerHTML = '<h5 class="alert-warning">Sorting<\/h5><input type="button" class="btn btn-default" value="all" onclick="deviceList(\'first\');">';
+      for(var key in moduleArray) {
+       document.getElementById("sorting").innerHTML += '<input type="button" class="btn btn-default" onclick="deviceList(\'first\',\''+moduleArray[key].module[0]+'\')" value="'+moduleArray[key].module[0]+'">';
+      }
+     }
     }
    }
 
@@ -141,14 +152,18 @@
     }
    }
 
-   function toggle(target) {
+   function toggle(target,status) {
     var curVal = document.getElementById(target).classList;
     if (curVal.contains('hidden')) {
-     curVal.remove('hidden');
-     curVal.add('show');
+     if (status != 'show') {
+      curVal.remove('hidden');
+      curVal.add('show');
+     }
     } else {
-     curVal.remove('show');
-     curVal.add('hidden');
+     if (status != 'hidden') {
+      curVal.remove('show');
+      curVal.add('hidden');
+     }
     }
    }
 
@@ -214,22 +229,16 @@
     <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history"></ul>
     <hr>
-    <div class="block">
-     <h5 class="alert-warning">Sorting</h5>
-     <input type="button" class="btn btn-default" value="all" onclick="deviceList('first');">
-     <input type="button" class="btn btn-info" value="rgb" onclick="deviceList('first','rgb');">
-     <input type="button" class="btn btn-success" value="jalousie" onclick="deviceList('first','jalousie');">
-     <input type="button" class="btn btn-danger" value="sonoff" onclick="deviceList('first','sonoff');">
-    </div>
+    <div class="block hidden" id="sorting"></div>
     <div class="block">
      <h5 class="alert-danger">{{LangSearch1}}</h5>
      <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
-     <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);">
+     <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
     </div>
     <div class="block">
      <h5 class="alert-warning">{{LangScenery1}}</h5>
      <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
-     <a href="#" onclick="deviceList('scenery');toggle('scenery');" class="btn btn-block btn-default">{{LangAddScenery}}</a>
+     <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
     </div>
    </div>
    <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="scenery">
