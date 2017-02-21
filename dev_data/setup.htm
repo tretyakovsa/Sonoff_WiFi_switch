@@ -21,6 +21,7 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
+    document.body.style.backgroundColor="#"+jsonResponse.color;
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -143,7 +144,7 @@
       <h2>{{LangDdns1}}</h2>
       <div class="alert alert-dismissible alert-info">{{LangDdns2}}</div>
       <div class="input-group" style="width:100%">
-       <input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
+       <span class="input-group-addon">http://</span><input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
        <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
       </div>
       <input id="ddns" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">

@@ -52,7 +52,7 @@
  "LangHiddenWifi":"Savienojumu ar slēpto WiFi tīklam",
 
  "_comment": "---DEVICE.HTM---",
- "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa. Piemērs: 03:09:10. Modinātājs zvana katru dienu.",
+ "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa. Piemērs: 03:09:10. Rele iesledzas katru dienu.",
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">vairāk...</a>",
  "LangIfttt2":"pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"url1\"></span><br>Global saite: <span id=\"url2\"></span>",
 
