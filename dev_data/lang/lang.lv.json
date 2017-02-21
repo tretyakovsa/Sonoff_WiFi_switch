@@ -66,5 +66,7 @@
  "LangOff":"Izslēgt",
  "LangTemperature":"Temperatūra",
  "LangHumidity":"Mitrums",
+ "LangPir1":"PIR Sensor",
+ "LangPir2":"Ja sensors nav pieslēgts PIR, vērtība 0.",
  "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }

@@ -35,6 +35,7 @@ Ticker tickerSetLow;
 Ticker tickerAlert;
 
 #define TACH_PIN 0    // Кнопка управления
+#define PIR_PIN 2    // RIR sensors
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // Pin which is connected to the DHT sensor.
@@ -71,6 +72,7 @@ int task = 0;
 // Переменные для ddns
 String ddns = "";               // url страницы тестирования WanIP
 String ddnsName = "";           // адрес сайта ddns
+int pirTime = 0;                // 0 = PIR off; >1 = PIR on;
 int ddnsPort = 8080; // порт для обращение к устройству с wan
 
 unsigned int localPort = 2390;
@@ -151,6 +153,10 @@ void alert() {
  if (calibrationTime.compareTo(Time) == 0) {
   task=1;
  }
+ if (pirTime > 0 && state0 == 0 && digitalRead(PIR_PIN)) {
+  alarm_pir();
+ }
+
  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
  // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
  if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {

@@ -28,6 +28,7 @@ bool loadConfig() {
   ddns = root["ddns"].as<String>();
   ddnsName = root["ddnsName"].as<String>();
   ddnsPort = root["ddnsPort"];
+  pirTime = root["pirTime"];
   return true;
 }
 
@@ -46,6 +47,7 @@ bool saveConfig() {
   json["ddns"] = ddns;
   json["ddnsName"] = ddnsName;
   json["ddnsPort"] = ddnsPort;
+  json["pirTime"] = pirTime;
   File configFile = SPIFFS.open("/config.save.json", "w");
   if (!configFile) {
     //Serial.println("Failed to open config file for writing");

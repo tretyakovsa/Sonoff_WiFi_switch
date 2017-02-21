@@ -136,6 +136,26 @@
       </div>
      </div>
      <hr>
+     <div class="{{g8359}}">
+      <button class="close" onclick="hide('g8359',this);" type="button">×</button>
+      <h2>{{LangPir1}}</h2>
+      <div class="row">
+       <div class="col-sm-8">
+        <div class="alert alert-dismissible alert-info">{{LangPir2}}</div>
+       </div>
+       <div class="col-sm-4">
+        <div class="input-group">
+         <input id="pir-time" value="{{pirTime}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
+         <span class="input-group-addon">{{LangSec}}</span>
+        </div>
+        <div class="btn-group" style="width:100%">
+         <input class="btn btn-success" style="width:60%" value="{{LangSave}}" onclick="send_request(this,'/pir?t='+val('pir-time'));" type="button">
+         <input class="btn btn-default" style="width:40%" value="{{LangOff.}}" onclick="val('pir-time','0');send_request(this,'/pir?t=0');" type="button">
+        </div>
+       </div>
+      </div>
+      <hr>
+     </div>
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
     </div>
    </div>

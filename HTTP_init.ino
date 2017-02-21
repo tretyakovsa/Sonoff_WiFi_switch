@@ -139,6 +139,13 @@ void handle_time_2() {
   HTTP.send(200, "text/plain", "OK");
 }
 
+// Pir таймер
+void handle_pir() {
+  pirTime = HTTP.arg("t").toInt();
+  saveConfig();
+  HTTP.send(200, "text/plain", "OK");
+}
+
 void HTTP_init(void) {
   HTTPWAN = ESP8266WebServer (ddnsPort);
   // SSDP дескриптор
@@ -162,6 +169,7 @@ void HTTP_init(void) {
   HTTP.on("/Time", handle_time);            // Синхронизировать время из сети
   HTTP.on("/times1", handle_time_1);        // Установить время 1
   HTTP.on("/times2", handle_time_2);        // Установить время 2
+  HTTP.on("/pir", handle_pir);        // Устанавливаем время работы pir сенсра
   HTTP.on("/ssdp", handle_ssdp);        // Установить имя устройства
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
@@ -221,6 +229,7 @@ void handle_ConfigJSON() {
   json["ip"] = WiFi.localIP().toString();
   json["time"] = XmlTime(); // Текущее время
   json["lang"] = Language;  // Язык
+  json["pirTime"] = pirTime;  //
   json["state"] = state0;
   // Помещаем созданный json в переменную root
   root="";

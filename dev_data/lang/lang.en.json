@@ -64,5 +64,7 @@
  "LangOff":"Off",
  "LangTemperature":"Temperature",
  "LangHumidity":"Humidity",
+ "LangPir1":"PIR Sensor",
+ "LangPir2":"Time in seconds how long the LED will light on the sensor to movement. If the sensor is not connected PIR, the value should be 0.",
  "LangIfttt3":"More options can be found at <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }
