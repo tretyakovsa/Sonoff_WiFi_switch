@@ -57,7 +57,7 @@ String ssdpName = "Sonoff";    // SSDP
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
 int timeZone = 3;               // часовой пояс GTM
-String kolibrTime = "03:00:00"; // Время колибровки часов
+String calibrationTime = "03:00:00"; // Время колибровки часов
 // Переменные для таймеров
 String times1 = "";             // Таймер 1
 String times2 = "";             // Таймер 2
@@ -67,6 +67,7 @@ String Lang ="";                // файлы языка web интерфейс�
 volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
+int task = 0;
 // Переменные для ddns
 String ddns = "";               // url страницы тестирования WanIP
 String ddnsName = "";           // адрес сайта ddns
@@ -124,14 +125,17 @@ void loop() {
   interrupts();
  }
 
- if (chaingtime) {
-  Time_init(timeZone);
-  chaingtime = 0;
+ switch (task) {
+  case 1:
+   Time_init(timeZone);
+   task = 0;
+   break;
+  case 2:
+   ip_wan();
+   task = 0;
+   break;
  }
- if (chaingtime) {
-  Time_init(timeZone);
-  chaingtime=0;
- }
+
 }
 
 // Вызывается каждую секунду в обход основного циклу.
@@ -145,13 +149,13 @@ void alert() {
   Serial.println("timer2");
   Time01();
  }
- if (kolibrTime.compareTo(Time) == 0) {
-  chaingtime=1;
+ if (calibrationTime.compareTo(Time) == 0) {
+  task=1;
  }
  Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
  // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
  if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {
-  ip_wan();
+  task=2;
  }
 }
 
