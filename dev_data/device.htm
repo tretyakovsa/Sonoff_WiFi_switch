@@ -28,10 +28,10 @@
       xmlHttp.onload = function(e) {
        var module=JSON.parse(xmlHttp.responseText);
        for (var i = 0; i < module.data.length; i++) {
-        if (module.points != null) {
+        if (module.points != null || module.data[0] != 'NaN') {
          LineChart.data.series[0].shift();
          LineChart.data.series[0].push(module.data[i]);
-         if (module.data2 != null) {
+         if (module.data2 != null || module.data2[0] != 'NaN') {
           LineChart.data.series[1].shift();
           LineChart.data.series[1].push(module.data2[i]);
          }
