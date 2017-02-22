@@ -26,16 +26,22 @@
       xmlHttp.open("GET", "/sensor.json", true);
       xmlHttp.send(null);
       xmlHttp.onload = function(e) {
-       var Module=JSON.parse(xmlHttp.responseText);
-       if (Module.Temperature != 'NaN') {
-        LineChart.data.series[0].shift();
-        LineChart.data.series[0].push(Module.Temperature);
-        if (Module.Humidity != 'NaN') {
-         LineChart.data.series[1].shift();
-         LineChart.data.series[1].push(Module.Humidity);
+       var module=JSON.parse(xmlHttp.responseText);
+       for (var i = 0; i < module.data.length; i++) {
+        if (module.points != null) {
+         LineChart.data.series[0].shift();
+         LineChart.data.series[0].push(module.data[i]);
+         if (module.data2 != null) {
+          LineChart.data.series[1].shift();
+          LineChart.data.series[1].push(module.data2[i]);
+         }
         }
         LineChart.data.labels.shift();
-        LineChart.data.labels.push(viewTime());
+        if (module.label != null) {
+         LineChart.data.labels.push(module.label[i]);
+        } else {
+         LineChart.data.labels.push(viewTime());
+        }
         LineChart.update();
        }
        var e = document.getElementById("refresh-time");
