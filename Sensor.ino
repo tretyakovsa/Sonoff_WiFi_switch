@@ -19,6 +19,8 @@ void handle_sensor() {
  data2.add(dht.getHumidity());  // 6 is the number of decimals to print
  json["type"] = dht.getModel();
  json["points"] = "10";
+ json["refresh"] = "5";
+ json["title"] = "Temperature";
  // Помещаем созданный json в переменную root
  root="";
  json.printTo(root);

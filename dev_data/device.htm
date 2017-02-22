@@ -6,7 +6,9 @@
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
-  <script src="js/chartist.min.js" charset="utf-8"></script>
+  <script src="js/build.chart.js" charset="utf-8"></script>
+  <!-- <script src="js/chartist.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/chart.js"></script> -->
   <script type="text/javascript" src="js/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Options page</title>
@@ -15,46 +17,8 @@
    function handleServerResponse(stage,jsonResponse){
     if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
     val('off-on', blockval);
-
     if (stage != 'next') {
-     function viewTime() {
-      var now = new Date();
-      return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-     }
-     function adddata() {
-      var xmlHttp=createXmlHttpObject();
-      xmlHttp.open("GET", "/sensor.json", true);
-      xmlHttp.send(null);
-      xmlHttp.onload = function(e) {
-       var module=JSON.parse(xmlHttp.responseText);
-       for (var i = 0; i < module.data.length; i++) {
-        if (module.points != null || module.data[0] != 'NaN') {
-         LineChart.data.series[0].shift();
-         LineChart.data.series[0].push(module.data[i]);
-         if (module.data2 != null || module.data2[0] != 'NaN') {
-          LineChart.data.series[1].shift();
-          LineChart.data.series[1].push(module.data2[i]);
-         }
-        }
-        LineChart.data.labels.shift();
-        if (module.label != null) {
-         LineChart.data.labels.push(module.label[i]);
-        } else {
-         LineChart.data.labels.push(viewTime());
-        }
-        LineChart.update();
-       }
-       var e = document.getElementById("refresh-time");
-       var strUser = e.options[e.selectedIndex].value;
-       clearInterval(myVar);
-       myVar=setInterval(function(){adddata();}, strUser);
-      }
-     }
-     var LineChart = Chartist.Line('.ct-chart', {
-      labels: [, , , , , , , , , , ],
-      series: [[, , , , , , , , , , ],[, , , , , , , , , , ]]
-     }, {fullWidth:true});
-     adddata();
+     chartStart('ct-chart','sensor');
     }
    }
    function sonoff(submit){
@@ -93,14 +57,8 @@
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
      <div class="{{Temperature}} {{g72895}}" id="sensors">
       <button class="close" onclick="hide('g72895',this);" type="button">×</button>
-      <div class="ct-chart" style="height:200px;margin-bottom:15px;"></div>
-      <select class="form-control" id="refresh-time">
-       <option value="1000">1 {{LangSec}}</option>
-       <option value="5000" selected>5 {{LangSec}}</option>
-       <option value="30000">30 {{LangSec}}</option>
-       <option value="60000">60 {{LangSec}}</option>
-      </select>
-      <span id="humidity" class="hidden"></span>
+      <a href="/chart.htm#sensor" target="_blank" class="close"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAM0lEQVQ4jWNgQAN+fgH/ScHo+oeiAUSbjMOi4WQAhsSAG0ByNFLNAIJOJlqCVAMGLPMAAM5NI5iNV9vsAAAAAElFTkSuQmCC" alt=""></a>
+      <div id="ct-chart" style="height:200px;margin-left:-20px"></div>
       <hr>
      </div>
      <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="button">

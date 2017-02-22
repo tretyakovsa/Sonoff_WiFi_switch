@@ -1,5 +1,6 @@
 #!/bin/bash
 cat dev_data/css/bootstrap.min.css dev_data/css/style.css > dev_data/css/build.css
+cat dev_data/js/chartist.min.js dev_data/js/chart.js > dev_data/js/build.chart.js
 
 gzip -vrkf dev_data/*.htm
 gzip -vrkf dev_data/css/*.css
@@ -12,6 +13,7 @@ mv dev_data/css/*.css.gz data/css
 mv dev_data/lang/*.json.gz data/lang
 
 rm dev_data/css/build.css
+rm dev_data/js/build.chart.js
 
 #test -f *.generic.bin && cp *.generic.bin build/build.generic_flash_size_1Mb.254Kb_`date '+%G.%m.%d'`.bin
 FILE_SUM=`md5sum Sonoff_WiFi_switch.ino.generic.bin`
