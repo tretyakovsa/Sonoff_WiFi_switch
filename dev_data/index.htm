@@ -226,19 +226,23 @@
     <h1 id="date"><br><small></small></h1>
    </div>
    <div class="col-sm-12 col-md-3">
-    <h5 style="background-color:#C0C7CA;cursor:pointer" onclick="toggle('history');return false">{{LangHistory}}</h5>
-    <ul id="history"></ul>
+    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
+    <ul id="history" class="hidden-xs"></ul>
     <hr>
     <div class="block hidden" id="sorting"></div>
+    <div class="col-xs-6 col-md-12">
     <div class="block">
      <h5 class="alert-danger">{{LangSearch1}}</h5>
      <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
      <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
     </div>
+    </div>
+    <div class="col-xs-6 col-md-12">
     <div class="block">
      <h5 class="alert-warning">{{LangScenery1}}</h5>
      <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
      <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
+    </div>
     </div>
    </div>
    <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="scenery">

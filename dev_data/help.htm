@@ -4,29 +4,12 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <link rel="stylesheet" type="text/css" href="css/prism.css">
   <script type="text/javascript" src="js/function.js"></script>
   <script type="text/javascript" src="js/prism.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Помощь</title>
-  <script type="text/javascript">
-   function load_request(id_element, server){
-    var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET',server,true);
-    xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
-     document.getElementById(id_element).innerHTML = xmlHttp.responseText;
-     Prism.highlightAll();
-    }
-   }
-   load_request('configs-json','/config.live.json');
-   load_request('lang-list-json','/lang.list.json');
-   load_request('lang-json','/lang/lang.ru.json');
-   load_request('devices-list-json','/devices.list.json');
-   load_request('wifi-scan-json','/wifi.scan.json');
-   load_request('modules-json','/modules.json');
-  </script>
  </head>
  <body>
   <div class="container">
@@ -69,18 +52,48 @@ val('ID_name');
     <h3>GET /devices.list.json</h3>
     <p>Количество устройст найденых в локальной сети, обновляются через GET /devices.scan.json</p>
     <pre><code class="language-json" id="devices-list-json">Loading...</code></pre>
-    <h3>GET /wifi.scan.json</h3>
-    <p>Список доступных WiFi сетей</p>
-    <pre><code class="language-json" id="wifi-scan-json">Loading...</code></pre>
     <h3>GET /modules.json</h3>
     <pre><code class="language-json" id="modules-json">Loading...</code></pre>
     <h3>GET /lang.list.json</h3>
     <p>Список языковых файлов в папке lang</p>
     <pre><code class="language-json" id="lang-list-json">Loading...</code></pre>
+    <h3>GET /wifi.scan.json</h3>
+    <p>Список доступных WiFi сетей</p>
+    <pre><code class="language-json" id="wifi-scan-json">Loading...</code></pre>
     <h3>GET /lang/lang.ru.json</h3>
     <p>Изменить язык можно GET запросом /lang?set=en </p>
     <pre><code class="language-json" id="lang-json">Loading...</code></pre>
+    <h3>Cookie</h3>
+    <p>Список ваших Cookie</p>
+    <pre><code class="language-json" id="lang-cookie">Loading...</code></pre>
    </div>
   </div>
  </body>
+ <script type="text/javascript">
+  function load_request(id_element, server){
+   var xmlHttp=createXmlHttpObject();
+   xmlHttp.open('GET',server,true);
+   xmlHttp.send(null);
+   xmlHttp.onload = function(e) {
+    document.getElementById(id_element).innerHTML = xmlHttp.responseText;
+    Prism.highlightAll();
+   }
+  }
+  load_request('configs-json','/config.live.json');
+  load_request('lang-list-json','/lang.list.json');
+  load_request('lang-json','/lang/lang.ru.json');
+  load_request('devices-list-json','/devices.list.json');
+  load_request('modules-json','/modules.json');
+  setTimeout(function(){load_request('wifi-scan-json','/wifi.scan.json');},5000);
+
+  function listCookies() {
+   var theCookies = document.cookie.split(';');
+   var aString = '';
+   for (var i = 1 ; i <= theCookies.length; i++) {
+    aString += i + ' ' + theCookies[i-1] + "\n";
+   }
+   document.getElementById("lang-cookie").innerHTML = aString;
+  }
+  listCookies();
+ </script>
 </html>

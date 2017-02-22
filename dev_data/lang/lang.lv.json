@@ -15,7 +15,7 @@
  "LangSearch2":"Ja jums ir vairākas ierīces, kas saistīts ar tīklu, jūs varat pievienot to šeit, noklikšķinot uz zemāk pogu:",
  "LangSearch3":"Atrast ierīces",
  "LangSearch4":"Lūdzu, uzgaidiet, skenējot tīklu.",
- "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat Vadība lapa",
+ "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat \"Vadība lapa\".",
  "LangLanguage":"Latviski",
  "LangConnect1":"Pagaidiet, ierīce savienojas ar tīklu.",
  "LangConnect2":"IP adresi ierīces jūsu tīklā būs:",
@@ -26,7 +26,7 @@
  "LangAddScenery":"Pievienot scenāriju",
  "LangIf":"Ja",
  "LangThen":"Tā",
- "LangHedden":"Slēpt bloku?\nTo var atjaunot no 'Ekstras iestatījumi'.",
+ "LangHedden":"Slēpt bloku?\nTo var atjaunot no \"Ekstras iestatījumi\".",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",

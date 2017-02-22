@@ -28,6 +28,7 @@
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // Pin which is connected to the DHT sensor.
+#define PIR_PIN 2     // RIR sensors
 ```
 ###Schematic
 
