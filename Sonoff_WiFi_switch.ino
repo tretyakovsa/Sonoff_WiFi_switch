@@ -17,7 +17,7 @@
 #include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
-
+DHT dht;
 // Настройки DNS сервера и адреса точки в режиме AP
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
@@ -39,7 +39,7 @@ Ticker tickerAlert;
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // Pin which is connected to the DHT sensor.
-DHT dht;
+
 
 // Определяем строку для json config
 String jsonConfig = "";
@@ -84,7 +84,7 @@ WiFiUDP udp;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
- dht_init();
+ sensor_init();
  pinMode(RELE1_PIN, OUTPUT);
  pinMode(LED_PIN, OUTPUT);
  // Включаем работу с файловой системой
