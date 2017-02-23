@@ -19,16 +19,22 @@ function chartStart(chartId,chartUrl){
     document.getElementById(chartId+'-title').innerHTML = module.title;
    }
    for (var i = 0; i < module.data.length; i++) {
-    if (module.points != null && module.points <= LineChart.data.series[1].length) {
+    if (module.points != null && module.points <= LineChart.data.series[0].length) {
      LineChart.data.labels.shift();
      LineChart.data.series[0].shift();
      if (module.data2 != null) {
       LineChart.data.series[1].shift();
      }
+     if (module.data3 != null) {
+      LineChart.data.series[2].shift();
+     }
     }
     LineChart.data.series[0].push(module.data[i]);
     if (module.data2 != null) {
      LineChart.data.series[1].push(module.data2[i]);
+    }
+    if (module.data3 != null) {
+     LineChart.data.series[2].push(module.data3[i]);
     }
     if (module.label != null) {
      LineChart.data.labels.push(module.label[i]);
@@ -44,7 +50,7 @@ function chartStart(chartId,chartUrl){
  }
  var LineChart = Chartist.Line("#"+chartId, {
   labels: [],
-  series: [[],[]]
+  series: [[],[],[]]
  }, {fullWidth:true});
  adddata();
 }
