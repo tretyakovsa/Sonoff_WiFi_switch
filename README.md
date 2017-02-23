@@ -29,6 +29,7 @@
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // Pin which is connected to the DHT sensor.
 #define PIR_PIN 2     // RIR sensors
+#define A0            // /analog.json or /chart.htm#analog
 ```
 ###Schematic
 

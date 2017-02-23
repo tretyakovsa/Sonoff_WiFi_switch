@@ -18,6 +18,7 @@ function chartStart(chartId,chartUrl){
    if (module.title != null) {
     document.getElementById(chartId+'-title').innerHTML = module.title;
    }
+   // if (typeof module.data !== undefined || typeof module.data2 !== undefined || typeof module.data3 !== undefined) {
    for (var i = 0; i < module.data.length; i++) {
     if (module.points != null && module.points <= LineChart.data.series[0].length) {
      LineChart.data.labels.shift();
@@ -43,9 +44,10 @@ function chartStart(chartId,chartUrl){
     }
     LineChart.update();
    }
+   // }
    var strUser = module.refresh;
    clearInterval(myVar);
-   myVar=setInterval(function(){adddata();}, strUser*1000);
+   myVar=setInterval(function(){adddata();}, strUser);
   }
  }
  var LineChart = Chartist.Line("#"+chartId, {

@@ -31,7 +31,7 @@ void handle_sensor() {
  data2.add(temp);  // 6 is the number of decimals to print
  json["type"] = dht.getModel();
  json["points"] = 10;
- json["refresh"] = 5;
+ json["refresh"] = 5000;
  json["title"] = "Temperature";
  // Помещаем созданный json в переменную root
  root="";
@@ -50,7 +50,7 @@ void handle_analog() {
  JsonArray& data = json.createNestedArray("data");
  data.add(analogRead(A0));
  json["points"] = 10;
- json["refresh"] = 2;
+ json["refresh"] = 2000;
  json["title"] = "Analog";
  // Помещаем созданный json в переменную root
  root="";
