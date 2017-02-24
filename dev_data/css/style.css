@@ -118,3 +118,6 @@ ul#history {
 .NaN,.nan {
  display: none;
 }
+.ct-label{
+ font-size:10px;
+}

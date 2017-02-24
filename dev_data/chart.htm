@@ -13,18 +13,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chart</title>
   <!-- url /chart.htm#test
-json file test.json: {"title":"Temp","refresh":2, "points":10, "data":[21,55], "data2":[21,55], "label":[3,5]} -->
+json file test.json: {"title":"Temp","refresh":2000, "points":10, "data":[21,55], "data2":[21,55], "data3":[21,55], "label":[3,5]} -->
   <script type="text/javascript">
    function handleServerResponse(){
     chartStart('ct-chart',window.location.hash.substring(1));
    }
   </script>
-  <style>.ct-label{font-size:10px;}</style>
  </head>
  <body onload="load('first');">
   <div class="container">
    <div class="row hidden" id="content">
-    <h1 id="title">Chart</h1>
+    <h1 id="title">{{LangChart}}</h1>
     <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <div class="btn-group" id="language">

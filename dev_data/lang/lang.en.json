@@ -27,6 +27,7 @@
  "LangIf":"If",
  "LangThen":"Then",
  "LangHedden":"Hide block?\nYou can restored this on \"Settings page\".",
+ "LangChart":"Chart",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Device Name",

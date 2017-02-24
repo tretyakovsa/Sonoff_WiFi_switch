@@ -1,5 +1,6 @@
 function chartStart(chartId,chartUrl){
- var myVar;
+ var valTime;
+ var valHigh, valLow;
  function viewTime() {
   var now = new Date();
   return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
@@ -42,17 +43,29 @@ function chartStart(chartId,chartUrl){
      } else {
       LineChart.data.labels.push(viewTime());
      }
+
+     if (module.low != null) {
+      valLow = module.low;
+     } else {
+      valLow = null;
+     }
+     if (module.high != null) {
+      valHigh = module.high;
+     } else {
+      valHigh = null;
+     }
+
      LineChart.update();
     }
    }
    var strUser = module.refresh;
-   clearInterval(myVar);
-   myVar=setInterval(function(){adddata();}, strUser);
+   clearInterval(valTime);
+   valTime=setInterval(function(){adddata();}, strUser);
   }
  }
  var LineChart = Chartist.Line("#"+chartId, {
   labels: [],
   series: [[],[],[]]
- }, {fullWidth:true});
+ }, {low:valLow, high:valHigh, fullWidth:true});
  adddata();
 }
