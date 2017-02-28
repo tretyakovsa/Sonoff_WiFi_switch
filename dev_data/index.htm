@@ -93,8 +93,8 @@
         var timers=JSON.parse(xmlHttp.responseText);
         var timerList = '';
         for (var i = 0; i < timers.timer.length; i++) {
-         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOff."]+'<\/span>';}
-         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOn."]+'<\/span>';}
+         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
          if (timers.timer[i].day == "Mon") {timers.timer[i].day = jsonResponse.LangMonday;}
          if (timers.timer[i].day == "Tue") {timers.timer[i].day = jsonResponse.LangTuesday;}
          if (timers.timer[i].day == "Wed") {timers.timer[i].day = jsonResponse.LangWednesday;}
