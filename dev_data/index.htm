@@ -20,14 +20,6 @@
 
    window.onload = function() {
     deviceList('first');
-    var lang = window.navigator.language || navigator.userLanguage;
-    var now_day = {
-     year: new Date().toLocaleString(lang, {year: 'numeric'}),
-     month: new Date().toLocaleString(lang, {month: 'long'}),
-     day: new Date().toLocaleString(lang, {day: 'numeric'}),
-     weekday: new Date().toLocaleString(lang, {weekday: 'long'})
-    };
-    document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
 
    function findDevice(submit) {
@@ -94,34 +86,62 @@
        var jsonResponse2=JSON.parse(xhttp.responseText);
        var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
-       var theCookies = document.cookie.split(';');
-       for (var i = 1 ; i <= theCookies.length; i++) {
-        jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-       }
-
-       jsonResponse.ip = ipval;
-       if (jsonResponse.state == 0){
-        jsonResponse.state = jsonResponse.LangOn;
-       } else {
-        jsonResponse.state = jsonResponse.LangOff;
-       }
-
-       if (window.location.hostname == ipval) {
-        var new_string2;
-        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-        for (var key in jsonResponse) {
-         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-         bodyData = new_string2;
+       var xmlHttp=createXmlHttpObject();
+       xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
+       xmlHttp.send(null);
+       xmlHttp.onload = function(e) {
+        var timers=JSON.parse(xmlHttp.responseText);
+        var timerList = '';
+        for (var i = 0; i < timers.timer.length; i++) {
+         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOff."]+'<\/span>';}
+         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOn."]+'<\/span>';}
+         if (timers.timer[i].day == "Mon") {timers.timer[i].day = jsonResponse.LangMonday;}
+         if (timers.timer[i].day == "Tue") {timers.timer[i].day = jsonResponse.LangTuesday;}
+         if (timers.timer[i].day == "Wed") {timers.timer[i].day = jsonResponse.LangWednesday;}
+         if (timers.timer[i].day == "Thu") {timers.timer[i].day = jsonResponse.LangThursday;}
+         if (timers.timer[i].day == "Fri") {timers.timer[i].day = jsonResponse.LangFriday;}
+         if (timers.timer[i].day == "Sat") {timers.timer[i].day = jsonResponse.LangSaturday;}
+         if (timers.timer[i].day == "Sun") {timers.timer[i].day = jsonResponse.LangSunday;}
+         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day+'.<\/b> '+timers.timer[i].time+'<\/li>';
         }
-        document.getElementsByTagName('body')[0].innerHTML = new_string2;
+        jsonResponse.timerList = timerList;
+
+        var theCookies = document.cookie.split(';');
+        for (var i = 1 ; i <= theCookies.length; i++) {
+         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+        }
+
+        jsonResponse.ip = ipval;
+        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+
+        if (window.location.hostname == ipval) {
+         var new_string2;
+         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+         for (var key in jsonResponse) {
+          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+          bodyData = new_string2;
+         }
+         document.getElementsByTagName('body')[0].innerHTML = new_string2;
+
+         var now_day = {
+          year: new Date().getFullYear(),
+          month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
+          day: new Date().getDate(),
+          weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
+         };
+         document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
+
+        }
+
+        var new_string;
+        for (var key in jsonResponse) {
+         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         data = new_string;
+        }
+        document.getElementById("block-"+ipval).innerHTML=new_string;
+
        }
 
-       var new_string;
-       for (var key in jsonResponse) {
-        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-        data = new_string;
-       }
-       document.getElementById("block-"+ipval).innerHTML=new_string;
       }
      }
     }
@@ -231,18 +251,18 @@
     <hr>
     <div class="block hidden" id="sorting"></div>
     <div class="col-xs-6 col-md-12">
-    <div class="block">
-     <h5 class="alert-danger">{{LangSearch1}}</h5>
-     <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
-     <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
-    </div>
+     <div class="block">
+      <h5 class="alert-danger">{{LangSearch1}}</h5>
+      <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
+      <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
+     </div>
     </div>
     <div class="col-xs-6 col-md-12">
-    <div class="block">
-     <h5 class="alert-warning">{{LangScenery1}}</h5>
-     <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
-     <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
-    </div>
+     <div class="block">
+      <h5 class="alert-warning">{{LangScenery1}}</h5>
+      <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
+      <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
+     </div>
     </div>
    </div>
    <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="scenery">

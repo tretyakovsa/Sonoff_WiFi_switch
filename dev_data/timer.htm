@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timers</title>
+  <script type="text/javascript">
+   function handleServerResponse(){
+    html("timer-list", ' ');
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "/timer.save.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var timers=JSON.parse(xmlHttp.responseText);
+     for (var i = 0; i < timers.timer.length; i++) {
+      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = jsonResponse["LangOff."];}
+      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = jsonResponse["LangOn."];}
+      if (timers.timer[i].day == "Mon") {timers.timer[i].day = jsonResponse.LangMonday;}
+      if (timers.timer[i].day == "Tue") {timers.timer[i].day = jsonResponse.LangTuesday;}
+      if (timers.timer[i].day == "Wed") {timers.timer[i].day = jsonResponse.LangWednesday;}
+      if (timers.timer[i].day == "Thu") {timers.timer[i].day = jsonResponse.LangThursday;}
+      if (timers.timer[i].day == "Fri") {timers.timer[i].day = jsonResponse.LangFriday;}
+      if (timers.timer[i].day == "Sat") {timers.timer[i].day = jsonResponse.LangSaturday;}
+      if (timers.timer[i].day == "Sun") {timers.timer[i].day = jsonResponse.LangSunday;}
+      document.getElementById("timer-list").innerHTML += '<tr><td style="text-align:left;"><b>'+timers.timer[i].trigger+'<\/b><\/td><td style="text-align:left;"><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td>'+timers.timer[i].work+' <small>'+jsonResponse["LangMin."]+'<\/small><\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
+     }
+    }
+   }
+  </script>
+ </head>
+ <body onload="load('first');">
+  <div class="container">
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangTimer}}</h1>
+    <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+     <h5 class="alert-danger">{{SSDP}}</h5>
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
+     <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <hr>
+     <h2>{{LangList}}</h2>
+     <table class="table table-striped table-hover" style="width:100%;">
+      <thead>
+       <tr>
+        <th style="text-align:left;">{{LangOn.}}/{{LangOff.}}</th>
+        <th>{{LangDay}}</th>
+        <th>{{LangTime4}}</th>
+        <th>{{LangWorkTime}}</th>
+        <th></th>
+       </tr>
+      </thead>
+      <tbody id="timer-list"></tbody>
+     </table>
+     <hr>
+     <h2>{{LangTime3}}</h2>
+     <div class="alert alert-dismissible alert-warning {{g3452}}"><button class="close" onclick="hide('g2532',this);" type="button">×</button>{{LangTime6}}</div>
+     <div class="btn-group" style="width:80%">
+      <select class="btn btn-default" id="timer-off-on" style="width:20%">
+       <option value="on">{{LangOn.}}</option>
+       <option value="off">{{LangOff.}}</option>
+      </select>
+      <select class="btn btn-default" id="timer-day" style="width:40%">
+       <option value="Mon">{{LangDay}}</option>
+       <option value="All">Всегда</option>
+       <option value="Mon">{{LangMonday}}</option>
+       <option value="Tue">{{LangTuesday}}</option>
+       <option value="Wed">{{LangWednesday}}</option>
+       <option value="Thu">{{LangThursday}}</option>
+       <option value="Fri">{{LangFriday}}</option>
+       <option value="Sat">{{LangSaturday}}</option>
+       <option value="Sun">{{LangSunday}}</option>
+      </select>
+      <input id="timer" value="" style="width:40%"  pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:09:30">
+     </div>
+     <div class="input-group" style="width:20%;float:right">
+      <input id="timer-work" value="" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
+      <span class="input-group-addon">{{LangMin.}}</span>
+     </div>
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timerSave?trigger='+val('timer-off-on')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('timer-day')+'&time='+val('timer')+'&work='+val('timer-work'));" type="button">
+     <hr>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

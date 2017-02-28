@@ -137,6 +137,29 @@ function LoadLang(langids){
  }
 }
 
+function LoadTimer(timerids){
+ var xhttp=createXmlHttpObject();
+ xhttp.open("GET", "/timer.save.json", true);
+ xhttp.send(null);
+ xhttp.onload = function(e) {
+  var timers=JSON.parse(xhttp.responseText);
+  var html = '';
+  for (var i = 0; i < timers.timer.length; i++) {
+   if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOff."]+'</span>';}
+   if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOn."]+'</span>';}
+   if (timers.timer[i].day == "Mon") {timers.timer[i].day = jsonResponse.LangMonday;}
+   if (timers.timer[i].day == "Tue") {timers.timer[i].day = jsonResponse.LangTuesday;}
+   if (timers.timer[i].day == "Wed") {timers.timer[i].day = jsonResponse.LangWednesday;}
+   if (timers.timer[i].day == "Thu") {timers.timer[i].day = jsonResponse.LangThursday;}
+   if (timers.timer[i].day == "Fri") {timers.timer[i].day = jsonResponse.LangFriday;}
+   if (timers.timer[i].day == "Sat") {timers.timer[i].day = jsonResponse.LangSaturday;}
+   if (timers.timer[i].day == "Sun") {timers.timer[i].day = jsonResponse.LangSunday;}
+   html += '<li><b>'+timers.timer[i].trigger+'<\/b> <b>'+timers.timer[i].day.substring(0,5)+'.<\/b> - '+timers.timer[i].time+'<\/li>';
+  }
+  document.getElementById(timerids).innerHTML = html;
+ }
+}
+
 function setCookie(name, value, days, submit) {
  if (days) {
   var date = new Date();

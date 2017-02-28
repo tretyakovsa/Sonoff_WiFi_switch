@@ -2,9 +2,9 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
   <script src="js/build.chart.js" charset="utf-8"></script>
-  <!-- <script src="js/chartist.min.js" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -15,11 +15,12 @@
   <script type="text/javascript">
    var myVar;
    function handleServerResponse(stage,jsonResponse){
-    if (jsonResponse.state=='0') {blockval=jsonResponse.LangOn;} else {blockval=jsonResponse.LangOff;}
-    val('off-on', blockval);
+    val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     chartStart('ct-chart','sensor');
+     if (!jsonResponse.g72895) chartStart('ct-chart','sensor');
+     if (!jsonResponse.g85723) chartStart('ct-analog','analog');
     }
+    if (!jsonResponse.g42843) LoadTimer("timer-list");
    }
    function sonoff(submit){
     server = "/sonoff";
@@ -54,7 +55,7 @@
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
-     <div class="{{Temperature}} {{g72895}}" id="sensors">
+     <div class="{{Temperature}} {{g72895}}">
       <button class="close" onclick="hide('g72895',this);" type="button">×</button>
       <a href="/chart.htm#sensor" target="_blank" class="close"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAM0lEQVQ4jWNgQAN+fgH/ScHo+oeiAUSbjMOi4WQAhsSAG0ByNFLNAIJOJlqCVAMGLPMAAM5NI5iNV9vsAAAAAElFTkSuQmCC" alt=""></a>
       <div id="ct-chart" style="height:200px;margin-left:-20px"></div>
@@ -62,43 +63,18 @@
      </div>
      <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="sonoff(this);" type="button">
      <hr>
-     <h2>{{LangTimer1}}</h2>
-     <div class="row">
-      <div class="col-sm-6">
-       <h4>{{LangTimer2}} 1:</h4>
-       <input id="time1" value="{{times1}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
-       <div class="btn-group" style="width:100%">
-        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="send_request(this,'/times1?t='+val('time1'));" type="button">
-        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time1',' ');send_request(this,'/times1?t=');" type="button">
-       </div>
-       <h4>{{LangTimer2}} 2:</h4>
-       <input id="time2" value="{{times2}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
-       <div class="btn-group" style="width:100%">
-        <input class="btn btn-success" style="width:70%" value="{{LangSave}}" onclick="send_request(this,'/times2?t='+val('time2'));" type="button">
-        <input class="btn btn-default" style="width:30%" value="{{LangOff.}}" onclick="val('time2',' ');send_request(this,'/times2?t=');'" type="button">
-       </div>
-      </div>
-      <div class="col-sm-6">
-       <div class="alert alert-dismissible alert-warning">{{LangTime6}}</div>
-       <div class="alert alert-dismissible alert-info {{g2532}}"><button class="close" onclick="hide('g2532',this);" type="button">×</button>
-        {{LangIfttt3}}
-       </div>
-      </div>
+     <h2>{{LangTimer}}</h2>
+     <div class="alert alert-dismissible alert-warning {{g42843}}"><button class="close" onclick="hide('g42843',this);" type="button">×</button>
+      <ul id="timer-list"></ul>
      </div>
-     <h2>{{LangTime3}}</h2>
-     <div class="row">
-      <div class="col-sm-8">
-       <div class="alert alert-dismissible alert-info">{{LangTime4}}</div>
-      </div>
-      <div class="col-sm-4">
-       <div class="input-group">
-        <input id="sonoff" value="{{timeSonoff}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
-        <span class="input-group-addon">{{LangMin}}</span>
-       </div>
-       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeSonoff?t='+val('sonoff'));" type="button">
-      </div>
-     </div>
+     <a class="btn btn-block btn-default" href="/timer.htm">{{LangTime3}}</a>
      <hr>
+     <div class="{{g85723}}">
+      <button class="close" onclick="hide('g85723',this);" type="button">×</button>
+      <a href="/chart.htm#analog" target="_blank" class="close"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAM0lEQVQ4jWNgQAN+fgH/ScHo+oeiAUSbjMOi4WQAhsSAG0ByNFLNAIJOJlqCVAMGLPMAAM5NI5iNV9vsAAAAAElFTkSuQmCC" alt=""></a>
+      <div id="ct-analog" style="height:200px;margin-left:-20px"></div>
+      <hr>
+     </div>
      <div class="{{g8359}}">
       <button class="close" onclick="hide('g8359',this);" type="button">×</button>
       <h2>{{LangPir1}}</h2>

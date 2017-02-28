@@ -10,9 +10,8 @@
  <h5 class="alert-danger">{{SSDP}}</h5>
  <div class="alert alert-dismissible alert-warning {{g69142}}">
   <button class="close" onclick="hide('g69142',this);" type="button">×</button>
-  {{LangTimer2}} 1: <b>{{times1}}</b>
-  <br>{{LangTimer2}} 2:  <b>{{times2}}</b>
-  <br>{{LangTime3}}: <b>{{timeSonoff}}</b>{{LangMin}}
+  <b>{{LangTimer}}</b>
+  <ul>{{timerList}}</ul>
  </div>
  <hr>
  <input type="button" onclick="ajax('{{ip}}','sonoff',this);" value="{{state}}" class="btn btn-block btn-lg btn-primary">

@@ -50,8 +50,8 @@ void handle_analog() {
  JsonArray& data = json.createNestedArray("data");
  data.add(analogRead(A0));
  json["points"] = 10;
- json["refresh"] = 2000;
- json["title"] = "Analog";
+ json["refresh"] = 3000;
+ json["title"] = "Analog (ADC/A0)";
  // Помещаем созданный json в переменную root
  root="";
  json.printTo(root);

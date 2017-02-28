@@ -1,5 +1,5 @@
 #!/bin/bash
-cat dev_data/css/bootstrap.min.css dev_data/css/style.css > dev_data/css/build.css
+cat dev_data/css/chartist.min.css dev_data/css/bootstrap.min.css dev_data/css/style.css > dev_data/css/build.css
 cat dev_data/js/chartist.min.js dev_data/js/chart.js > dev_data/js/build.chart.js
 
 gzip -vrkf dev_data/*.htm
