@@ -87,14 +87,6 @@ void handle_leng() {
   HTTP.send(200, "text/plain", "OK");
 }
 
-// Установка времянной зоны
-void handle_time_zone() {
-  timeZone = HTTP.arg("timeZone").toInt();
-  Time_init(timeZone);
-  saveConfig();
-  HTTP.send(200, "text/plain", "OK");
-}
-
 // Установка параметров сети
 void handle_ssid() {
   ssidName = HTTP.arg("ssid");
@@ -118,12 +110,7 @@ void handle_ssidap() {
   HTTP.send(200, "text/plain", "OK");
 }
 
-//Время из сети
-void handle_time() {
-  Time_init(timeZone);
-  String Time = XmlTime();
-  HTTP.send(200, "text/plain", "OK: " + Time);
-}
+
 
 //Таймер 1
 void handle_time_1() {
@@ -165,8 +152,6 @@ void HTTP_init(void) {
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/timeSonoff", handle_timesonoff);      // установка времени работы лампы
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
-  HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
-  HTTP.on("/Time", handle_time);            // Синхронизировать время из сети
   HTTP.on("/times1", handle_time_1);        // Установить время 1
   HTTP.on("/times2", handle_time_2);        // Установить время 2
   HTTP.on("/pir", handle_pir);        // Устанавливаем время работы pir сенсра
@@ -222,7 +207,7 @@ void handle_ConfigJSON() {
   json["ssidApPass"] = ssidApPass;
   json["ssid"] = ssidName;
   json["ssidPass"] = ssidPass;
-  json["timeZone"] = timeZone;
+  json["timeZone"] = timezone;
   json["timeSonoff"] = timeSonoff; //  Время работы
   json["times1"] = times1; // Время 1
   json["times2"] = times2; // Время 2

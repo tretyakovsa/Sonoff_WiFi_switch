@@ -57,7 +57,7 @@ String ssdpName = "Sonoff";    // SSDP
 // Переменные для обнаружения модулей
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
-int timeZone = 3;               // часовой пояс GTM
+int timezone = 3;               // часовой пояс GTM
 String calibrationTime = "03:00:00"; // Время колибровки часов
 // Переменные для таймеров
 String times1 = "";             // Таймер 1
@@ -104,7 +104,7 @@ void setup() {
  SSDP_init();
  //Serial.println("SSDP Ready!");
  // Включаем время из сети
- Time_init(timeZone);
+  Time_init();
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
  ip_wan();
@@ -128,7 +128,7 @@ void loop() {
 
  switch (task) {
   case 1:
-   Time_init(timeZone);
+    Time_init();
    task = 0;
    break;
   case 2:

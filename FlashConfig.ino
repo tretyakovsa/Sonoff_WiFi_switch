@@ -18,7 +18,7 @@ bool loadConfig() {
   JsonObject& root = jsonBuffer.parseObject(jsonConfig);
   ssidApName = root["ssidApName"].as<String>();
   ssidApPass = root["ssidApPass"].as<String>();
-  timeZone = root["timeZone"];
+  timezone = root["timeZone"];
   ssdpName = root["ssdpName"].as<String>();
   ssidName = root["ssidName"].as<String>();
   ssidPass = root["ssidPass"].as<String>();
@@ -40,7 +40,7 @@ bool saveConfig() {
   json["ssidApPass"] = ssidApPass;
   json["ssidName"] = ssidName;
   json["ssidPass"] = ssidPass;
-  json["timeZone"] = timeZone;
+  json["timeZone"] = timezone;
   json["times1"] = times1;
   json["times2"] = times2;
   json["lang"] = Language;
