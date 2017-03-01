@@ -2,6 +2,7 @@
 void Time_init() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
+  HTTP.on("/timerSave", handle_timer_Save);
   timeSynch(timezone);
 }
 void timeSynch(int zone) {
@@ -34,6 +35,26 @@ void handle_time_zone() {
   HTTP.send(200, "text/plain", "OK");
 }
 
+void handle_timer_Save() {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+  JsonArray& arrays = Timers["timer"].asArray();
+  JsonObject& record = arrays.createNestedObject();
+  record["id"]  = HTTP.arg("id").toInt();
+  record["trigger"]  = HTTP.arg("trigger");
+  record["day"]  = HTTP.arg("day");
+  record["time"]  = HTTP.arg("time");
+  record["work"]  = HTTP.arg("work").toInt();
+  File configFile = SPIFFS.open("/timer.save.json", "w");
+  if (!configFile) {
+    HTTP.send(200, "text/plain", "Failed to open config file for writing");
+    return;
+  }
+  Timers.printTo(configFile);
+  loadTimer();
+  HTTP.send(200, "text/plain", "OK");
+}
+
 // Получение текущего времени
 String GetTime() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
@@ -55,6 +76,13 @@ String GetDate() {
   return Data; // Возврашаем полученную дату
 }
 
+String GetWeekday() {
+  String Data = GetDate();
+  int i = Data.indexOf(" "); //Ишем позицию первого символа пробел
+  String weekday = Data.substring(i - 3, i + 1); // Выделяем время и пробел
+  return weekday;
+}
+
 bool loadTimer() {
   File configFile = SPIFFS.open("/timer.save.json", "r");
   if (!configFile) {
@@ -68,13 +96,12 @@ bool loadTimer() {
     return false;
   }
   // загружаем файл конфигурации в глобальную переменную
-  String jsonTimer = configFile.readString();
+  jsonTimer = configFile.readString();
   DynamicJsonBuffer jsonBuffer;
-  JsonObject& root = jsonBuffer.parseObject(jsonTimer);
-  //JsonObject& data =  variables["data"];
-  //for (auto dataobj : data){
-   // Serial.println(dataobj.key);
-//}
-
+  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+  JsonArray& nestedArray = Timers["timer"].asArray();
+  for (int i = 0; i <= nestedArray.size() - 1; i++) {
+    //Serial.println(Timers["timer"][i]["time"].as<String>());
+  }
   return true;
 }

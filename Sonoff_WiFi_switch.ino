@@ -74,7 +74,7 @@ String ddns = "";               // url страницы тестирования
 String ddnsName = "";           // адрес сайта ddns
 int pirTime = 0;                // 0 = PIR off; >1 = PIR on;
 int ddnsPort = 8080; // порт для обращение к устройству с wan
-
+String jsonTimer ="{}";
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;
 
@@ -108,6 +108,8 @@ void setup() {
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
  ip_wan();
+ loadTimer();
+  Serial.println(GetWeekday());
 }
 
 void loop() {
