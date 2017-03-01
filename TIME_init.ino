@@ -51,7 +51,7 @@ void handle_timer_Save() {
     return;
   }
   Timers.printTo(configFile);
-  loadTimer();
+  //loadTimer();
   HTTP.send(200, "text/plain", "OK");
 }
 
