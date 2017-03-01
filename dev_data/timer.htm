@@ -81,7 +81,7 @@
       <input id="work" value="" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
       <span class="input-group-addon">{{LangMin.}}</span>
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timerSave?trigger='+document.getElementById('trigger').selectedIndex+'&id='+Math.floor(Math.random()*10000)+'&day='+document.getElementById('day').selectedIndex+'&time='+val('time')+'&work='+val('work'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time')+'&work='+val('work'));" type="button">
      <hr>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>
