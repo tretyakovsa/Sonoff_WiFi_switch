@@ -17,7 +17,6 @@
     xmlHttp.onload = function(e) {
      var timers=JSON.parse(xmlHttp.responseText);
      for (var i = 0; i < timers.timer.length; i++) {
-      if (timers.timer[i].trigger == "all") {timers.timer[i].trigger = '<span class="label label-info">Always<\/span>';}
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
@@ -65,7 +64,7 @@
      <div class="col-xs-7 col-md-3">
       <select class="btn btn-default form-control" id="timer-day">
        <option value="Mon">{{LangDay}}</option>
-       <option value="all">Always</option>
+       <option value="All">{{LangAll}}</option>
        <option value="Mon">{{LangMon}}</option>
        <option value="Tue">{{LangTue}}</option>
        <option value="Wed">{{LangWed}}</option>

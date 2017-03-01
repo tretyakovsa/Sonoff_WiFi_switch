@@ -66,6 +66,7 @@
  "LangFri":"Friday",
  "LangSat":"Saturday",
  "LangSun":"Sunday",
+ "LangAll":"Always",
  "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit.",
 
  "_comment": "---DEVICE.HTM---",

@@ -116,7 +116,7 @@ function LoadWifi(ssids){
   var jsonWifi=JSON.parse(xmlHttp.responseText);
   var html = "";
   for(i = 0;i<jsonWifi.networks.length;i++) {
-   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><span class="label label-default" style="float:right">' +jsonWifi.networks[i].dbm + ' dBm</span><b>' +jsonWifi.networks[i].ssid + jsonWifi.networks[i].pass + '</b></a></li>';
+   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'&#x1f512;':'')+' <span class="label label-info">'+(jsonWifi.networks[i].dbm+100)+'%</span> <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
   document.getElementById(ssids).innerHTML = html+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
@@ -145,7 +145,6 @@ function LoadTimer(timerids){
   var timers=JSON.parse(xhttp.responseText);
   var html = '';
   for (var i = 0; i < timers.timer.length; i++) {
-   if (timers.timer[i].trigger == "all") {timers.timer[i].trigger = '<span class="label label-info">Always</span>';}
    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
    if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
    timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
