@@ -12,5 +12,5 @@ display: block;}
 .dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus { color: #eeeeee;}
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus { background-color: transparent; background-image: none; cursor: not-allowed; text-decoration: none;}
 .caret { border-left: 4px solid transparent;border-right: 4px solid transparent;border-top: 4px dashed;display: inline-block;height: 0;margin-left: 2px;vertical-align: middle;width: 0;}
-.label-default {background-color:#999999;}.label-primary {background-color:#2fa4e7;}.label-success {background-color:#73a839;}.label-warning {background-color:#dd5600;}.label-danger {background-color:#c71c22;}.label-info {background-color:#033c73;}
+.label-default {background-color:#999999;}.label-primary {background-color:#158cba;}.label-success {background-color:#28b62c;}.label-warning {background-color:#ff851b;}.label-danger {background-color:#ff4136;}.label-info {background-color:#75caeb;}
 .label {border-radius:0.25em;color:#ffffff;display:inline;font-size:75%;font-weight:bold;line-height:1;padding:0.2em 0.6em 0.3em;text-align:center;vertical-align:baseline;white-space:nowrap;}

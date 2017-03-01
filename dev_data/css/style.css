@@ -80,6 +80,9 @@ h5 {
 #content {
  text-align:center;
 }
+#content ul li {
+ text-align:left;
+}
 #title {
  margin:50px;
 }
@@ -120,9 +123,6 @@ ul#history {
 }
 .ct-label{
  font-size:10px;
-}
-#timer-list li,.timer-list li {
- text-align:left;
 }
 #timer-list,.timer-list  {
  -webkit-columns:2;

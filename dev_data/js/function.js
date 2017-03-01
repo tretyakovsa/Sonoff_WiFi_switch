@@ -99,7 +99,7 @@ function toggle(target,status) {
  }
 }
 
-function language(submit){
+function setLang(submit){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET',"/lang?set="+submit,true);
  xmlHttp.send(null);
@@ -116,7 +116,7 @@ function LoadWifi(ssids){
   var jsonWifi=JSON.parse(xmlHttp.responseText);
   var html = "";
   for(i = 0;i<jsonWifi.networks.length;i++) {
-   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><b>' +jsonWifi.networks[i].ssid + jsonWifi.networks[i].pass + '</b> (' +jsonWifi.networks[i].dbm + ' dBm)</a></li>';
+   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><span class="label label-default" style="float:right">' +jsonWifi.networks[i].dbm + ' dBm</span><b>' +jsonWifi.networks[i].ssid + jsonWifi.networks[i].pass + '</b></a></li>';
   }
   document.getElementById(ssids).innerHTML = html+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
@@ -131,7 +131,7 @@ function LoadLang(langids){
   var html = '';
   for(var key in jsonLang) {
    var view_lang = jsonLang[key].name.substr(10,2);
-   html += '<li><a href="#" onclick="language(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
+   html += '<li><a href="#" onclick="setLang(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
   }
   document.getElementById(langids).innerHTML = html;
  }
@@ -145,16 +145,11 @@ function LoadTimer(timerids){
   var timers=JSON.parse(xhttp.responseText);
   var html = '';
   for (var i = 0; i < timers.timer.length; i++) {
+   if (timers.timer[i].trigger == "all") {timers.timer[i].trigger = '<span class="label label-info">Always</span>';}
    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
    if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
-   if (timers.timer[i].day == "Mon") {timers.timer[i].day = jsonResponse.LangMonday;}
-   if (timers.timer[i].day == "Tue") {timers.timer[i].day = jsonResponse.LangTuesday;}
-   if (timers.timer[i].day == "Wed") {timers.timer[i].day = jsonResponse.LangWednesday;}
-   if (timers.timer[i].day == "Thu") {timers.timer[i].day = jsonResponse.LangThursday;}
-   if (timers.timer[i].day == "Fri") {timers.timer[i].day = jsonResponse.LangFriday;}
-   if (timers.timer[i].day == "Sat") {timers.timer[i].day = jsonResponse.LangSaturday;}
-   if (timers.timer[i].day == "Sun") {timers.timer[i].day = jsonResponse.LangSunday;}
-   html += '<li><b>'+timers.timer[i].trigger+'<\/b> <b>'+timers.timer[i].day.substring(0,5)+'.<\/b> - '+timers.timer[i].time+'<\/li>';
+   timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+   html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
   }
   document.getElementById(timerids).innerHTML = html;
  }

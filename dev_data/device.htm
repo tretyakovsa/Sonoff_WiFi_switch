@@ -17,8 +17,8 @@
    function handleServerResponse(stage,jsonResponse){
     val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     if (!jsonResponse.g72895) chartStart('ct-chart','sensor');
-     if (!jsonResponse.g85723) chartStart('ct-analog','analog');
+     if (!jsonResponse.g72895) LoadChart('ct-chart','sensor');
+     if (!jsonResponse.g85723) LoadChart('ct-analog','analog');
     }
     if (!jsonResponse.g42843) LoadTimer("timer-list");
    }
