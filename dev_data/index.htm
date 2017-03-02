@@ -98,7 +98,7 @@
          timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
          timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
         }
-        jsonResponse.timerList = timerList;
+        jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
 
         var theCookies = document.cookie.split(';');
         for (var i = 1 ; i <= theCookies.length; i++) {
@@ -146,7 +146,7 @@
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'</span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();

@@ -114,11 +114,11 @@ function LoadWifi(ssids){
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
-  var html = "";
+  var html = '';
   for(i = 0;i<jsonWifi.networks.length;i++) {
    html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');document.getElementById(\'ssid-name\').innerHTML=\''+jsonWifi.networks[i].ssid+'\';return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'&#x1f512;':'')+' <span class="label label-info">'+(jsonWifi.networks[i].dbm+100)+'%</span> <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
-  document.getElementById(ssids).innerHTML = html+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
+  document.getElementById(ssids).innerHTML = (html?html:'<li>No WiFi</li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
 }
 
@@ -133,7 +133,7 @@ function LoadLang(langids){
    var view_lang = jsonLang[key].name.substr(10,2);
    html += '<li><a href="#" onclick="setLang(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
   }
-  document.getElementById(langids).innerHTML = html;
+  document.getElementById(langids).innerHTML = (html?html:'<li>No langs in folder: /lang/lang.*.json.gz</li>');
  }
 }
 
@@ -150,7 +150,7 @@ function LoadTimer(timerids){
    timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
    html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
   }
-  document.getElementById(timerids).innerHTML = html;
+  document.getElementById(timerids).innerHTML = (html?html:'<li>No timers</li>');
  }
 }
 

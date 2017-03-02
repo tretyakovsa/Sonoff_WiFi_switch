@@ -84,7 +84,7 @@
       <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
       <hr id="hide-hr1">
-      <div class="alert alert-dismissible alert-info">
+      <div class="alert alert-dismissible alert-info {{g784673}}"><button class="close" onclick="hide('g784673',this);" type="button">×</button>
        <a href="/help.htm" target="_blank" class="close">?</a>
        {{LangSetting4}}
        <span id="hide" class="hidden">
@@ -141,7 +141,7 @@
       </div>
       <hr>
       <h2>{{LangDdns1}}</h2>
-      <div class="alert alert-dismissible alert-info">{{LangDdns2}}</div>
+      <div class="alert alert-dismissible alert-info {{g63563}}"><button class="close" onclick="hide('g63563',this);" type="button">×</button>{{LangDdns2}}</div>
       <div class="input-group" style="width:100%">
        <span class="input-group-addon">http://</span><input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
        <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
@@ -149,7 +149,7 @@
       <input id="ddns" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">
       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
       <hr>
-      <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();" type="button">
+      <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();location.reload();" type="button">
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
      </div>
      <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
