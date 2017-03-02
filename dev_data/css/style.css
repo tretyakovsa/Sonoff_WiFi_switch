@@ -92,7 +92,7 @@ h5 {
 }
 
 /* loader */
-.loader, .loader2 {
+.loader, .loader-bg:after {
  border:15px solid #fff;
  border-top:15px solid #FF851B;
  border-radius:50%;
@@ -102,10 +102,12 @@ h5 {
  display:block;
  margin:0 auto;
 }
-.loader2 {
+.loader-bg:after {
+ content: '';
+ position:fixed;
  left:49%;
- position:absolute;
- top:50%;
+ top:150px;
+ z-index:-999;
 }
 @keyframes spin {
  0% { transform:rotate(0deg); }
