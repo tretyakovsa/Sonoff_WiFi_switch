@@ -37,6 +37,7 @@ void handle_time_zone() {
 }
 
 void handle_timer_Save() {
+  loadTimer();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& arrays = Timers["timer"].asArray();
@@ -46,17 +47,18 @@ void handle_timer_Save() {
   record["day"]  = HTTP.arg("day");
   record["time"]  = HTTP.arg("time");
   record["work"]  = HTTP.arg("work").toInt();
-  File configFile = SPIFFS.open("/timer.save.json", "w");
-  if (!configFile) {
+  File TimersFile = SPIFFS.open("/timer.save.json", "w");
+  if (!TimersFile) {
     HTTP.send(200, "text/plain", "Failed to open config file for writing");
     return;
   }
-  Timers.printTo(configFile);
-  //loadTimer();
+  Timers.printTo(TimersFile);
+  TimersFile.close();
   HTTP.send(200, "text/plain", "OK");
 }
 
 void handle_timer_Del() {
+  loadTimer();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
@@ -67,12 +69,13 @@ void handle_timer_Del() {
 
   }
   nestedArray.removeAt(y);
-  File configFile = SPIFFS.open("/timer.save.json", "w");
-  if (!configFile) {
+  File TimersFile = SPIFFS.open("/timer.save.json", "w");
+  if (!TimersFile) {
     HTTP.send(200, "text/plain", "Failed to open config file for writing");
     return;
   }
-  Timers.printTo(configFile);
+  Timers.printTo(TimersFile);
+  TimersFile.close();
   HTTP.send(200, "text/plain", "OK");
 }
 
@@ -105,24 +108,26 @@ String GetWeekday() {
 }
 
 bool loadTimer() {
-  File configFile = SPIFFS.open("/timer.save.json", "r");
-  if (!configFile) {
+  File TimersFile = SPIFFS.open("/timer.save.json", "r");
+  if (!TimersFile) {
     Serial.println("Failed to open config file");
     return false;
   }
 
-  size_t size = configFile.size();
+  size_t size = TimersFile.size();
   if (size > 1024) {
     Serial.println("Config file size is too large");
+    TimersFile.close();
     return false;
   }
   // загружаем файл конфигурации в глобальную переменную
-  jsonTimer = configFile.readString();
+  jsonTimer = TimersFile.readString();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
   for (int i = 0; i <= nestedArray.size() - 1; i++) {
     //Serial.println(Timers["timer"][i]["time"].as<String>());
   }
+  TimersFile.close();
   return true;
 }
