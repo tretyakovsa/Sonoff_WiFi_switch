@@ -124,10 +124,10 @@ bool loadTimer() {
   jsonTimer = TimersFile.readString();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
-  JsonArray& nestedArray = Timers["timer"].asArray();
-  for (int i = 0; i <= nestedArray.size() - 1; i++) {
+  //JsonArray& nestedArray = Timers["timer"].asArray();
+  //for (int i = 0; i <= nestedArray.size() - 1; i++) {
     //Serial.println(Timers["timer"][i]["time"].as<String>());
-  }
+  //}
   TimersFile.close();
   return true;
 }
