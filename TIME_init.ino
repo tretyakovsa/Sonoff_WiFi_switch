@@ -3,6 +3,7 @@ void Time_init() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
   HTTP.on("/timerSave", handle_timer_Save);
+  HTTP.on("/timersDel", handle_timer_Del);
   timeSynch(timezone);
 }
 void timeSynch(int zone) {
@@ -52,6 +53,26 @@ void handle_timer_Save() {
   }
   Timers.printTo(configFile);
   //loadTimer();
+  HTTP.send(200, "text/plain", "OK");
+}
+
+void handle_timer_Del() {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+  JsonArray& nestedArray = Timers["timer"].asArray();
+  //nestedArray.printTo(Serial);
+  int y;
+  for (int i = 0; i <= nestedArray.size() - 1; i++) {
+    if (Timers["timer"][i]["id"] == HTTP.arg("id").toInt()) y = i;
+
+  }
+  nestedArray.removeAt(y);
+  File configFile = SPIFFS.open("/timer.save.json", "w");
+  if (!configFile) {
+    HTTP.send(200, "text/plain", "Failed to open config file for writing");
+    return;
+  }
+  Timers.printTo(configFile);
   HTTP.send(200, "text/plain", "OK");
 }
 
