@@ -20,7 +20,7 @@
 
 ##Work example (Video)
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/LZI4Yu47LZI/0.jpg)](https://www.youtube.com/watch?v=LZI4Yu47LZI&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NrIrLw1rOdk/0.jpg)](https://www.youtube.com/watch?v=NrIrLw1rOdk&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
 ##Construction
 ```

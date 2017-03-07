@@ -11,6 +11,7 @@
  "LangCancel":"Cencel",
  "LangHistory":"History",
  "LangLoading":"Loading...",
+ "LangSorting":"Sorting",
  "LangSearch1":"Search",
  "LangSearch2":"If you have multiple devices connected to a network, you can add them here.",
  "LangSearch3":"Find devices",
@@ -67,7 +68,9 @@
  "LangSat":"Saturday",
  "LangSun":"Sunday",
  "LangAll":"Always",
- "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit.",
+ "LangSwitch.":"Switch",
+ "LangTimerMore":"Show timers for all devices",
+ "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit. Min (Work time) are optional.",
 
  "_comment": "---DEVICE.HTM---",
  "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">more...</a>",

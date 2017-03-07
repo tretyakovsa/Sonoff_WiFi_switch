@@ -11,6 +11,7 @@
  "LangCancel":"Atcelt",
  "LangHistory":"Vēsture",
  "LangLoading":"Ielādē...",
+ "LangSorting":"Sorting",
  "LangSearch1":"Meklēt",
  "LangSearch2":"Ja jums ir vairākas ierīces, kas saistīts ar tīklu, jūs varat pievienot to šeit, noklikšķinot uz zemāk pogu:",
  "LangSearch3":"Atrast ierīces",
@@ -67,6 +68,8 @@
  "LangSat":"Sestdiena",
  "LangSun":"Svetdiena",
  "LangAll":"Visas",
+ "LangSwitch.":"Pārs.",
+ "LangTimerMore":"Rādīt taimeri visu ierīces",
  "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa.",
 
  "_comment": "---DEVICE.HTM---",
