@@ -46,24 +46,30 @@ val('ID_name');
         </code></pre>
     <hr>
     <h2>GET JSON</h2>
-    <h3>GET /config.live.json</h3>
-    <p>Здесь хранятся основные настройки устройсва</p>
-    <pre><code class="language-json" id="configs-json">Loading...</code></pre>
-    <h3>GET /devices.list.json</h3>
+    <h3>GET <a href="/config.live.json">/config.live.json</a></h3>
+    <p>Здесь хранятся основные настройки устройсва (живой режим)</p>
+    <pre><code class="language-json" id="configs-live-json">Loading...</code></pre>
+    <h3>GET <a href="/config.save.json">/config.save.json</a></h3>
+    <p>Здесь хранятся основные настройки устройсва (Эти настройки восстанавливаются посте рестарта)</p>
+    <pre><code class="language-json" id="configs-save-json">Loading...</code></pre>
+    <h3>GET <a href="/devices.list.json">/devices.list.json</a></h3>
     <p>Количество устройст найденых в локальной сети, обновляются через GET /devices.scan.json</p>
     <pre><code class="language-json" id="devices-list-json">Loading...</code></pre>
-    <h3>GET /modules.json</h3>
+    <h3>GET <a href="/modules.json">/modules.json</a></h3>
     <pre><code class="language-json" id="modules-json">Loading...</code></pre>
-    <h3>GET /lang.list.json</h3>
+    <h3>GET <a href="/timer.save.json">/timer.save.json</a></h3>
+    <p>Таймеры включения\выключения устройсва</p>
+    <pre><code class="language-json" id="timer-save-json">Loading...</code></pre>
+    <h3>GET <a href="/lang.list.json">/lang.list.json</a></h3>
     <p>Список языковых файлов в папке lang</p>
     <pre><code class="language-json" id="lang-list-json">Loading...</code></pre>
-    <h3>GET /wifi.scan.json</h3>
+    <h3>GET <a href="/wifi.scan.json">/wifi.scan.json</a></h3>
     <p>Список доступных WiFi сетей</p>
     <pre><code class="language-json" id="wifi-scan-json">Loading...</code></pre>
-    <h3>GET /lang/lang.ru.json</h3>
+    <h3>GET <a href="/lang/lang.ru.json">/lang/lang.ru.json</a></h3>
     <p>Изменить язык можно GET запросом /lang?set=en </p>
     <pre><code class="language-json" id="lang-json">Loading...</code></pre>
-    <h3>Cookie</h3>
+    <h2>Cookie</h2>
     <p>Список ваших Cookie</p>
     <pre><code class="language-json" id="lang-cookie">Loading...</code></pre>
    </div>
@@ -79,11 +85,13 @@ val('ID_name');
     Prism.highlightAll();
    }
   }
-  load_request('configs-json','/config.live.json');
+  load_request('configs-live-json','/config.live.json');
+  load_request('configs-save-json','/config.save.json');
   load_request('lang-list-json','/lang.list.json');
   load_request('lang-json','/lang/lang.ru.json');
   load_request('devices-list-json','/devices.list.json');
   load_request('modules-json','/modules.json');
+  load_request('timer-save-json','/timer.save.json');
   setTimeout(function(){load_request('wifi-scan-json','/wifi.scan.json');},5000);
 
   function listCookies() {
