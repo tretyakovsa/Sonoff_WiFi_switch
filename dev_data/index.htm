@@ -66,7 +66,7 @@
 
    function loadBlock(ipval, content, stage) {
     if (stage == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="block col-md-5"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a> <\/div><\/div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a><\/div><\/div><\/div>';
     }
 
     var xhttp=createXmlHttpObject();
@@ -95,6 +95,7 @@
         for (var i = 0; i < timers.timer.length; i++) {
          if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
          if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
          timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
          timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
         }
@@ -239,25 +240,29 @@
     </div>
     <h1 id="date"><br><small></small></h1>
    </div>
+
    <div class="col-sm-12 col-md-3">
+
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history" class="hidden-xs"></ul>
     <hr>
     <div class="block hidden" id="sorting"></div>
-    <div class="col-xs-6 col-md-12">
-     <div class="block">
-      <h5 class="alert-danger">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
-      <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
+
+     <div class="col-xs-6 col-sm-12">
+      <div class="block">
+       <h5 class="alert-danger">{{LangSearch1}}</h5>
+       <div class="alert alert-dismissible alert-info">{{LangSearch2}}</div>
+       <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
+      </div>
      </div>
+     <div class="col-xs-6 col-md-12">
+      <div class="block">
+       <h5 class="alert-warning">{{LangScenery1}}</h5>
+       <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
+       <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
+      </div>
     </div>
-    <div class="col-xs-6 col-md-12">
-     <div class="block">
-      <h5 class="alert-warning">{{LangScenery1}}</h5>
-      <div class="alert alert-dismissible alert-info">{{LangScenery2}}</div>
-      <input type="button" class="btn btn-block btn-default" value="{{LangAddScenery}}" onclick="deviceList('scenery');toggle('scenery');window.scrollTo(0,0);">
-     </div>
-    </div>
+    <div class="row"></div>
    </div>
    <div class="col-sm-offset-2 col-sm-6 pop-up hidden" id="scenery">
     <h5 class="alert-warning">{{LangScenery1}}</h5>
@@ -275,6 +280,7 @@
    </div>
    <div class="col-sm-12 col-md-9" style="text-align:center;" id="content">
    </div>
+
   </div>
  </body>
 </html>

@@ -28,12 +28,19 @@ input:invalid + input[type=button], input:invalid + div input[type=button] {
  background-color:#fff;
  box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
  padding:20px;
- margin:20px;
- float:left;
+ margin:20px 0;
 }
 @media (max-width:480px) {
  .block {
   margin:20px -15px;
+ }
+ #content .block {
+  margin:30px -30px;
+ }
+}
+@media (min-width:1200px) {
+ .block {
+  margin:20px 15px;
  }
 }
 .history {
@@ -121,7 +128,6 @@ ul#history {
 }
 #history li {
  margin-left:-31px;
- margin-right:20px;
 }
 .dropdown-menu {
  display: block;
@@ -132,7 +138,7 @@ ul#history {
 .ct-label{
  font-size:10px;
 }
-#timer-list,.timer-list  {
+#timer-list,.timer-list {
  -webkit-columns:2;
  -moz-columns:2;
  columns:2;
