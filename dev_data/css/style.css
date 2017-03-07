@@ -137,3 +137,14 @@ ul#history {
  -moz-columns:2;
  columns:2;
 }
+.popup-img {
+ background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAM0lEQVQ4jWNgQAN+fgH/ScHo+oeiAUSbjMOi4WQAhsSAG0ByNFLNAIJOJlqCVAMGLPMAAM5NI5iNV9vsAAAAAElFTkSuQmCC);
+ display:inline-block;
+ width:16px;
+ height:16px;
+ background-size:16px;
+ background-position:center center;
+ background-repeat:no-repeat;
+ vertical-align:middle;
+ margin-right:3px;
+}

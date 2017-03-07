@@ -96,7 +96,7 @@
          if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
          if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
          timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
+         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
         }
         jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
 
