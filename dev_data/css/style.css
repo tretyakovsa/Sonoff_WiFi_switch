@@ -129,6 +129,9 @@ ul#history {
 #history li {
  margin-left:-31px;
 }
+.alert ul{
+ margin-left: -20px;
+}
 .dropdown-menu {
  display: block;
 }
