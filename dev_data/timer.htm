@@ -13,10 +13,10 @@
     html("timer-list", ' ');
     LoadTimers(jsonResponse.ip);
     html("device", ' ');
-    LoadAllTimer('first');
+    LoadDevice('first');
    }
 
-   function LoadAllTimer(content){
+   function LoadDevice(content){
     html("timer-list", ' ');
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
@@ -59,7 +59,7 @@
   <div class="container loader-bg">
    <div class="row hidden" id="content">
     <h1 id="title">{{LangTimer}}</h1>
-    <div class="col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+    <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <div class="btn-group" id="language">
       <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
@@ -83,12 +83,11 @@
        <tr><td colspan="5">{{LangLoading}}</td></tr>
       </tbody>
      </table>
-     <input class="btn btn-block btn-default" value="{{LangTimerMore}}" onclick="LoadAllTimer();" type="button">
+     <input class="btn btn-block btn-default" value="{{LangTimerMore}}" onclick="LoadDevice();" type="button">
      <hr>
      <h2>{{LangTime3}}</h2>
      <div class="alert alert-dismissible alert-warning {{g3452}}"><button class="close" onclick="hide('g2532',this);" type="button">×</button>{{LangTime6}}</div>
-     <select class="btn btn-default form-control" id="device">
-     </select>
+     <select class="btn btn-default form-control" id="device"></select>
      <div class="col-xs-5 col-md-2">
       <select class="btn btn-default form-control" id="trigger">
        <option value="not">{{LangSwitch.}}</option>
@@ -116,7 +115,7 @@
       <input id="work" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
       <span class="input-group-addon">{{LangMin.}}</span>
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time')+'&work='+val('work'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('time')?'':val('time','12:00:00'));send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time')+'&work='+val('work'));" type="button">
      <hr>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>
