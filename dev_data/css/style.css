@@ -17,7 +17,7 @@ input:invalid + input[type=button], input:invalid + div input[type=button] {
  pointer-events:none;
  opacity:0.5;
 }
-.col-sm-offset-2 {
+.col-sm-offset-1 {
  background-color:#fff;
  box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
  padding:20px;

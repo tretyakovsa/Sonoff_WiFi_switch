@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scenery</title>
+  <script type="text/javascript">
+   function handleServerResponse(){
+    LoadDevices();
+   }
+
+   function LoadDevices(){
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var ipModule=JSON.parse(xhttp.responseText);
+     for(var key in ipModule) {
+       loadScenery(ipModule[key].ip);
+     }
+    }
+   }
+
+   function loadScenery(ipval) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/modules.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var jsonResponses = JSON.parse(xhttp.responseText);
+     jsonResponses.ip = ipval;
+     document.getElementById("scenery-if").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+     document.getElementById("scenery-then").innerHTML += '<option value="'+jsonResponses.ip+'">'+jsonResponses.SSDP+'<\/option>';
+    }
+   }
+
+   function findSelect(val) {
+    var e = document.getElementById(val);
+    return e.options[e.selectedIndex].value;
+   }
+   function addScenery(submit) {
+    ajax(findSelect('scenery-if'), "scenery?ifstate="+findSelect('state1')+"&then="+findSelect('scenery-then')+"&state="+findSelect('state2'), submit, '1');
+   }
+  </script>
+ </head>
+ <body onload="load('first');">
+  <div class="container loader-bg">
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangScenery1}}</h1>
+    <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+     <h5 class="alert-danger">{{SSDP}}</h5>
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
+     <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <hr>
+     <div class="alert alert-dismissible alert-info">Soon... If you like this project, you can give me a cup of coffee paypal:wul@inbox.lv :) <br> Скоро... Чем больше будит пожерствований на проект, тем быстрее мы сделаем.</div>
+     <h4>{{LangIf}} <select class="btn btn-default" id="scenery-if"></select>
+      = <select class="btn btn-default" id="state1"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
+      <br>
+      {{LangThen}} <select class="btn btn-default" id="scenery-then"></select>
+      = <select class="btn btn-default" id="state2"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
+     </h4>
+     <input type="button" class="btn btn-block btn-success" value="{{LangSave}}" onclick="addScenery(this);toggle('scenery');">
+     <hr>
+     <h4>Список всех сценариев</h4>
+     <p id="scenery-list"></p>
+     <hr>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
