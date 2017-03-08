@@ -37,7 +37,6 @@ void handle_time_zone() {
 }
 
 void handle_timer_Save() {
-  loadTimer();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& arrays = Timers["timer"].asArray();
@@ -54,11 +53,11 @@ void handle_timer_Save() {
   }
   Timers.printTo(TimersFile);
   TimersFile.close();
+  loadTimer();
   HTTP.send(200, "text/plain", "OK");
 }
 
 void handle_timer_Del() {
-  loadTimer();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
@@ -76,6 +75,7 @@ void handle_timer_Del() {
   }
   Timers.printTo(TimersFile);
   TimersFile.close();
+  loadTimer();
   HTTP.send(200, "text/plain", "OK");
 }
 
@@ -86,8 +86,10 @@ String GetTime() {
   Time += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   int i = Time.indexOf(":"); //Ишем позицию первого символа :
   Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
+
   return Time; // Возврашаем полученное время
 }
+
 
 // Получение даты
 String GetDate() {
@@ -103,7 +105,7 @@ String GetDate() {
 String GetWeekday() {
   String Data = GetDate();
   int i = Data.indexOf(" "); //Ишем позицию первого символа пробел
-  String weekday = Data.substring(i - 3, i + 1); // Выделяем время и пробел
+  String weekday = Data.substring(i - 3, i); // Выделяем время и пробел
   return weekday;
 }
 
@@ -115,6 +117,8 @@ bool loadTimer() {
   }
 
   size_t size = TimersFile.size();
+  Weekday = GetWeekday();
+  Timerset = "";
   if (size > 1024) {
     Serial.println("Config file size is too large");
     TimersFile.close();
@@ -122,12 +126,61 @@ bool loadTimer() {
   }
   // загружаем файл конфигурации в глобальную переменную
   jsonTimer = TimersFile.readString();
+  TimersFile.close();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
-  //JsonArray& nestedArray = Timers["timer"].asArray();
-  //for (int i = 0; i <= nestedArray.size() - 1; i++) {
-    //Serial.println(Timers["timer"][i]["time"].as<String>());
-  //}
-  TimersFile.close();
+  JsonArray& nestedArray = Timers["timer"].asArray();
+  int j = nestedArray.size();
+  if (j != 0) {
+    for (int i = 0; i <= j - 1; i++) {
+      if ((Weekday == Timers["timer"][i]["day"].as<String>()) || (Timers["timer"][i]["day"].as<String>() == "All")) {
+        Timerset += Timers["timer"][i]["time"].as<String>() + ",";
+        Timerset += Timers["timer"][i]["work"].as<String>() + ",";
+        Timerset += Timers["timer"][i]["trigger"].as<String>();
+        Timerset += "\r\n";
+      }
+    }
+    Serial.println(Timerset);
+  }
+  //runTimers();
   return true;
 }
+
+void runTimers() {
+  // Список текущих таймеров во временную переменную
+  String timers = Timerset;
+  int i;
+  // Будем повторять проверку для каждого установленного таймера
+  do {
+    // проверяем есть ли таймеры
+    i = timers.indexOf("\r\n");
+    if (i != -1) {
+      // получаем строку текщего таймера
+      String timer = timers.substring(0, i);
+      // Если время совпадает с текущим
+      if (timer.substring(0, 8) == GetTime()) {
+        int j = timer.lastIndexOf(",");
+        // Загружаем время работы реле
+        timeSonoff = timer.substring(9, j).toInt();
+        // выполняем необходимое действие
+        Serial.println(timer.substring(j + 1));
+        String temp = timer.substring(j + 1);
+        if (temp == "not") {
+          chaing = 1;
+        }
+        if (temp == "on") {
+          state0=0;
+          chaing = 1;
+        }
+        if (temp == "off") {
+          state0=1;
+          chaing = 1;
+        }
+      }
+      timers = timers.substring(timers.indexOf("\r\n") + 2);
+      //Serial.println(timers);
+    }
+  } while (i != -1);
+
+}
+

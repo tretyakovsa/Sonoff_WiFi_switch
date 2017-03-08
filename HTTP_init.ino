@@ -111,21 +111,6 @@ void handle_ssidap() {
 }
 
 
-
-//Таймер 1
-void handle_time_1() {
-  times1 = HTTP.arg("t");
-  saveConfig();
-  HTTP.send(200, "text/plain", "OK");
-}
-
-//Таймер 2
-void handle_time_2() {
-  times2 = HTTP.arg("t");
-  saveConfig();
-  HTTP.send(200, "text/plain", "OK");
-}
-
 // Pir таймер
 void handle_pir() {
   pirTime = HTTP.arg("t").toInt();
@@ -152,8 +137,6 @@ void HTTP_init(void) {
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
   HTTP.on("/timeSonoff", handle_timesonoff);      // установка времени работы лампы
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование ssid
-  HTTP.on("/times1", handle_time_1);        // Установить время 1
-  HTTP.on("/times2", handle_time_2);        // Установить время 2
   HTTP.on("/pir", handle_pir);        // Устанавливаем время работы pir сенсра
   HTTP.on("/ssdp", handle_ssdp);        // Установить имя устройства
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
@@ -172,16 +155,6 @@ void HTTP_init(void) {
   HTTPWAN.begin();
 }
 
-// Получение текущего времени
-String XmlTime(void) {
-  String Time = ""; // Строка для результатов времени
-  int i = 0; // Здесь будем хранить позицию первого символа :
-  time_t now = time(nullptr); // получаем времяс помощью библиотеки time.h
-  Time += ctime(&now); // Преобразуем время в строку формата
-  i = Time.indexOf(":"); //Ишем позицию первого символа :
-  Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
-  return Time; // Возврашаем полученное время
-}
 
 
 void handle_ConfigJSON() {
@@ -209,10 +182,9 @@ void handle_ConfigJSON() {
   json["ssidPass"] = ssidPass;
   json["timeZone"] = timezone;
   json["timeSonoff"] = timeSonoff; //  Время работы
-  json["times1"] = times1; // Время 1
-  json["times2"] = times2; // Время 2
+
   json["ip"] = WiFi.localIP().toString();
-  json["time"] = XmlTime(); // Текущее время
+  json["time"] = GetTime(); // Текущее время
   json["lang"] = Language;  // Язык
   json["pirTime"] = pirTime;  //
   json["state"] = state0;

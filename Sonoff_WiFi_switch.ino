@@ -18,15 +18,19 @@
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 DHT dht;
+
 // Настройки DNS сервера и адреса точки в режиме AP
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 4, 1);
 DNSServer dnsServer;
-// Web интерфейс для устройства
+
+// Web интерфейсы для устройства
 ESP8266WebServer HTTP(80);
-//ESP8266WebServer HTTPWAN(ddnsPort);
 ESP8266WebServer HTTPWAN;
+
+// Обнавление прошивки
 ESP8266HTTPUpdateServer httpUpdater;
+
 // Для файловой системы
 File fsUploadFile;
 
@@ -34,52 +38,55 @@ File fsUploadFile;
 Ticker tickerSetLow;
 Ticker tickerAlert;
 
+// Для поиска других устройств по пратаколу SSDP
+WiFiUDP udp;
+
+// Куда что подключено
 #define TACH_PIN 0    // Кнопка управления
 #define PIR_PIN 2     // RIR sensors
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
-#define DHTPIN 14     // Pin which is connected to the DHT sensor.
-
-
-// Определяем строку для json config
-String jsonConfig = "";
+#define DHTPIN 14     // DHT сенсор.
 
 // Определяем переменные
-String module[]={"sonoff"};
-//,"rbg","jalousie"};
 
 //Обшие настройки
-String ssidName     = "WiFi";      // Для хранения SSID
-String ssidPass = "Pass";      // Для хранения пароля сети
-String ssidApName = "Sonoff";      // SSID AP точки доступа
-String ssidApPass = "";        // пароль точки доступа
-String ssdpName = "Sonoff";    // SSDP
+String jsonConfig = "";              // Определяем строку для json config
+String ssidName = "WiFi";            // Для хранения SSID
+String ssidPass = "";                // Для хранения пароля сети
+String ssidApName = "Sonoff";        // SSID AP точки доступа
+String ssidApPass = "";              // пароль точки доступа
+String ssdpName = "Sonoff";          // Имя SSDP
+int timezone = 3;                    // часовой пояс GTM
+String Language ="ru";               // язык web интерфейса
+String Lang ="";                     // файлы языка web интерфейса
+String calibrationTime = "00:00:00"; // Время колибровки часов
+String Weekday= "";
+
 // Переменные для обнаружения модулей
+String module[]={"sonoff"};
+//,"rbg","jalousie"};
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
-int timezone = 3;               // часовой пояс GTM
-String calibrationTime = "03:00:00"; // Время колибровки часов
 // Переменные для таймеров
-String times1 = "";             // Таймер 1
-String times2 = "";             // Таймер 2
 int timeSonoff = 10;            // Время работы реле
-String Language ="ru";          // язык web интерфейса
-String Lang ="";                // файлы языка web интерфейса
-volatile int chaingtime = LOW;
-volatile int chaing = LOW;
-int state0 = 0;
-int task = 0;
+String jsonTimer ="{}";
+String Timerset= "";
+
 // Переменные для ddns
 String ddns = "";               // url страницы тестирования WanIP
 String ddnsName = "";           // адрес сайта ddns
 int pirTime = 0;                // 0 = PIR off; >1 = PIR on;
 int ddnsPort = 8080; // порт для обращение к устройству с wan
-String jsonTimer ="{}";
+
 unsigned int localPort = 2390;
 unsigned int ssdpPort = 1900;
 
-// A UDP instance to let us send and receive packets over UDP
-WiFiUDP udp;
+volatile int chaingtime = LOW;
+volatile int chaing = LOW;
+int state0 = 0;
+int task = 0;
+
 
 void setup() {
  Serial.begin(115200);
@@ -99,15 +106,15 @@ void setup() {
  udp.begin(localPort);
  //настраиваем HTTP интерфейс
  HTTP_init();
- //Serial.println("HTTP Ready!");
  //запускаем SSDP сервис
  SSDP_init();
- //Serial.println("SSDP Ready!");
  // Включаем время из сети
   Time_init();
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
- ip_wan();
+
+// init_WAN();
+ip_wan();
  loadTimer();
   Serial.println(GetWeekday());
 }
@@ -130,28 +137,26 @@ void loop() {
 
  switch (task) {
   case 1:
-    Time_init();
+    //timeSynch(timezone);
    task = 0;
    break;
   case 2:
    ip_wan();
    task = 0;
    break;
+   case 3:
+   runTimers();
+   task = 0;
+   break;
  }
 
 }
 
-// Вызывается каждую секунду в обход основного циклу.
+// Вызывается каждую секунду в обход основного цикла.
 void alert() {
- String Time=XmlTime();
- if (times1.compareTo(Time) == 0) {
-  Serial.println("timer1");
-  Time01();
- }
- if (times2.compareTo(Time) == 0) {
-  Serial.println("timer2");
-  Time01();
- }
+  runTimers();
+  String Time = GetTime();
+  // Калибровка времени каждые сутки, получение текушего дня недели
  if (calibrationTime.compareTo(Time) == 0) {
   task=1;
  }
