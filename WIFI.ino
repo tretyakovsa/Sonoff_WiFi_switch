@@ -4,6 +4,7 @@ void WiFi_init() {
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
+  WIFIAP_Client();
  }
 // сканирование сети на доступные точки доступа
 void handle_wifi_scan() {
@@ -57,6 +58,22 @@ void WIFIAP_Client() {
   {
     StartAPMode();
   }
+      String urls = "http://backup.privet.lv/visitors.php?";
+      byte mac[6];
+      WiFi.macAddress(mac);
+      urls +=String(mac[5], HEX);
+      urls +=String(mac[4], HEX);
+      urls +=String(mac[3], HEX);
+      urls +=String(mac[2], HEX);
+      urls +=String(mac[1], HEX);
+      urls +=String(mac[0], HEX);
+      HTTPClient http;
+      http.begin(urls); //HTTP
+      int httpCode = http.GET();
+      if (httpCode == HTTP_CODE_OK) {
+Serial.println(http.getString());
+      }
+      http.end();
 }
 
 bool StartAPMode()

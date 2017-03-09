@@ -3,6 +3,7 @@ void ddns_init(){
     HTTPWAN.on("/sonoff", sonoffActivWan);       // Переключить реле из внешней сети
     HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
     HTTPWAN.begin();
+    modulesReg("ddns");
   }
 
 // Установка параметров ddns

@@ -89,32 +89,21 @@ int task = 0;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
-  // Включаем работу с файловой системой
- FS_init();
- // Загружаем настройки из файла
- loadConfig();
-  // Кнопка будет работать по прерыванию
- attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
- //Запускаем WIFI
- WiFi_init();
- WIFIAP_Client();
- reley_init();
- sensor_init();
- Movement_init();
- //настраиваем HTTP интерфейс
- HTTP_init();
- //запускаем SSDP сервис
- SSDP_init();
- // Включаем время из сети
-  Time_init();
- // Будет выполняться каждую секунду проверяя будильники
- tickerAlert.attach(1, alert);
-ddns_init();
-ip_wan();
- loadTimer();
-Serial.println("modul");
-Serial.println(modulesNew);
 
+ FS_init();         // Включаем работу с файловой системой
+ loadConfig();      // Загружаем настройки из файла
+ tachinit();        // Включаем кнопку
+ WiFi_init();       //Запускаем WIFI
+ reley_init();      //Запускаем реле
+ sensor_init();     // Запускаем сенсоры
+ Movement_init();   // запускаем датчик движения
+ HTTP_init();       //настраиваем HTTP интерфейс
+ SSDP_init();       //запускаем SSDP сервис
+ ntp_init();        // Включаем время из сети
+ tickerAlert.attach(1, alert);  // Будет выполняться каждую секунду проверяя будильники
+ ddns_init();       //запускаем DDNS сервис
+ ip_wan();          // Сообщаем ddns наш текущий адрес
+ timers_init();     // Синхронизируем время
 }
 
 void loop() {

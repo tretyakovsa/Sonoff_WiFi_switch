@@ -1,3 +1,7 @@
+void tachinit(){
+ // Кнопка будет работать по прерыванию
+ attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
+  }
 // Выполняется при нажатии на кнопку
 void Tach_0() {
  static unsigned long millis_prev;
