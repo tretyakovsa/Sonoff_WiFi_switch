@@ -19,9 +19,6 @@
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 DHT dht;
 
-// Настройки DNS сервера и адреса точки в режиме AP
-const byte DNS_PORT = 53;
-IPAddress apIP(192, 168, 4, 1);
 DNSServer dnsServer;
 
 // Web интерфейсы для устройства
@@ -38,7 +35,7 @@ File fsUploadFile;
 Ticker tickerSetLow;
 Ticker tickerAlert;
 
-// Для поиска других устройств по пратаколу SSDP
+// Для поиска других устройств по протоколу SSDP
 WiFiUDP udp;
 
 // Куда что подключено
@@ -61,11 +58,12 @@ int timezone = 3;                    // часовой пояс GTM
 String Language ="ru";               // язык web интерфейса
 String Lang ="";                     // файлы языка web интерфейса
 String calibrationTime = "00:00:00"; // Время колибровки часов
-String Weekday= "";
+String Weekday= "";                  // Текущий день недели
 
 // Переменные для обнаружения модулей
 String module[]={"sonoff"};
 //,"rbg","jalousie"};
+// {"ip":"192.168.0.103","SSDP":"Sonoff","module":["sonoff"]}
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
 // Переменные для таймеров
@@ -91,19 +89,18 @@ int task = 0;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
+ reley_init();
  sensor_init();
- pinMode(RELE1_PIN, OUTPUT);
- pinMode(LED_PIN, OUTPUT);
- // Включаем работу с файловой системой
+ Movement_init();
+  // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
  loadConfig();
   // Кнопка будет работать по прерыванию
  attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
  //Запускаем WIFI
+ WiFi_init();
  WIFIAP_Client();
- // Закускаем UDP
- udp.begin(localPort);
  //настраиваем HTTP интерфейс
  HTTP_init();
  //запускаем SSDP сервис
@@ -112,11 +109,10 @@ void setup() {
   Time_init();
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
-
-// init_WAN();
+ Movement_init();
+ddns_init();
 ip_wan();
  loadTimer();
-  Serial.println(GetWeekday());
 }
 
 void loop() {

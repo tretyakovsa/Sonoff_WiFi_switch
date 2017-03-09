@@ -1,3 +1,47 @@
+void WiFi_init() {
+  pinMode(LED_PIN, OUTPUT);
+  HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
+  HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
+  HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
+  HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
+ }
+// сканирование сети на доступные точки доступа
+void handle_wifi_scan() {
+  int n = WiFi.scanNetworks();
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.createObject();
+  JsonArray& networks = json.createNestedArray("networks");
+  for (int i = 0; i < n; i++) {
+    JsonObject& data = networks.createNestedObject();
+    data["ssid"] = WiFi.SSID(i);
+    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
+    data["dbm"] = WiFi.RSSI(i);
+    //data["bssid"] = WiFi.BSSIDstr(i);
+    //data["channel"] = WiFi.channel(i);
+    //data["isHidden"] = WiFi.isHidden(i);
+  }
+  String root;
+  json.printTo(root);
+  HTTP.send(200, "text/json", root);
+}
+
+// Установить имя и пароль для роутера
+void handle_ssid() {
+  ssidName = HTTP.arg("ssid");
+  ssidPass = HTTP.arg("ssidPass");
+  saveConfig();
+  HTTP.send(200, "text/plain", "OK");
+}
+
+//Установить имя и пароль для точки доступа
+void handle_ssidap() {
+  ssidApName = HTTP.arg("ssidAP");
+  ssidApPass = HTTP.arg("ssidApPass");
+  saveConfig();
+  HTTP.send(200, "text/plain", "OK");
+}
+
+
 void WIFIAP_Client() {
   WiFi.disconnect();
   WiFi.mode(WIFI_STA);
@@ -16,6 +60,8 @@ void WIFIAP_Client() {
 
 bool StartAPMode()
 {
+  const byte DNS_PORT = 53;
+  IPAddress apIP(192, 168, 4, 1);
   WiFi.disconnect();
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
@@ -26,6 +72,7 @@ bool StartAPMode()
   return true;
 }
 
+// Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
 bool RestartWiFi() {
   //Холодный перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
@@ -40,10 +87,10 @@ bool RestartWiFi() {
   delay(5000);
   // Отключаем точку доступа и переподключаемся к роутеру
   /*WiFi.mode(WIFI_STA);
-  WiFi.begin();
-  tries(11);
-    */
-    ESP.restart();
+    WiFi.begin();
+    tries(11);
+  */
+  ESP.restart();
 }
 
 // Попытки подключения к сети
