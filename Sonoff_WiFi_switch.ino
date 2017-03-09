@@ -94,8 +94,9 @@ void setup() {
  loadConfig();      // Загружаем настройки из файла
  tachinit();        // Включаем кнопку
  WiFi_init();       //Запускаем WIFI
- reley_init();      //Запускаем реле
+ relay_init();      //Запускаем реле
  sensor_init();     // Запускаем сенсоры
+ timers_init();     // Синхронизируем время
  Movement_init();   // запускаем датчик движения
  HTTP_init();       //настраиваем HTTP интерфейс
  SSDP_init();       //запускаем SSDP сервис
@@ -103,7 +104,6 @@ void setup() {
  tickerAlert.attach(1, alert);  // Будет выполняться каждую секунду проверяя будильники
  ddns_init();       //запускаем DDNS сервис
  ip_wan();          // Сообщаем ddns наш текущий адрес
- timers_init();     // Синхронизируем время
 }
 
 void loop() {

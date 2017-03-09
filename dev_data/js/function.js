@@ -114,6 +114,7 @@ function LoadWifi(ssids){
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
+  jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
   var html = '';
   for(i = 0;i<jsonWifi.networks.length;i++) {
    var wifiSignal = '';
