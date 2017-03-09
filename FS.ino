@@ -1,3 +1,38 @@
+// Инициализация FFS
+void FS_init(void) {
+  SPIFFS.begin();
+  {
+    Dir dir = SPIFFS.openDir("/");
+    while (dir.next()) {
+      String fileName = dir.fileName();
+      size_t fileSize = dir.fileSize();
+    }
+    Lang = FileList("/lang");
+  }
+  //HTTP страницы для работы с FFS
+  //list directory
+  HTTP.on("/list", HTTP_GET, handleFileList);
+  //загрузка редактора editor
+  HTTP.on("/edit", HTTP_GET, []() {
+    if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
+  });
+  //Создание файла
+  HTTP.on("/edit", HTTP_PUT, handleFileCreate);
+  //Удаление файла
+  HTTP.on("/edit", HTTP_DELETE, handleFileDelete);
+  //first callback is called after the request has ended with all parsed arguments
+  //second callback handles file uploads at that location
+  HTTP.on("/edit", HTTP_POST, []() {
+    HTTP.send(200, "text/plain", "");
+  }, handleFileUpload);
+  //called when the url is not defined here
+  //use it to load content from SPIFFS
+  HTTP.onNotFound([]() {
+    if (!handleFileRead(HTTP.uri()))
+      HTTP.send(404, "text/plain", "FileNotFound");
+  });
+}
+
 // Здесь функции для работы с файловой системой
 String getContentType(String filename) {
   if (HTTP.hasArg("download")) return "application/octet-stream";
@@ -109,37 +144,4 @@ String FileList(String path) {
 }
 
 
-// Инициализация FFS
-void FS_init(void) {
-  SPIFFS.begin();
-  {
-    Dir dir = SPIFFS.openDir("/");
-    while (dir.next()) {
-      String fileName = dir.fileName();
-      size_t fileSize = dir.fileSize();
-    }
-    Lang = FileList("/lang");
-  }
-  //HTTP страницы для работы с FFS
-  //list directory
-  HTTP.on("/list", HTTP_GET, handleFileList);
-  //загрузка редактора editor
-  HTTP.on("/edit", HTTP_GET, []() {
-    if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
-  });
-  //Создание файла
-  HTTP.on("/edit", HTTP_PUT, handleFileCreate);
-  //Удаление файла
-  HTTP.on("/edit", HTTP_DELETE, handleFileDelete);
-  //first callback is called after the request has ended with all parsed arguments
-  //second callback handles file uploads at that location
-  HTTP.on("/edit", HTTP_POST, []() {
-    HTTP.send(200, "text/plain", "");
-  }, handleFileUpload);
-  //called when the url is not defined here
-  //use it to load content from SPIFFS
-  HTTP.onNotFound([]() {
-    if (!handleFileRead(HTTP.uri()))
-      HTTP.send(404, "text/plain", "FileNotFound");
-  });
-}
+
