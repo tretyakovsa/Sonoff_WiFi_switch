@@ -85,14 +85,14 @@ val('ID_name');
     Prism.highlightAll();
    }
   }
-  load_request('configs-live-json','/config.live.json');
-  load_request('configs-save-json','/config.save.json');
-  load_request('lang-list-json','/lang.list.json');
-  load_request('lang-json','/lang/lang.ru.json');
-  load_request('devices-list-json','/devices.list.json');
-  load_request('modules-json','/modules.json');
-  load_request('timer-save-json','/timer.save.json');
-  setTimeout(function(){load_request('wifi-scan-json','/wifi.scan.json');},5000);
+  setTimeout(function(){load_request('configs-live-json','/config.live.json');},1000);
+  setTimeout(function(){load_request('configs-save-json','/config.save.json');},2000);
+  setTimeout(function(){load_request('lang-list-json','/lang.list.json');},3000);
+  setTimeout(function(){load_request('lang-json','/lang/lang.ru.json');},4000);
+  setTimeout(function(){load_request('devices-list-json','/devices.list.json');},5000);
+  setTimeout(function(){load_request('modules-json','/modules.json');},6000);
+  setTimeout(function(){load_request('timer-save-json','/timer.save.json');},7000);
+  setTimeout(function(){load_request('wifi-scan-json','/wifi.scan.json');},8000);
 
   function listCookies() {
    var theCookies = document.cookie.split(';');
