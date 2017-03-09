@@ -2,6 +2,7 @@ void reley_init() {
   pinMode(RELE1_PIN, OUTPUT);
   HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
   HTTP.on("/reley", releyActiv);                // запуск мотора напровление храниться в переменной
+  modulesReg("Sonoff");
 }
 
 // Меняет флаг для включения выключения sonoff

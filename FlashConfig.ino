@@ -54,5 +54,14 @@ bool saveConfig() {
   json.printTo(configFile);
   return true;
 }
-
-
+//{"ip":"192.168.0.103","SSDP":"Sonoff","module":["sonoff"]}
+void modulesReg(String modName) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(modulesNew);
+  json["ip"] = WiFi.localIP().toString();
+  json["SSDP"] = ssdpName;
+  JsonArray& data = json["module"].asArray();
+  data.add(modName);
+  modulesNew="";
+  json.printTo(modulesNew);
+}

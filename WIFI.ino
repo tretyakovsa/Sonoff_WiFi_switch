@@ -51,7 +51,8 @@ void WIFIAP_Client() {
   Serial.println("WiFi connected");
   Serial.println(WL_CONNECTED);
   Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  //ipCurrent = WiFi.localIP().toString();
+  Serial.println(WiFi.localIP().toString());
   if (WiFi.status() != WL_CONNECTED)
   {
     StartAPMode();

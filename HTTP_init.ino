@@ -92,26 +92,13 @@ void handle_ConfigJSON() {
 }
 
 void handle_ip_list() {
-  HTTP.send(200, "text/json", "[" + modules() + Devices + "]");
+  HTTP.send(200, "text/json", "[" + modulesNew + Devices + "]");
 }
 
 void handle_modules() {
-  HTTP.send(200, "text/json", modules());
+  HTTP.send(200, "text/json", modulesNew);
 }
 
-String modules() {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.createObject();
-  json["ip"] = WiFi.localIP().toString();
-  json["SSDP"] = ssdpName;
-  JsonArray& data = json.createNestedArray("module");
-  for (int i = 0; i < sizeof(module) / sizeof(module[0]); i++) {
-    data.add(module[i]);
-  }
-  String root;
-  json.printTo(root);
-  return root;
-}
 
 void handle_leng_list() {
   HTTP.send(200, "text/json", Lang);

@@ -48,6 +48,7 @@ WiFiUDP udp;
 // Определяем переменные
 
 //Обшие настройки
+String ipCurrent = "";
 String jsonConfig = "";              // Определяем строку для json config
 String ssidName = "WiFi";            // Для хранения SSID
 String ssidPass = "";                // Для хранения пароля сети
@@ -61,9 +62,8 @@ String calibrationTime = "00:00:00"; // Время колибровки часо
 String Weekday= "";                  // Текущий день недели
 
 // Переменные для обнаружения модулей
-String module[]={"sonoff"};
-//,"rbg","jalousie"};
-// {"ip":"192.168.0.103","SSDP":"Sonoff","module":["sonoff"]}
+//String modulesNew ="{}";
+String modulesNew ="{\"ip\":\"\",\"SSDP\":\"\",\"module\":[]}";
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
 // Переменные для таймеров
@@ -89,9 +89,6 @@ int task = 0;
 void setup() {
  Serial.begin(115200);
  Serial.println("");
- reley_init();
- sensor_init();
- Movement_init();
   // Включаем работу с файловой системой
  FS_init();
  // Загружаем настройки из файла
@@ -101,6 +98,9 @@ void setup() {
  //Запускаем WIFI
  WiFi_init();
  WIFIAP_Client();
+ reley_init();
+ sensor_init();
+ Movement_init();
  //настраиваем HTTP интерфейс
  HTTP_init();
  //запускаем SSDP сервис
@@ -109,10 +109,12 @@ void setup() {
   Time_init();
  // Будет выполняться каждую секунду проверяя будильники
  tickerAlert.attach(1, alert);
- Movement_init();
 ddns_init();
 ip_wan();
  loadTimer();
+Serial.println("modul");
+Serial.println(modulesNew);
+
 }
 
 void loop() {
