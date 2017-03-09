@@ -20,7 +20,7 @@
     xhttp.onload = function(e) {
      var ipModule=JSON.parse(xhttp.responseText);
      for(var key in ipModule) {
-       loadScenery(ipModule[key].ip);
+      loadScenery(ipModule[key].ip);
      }
     }
    }
@@ -59,17 +59,101 @@
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
      <hr>
-     <div class="alert alert-dismissible alert-info">Soon... If you like this project, you can give me a cup of coffee paypal:wul@inbox.lv :) <br> Скоро... Чем больше будит пожерствований на проект, тем быстрее мы сделаем.</div>
-     <h4>{{LangIf}} <select class="btn btn-default" id="scenery-if"></select>
-      = <select class="btn btn-default" id="state1"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
-      <br>
-      {{LangThen}} <select class="btn btn-default" id="scenery-then"></select>
-      = <select class="btn btn-default" id="state2"><option value="1">{{LangOn.}}</option><option value="0">{{LangOff.}}</option></select>
-     </h4>
-     <input type="button" class="btn btn-block btn-success" value="{{LangSave}}" onclick="addScenery(this);toggle('scenery');">
+
+     <h2>{{LangList}}</h2>
+
+     <table class="table table-striped table-hover" style="width:100%;">
+      <thead>
+       <tr>
+        <th style="text-align:left;">{{LangIf}}</th>
+        <th>= &lt; &gt;</th>
+        <th>Параметр</th>
+        <th>{{LangThen}}</th>
+        <th>Датчик</th>
+        <th>=</th>
+        <th></th>
+       </tr>
+      </thead>
+      <tbody id="scenery-list">
+       <tr>
+        <td style="text-align:left;"><b>Analog</b></td>
+        <td>=</td>
+        <td>22</td>
+        <td>VIESISTABA</td>
+        <td>RELAY</td>
+        <td><span class="label label-success">Вкл.</span></td>
+        <td style="text-align:right;"><input class="btn btn-sm btn-danger" value="{{LangDel}}" type="button"></td>
+       </tr>
+       <tr>
+        <td style="text-align:left;"><b>Temperature</b></td>
+        <td>&gt;</td>
+        <td>10</td>
+        <td>VIESISTABA</td>
+        <td>RELAY</td>
+        <td><span class="label label-success">Вкл.</span></td>
+        <td style="text-align:right;"><input class="btn btn-sm btn-danger" value="{{LangDel}}" type="button"></td>
+       </tr>
+      </tbody>
+     </table>
+
+     <input class="btn btn-block btn-default" value="{{LangMoreDevice}}" onclick="LoadDevice();" type="button">
+
      <hr>
-     <h4>Список всех сценариев</h4>
-     <p id="scenery-list"></p>
+
+     <h2>Добавить сценарий</h2>
+     <div class="alert alert-dismissible alert-info">Soon... If you like this project, you can give me a cup of coffee paypal:wul@inbox.lv :) <br> Скоро... Чем больше будит пожерствований на проект, тем быстрее мы сделаем.</div>
+
+     <div class="col-xs-12 col-md-12">
+      <select class="btn btn-default form-control" id="scenery-if"></select>
+     </div>
+
+     <hr>
+
+     <div class="col-xs-6 col-md-6">
+      <div class="input-group">
+       <span class="input-group-addon">{{LangIf}}</span>
+       <select class="btn btn-default form-control" id="scenery-if-module">
+        <option value="Analog">Analog</option>
+        <option value="Temperature">Temperature</option>
+        <option value="Humidity">Humidity</option>
+        <option value="Relay">Relay</option>
+       </select>
+      </div>
+     </div>
+     <div class="col-xs-3 col-md-3">
+      <select class="btn btn-default form-control" id="scenery-param">
+       <option value="=">=</option>
+       <option value="<">&lt;</option>
+       <option value=">">&gt;</option>
+      </select>
+     </div>
+     <div class="col-xs-3 col-md-3">
+      <input id="state1" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
+     </div>
+
+     <div class="col-xs-6 col-md-6">
+      <div class="input-group">
+       <span class="input-group-addon">{{LangThen}}</span>
+       <select class="btn btn-default form-control" id="scenery-then"></select>
+      </div>
+     </div>
+
+     <div class="col-xs-3 col-md-3">
+      <select class="btn btn-default form-control" id="scenery-then-module">
+       <option value="Reley">Reley</option>
+       <option value="Reley">RGB</option>
+      </select>
+     </div>
+     <div class="col-xs-3 col-md-3">
+      <select class="btn btn-default form-control" id="trigger">
+       <option value="not">{{LangSwitch.}}</option>
+       <option value="1">{{LangOn.}}</option>
+       <option value="0">{{LangOff.}}</option>
+      </select>
+     </div>
+
+     <input type="button" class="btn btn-block btn-success" value="{{LangSave}}" onclick="addScenery(this);toggle('scenery');">
+
      <hr>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>

@@ -47,7 +47,7 @@ input:invalid + input[type=button], input:invalid + div input[type=button] {
  background-color:#fff;
  box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
  padding:10px;
- margin:10px 0;
+ margin:10px 15px 15px 5px;
  display:block;
 }
 .header {
@@ -112,7 +112,8 @@ h5 {
 .loader-bg:after {
  content: '';
  position:fixed;
- left:49%;
+ left:50%;
+ margin-left:-35px;
  top:150px;
  z-index:-999;
 }

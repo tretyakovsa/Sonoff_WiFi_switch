@@ -69,7 +69,7 @@
  "LangSun":"Sunday",
  "LangAll":"Always",
  "LangSwitch.":"Switch",
- "LangTimerMore":"Show timers for all devices",
+ "LangMoreDevice":"Show other devices",
  "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit. Min (Work time) are optional.",
 
  "_comment": "---DEVICE.HTM---",

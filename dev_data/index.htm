@@ -53,7 +53,7 @@
       for (var i in ipModule) {lookup[ipModule[i].module[0]] = ipModule[i];}
       for (i in lookup) {moduleArray.push(lookup[i]);}
       if (moduleArray.length > 1) {toggle('sorting','hidden');}
-      document.getElementById("sorting").innerHTML = '<h5 class="alert-warning">{{LangSorting}}<\/h5><input type="button" class="btn btn-default" value="all" onclick="deviceList(\'first\');">';
+      document.getElementById("sorting").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><input type="button" class="btn btn-default" value="all" onclick="deviceList(\'first\');">';
       for(var key in moduleArray) {
        document.getElementById("sorting").innerHTML += '<input type="button" class="btn btn-default" onclick="deviceList(\'first\',\''+moduleArray[key].module[0]+'\')" value="'+moduleArray[key].module[0]+'">';
       }
