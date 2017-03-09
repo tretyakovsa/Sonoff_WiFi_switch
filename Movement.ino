@@ -1,6 +1,6 @@
 void Movement_init() {
   HTTP.on("/pir", handle_pir);        // Установить время на которое будет срабатывать датчик движения
-  modulesReg("Movement");
+  modulesReg("movement");
 }
 
 // Установить время на которое будет срабатывать датчик движения

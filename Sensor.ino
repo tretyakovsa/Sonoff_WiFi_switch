@@ -9,11 +9,11 @@
 
 void sensor_init(){
  HTTP.on("/sensor.json", handle_sensor);
- modulesReg("Temperature");
+ modulesReg("temperature");
  dht.setup(DHTPIN);
  //dht.getTemperature();
  HTTP.on("/analog.json", handle_analog);
- modulesReg("Analog");
+ modulesReg("analog");
 }
 
 void handle_sensor() {
