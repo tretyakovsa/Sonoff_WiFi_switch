@@ -21,6 +21,8 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
+    if (searchModule(jsonResponse.module,'ddns') == 'yes') {toggle('ddns', 'hidden');}
+    if (searchModule(jsonResponse.module,'mqtt') == 'yes') {toggle('mqtt', 'hidden');}
     document.body.style.backgroundColor="#"+jsonResponse.color;
    }
    function real_time(hours,min,sec) {
@@ -47,7 +49,7 @@
     alert(jsonResponse.LangReset2);
    }
    function ddns(submit){
-    server = "/ddns?ddns="+encodeURIComponent(val('ddns'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
+    server = "/ddns?ddns="+encodeURIComponent(val('ddns-server'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
     send_request(submit,server);
     alert(jsonResponse.LangReset2);
    }
@@ -97,7 +99,7 @@
        <a href="/help.htm" target="_blank" class="close">?</a>
        {{LangSetting4}}
        <span id="hide" class="hidden">
-        <b>{{LangSetting5}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">github</a></b>
+        <b>{{LangSetting5}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
         <form method="POST" action="/update" enctype="multipart/form-data">
          <div class="btn-group">
           <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
@@ -148,15 +150,33 @@
         <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
        </div>
       </div>
-      <hr>
-      <h2>{{LangDdns1}}</h2>
-      <div class="alert alert-dismissible alert-info {{g63563}}"><button class="close" onclick="hide('g63563',this);" type="button">×</button>{{LangDdns2}}</div>
-      <div class="input-group" style="width:100%">
-       <span class="input-group-addon">http://</span><input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
-       <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{0,5}" placeholder="Host port">
+
+      <div id="ddns" class="hidden">
+       <hr>
+       <h2>{{LangDdns1}}</h2>
+       <div class="alert alert-dismissible alert-info {{g63563}}"><button class="close" onclick="hide('g63563',this);" type="button">×</button>{{LangDdns2}}</div>
+       <div class="input-group" style="width:100%">
+        <span class="input-group-addon">http://</span><input id="ddns-name" value="{{ddnsName}}" class="form-control" style="width:70%;display:inline" placeholder="Host name">
+        <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{1,5}" placeholder="Host port">
+       </div>
+       <input id="ddns-server" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
       </div>
-      <input id="ddns" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
+
+      <div id="mqtt" class="hidden">
+       <hr>
+       <h2>MQTT</h2>
+       <div class="input-group" style="width:100%">
+        <input id="mqtt-server" value="{{mqttServer}}" class="form-control" style="width:70%;display:inline" pattern="[0-9a-zA-Z.\-]{1,20}" placeholder="MQTT Server, example: cloudmqtt.com">
+        <input id="mqtt-port" value="{{mqttPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{1,5}" placeholder="MQTT Port">
+       </div>
+       <div class="input-group" style="width:100%">
+        <input id="mqtt-user" value="{{mqttUser}}" class="form-control" style="width:50%;display:inline" placeholder="User Name">
+        <input id="mqtt-pass" value="{{mqttPass}}" style="width:50%;display:inline"  onfocus="this.type='text'" type="password" class="form-control" placeholder="Pass">
+       </div>
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/mqtt?server='+encodeURIComponent(val('mqtt-server'))+'&port='+val('mqtt-port')+'&user='+val('mqtt-user')+'&pass='+val('mqtt-pass'));" type="button">
+      </div>
+
       <hr>
       <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();location.reload();" type="button">
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
