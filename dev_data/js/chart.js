@@ -1,4 +1,4 @@
-function LoadChart(chartId,chartUrl,charOptions){
+function loadChart(chartId,chartUrl,charOptions){
  var valTime;
  function viewTime() {
   var now = new Date();
