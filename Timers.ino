@@ -1,7 +1,9 @@
-void timers_init(){
-   loadTimer();
-   modulesReg("timers");
-  }
+void timers_init() {
+  HTTP.on("/timerSave", handle_timer_Save);
+  HTTP.on("/timersDel", handle_timer_Del);
+  loadTimer();
+  modulesReg("timers");
+}
 void handle_timer_Save() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
@@ -94,7 +96,7 @@ void runTimers() {
       // получаем строку текщего таймера
       String timer = timers.substring(0, i);
       // Если время совпадает с текущим
-      if (timer.substring(0, 8) == GetTime()) {
+      if (timer.substring(0, 8) == Time) {
         int j = timer.lastIndexOf(",");
         // Загружаем время работы реле
         timeSonoff = timer.substring(9, j).toInt();
@@ -105,11 +107,11 @@ void runTimers() {
           chaing = 1;
         }
         if (temp == "on") {
-          state0=0;
+          state0 = 0;
           chaing = 1;
         }
         if (temp == "off") {
-          state0=1;
+          state0 = 1;
           chaing = 1;
         }
       }

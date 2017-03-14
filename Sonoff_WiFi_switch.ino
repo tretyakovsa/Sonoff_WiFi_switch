@@ -16,6 +16,9 @@
 
 #include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
+ #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
+
+
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
 DHT dht;
 
@@ -40,7 +43,7 @@ WiFiUDP udp;
 
 // Куда что подключено
 #define TACH_PIN 0    // Кнопка управления
-#define PIR_PIN 2     // RIR sensors
+#define PIR_PIN 2    // RIR sensors
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // DHT сенсор.
@@ -49,17 +52,19 @@ WiFiUDP udp;
 
 //Обшие настройки
 String ipCurrent = "";
-String jsonConfig = "";              // Определяем строку для json config
+String jsonConfig = "{}";              // Определяем строку для json config
 String ssidName = "WiFi";            // Для хранения SSID
 String ssidPass = "";                // Для хранения пароля сети
 String ssidApName = "Sonoff";        // SSID AP точки доступа
 String ssidApPass = "";              // пароль точки доступа
 String ssdpName = "Sonoff";          // Имя SSDP
+String spaceName = "";          // Имя SSDP
 int timezone = 3;                    // часовой пояс GTM
 String Language ="ru";               // язык web интерфейса
 String Lang ="";                     // файлы языка web интерфейса
 String calibrationTime = "00:00:00"; // Время колибровки часов
 String Weekday= "";                  // Текущий день недели
+String Time = "";                    // Текущее время
 
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";
@@ -77,7 +82,16 @@ String ddnsName = "";           // адрес сайта ddns
 int pirTime = 0;                // 0 = PIR off; >1 = PIR on;
 int ddnsPort = 8080; // порт для обращение к устройству с wan
 
-unsigned int localPort = 2390;
+//Переменные для Mqtt
+String mqtt_server = "cloudmqtt.com"; // Имя сервера MQTT
+int mqtt_port = 1883; // Порт для подключения к серверу MQTT
+String mqtt_user = ""; // Логи от сервер
+String mqtt_pass = ""; // Пароль от сервера
+String chipID="";
+WiFiClient wclient;
+PubSubClient client(wclient);
+
+unsigned int localPort = 1901;
 unsigned int ssdpPort = 1900;
 
 volatile int chaingtime = LOW;
@@ -101,9 +115,10 @@ void setup() {
  HTTP_init();       //настраиваем HTTP интерфейс
  SSDP_init();       //запускаем SSDP сервис
  ntp_init();        // Включаем время из сети
- tickerAlert.attach(1, alert);  // Будет выполняться каждую секунду проверяя будильники
+
  ddns_init();       //запускаем DDNS сервис
  ip_wan();          // Сообщаем ddns наш текущий адрес
+ MQTT_init();
 }
 
 void loop() {
@@ -113,14 +128,8 @@ void loop() {
  HTTPWAN.handleClient();
  delay(1);
  handleUDP();
+ handleRelay();
 
- if (chaing) {
-  noInterrupts();
-  state0=!state0;
-  digitalWrite(RELE1_PIN,state0);
-  chaing = 0;
-  interrupts();
- }
 
  switch (task) {
   case 1:
@@ -137,24 +146,10 @@ void loop() {
    break;
  }
 
+ handleMQTT();
+
+
 }
 
-// Вызывается каждую секунду в обход основного цикла.
-void alert() {
-  runTimers();
-  String Time = GetTime();
-  // Калибровка времени каждые сутки, получение текушего дня недели
- if (calibrationTime.compareTo(Time) == 0) {
-  task=1;
- }
- if (pirTime > 0 && state0 == 0 && digitalRead(PIR_PIN)) {
-  alarm_pir();
- }
 
- Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
- // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
- if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {
-  task=2;
- }
-}
 

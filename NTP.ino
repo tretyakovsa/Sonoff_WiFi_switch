@@ -2,9 +2,8 @@
 void ntp_init() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
-  HTTP.on("/timerSave", handle_timer_Save);
-  HTTP.on("/timersDel", handle_timer_Del);
   timeSynch(timezone);
+  tickerAlert.attach(1, alert); // Будет выполняться каждую секунду проверяя таймеры
   modulesReg("ntp");
 }
 void timeSynch(int zone) {
@@ -33,6 +32,7 @@ void handle_Time() {
 // Установка параметров времянной зоны по запросу вида http://192.168.0.101/TimeZone?timezone=3
 void handle_time_zone() {
   timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
+  timeSynch(timezone);
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
@@ -67,5 +67,23 @@ String GetWeekday() {
   return weekday;
 }
 
+// Вызывается каждую секунду в обход основного цикла.
+void alert() {
 
+  runTimers();
+  Time = GetTime();
+  // Калибровка времени каждые сутки, получение текушего дня недели
+ if (calibrationTime.compareTo(Time) == 0) {
+  task=1;
+ }
+ if (pirTime > 0 && state0 == 0 && digitalRead(PIR_PIN)) {
+  //alarm_pir();
+ }
+
+ Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
+ // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
+ if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {
+  task=2;
+ }
+}
 

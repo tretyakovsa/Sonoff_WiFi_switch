@@ -10,6 +10,7 @@
 void sensor_init(){
  HTTP.on("/sensor.json", handle_sensor);
  modulesReg("temperature");
+ pinMode(DHTPIN, INPUT_PULLUP);
  dht.setup(DHTPIN);
  //dht.getTemperature();
  HTTP.on("/analog.json", handle_analog);

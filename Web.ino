@@ -55,12 +55,11 @@ void HTTP_init(void) {
 
 
 void handle_ConfigJSON() {
-  String root = "{}";  // Формировать строку для отправки в браузер json формат
   //{"SSDP":"SSDP-test","ssid":"home","ssidPass":"i12345678","ssidAP":"WiFi","ssidApPass":"","ip":"192.168.0.101"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
   DynamicJsonBuffer jsonBuffer;
   //  вызовите парсер JSON через экземпляр jsonBuffer
-  JsonObject& json = jsonBuffer.parseObject(root);
+  JsonObject& json = jsonBuffer.parseObject(jsonConfig);
   // Заполняем поля json
   // Заполняем поля json
   json["ddns"] = ddns;  // Имя ddns
@@ -73,6 +72,7 @@ void handle_ConfigJSON() {
   temp += dht.getHumidity();
   json["Humidity"] = temp;
   json["SSDP"] = ssdpName;
+  json["space"] = spaceName;
   json["ssidAP"] = ssidApName;
   json["ssidApPass"] = ssidApPass;
   json["ssid"] = ssidName;
@@ -86,9 +86,9 @@ void handle_ConfigJSON() {
   json["pirTime"] = pirTime;  //
   json["state"] = state0;
   // Помещаем созданный json в переменную root
-  root = "";
-  json.printTo(root);
-  HTTP.send(200, "text/json", root);
+  jsonConfig = "";
+  json.printTo(jsonConfig);
+  HTTP.send(200, "text/json", jsonConfig);
 }
 
 void handle_ip_list() {

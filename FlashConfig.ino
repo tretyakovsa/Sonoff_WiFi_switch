@@ -12,28 +12,35 @@ bool loadConfig() {
   }
 
   // загружаем файл конфигурации в глобальную переменную
-  jsonConfig = configFile.readString();
-  Serial.println(jsonConfig);
+  String Config = configFile.readString();
+  Serial.println(Config);
   DynamicJsonBuffer jsonBuffer;
-  JsonObject& root = jsonBuffer.parseObject(jsonConfig);
+  JsonObject& root = jsonBuffer.parseObject(Config);
   ssidApName = root["ssidApName"].as<String>();
   ssidApPass = root["ssidApPass"].as<String>();
   timezone = root["timeZone"];
   ssdpName = root["ssdpName"].as<String>();
   ssidName = root["ssidName"].as<String>();
+  spaceName = root["space"].as<String>();
   ssidPass = root["ssidPass"].as<String>();
   Language = root["lang"].as<String>();
   ddns = root["ddns"].as<String>();
   ddnsName = root["ddnsName"].as<String>();
   ddnsPort = root["ddnsPort"];
   pirTime = root["pirTime"];
+  mqtt_server = root["mqtt_server"].as<String>();
+  mqtt_port = root["mqtt_port"];
+  mqtt_user = root["mqtt_user"].as<String>();
+  mqtt_pass = root["mqtt_pass"].as<String>();
   return true;
 }
 
 bool saveConfig() {
+  String Config="{}";
   DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.parseObject(jsonConfig);
+  JsonObject& json = jsonBuffer.parseObject(Config);
   json["ssdpName"] = ssdpName;
+  json["space"] = spaceName;
   json["ssidApName"] = ssidApName;
   json["ssidApPass"] = ssidApPass;
   json["ssidName"] = ssidName;
@@ -45,6 +52,11 @@ bool saveConfig() {
   json["ddnsName"] = ddnsName;
   json["ddnsPort"] = ddnsPort;
   json["pirTime"] = pirTime;
+
+  json["mqtt_server"] = mqtt_server;
+  json["mqtt_port"] = mqtt_port;
+  json["mqtt_user"] = mqtt_user;
+  json["mqtt_pass"] = mqtt_pass;
   File configFile = SPIFFS.open("/config.save.json", "w");
   if (!configFile) {
     //Serial.println("Failed to open config file for writing");

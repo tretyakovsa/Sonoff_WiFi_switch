@@ -45,6 +45,7 @@ void handle_ssidap() {
 
 void WIFIAP_Client() {
   WiFi.disconnect();
+  WiFi.hostname ( "sonoff" );
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssidName.c_str(), ssidPass.c_str());
   tries(11);

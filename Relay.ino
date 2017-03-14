@@ -1,7 +1,9 @@
 void relay_init() {
   pinMode(RELE1_PIN, OUTPUT);
-  HTTP.on("/sonoff", sonoffActiv);                // задать цвет ленты и включить.
-  HTTP.on("/relay", relayActiv);                // запуск мотора напровление храниться в переменной
+  HTTP.on("/sonoff", sonoffActiv);                //
+  HTTP.on("/relay", relayActiv);                //
+
+
   modulesReg("relay");
 }
 
@@ -11,9 +13,22 @@ void sonoffActiv() {
   HTTP.send(200, "text/plain", "OK");
 }
 
-// Меняет флаг для запуска
+// Меняет флаг для включения выключения sonoff
 void relayActiv() {
-  Serial.println(state0);
-  chaing = 1;
+  //Language = HTTP.arg("relay");
+  //Language = HTTP.arg("trigger");
+
   HTTP.send(200, "text/plain", "OK");
 }
+
+
+void handleRelay(){
+  if (chaing) {
+  noInterrupts();
+  state0=!state0;
+  digitalWrite(RELE1_PIN,state0);
+  client.publish(chipID + "/RELE_1", String(state0)); // отправляем в топик
+  chaing = 0;
+  interrupts();
+ }
+  }
