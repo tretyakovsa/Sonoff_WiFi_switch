@@ -31,6 +31,7 @@
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Имя устройства",
+ "LangSpace":"Пространство",
  "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Открыть настройки разработчика</a></b><br>Осторожно, непродуманные действия могут повредить устройство.",
  "LangSetting5":"Нажав <a target=\"_blank\" href=\"/edit\">сюда</a> вы сможете изменить html, css, js файлы проекта.<br>Так же ниже вы можете загрузить новую прошивку отсюда:",
  "LangPass":"Пароль",

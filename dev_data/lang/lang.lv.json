@@ -31,6 +31,7 @@
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",
+ "LangSpace":"Space",
  "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Atvērt Izstrādātāja iestatījumus</a></b><br>Uzmanīgi, nepārdomāta rīcība var bojāt ierīci.",
  "LangSetting5":"Noklikšķinot <a target=\"_blank\" href=\"/edit\">šeit</a> jūs varat mainīt HTML, CSS, JS failus projektā.<br>Zemāk jūs varat lejupielādēt jaunāko versiju no šejeni:",
  "LangPass":"Parole",

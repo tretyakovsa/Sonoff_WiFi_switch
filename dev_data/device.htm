@@ -17,10 +17,10 @@
    function handleServerResponse(stage,jsonResponse){
     val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     if (!jsonResponse.g72895) LoadChart('ct-chart','sensor');
-     if (!jsonResponse.g85723) LoadChart('ct-analog','analog');
+     if (!jsonResponse.g72895) loadChart('ct-chart','sensor');
+     if (!jsonResponse.g85723) loadChart('ct-analog','analog');
     }
-    if (!jsonResponse.g42843) LoadTimer("timer-list");
+    if (!jsonResponse.g42843) loadTimer("timer-list");
    }
    function sonoff(submit){
     server = "/sonoff";
@@ -48,7 +48,7 @@
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <div class="btn-group" id="language">
-      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>

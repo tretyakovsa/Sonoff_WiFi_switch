@@ -16,7 +16,7 @@
 json file test.json: {"title":"Temp","refresh":2000, "points":10, "data":[21,55], "data2":[21,55], "data3":[21,55], "label":[3,5]} -->
   <script type="text/javascript">
    function handleServerResponse(){
-    LoadChart('ct-chart',window.location.hash.substring(1));
+    loadChart('ct-chart',window.location.hash.substring(1));
    }
   </script>
  </head>
@@ -27,7 +27,7 @@ json file test.json: {"title":"Temp","refresh":2000, "points":10, "data":[21,55]
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <div class="btn-group" id="language">
-      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>

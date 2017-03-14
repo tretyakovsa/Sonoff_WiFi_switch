@@ -88,7 +88,7 @@
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
      <div class="btn-group" id="language">
-      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <div id="dev-opt">
@@ -110,7 +110,11 @@
       </div>
      </div>
      <h2>{{LangDevice}}</h2>
-     <input id="ssdp" value="{{SSDP}}" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
+     <div class="input-group" style="width:100%">
+      <input type="search" value="{{space}}" style="width:50%;display:inline" onclick="loadSpace('space-list')" id="space" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}"  placeholder="{{LangSpace}}" list="space-list">
+      <datalist id="space-list" style="display:hidden;"></datalist>
+      <input id="ssdp" value="{{SSDP}}" style="width:50%;display:inline" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
+     </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssdp?ssdp='+val('ssdp'));html('ssdp_t',val('ssdp'));" type="button">
      <hr id="wifi-connect">
      <div class="row hidden" id="pop-up">
@@ -124,7 +128,7 @@
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
      <div class="btn-group btn-block" id="ssid-group">
-      <a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle('ssid-select');LoadWifi('ssid-select');return false"><span id="ssid-name">{{ssid}}</span> <span class="caret"></span></a>
+      <a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle('ssid-select');loadWifi('ssid-select');return false"><span id="ssid-name">{{ssid}}</span> <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,20}" placeholder="{{LangWiFi1}}">
@@ -132,12 +136,14 @@
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
      <hr>
      <div id="dev-othe">
+
       <h2>{{LangGMT1}}</h2>
       <input id="timeZone" value="{{timeZone}}" pattern="[0-9]{1,3}" class="form-control">
       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeZone?timeZone='+val('timeZone'));" type="button">
       <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="button">
       <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
       <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="send_request(this,'/Time');" type="button">
+
       <hr>
       <h2>{{LangAP}}</h2>
       <div class="row">
@@ -167,7 +173,7 @@
        <hr>
        <h2>MQTT</h2>
        <div class="input-group" style="width:100%">
-        <input id="mqtt-server" value="{{mqttServer}}" class="form-control" style="width:70%;display:inline" pattern="[0-9a-zA-Z.\-]{1,20}" placeholder="MQTT Server, example: cloudmqtt.com">
+        <span class="input-group-addon">tcp://</span><input id="mqtt-server" value="{{mqttServer}}" class="form-control" style="width:70%;display:inline" pattern="[0-9a-zA-Z.\-]{1,20}" placeholder="MQTT Server, example: cloudmqtt.com">
         <input id="mqtt-port" value="{{mqttPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{1,5}" placeholder="MQTT Port">
        </div>
        <div class="input-group" style="width:100%">
@@ -180,6 +186,7 @@
       <hr>
       <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();location.reload();" type="button">
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
+
      </div>
      <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>

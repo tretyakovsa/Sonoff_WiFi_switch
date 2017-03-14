@@ -124,7 +124,7 @@ function setLang(submit){
  }
 }
 
-function LoadWifi(ssids){
+function loadWifi(ssids){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
@@ -145,7 +145,7 @@ function LoadWifi(ssids){
  }
 }
 
-function LoadLang(langids){
+function loadLang(langids){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/lang.list.json',true);
  xmlHttp.send(null);
@@ -160,7 +160,7 @@ function LoadLang(langids){
  }
 }
 
-function LoadTimer(timerids){
+function loadTimer(timerids){
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/timer.save.json", true);
  xhttp.send(null);
@@ -175,6 +175,20 @@ function LoadTimer(timerids){
    html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
   }
   document.getElementById(timerids).innerHTML = (html?html:'<li>No timers</li>');
+ }
+}
+
+function loadSpace(spaceids){
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET','/devices.list.json',true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  var jsonSpace=JSON.parse(xmlHttp.responseText);
+  var html = '';
+  for(var key in jsonSpace) {
+   html += '<option value="'+jsonSpace[key].space+'">';
+  }
+  document.getElementById(spaceids).innerHTML = html;
  }
 }
 

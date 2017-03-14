@@ -10,10 +10,10 @@
   <title>Scenery</title>
   <script type="text/javascript">
    function handleServerResponse(){
-    LoadDevices();
+    loadDevices();
    }
 
-   function LoadDevices(){
+   function loadDevices(){
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -53,7 +53,7 @@
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger">{{SSDP}}</h5>
      <div class="btn-group" id="language">
-      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');LoadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
@@ -96,7 +96,7 @@
       </tbody>
      </table>
 
-     <input class="btn btn-block btn-default" value="{{LangMoreDevice}}" onclick="LoadDevice();" type="button">
+     <input class="btn btn-block btn-default" value="{{LangMoreDevice}}" onclick="loadDevice();" type="button">
 
      <hr>
 
