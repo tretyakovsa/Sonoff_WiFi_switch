@@ -115,7 +115,7 @@
       <datalist id="space-list" style="display:hidden;"></datalist>
       <input id="ssdp" value="{{SSDP}}" style="width:50%;display:inline" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssdp?ssdp='+val('ssdp'));html('ssdp_t',val('ssdp'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/device?ssdp='+val('ssdp')+'&space='+val('space'));html('ssdp_t',val('ssdp'));" type="button">
      <hr id="wifi-connect">
      <div class="row hidden" id="pop-up">
       <div class="col-sm-offset-2 col-sm-8 pop-up">
