@@ -24,6 +24,12 @@
     if (searchModule(jsonResponse.module,'ddns') == 'yes') {toggle('ddns', 'hidden');}
     if (searchModule(jsonResponse.module,'mqtt') == 'yes') {toggle('mqtt', 'hidden');}
     document.body.style.backgroundColor="#"+jsonResponse.color;
+
+    if (jsonResponse.checkboxIP == '1'){
+     toggle('static-ip');
+     document.getElementById('checkboxIP').checked=true;
+    }
+
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -39,7 +45,7 @@
     send_request(submit,'/timeZone?timeZone='+gmtHours);
    }
    function set_ssid(submit){
-    server = "/ssid?ssid="+val('ssid')+"&ssidPass="+encodeURIComponent(val('ssidPass'));
+    server = "/ssid?ssid="+val('ssid')+"&ssidPass="+encodeURIComponent(val('ssidPass'))+"&subnet="+val('subnet')+"&getway="+val('getway')+"&dns="+val('dns')+"&ip="+val('ip')+"&checkboxIP="+val('checkboxIP');
     send_request(submit,server);
     alert(jsonResponse.LangReset2);
    }
@@ -125,6 +131,7 @@
        </div>
       </div>
      </div>
+
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
      <div class="btn-group btn-block" id="ssid-group">
@@ -133,7 +140,19 @@
      </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,20}" placeholder="{{LangWiFi1}}">
      <input id="ssidPass" value="{{ssidPass}}" pattern=".{8,20}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
+     <label><input type="checkbox" id="checkboxIP" value="1" onchange="val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"> Задать статический IP</label>
+     <div class="row hidden" id="static-ip">
+      <div class="col-sm-6">
+       <input id="ip" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="IP Adress">
+       <input id="subnet" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="Subnet Mask">
+      </div>
+      <div class="col-sm-6">
+       <input id="getway" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="Default Getway">
+       <input id="dns" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="DNS Server">
+      </div>
+     </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
+
      <hr>
      <div id="dev-othe">
 
