@@ -3,7 +3,9 @@ void WiFi_init() {
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
+ //ttp://192.168.0.100/ssid?ssid=home&ssidPass=i12345678&subnet=255.255.255.0&getway=192.168.0.1&dns=192.168.0.1&ip=192.168.0.99&checkboxIP=1
   HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
+  ip_ConfigJSON();
   WIFIAP_Client();
  }
 // сканирование сети на доступные точки доступа
@@ -30,7 +32,13 @@ void handle_wifi_scan() {
 void handle_ssid() {
   ssidName = HTTP.arg("ssid");
   ssidPass = HTTP.arg("ssidPass");
+  subnet = HTTP.arg("subnet");
+  getway = HTTP.arg("getway");
+  dns = HTTP.arg("dns");
+  ip = HTTP.arg("ip");
+  checkboxIP = HTTP.arg("checkboxIP");
   saveConfig();
+  ip_ConfigJSON();
   HTTP.send(200, "text/plain", "OK");
 }
 
@@ -41,7 +49,24 @@ void handle_ssidap() {
   saveConfig();
   HTTP.send(200, "text/plain", "OK");
 }
+void ip_ConfigJSON() {
+  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+  DynamicJsonBuffer jsonBuffer;
+  //  вызовите парсер JSON через экземпляр jsonBuffer
+  JsonObject& json = jsonBuffer.parseObject(jsonConfig);
+  // Заполняем поля json
 
+  json["subnet"] = subnet;
+  json["getway"] = getway;
+  json["dns"] = dns;
+  json["checkboxIP"] = checkboxIP;
+
+  // Помещаем созданный json в переменную root
+  jsonConfig = "";
+  json.printTo(jsonConfig);
+  Serial.println(jsonConfig);
+  HTTP.send(200, "text/json", jsonConfig);
+}
 
 void WIFIAP_Client() {
   WiFi.disconnect();

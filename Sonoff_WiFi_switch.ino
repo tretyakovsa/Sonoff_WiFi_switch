@@ -41,24 +41,40 @@ Ticker tickerAlert;
 // Для поиска других устройств по протоколу SSDP
 WiFiUDP udp;
 
-// Куда что подключено
+// Куда что подключено в sonoff
 #define TACH_PIN 0    // Кнопка управления
 #define PIR_PIN 2    // RIR sensors
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // DHT сенсор.
 
-// Определяем переменные
+/*
+// Куда что подключено в Smart-Room
+#define TACH_PIN 0    // Кнопка управления
+#define PIR_PIN 2    // RIR sensors
+#define RELE1_PIN 12  // Реле 1
+#define RELE2_PIN 12  // Реле 1
+#define RELE3_PIN 12  // Реле 1
+#define RELE4_PIN 12  // Реле 1
+#define LED_PIN 13    // Светодиод
+#define DHTPIN 14     // DHT сенсор.
+*/
 
+// Определяем переменные
 //Обшие настройки
 String ipCurrent = "";
-String jsonConfig = "{}";              // Определяем строку для json config
+String jsonConfig = "{}";             // Строка json для живого обмена данными
 String ssidName = "WiFi";            // Для хранения SSID
 String ssidPass = "";                // Для хранения пароля сети
 String ssidApName = "Sonoff";        // SSID AP точки доступа
 String ssidApPass = "";              // пароль точки доступа
 String ssdpName = "Sonoff";          // Имя SSDP
-String spaceName = "";          // Имя SSDP
+String spaceName = "";          // Пространство установки
+String subnet = "";
+String getway = "";
+String dns = "";
+String ip = "";
+String checkboxIP = "";
 int timezone = 3;                    // часовой пояс GTM
 String Language ="ru";               // язык web интерфейса
 String Lang ="";                     // файлы языка web интерфейса

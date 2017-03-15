@@ -1,3 +1,4 @@
+// relay":[1,1,0]
 void relay_init() {
   pinMode(RELE1_PIN, OUTPUT);
   HTTP.on("/sonoff", sonoffActiv);                //

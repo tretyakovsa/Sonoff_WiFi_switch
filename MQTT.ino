@@ -39,7 +39,7 @@ void callback(const MQTT::Publish& pub)
 
 void MQTT_init() {
   Serial.println("MQTT");
-  chipID += ESP.getChipId();
+  chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   Serial.println(chipID);
   mqtt_ConfigJSON();
   pinMode(LED_PIN, OUTPUT);

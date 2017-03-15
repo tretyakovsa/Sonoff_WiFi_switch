@@ -23,6 +23,11 @@ bool loadConfig() {
   ssidName = root["ssidName"].as<String>();
   spaceName = root["space"].as<String>();
   ssidPass = root["ssidPass"].as<String>();
+  subnet = root["subnet"].as<String>();
+  getway = root["getway"].as<String>();
+  dns = root["dns"].as<String>();
+  ip = root["ip"].as<String>();
+  checkboxIP = root["checkboxIP"].as<String>();
   Language = root["lang"].as<String>();
   ddns = root["ddns"].as<String>();
   ddnsName = root["ddnsName"].as<String>();
@@ -36,7 +41,7 @@ bool loadConfig() {
 }
 
 bool saveConfig() {
-  String Config="{}";
+  String Config = "{}";
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(Config);
   json["ssdpName"] = ssdpName;
@@ -46,6 +51,11 @@ bool saveConfig() {
   json["ssidName"] = ssidName;
   json["ssidPass"] = ssidPass;
   json["timeZone"] = timezone;
+  json["subnet"] = subnet;
+  json["getway"] = getway;
+  json["dns"] = dns;
+  json["ip"] = ip;
+  json["checkboxIP"] = checkboxIP;
 
   json["lang"] = Language;
   json["ddns"] = ddns;
@@ -74,6 +84,6 @@ void modulesReg(String modName) {
   json["SSDP"] = ssdpName;
   JsonArray& data = json["module"].asArray();
   data.add(modName);
-  modulesNew="";
+  modulesNew = "";
   json.printTo(modulesNew);
 }
