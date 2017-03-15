@@ -1,1 +1,1 @@
-{"ssdpName":"Sonoff","space":"Space","ssidApName":"Sonoff","ssidApPass":"","ssidName":"home","ssidPass":"i12345678","timeZone":3,"lang":"ru","ddns":"","ddnsName":"","ddnsPort":8080,"pirTime":0,"mqtt_server":"192.168.0.104","mqtt_port":1883,"mqtt_user":"","mqtt_pass":""}
+{"ssdpName":"Sonoff","space":"","ssidApName":"","ssidApPass":"","ssidName":"","ssidPass":"","timeZone":3,"lang":"ru","ddns":"","ddnsName":"","ddnsPort":8080,"pirTime":0,"mqtt_server":"","mqtt_port":1883,"mqtt_user":"","mqtt_pass":"","getway":"","subnet":"","dns":"","checkboxIP":0}

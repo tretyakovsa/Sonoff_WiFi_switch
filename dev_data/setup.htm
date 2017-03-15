@@ -21,15 +21,11 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
-    if (searchModule(jsonResponse.module,'ddns') == 'yes') {toggle('ddns', 'hidden');}
-    if (searchModule(jsonResponse.module,'mqtt') == 'yes') {toggle('mqtt', 'hidden');}
     document.body.style.backgroundColor="#"+jsonResponse.color;
-
     if (jsonResponse.checkboxIP == '1'){
      toggle('static-ip');
      document.getElementById('checkboxIP').checked=true;
     }
-
    }
    function real_time(hours,min,sec) {
     sec=Number(sec)+1;
@@ -44,25 +40,10 @@
     val('timeZone', gmtHours);
     send_request(submit,'/timeZone?timeZone='+gmtHours);
    }
-   function set_ssid(submit){
-    server = "/ssid?ssid="+val('ssid')+"&ssidPass="+encodeURIComponent(val('ssidPass'))+"&subnet="+val('subnet')+"&getway="+val('getway')+"&dns="+val('dns')+"&ip="+val('ip')+"&checkboxIP="+val('checkboxIP');
-    send_request(submit,server);
-    alert(jsonResponse.LangReset2);
-   }
-   function set_ssid_ap(submit){
-    server = "/ssidap?ssidAP="+val('ssidap')+"&ssidApPass="+encodeURIComponent(val('ssidApPass'));
-    send_request(submit,server);
-    alert(jsonResponse.LangReset2);
-   }
-   function ddns(submit){
-    server = "/ddns?ddns="+encodeURIComponent(val('ddns-server'))+"&ddnsName="+val("ddns-name")+"&ddnsPort="+val("ddns-port");
-    send_request(submit,server);
-    alert(jsonResponse.LangReset2);
-   }
    function first_restart(submit,texts){
     var LangConnect2 = jsonResponse.LangConnect2;
     var LangRedirect = '<small class="pull-right">'+jsonResponse.LangRedirect+' 15 '+jsonResponse.LangSec+'<\/small>';
-    set_time_zone(this);
+    if (searchModule(jsonResponse.module,'ntp') == 'yes') {set_time_zone(this);}
     if (confirm(texts)) {
      toggle('pop-up');
      var xmlHttp=createXmlHttpObject();
@@ -77,26 +58,29 @@
     }
    }
   </script>
+  <style type="text/css">
+   .wifi-0-60 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4jc3QTQpBYRgF4McUmxBhLEtQlJ0YGCkptiMpc2ITyhoY+Rka3Bujr9CNe5k49Q6f09vh31LHGGvscUWEAzaYoJYEm1jhlvKWaATcR5wBh4vRgyouXxScUA5fdDN+EaP9usM4Q8EwacgcFinwLAmHFLF7g7fIvyuACs4J+IjSJxzS8TxqhFZaHDJ6KBhkxSFzTL/FUJBitJ9yB0PAZo1JMnGDAAAAAElFTkSuQmCC)}
+   .wifi-60-70 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAyElEQVQ4jc3QPU4CURTF8Z+tHxALbbWAioQSNmAkjonRhMKlUNBgY+MapCf0JFrIRoxrGKhVCt5LJmScGaDxJCd5ybv/e08O/03HaKCLK9wgCe8umjjKA+vo4LaiO4EBl+FKVTg6wYUQqZf5eMAIE3xgjimecJ+Zu8ZhTHGOO4yR4vcPp3gNs2ebPQwLwE0P8oo8CJHL4Lc8OOoUXwXwJ2pFC6CNZQ68QKsMjnrETwb+Rr8qHPWSWfC8LRz1jtmuMOvCTvZZUKoVlb9FjouX7uMAAAAASUVORK5CYII=)}
+   .wifi-70-80 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvklEQVQ4jc3QPUoDYRjE8V+t8aOJrYGsRcB69wJicLNNLLyExzCk8RKSkDOkyFEC3kAhWPtR+C4sL+u6GxsHBp7mP88w/Df1kCDDFW6QhzvDBQ7rwBOkmLR0GhgwCF/awqVznAuVxnsEXOOgbHEWtShwjwfMwl1E3/vxDgluscQrPiO/YIEphnVDwqoGjP30EwyneG6AtzhqCoBLvNXAO4x+g0vd4aMCv/vep5MeKwHzrnCpDdb7wnCsxWh/0hf7eTrEN0FYwgAAAABJRU5ErkJggg==)}
+   .wifi-80-90 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAt0lEQVQ4jc3QMUoDQRiG4UdMFZWtTKuQtbKQENhcIChZ6zRJIYg30cYm90nhJcxRTJ2kmYEhbMzupskHHwzDvO/8/JxbrpFjhDEmKMN5hAdcVYEZCrzWbBEYcB9+qQvHlrgTRnppIXhGN07RazhFidv9PeQNBP2qRcIwefSBL3ziPbkfHIKhgzessN3rL+a4/E8AT1hXCP7weAyOmWGTwBtM68Ixi0Tw3RSGC/xg2QaOyXBziuBodokKLg6opnwBAAAAAElFTkSuQmCC)}
+   .wifi-90-100 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkklEQVQ4jc3QMQrCQBhE4Q9ipYKNsVU0HkCFpNJKIq73v4+FWTASzUYbB37Y5s0Oj3/LFAUqnHFFaN4Vtph0gTOUuCVe2TBg1fySCscLWGomXb4oqDGOKxYDVwTkrx6KAQWbLpFwSIB372AY4fQBPiL7VMBDat0Bt6T1JdeWGjBPhWOepa6HwjF7PdL6kkmQ9lPu7WseJohUYa0AAAAASUVORK5CYII=)}
+   .wifi-key {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmUlEQVQ4je3QvwqBYRgF8F8mVkZGuRq2b1AuQhnYldyMzaCU2ahcA8kNUL6B5VVvL58/M6fO8jznnOfp8EeMHrbIsccUlU/NA1yfcIXSO3MN52C4YI5DFDJBt4AN6ETiYQhtFnyUMoN2NBiFgNY3AVWcwiDHAsdINA7CDOvEXL/30C+4sExKnEW7B3SxCV/sQnnlRPMy4FdxA96PRYPg7eb3AAAAAElFTkSuQmCC)}
+   .wifi {display:inline-block;width:16px;height:16px;background-size:16px;background-position:center center;background-repeat:no-repeat;vertical-align:middle;margin-right:3px;}
+  </style>
  </head>
- <style type="text/css">
-  .wifi-0-60 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4jc3QTQpBYRgF4McUmxBhLEtQlJ0YGCkptiMpc2ITyhoY+Rka3Bujr9CNe5k49Q6f09vh31LHGGvscUWEAzaYoJYEm1jhlvKWaATcR5wBh4vRgyouXxScUA5fdDN+EaP9usM4Q8EwacgcFinwLAmHFLF7g7fIvyuACs4J+IjSJxzS8TxqhFZaHDJ6KBhkxSFzTL/FUJBitJ9yB0PAZo1JMnGDAAAAAElFTkSuQmCC)}
-  .wifi-60-70 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAyElEQVQ4jc3QPU4CURTF8Z+tHxALbbWAioQSNmAkjonRhMKlUNBgY+MapCf0JFrIRoxrGKhVCt5LJmScGaDxJCd5ybv/e08O/03HaKCLK9wgCe8umjjKA+vo4LaiO4EBl+FKVTg6wYUQqZf5eMAIE3xgjimecJ+Zu8ZhTHGOO4yR4vcPp3gNs2ebPQwLwE0P8oo8CJHL4Lc8OOoUXwXwJ2pFC6CNZQ68QKsMjnrETwb+Rr8qHPWSWfC8LRz1jtmuMOvCTvZZUKoVlb9FjouX7uMAAAAASUVORK5CYII=)}
-  .wifi-70-80 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAvklEQVQ4jc3QPUoDYRjE8V+t8aOJrYGsRcB69wJicLNNLLyExzCk8RKSkDOkyFEC3kAhWPtR+C4sL+u6GxsHBp7mP88w/Df1kCDDFW6QhzvDBQ7rwBOkmLR0GhgwCF/awqVznAuVxnsEXOOgbHEWtShwjwfMwl1E3/vxDgluscQrPiO/YIEphnVDwqoGjP30EwyneG6AtzhqCoBLvNXAO4x+g0vd4aMCv/vep5MeKwHzrnCpDdb7wnCsxWh/0hf7eTrEN0FYwgAAAABJRU5ErkJggg==)}
-  .wifi-80-90 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAt0lEQVQ4jc3QMUoDQRiG4UdMFZWtTKuQtbKQENhcIChZ6zRJIYg30cYm90nhJcxRTJ2kmYEhbMzupskHHwzDvO/8/JxbrpFjhDEmKMN5hAdcVYEZCrzWbBEYcB9+qQvHlrgTRnppIXhGN07RazhFidv9PeQNBP2qRcIwefSBL3ziPbkfHIKhgzessN3rL+a4/E8AT1hXCP7weAyOmWGTwBtM68Ixi0Tw3RSGC/xg2QaOyXBziuBodokKLg6opnwBAAAAAElFTkSuQmCC)}
-  .wifi-90-100 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkklEQVQ4jc3QMQrCQBhE4Q9ipYKNsVU0HkCFpNJKIq73v4+FWTASzUYbB37Y5s0Oj3/LFAUqnHFFaN4Vtph0gTOUuCVe2TBg1fySCscLWGomXb4oqDGOKxYDVwTkrx6KAQWbLpFwSIB372AY4fQBPiL7VMBDat0Bt6T1JdeWGjBPhWOepa6HwjF7PdL6kkmQ9lPu7WseJohUYa0AAAAASUVORK5CYII=)}
-  .wifi-key {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmUlEQVQ4je3QvwqBYRgF8F8mVkZGuRq2b1AuQhnYldyMzaCU2ahcA8kNUL6B5VVvL58/M6fO8jznnOfp8EeMHrbIsccUlU/NA1yfcIXSO3MN52C4YI5DFDJBt4AN6ETiYQhtFnyUMoN2NBiFgNY3AVWcwiDHAsdINA7CDOvEXL/30C+4sExKnEW7B3SxCV/sQnnlRPMy4FdxA96PRYPg7eb3AAAAAElFTkSuQmCC)}
-  .wifi {display:inline-block;width:16px;height:16px;background-size:16px;background-position:center center;background-repeat:no-repeat;vertical-align:middle;margin-right:3px;}
- </style>
  <body onload="load('first');">
   <div class="container loader-bg">
    <div class="row hidden" id="content">
     <h1 id="title">{{LangSetting3}}</h1>
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
      <h5 class="alert-danger" id="ssdp_t">{{SSDP}}</h5>
+
      <div class="btn-group" id="language">
       <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
+
+     <!-- DEVELOPER OPTIONS Module - START -->
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
@@ -115,6 +99,9 @@
        </span>
       </div>
      </div>
+     <!-- DEVELOPER OPTIONS Module - END -->
+
+     <!-- SPACE AND NAME Module - START -->
      <h2>{{LangDevice}}</h2>
      <div class="input-group" style="width:100%">
       <input type="search" value="{{space}}" style="width:50%;display:inline" onclick="loadSpace('space-list')" id="space" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}"  placeholder="{{LangSpace}}" list="space-list">
@@ -122,6 +109,8 @@
       <input id="ssdp" value="{{SSDP}}" style="width:50%;display:inline" class="form-control" pattern="[0-9a-zA-Zа-яА-Я.\- ]{1,20}" placeholder="{{LangDevice}}">
      </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/device?ssdp='+val('ssdp')+'&space='+val('space'));html('ssdp_t',val('ssdp'));" type="button">
+     <!-- SPACE AND NAME Module - END -->
+
      <hr id="wifi-connect">
      <div class="row hidden" id="pop-up">
       <div class="col-sm-offset-2 col-sm-8 pop-up">
@@ -132,6 +121,7 @@
       </div>
      </div>
 
+     <!-- WIFI Module - START -->
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
      <div class="btn-group btn-block" id="ssid-group">
@@ -143,40 +133,48 @@
      <label><input type="checkbox" id="checkboxIP" value="1" onchange="val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"> Задать статический IP</label>
      <div class="row hidden" id="static-ip">
       <div class="col-sm-6">
-       <input id="ip" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="IP Adress">
-       <input id="subnet" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="Subnet Mask">
+       <input id="ip" value="{{ip}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="IP Adress">
+       <input id="subnet" value="{{subnet}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="Subnet Mask">
       </div>
       <div class="col-sm-6">
-       <input id="getway" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="Default Getway">
-       <input id="dns" value="" class="form-control" pattern="[0-9.]{1,20}" placeholder="DNS Server">
+       <input id="getway" value="{{getway}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="Default Getway">
+       <input id="dns" value="{{dns}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="DNS Server">
       </div>
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid(this);" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssid?ssid='+val('ssid')+'&ssidPass='+encodeURIComponent(val('ssidPass'))+'&subnet='+val('subnet')+'&getway='+val('getway')+'&dns='+val('dns')+'&ip='+val('ip')+'&checkboxIP='+val('checkboxIP'));alert('{{LangReset2}}');" type="button">
+     <!-- WIFI Module - END -->
 
      <hr>
      <div id="dev-othe">
 
-      <h2>{{LangGMT1}}</h2>
-      <input id="timeZone" value="{{timeZone}}" pattern="[0-9]{1,3}" class="form-control">
-      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeZone?timeZone='+val('timeZone'));" type="button">
-      <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="button">
-      <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
-      <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="send_request(this,'/Time');" type="button">
+      <!-- NTP Module - START -->
+      <div class="module-ntp hidden">
+       <h2>{{LangGMT1}}</h2>
+       <input id="timeZone" value="{{timeZone}}" pattern="[0-9]{1,3}" class="form-control">
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeZone?timeZone='+val('timeZone'));" type="button">
+       <input class="btn btn-block btn-primary" value="{{LangGMT2}}" onclick="set_time_zone(this);" type="button">
+       <h2>{{LangTime1}} <strong id="time">{{time}}</strong></h2>
+       <input class="btn btn-block btn-primary" value="{{LangTime2}}" onclick="send_request(this,'/Time');" type="button">
+       <hr>
+      </div>
+      <!-- NTP Module - END -->
 
-      <hr>
+      <!-- AP Module - START -->
       <h2>{{LangAP}}</h2>
       <div class="row">
        <div class="col-sm-6">
         <input id="ssidap" value="{{ssidAP}}" class="form-control" pattern=".{1,20}" placeholder="{{LangWiFi1}}">
         <input id="ssidApPass" value="{{ssidApPass}}" pattern=".{8,20}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
-        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="set_ssid_ap(this);" type="button">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssidap?ssidAP='+val('ssidap')+'&ssidApPass='+encodeURIComponent(val('ssidApPass')));alert('{{LangReset2}}');" type="button">
        </div>
        <div class="col-sm-6">
         <div class="alert alert-dismissible alert-warning">{{LangWiFi4}}</div>
        </div>
       </div>
+      <!-- AP Module - END -->
 
-      <div id="ddns" class="hidden">
+      <!-- DDNS Module - START -->
+      <div class="module-ddns hidden">
        <hr>
        <h2>{{LangDdns1}}</h2>
        <div class="alert alert-dismissible alert-info {{g63563}}"><button class="close" onclick="hide('g63563',this);" type="button">×</button>{{LangDdns2}}</div>
@@ -185,10 +183,12 @@
         <input id="ddns-port" value="{{ddnsPort}}" class="form-control" style="width:30%;display:inline" pattern="[0-9]{1,5}" placeholder="Host port">
        </div>
        <input id="ddns-server" value="{{ddns}}" class="form-control" pattern="http://.+" placeholder="Service URL">
-       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="ddns(this);" type="button">
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ddns?ddns='+encodeURIComponent(val('ddns-server'))+'&ddnsName='+val('ddns-name')+'&ddnsPort='+val('ddns-port'));alert('{{LangReset2}}');" type="button">
       </div>
+      <!-- DDNS Module - END -->
 
-      <div id="mqtt" class="hidden">
+      <!-- MQTT Module - START -->
+      <div class="module-mqtt hidden">
        <hr>
        <h2>MQTT</h2>
        <div class="input-group" style="width:100%">
@@ -201,14 +201,17 @@
        </div>
        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/mqtt?server='+encodeURIComponent(val('mqtt-server'))+'&port='+val('mqtt-port')+'&user='+val('mqtt-user')+'&pass='+val('mqtt-pass'));" type="button">
       </div>
+      <!-- MQTT Module - END -->
 
       <hr>
       <input class="btn btn-block btn-default" value="{{LangCookie}}" onclick="delAllCookies();location.reload();" type="button">
       <input class="btn btn-block btn-warning" value="{{LangReset1}}" onclick="if(confirm('{{LangReset3}}')){send_request(this,'/restart?device=ok');}" type="button">
 
      </div>
+
      <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+
     </div>
    </div>
   </div>

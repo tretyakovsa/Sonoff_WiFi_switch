@@ -41,6 +41,18 @@ function load(stage){
  }
 }
 
+function loadBlock(jsonResponse) {
+ var data = document.getElementsByTagName('body')[0].innerHTML;
+ var new_string;
+ for (var key in jsonResponse) {
+  data = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+ }
+ for (var key in jsonResponse.module) {
+  data = data.replace(new RegExp('module-'+jsonResponse.module[key]+' hidden', 'g'), 'show');
+ }
+ document.getElementsByTagName('body')[0].innerHTML = data;
+ handleServerResponse('',jsonResponse);
+}
 
 function searchModule(modules,find) {
  for(var key in modules) {
@@ -48,18 +60,6 @@ function searchModule(modules,find) {
    return "yes";
   }
  }
-}
-
-
-function loadBlock(jsonResponse) {
- var data = document.getElementsByTagName('body')[0].innerHTML;
- var new_string;
- for (var key in jsonResponse) {
-  new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-  data = new_string;
- }
- document.getElementsByTagName('body')[0].innerHTML = new_string;
- handleServerResponse('',jsonResponse);
 }
 
 function val(id,val){
