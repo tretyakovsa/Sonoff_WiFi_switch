@@ -73,10 +73,6 @@ void handle_ConfigJSON() {
   json["Humidity"] = temp;
   json["SSDP"] = ssdpName;
   json["space"] = spaceName;
-  json["ssidAP"] = ssidApName;
-  json["ssidApPass"] = ssidApPass;
-  json["ssid"] = ssidName;
-  json["ssidPass"] = ssidPass;
   json["timeZone"] = timezone;
   json["timeSonoff"] = timeSonoff; //  Время работы
 

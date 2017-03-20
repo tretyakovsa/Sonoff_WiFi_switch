@@ -27,7 +27,7 @@ bool loadConfig() {
   getway = root["getway"].as<String>();
   dns = root["dns"].as<String>();
   ip = root["ip"].as<String>();
-  checkboxIP = root["checkboxIP"].as<String>();
+  checkboxIP = root["checkboxIP"];
   Language = root["lang"].as<String>();
   ddns = root["ddns"].as<String>();
   ddnsName = root["ddnsName"].as<String>();

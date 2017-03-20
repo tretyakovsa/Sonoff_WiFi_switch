@@ -1,8 +1,8 @@
 /*
- * Sonoff - Wi-Fi switch https://github.com/tretyakovsa/Sonoff_WiFi_switch
- * Arduino core for ESP8266 WiFi chip https://github.com/esp8266/Arduino
- * Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
- */
+   Sonoff - Wi-Fi switch https://github.com/tretyakovsa/Sonoff_WiFi_switch
+   Arduino core for ESP8266 WiFi chip https://github.com/esp8266/Arduino
+   Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
+*/
 #include <ESP8266WiFi.h>             //Содержится в пакете
 #include <ESP8266WebServer.h>        //Содержится в пакете
 #include <ESP8266SSDP.h>             //Содержится в пакете
@@ -16,7 +16,10 @@
 
 #include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
- #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
+#include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
+
+#include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
+#include <WS2812FX.h>                //https://github.com/kitesurfer1404/WS2812FX
 
 
 // DHT C автоматическим определением датчиков.Поддержка датчиков DHT11,DHT22, AM2302, RHT03.
@@ -40,25 +43,44 @@ Ticker tickerAlert;
 
 // Для поиска других устройств по протоколу SSDP
 WiFiUDP udp;
-
-// Куда что подключено в sonoff
-#define TACH_PIN 0    // Кнопка управления
-#define PIR_PIN 2    // RIR sensors
-#define RELE1_PIN 12  // Реле
-#define LED_PIN 13    // Светодиод
-#define DHTPIN 14     // DHT сенсор.
-
 /*
-// Куда что подключено в Smart-Room
+// Куда что подключено в RGB
 #define TACH_PIN 0    // Кнопка управления
-#define PIR_PIN 2    // RIR sensors
-#define RELE1_PIN 12  // Реле 1
-#define RELE2_PIN 12  // Реле 1
-#define RELE3_PIN 12  // Реле 1
-#define RELE4_PIN 12  // Реле 1
-#define LED_PIN 13    // Светодиод
-#define DHTPIN 14     // DHT сенсор.
+#define BUZER_PIN 3   // Бузер
+#define LED_PIN 2     // RGB лента
+// If you use ESP8266 12 you can add
+#define PIR_PIN 14    // RIR sensors
+
 */
+  // Куда что подключено в sonoff
+  #define TACH_PIN 0    // Кнопка управления
+  #define PIR_PIN 2    // RIR sensors
+  #define RELE1_PIN 12  // Реле
+  #define LED_PIN 13    // Светодиод
+  #define DHTPIN 14     // DHT сенсор.
+  #define RGB_PIN 5
+  /*
+  // Куда что подключено в Smart-Room
+  #define TACH_PIN 0    // Кнопка управления
+  #define PIR_PIN 2    // RIR sensors
+  #define RELE1_PIN 12  // Реле 1
+  #define RELE2_PIN 12  // Реле 1
+  #define RELE3_PIN 12  // Реле 1
+  #define RELE4_PIN 12  // Реле 1
+  #define LED_PIN 13    // Светодиод
+  #define DHTPIN 14     // DHT сенсор.
+*/
+
+#define DEFAULT_COLOR 0xff6600
+#define DEFAULT_BRIGHTNESS 255
+#define DEFAULT_SPEED 100
+#define DEFAULT_MODE FX_MODE_STATIC
+
+#define BRIGHTNESS_STEP 15      // in/decrease brightness by this amount per click
+#define SPEED_STEP 10           // in/decrease brightness by this amount per click
+int ledCount = 15;              // Количество лед огней
+WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
+
 
 // Определяем переменные
 //Обшие настройки
@@ -74,23 +96,23 @@ String subnet = "";
 String getway = "";
 String dns = "";
 String ip = "";
-String checkboxIP = "";
+int checkboxIP = 0;
 int timezone = 3;                    // часовой пояс GTM
-String Language ="ru";               // язык web интерфейса
-String Lang ="";                     // файлы языка web интерфейса
+String Language = "ru";              // язык web интерфейса
+String Lang = "";                    // файлы языка web интерфейса
 String calibrationTime = "00:00:00"; // Время колибровки часов
-String Weekday= "";                  // Текущий день недели
+String Weekday = "";                 // Текущий день недели
 String Time = "";                    // Текущее время
 
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";
-String modulesNew ="{\"ip\":\"\",\"SSDP\":\"\",\"module\":[]}";
+String modulesNew = "{\"ip\":\"\",\"SSDP\":\"\",\"module\":[]}";
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
 // Переменные для таймеров
 int timeSonoff = 10;            // Время работы реле
-String jsonTimer ="{}";
-String Timerset= "";
+String jsonTimer = "{}";
+String Timerset = "";
 
 // Переменные для ddns
 String ddns = "";               // url страницы тестирования WanIP
@@ -103,7 +125,7 @@ String mqtt_server = "cloudmqtt.com"; // Имя сервера MQTT
 int mqtt_port = 1883; // Порт для подключения к серверу MQTT
 String mqtt_user = ""; // Логи от сервер
 String mqtt_pass = ""; // Пароль от сервера
-String chipID="";
+String chipID = "";
 WiFiClient wclient;
 PubSubClient client(wclient);
 
@@ -114,55 +136,58 @@ volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
 int task = 0;
-
+String color = "ff6600";
 
 void setup() {
- Serial.begin(115200);
- Serial.println("");
+  Serial.begin(115200);
+  Serial.println("");
+  chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
+  Serial.println(chipID);
+  FS_init();         // Включаем работу с файловой системой
+  loadConfig();      // Загружаем настройки из файла
+  tachinit();        // Включаем кнопку
+  WiFi_init();       //Запускаем WIFI
+  relay_init();      //Запускаем реле
+  sensor_init();     // Запускаем сенсоры
+  timers_init();     // Синхронизируем время
+  Movement_init();   // запускаем датчик движения
+  HTTP_init();       //настраиваем HTTP интерфейс
+  SSDP_init();       //запускаем SSDP сервис
+  ntp_init();        // Включаем время из сети
 
- FS_init();         // Включаем работу с файловой системой
- loadConfig();      // Загружаем настройки из файла
- tachinit();        // Включаем кнопку
- WiFi_init();       //Запускаем WIFI
- relay_init();      //Запускаем реле
- sensor_init();     // Запускаем сенсоры
- timers_init();     // Синхронизируем время
- Movement_init();   // запускаем датчик движения
- HTTP_init();       //настраиваем HTTP интерфейс
- SSDP_init();       //запускаем SSDP сервис
- ntp_init();        // Включаем время из сети
-
- ddns_init();       //запускаем DDNS сервис
- ip_wan();          // Сообщаем ddns наш текущий адрес
- MQTT_init();
+  ddns_init();       //запускаем DDNS сервис
+  ip_wan();          // Сообщаем ddns наш текущий адрес
+  MQTT_init();
+  initRGB();
 }
 
 void loop() {
- dnsServer.processNextRequest();
- HTTP.handleClient();
- delay(1);
- HTTPWAN.handleClient();
- delay(1);
- handleUDP();
- handleRelay();
+  dnsServer.processNextRequest();
+  HTTP.handleClient();
+  delay(1);
+  HTTPWAN.handleClient();
+  delay(1);
+  handleUDP();
+  handleRelay();
 
 
- switch (task) {
-  case 1:
-    //timeSynch(timezone);
-   task = 0;
-   break;
-  case 2:
-   ip_wan();
-   task = 0;
-   break;
-   case 3:
-   runTimers();
-   task = 0;
-   break;
- }
+  switch (task) {
+    case 1:
+      //timeSynch(timezone);
+      task = 0;
+      break;
+    case 2:
+      ip_wan();
+      task = 0;
+      break;
+    case 3:
+      runTimers();
+      task = 0;
+      break;
+  }
 
- handleMQTT();
+  handleMQTT();
+  ws2812fx.service();
 
 
 }
