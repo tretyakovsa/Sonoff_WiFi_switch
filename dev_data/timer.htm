@@ -35,7 +35,7 @@
     }
    }
 
-   function LoadTimers(ip,ssdp){
+   function loadTimers(ip,ssdp){
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open("GET", "http://"+ip+"/timer.save.json", true);
     xmlHttp.send(null);
@@ -48,7 +48,7 @@
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      html += '<tr><td style="text-align:left;">'+timers.timer[i].trigger+'<\/td><td style="text-align:left;"><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td>'+timers.timer[i].work+' <small>'+jsonResponse["LangMin."]+'<\/small><\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
+      html += '<tr><td style="text-align:left;">'+timers.timer[i].trigger+'<\/td><td style="text-align:left;"><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
      }
      document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">No timers<\/td><\/tr>');
     }
@@ -75,7 +75,6 @@
         <th style="text-align:left;">{{LangOn.}}/{{LangOff.}}</th>
         <th>{{LangDay}}</th>
         <th>{{LangTime4}}</th>
-        <th>{{LangWorkTime}}</th>
         <th></th>
        </tr>
       </thead>
@@ -108,14 +107,10 @@
        <option value="Sun">{{LangSun}}</option>
       </select>
      </div>
-     <div class="col-xs-6 col-md-4">
+     <div class="col-xs-12 col-md-7">
       <input id="time" oninput="if(this.value.length==2 || this.value.length==5)this.value+=':'" maxlength="8" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:09:30">
      </div>
-     <div class="input-group col-xs-6 col-md-3">
-      <input id="work" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
-      <span class="input-group-addon">{{LangMin.}}</span>
-     </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('time')?'':val('time','12:00:00'));send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time')+'&work='+val('work'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('time')?'':val('time','12:00:00'));send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time'));" type="button">
      <hr>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>

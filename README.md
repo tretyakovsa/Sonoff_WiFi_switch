@@ -4,25 +4,25 @@
 
 
 
-##Upload instruction
+## Upload instruction
 
-###[NodeMCU Flasher (Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
+### [NodeMCU Flasher (Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
 
-###[Arduino Windows (Video)](https://www.youtube.com/watch?v=jMK9mySGHio)
+### [Arduino Windows (Video)](https://www.youtube.com/watch?v=jMK9mySGHio)
 
-###[Arduino Linux (Video)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
+### [Arduino Linux (Video)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
 
-####Used Libraries
+#### Used Libraries
 - Arduino core for ESP8266 WiFi chip https://github.com/esp8266/Arduino
 - Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
 - C++ JSON library for IoT. Simple and efficient. https://github.com/bblanchon/ArduinoJson
 - Efficient DHT library for Arduino https://github.com/markruys/arduino-DHT
 
-##Work example (Video)
+## Work example (Video)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NrIrLw1rOdk/0.jpg)](https://www.youtube.com/watch?v=NrIrLw1rOdk&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
-##Construction
+## Construction
 ```
 #define TACH_PIN 0    // Кнопка управления
 #define RELE1_PIN 12  // Реле
@@ -31,21 +31,21 @@
 #define PIR_PIN 2     // RIR sensors
 // PIN ADC (A0)       // URL: /analog.json or /chart.htm#analog
 ```
-###Schematic
+### Schematic
 
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/sonoff.jpg)
 
-##Othe...
+## Othe...
 
-####Jalousie: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
+#### Jalousie: [https://github.com/tretyakovsa/jaluzi](https://github.com/tretyakovsa/jaluzi)
 
-####RGB: [https://github.com/renat2985/rgb](https://github.com/renat2985/rgb)
-
-
-####Themes you can download here: [http://bootswatch.com/](http://bootswatch.com/)
+#### RGB: [https://github.com/renat2985/rgb](https://github.com/renat2985/rgb)
 
 
-##Donation
+#### Themes you can download here: [http://bootswatch.com/](http://bootswatch.com/)
+
+
+## Donation
 
 If you like this project, you can give me a cup of coffee :)
 
