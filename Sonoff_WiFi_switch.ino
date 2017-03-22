@@ -16,8 +16,8 @@
 
 #include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
-#include <OneWire.h>
-#include <DallasTemperature.h>
+#include <OneWire.h>                 //Ставим через менеджер библиотек
+#include <DallasTemperature.h>       //Ставим через менеджер библиотек
 
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
 

@@ -123,9 +123,9 @@
       </select>
      </div>
      <div class="col-xs-12 col-md-7">
-      <input id="time" oninput="if(this.value.length==2 || this.value.length==5)this.value+=':'" maxlength="8" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:09:30">
+      <input id="work-time" oninput="if(this.value.length==2 || this.value.length==5)this.value+=':'" maxlength="8" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:09:30">
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('time')?'':val('time','12:00:00'));send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('time'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'/timerSave?trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time'));" type="button">
      <hr>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
     </div>
