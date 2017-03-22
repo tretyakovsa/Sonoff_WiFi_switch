@@ -7,6 +7,7 @@ void Tach_0() {
  static unsigned long millis_prev;
  // Устроняем дребезг контакта
  if (millis() - 100 > millis_prev) {
+  task = 1;
   chaing = 1; // Выстовляем признак нажатия кнопки
  }
  millis_prev = millis();
