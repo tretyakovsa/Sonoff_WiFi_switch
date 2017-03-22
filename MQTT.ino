@@ -14,7 +14,6 @@
   PubSubClient client(wclient);
 */
 
-
 // Функция получения данных от сервера
 
 void callback(const MQTT::Publish& pub)
@@ -28,19 +27,18 @@ void callback(const MQTT::Publish& pub)
 
   if (String(pub.topic()) == chipID + "/RELE_1") // проверяем из нужного ли нам топика пришли данные
   {
-    //Serial.println();
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
     if (stled != state0) {
+      task = 4;
       chaing = 1;
     }
     Serial.println(stled);
   }
+
 }
 
 void MQTT_init() {
   Serial.println("MQTT");
-  chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
-  Serial.println(chipID);
   mqtt_ConfigJSON();
   pinMode(LED_PIN, OUTPUT);
   HTTP.on("/mqtt", handle_Set_MQTT);
@@ -58,7 +56,7 @@ void MQTT_Pablush() {
                          .set_auth(mqtt_user, mqtt_pass))) {
         Serial.println("Connected to MQTT server");
         client.set_callback(callback);
-        client.subscribe(chipID + "/RELE_1"); // подписывааемся по топик с данными для светодиода
+        client.subscribe(chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
         } else {
         Serial.println("Could not connect to MQTT server");
       }
@@ -68,11 +66,6 @@ void MQTT_Pablush() {
 
 void  handleMQTT() {
   if (client.connected()) client.loop();
-  //if (tm) {
-  //  float temp = analogRead(A0);
-   // client.publish(chipID + "/RELE_1", String(temp)); // отправляем в топик для термодатчика значение температуры
-   // tm = 0;
-  //}
 }
 
 //Установка параметров  http://192.168.0.101/mqtt?server=m13.cloudmqtt.com&port=15535&user=cxluynva&pass=4cje5WEkzqvR
@@ -81,8 +74,8 @@ void handle_Set_MQTT() {              //
   mqtt_port = HTTP.arg("port").toInt(); // Получаем значение port из запроса сохраняем в глобальной переменной
   mqtt_user = HTTP.arg("user"); // Получаем значение user из запроса сохраняем в глобальной переменной
   mqtt_pass = HTTP.arg("pass"); // Получаем значение pass из запроса сохраняем в глобальной переменной
-  saveConfig();                         // Функция сохранения данных во Flash
   mqtt_ConfigJSON();
+  saveConfig();                         // Функция сохранения данных во Flash
   client.disconnect();
   MQTT_Pablush();
   HTTP.send(200, "text/plain", "OK");   // отправляем ответ о выполнении
@@ -103,7 +96,7 @@ void mqtt_ConfigJSON() {
   // Помещаем созданный json в переменную root
   jsonConfig = "";
   json.printTo(jsonConfig);
-  HTTP.send(200, "text/json", jsonConfig);
-}
+  Serial.println(jsonConfig);
+  }
 
 
