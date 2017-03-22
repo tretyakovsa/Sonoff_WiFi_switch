@@ -22,9 +22,11 @@
      toggle('first-restart', 'hidden');
     }
     document.body.style.backgroundColor="#"+jsonResponse.color;
-    if (jsonResponse.checkboxIP == '1'){
-     toggle('static-ip');
-     document.getElementById('checkboxIP').checked=true;
+    if (stage != 'next') {
+     if (jsonResponse.checkboxIP == '1'){
+      toggle('static-ip');
+      document.getElementById('checkboxIP').checked=true;
+     }
     }
    }
    function real_time(hours,min,sec) {
