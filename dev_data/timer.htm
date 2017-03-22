@@ -9,11 +9,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timers</title>
   <script type="text/javascript">
+   var set_real_time;
    function handleServerResponse(){
+    clearTimeout(set_real_time);
+    var res = jsonResponse.time.split(":");
+    real_time(hours=res[0],min=res[1],sec=res[2]);
     html("timer-list", ' ');
     loadTimers(jsonResponse.ip);
     html("device", ' ');
     loadDevice('first');
+   }
+
+   function real_time(hours,min,sec) {
+    sec=Number(sec)+1;
+    if (sec>=60){min=Number(min)+1;sec=0;}
+    if (min>=60){hours=Number(hours)+1;min=0;}
+    if (hours>=24){hours=0};
+    html('time',hours+":"+min+":"+sec);
+    set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
    }
 
    function loadDevice(content){
@@ -67,6 +80,8 @@
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
      <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <hr>
+     <h3>{{LangTime1}} <strong id="time">{{time}}</strong></h3>
      <hr>
      <h2>{{LangList}}</h2>
      <table class="table table-striped table-hover" style="width:100%;">
