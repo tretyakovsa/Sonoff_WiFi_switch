@@ -16,6 +16,9 @@
 
 #include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
 
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
@@ -70,6 +73,12 @@ WiFiUDP udp;
   #define LED_PIN 13    // Светодиод
   #define DHTPIN 14     // DHT сенсор.
 */
+
+// Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
+OneWire oneWire(DHTPIN);
+
+// Pass our oneWire reference to Dallas Temperature.
+DallasTemperature sensors(&oneWire);
 
 #define DEFAULT_COLOR 0xff6600
 #define DEFAULT_BRIGHTNESS 255
@@ -138,6 +147,7 @@ int state0 = 0;
 int task = 0;
 String color = "ff6600";
 
+
 void setup() {
   Serial.begin(115200);
   Serial.println("");
@@ -145,16 +155,15 @@ void setup() {
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-  tachinit();        // Включаем кнопку
   WiFi_init();       //Запускаем WIFI
-  relay_init();      //Запускаем реле
-  sensor_init();     // Запускаем сенсоры
-  timers_init();     // Синхронизируем время
-  Movement_init();   // запускаем датчик движения
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
   ntp_init();        // Включаем время из сети
-
+  timers_init();     // Синхронизируем время
+  tachinit();        // Включаем кнопку
+  relay_init();      //Запускаем реле
+  sensor_init();     // Запускаем сенсоры
+  Movement_init();   // запускаем датчик движения
   ddns_init();       //запускаем DDNS сервис
   ip_wan();          // Сообщаем ddns наш текущий адрес
   MQTT_init();

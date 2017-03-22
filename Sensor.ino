@@ -9,10 +9,23 @@
 
 void sensor_init(){
  HTTP.on("/sensor.json", handle_sensor);
- modulesReg("temperature");
- pinMode(DHTPIN, INPUT_PULLUP);
+  pinMode(DHTPIN, INPUT_PULLUP);
  dht.setup(DHTPIN);
- //dht.getTemperature();
+ delay(dht.getMinimumSamplingPeriod());
+ String temp ="";
+ temp += dht.getTemperature();
+  if (temp == "nan"){
+     Serial.println("No DHT");
+     sensors.begin();
+     sensors.requestTemperatures();
+     Serial.println(sensors.getTempCByIndex(0));
+    }
+    else{
+      Serial.println("DHT");
+      Serial.println(temp);
+      }
+
+ modulesReg("temperature");
  HTTP.on("/analog.json", handle_analog);
  modulesReg("analog");
 }
@@ -53,7 +66,7 @@ void handle_analog() {
  // Заполняем поля json
  JsonArray& data = json.createNestedArray("data");
  data.add(analogRead(A0));
- json["points"] = 10;
+ json["points"] = 30;
  json["refresh"] = 3000;
  json["title"] = "Analog (ADC/A0)";
  // Помещаем созданный json в переменную root

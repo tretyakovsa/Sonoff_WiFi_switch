@@ -69,21 +69,21 @@ String GetWeekday() {
 
 // Вызывается каждую секунду в обход основного цикла.
 void alert() {
-
-  runTimers();
   Time = GetTime();
+  runTimers();
+
   // Калибровка времени каждые сутки, получение текушего дня недели
  if (calibrationTime.compareTo(Time) == 0) {
-  task=1;
+  //task=1;
  }
  if (pirTime > 0 && state0 == 0 && digitalRead(PIR_PIN)) {
   //alarm_pir();
  }
 
- Time = Time.substring(3, 8); // Выделяем из строки минуты секунды
+ String ddnsTime = Time.substring(3, 8); // Выделяем из строки минуты секунды
  // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
- if ((Time == "00:00" || Time == "15:00" || Time == "30:00"|| Time == "45:00") && ddns != "") {
-  task=2;
+ if ((ddnsTime == "00:00" || ddnsTime == "15:00" || ddnsTime == "30:00"|| ddnsTime == "45:00") && ddns != "") {
+  //task=2;
  }
 }
 

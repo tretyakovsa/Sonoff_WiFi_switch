@@ -92,11 +92,11 @@ void runTimers() {
   do {
     // проверяем есть ли таймеры
     i = timers.indexOf("\r\n");
-    if (i != -1) {
+       if (i != -1) {
       // получаем строку текщего таймера
       String timer = timers.substring(0, i);
       // Если время совпадает с текущим
-      if (timer.substring(0, 8) == Time) {
+        if (timer.substring(0, 8) == Time) {
         int j = timer.lastIndexOf(",");
         // Загружаем время работы реле
         timeSonoff = timer.substring(9, j).toInt();
@@ -104,13 +104,16 @@ void runTimers() {
         Serial.println(timer.substring(j + 1));
         String temp = timer.substring(j + 1);
         if (temp == "not") {
+          task=1;
           chaing = 1;
         }
         if (temp == "on") {
+          task=1;
           state0 = 0;
           chaing = 1;
         }
         if (temp == "off") {
+          task=1;
           state0 = 1;
           chaing = 1;
         }
