@@ -25,7 +25,7 @@ void callback(const MQTT::Publish& pub)
   String payload = pub.payload_string();
   Serial.println(payload);
 
-  if (String(pub.topic()) == chipID + "/RELE_1") // проверяем из нужного ли нам топика пришли данные
+  if (String(pub.topic()) == "/" + chipID + "/RELE_1") // проверяем из нужного ли нам топика пришли данные
   {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
     if (stled != state0) {
@@ -56,7 +56,7 @@ void MQTT_Pablush() {
                          .set_auth(mqtt_user, mqtt_pass))) {
         Serial.println("Connected to MQTT server");
         client.set_callback(callback);
-        client.subscribe(chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
+        client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
         } else {
         Serial.println("Could not connect to MQTT server");
       }

@@ -18,7 +18,7 @@ void handleRelay() {
       case 1:
         state0 = !state0;
         digitalWrite(RELE1_PIN, state0);
-        client.publish(MQTT::Publish(chipID + "/RELE_1",  String(state0)).set_retain(1));
+        client.publish(MQTT::Publish("/" + chipID + "/RELE_1",  String(state0)).set_retain(1));
         //client.publish(prefix + "/vorota1", "0", true);
         chaing = 0;
         break;
