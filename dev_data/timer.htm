@@ -53,7 +53,7 @@
     xmlHttp.open("GET", "http://"+ip+"/timer.save.json", true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
-     document.getElementById("timer-list").innerHTML += (ssdp?'<tr><td colspan="5" style="text-align:left;"><h4>'+ssdp+'<\/h4><\/td><\/tr>':'');
+     document.getElementById("timer-list").innerHTML += (ssdp?'<tr><td colspan="5"><h4>'+ssdp+'<\/h4><\/td><\/tr>':'');
      var timers=JSON.parse(xmlHttp.responseText);
      var html = '';
      for (var i = 0; i < timers.timer.length; i++) {

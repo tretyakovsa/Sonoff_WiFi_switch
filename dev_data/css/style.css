@@ -84,7 +84,7 @@ h5 {
 #date {
  text-transform:capitalize;
 }
-#content {
+#content h1,#content h2,#content h3 {
  text-align:center;
 }
 #content ul li {
