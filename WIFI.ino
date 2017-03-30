@@ -47,6 +47,18 @@ void handle_ssidap() {
   ssidApName = HTTP.arg("ssidAP");
   ssidApPass = HTTP.arg("ssidApPass");
   saveConfig();
+
+  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+  DynamicJsonBuffer jsonBuffer;
+  //  вызовите парсер JSON через экземпляр jsonBuffer
+  JsonObject& json = jsonBuffer.parseObject(jsonConfig);
+  // Заполняем поля json
+  json["ssidAP"] = ssidApName;
+  json["ssidApPass"] = ssidApPass;
+  // Помещаем созданный json в переменную root
+  jsonConfig = "";
+  json.printTo(jsonConfig);
+  Serial.println(jsonConfig);
   HTTP.send(200, "text/plain", "OK");
 }
 void ip_ConfigJSON() {
