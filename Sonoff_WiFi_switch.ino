@@ -66,7 +66,7 @@ WiFiUDP udp;
   // Куда что подключено в Smart-Room
   #define TACH_PIN 0    // Кнопка управления
   #define PIR_PIN 2    // RIR sensors
-  #define RELE1_PIN 12  // Реле 1
+  #define RELE_PIN[] 12  // Реле 1
   #define RELE2_PIN 12  // Реле 1
   #define RELE3_PIN 12  // Реле 1
   #define RELE4_PIN 12  // Реле 1
@@ -92,6 +92,7 @@ WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
 
 
 // Определяем переменные
+String configs="";
 //Обшие настройки
 String ipCurrent = "";
 String jsonConfig = "{}";             // Строка json для живого обмена данными
@@ -135,6 +136,7 @@ int mqtt_port = 1883; // Порт для подключения к сервер�
 String mqtt_user = ""; // Логи от сервер
 String mqtt_pass = ""; // Пароль от сервера
 String chipID = "";
+String prefix   = "/IoTmanager";
 WiFiClient wclient;
 PubSubClient client(wclient);
 

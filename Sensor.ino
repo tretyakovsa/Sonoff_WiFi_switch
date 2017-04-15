@@ -8,6 +8,8 @@
 */
 
 void sensor_init(){
+  OneWire oneWire(DHTPIN);
+  DallasTemperature sensors(&oneWire);
  HTTP.on("/sensor.json", handle_sensor);
   pinMode(DHTPIN, INPUT_PULLUP);
  dht.setup(DHTPIN);

@@ -1,3 +1,0 @@
-nWidgets:[{"id":0,"page":"buttons","widget":"simple-btn","class1":"item no-border","style1":"","descr":"Button ON","class2":"balanced","style2":"font-size:20px;float:left;padding-top:10px;font-weight:bold;","topic":"/IoTmanager/14317906-1458400/button_on","class3":"button button-balanced icon ion-power","style3":"float:right;"},
-{"id":1,"page":"buttons","widget":"simple-btn","class1":"item no-border","style1":"","descr":"Button OFF","class2":"assertive","style2":"font-size:20px;float:left;padding-top:10px;font-weight:bold;","topic":"/IoTmanager/14317906-1458400/button_off","class3":"button button-assertive icon ion-power","style3":"float:right;"},
-{"id":2,"page":"buttons","descr":"Toggle","widget":"toggle","color":"green","topic":"/IoTmanager/14317906-1458400/toggle"}]

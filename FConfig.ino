@@ -37,6 +37,7 @@ bool loadConfig() {
   mqtt_port = root["mqtt_port"];
   mqtt_user = root["mqtt_user"].as<String>();
   mqtt_pass = root["mqtt_pass"].as<String>();
+  configs = root["configs"].as<String>();
   return true;
 }
 
@@ -56,7 +57,7 @@ bool saveConfig() {
   json["dns"] = dns;
   json["ip"] = ip;
   json["checkboxIP"] = checkboxIP;
-
+  json["configs"] = configs;
   json["lang"] = Language;
   json["ddns"] = ddns;
   json["ddnsName"] = ddnsName;

@@ -14,8 +14,6 @@
   PubSubClient client(wclient);
 */
 
-// Функция получения данных от сервера
-
 void callback(const MQTT::Publish& pub)
 {
   Serial.print(pub.topic()); // выводим в сериал порт название топика
@@ -25,8 +23,23 @@ void callback(const MQTT::Publish& pub)
   String payload = pub.payload_string();
   Serial.println(payload);
 
+   if ( pub.payload_string() == "HELLO" ) {  // handshaking
+
+     loadnWidgets();
+  }
   if (String(pub.topic()) == "/" + chipID + "/RELE_1") // проверяем из нужного ли нам топика пришли данные
   {
+    int stled = payload.toInt(); // преобразуем полученные данные в тип integer
+    Serial.println(stled);
+    if (stled != state0) {
+      task = 4;
+      chaing = 1;
+    }
+    //Serial.println(stled);
+  }
+
+  if (String(pub.topic()) == prefix + "/"+chipID + "/RELE_1_not/control") // проверяем из нужного ли нам топика пришли данные
+   {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
     if (stled != state0) {
       task = 4;
@@ -56,7 +69,12 @@ void MQTT_Pablush() {
                          .set_auth(mqtt_user, mqtt_pass))) {
         Serial.println("Connected to MQTT server");
         client.set_callback(callback);
+        client.subscribe(prefix);  // for receiving HELLO messages and handshaking
+        client.subscribe(prefix + "/+/+/control"); // for receiving GPIO control messages
         client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
+    //client.subscribe(prefix + prefix + "/"+chipID + "/+/+/status"); // for receiving GPIO control messages
+        //client.subscribe(prefix + "/"+chipID + "/RELE_1_not/control"); // подписываемся по топик с данными для светодиода
+        loadnWidgets();
         } else {
         Serial.println("Could not connect to MQTT server");
       }
@@ -99,4 +117,37 @@ void mqtt_ConfigJSON() {
   Serial.println(jsonConfig);
   }
 
+// Читаем и отправляем виджеты на сервер
+bool loadnWidgets() {
+  File WidgetsFile = SPIFFS.open("/config.widgets.json", "r");
+  if (!WidgetsFile) {
+    Serial.println("Failed to open config file");
+    return false;
+  }
+
+  size_t size = WidgetsFile.size();
+  String Widgetsset = "";
+  if (size > 4096) {
+    Serial.println("Config file size is too large");
+    WidgetsFile.close();
+    return false;
+  }
+  // загружаем файл конфигурации в глобальную переменную
+  Widgetsset = WidgetsFile.readString();
+  WidgetsFile.close();
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Widgets = jsonBuffer.parseObject(Widgetsset);
+  JsonArray& WidgetsArray = Widgets["nWidgets"].asArray();
+  int j = WidgetsArray.size();
+  if (j != 0) {
+    for (int i = 0; i <= j - 1; i++) {
+      Widgets["nWidgets"][i]["topic"] = prefix + "/" + chipID + Widgets["nWidgets"][i]["topic"].as<String>();
+      Widgets["nWidgets"][i]["descr"] = ssdpName;
+      String thing_config = Widgets["nWidgets"][i].as<String>();
+      Serial.println(thing_config);
+      client.publish(MQTT::Publish(prefix + "/" + chipID + "/config", thing_config).set_qos(1));
+    }
+  }
+  return true;
+}
 
