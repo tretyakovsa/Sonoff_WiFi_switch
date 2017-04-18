@@ -53,25 +53,27 @@ WiFiUDP udp;
 #define LED_PIN 2     // RGB лента
 // If you use ESP8266 12 you can add
 #define PIR_PIN 14    // RIR sensors
-
 */
+
   // Куда что подключено в sonoff
   #define TACH_PIN 0    // Кнопка управления
   #define PIR_PIN 2    // RIR sensors
   #define RELE1_PIN 12  // Реле
   #define LED_PIN 13    // Светодиод
   #define DHTPIN 14     // DHT сенсор.
-  #define RGB_PIN 5
-  /*
+  #define RGB_PIN 1
+
+/*
   // Куда что подключено в Smart-Room
   #define TACH_PIN 0    // Кнопка управления
   #define PIR_PIN 2    // RIR sensors
-  #define RELE_PIN[] 12  // Реле 1
-  #define RELE2_PIN 12  // Реле 1
-  #define RELE3_PIN 12  // Реле 1
-  #define RELE4_PIN 12  // Реле 1
-  #define LED_PIN 13    // Светодиод
-  #define DHTPIN 14     // DHT сенсор.
+  #define RELE1_PIN 12  // Реле 1
+  #define RELE2_PIN 13  // Реле 2
+  #define RELE3_PIN 15  // Реле 3
+  #define RELE4_PIN 12  // Реле 4
+  #define LED_PIN 16    // Светодиод
+  #define DHTPIN 4     // DHT сенсор.
+  #define RGB_PIN 5
 */
 
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
@@ -81,15 +83,10 @@ OneWire oneWire(DHTPIN);
 DallasTemperature sensors(&oneWire);
 
 #define DEFAULT_COLOR 0xff6600
-#define DEFAULT_BRIGHTNESS 255
-#define DEFAULT_SPEED 100
-#define DEFAULT_MODE FX_MODE_STATIC
 
-#define BRIGHTNESS_STEP 15      // in/decrease brightness by this amount per click
 #define SPEED_STEP 10           // in/decrease brightness by this amount per click
 int ledCount = 15;              // Количество лед огней
 WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
-
 
 // Определяем переменные
 String configs="";
@@ -147,8 +144,11 @@ volatile int chaingtime = LOW;
 volatile int chaing = LOW;
 int state0 = 0;
 int task = 0;
-String color = "ff6600";
-
+String colorRGB = "ff6600";
+String speedRGB = "100";
+String BrightnessRGB = "255";
+String ModeRGB = "0";
+String timeRGB = "";
 
 void setup() {
   Serial.begin(115200);
@@ -157,6 +157,7 @@ void setup() {
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
+  initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
@@ -169,7 +170,7 @@ void setup() {
   ddns_init();       //запускаем DDNS сервис
   ip_wan();          // Сообщаем ddns наш текущий адрес
   MQTT_init();
-  initRGB();
+
 }
 
 void loop() {

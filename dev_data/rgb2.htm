@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RGB</title>
+  <script type="text/javascript">
+   function handleServerResponse(){
+   }
+   function sends(submit,url){
+    send_request(submit,url);
+    html('url', 'http://'+location.hostname+url);
+   }
+  </script>
+ </head>
+ <body onload="load('first');">
+  <div class="container loader-bg">
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangChart}}</h1>
+    <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+     <h5 class="alert-danger">{{SSDP}}</h5>
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
+     <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <hr>
+
+     <h2 id="url"></h2>
+
+
+     <input id="color-192.168.1.35" class="form-control btn-primary" onchange="sends(this,'/set?c='+(this.value).substring(1,7));" value="#fdfdfd" type="color">
+
+
+     <select class="btn btn-block btn-default" id="modes" onchange="sends(this,'/set?m='+this.value);">
+      <option value="0">Select Mode</option>
+      <option value="0">Static</option>
+      <option value="1">Blink</option>
+      <option value="2">Breath</option>
+      <option value="3">Color Wipe</option>
+      <option value="4">Color Wipe Random</option>
+      <option value="5">Random Color</option>
+      <option value="6">Single Dynamic</option>
+      <option value="7">Multi Dynamic</option>
+      <option value="8">Rainbow</option>
+      <option value="9">Rainbow Cycle</option>
+      <option value="10">Scan</option>
+      <option value="11">Dual Scan</option>
+      <option value="12">Fade</option>
+      <option value="13">Theater Chase</option>
+      <option value="14">Theater Chase Rainbow</option>
+      <option value="15">Running Lights</option>
+      <option value="16">Twinkle</option>
+      <option value="17">Twinkle Random</option>
+      <option value="18">Twinkle Fade</option>
+      <option value="19">Twinkle Fade Random</option>
+      <option value="20">Sparkle</option>
+      <option value="21">Flash Sparkle</option>
+      <option value="22">Hyper Sparkle</option>
+      <option value="23">Strobe</option>
+      <option value="24">Strobe Rainbow</option>
+      <option value="25">Multi Strobe</option>
+      <option value="26">Blink Rainbow</option>
+      <option value="27">Chase White</option>
+      <option value="28">Chase Color</option>
+      <option value="29">Chase Random</option>
+      <option value="30">Chase Rainbow</option>
+      <option value="31">Chase Flash</option>
+      <option value="32">Chase Flash Random</option>
+      <option value="33">Chase Rainbow White</option>
+      <option value="34">Chase Blackout</option>
+      <option value="35">Chase Blackout Rainbow</option>
+      <option value="36">Color Sweep Random</option>
+      <option value="37">Running Color</option>
+      <option value="38">Running Red Blue</option>
+      <option value="39">Running Random</option>
+      <option value="40">Larson Scanner</option>
+      <option value="41">Comet</option>
+      <option value="42">Fireworks</option>
+      <option value="43">Fireworks random</option>
+      <option value="44">Merry Christmas</option>
+     </select>
+
+
+     <h4>{{LangTime8}}</h4>
+     <div class="input-group">
+      <input class="form-control" value="10" pattern="[-+]?[0-9]*[.]?[0-9]+" id="time">
+      <span class="input-group-addon">{{LangSec}}</span>
+     </div>
+     <div class="btn-group">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=60');val('time',60)" value="1">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=300');val('time',300)" value="5">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=600');val('time',600)" value="10">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=1500');val('time',1500)" value="15">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=1800');val('time',1800)" value="30">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=3600');val('time',3600)" value="60">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=5400');val('time',5400)" value="1:30">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=7200');val('time',7200)" value="2:00">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=10800');val('time',10800)" value="3:00">
+      <input type="button" class="btn btn-primary btn-sm" onclick="sends(this,'/set?time=0');val('time',0)" value="&#8734;">
+     </div>
+     <hr>
+     <h4>{{LangTime5}}</h4>
+     <div class="input-group">
+      <input class="form-control" value="0.1" pattern="[-+]?[0-9]*[.]?[0-9]+" id="sound">
+      <span class="input-group-addon">{{LangSec}}</span>
+     </div>
+     <h4>{{LangSpeed}}</h4>
+     <input id="speed" class="form-control" onchange="sends(this,'/set?s='+this.value);" type="range" min="0" max="255" step="1" value="100">
+     <h4>{{LengBrightness}}</h4>
+     <input id="brightness" class="form-control" onchange="sends(this,'/set?b='+this.value);" type="range" min="0" max="255" step="1" value="255">
+
+     <input type="button" class="btn btn-primary" onclick="sends(this,'/rgb');" value="Выключить\Выключить">
+     <input type="button" class="btn btn-primary" onclick="sends(this,'/set?m='+val('modes')+'&time='+val('time')+'&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'));" value="Отправить все настройки сразу">
+
+     <hr>
+     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
