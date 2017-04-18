@@ -1,0 +1,51 @@
+<div class="col-md-6">
+ <div class="block">
+  <h5 class="alert-info">{{SSDP}}</h5>
+  <div class="alert alert-dismissible alert-warning {{g279149-{{ip}}}}">
+   <button class="close" onclick="hide('g279149-{{ip}}',this);" type="button">×</button>
+   <a href="http://{{ip}}/timer.htm" target="_blank" class="close"><i class="popup-img"></i></a>
+   <ul>{{timerList}}</ul>
+  </div>
+  <hr>
+  <div class="col-sm-offset-1 col-sm-10 pop-up hidden" id="pop-up-{{ip}}">
+   <h5 class="alert-warning">{{LangTime4}}</h5>
+   <h4>{{LangTime8}}</h4>
+   <div class="btn-group">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=60&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="1">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=300&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="5">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=600&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="10">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=1500&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="15">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=1800&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="30">
+   </div>
+   <br>
+   <div class="btn-group">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=3600&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="60">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=5400&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="1:30">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=7200&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="2:00">
+    <input type="button" class="btn btn-primary btn-sm" onclick="toggle('pop-up-{{ip}}');ajax('{{ip}}',colorUrl+'&time=10800&sound='+val('sound')*10+'&s='+val('speed')+'&b='+val('brightness'),thisId);" value="3:00">
+   </div>
+   <hr>
+   <h4>{{LangTime5}}</h4>
+   <div class="input-group">
+    <input class="form-control" value="0.1" pattern="[-+]?[0-9]*[.]?[0-9]+" id="sound">
+    <span class="input-group-addon">{{LangSec}}</span>
+   </div>
+   <h4>{{LangSpeed}}</h4>
+   <input id="speed" class="form-control" type="range" min="0" max="255" step="1" value="100">
+   <h4>{{LengBrightness}}</h4>
+   <input id="brightness" class="form-control" type="range" min="0" max="255" step="1" value="255">
+   <hr>
+   <input class="btn btn-block btn-default" value="{{LangCancel}}" onclick="toggle('pop-up-{{ip}}');" type="button">
+  </div>
+  <input type="color" style="height:40px;" id="color-{{ip}}" class="form-control btn-primary" onchange="toggle('pop-up-{{ip}}');colorUrl='set?c='+(this.value).substring(1,7);thisId=this;" value="#fdfdfd">
+  <input style="width:32%;display:inline-block;margin-top:5px;" class="btn btn-block btn-danger" value="{{LangColor1}}" onclick="toggle('pop-up-{{ip}}');colorUrl='set?c=ff0000';val('color-{{ip}}','#FF0000');thisId=this;" type="button">
+  <input style="width:32%;display:inline-block" class="btn btn-block btn-success" value="{{LangColor2}}" onclick="toggle('pop-up-{{ip}}');colorUrl='set?c=00ff00';val('color-{{ip}}','#00FF00');thisId=this;" type="button">
+  <input style="width:32%;display:inline-block" class="btn btn-block btn-info" value="{{LangColor3}}" onclick="toggle('pop-up-{{ip}}');colorUrl='set?c=0000ff';val('color-{{ip}}','#0000FF');thisId=this;" type="button">
+  <input type="button" onclick="ajax('{{ip}}','rgb',this);" value="{{state}}" class="btn btn-block btn-primary">
+  <hr>
+  <div class="alert alert-dismissible alert-info {{g27579-{{ip}}}}">
+   <button class="close" onclick="hide('g27579-{{ip}}',this);" type="button">×</button>{{LangOptions2}}
+  </div>
+  <a class="btn btn-block btn-default" href="http://{{ip}}/device.htm">{{LangOptions1}}</a>
+ </div>
+</div>

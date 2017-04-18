@@ -73,7 +73,7 @@
  "LangMoreDevice":"Rādīt citas ierīces",
  "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa.",
 
- "_comment": "---DEVICE.HTM---",
+ "_comment": "---SONOFF.HTM---",
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">vairāk...</a>",
  "LangIfttt2":"pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"url1\"></span><br>Global saite: <span id=\"url2\"></span>",
  "LangOnOff":"Ieslēgt/Izslēgt",
@@ -82,5 +82,17 @@
  "LangTemperature":"Temperatūra",
  "LangHumidity":"Mitrums",
  "LangPir1":"PIR Sensor",
- "LangPir2":"Ja sensors nav pieslēgts PIR, vērtība 0."
+ "LangPir2":"Ja sensors nav pieslēgts PIR, vērtība 0.",
+
+ "_comment": "---RGB.HTM---",
+ "LangClose":"Aizvert",
+ "LangTime5":"Signāla darba laiks",
+ "LangTime8":"Uz cik minūtes ieslegt?",
+ "LangTime9":"minūtes",
+ "LangColor1":"Sarkans",
+ "LangColor2":"Zaļš",
+ "LangColor3":"Zils",
+ "LangSpeed":"Atrums",
+ "LengBrightness":"Spilgtums",
+ "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
 }
