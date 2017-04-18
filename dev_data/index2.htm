@@ -154,8 +154,11 @@
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+      if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-info">relay<\/span>';}
+      if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-warning">rgb<\/span>';}
+      if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-danger">jalousie<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      timerList += '<tr><td>'+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+'<\/<td><\/tr>';
+      timerList += '<tr><td>'+timers.timer[i].module+' '+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+'<\/<td><\/tr>';
      }
      document.getElementById(content).innerHTML+='<tr><td colspan="3"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
     }

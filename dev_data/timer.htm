@@ -70,8 +70,11 @@
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+      if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-info">relay<\/span>';}
+      if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-warning">rgb<\/span>';}
+      if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-danger">jalousie<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      html += '<tr><td style="text-align:left;">'+timers.timer[i].trigger+'<\/td><td style="text-align:left;"><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
+      html += '<tr><td style="text-align:left;">'+timers.timer[i].module+' '+timers.timer[i].trigger+'<\/td><td style="text-align:left;"><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
      }
      document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">No timers<\/td><\/tr>');
     }
@@ -97,7 +100,7 @@
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
-     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
      <hr>
      <h3>{{LangTime1}} <strong id="time">{{time}}</strong></h3>
      <hr>
@@ -145,7 +148,7 @@
      </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time'));" type="button">
      <hr>
-     <a class="btn btn-block btn-default" href="/device.htm">{{LangOptions1}}</a>
+     <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
     </div>
    </div>
   </div>
