@@ -11,6 +11,7 @@ void handle_timer_Save() {
   JsonObject& record = arrays.createNestedObject();
   record["id"]  = HTTP.arg("id").toInt();
   record["trigger"]  = HTTP.arg("trigger");
+  record["module"]  = HTTP.arg("module");
   record["day"]  = HTTP.arg("day");
   record["time"]  = HTTP.arg("time");
   record["work"]  = HTTP.arg("work").toInt();
@@ -73,6 +74,7 @@ bool loadTimer() {
     for (int i = 0; i <= j - 1; i++) {
       if ((Weekday == Timers["timer"][i]["day"].as<String>()) || (Timers["timer"][i]["day"].as<String>() == "All")) {
         Timerset += Timers["timer"][i]["time"].as<String>() + ",";
+        Timerset += Timers["timer"][i]["module"].as<String>() + ",";
         Timerset += Timers["timer"][i]["work"].as<String>() + ",";
         Timerset += Timers["timer"][i]["trigger"].as<String>();
         Timerset += "\r\n";

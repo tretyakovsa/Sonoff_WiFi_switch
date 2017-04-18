@@ -82,9 +82,7 @@ OneWire oneWire(DHTPIN);
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature sensors(&oneWire);
 
-#define DEFAULT_COLOR 0xff6600
-
-#define SPEED_STEP 10           // in/decrease brightness by this amount per click
+int SPEED_STEP = 10;           // in/decrease brightness by this amount per click
 int ledCount = 15;              // Количество лед огней
 WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -149,6 +147,7 @@ String speedRGB = "100";
 String BrightnessRGB = "255";
 String ModeRGB = "0";
 String timeRGB = "";
+String timeBUZ = "";
 
 void setup() {
   Serial.begin(115200);
