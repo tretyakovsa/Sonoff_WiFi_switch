@@ -46,7 +46,7 @@
       if (stage == 'first' && sorting == null || searchModule(ipModule[key].module,sorting) == 'yes') {
        loadBlock(ipval,'content','first',ipModule[key].module);
       }
-      for (var s in ipModule[key].module) {if (ipModule[key].module[s] != 'ntp' && ipModule[key].module[s] != 'ddns') allModules.push(ipModule[key].module[s]);}
+      for (var s in ipModule[key].module) {if (ipModule[key].module[s] != 'ntp' && ipModule[key].module[s] != 'ddns' && ipModule[key].module[s] != 'timers' && ipModule[key].module[s] != 'mqtt') allModules.push(ipModule[key].module[s]);}
      }
      if (stage == 'first' || stage == 'search') {
       var moduleArray = [];
@@ -114,14 +114,12 @@
         xmlHttp.onload = function(e) {
          var timers=JSON.parse(xmlHttp.responseText);
          var timerList = '';
+         timers.timer.sort(function(a,b){return (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0);});
          for (var i = 0; i < timers.timer.length; i++) {
-
           if(timers.timer[i].module == page) {
-
            if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
            if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
            if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-
            timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
            timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
           }
