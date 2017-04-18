@@ -166,6 +166,7 @@ function loadTimer(timerids){
  xhttp.send(null);
  xhttp.onload = function(e) {
   var timers=JSON.parse(xhttp.responseText);
+  timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
   var html = '';
   for (var i = 0; i < timers.timer.length; i++) {
    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
