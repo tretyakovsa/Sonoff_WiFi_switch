@@ -13,7 +13,7 @@ void SSDP_init() {
   SSDP.setSchemaURL("description.xml");
   SSDP.setHTTPPort(80);
   SSDP.setName(ssdpName);
-  SSDP.setSerialNumber("001788102201");
+  SSDP.setSerialNumber(chipID);
   SSDP.setURL("/index.htm");
   SSDP.setModelName("sonoff");
   SSDP.setModelNumber("000000000001");
