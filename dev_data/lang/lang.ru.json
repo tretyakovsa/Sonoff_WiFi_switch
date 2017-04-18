@@ -73,7 +73,7 @@
  "LangMoreDevice":"Показать остальные устройства",
  "LangTime6":"Настраивая время перед одиночными цифрами пишите 0. Ячейку Мин(Продолж. работы) заполнять не обязательно.",
 
- "_comment": "---DEVICE.HTM---",
+ "_comment": "---RELAY.HTM---",
  "LangIfttt1":"С помощью сервиса <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Устройство может включатся по многим сценариев, например: новое сообщение в facebook, twitter, <a onclick=\"toggle('hide');return false\" href=\"#\">подробнее...</a>",
  "LangIfttt2":"задания в Google calendar, почта и многое другое. Подробней о том как это сделать вы можете посмотреть видео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">здесь</a>.<br>Локальная ссылка: <span id=\"url1\"></span><br>Глобальная ссылка: <span id=\"url2\"></span>",
  "LangOnOff":"Включить/Выключить",

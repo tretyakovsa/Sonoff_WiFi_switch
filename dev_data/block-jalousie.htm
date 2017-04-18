@@ -1,0 +1,17 @@
+<div class="col-md-6">
+<div class="block">
+ <h5 class="alert-success">{{SSDP}}</h5>
+ <div class="alert alert-dismissible alert-warning {{g258426-{{ip}}}}">
+  <button class="close" onclick="hide('g258426-{{ip}}',this);" type="button">×</button>
+  {{LangTime4}} <b>{{timeUp}}</b>
+  <br>{{LangTime5}} <b>{{timeDown}}</b>
+ </div>
+ <hr>
+ <input type="button" onclick="ajax('{{ip}}', 'motor', this);" value="{{state}}" class="btn btn-block btn-lg btn-primary">
+ <hr>
+ <div class="alert alert-dismissible alert-info {{g27749-{{ip}}}}">
+  <button class="close" onclick="hide('g27749-{{ip}}',this);" type="button">×</button>{{LangOptions2}}
+ </div>
+ <a href="http://{{ip}}/jalousie.htm" class="btn btn-block btn-default">{{LangOptions1}}</a>
+</div>
+</div>

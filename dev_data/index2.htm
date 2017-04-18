@@ -23,7 +23,7 @@
    }
 
    function findDevice(submit) {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
+    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
     ajax(window.location.hostname,'devices.scan.json',submit, '1');
     setTimeout(function(){deviceList('search');}, 7000);
    }
@@ -31,11 +31,9 @@
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
 
-
     document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-warning">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
-
 
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
@@ -70,19 +68,7 @@
    }
 
 
-
-
-
-
-
-
-
-
-
    function loadBlock(ipval, content, stage, modules) {
-    if (stage == 'first'){
-     document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'"><\/tr>';
-    }
 
     if (!modules) {
      var xhttp=createXmlHttpObject();
@@ -95,7 +81,6 @@
     } else {
      loadBlock2(modules);
     }
-
 
     function loadBlock2(modules){
      var xhttp=createXmlHttpObject();
@@ -126,28 +111,35 @@
         }
        }
 
-
-     //  if (searchModule(modules,"relay") == 'yes'){
+       if (searchModule(modules,"relay") == 'yes'){
+        if (stage == 'first'){
+         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';
+        }
         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-        document.getElementById("block-"+ipval).innerHTML='<td><b><a href="http://'+jsonResponse.ip+'/relay.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/relay.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
-     //  }
-     //  if (searchModule(modules,"rbg") == 'yes'){
-     //   jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-     //   document.getElementById("block-"+ipval).innerHTML='<td><b><a href="http://'+jsonResponse.ip+'/rgb.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/rgb.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
-     //  }
-
+        document.getElementById("block-"+ipval+"-relay").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-info">relay<\/span> <b><a href="http://'+jsonResponse.ip+'/relay.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/relay.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+       }
+       if (searchModule(modules,"rgb") == 'yes'){
+        if (stage == 'first'){
+         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';
+        }
+        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+        document.getElementById("block-"+ipval+"-rgb").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-warning">rgb<\/span> <b><a href="http://'+jsonResponse.ip+'/rgb.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/rgb.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+       }
+       if (searchModule(modules,"jalousie") == 'yes'){
+        if (stage == 'first'){
+         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';
+        }
+        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-danger">jalousie<\/span> <b><a href="http://'+jsonResponse.ip+'/jalousie.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/jalousie.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+       }
 
        if (window.location.hostname == ipval) {
         loadDateLang(jsonResponse);
        }
 
-
       }
-
      }
-
     }
-
    }
 
 
@@ -165,7 +157,7 @@
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
       timerList += '<tr><td>'+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+'<\/<td><\/tr>';
      }
-     document.getElementById(content).innerHTML+='<tr><td colspan="3"><b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
+     document.getElementById(content).innerHTML+='<tr><td colspan="3"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
     }
    }
 
@@ -176,7 +168,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById(content).innerHTML+='<tr><td colspan="1"><b><a href="http://'+jsonResponse.ip+'/chart.htm#sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td colspan="1"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/chart.htm#sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
     }
    }
 
@@ -186,33 +178,15 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById(content).innerHTML+='<tr><td colspan="1"><b><a href="http://'+jsonResponse.ip+'/chart.htm#analog">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td colspan="1"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/chart.htm#analog">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+'<\/b><\/td><\/tr>';
     }
    }
-
-
 
    function searchModule(modules,find) {
     for(var key in modules) {
      if (modules[key] == find) {
       return "yes";
      }
-    }
-   }
-
-
-   function loadHtml(jsonResponse) {
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+jsonResponse.ip+"/block.htm", true);
-    xhttp.send(null);
-    xhttp.onload = function(e) {
-     var data = xhttp.responseText;
-     var new_string;
-     for (var key in jsonResponse) {
-      new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-      data = new_string;
-     }
-     document.getElementById("block-"+jsonResponse.ip).innerHTML=new_string;
     }
    }
 
@@ -224,7 +198,6 @@
      bodyData = new_string2;
     }
     document.getElementsByTagName('body')[0].innerHTML = new_string2;
-
     var now_day = {
      year: new Date().getFullYear(),
      month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
@@ -233,7 +206,6 @@
     };
     document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
-
 
    function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
@@ -311,7 +283,7 @@
     <div class="btn-group pull-right" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');">Refresh</a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');">Help <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb" target="_blank">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch" target="_blank">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Jalousie</a></li></ul>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb/issues" target="_blank">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank">Jalousie</a></li></ul>
     </div>
     <h1 id="date"><br><small></small></h1>
    </div>
@@ -324,7 +296,9 @@
      <div class="block">
       <h5 class="alert-danger">{{LangSearch1}}</h5>
       <div class="alert alert-dismissible alert-info {{g73683}}"><button class="close" onclick="hide('g73683',this);" type="button">×</button>{{LangSearch2}}</div>
-      <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
+      <span>
+       <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
+      </span>
      </div>
     </div>
     <div class="col-xs-6 col-md-12">

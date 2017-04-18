@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <script src="js/build.chart.js" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/chart.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options page</title>
+  <script type="text/javascript">
+   function handleServerResponse(stage,jsonResponse){
+    val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
+    if (stage != 'next') {
+     if (!jsonResponse.g85723) loadChart('ct-analog','analog');
+    }
+   }
+   function motor(submit){
+    server = "/motor";
+    document.getElementById('url1').innerHTML='<a href="http://'+document.domain+server+'" target="_blank">http://'+document.domain+server+'<\/a>';
+    if(navigator.onLine) {
+     xhr = new XMLHttpRequest();
+     xhr.open("GET","https://api.ipify.org?format=text",true);
+     xhr.onload = function () {
+      if (xhr.readyState === xhr.DONE) {
+       if (xhr.status === 200) {
+        document.getElementById('url2').innerHTML='<a href="http://'+(jsonResponse.ddnsName?(jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+server):xhr.responseText+':'+jsonResponse.ddnsPort+server)+'" target="_blank">http://'+(jsonResponse.ddnsName?(jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+server):xhr.responseText+':'+jsonResponse.ddnsPort+server)+'<\/a>';
+       }
+      }
+     };
+     xhr.send(null);
+    }
+    send_request(submit,server);
+   }
+  </script>
+ </head>
+ <body onload="load('first');">
+  <div class="container loader-bg">
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangOptions1}}</h1>
+    <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+     <h5 class="alert-success">{{SSDP}}</h5>
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
+     <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
+     <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
+     <hr>
+     <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
+     <input class="btn btn-block btn-lg btn-primary" id="off-on" value="{{LangOnOff}}" onclick="motor(this);" type="button">
+     <hr>
+     <div class="alert alert-dismissible alert-warning {{g57234}}"><button class="close" onclick="hide('g57234',this);" type="button">×</button>{{LangTime6}}</div>
+     <h2>{{LangTime3}}</h2>
+     <div class="row">
+      <div class="col-sm-7">
+       <h4>{{LangTime4}}</h4>
+       <input id="open" value="{{timeUp}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
+       <div style="width:100%" class="btn-group">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeUp?t='+val('open'));" type="button" style="width:70%">
+        <input type="button" onclick="val('open',' ');send_request(this,'/timeUp?t=');" value="{{LangOff.}}" style="width:30%" class="btn btn-default">
+       </div>
+       <h4>{{LangTime5}}</h4>
+       <input id="close" value="{{timeDown}}" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:10:30">
+       <div style="width:100%" class="btn-group">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeDown?t='+val('close'));" type="button" style="width:70%">
+        <input type="button" onclick="val('close',' ');send_request(this,'/timeDown?t=');" value="{{LangOff.}}" style="width:30%" class="btn btn-default">
+       </div>
+      </div>
+      <div class="col-sm-5">
+       <h4>Время работы дв.:</h4>
+       <div class="input-group">
+        <input id="motor2" value="{{timeServo2}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
+        <span class="input-group-addon">{{LangSec}}</span>
+       </div>
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeServo2?t='+val('motor2'));" type="button">
+       <h4>Время работы дв.:</h4>
+       <div class="input-group">
+        <input id="motor" value="{{timeServo1}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
+        <span class="input-group-addon">{{LangSec}}</span>
+       </div>
+       <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/timeServo1?t='+val('motor'));" type="button">
+      </div>
+     </div>
+     <hr>
+     <div class="{{g63684}}">
+      <button class="close" onclick="hide('g63684',this);" type="button">×</button>
+      <h2>Обороты мотора</h2>
+      <div class="row">
+       <div class="col-sm-4">
+        <input id="turn" value="{{turn}}" pattern="[0-9]{1,2}" class="form-control">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/turn?turn='+val('turn'));" type="button">
+       </div>
+       <div class="col-sm-8">
+        <div class="alert alert-dismissible alert-info">Количество оборотов двигателя</div>
+       </div>
+      </div>
+      <hr>
+     </div>
+     <div class="{{g63424}}">
+      <button class="close" onclick="hide('g63424',this);" type="button">×</button>
+      <h2>Скорость вращения мотора</h2>
+      <div class="row">
+       <div class="col-sm-8">
+        <div class="alert alert-dismissible alert-info">Как правило скорость мотора от 1 до 60. На больших скоростях ESP может некорректно работать.</div>
+       </div>
+       <div class="col-sm-4">
+        <input id="speed" value="{{speed}}" pattern="[0-9]{1,2}" class="form-control">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/speed?speed='+val('speed'));" type="button">
+       </div>
+      </div>
+      <hr>
+     </div>
+     <div class="{{g8432}}">
+      <button class="close" onclick="hide('g8432',this);" type="button">×</button>
+      <h2>Колибровка мотора</h2>
+      <div class="row">
+       <div class="col-sm-4">
+        <input id="calibration" value="{{calibration}}" pattern="[0-9]{1,2}" class="form-control">
+        <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/calibration?calibration='+val('calibration'));" type="button">
+       </div>
+       <div class="col-sm-8">
+        <div class="alert alert-dismissible alert-info">Если серво двигатель постоянно крутится его необходимо отколибровать. Поэксперементируйте здесь с цифрами. Как правило они калеблятся от 90 до 95.</div>
+       </div>
+      </div>
+      <hr>
+     </div>
+     <div class="{{g85723}}">
+      <button class="close" onclick="hide('g85723',this);" type="button">×</button>
+      <a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a>
+      <div id="ct-analog" style="height:200px;margin-left:-20px"></div>
+      <hr>
+     </div>
+     <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

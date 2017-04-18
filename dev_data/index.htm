@@ -23,7 +23,7 @@
    }
 
    function findDevice(submit) {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong>Пожалуйста подождите, идет сканирование сети.<\/strong><\/div>';
+    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
     ajax(window.location.hostname,'devices.scan.json',submit, '1');
     setTimeout(function(){deviceList('search');}, 7000);
    }
@@ -66,78 +66,100 @@
    }
 
    function loadBlock(ipval, content, stage, modules) {
-    if (stage == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a><\/div><\/div><\/div>';
+    //  if (stage == 'first'){
+    //   document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a><\/div><\/div><\/div>';
+    //  }
+
+
+    if (searchModule(modules,"relay") == 'yes'){
+     if (stage == 'first'){
+      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-relay"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     }
+     loadBlock2('relay');
+    }
+    if (searchModule(modules,"rgb") == 'yes'){
+     if (stage == 'first'){
+      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-rgb"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     }
+     loadBlock2('rgb');
+    }
+    if (searchModule(modules,"jalousie") == 'yes'){
+     if (stage == 'first'){
+      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-jalousie"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     }
+     loadBlock2('jalousie');
     }
 
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/block.htm", true);
-    xhttp.send(null);
-    xhttp.onload = function(e) {
-     var data = xhttp.responseText;
-
-     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
+    function loadBlock2(page){
+     var xhttp=createXmlHttpObject();
+     xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      var jsonResponse1 = JSON.parse(xhttp.responseText);
+      var data = xhttp.responseText;
 
-      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
       xhttp.send(null);
       xhttp.onload = function(e) {
-       var jsonResponse2=JSON.parse(xhttp.responseText);
-       var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+       var jsonResponse1 = JSON.parse(xhttp.responseText);
 
-       var xmlHttp=createXmlHttpObject();
-       xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
-       xmlHttp.send(null);
-       xmlHttp.onload = function(e) {
-        var timers=JSON.parse(xmlHttp.responseText);
-        var timerList = '';
-        for (var i = 0; i < timers.timer.length; i++) {
-         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-         timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
-        }
-        jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
+       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+       xhttp.send(null);
+       xhttp.onload = function(e) {
+        var jsonResponse2=JSON.parse(xhttp.responseText);
+        var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
-        var theCookies = document.cookie.split(';');
-        for (var i = 1 ; i <= theCookies.length; i++) {
-         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-        }
-
-        jsonResponse.ip = ipval;
-        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-
-        if (window.location.hostname == ipval) {
-         var new_string2;
-         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-         for (var key in jsonResponse) {
-          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-          bodyData = new_string2;
+        var xmlHttp=createXmlHttpObject();
+        xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
+        xmlHttp.send(null);
+        xmlHttp.onload = function(e) {
+         var timers=JSON.parse(xmlHttp.responseText);
+         var timerList = '';
+         for (var i = 0; i < timers.timer.length; i++) {
+          if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+          if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+          if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+          timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+          timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
          }
-         document.getElementsByTagName('body')[0].innerHTML = new_string2;
+         jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
 
-         var now_day = {
-          year: new Date().getFullYear(),
-          month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
-          day: new Date().getDate(),
-          weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
-         };
-         document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
+         var theCookies = document.cookie.split(';');
+         for (var i = 1 ; i <= theCookies.length; i++) {
+          jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+         }
+
+         jsonResponse.ip = ipval;
+         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+
+         if (window.location.hostname == ipval) {
+          var new_string2;
+          var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+          for (var key in jsonResponse) {
+           new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+           bodyData = new_string2;
+          }
+          document.getElementsByTagName('body')[0].innerHTML = new_string2;
+
+          var now_day = {
+           year: new Date().getFullYear(),
+           month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
+           day: new Date().getDate(),
+           weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
+          };
+          document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
+
+         }
+
+         var new_string;
+         for (var key in jsonResponse) {
+          new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+          data = new_string;
+         }
+         document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
 
         }
-
-        var new_string;
-        for (var key in jsonResponse) {
-         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-         data = new_string;
-        }
-        document.getElementById("block-"+ipval).innerHTML=new_string;
 
        }
-
       }
      }
     }
@@ -225,7 +247,7 @@
     <div class="btn-group pull-right" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');">Refresh</a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');">Help <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb" target="_blank">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch" target="_blank">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi" target="_blank">Jalousie</a></li></ul>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb/issues" target="_blank">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank">Jalousie</a></li></ul>
     </div>
     <h1 id="date"><br><small></small></h1>
    </div>
