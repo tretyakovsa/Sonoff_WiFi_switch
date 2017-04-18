@@ -30,6 +30,13 @@
 
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
+
+
+    document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+    document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+    document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-warning">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+
+
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -57,25 +64,41 @@
       document.getElementById("sorting").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><input type="button" class="btn btn-sm btn-default" value="all" onclick="deviceList(\'first\');">';
       for(var key in moduleArray) {
        document.getElementById("sorting").innerHTML += '<input type="button" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')" value="'+moduleArray[key]+'">';
-
-       //  if (moduleArray[key].module == 'temperature') {loadBlock(ipval,'content','first','block-tempereture');}
-
       }
      }
     }
    }
 
+
+
+
+
+
+
+
+
+
+
    function loadBlock(ipval, content, stage, modules) {
     if (stage == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a><\/div><\/div><\/div>';
+     document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'"><\/tr>';
     }
 
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/block.htm", true);
-    xhttp.send(null);
-    xhttp.onload = function(e) {
-     var data = xhttp.responseText;
+    if (!modules) {
+     var xhttp=createXmlHttpObject();
+     xhttp.open("GET", "http://"+ipval+"/modules.json", true);
+     xhttp.send(null);
+     xhttp.onload = function(e) {
+      var jsonResponse3=JSON.parse(xhttp.responseText);
+      loadBlock2(jsonResponse3.module);
+     }
+    } else {
+     loadBlock2(modules);
+    }
 
+
+    function loadBlock2(modules){
+     var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
@@ -86,68 +109,139 @@
       xhttp.onload = function(e) {
        var jsonResponse2=JSON.parse(xhttp.responseText);
        var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-
-       var xmlHttp=createXmlHttpObject();
-       xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
-       xmlHttp.send(null);
-       xmlHttp.onload = function(e) {
-        var timers=JSON.parse(xmlHttp.responseText);
-        var timerList = '';
-        for (var i = 0; i < timers.timer.length; i++) {
-         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-         timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
-        }
-        jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
-
-        var theCookies = document.cookie.split(';');
-        for (var i = 1 ; i <= theCookies.length; i++) {
-         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-        }
-
-        jsonResponse.ip = ipval;
-        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-
-        if (window.location.hostname == ipval) {
-         var new_string2;
-         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-         for (var key in jsonResponse) {
-          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-          bodyData = new_string2;
-         }
-         document.getElementsByTagName('body')[0].innerHTML = new_string2;
-
-         var now_day = {
-          year: new Date().getFullYear(),
-          month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
-          day: new Date().getDate(),
-          weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
-         };
-         document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
-
-        }
-
-        var new_string;
-        for (var key in jsonResponse) {
-         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-         data = new_string;
-        }
-        document.getElementById("block-"+ipval).innerHTML=new_string;
-
+       var theCookies = document.cookie.split(';');
+       for (var i = 1 ; i <= theCookies.length; i++) {
+        jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
        }
 
+       if (stage == 'first'){
+        if (searchModule(modules,"timers") == 'yes'){
+         loadTimers(ipval,'table-timers',jsonResponse);
+        }
+        if (searchModule(modules,"temperature") == 'yes'){
+         loadSensors(ipval,'table-sensors',jsonResponse);
+        }
+        if (searchModule(modules,"analog") == 'yes'){
+         loadAnalog(ipval,'table-sensors',jsonResponse);
+        }
+       }
+
+
+     //  if (searchModule(modules,"relay") == 'yes'){
+        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+        document.getElementById("block-"+ipval).innerHTML='<td><b><a href="http://'+jsonResponse.ip+'/relay.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/relay.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+     //  }
+     //  if (searchModule(modules,"rbg") == 'yes'){
+     //   jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+     //   document.getElementById("block-"+ipval).innerHTML='<td><b><a href="http://'+jsonResponse.ip+'/rgb.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/rgb.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+     //  }
+
+
+       if (window.location.hostname == ipval) {
+        loadDateLang(jsonResponse);
+       }
+
+
       }
+
+     }
+
+    }
+
+   }
+
+
+   function loadTimers(ipval, content, jsonResponse) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var timers=JSON.parse(xmlHttp.responseText);
+     var timerList = '';
+     for (var i = 0; i < timers.timer.length; i++) {
+      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+      timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+      timerList += '<tr><td>'+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+'<\/<td><\/tr>';
+     }
+     document.getElementById(content).innerHTML+='<tr><td colspan="3"><b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
+    }
+   }
+
+
+   function loadSensors(ipval, content, jsonResponse) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/sensor.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var sensors=JSON.parse(xmlHttp.responseText);
+     document.getElementById(content).innerHTML+='<tr><td colspan="1"><b><a href="http://'+jsonResponse.ip+'/chart.htm#sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
+    }
+   }
+
+   function loadAnalog(ipval, content, jsonResponse) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/analog.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var sensors=JSON.parse(xmlHttp.responseText);
+     document.getElementById(content).innerHTML+='<tr><td colspan="1"><b><a href="http://'+jsonResponse.ip+'/chart.htm#analog">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+'<\/b><\/td><\/tr>';
+    }
+   }
+
+
+
+   function searchModule(modules,find) {
+    for(var key in modules) {
+     if (modules[key] == find) {
+      return "yes";
      }
     }
    }
+
+
+   function loadHtml(jsonResponse) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+jsonResponse.ip+"/block.htm", true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var data = xhttp.responseText;
+     var new_string;
+     for (var key in jsonResponse) {
+      new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+      data = new_string;
+     }
+     document.getElementById("block-"+jsonResponse.ip).innerHTML=new_string;
+    }
+   }
+
+   function loadDateLang(jsonResponse) {
+    var new_string2;
+    var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+    for (var key in jsonResponse) {
+     new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+     bodyData = new_string2;
+    }
+    document.getElementsByTagName('body')[0].innerHTML = new_string2;
+
+    var now_day = {
+     year: new Date().getFullYear(),
+     month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
+     day: new Date().getDate(),
+     weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
+    };
+    document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
+   }
+
 
    function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-    var parent = submit.parentNode.childNodes[1].innerHTML;
+    var parent = '';
+    //var parent = submit.parentNode.childNodes[1].innerHTML;
+    var parent = submit.parentNode.parentNode.children[0].innerHTML;
     document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
@@ -208,14 +302,6 @@
     submit.parentNode.classList.add('hidden');
     setCookie(name,'hidden',365,submit);
     // }
-   }
-
-   function searchModule(modules,find) {
-    for(var key in modules) {
-     if (modules[key] == find) {
-      return "yes";
-     }
-    }
    }
   </script>
  </head>
