@@ -83,6 +83,7 @@ void modulesReg(String modName) {
   JsonObject& json = jsonBuffer.parseObject(modulesNew);
   json["ip"] = WiFi.localIP().toString();
   json["SSDP"] = ssdpName;
+  json["space"] = spaceName;
   JsonArray& data = json["module"].asArray();
   data.add(modName);
   modulesNew = "";

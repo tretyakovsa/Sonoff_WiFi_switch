@@ -111,7 +111,7 @@ String Time = "";                    // Текущее время
 
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";
-String modulesNew = "{\"ip\":\"\",\"SSDP\":\"\",\"module\":[]}";
+String modulesNew = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String Devices = "";            // Поиск IP адресов устройств в сети
 String DevicesList = "";        // IP адреса устройств в сети
 // Переменные для таймеров
