@@ -66,31 +66,27 @@
    }
 
    function loadBlock(ipval, content, stage, modules) {
-    //  if (stage == 'first'){
-    //   document.getElementById(content).innerHTML+='<div id="block-'+ipval+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <a href="http://'+ipval+'">http://'+ipval+'<\/a><\/div><\/div><\/div>';
-    //  }
-
-
     if (searchModule(modules,"relay") == 'yes'){
-     if (stage == 'first'){
-      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-relay"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
-     }
-     loadBlock2('relay');
+     loadBlock2('relay','timer.save');
     }
     if (searchModule(modules,"rgb") == 'yes'){
-     if (stage == 'first'){
-      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-rgb"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
-     }
-     loadBlock2('rgb');
+     loadBlock2('rgb','timer.save');
     }
     if (searchModule(modules,"jalousie") == 'yes'){
-     if (stage == 'first'){
-      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-jalousie"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
-     }
-     loadBlock2('jalousie');
+     loadBlock2('jalousie','timer.save');
+    }
+    if (searchModule(modules,"temperature") == 'yes'){
+     loadBlock2('temperature','sensor');
+    }
+    if (searchModule(modules,"analog") == 'yes'){
+     loadBlock2('analog','analog');
     }
 
-    function loadBlock2(page){
+    function loadBlock2(page,jsonPage){
+     if (stage == 'first'){
+      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     }
+
      var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
      xhttp.send(null);
@@ -109,22 +105,26 @@
         var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
         var xmlHttp=createXmlHttpObject();
-        xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
+        xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
          var timers=JSON.parse(xmlHttp.responseText);
          var timerList = '';
-         timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
-         for (var i = 0; i < timers.timer.length; i++) {
-          if(timers.timer[i].module == page) {
-           if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-           if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-           if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-           timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-           timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
+
+         if (timers.timer) {
+          timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+          for (var i = 0; i < timers.timer.length; i++) {
+           if(timers.timer[i].module == page) {
+            if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+            if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+            if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+            timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+            timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
+           }
           }
+          jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
          }
-         jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
+         jsonResponse = Object.assign(jsonResponse, timers);
 
          var theCookies = document.cookie.split(';');
          for (var i = 1 ; i <= theCookies.length; i++) {

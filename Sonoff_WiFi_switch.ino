@@ -150,13 +150,13 @@ String timeRGB = "";
 String timeBUZ = "";
 
 void setup() {
-  Serial.begin(115200);
+  //Serial.begin(115200);
   Serial.println("");
   chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-
+  initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
@@ -170,7 +170,6 @@ void setup() {
   ip_wan();          // Сообщаем ddns наш текущий адрес
   MQTT_init();
 
-  initRGB();
 }
 
 void loop() {

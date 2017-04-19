@@ -112,25 +112,19 @@
        }
 
        if (searchModule(modules,"relay") == 'yes'){
-        if (stage == 'first'){
-         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';
-        }
+        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-        document.getElementById("block-"+ipval+"-relay").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-info">relay<\/span> <b><a href="http://'+jsonResponse.ip+'/relay.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/relay.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+        document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <span class="label label-info">relay<\/span> <b><a href="http://'+jsonResponse.ip+'/relay.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/relay.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
        }
        if (searchModule(modules,"rgb") == 'yes'){
-        if (stage == 'first'){
-         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';
-        }
+        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';}
         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-        document.getElementById("block-"+ipval+"-rgb").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-warning">rgb<\/span> <b><a href="http://'+jsonResponse.ip+'/rgb.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/rgb.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+        document.getElementById("block-"+ipval+"-rgb").innerHTML='<td>'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <span class="label label-warning">rgb<\/span> <b><a href="http://'+jsonResponse.ip+'/rgb.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/rgb.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
        }
        if (searchModule(modules,"jalousie") == 'yes'){
-        if (stage == 'first'){
-         document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';
-        }
+        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';}
         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td><span class="label label-default">'+jsonResponse.space+'<\/span> <span class="label label-danger">jalousie<\/span> <b><a href="http://'+jsonResponse.ip+'/jalousie.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/jalousie.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
+        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <span class="label label-danger">jalousie<\/span> <b><a href="http://'+jsonResponse.ip+'/jalousie.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+jsonResponse.state+'" class="btn btn-primary" type="button"><\/td><td><a href="http://'+jsonResponse.ip+'/jalousie.htm" class="btn btn-default">'+jsonResponse.LangOptions1+'<\/a><\/td><td>1<\/td><td>1<\/td>';
        }
 
        if (window.location.hostname == ipval) {
@@ -161,7 +155,7 @@
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
       timerList += '<tr><td>'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+'<\/<td><\/tr>';
      }
-     document.getElementById(content).innerHTML+='<tr><td colspan="3"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
+     document.getElementById(content).innerHTML+='<tr><td colspan="3">'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <b><a href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+timerList;
     }
    }
 
@@ -172,7 +166,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById(content).innerHTML+='<tr><td colspan="1"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/chart.htm#sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td colspan="1">'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <b><a href="http://'+jsonResponse.ip+'/chart.htm#sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
     }
    }
 
@@ -182,7 +176,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById(content).innerHTML+='<tr><td colspan="1"><span class="label label-default">'+jsonResponse.space+'<\/span> <b><a href="http://'+jsonResponse.ip+'/chart.htm#analog">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td colspan="1">'+(jsonResponse.space?'<span class="label label-default">'+jsonResponse.space+'<\/span>':'')+' <b><a href="http://'+jsonResponse.ip+'/chart.htm#analog">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+sensors.title+'<\/td><td><b>'+sensors.data+'<\/b><\/td><\/tr>';
     }
    }
 
