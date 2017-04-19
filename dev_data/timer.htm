@@ -51,19 +51,19 @@
         }
 
        } else {
-        loadTimers(ipModule[key].ip,ipModule[key].SSDP);
+        loadTimers(ipModule[key].ip,ipModule[key].SSDP,ipModule[key].space);
        }
       }
      }
     }
    }
 
-   function loadTimers(ip,ssdp){
+   function loadTimers(ip,ssdp,space){
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open("GET", "http://"+ip+"/timer.save.json", true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
-     document.getElementById("timer-list").innerHTML += (ssdp?'<tr><td colspan="5"><h4>'+ssdp+'<\/h4><\/td><\/tr>':'');
+     document.getElementById("timer-list").innerHTML += (ssdp?'<tr><td>'+(space?'<span class="label label-default">'+space+'<\/span>':'')+'<\/td><td colspan="4"> <b>'+ssdp+'<\/b><\/td><\/tr>':'');
      var timers=JSON.parse(xmlHttp.responseText);
      timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var html = '';
@@ -109,8 +109,7 @@
      <table class="table table-striped table-hover" style="width:100%;">
       <thead>
        <tr>
-        <th style="text-align:left;width:10%;">{{LangOn.}}/{{LangOff.}}</th>
-        <th></th>
+        <th style="text-align:left;width:20%;" colspan="2">{{LangOn.}}/{{LangOff.}}</th>
         <th style="text-align:left;">{{LangDay}}</th>
         <th style="text-align:left;">{{LangTime4}}</th>
         <th></th>

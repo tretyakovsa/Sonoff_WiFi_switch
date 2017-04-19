@@ -53,7 +53,7 @@
       var lookup  = {};
       for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
       for (i in lookup) {moduleArray.push(lookup[i]);}
-      if (ipModule.length > 1) {toggle('sorting','hidden');}
+      // if (ipModule.length > 1) {toggle('sorting','hidden');}
       document.getElementById("sorting").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><input type="button" class="btn btn-sm btn-default" value="all" onclick="deviceList(\'first\');">';
       for(var key in moduleArray) {
        document.getElementById("sorting").innerHTML += '<input type="button" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')" value="'+moduleArray[key]+'">';
@@ -252,13 +252,16 @@
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');">Help <span class="caret"></span></a>
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb/issues" target="_blank">RGB</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank">Sonoff</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank">Jalousie</a></li></ul>
     </div>
+    <div class="pull-right" style="margin-top:35px;margin-right:5px">
+     <a href="/index2.htm" class="btn btn-warning">New Version</a>
+    </div>
     <h1 id="date"><br><small></small></h1>
    </div>
    <div class="col-sm-12 col-md-3">
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history" class="hidden-xs"></ul>
     <hr>
-    <div class="block hidden" id="sorting"></div>
+    <div class="block" id="sorting"></div>
     <div class="col-xs-6 col-sm-12">
      <div class="block">
       <h5 class="alert-danger">{{LangSearch1}}</h5>
