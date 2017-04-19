@@ -71,9 +71,9 @@
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-      if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-info">relay<\/span>';}
-      if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-warning">rgb<\/span>';}
-      if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-danger">jalousie<\/span>';}
+      if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-danger">relay<\/span>';}
+      if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-info">rgb<\/span>';}
+      if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-success">jalousie<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
       html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
      }
