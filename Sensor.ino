@@ -23,11 +23,11 @@ void sensor_init(){
      Serial.println(sensors.getTempCByIndex(0));
     }
     else{
+       modulesReg("temperature");
       Serial.println("DHT");
       Serial.println(temp);
       }
 
- modulesReg("temperature");
  HTTP.on("/analog.json", handle_analog);
  modulesReg("analog");
 }
