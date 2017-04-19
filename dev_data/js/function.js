@@ -160,7 +160,7 @@ function loadLang(langids){
  }
 }
 
-function loadTimer(timerids){
+function loadTimer(timerids,module){
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/timer.save.json", true);
  xhttp.send(null);
@@ -169,11 +169,13 @@ function loadTimer(timerids){
   timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
   var html = '';
   for (var i = 0; i < timers.timer.length; i++) {
-   if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
-   if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
-   if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-   timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-   html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
+   if(timers.timer[i].module == module) {
+    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
+    if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
+    if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+    timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+    html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
+   }
   }
   document.getElementById(timerids).innerHTML = (html?html:'<li>No timers</li>');
  }
