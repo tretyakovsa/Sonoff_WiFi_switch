@@ -17,8 +17,8 @@
    function handleServerResponse(stage,jsonResponse){
     val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     if (!jsonResponse.g72895) loadChart('ct-chart','sensor');
-     if (!jsonResponse.g85723) loadChart('ct-analog','analog');
+     if (!jsonResponse.g72895 && searchModule(jsonResponse.module,"temperature") == 'yes') loadChart('ct-chart','sensor');
+     if (!jsonResponse.g85723 && searchModule(jsonResponse.module,"analog") == 'yes') loadChart('ct-analog','analog');
     }
     if (!jsonResponse.g42843) loadTimer("timer-list","relay");
    }
@@ -61,7 +61,7 @@
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
 
      <!-- CHART TEMPERATURE Module - START -->
-     <div class="{{Temperature}} {{g72895}}">
+     <div class="module-temperature hidden {{g72895}}">
       <button class="close" onclick="hide('g72895',this);" type="button">×</button>
       <a href="/chart.htm#sensor" target="_blank" class="close"><i class="popup-img"></i></a>
       <div id="ct-chart" style="height:200px;margin-left:-20px"></div>
@@ -83,7 +83,7 @@
      <!-- TIMERS Module - END -->
 
      <!-- CHART ANALOG Module - START -->
-     <div class="{{g85723}}">
+     <div class="module-analog hidden {{g85723}}">
       <button class="close" onclick="hide('g85723',this);" type="button">×</button>
       <a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a>
       <div id="ct-analog" style="height:200px;margin-left:-20px"></div>
@@ -92,7 +92,7 @@
      <!-- CHART ANALOG Module - END -->
 
      <!-- MOVEMENT Module - START -->
-     <div class="{{g8359}}">
+     <div class="module-movement hidden {{g8359}}">
       <button class="close" onclick="hide('g8359',this);" type="button">×</button>
       <h2>{{LangPir1}}</h2>
       <div class="row">

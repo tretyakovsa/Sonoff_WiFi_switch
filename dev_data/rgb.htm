@@ -17,46 +17,46 @@
    var nex_color = 'ff6600';
 
    function handleServerResponse(stage,jsonResponse){
-             if (stage != 'next') {
-    var img = _('.thumb img'),
-        canvas = _('#cs'),
-        result = _('.result'),
-        preview = _('.preview'),x = '',y = '';
-    // click function
-    img.addEventListener('click', function(e){
-     // chrome
-     if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
-     // firefox
-     else if(e.layerX) {x=e.layerX;y=e.layerY;}
-     useCanvas(canvas,img,function(){
-      // get image data
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      nex_color = rgbToHex(p[0],p[1],p[2]);
-      on_rgb(this,0);
-      toggle('pop-up','hidden');
-      //on_rgb(this,p[0],p[1],p[2]);
-     });
-    },false);
-    // preview function mousemove
-    img.addEventListener('mousemove', function(e){
-     // chrome
-     if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
-     // firefox
-     else if(e.layerX) {x=e.layerX;y=e.layerY;}
-     useCanvas(canvas,img,function(){
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      preview.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
-     });
-    },false);
-    document.body.style.backgroundColor="#"+jsonResponse.color;
-    val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     //if (!jsonResponse.g72895) loadChart('ct-chart','sensor');
-     if (!jsonResponse.g85723) loadChart('ct-analog','analog');
+     var img = _('.thumb img'),
+         canvas = _('#cs'),
+         result = _('.result'),
+         preview = _('.preview'),x = '',y = '';
+     // click function
+     img.addEventListener('click', function(e){
+      // chrome
+      if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
+      // firefox
+      else if(e.layerX) {x=e.layerX;y=e.layerY;}
+      useCanvas(canvas,img,function(){
+       // get image data
+       var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+       nex_color = rgbToHex(p[0],p[1],p[2]);
+       on_rgb(this,0);
+       toggle('pop-up','hidden');
+       //on_rgb(this,p[0],p[1],p[2]);
+      });
+     },false);
+     // preview function mousemove
+     img.addEventListener('mousemove', function(e){
+      // chrome
+      if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
+      // firefox
+      else if(e.layerX) {x=e.layerX;y=e.layerY;}
+      useCanvas(canvas,img,function(){
+       var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+       preview.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
+      });
+     },false);
+     document.body.style.backgroundColor="#"+jsonResponse.color;
+     val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
+     if (stage != 'next') {
+      //if (!jsonResponse.g72895) loadChart('ct-chart','sensor');
+      if (!jsonResponse.g85723 && searchModule(jsonResponse.module,"analog") == 'yes') loadChart('ct-analog','analog');
+     }
+     if (!jsonResponse.g42843) loadTimer("timer-list","rgb");
     }
-    if (!jsonResponse.g42843) loadTimer("timer-list","rgb");
    }
-    }
    function useCanvas(el,image,callback){
     el.width = image.width;
     el.height = image.height;
@@ -128,6 +128,8 @@
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
      <hr>
      <div class="alert alert-dismissible alert-info {{g2342}}"><button class="close" onclick="hide('g2342',this);" type="button">×</button>{{LangIfttt1}}<span id="hide" class="hidden">{{LangIfttt2}}</span></div>
+
+     <!-- CHART POP-UP Module - START -->
      <div class="row hidden" id="pop-up">
       <div class="col-sm-offset-3 col-sm-6 pop-up">
        <h5 class="alert-warning">{{LangScenery1}}</h5>
@@ -161,11 +163,16 @@
        <input class="btn btn-block btn-default" value="{{LangClose}}" onclick="toggle('pop-up');" type="button">
       </div>
      </div>
+     <!-- CHART POP-UP Module - END -->
+
+     <!-- CHART COLOR IMAGE Module - START -->
      <div class="thumb">
       <div class="preview"></div>
       <img alt="" style="cursor:pointer;width:100%" src="/img/swatches.png" />
      </div>
      <canvas id="cs" style="display:none"></canvas>
+     <!-- CHART COLOR IMAGE Module - END -->
+
      <select class="btn btn-block btn-default" onchange="toggle('pop-up');mode=this.value;on_rgb(this,0);">
       <option value="0">Select Mode</option>
       <option value="0">Static</option>
@@ -216,12 +223,17 @@
      </select>
      <input type="button" class="btn btn-block btn-lg btn-primary" onclick="send_request(this,'/rgb');" id="off-on" value="{{LangOnOff}}">
      <hr>
+
+     <!-- TIMERS Module - START -->
      <h2>{{LangTimer}}</h2>
-     <div class="alert alert-dismissible alert-warning {{g42843}}"><button class="close" onclick="hide('g42843',this);" type="button">×</button>
+     <div class="alert alert-dismissible alert-warning {{g42843}}">
+      <button class="close" onclick="hide('g42843',this);" type="button">×</button>
       <ul id="timer-list"><li>{{LangLoading}}</li></ul>
      </div>
      <a class="btn btn-block btn-default" href="/timer.htm">{{LangTime3}}</a>
      <hr>
+     <!-- TIMERS Module - END -->
+
      <!--       <div class="{{g74392}}">
 <button class="close" onclick="hide('g74392',this);" type="button">×</button>
 <h2>Led Count</h2>
@@ -236,13 +248,18 @@
 </div>
 <hr>
 </div> -->
-     <div class="{{g85723}}">
+
+     <!-- CHART ANALOG Module - START -->
+     <div class="module-analog hidden {{g85723}}">
       <button class="close" onclick="hide('g85723',this);" type="button">×</button>
       <a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a>
       <div id="ct-analog" style="height:200px;margin-left:-20px"></div>
       <hr>
      </div>
-     <div class="{{g8359}}">
+     <!-- CHART ANALOG Module - END -->
+
+     <!-- MOVEMENT Module - START -->
+     <div class="module-movement hidden {{g8359}}">
       <button class="close" onclick="hide('g8359',this);" type="button">×</button>
       <h2>{{LangPir1}}</h2>
       <div class="row">
@@ -251,8 +268,7 @@
        </div>
        <div class="col-sm-4">
         <div class="input-group">
-         <input id="pir-time" value="{{pirTime}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+">
-         <span class="input-group-addon">{{LangSec}}</span>
+         <input id="pir-time" value="{{pirTime}}" class="form-control" pattern="[0-9]*[.,]?[0-9]+"><span class="input-group-addon">{{LangSec}}</span>
         </div>
         <div class="btn-group" style="width:100%">
          <input class="btn btn-success" style="width:60%" value="{{LangSave}}" onclick="send_request(this,'/pir?t='+val('pir-time'));" type="button">
@@ -262,6 +278,8 @@
       </div>
       <hr>
      </div>
+     <!-- MOVEMENT Module - END -->
+
      <a class="btn btn-block btn-default" href="/setup.htm">{{LangSetting3}}</a>
     </div>
    </div>

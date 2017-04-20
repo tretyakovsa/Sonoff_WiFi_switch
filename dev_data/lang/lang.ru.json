@@ -53,7 +53,7 @@
  "LangHiddenWifi":"Подключится к скрытой WiFi сети",
 
  "_comment": "---TIMER.HTM---",
- "LangTime3":"Установить время включения",
+ "LangTime3":"Установить время",
  "LangTime4":"Время",
  "LangList":"Список",
  "LangDay":"День",
@@ -94,5 +94,12 @@
  "LangColor3":"Синий",
  "LangSpeed":"Скорость",
  "LengBrightness":"Яркость",
- "LangIfttt3":"Больше настроек вы можете получить на <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
+ "LangIfttt3":"Больше настроек вы можете получить на <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>.",
+
+ "_comment": "---JALOUSIE.HTM---",
+ "LangTime10":"Время закрытия:",
+ "LangTime11":"Время открытия:",
+ "LangOnOff1":"Закрыть / Открыть",
+ "LangOff1":"Закрыть",
+ "LangOn1":"Открыть"
 }

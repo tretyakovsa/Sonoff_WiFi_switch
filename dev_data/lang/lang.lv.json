@@ -53,7 +53,7 @@
  "LangHiddenWifi":"Savienojumu ar slēpto WiFi tīklam",
 
  "_comment": "---TIMER.HTM---",
- "LangTime3":"Uzstadinal darba laiks",
+ "LangTime3":"Uzstadinal laiks",
  "LangTime4":"Laiks",
  "LangList":"Saraksts",
  "LangDay":"Diena",
@@ -94,5 +94,12 @@
  "LangColor3":"Zils",
  "LangSpeed":"Atrums",
  "LengBrightness":"Spilgtums",
- "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>."
-}
+ "LangIfttt3":"Citas iespējas var atrast <a target=\"_blank\" href=\"https://ifttt.com/create/if-date_and_time?sid=1\">ifttt.com</a>.",
+
+ "_comment": "---JALOUSIE.HTM---",
+ "LangTime3":"Laika iestatījumi",
+ "LangTime10":"Aizvēršanas laiks:",
+ "LangTime11":"Atvēršanas laiks:",
+ "LangOn1Off1":"Aizvert / Atvert",
+ "LangOff1":"Aizvert",
+ "LangOn1":"Atvert"}
