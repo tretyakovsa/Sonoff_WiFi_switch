@@ -70,110 +70,111 @@
 
    function loadBlock(ipval, content, stage, modules) {
     if (searchModule(modules,"relay") == 'yes'){
-     loadBlock2('relay','timer.save');
+     loadBlock2('relay','timer.save',ipval, content, stage);
     }
     if (searchModule(modules,"rgb") == 'yes'){
-     loadBlock2('rgb','timer.save');
+     loadBlock2('rgb','timer.save',ipval, content, stage);
     }
     if (searchModule(modules,"jalousie") == 'yes'){
-     loadBlock2('jalousie','timer.save');
+     loadBlock2('jalousie','timer.save',ipval, content, stage);
     }
     if (searchModule(modules,"temperature") == 'yes'){
-     loadBlock2('temperature','sensor');
+     loadBlock2('temperature','sensor',ipval, content, stage);
     }
     if (searchModule(modules,"analog") == 'yes'){
-     loadBlock2('analog','analog');
+     loadBlock2('analog','analog',ipval, content, stage);
+    }
+   }
+
+   function loadBlock2(page,jsonPage,ipval, content, stage){
+    if (stage == 'first'){
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
 
-    function loadBlock2(page,jsonPage){
-     if (stage == 'first'){
-      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
-     }
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var data = xhttp.responseText;
 
-     var xhttp=createXmlHttpObject();
-     xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
+     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      var data = xhttp.responseText;
+      var jsonResponse1 = JSON.parse(xhttp.responseText);
 
-      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
+      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
       xhttp.send(null);
       xhttp.onload = function(e) {
-       var jsonResponse1 = JSON.parse(xhttp.responseText);
+       var jsonResponse2=JSON.parse(xhttp.responseText);
+       var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
-       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
-       xhttp.send(null);
-       xhttp.onload = function(e) {
-        var jsonResponse2=JSON.parse(xhttp.responseText);
-        var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+       var xmlHttp=createXmlHttpObject();
+       xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
+       xmlHttp.send(null);
+       xmlHttp.onload = function(e) {
+        var timers=JSON.parse(xmlHttp.responseText);
+        var timerList = '';
 
-        var xmlHttp=createXmlHttpObject();
-        xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
-        xmlHttp.send(null);
-        xmlHttp.onload = function(e) {
-         var timers=JSON.parse(xmlHttp.responseText);
-         var timerList = '';
-
-         if (timers.timer) {
-          timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
-          for (var i = 0; i < timers.timer.length; i++) {
-           if(timers.timer[i].module == page) {
-            if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-            if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-            if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-            timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-            timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
-           }
+        if (timers.timer) {
+         timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+         for (var i = 0; i < timers.timer.length; i++) {
+          if(timers.timer[i].module == page) {
+           if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+           if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+           if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+           timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+           timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+'<\/li>';
           }
-          jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
          }
-         jsonResponse = Object.assign(jsonResponse, timers);
+         jsonResponse.timerList = (timerList?timerList:'<li>No timers<\/li>');
+        }
+        jsonResponse = Object.assign(jsonResponse, timers);
 
-         var theCookies = document.cookie.split(';');
-         for (var i = 1 ; i <= theCookies.length; i++) {
-          jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-         }
+        var theCookies = document.cookie.split(';');
+        for (var i = 1 ; i <= theCookies.length; i++) {
+         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+        }
 
-         jsonResponse.ip = ipval;
-         jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+        jsonResponse.ip = ipval;
+        jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
 
-         if (window.location.hostname == ipval) {
-          var new_string2;
-          var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-          for (var key in jsonResponse) {
-           new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-           bodyData = new_string2;
-          }
-          document.getElementsByTagName('body')[0].innerHTML = new_string2;
-
-          var now_day = {
-           year: new Date().getFullYear(),
-           month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
-           day: new Date().getDate(),
-           weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
-          };
-          document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
-
-         }
-
-         var new_string;
+        if (window.location.hostname == ipval) {
+         var new_string2;
+         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
          for (var key in jsonResponse) {
-          new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-          data = new_string;
+          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+          bodyData = new_string2;
          }
-         document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
+         document.getElementsByTagName('body')[0].innerHTML = new_string2;
 
-         //if (jsonPage == 'analog') {
-         // loadChart('ct-analog','analog');
-         //}
+         var now_day = {
+          year: new Date().getFullYear(),
+          month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
+          day: new Date().getDate(),
+          weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
+         };
+         document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
 
         }
 
+        var new_string;
+        for (var key in jsonResponse) {
+         new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         data = new_string;
+        }
+        document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
+
+        //if (jsonPage == 'analog') {
+        // loadChart('ct-analog','analog');
+        //}
+
        }
+
       }
      }
     }
    }
+
 
    function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
@@ -189,7 +190,17 @@
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-     if (!loadB) {loadBlock2(ipHost,'block-'+ipHost, '');}
+
+     if (!loadB) {
+      loadBlock2(pagename,'timer.save',ipHost, 'block-'+ipHost+'-'+pagename, '');
+     }
+
+     // ipval, content, stage, modules
+     // loadBlock(ipval, content, stage, modules) {
+     //alert(ipHost+'block-'+ipHost+'-'+pagename);
+     //  if (!loadB) {
+     // loadBlock2(ipHost,'block-'+ipHost+'-'+pagename, '','[\''+pagename+'\']');
+     //  }
     }
    }
 

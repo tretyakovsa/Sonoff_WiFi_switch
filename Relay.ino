@@ -4,6 +4,7 @@ void relay_init() {
 //  pinMode(RELE2_PIN, OUTPUT);
 //  pinMode(RELE3_PIN, OUTPUT);
   HTTP.on("/sonoff", handle_sonoff);
+  HTTP.on("/relay", handle_sonoff);
   //HTTP.on("/sonoff", handle_sonoff);
   modulesReg("relay");
 }
