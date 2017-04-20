@@ -72,12 +72,27 @@
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == files) {
-       html += '<li><a href="/'+buildids+'?upload='+jsonBuild[i].download_url+'" title="'+jsonBuild[i].download_url+'">'+jsonBuild[i].name+'<\/a><\/li>';
+       html += '<li><a href="/'+buildids+'?upload=http://backup.privet.lv/esp/sonoff/'+jsonBuild[i].name+'">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
      document.getElementById(buildids).innerHTML = (html?html:'<li>No build in folder<\/li>');
     }
    }
+
+  //function loadNews(news, repos){
+  // htmls = '';
+  // var xmlHttp=createXmlHttpObject();
+  // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+  // xmlHttp.send(null);
+  // xmlHttp.onload = function(e) {
+  //  var jsonBuild=JSON.parse(xmlHttp.responseText);
+  //  var html = '';
+  //  for(i = 0;i<10;i++) {
+  //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
+  //  }
+  //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
+  // }
+  //}
 
   </script>
   <style type="text/css">
@@ -106,6 +121,8 @@
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
+<!--       <a class="btn btn-block btn-default" href="#" onclick="loadNews('news')">ss</a>
+      <ul id="news"></ul> -->
       <hr id="hide-hr1">
       <div class="alert alert-dismissible alert-info {{g784673}}"><button class="close" onclick="hide('g784673',this);" type="button">×</button>
        <a href="/help.htm" target="_blank" class="close">?</a>
