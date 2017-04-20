@@ -72,7 +72,7 @@
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == files) {
-       html += '<li><a href="/'+buildids+'?upload=http'+jsonBuild[i].download_url.substring(5)+'" title="http'+jsonBuild[i].download_url.substring(5)+'">'+jsonBuild[i].name+'<\/a><\/li>';
+       html += '<li><a href="/'+buildids+'?upload='+jsonBuild[i].download_url+'" title="'+jsonBuild[i].download_url+'">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
      document.getElementById(buildids).innerHTML = (html?html:'<li>No build in folder<\/li>');
