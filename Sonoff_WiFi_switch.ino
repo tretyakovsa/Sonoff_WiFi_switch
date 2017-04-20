@@ -41,8 +41,8 @@ ESP8266HTTPUpdateServer httpUpdater;
 File fsUploadFile;
 
 // Для тикера
-Ticker tickerSetLow;
-Ticker tickerAlert;
+//Ticker ticker1sec;
+Ticker ticker1sec;
 
 // Для поиска других устройств по протоколу SSDP
 WiFiUDP udp;
@@ -150,13 +150,14 @@ String timeRGB = "";
 String timeBUZ = "";
 
 void setup() {
-  //Serial.begin(115200);
+  ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
+  Serial.begin(115200);
   Serial.println("");
   chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-  initRGB();
+  //initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
@@ -181,7 +182,7 @@ void loop() {
   handleUDP();
   handleRelay();
 
-
+/*
   switch (task) {
     case 1:
       //timeSynch(timezone);
@@ -196,12 +197,14 @@ void loop() {
       task = 0;
       break;
   }
-
+*/
   handleMQTT();
   ws2812fx.service();
 
 
 }
-
+void sec(){
+  sectest();
+  }
 
 

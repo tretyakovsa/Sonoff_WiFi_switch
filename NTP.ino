@@ -3,7 +3,6 @@ void ntp_init() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
   timeSynch(timezone);
-  tickerAlert.attach(1, alert); // Будет выполняться каждую секунду проверяя таймеры
   modulesReg("ntp");
 }
 void timeSynch(int zone) {
@@ -68,7 +67,7 @@ String GetWeekday() {
 }
 
 // Вызывается каждую секунду в обход основного цикла.
-void alert() {
+void sectest() {
   Time = GetTime();
   runTimers();
 

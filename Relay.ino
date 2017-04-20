@@ -3,7 +3,8 @@ void relay_init() {
   pinMode(RELE1_PIN, OUTPUT);
 //  pinMode(RELE2_PIN, OUTPUT);
 //  pinMode(RELE3_PIN, OUTPUT);
-  HTTP.on("/sonoff", handle_sonoff);               // Узнать какие модули есть в устройстве
+  HTTP.on("/sonoff", handle_sonoff);
+  //HTTP.on("/sonoff", handle_sonoff);
   modulesReg("relay");
 }
 

@@ -43,11 +43,11 @@ void handle_sensor() {
  JsonArray& data = json.createNestedArray("data");
  float temp = dht.getTemperature();
  if (temp == 'NaN') {temp = 0;}
- data.add(temp);  // 6 is the number of decimals to print
+ data.add(temp);
  JsonArray& data2 = json.createNestedArray("data2");
  temp = dht.getHumidity();
  if (temp == 'NaN') {temp = 0;}
- data2.add(temp);  // 6 is the number of decimals to print
+ data2.add(temp);
  json["type"] = dht.getModel();
  json["points"] = 10;
  json["refresh"] = 5000;
