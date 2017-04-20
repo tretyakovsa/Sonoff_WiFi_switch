@@ -1,10 +1,25 @@
 void webUpdateSpiffs() {
+  Serial.println("Update spiffs...");
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
   refresh += WiFi.localIP().toString();
   refresh += "\"></head></html>";
   HTTP.send(200, "text/html", refresh);
-  //t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs("http://backup.privet.lv/rgb_spiffs_1m_256k.bin");
+  // http://192.168.0.100/spiffs?upload=http://backup.privet.lv/spiffs.0xBB000_flash_size_1Mb.256Kb_2017.04.20.bin
+   Serial.println(HTTP.arg("upload"));
+  t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("upload"));
+  Serial.println(ret);
   saveConfig();
+}
+
+void webUpdate() {
+  Serial.println("Update build...");
+  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
+  refresh += WiFi.localIP().toString();
+  refresh += "\"></head></html>";
+  HTTP.send(200, "text/html", refresh);
+  // http://192.168.0.100/build?upload=
+   Serial.println(HTTP.arg("upload"));
+  t_httpUpdate_return ret = ESPhttpUpdate.update(HTTP.arg("upload"));
 }
 
 // Перезагрузка модуля
@@ -40,7 +55,8 @@ void HTTP_init(void) {
   HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
-  // HTTP.on("/webupdatespiffs", webUpdateSpiffs);                // запустить загрузку fs для обнавления
+  HTTP.on("/spiffs", webUpdateSpiffs);                // запустить загрузку fs для обнавления
+  HTTP.on("/build", webUpdate);                // запустить загрузку fs для обнавления
   HTTP.on("/save", handle_save_config);      // Сохранить настройки в файл
   HTTP.on("/config.live.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс

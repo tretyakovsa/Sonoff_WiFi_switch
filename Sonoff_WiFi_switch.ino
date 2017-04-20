@@ -11,6 +11,7 @@
 #include <Ticker.h>                  //Содержится в пакете
 #include <WiFiUdp.h>                 //Содержится в пакете
 #include <ESP8266HTTPUpdateServer.h> //Содержится в пакете
+#include <ESP8266httpUpdate.h>
 #include <ESP8266HTTPClient.h>       //Содержится в пакете
 #include <DNSServer.h>               //Содержится в пакете
 
@@ -157,7 +158,7 @@ void setup() {
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-  initRGB();
+  //initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
