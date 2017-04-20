@@ -72,7 +72,7 @@
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == files) {
-       html += '<li><a href="/'+buildids+'?upload=http'+jsonBuild[i].download_url.substring(5)+'" onclick="setLang(\''+jsonBuild[i].name+'\')" title="http'+jsonBuild[i].download_url.substring(5)+'">'+jsonBuild[i].name+'<\/a><\/li>';
+       html += '<li><a href="/'+buildids+'?upload=http'+jsonBuild[i].download_url.substring(5)+'" title="http'+jsonBuild[i].download_url.substring(5)+'">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
      document.getElementById(buildids).innerHTML = (html?html:'<li>No build in folder<\/li>');
@@ -111,16 +111,7 @@
        <a href="/help.htm" target="_blank" class="close">?</a>
        {{LangSetting4}}
        <span id="hide" class="hidden">
-        <b>{{LangSetting5}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
-        <form method="POST" action="/update" enctype="multipart/form-data">
-         <div class="btn-group">
-          <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
-          <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height:33px">
-         </div>
-        </form>
-
-        <hr>
-        <b>Upload, tested</b>
+        <b>{{LangSetting5}}</b>
         <div class="btn-group">
          <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('build');loadBuild('build','build');return false">build <span class="caret"></span></a>
          <ul class="dropdown-menu hidden" id="build"><li><a href="#">{{LangLoading}}</a></li></ul>
@@ -129,7 +120,14 @@
          <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('spiffs');loadBuild('spiffs','spiff');return false">spiffs <span class="caret"></span></a>
          <ul class="dropdown-menu hidden" id="spiffs"><li><a href="#">{{LangLoading}}</a></li></ul>
         </div>
-
+        <br>
+        <b>{{LangSetting6}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
+        <form method="POST" action="/update" enctype="multipart/form-data">
+         <div class="btn-group">
+          <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
+          <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height:33px">
+         </div>
+        </form>
        </span>
       </div>
      </div>
