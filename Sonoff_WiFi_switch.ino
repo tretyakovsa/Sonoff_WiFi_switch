@@ -158,7 +158,7 @@ void setup() {
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-  //initRGB();
+  initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис

@@ -64,7 +64,7 @@
    function loadBuild(buildids,files){
     htmls = '';
     var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
+    xmlHttp.open('GET','http://backup.privet.lv/esp/build/sonoff',true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var jsonBuild=JSON.parse(xmlHttp.responseText);
@@ -121,8 +121,8 @@
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
       <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
-<!--       <a class="btn btn-block btn-default" href="#" onclick="loadNews('news')">ss</a>
-      <ul id="news"></ul> -->
+      <!--       <a class="btn btn-block btn-default" href="#" onclick="loadNews('news')">ss</a>
+<ul id="news"></ul> -->
       <hr id="hide-hr1">
       <div class="alert alert-dismissible alert-info {{g784673}}"><button class="close" onclick="hide('g784673',this);" type="button">×</button>
        <a href="/help.htm" target="_blank" class="close">?</a>
@@ -179,7 +179,7 @@
      </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,20}" placeholder="{{LangWiFi1}}">
      <input id="ssidPass" value="{{ssidPass}}" pattern=".{8,20}" onfocus="this.type='text'" type="password" class="form-control" placeholder="{{LangPass}}">
-     <label><input type="checkbox" id="checkboxIP" value="1" onchange="val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"> Задать статический IP</label>
+     <label><input type="checkbox" id="checkboxIP" value="{{checkboxIP}}" onchange="val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"> Задать статический IP</label>
      <div class="row hidden" id="static-ip">
       <div class="col-sm-6">
        <input id="ip" value="{{ip}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="IP Adress">
