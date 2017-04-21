@@ -17,7 +17,7 @@ bool loadConfig() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(Config);
   spiffsData = root["spiffsData"].as<String>();
-  buldData = root["buldData"].as<String>();
+  buildData = root["buildData"].as<String>();
   ssidApName = root["ssidApName"].as<String>();
   ssidApPass = root["ssidApPass"].as<String>();
   timezone = root["timeZone"];
@@ -48,7 +48,7 @@ bool saveConfig() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(Config);
   json["spiffsData"] = spiffsData;
-  json["buldData"] = buldData;
+  json["buildData"] = buildData;
   json["ssdpName"] = ssdpName;
   json["space"] = spaceName;
   json["ssidApName"] = ssidApName;

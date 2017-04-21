@@ -110,7 +110,7 @@ String calibrationTime = "00:00:00"; // Время колибровки часо
 String Weekday = "";                 // Текущий день недели
 String Time = "";                    // Текущее время
 String spiffsData="";                      // дата релиза fs
-String buldData="";                      // дата релиза buld
+String buildData="";                      // дата релиза build
 
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";

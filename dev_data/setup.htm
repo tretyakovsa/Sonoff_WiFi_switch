@@ -71,6 +71,7 @@
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
+      alert(jsonResponse[typeFile+"Data"]+'=='+jsonBuild[i].name);
       if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
       //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
        html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+'>'+jsonBuild[i].name+'<\/a><\/li>';

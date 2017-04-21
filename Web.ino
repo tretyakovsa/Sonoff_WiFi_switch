@@ -18,9 +18,9 @@ void webUpdate() {
   refresh += WiFi.localIP().toString();
   refresh += "\"></head></html>";
   HTTP.send(200, "text/html", refresh);
-  buldData = HTTP.arg("upload");
-  buldData = buldData.substring(buldData.lastIndexOf("/")+1); // выделяем имя файла
-   Serial.println(buldData);
+  buildData = HTTP.arg("upload");
+  buildData = buildData.substring(buildData.lastIndexOf("/")+1); // выделяем имя файла
+   Serial.println(buildData);
   saveConfig();
   ESPhttpUpdate.rebootOnUpdate(true);
   t_httpUpdate_return ret = ESPhttpUpdate.update(HTTP.arg("upload"));
@@ -83,7 +83,7 @@ void handle_ConfigJSON() {
   // Заполняем поля json
   // Заполняем поля json
   json["spiffsData"] = spiffsData;
-  json["buldData"] = buldData;
+  json["buildData"] = buildData;
   json["ddns"] = ddns;  // Имя ddns
   json["ddnsName"] = ddnsName;  // Имя ddnsName
   json["ddnsPort"] = ddnsPort;  // Имя ddnsPort
