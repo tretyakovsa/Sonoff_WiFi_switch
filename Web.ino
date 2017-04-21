@@ -82,6 +82,8 @@ void handle_ConfigJSON() {
   JsonObject& json = jsonBuffer.parseObject(jsonConfig);
   // Заполняем поля json
   // Заполняем поля json
+  json["spiffsData"] = spiffsData;
+  json["buldData"] = buldData;
   json["ddns"] = ddns;  // Имя ddns
   json["ddnsName"] = ddnsName;  // Имя ddnsName
   json["ddnsPort"] = ddnsPort;  // Имя ddnsPort
