@@ -77,7 +77,7 @@
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
       html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
      }
-     document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">No timers<\/td><\/tr>');
+     document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">'+jsonResponse.LangNoTimers+'<\/td><\/tr>');
     }
    }
   </script>

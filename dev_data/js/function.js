@@ -177,7 +177,7 @@ function loadTimer(timerids,module){
     html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
    }
   }
-  document.getElementById(timerids).innerHTML = (html?html:'<li>No timers</li>');
+  document.getElementById(timerids).innerHTML = (html?html:'<li>'+jsonResponse.LangNoTimers+'</li>');
  }
 }
 

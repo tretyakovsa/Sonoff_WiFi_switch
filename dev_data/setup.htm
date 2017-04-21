@@ -72,7 +72,7 @@
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
-      //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
+       //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
        html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+'>'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
@@ -153,15 +153,18 @@
           </li>
          </ul>
         </div>
-
         <br>
-        <b>{{LangSetting6}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
-        <form method="POST" action="/update" enctype="multipart/form-data">
-         <div class="btn-group">
-          <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
-          <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height:33px">
-         </div>
-        </form>
+        <b><a href="#" onclick="toggle('repos-bin');return false">{{LangSetting6}}</a></b>
+        <span id="repos-bin" class="hidden">
+         <b>GitHub: <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
+         <form method="POST" action="/update" enctype="multipart/form-data">
+          <div class="btn-group">
+           <input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin">
+           <input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value='{{LangLoading}}';" style="height:33px">
+          </div>
+         </form>
+        </span>
+
        </span>
       </div>
      </div>
