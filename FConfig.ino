@@ -16,6 +16,8 @@ bool loadConfig() {
   Serial.println(Config);
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(Config);
+  spiffsData = root["spiffsData"].as<String>();
+  buldData = root["buldData"].as<String>();
   ssidApName = root["ssidApName"].as<String>();
   ssidApPass = root["ssidApPass"].as<String>();
   timezone = root["timeZone"];
@@ -45,6 +47,8 @@ bool saveConfig() {
   String Config = "{}";
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(Config);
+  json["spiffsData"] = spiffsData;
+  json["buldData"] = buldData;
   json["ssdpName"] = ssdpName;
   json["space"] = spaceName;
   json["ssidApName"] = ssidApName;
