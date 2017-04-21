@@ -58,22 +58,22 @@ WiFiUDP udp;
 
   // Куда что подключено в sonoff
   #define TACH_PIN 0    // Кнопка управления
-  #define PIR_PIN 2    // RIR sensors
+  #define PIR_PIN 2     // RIR sensors
   #define RELE1_PIN 12  // Реле
   #define LED_PIN 13    // Светодиод
   #define DHTPIN 14     // DHT сенсор.
-  #define RGB_PIN 1
+  #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
 
 /*
   // Куда что подключено в Smart-Room
   #define TACH_PIN 0    // Кнопка управления
-  #define PIR_PIN 2    // RIR sensors
+  #define PIR_PIN 2     // RIR sensors
   #define RELE1_PIN 12  // Реле 1
   #define RELE2_PIN 13  // Реле 2
   #define RELE3_PIN 15  // Реле 3
   #define RELE4_PIN 12  // Реле 4
   #define LED_PIN 16    // Светодиод
-  #define DHTPIN 4     // DHT сенсор.
+  #define DHTPIN 4      // DHT сенсор.
   #define RGB_PIN 5
 */
 

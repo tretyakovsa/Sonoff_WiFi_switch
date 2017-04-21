@@ -25,10 +25,11 @@
 ## Construction
 ```
 #define TACH_PIN 0    // Кнопка управления
+#define PIR_PIN 2     // RIR sensors
 #define RELE1_PIN 12  // Реле
 #define LED_PIN 13    // Светодиод
-#define DHTPIN 14     // Pin which is connected to the DHT sensor.
-#define PIR_PIN 2     // RIR sensors
+#define DHTPIN 14     // DHT сенсор.
+#define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
 // PIN ADC (A0)       // URL: /analog.json or /chart.htm#analog
 ```
 ### Schematic
