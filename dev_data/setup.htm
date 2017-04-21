@@ -80,20 +80,20 @@
     }
    }
 
-   //function loadNews(news, repos){
-   // htmls = '';
-   // var xmlHttp=createXmlHttpObject();
-   // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
-   // xmlHttp.send(null);
-   // xmlHttp.onload = function(e) {
-   //  var jsonBuild=JSON.parse(xmlHttp.responseText);
-   //  var html = '';
-   //  for(i = 0;i<10;i++) {
-   //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
-   //  }
-   //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
-   // }
-   //}
+  //function loadNews(news, repos){
+  // htmls = '';
+  // var xmlHttp=createXmlHttpObject();
+  // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+  // xmlHttp.send(null);
+  // xmlHttp.onload = function(e) {
+  //  var jsonBuild=JSON.parse(xmlHttp.responseText);
+  //  var html = '';
+  //  for(i = 0;i<10;i++) {
+  //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
+  //  }
+  //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
+  // }
+  //}
 
   </script>
   <style type="text/css">
@@ -126,7 +126,7 @@
 <ul id="news"></ul> -->
       <hr id="hide-hr1">
       <div class="alert alert-dismissible alert-info {{g784673}}"><button class="close" onclick="hide('g784673',this);" type="button">×</button>
-       <a href="/help.htm" target="_blank" class="close">?</a>
+       <a href="/help.htm" target="_blank" class="close"><i class="help-img"></i></a>
        {{LangSetting4}}
        <span id="hide" class="hidden">
         <b>{{LangSetting5}}</b>
