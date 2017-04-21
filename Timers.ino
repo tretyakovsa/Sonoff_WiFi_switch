@@ -26,6 +26,19 @@ void handle_timer_Save() {
   HTTP.send(200, "text/plain", "OK");
 }
 
+void timer_Save() {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+   File TimersFile = SPIFFS.open("/timer.save.json", "w");
+  if (!TimersFile) {
+    Serial.println("Failed to open config file for writing");
+    return;
+  }
+  Timers.printTo(TimersFile);
+  TimersFile.close();
+  loadTimer();
+  }
+
 void handle_timer_Del() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);

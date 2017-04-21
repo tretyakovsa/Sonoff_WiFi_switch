@@ -9,6 +9,7 @@ void webUpdateSpiffs() {
   Serial.println(spiffsData);
   ESPhttpUpdate.rebootOnUpdate(false);
   t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("upload"));
+  timer_Save();
   saveConfig();
 }
 
