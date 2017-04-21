@@ -61,38 +61,39 @@
    }
 
 
-   function loadBuild(buildids,files){
+   function loadBuild(buildids,typeFile){
     htmls = '';
     var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET','http://backup.privet.lv/esp/build/sonoff',true);
+    xmlHttp.open('GET','http://backup.privet.lv/esp/build/'+buildids,true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
-      if (jsonBuild[i].name.substring(0,5) == files) {
-       html += '<li><a href="/'+buildids+'?upload=http://backup.privet.lv/esp/sonoff/'+jsonBuild[i].name+'">'+jsonBuild[i].name+'<\/a><\/li>';
+      if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
+      //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
+       html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[buildids+"Data"]==jsonBuild[i].name)?'style="font-weight:bold;"':'')+'>'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
-     document.getElementById(buildids).innerHTML = (html?html:'<li>No build in folder<\/li>');
+     document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
     }
    }
 
-  //function loadNews(news, repos){
-  // htmls = '';
-  // var xmlHttp=createXmlHttpObject();
-  // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
-  // xmlHttp.send(null);
-  // xmlHttp.onload = function(e) {
-  //  var jsonBuild=JSON.parse(xmlHttp.responseText);
-  //  var html = '';
-  //  for(i = 0;i<10;i++) {
-  //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
-  //  }
-  //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
-  // }
-  //}
+   //function loadNews(news, repos){
+   // htmls = '';
+   // var xmlHttp=createXmlHttpObject();
+   // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+   // xmlHttp.send(null);
+   // xmlHttp.onload = function(e) {
+   //  var jsonBuild=JSON.parse(xmlHttp.responseText);
+   //  var html = '';
+   //  for(i = 0;i<10;i++) {
+   //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
+   //  }
+   //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
+   // }
+   //}
 
   </script>
   <style type="text/css">
@@ -129,14 +130,30 @@
        {{LangSetting4}}
        <span id="hide" class="hidden">
         <b>{{LangSetting5}}</b>
+
         <div class="btn-group">
-         <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('build');loadBuild('build','build');return false">build <span class="caret"></span></a>
-         <ul class="dropdown-menu hidden" id="build"><li><a href="#">{{LangLoading}}</a></li></ul>
+         <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('repos-build');return false">Build <span class="caret"></span></a>
+         <ul class="dropdown-menu hidden" id="repos-build">
+          <li><a href="#" onclick="toggle('sonoff-build');loadBuild('sonoff','build');return false">Sonoff (Relay) <span class="caret"></span></a>
+           <ul class="hidden" id="sonoff-build" style="margin-right:20px"><li><a href="#">{{LangLoading}}</a></li></ul>
+          </li>
+          <li><a href="#" onclick="toggle('rgb-build');return false">RGB (WS2811/WS2812/NeoPixel LEDs) <span class="caret"></span></a>
+           <ul class="hidden" id="rgb-build" style="margin-right:20px"><li><a href="#">Soon...</a></li></ul>
+          </li>
+         </ul>
         </div>
         <div class="btn-group">
-         <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('spiffs');loadBuild('spiffs','spiff');return false">spiffs <span class="caret"></span></a>
-         <ul class="dropdown-menu hidden" id="spiffs"><li><a href="#">{{LangLoading}}</a></li></ul>
+         <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('repos-spiffs');return false">Spiffs <span class="caret"></span></a>
+         <ul class="dropdown-menu hidden" id="repos-spiffs">
+          <li><a href="#" onclick="toggle('sonoff-spiffs');loadBuild('sonoff','spiffs');return false">Sonoff (Relay) <span class="caret"></span></a>
+           <ul class="hidden" id="sonoff-spiffs" style="margin-right:20px"><li><a href="#">{{LangLoading}}</a></li></ul>
+          </li>
+          <li><a href="#" onclick="toggle('rgb-spiffs');return false">RGB (WS2811/WS2812/NeoPixel LEDs) <span class="caret"></span></a>
+           <ul class="hidden" id="rgb-spiffs" style="margin-right:20px"><li><a href="#">Soon...</a></li></ul>
+          </li>
+         </ul>
         </div>
+
         <br>
         <b>{{LangSetting6}} <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB</a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff</a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie</a></b>
         <form method="POST" action="/update" enctype="multipart/form-data">
