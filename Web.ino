@@ -6,6 +6,7 @@ void webUpdateSpiffs() {
   HTTP.send(200, "text/html", refresh);
   // http://192.168.0.100/spiffs?upload=http://backup.privet.lv/spiffs.0xBB000_flash_size_1Mb.256Kb_2017.04.20.bin
    Serial.println(HTTP.arg("upload"));
+  ESPhttpUpdate.rebootOnUpdate(false);
   t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("upload"));
   Serial.println(ret);
   saveConfig();
@@ -19,6 +20,7 @@ void webUpdate() {
   HTTP.send(200, "text/html", refresh);
   // http://192.168.0.100/build?upload=
    Serial.println(HTTP.arg("upload"));
+  ESPhttpUpdate.rebootOnUpdate(true);
   t_httpUpdate_return ret = ESPhttpUpdate.update(HTTP.arg("upload"));
 }
 
