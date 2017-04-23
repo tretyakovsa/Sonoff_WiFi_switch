@@ -15,7 +15,7 @@
 #include <ESP8266HTTPClient.h>       //Содержится в пакете
 #include <DNSServer.h>               //Содержится в пакете
 
-#include <ArduinoJson.h>             //https://github.com/bblanchon/ArduinoJson
+#include <ArduinoJson.h>             //Ставим через менеджер библиотек
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 #include <OneWire.h>                 //Ставим через менеджер библиотек
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек

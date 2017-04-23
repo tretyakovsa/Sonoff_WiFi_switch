@@ -1,3 +1,27 @@
+void webUpgrade() {
+  Serial.println("Update module...");
+  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
+  refresh += WiFi.localIP().toString();
+  refresh += "\">Update spiffs...</head></html>";
+  HTTP.send(200, "text/html", refresh);
+  spiffsData = HTTP.arg("spiffs");
+  if (spiffsData != ""){
+  spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/")+1); // выделяем имя файла
+  Serial.println(spiffsData);
+  ESPhttpUpdate.rebootOnUpdate(false);
+  t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
+  timer_Save();
+  saveConfig();
+  }
+  buildData = HTTP.arg("build");
+  if (buildData != ""){
+  buildData = buildData.substring(buildData.lastIndexOf("/")+1); // выделяем имя файла
+  Serial.println(buildData);
+  saveConfig();
+  ESPhttpUpdate.rebootOnUpdate(true);
+  t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
+  }
+}
 void webUpdateSpiffs() {
   Serial.println("Update spiffs...");
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
@@ -61,7 +85,8 @@ void HTTP_init(void) {
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
   HTTP.on("/spiffs", webUpdateSpiffs);                // запустить загрузку fs для обнавления
-  HTTP.on("/build", webUpdate);                // запустить загрузку fs для обнавления
+  HTTP.on("/build", webUpdate);                // запустить загрузку скетча для обнавления
+  HTTP.on("/upgrade", webUpgrade);                // запустить обнавление
   HTTP.on("/save", handle_save_config);      // Сохранить настройки в файл
   HTTP.on("/config.live.json", handle_ConfigJSON); // формирование config_xml страницы для передачи данных в web интерфейс
   HTTP.on("/devices.list.json", handle_ip_list);  // формирование iplocation_xml страницы для передачи данных в web интерфейс
