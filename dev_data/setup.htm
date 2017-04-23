@@ -77,7 +77,7 @@
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
        //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
-       html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
+       html += '<li><a href="/upgrade?'+typeFile+'=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
      document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
