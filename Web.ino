@@ -2,7 +2,7 @@ void webUpdateSpiffs() {
   Serial.println("Update spiffs...");
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
   refresh += WiFi.localIP().toString();
-  refresh += "\"></head></html>";
+  refresh += "\">Update spiffs...</head></html>";
   HTTP.send(200, "text/html", refresh);
   spiffsData = HTTP.arg("upload");
   spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/")+1); // выделяем имя файла
@@ -17,7 +17,7 @@ void webUpdate() {
   Serial.println("Update build...");
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"1;http://";
   refresh += WiFi.localIP().toString();
-  refresh += "\"></head></html>";
+  refresh += "\">Update build...</head></html>";
   HTTP.send(200, "text/html", refresh);
   buildData = HTTP.arg("upload");
   buildData = buildData.substring(buildData.lastIndexOf("/")+1); // выделяем имя файла

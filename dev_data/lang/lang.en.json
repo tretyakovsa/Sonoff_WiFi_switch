@@ -34,11 +34,12 @@
  "LangOldDesign":"Old design",
  "LangNoTimers":"No timers",
  "LangQuestion":"Are you sure?",
+ "LangUpgrade":"Install new version?",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Device Name",
  "LangSpace":"Space",
- "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Open Developer settings</a></b><br>Carefully, ill-considered actions could damage the device.",
+ "LangSetting4":"<b><a onclick=\"toggle('dev-update');return false\" href=\"#\">Open Developer settings</a></b><br>Carefully, ill-considered actions could damage the device.",
  "LangSetting5":"By clicking <a target=\"_blank\" href=\"/edit\">here</a> you can change the html, css, js files of the project<br>Also below you can install a new firmware and file system:",
  "LangSetting6":"Or download and update yourself",
  "LangPass":"Password",

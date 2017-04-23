@@ -17,12 +17,18 @@
 - Arduino ESP8266 filesystem uploader https://github.com/esp8266/arduino-esp8266fs-plugin
 - C++ JSON library for IoT. Simple and efficient. https://github.com/bblanchon/ArduinoJson
 - Efficient DHT library for Arduino https://github.com/markruys/arduino-DHT
+- PubSubClient https://github.com/Imroy/pubsubclient
+- Adafruit_NeoPixel https://github.com/adafruit/Adafruit_NeoPixel
+- WS2812FX https://github.com/kitesurfer1404/WS2812FX
+- OneWire
+- DallasTemperature
 
 ## Work example (Video)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NrIrLw1rOdk/0.jpg)](https://www.youtube.com/watch?v=NrIrLw1rOdk&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
-## Construction
+## [Construction](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/Sonoff_WiFi_switch.ino#L50-L78)
+
 ```
 #define TACH_PIN 0    // Кнопка управления
 #define PIR_PIN 2     // RIR sensors
@@ -32,6 +38,7 @@
 #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
 // PIN ADC (A0)       // URL: /analog.json or /chart.htm#analog
 ```
+
 ### Schematic
 
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/sonoff.jpg)

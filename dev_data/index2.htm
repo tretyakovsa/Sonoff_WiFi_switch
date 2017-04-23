@@ -130,7 +130,14 @@
        }
 
        if (window.location.hostname == ipval) {
-        loadDateLang(jsonResponse);
+        var new_string2;
+        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+        for (var key in jsonResponse) {
+         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         bodyData = new_string2;
+        }
+        document.getElementsByTagName('body')[0].innerHTML = new_string2;
+        loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
        }
 
       }
@@ -188,23 +195,6 @@
       return "yes";
      }
     }
-   }
-
-   function loadDateLang(jsonResponse) {
-    var new_string2;
-    var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-    for (var key in jsonResponse) {
-     new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-     bodyData = new_string2;
-    }
-    document.getElementsByTagName('body')[0].innerHTML = new_string2;
-    var now_day = {
-     year: new Date().getFullYear(),
-     month: new Date().toLocaleDateString(jsonResponse.lang, {month: 'long'}),
-     day: new Date().getDate(),
-     weekday: new Date().toLocaleDateString(jsonResponse.lang, {weekday: 'long'})
-    };
-    document.getElementById('date').innerHTML=now_day.day+' '+now_day.weekday+'<small class="show">'+now_day.month+' '+now_day.year+'<\/small>';
    }
 
    function ajax(ipHost, pagename, submit, loadB) {
@@ -275,20 +265,33 @@
     setCookie(name,'hidden',365,submit);
     // }
    }
+
+   function loadBuild(spiffs, LangUpgrade){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var jsonBuild=JSON.parse(xmlHttp.responseText);
+     jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+     if (jsonBuild[0].name == spiffs) {
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'" onclick="return confirm(\''+LangUpgrade+'\')"><i class="warning-img"><\/i><\/a>';
+     }
+    }
+   }
   </script>
  </head>
  <body>
   <div class="container device">
    <div class="header">
-    <div class="btn-group pull-right" style="margin-top:35px;">
+    <div class="btn-group pull-right hidden-xs" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> {{LangHelp}} <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811/WS2812/NeoPixel LEDs)</a></li><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor/Servo)</a></li></ul>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811/WS2812/NeoPixel LEDs)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor/Servo)</a></li></ul>
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
      <a href="/" class="btn btn-warning">{{LangOldDesign}}</a>
     </div>
-    <h1 id="date"><br><small></small></h1>
+    <h1>{{space}}<sup id="update"></sup><br><small class="show">{{SSDP}}</small></h1>
    </div>
    <div class="col-sm-12 col-md-3">
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>

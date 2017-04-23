@@ -21,6 +21,10 @@
      toggle('wifi-connect1','hidden');
      toggle('first-restart', 'hidden');
     }
+    if (window.location.hash == '#dev-update') {
+     toggle('dev-update');
+     toggle('dev-othe');
+    }
     document.body.style.backgroundColor="#"+jsonResponse.color;
     if (stage != 'next') {
      if (jsonResponse.checkboxIP == '1'){
@@ -73,27 +77,27 @@
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
        //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
-       html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+'>'+jsonBuild[i].name+'<\/a><\/li>';
+       html += '<li><a href="/'+typeFile+'?upload=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
      document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
     }
    }
 
-  //function loadNews(news, repos){
-  // htmls = '';
-  // var xmlHttp=createXmlHttpObject();
-  // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
-  // xmlHttp.send(null);
-  // xmlHttp.onload = function(e) {
-  //  var jsonBuild=JSON.parse(xmlHttp.responseText);
-  //  var html = '';
-  //  for(i = 0;i<10;i++) {
-  //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
-  //  }
-  //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
-  // }
-  //}
+   //function loadNews(news, repos){
+   // htmls = '';
+   // var xmlHttp=createXmlHttpObject();
+   // xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+   // xmlHttp.send(null);
+   // xmlHttp.onload = function(e) {
+   //  var jsonBuild=JSON.parse(xmlHttp.responseText);
+   //  var html = '';
+   //  for(i = 0;i<10;i++) {
+   //    html += '<li><a href="'+jsonBuild[i].html_url+'" target="_blank">'+jsonBuild[i].commit.message+'<\/a><\/li>';
+   //  }
+   //  document.getElementById(news).innerHTML = (html?html:'<li>No commitr<\/li>');
+   // }
+   //}
 
   </script>
   <style type="text/css">
@@ -121,16 +125,14 @@
      <!-- DEVELOPER OPTIONS Module - START -->
      <div id="dev-opt">
       <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
-      <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
       <!--       <a class="btn btn-block btn-default" href="#" onclick="loadNews('news')">ss</a>
 <ul id="news"></ul> -->
       <hr id="hide-hr1">
       <div class="alert alert-dismissible alert-info {{g784673}}"><button class="close" onclick="hide('g784673',this);" type="button">×</button>
        <a href="/help.htm" target="_blank" class="close"><i class="help-img"></i></a>
        {{LangSetting4}}
-       <span id="hide" class="hidden">
+       <span id="dev-update" class="hidden">
         <b>{{LangSetting5}}</b>
-
         <div class="btn-group">
          <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('repos-build');return false">Build <span class="caret"></span></a>
          <ul class="dropdown-menu hidden" id="repos-build">
@@ -164,7 +166,6 @@
           </div>
          </form>
         </span>
-
        </span>
       </div>
      </div>
@@ -279,7 +280,6 @@
      </div>
 
      <input class="btn btn-block btn-warning hidden" id="first-restart" value="{{LangReset1}}" onclick="first_restart(this,'{{LangReset3}}');" type="button">
-     <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
 
     </div>
    </div>

@@ -93,7 +93,6 @@
       <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <a class="btn btn-block btn-danger" id="btn-devices" href="/">{{LangDevices}}</a>
-     <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
      <hr>
      <h3>{{LangTime1}} <strong id="time">{{time}}</strong></h3>
      <hr>
@@ -141,7 +140,6 @@
      </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time'));" type="button">
      <hr>
-     <a class="btn btn-block btn-default" href="javascript:history.back()">{{LangOptions1}}</a>
     </div>
    </div>
   </div>

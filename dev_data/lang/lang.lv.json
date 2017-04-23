@@ -34,11 +34,12 @@
  "LangOldDesign":"Vec dizains",
  "LangNoTimers":"Nav taimerus",
  "LangQuestion":"Vai tu esi pārliecināts?",
+ "LangUpgrade":"Installet jaunu versiju?",
 
  "_comment": "---SETUP.HTM---",
  "LangDevice":"Ierīces nosaukums",
  "LangSpace":"Space",
- "LangSetting4":"<b><a onclick=\"toggle('hide');return false\" href=\"#\">Atvērt Izstrādātāja iestatījumus</a></b><br>Uzmanīgi, nepārdomāta rīcība var bojāt ierīci.",
+ "LangSetting4":"<b><a onclick=\"toggle('dev-update');return false\" href=\"#\">Atvērt Izstrādātāja iestatījumus</a></b><br>Uzmanīgi, nepārdomāta rīcība var bojāt ierīci.",
  "LangSetting5":"Noklikšķinot <a target=\"_blank\" href=\"/edit\">šeit</a> jūs varat mainīt HTML, CSS, JS failus projektā.<br>Zemāk jūs varat instalēt jaunāko versiju:",
  "LangSetting6":"Vai lejupielādēt un atjaunināt paši",
  "LangPass":"Parole",
