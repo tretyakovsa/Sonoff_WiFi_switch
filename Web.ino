@@ -1,7 +1,6 @@
 void webUpgrade() {
   Serial.println("Update module...");
-  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"15;http://";
-  refresh += WiFi.localIP().toString();
+  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"40;/";
   refresh += "\">Update module...</head></html>";
   HTTP.send(200, "text/html", refresh);
   spiffsData = HTTP.arg("spiffs");
