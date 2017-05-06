@@ -32,6 +32,7 @@ void handle_wifi_scan() {
 void handle_ssid() {
   ssidName = HTTP.arg("ssid");
   ssidPass = HTTP.arg("ssidPass");
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str(), false);
   subnet = HTTP.arg("subnet");
   getway = HTTP.arg("getway");
   dns = HTTP.arg("dns");
@@ -90,7 +91,7 @@ void WIFIAP_Client() {
   IPAddress staticGateway;
   IPAddress staticSubnet;
   //bool fromString(const String &address) { return fromString(address.c_str()); }
-  WiFi.disconnect();
+  //WiFi.disconnect();
   WiFi.hostname ( "sonoff" );
   WiFi.mode(WIFI_STA);
   if (checkboxIP == 1) {
@@ -99,10 +100,17 @@ void WIFIAP_Client() {
     staticSubnet.fromString(subnet);
     WiFi.config(staticIP, staticGateway, staticSubnet);
   }
-  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  if (WiFi.SSID () == "") {
+    WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  }
+  else
+  {
+    Serial.println("");
+    Serial.println(WiFi.SSID ());
+    WiFi.begin();
+  }
   tries(11);
   WiFi.setAutoReconnect(true);
-  Serial.println("");
   Serial.println("WiFi connected");
   Serial.println(WL_CONNECTED);
   Serial.println("IP address: ");
@@ -113,14 +121,8 @@ void WIFIAP_Client() {
     StartAPMode();
   }
   String urls = "http://backup.privet.lv/visitors.php?";
-  byte mac[6];
-  WiFi.macAddress(mac);
-  urls += String(mac[5], HEX);
-  urls += String(mac[4], HEX);
-  urls += String(mac[3], HEX);
-  urls += String(mac[2], HEX);
-  urls += String(mac[1], HEX);
-  urls += String(mac[0], HEX);
+  urls += WiFi.macAddress().c_str();
+  Serial.println(urls);
   HTTPClient http;
   http.begin(urls); //HTTP
   int httpCode = http.GET();
@@ -134,12 +136,13 @@ bool StartAPMode()
 {
   const byte DNS_PORT = 53;
   IPAddress apIP(192, 168, 4, 1);
-  WiFi.disconnect();
+  //WiFi.disconnect();
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   WiFi.softAP(ssidApName.c_str(), ssidApPass.c_str());
   dnsServer.start(DNS_PORT, "*", apIP);
   //Зажигаем светодиод если находимся в режиме AP
+ // tickerSSID.attach(30, ssidtrue); // Будет выполняться каждые 30 секунд проверяя появление роутера
   digitalWrite(LED_PIN, HIGH);
   return true;
 }
@@ -150,7 +153,9 @@ bool RestartWiFi() {
   Serial.println("WiFi reconnect");
   // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.mode(WIFI_AP_STA );
-  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  WiFi.begin();
+  //WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+
   tries(30);
 
   Serial.println("");
@@ -179,13 +184,40 @@ void tries(byte tries) {
   }
 }
 
+// Если точка доступа появилась
+boolean findSSID() {
+  String ssid = WiFi.SSID ();
+  Serial.println(ssid);
+  int n = WiFi.scanNetworks();
+  for (int i = 0; i < n; i++) {
+     Serial.println(WiFi.SSID (i));
+    if (WiFi.SSID (i) == ssid) {
+      test =false;
+      return true;
+    }
+  }
+  test =false;
+  return false;
+
+}
+// Каждые 30 секунд проверяем наличие точки доступа
+void ssidtrue() {
+  digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+  test = true;
+  if (findSSID()) {
+    digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+    //tickerSSID.detach();
+    ESP.restart();
+  }
+}
+
 
 // Выделяем строку до маркера
 String subString (String str, String found) {
   int p = str.indexOf(found);
   return str.substring(0, p);
 }
-//Удоляем все до символа разделителя
+//Удаляем все до символа разделителя
 String stringTrim(String str, String found) {
   int p = str.indexOf(found) + found.length();
   return str.substring(p);

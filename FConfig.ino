@@ -22,9 +22,11 @@ bool loadConfig() {
   ssidApPass = root["ssidApPass"].as<String>();
   timezone = root["timeZone"];
   ssdpName = root["ssdpName"].as<String>();
-  ssidName = root["ssidName"].as<String>();
+  ssidName = WiFi.SSID ();
+  //root["ssidName"].as<String>();
   spaceName = root["space"].as<String>();
-  ssidPass = root["ssidPass"].as<String>();
+  ssidPass = "**********";
+  //root["ssidPass"].as<String>();
   subnet = root["subnet"].as<String>();
   getway = root["getway"].as<String>();
   dns = root["dns"].as<String>();
@@ -53,8 +55,8 @@ bool saveConfig() {
   json["space"] = spaceName;
   json["ssidApName"] = ssidApName;
   json["ssidApPass"] = ssidApPass;
-  json["ssidName"] = ssidName;
-  json["ssidPass"] = ssidPass;
+  //json["ssidName"] = ssidName;
+  //json["ssidPass"] = ssidPass;
   json["timeZone"] = timezone;
   json["subnet"] = subnet;
   json["getway"] = getway;

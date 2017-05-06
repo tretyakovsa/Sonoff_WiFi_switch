@@ -111,6 +111,8 @@ String Weekday = "";                 // Текущий день недели
 String Time = "";                    // Текущее время
 String spiffsData="";                      // дата релиза fs
 String buildData="";                      // дата релиза build
+boolean ddnsTest = true;
+boolean  test = true;
 
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";
@@ -160,7 +162,6 @@ void setup() {
   Serial.println(chipID);
   FS_init();         // Включаем работу с файловой системой
   loadConfig();      // Загружаем настройки из файла
-  initRGB();
   WiFi_init();       //Запускаем WIFI
   HTTP_init();       //настраиваем HTTP интерфейс
   SSDP_init();       //запускаем SSDP сервис
@@ -171,8 +172,8 @@ void setup() {
   sensor_init();     // Запускаем сенсоры
   Movement_init();   // запускаем датчик движения
   ddns_init();       //запускаем DDNS сервис
-  ip_wan();          // Сообщаем ddns наш текущий адрес
   MQTT_init();
+  //initRGB();
 
 }
 
@@ -184,26 +185,12 @@ void loop() {
   delay(1);
   handleUDP();
   handleRelay();
-
-/*
-  switch (task) {
-    case 1:
-      //timeSynch(timezone);
-      task = 0;
-      break;
-    case 2:
-      ip_wan();
-      task = 0;
-      break;
-    case 3:
-      runTimers();
-      task = 0;
-      break;
-  }
-*/
   handleMQTT();
-  ws2812fx.service();
-
+  //ws2812fx.service();
+ if (ddnsTest){
+  ip_wan();
+  ddnsTest = false;
+  }
 
 }
 void sec(){
