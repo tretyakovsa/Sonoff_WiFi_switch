@@ -27,25 +27,16 @@ void callback(const MQTT::Publish& pub)
 
      loadnWidgets();
   }
-  if (String(pub.topic()) == "/" + chipID + "/RELE_1") // проверяем из нужного ли нам топика пришли данные
-  {
-    int stled = payload.toInt(); // преобразуем полученные данные в тип integer
-    Serial.println(stled);
-    if (stled != state0) {
-      task = 4;
-      chaing = 1;
-    }
-    //Serial.println(stled);
-  }
 
   if (String(pub.topic()) == prefix + "/"+chipID + "/RELE_1_not/control") // проверяем из нужного ли нам топика пришли данные
+    //if (String(pub.topic()) == prefix + "/"+chipID + "/RELE_1_not/status") // проверяем из нужного ли нам топика пришли данные
    {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
-    if (stled != state0) {
-      task = 4;
-      chaing = 1;
-    }
-    //Serial.println(stled);
+    Serial.println(stled);
+    if(stled==1)   command = "relayOn";
+    if(stled==0)   command = "relayOff";
+     Serial.println(command);
+
   }
 
 }
@@ -69,11 +60,9 @@ void MQTT_Pablush() {
                          .set_auth(mqtt_user, mqtt_pass))) {
         Serial.println("Connected to MQTT server");
         client.set_callback(callback);
-        client.subscribe(prefix);  // for receiving HELLO messages and handshaking
-        client.subscribe(prefix + "/+/+/control"); // for receiving GPIO control messages
+        client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
+        client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
         client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
-    //client.subscribe(prefix + prefix + "/"+chipID + "/+/+/status"); // for receiving GPIO control messages
-        //client.subscribe(prefix + "/"+chipID + "/RELE_1_not/control"); // подписываемся по топик с данными для светодиода
         loadnWidgets();
         } else {
         Serial.println("Could not connect to MQTT server");

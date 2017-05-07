@@ -14,6 +14,7 @@
 #include <ESP8266httpUpdate.h>
 #include <ESP8266HTTPClient.h>       //Содержится в пакете
 #include <DNSServer.h>               //Содержится в пакете
+#include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand
 
 #include <ArduinoJson.h>             //Ставим через менеджер библиотек
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
@@ -114,6 +115,10 @@ String buildData="";                      // дата релиза build
 boolean ddnsTest = true;
 boolean  test = true;
 
+StringCommand sCmd;     // The demo StringCommand object
+
+String command="";
+
 // Переменные для обнаружения модулей
 //String modulesNew ="{}";
 String modulesNew = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
@@ -178,21 +183,23 @@ void setup() {
 }
 
 void loop() {
+  sCmd.readStr(command);     // We don't do much, just process serial commands
+  command ="";
   dnsServer.processNextRequest();
   HTTP.handleClient();
   delay(1);
   HTTPWAN.handleClient();
   delay(1);
   handleUDP();
-  handleRelay();
+  //handleRelay();
   handleMQTT();
   //ws2812fx.service();
  if (ddnsTest){
   ip_wan();
   ddnsTest = false;
   }
-
 }
+
 void sec(){
   sectest();
   }

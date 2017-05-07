@@ -18,7 +18,7 @@ void handle_ddns() {
 
 // Меняет флаг для включения выключения sonoff
 void sonoffActivWan() {
-  chaing = 1;
+  command = "relayNot";
   HTTPWAN.send(200, "text/plain", "OK");
 }
   // Запрос для синхронизации внешнего ip адреса с ddns

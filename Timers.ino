@@ -119,18 +119,13 @@ void runTimers() {
         Serial.println(timer.substring(j + 1));
         String temp = timer.substring(j + 1);
         if (temp == "not") {
-          task=1;
-          chaing = 1;
+        command = "relayNot";
         }
         if (temp == "on") {
-          task=1;
-          state0 = 0;
-          chaing = 1;
+        command = "relayOn";
         }
         if (temp == "off") {
-          task=1;
-          state0 = 1;
-          chaing = 1;
+        command = "relayOff";
         }
       }
       timers = timers.substring(timers.indexOf("\r\n") + 2);

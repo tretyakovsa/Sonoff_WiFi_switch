@@ -33,33 +33,18 @@ void sensor_init(){
 }
 
 void handle_sensor() {
- String root = "{}";  // Формировать строку для отправки в браузер json формат
- // {"data":[0.00],"data2":[0.00],"type":true,"points":"10","refresh":"5","title":"Temperature"}
- // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
- DynamicJsonBuffer jsonBuffer;
- // вызовите парсер JSON через экземпляр jsonBuffer
- JsonObject& json = jsonBuffer.parseObject(root);
- // Заполняем поля json
- JsonArray& data = json.createNestedArray("data");
  float temp = dht.getTemperature();
  if (temp == 'NaN') {temp = 0;}
- data.add(temp);
- JsonArray& data2 = json.createNestedArray("data2");
- temp = dht.getHumidity();
- if (temp == 'NaN') {temp = 0;}
- data2.add(temp);
- json["type"] = dht.getModel();
- json["points"] = 10;
- json["refresh"] = 5000;
- json["title"] = "Temperature";
- // Помещаем созданный json в переменную root
- root="";
- json.printTo(root);
- HTTP.send(200, "text/json", root);
+ HTTP.send(200, "text/json", graf(temp,10,5000,"Temperature"));
 }
 
 void handle_analog() {
- String root = "{}";  // Формировать строку для отправки в браузер json формат
+
+ HTTP.send(200, "text/json", graf(analogRead(A0),30,3000,"Analog (ADC/A0)"));
+}
+
+String graf(int datas, int points,int refresh,String title ){
+  String root = "{}";  // Формировать строку для отправки в браузер json формат
  // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
  DynamicJsonBuffer jsonBuffer;
@@ -67,13 +52,12 @@ void handle_analog() {
  JsonObject& json = jsonBuffer.parseObject(root);
  // Заполняем поля json
  JsonArray& data = json.createNestedArray("data");
- data.add(analogRead(A0));
- json["points"] = 30;
- json["refresh"] = 3000;
- json["title"] = "Analog (ADC/A0)";
+ data.add(datas);
+ json["points"] = points;
+ json["refresh"] = refresh;
+ json["title"] = title;
  // Помещаем созданный json в переменную root
  root="";
  json.printTo(root);
- HTTP.send(200, "text/json", root);
-}
-
+ return root;
+  }
