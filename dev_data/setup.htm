@@ -208,7 +208,7 @@
       </div>
       <div class="col-sm-6">
        <input id="getway" value="{{getway}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="Default Getway">
-       <input id="dns" value="{{dns}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="DNS Server">
+       <input id="dns" value="{{dns}}" class="form-control" pattern="[0-9.]{1,15}" placeholder="DNS Server (Optional)">
       </div>
      </div>
      <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="send_request(this,'/ssid?ssid='+val('ssid')+'&ssidPass='+encodeURIComponent(val('ssidPass'))+'&subnet='+val('subnet')+'&getway='+val('getway')+'&dns='+val('dns')+'&ip='+val('ip')+'&checkboxIP='+val('checkboxIP'));alert('{{LangReset2}}');" type="button">

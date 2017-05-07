@@ -1,4 +1,4 @@
-#Specification .bin files
+# Specification .bin files
 
 - Module: Generic ESP8266 Module
 - Flash Size: 1M(256K SPIFFS)
@@ -8,14 +8,14 @@
 - Upload Speed: 115200
 
 
-##NodeMCU Flasher
+## NodeMCU Flasher
 
 [https://github.com/nodemcu/nodemcu-flasher](https://github.com/nodemcu/nodemcu-flasher)
 
 Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master/Win32/Release/ESP8266Flasher.exe) or
 [Win64](https://github.com/nodemcu/nodemcu-flasher/blob/master/Win64/Release/ESP8266Flasher.exe).
 
-###Usage
+### Usage
 
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/nodemcu-flasher.png)
 
@@ -23,6 +23,6 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/esp8266_wiring.png)
 
 
-##Web Upgrade (Youtube)
+## Web Upgrade (Youtube)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/t0jJxRcIoSU/0.jpg)](https://www.youtube.com/watch?v=t0jJxRcIoSU&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
