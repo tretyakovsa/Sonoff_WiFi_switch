@@ -6,13 +6,13 @@
     "content": [
       {
         "type": "link",
-        "title": "{{d}} {{LangDevices}}",
+        "title": "{{LangDevices}}",
         "action": "/",
         "class": "btn btn-block btn-danger"
       },
       {
         "type": "link",
-        "title": "{{d}} {{LangSetting3}}",
+        "title": "{{LangSetting3}}",
         "action": "/setup.htm",
         "class": "btn btn-block btn-default"
       },
