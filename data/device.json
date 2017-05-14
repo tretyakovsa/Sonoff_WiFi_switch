@@ -18,8 +18,15 @@
       },
       {
         "type": "input",
-        "title": "{{LangSpace}}",
+        "title": "{{LangDevice}}",
         "module": "ssdp",
+        "state": "{{SSDP}}",
+        "class": "form-control"
+      },
+      {
+        "type": "input",
+        "title": "{{LangSpace}}",
+        "module": "space",
         "state": "{{space}}",
         "class": "form-control"
       },
@@ -27,7 +34,7 @@
         "type": "button",
         "title": "{{LangSave}}",
         "module": "device",
-        "action": "?ssdp={{ssdp}}&space={{space}}",
+        "action": "ssdp=[[ssdp]]&space=[[space]]",
         "state": "response",
         "class": "btn btn-block btn-success"
       },

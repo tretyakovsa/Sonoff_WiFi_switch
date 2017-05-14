@@ -56,7 +56,7 @@
            document.getElementById('contents').innerHTML += '<input value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" class="'+jsonPage.content[i].class+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
           }
           if (jsonPage.content[i].type == 'button') {
-           document.getElementById('contents').innerHTML += '<input value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" class="'+jsonPage.content[i].class+'" onclick="'+jsonPage.content[i].action+'" type="button">';
+           document.getElementById('contents').innerHTML += "<input value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" class=\""+jsonPage.content[i].class+"\" onclick=\"send_request(this, 'command?module="+jsonPage.content[i].module+"&"+jsonPage.content[i].action+"')\" type=\"button\">";
           }
           if (jsonPage.content[i].type == 'link') {
            document.getElementById('contents').innerHTML += '<a href="'+jsonPage.content[i].action+'" class="'+jsonPage.content[i].class+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'</a>';
