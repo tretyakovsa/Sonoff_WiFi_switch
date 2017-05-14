@@ -1,0 +1,90 @@
+  {
+    "config": "config.live.json",
+    "title": "{{LangOptions1}}",
+    "SSDP":"{{SSDP}}",
+    "space":"{{space}}",
+    "content": [
+      {
+        "type": "link",
+        "title": "{{d}} {{LangDevices}}",
+        "action": "/",
+        "class": "btn btn-block btn-danger"
+      },
+      {
+        "type": "link",
+        "title": "{{d}} {{LangSetting3}}",
+        "action": "/setup.htm",
+        "class": "btn btn-block btn-default"
+      },
+      {
+        "type": "input",
+        "title": "{{LangSpace}}",
+        "module": "ssdp",
+        "state": "{{space}}",
+        "class": "form-control"
+      },
+      {
+        "type": "button",
+        "title": "{{LangSave}}",
+        "module": "device",
+        "action": "?ssdp={{ssdp}}&space={{space}}",
+        "state": "response",
+        "class": "btn btn-block btn-success"
+      },
+     {
+        "type": "chart",
+        "title": "{{LangChart}}",
+        "module": "analog",
+        "action": "analog.json",
+        "class": ""
+      },
+      {
+        "type": "text",
+        "title": "{{LangIfttt1}}",
+        "class": "alert alert-info"
+      },
+      {
+        "type": "h2",
+        "title": "{{LangAP}}"
+      },
+      {
+        "type": "tables",
+        "title": "{{LangTimer}}",
+        "module": "timers",
+        "state": "timers.save.json",
+        "class": "table table-striped table-hover",
+        "style": "width:100%;"
+      },
+      {
+        "type": "select",
+        "title": "{{LangDay}}",
+        "module": "day",
+        "state": [
+          {
+            "{{LangMon}}": "Mon",
+            "{{LangTue}}": "Tue"
+          }
+        ],
+        "class": "btn btn-default form-control"
+      },
+      {
+        "type": "wifi",
+        "title": "{{ssid}}",
+        "module": "wifi"
+      },
+      {
+        "type": "password",
+        "title": "{{LangPass}}",
+        "module": "ssidPass",
+        "state": "{{pass}}",
+        "class": "form-control"
+      },
+      {
+        "type": "checkbox",
+        "title": "{{LangCheckboxIP}}",
+        "module": "checkboxIP",
+        "state": "{{checkboxIP}}",
+        "class": "form-control"
+      }
+    ]
+  }

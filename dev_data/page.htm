@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <script src="js/build.chart.js" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/chart.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options page</title>
+  <script type="text/javascript">
+
+
+
+
+
+
+   window.onload = function() {
+    var xmlHttp=createXmlHttpObject();
+    if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
+     xmlHttp.open('PUT','/config.live.json',true);
+     xmlHttp.send(null);
+     xmlHttp.onload = function(e) {
+      var jsonResponse1=JSON.parse(xmlHttp.responseText);
+      xmlHttp.open('GET','/lang/lang.'+jsonResponse1.lang+'.json',true);
+      xmlHttp.send(null);
+      xmlHttp.onload = function(e) {
+       var jsonResponse2=JSON.parse(xmlHttp.responseText);
+       xmlHttp.open('GET','/modules.json',true);
+       xmlHttp.send(null);
+       xmlHttp.onload = function(e) {
+        var modules=JSON.parse(xmlHttp.responseText);
+        jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+        jsonResponse.module = modules.module;
+        var theCookies = document.cookie.split(';');
+        for (var i = 1 ; i <= theCookies.length; i++) {
+         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+        }
+
+
+
+
+        //  var xmlHttp=createXmlHttpObject();
+        xmlHttp.open('GET', window.location.hash.substring(1)+".json",true);
+        xmlHttp.send(null);
+        xmlHttp.onload = function(e) {
+         var jsonPage=JSON.parse(xmlHttp.responseText);
+
+         for(i = 0;i<jsonPage.content.length;i++) {
+
+          if (jsonPage.content[i].type == 'input') {
+           document.getElementById('contents').innerHTML += '<input value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" class="'+jsonPage.content[i].class+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
+          }
+          if (jsonPage.content[i].type == 'button') {
+           document.getElementById('contents').innerHTML += '<input value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" class="'+jsonPage.content[i].class+'" onclick="'+jsonPage.content[i].action+'" type="button">';
+          }
+          if (jsonPage.content[i].type == 'link') {
+           document.getElementById('contents').innerHTML += '<a href="'+jsonPage.content[i].action+'" class="'+jsonPage.content[i].class+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'</a>';
+          }
+          if (jsonPage.content[i].type == 'text') {
+           document.getElementById('contents').innerHTML += '<div class="'+jsonPage.content[i].class+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'</div>';
+          }
+          if (jsonPage.content[i].type == 'charts') {
+           document.getElementById('contents').innerHTML += '<div class="{{g85723}}"><button class="close" onclick="hide(\'g85723\',this);" type="button">×</button><a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a><div id="ct-analog" style="height:200px;margin-left:-20px"></div><hr></div>';
+           loadChart('ct-analog','analog');
+
+
+          }
+
+         }
+
+        }
+
+        toggle('content');
+
+       }
+      }
+     }
+    }
+   };
+
+
+
+
+   function renameBlock(jsonResponse, val) {
+    for (var key in jsonResponse) {
+     if ('{{'+key+'}}' == val) {
+      return jsonResponse[key];
+     }
+    }
+   }
+
+
+
+
+
+   function handleServerResponse(){}
+  </script>
+ </head>
+ <body>
+  <div class="container loader-bg">
+   <div class="row hidden" id="content">
+    <h1 id="title">{{LangOptions1}}</h1>
+    <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6" id="contents">
+     <h5 class="alert-danger">{{SSDP}}</h5>
+
+     <div class="btn-group" id="language">
+      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
+     </div>
+
+
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
