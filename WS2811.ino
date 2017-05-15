@@ -1,20 +1,39 @@
+/*
+ * Модуль использует библиотеки
+ * #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
+ * #include <WS2812FX.h>                //https://github.com/kitesurfer1404/WS2812FX
+ * Глобальные переменные
+  String colorRGB = "ff6600";
+  String speedRGB = "100";
+  String BrightnessRGB = "255";
+  String ModeRGB = "0";
+  String timeRGB = "";
+  String timeBUZ = "";
+  int stateRGB = 0;
+  int ledCount = 15;              // Количество лед огней
+ * Переменная статуса stateRGB
+ * Объект должен быть определен в начали скетча
+ * WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
+ *   В Loop обработчик
+ *   ws2812fx.service();
+ */
+
 void initRGB() {
-  modulesReg("rgb");
-  //HTTP.on("/set", LedRGB);
+  Serial.end();
+  // Настраивается по запросу /set?
   HTTP.on("/set", handle_RGB);
+  // Реагирует на комманду rgbnot
+  sCmd.addCommand("rgbnot",    rgbNot);
   ws2812fx.init();
   ws2812fx.setMode(ModeRGB.toInt()); // Режим
-
-    uint32_t  tmp = strtol(("0x" + colorRGB).c_str(), NULL, 0);
+  uint32_t  tmp = strtol(("0x" + colorRGB).c_str(), NULL, 0);
     if (tmp >= 0x000000 && tmp <= 0xFFFFFF) {
-      Serial.print("colorRGB=");
-      Serial.println(colorRGB);
       ws2812fx.setColor(tmp);
     }
   ws2812fx.setSpeed(speedRGB.toInt()); // Скорость
   ws2812fx.setBrightness(BrightnessRGB.toInt()); //Яркость
-  ws2812fx.start();
-    ws2812fx.service();
+  //регистрируем модуль
+  modulesReg("rgb");
 }
 
 // Задать режимы ленты
@@ -53,22 +72,27 @@ void handle_RGB() {
    //Получаем время таймера
   timeRGB = HTTP.arg("time");
   if (timeRGB != "") {
-    //ws2812fx.setBrightness(BrightnessRGB.toInt());
-    Serial.print("timeRGB=");
-    Serial.println(timeRGB);
   }
    //Получаем время сигнала
   timeRGB = HTTP.arg("s");
   if (timeBUZ != "") {
-    //ws2812fx.setBrightness(BrightnessRGB.toInt());
-    Serial.print("timeBUZ=");
-    Serial.println(timeBUZ);
   }
+  stateRGB = 1;
   HTTP.send(200, "text/plain", "Ok");
 }
 
 
+void rgbNot(){
 
+  if (stateRGB){
+  ws2812fx.stop();
+  }
+  else{
+  ws2812fx.stop();
+  ws2812fx.start();
+  }
+  stateRGB=!stateRGB;
+  }
 
 
 

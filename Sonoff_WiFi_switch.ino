@@ -64,6 +64,7 @@ WiFiUDP udp;
   #define LED_PIN 13    // Светодиод
   #define DHTPIN 14     // DHT сенсор.
   #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
+  #define impuls_PIN 3  //электросчетчик
 
 /*
   // Куда что подключено в Smart-Room
@@ -77,14 +78,13 @@ WiFiUDP udp;
   #define DHTPIN 4      // DHT сенсор.
   #define RGB_PIN 5
 */
-
+//#define SERIALCOMMAND_DEBUG true
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 OneWire oneWire(DHTPIN);
 
 // Pass our oneWire reference to Dallas Temperature.
 DallasTemperature sensors(&oneWire);
 
-int SPEED_STEP = 10;           // in/decrease brightness by this amount per click
 int ledCount = 15;              // Количество лед огней
 WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -158,6 +158,7 @@ String BrightnessRGB = "255";
 String ModeRGB = "0";
 String timeRGB = "";
 String timeBUZ = "";
+int stateRGB = 0;
 
 void setup() {
   ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
@@ -179,6 +180,8 @@ void setup() {
   ddns_init();       //запускаем DDNS сервис
   MQTT_init();
   //initRGB();
+  //electricMeter();
+
 
 }
 
@@ -191,9 +194,8 @@ void loop() {
   HTTPWAN.handleClient();
   delay(1);
   handleUDP();
-  //handleRelay();
   handleMQTT();
-  //ws2812fx.service();
+  ws2812fx.service();
  if (ddnsTest){
   ip_wan();
   ddnsTest = false;

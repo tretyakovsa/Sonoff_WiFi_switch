@@ -112,25 +112,23 @@ void runTimers() {
       String timer = timers.substring(0, i);
       // Если время совпадает с текущим
         if (timer.substring(0, 8) == Time) {
-        int j = timer.lastIndexOf(",");
+        // Отрезаем время из строки 12:44:15,relay,0,not
+        timer = timer.substring(9);
+                int b = timer.indexOf(",");
+        String temp = timer.substring(0, b);
+        Serial.println(temp);
+        int e = timer.lastIndexOf(",");
         // Загружаем время работы реле
-        timeSonoff = timer.substring(9, j).toInt();
+        timeSonoff = timer.substring(b, e).toInt();
         // выполняем необходимое действие
-        Serial.println(timer.substring(j + 1));
-        String temp = timer.substring(j + 1);
-        if (temp == "not") {
-        command = "relayNot";
+        temp +=timer.substring(e + 1);
+        Serial.println(temp);
+        if (temp != "") {
+        command = temp;
         }
-        if (temp == "on") {
-        command = "relayOn";
-        }
-        if (temp == "off") {
-        command = "relayOff";
-        }
+
       }
       timers = timers.substring(timers.indexOf("\r\n") + 2);
-      //Serial.println(timers);
     }
   } while (i != -1);
-
 }

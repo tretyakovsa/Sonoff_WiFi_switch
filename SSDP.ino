@@ -21,6 +21,10 @@ void SSDP_init() {
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
   SSDP.begin();
+  modulesReg("device");
+  sCmd.addCommand("device", device);
+  sCmd.addCommand("P",     processCommand);
+  sCmd.setDefaultHandler(unrecognized);
 }
 
 // Установить имя устройства
@@ -75,4 +79,63 @@ void handleUDP() {
       http.end();
     }
   }
+}
+
+
+void device(){
+//  ssdp=Smart&space=test&
+
+  char *arg;
+  //arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  //Serial.println(arg);
+   do  {    // As long as it existed, take it
+    arg = sCmd.next();
+    if (arg==NULL) return;
+    String temp=findParm(arg, "ssdp");
+    if(temp!="") ssdpName=temp;
+
+    delay(1);
+    //temp=findParm(arg, "space");
+    //if(temp!="") spaceName=temp;
+    //delay(1);
+  } while (arg != NULL);
+  Serial.println(ssdpName);
+  Serial.println(spaceName);
+}
+
+String findParm(String str, String found){
+  if (subString (str, "=")==found){
+    return stringTrim(str, "=");
+    }
+  }
+
+void processCommand() {
+  String aNumber;
+  char *arg;
+
+  Serial.println("We're in processCommand");
+  arg = sCmd.next();
+  if (arg != NULL) {
+    aNumber = arg;    // Converts a char string to an integer
+    Serial.print("First argument was: ");
+    Serial.println(aNumber);
+  }
+  else {
+    Serial.println("No arguments");
+  }
+
+  arg = sCmd.next();
+  if (arg != NULL) {
+    aNumber = arg;
+    Serial.print("Second argument was: ");
+    Serial.println(aNumber);
+  }
+  else {
+    Serial.println("No second argument");
+  }
+}
+
+// This gets set as the default handler, and gets called when no other command matches.
+void unrecognized(const char *command) {
+  Serial.println("What?");
 }

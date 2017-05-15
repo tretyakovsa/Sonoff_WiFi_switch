@@ -1,23 +1,24 @@
+// Обновление с сайта
 void webUpgrade() {
   Serial.println("Update module...");
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"40;/\">Update module...</head></html>";
   HTTP.send(200, "text/html", refresh);
   spiffsData = HTTP.arg("spiffs");
-  if (spiffsData != ""){
-  spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/")+1); // выделяем имя файла
-  Serial.println(spiffsData);
-  ESPhttpUpdate.rebootOnUpdate(false);
-  t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
-  timer_Save();
-  saveConfig();
+  if (spiffsData != "") {
+    spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
+    Serial.println(spiffsData);
+    ESPhttpUpdate.rebootOnUpdate(false);
+    t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
+    timer_Save();
+    saveConfig();
   }
   buildData = HTTP.arg("build");
-  if (buildData != ""){
-  buildData = buildData.substring(buildData.lastIndexOf("/")+1); // выделяем имя файла
-  Serial.println(buildData);
-  saveConfig();
-  ESPhttpUpdate.rebootOnUpdate(true);
-  t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
+  if (buildData != "") {
+    buildData = buildData.substring(buildData.lastIndexOf("/") + 1); // выделяем имя файла
+    Serial.println(buildData);
+    saveConfig();
+    ESPhttpUpdate.rebootOnUpdate(true);
+    t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
   }
 }
 
@@ -45,7 +46,7 @@ void handle_save_config() {
 }
 
 
-
+// Инициализация Web сервера и сервисных функций
 void HTTP_init(void) {
   // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
@@ -62,12 +63,13 @@ void HTTP_init(void) {
   HTTP.on("/lang", handle_leng);               // Установить язык
   HTTP.on("/lang.list.json", handle_leng_list);               // Установить язык
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
+  HTTP.on("/cmd", handle_command);               // Узнать какие модули есть в устройстве
+  //sCmd.addCommand("command",    commandf);
   // Запускаем HTTP сервер
   HTTP.begin();
 }
 
-
-
+// Формирование config Live
 void handle_ConfigJSON() {
   //{"SSDP":"SSDP-test","ssid":"home","ssidPass":"i12345678","ssidAP":"WiFi","ssidApPass":"","ip":"192.168.0.101"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
@@ -91,6 +93,8 @@ void handle_ConfigJSON() {
   json["lang"] = Language;  // Язык
   json["pirTime"] = pirTime;  //
   json["state"] = state0;
+  json["stateRGB"] = stateRGB;
+
   // Помещаем созданный json в переменную root
   jsonConfig = "";
   json.printTo(jsonConfig);
@@ -109,3 +113,20 @@ void handle_modules() {
 void handle_leng_list() {
   HTTP.send(200, "text/json", Lang);
 }
+
+void handle_command() {
+  Serial.println(HTTP.uri());
+  String message = "";
+  for (uint8_t i = 0; i < HTTP.args(); i++) {
+    if (HTTP.argName(i) == "module") {
+      command = HTTP.arg(i);
+    }
+    else {
+      message += HTTP.argName(i) + "=" + HTTP.arg(i)+" ";
+    }
+  }
+  command += " "+message;
+  Serial.println(command);
+  HTTP.send(200, "text/plain", command);
+}
+
