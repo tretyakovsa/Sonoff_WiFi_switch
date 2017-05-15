@@ -95,18 +95,24 @@
    "module": "wifi"
   },
   {
+   "type": "checkbox",
+   "title": "Задать статический IP",
+   "name":"checkboxIP",
+   "module": "checkboxIP",
+   "state": "{{checkboxIP}}",
+   "action": "val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"
+  },
+  {
+   "type": "text",
+   "name": "static-ip",
+   "title": "test",
+   "class": "hidden"
+  },
+  {
    "type": "password",
    "title": "{{LangPass}}",
    "module": "ssidPass",
-   "state": "{{pass}}",
-   "class": "form-control"
-  },
-  {
-   "type": "checkbox",
-   "title": "{{LangCheckboxIP}}",
-   "module": "checkboxIP",
-   "state": "{{checkboxIP}}",
-   "class": "form-control"
+   "state": "{{ssidPass}}"
   }
  ]
 }

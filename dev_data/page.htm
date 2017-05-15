@@ -52,6 +52,7 @@
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
 
+
          document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
          document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
 
@@ -73,31 +74,41 @@
           var action_val = renameGet(jsonPage.content[i].action);
           var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
           var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
-          var style_val = (jsonPage.content[i].style?jsonPage.content[i].style:'');
+          var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
+          var pattern_val = (jsonPage.content[i].pattern?'pattern="'+jsonPage.content[i].pattern+'"':'');
 
           if (jsonPage.content[i].type == 'h2') {
-           document.getElementById('contents').innerHTML += '<hr><h2 id="'+name_val+'" class="'+class_val+'" style="'+style_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2>';
+           document.getElementById('contents').innerHTML += '<hr><h2 id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2>';
           }
           if (jsonPage.content[i].type == 'input') {
-           document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" style="'+style_val+'" pattern="'+jsonPage.content[i].pattern+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
+           document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
+          }
+          if (jsonPage.content[i].type == 'password') {
+           document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
           }
           if (jsonPage.content[i].type == 'button') {
-           document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" class=\""+class_val+"\"  style=\""+style_val+"\" onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+'"+action_val+"')\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\"  type=\"button\">";
+           document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" class=\""+class_val+"\" "+style_val+" onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+'"+action_val+"')\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" type=\"button\">";
+          }
+          if (jsonPage.content[i].type == 'checkbox') {
+           document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onchange="'+action_val+'" type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
           }
           if (jsonPage.content[i].type == 'link') {
-           document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" style="'+style_val+'" href="'+action_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
+           document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+action_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
           }
           if (jsonPage.content[i].type == 'text') {
-           document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" style="'+style_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
+           document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
           }
           if (jsonPage.content[i].type == 'chart') {
-           document.getElementById('contents').innerHTML += '<div class="g'+name_val+'"><button class="close" onclick="hide(\'g'+name_val+'\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+jsonPage.content[i].name+' class="'+class_val+'" style="'+style_val+'"><\/div><hr><\/div>';
+           document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+           //  document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
            setTimeout("loadChart('"+name_val+"','"+jsonPage.content[i].state+"')", 500);
           }
 
 
 
          }
+
+         document.getElementById('contents').innerHTM = html;
 
         }
 
