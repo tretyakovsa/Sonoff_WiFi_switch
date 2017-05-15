@@ -80,6 +80,14 @@ function html(id,val){
  }
 }
 
+function send_request_post(submit,server,filename){
+ xmlHttp = new XMLHttpRequest();
+ var formData = new FormData();
+ formData.append("data", new Blob([server], { type: 'text/html' }), filename);
+ xmlHttp.open("POST", "/edit");
+ xmlHttp.send(formData);
+}
+
 function send_request(submit,server){
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
