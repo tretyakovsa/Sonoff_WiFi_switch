@@ -43,33 +43,33 @@
 
 
 
-
         //  var xmlHttp=createXmlHttpObject();
-        xmlHttp.open('GET', window.location.hash.substring(1)+".json",true);
+        xmlHttp.open('GET', window.location.search.substring(1)+".json",true);
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
          var jsonPage=JSON.parse(xmlHttp.responseText);
 
          for(i = 0;i<jsonPage.content.length;i++) {
 
+          if (jsonPage.content[i].type == 'h2') {
+           document.getElementById('contents').innerHTML += '<hr><h2 id="'+jsonPage.content[i].module+'" class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2>';
+          }
           if (jsonPage.content[i].type == 'input') {
-           document.getElementById('contents').innerHTML += '<input value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" class="'+jsonPage.content[i].class+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
+           document.getElementById('contents').innerHTML += '<input id="'+jsonPage.content[i].module+'" class="form-control '+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'" pattern="'+jsonPage.content[i].pattern+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
           }
           if (jsonPage.content[i].type == 'button') {
-           document.getElementById('contents').innerHTML += "<input value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" class=\""+jsonPage.content[i].class+"\" onclick=\"send_request(this, 'command?module="+jsonPage.content[i].module+"&"+jsonPage.content[i].action+"')\" type=\"button\">";
+           document.getElementById('contents').innerHTML += "<input id=\""+jsonPage.content[i].module+"\" class=\""+jsonPage.content[i].class+"\"  style=\""+jsonPage.content[i].style+"\" onclick=\"send_request(this, 'command?module="+jsonPage.content[i].module+"&'+renameGet('"+jsonPage.content[i].action+"'))\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\"  type=\"button\">";
           }
           if (jsonPage.content[i].type == 'link') {
-           document.getElementById('contents').innerHTML += '<a href="'+jsonPage.content[i].action+'" class="'+jsonPage.content[i].class+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'</a>';
+           document.getElementById('contents').innerHTML += '<a id="'+jsonPage.content[i].module+'" class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'" href="'+jsonPage.content[i].action+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
           }
           if (jsonPage.content[i].type == 'text') {
-           document.getElementById('contents').innerHTML += '<div class="'+jsonPage.content[i].class+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'</div>';
+           document.getElementById('contents').innerHTML += '<div id="'+jsonPage.content[i].module+'" class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
           }
-          if (jsonPage.content[i].type == 'charts') {
-           document.getElementById('contents').innerHTML += '<div class="{{g85723}}"><button class="close" onclick="hide(\'g85723\',this);" type="button">×</button><a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a><div id="ct-analog" style="height:200px;margin-left:-20px"></div><hr></div>';
-           loadChart('ct-analog','analog');
-
-
-          }
+          //  if (jsonPage.content[i].type == 'charts') {
+          //   document.getElementById('contents').innerHTML += '<div class="{{g85723}}"><button class="close" onclick="hide(\'g85723\',this);" type="button">×</button><a href="/chart.htm#analog" target="_blank" class="close"><i class="popup-img"></i></a><div id="ct-analog" style="height:200px;margin-left:-20px"></div><hr></div>';
+          //   loadChart('ct-analog','analog');
+          //  }
 
          }
 
@@ -92,6 +92,16 @@
       return jsonResponse[key];
      }
     }
+   }
+
+   function renameGet(str) {
+    var arr=str.match(/\[\[\S+?\]\]/gim);
+    for (var i=0; i<arr.length; i++) {
+     var id=arr[i].slice(2, -2);
+     var txt=document.getElementById(id).value;
+     str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','gim'), txt);
+    };
+    return str;
    }
 
 
