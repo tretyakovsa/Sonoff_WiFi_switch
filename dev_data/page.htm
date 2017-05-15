@@ -106,15 +106,22 @@
    };
 
 
-
-
-   function renameBlock(jsonResponse, val) {
-    for (var key in jsonResponse) {
-     if ('{{'+key+'}}' == val) {
-      return jsonResponse[key];
+   function renameBlock(jsonResponse, str) {
+    if (str) {
+     var arr=str.match(/\{\{\S+?\}\}/gim);
+     if (arr) {
+      for (var i=0; i<arr.length; i++) {
+       var id=arr[i].slice(2, -2);
+       if (jsonResponse[id]) {
+       var txt=jsonResponse[id];
+       str = str.replace(new RegExp('\\{\\{'+id+'\\}\\}','gim'), txt);
+       }
+      };
      }
     }
+    return str;
    }
+
 
    function renameGet(str) {
     if (str) {
