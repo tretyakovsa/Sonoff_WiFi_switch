@@ -64,6 +64,8 @@
           jsonPage=JSON.parse(document.getElementById('edit-json').value);
          }
 
+         val('edit-butt',jsonResponse.LangRefresh);
+
 
          for(i = 0;i<jsonPage.content.length;i++) {
 
@@ -120,14 +122,15 @@
      if (arr) {
       for (var i=0; i<arr.length; i++) {
        var id=arr[i].slice(2, -2);
+       if (document.getElementById(id)) {
        var txt=document.getElementById(id).value;
        str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','gim'), txt);
+       }
       };
      }
     }
     return str;
    }
-
    function handleServerResponse(){}
   </script>
  </head>
@@ -141,7 +144,7 @@
 
    <div id="edit-content" class="hidden" style="height:100%;right:0;position:fixed;top:0%;width:25%;">
     <textarea class="form-control" spellcheck="false" style="width:100%;height:90%;" id="edit-json"></textarea>
-    <input class="btn btn-success" onclick="cetContent('edit')" value="Посмотреть" type="button">
+    <input class="btn btn-success" id="edit-butt" onclick="cetContent('edit');this.value='Загрузка...';" value="Посмотреть" type="button">
     <input class="btn btn-danger" onclick="send_request_post(this, val('edit-json'), window.location.search.substring(1)+'.json');toggle('edit-content');" value="Сохранить" type="button">
    </div>
 
