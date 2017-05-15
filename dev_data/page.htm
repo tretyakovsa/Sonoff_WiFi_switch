@@ -72,7 +72,7 @@
            document.getElementById('contents').innerHTML += '<input id="'+jsonPage.content[i].module+'" class="form-control '+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'" pattern="'+jsonPage.content[i].pattern+'" placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
           }
           if (jsonPage.content[i].type == 'button') {
-           document.getElementById('contents').innerHTML += "<input id=\""+jsonPage.content[i].module+"\" class=\""+jsonPage.content[i].class+"\"  style=\""+jsonPage.content[i].style+"\" onclick=\"send_request(this, 'command?module="+jsonPage.content[i].module+"&'+renameGet('"+jsonPage.content[i].action+"'))\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\"  type=\"button\">";
+           document.getElementById('contents').innerHTML += "<input id=\""+jsonPage.content[i].module+"\" class=\""+jsonPage.content[i].class+"\"  style=\""+jsonPage.content[i].style+"\" onclick=\"send_request(this, 'cmd?module="+jsonPage.content[i].module+"&'+renameGet('"+jsonPage.content[i].action+"'))\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\"  type=\"button\">";
           }
           if (jsonPage.content[i].type == 'link') {
            document.getElementById('contents').innerHTML += '<a id="'+jsonPage.content[i].module+'" class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'" href="'+jsonPage.content[i].action+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
