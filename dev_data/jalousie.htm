@@ -16,7 +16,7 @@
    function handleServerResponse(stage,jsonResponse){
     val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
     if (stage != 'next') {
-     if (!jsonResponse.g85723) loadChart('ct-analog','analog');
+     if (!jsonResponse.g85723) loadChart('ct-analog','analog.json');
     }
    }
    function motor(submit){

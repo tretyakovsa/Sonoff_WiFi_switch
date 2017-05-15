@@ -51,8 +51,8 @@
      document.body.style.backgroundColor="#"+jsonResponse.color;
      val('off-on',(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff));
      if (stage != 'next') {
-      //if (!jsonResponse.g72895) loadChart('ct-chart','sensor');
-      if (!jsonResponse.g85723 && searchModule(jsonResponse.module,"analog") == 'yes') loadChart('ct-analog','analog');
+      //if (!jsonResponse.g72895) loadChart('ct-chart','sensor.json');
+      if (!jsonResponse.g85723 && searchModule(jsonResponse.module,"analog") == 'yes') loadChart('ct-analog','analog.json');
      }
      if (!jsonResponse.g42843) loadTimer("timer-list","rgb");
     }

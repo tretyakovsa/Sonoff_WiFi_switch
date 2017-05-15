@@ -58,11 +58,8 @@
   {
    "type": "chart",
    "title": "{{LangChart}}",
-   "name": "analog-chat",
    "module": "analog",
-   "state": "analog.json",
-   "action": "/chart.htm#analog",
-   "style": "height:200px;margin-left:-20px"
+   "state": "analog.json"
   },
   {
    "type": "text",

@@ -11,7 +11,7 @@ function loadChart(chartId,chartUrl,charOptions){
 
  function adddata() {
   var xmlHttp=createXmlHttpObject();
-  xmlHttp.open("GET", "/"+chartUrl+".json", true);
+  xmlHttp.open("GET", "/"+chartUrl, true);
   xmlHttp.send(null);
   xmlHttp.onload = function(e) {
    var module=JSON.parse(xmlHttp.responseText);
