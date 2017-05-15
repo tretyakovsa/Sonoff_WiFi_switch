@@ -22,7 +22,6 @@
 
    window.onload = function() {
     cetContent('first');
-    toggle('content');
    }
 
    function cetContent(stage) {
@@ -53,7 +52,9 @@
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
 
-         document.getElementById('contents').innerHTML = '';
+         document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
+         document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+
          var jsonPage;
          if (stage == 'first') {
           jsonPage=JSON.parse(xmlHttp.responseText);
@@ -83,12 +84,16 @@
           if (jsonPage.content[i].type == 'text') {
            document.getElementById('contents').innerHTML += '<div id="'+jsonPage.content[i].name+'" class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
           }
-            if (jsonPage.content[i].type == 'chart') {
-             document.getElementById('contents').innerHTML += '<div class="{{g85723}}"><button class="close" onclick="hide(\'g85723\',this);" type="button">×<\/button><a href="'+action+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+jsonPage.content[i].name+' class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'"><\/div><hr><\/div>';
-             setTimeout("loadChart('"+jsonPage.content[i].name+"','"+jsonPage.content[i].state+"')", 1000);
-            }
+          if (jsonPage.content[i].type == 'chart') {
+           document.getElementById('contents').innerHTML += '<div class="g'+jsonPage.content[i].name+'"><button class="close" onclick="hide(\'g'+jsonPage.content[i].name+'\',this);" type="button">×<\/button><a href="'+action+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+jsonPage.content[i].name+' class="'+jsonPage.content[i].class+'" style="'+jsonPage.content[i].style+'"><\/div><hr><\/div>';
+           setTimeout("loadChart('"+jsonPage.content[i].name+"','"+jsonPage.content[i].state+"')", 500);
+          }
+
+
 
          }
+
+         toggle('content','hide');
 
         }
 
@@ -132,13 +137,6 @@
    <div class="row hidden" id="content">
     <h1 id="title">{{LangOptions1}}</h1>
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6" id="contents">
-     <h5 class="alert-danger">{{SSDP}}</h5>
-
-     <div class="btn-group" id="language">
-      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
-      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul>
-     </div>
-
     </div>
    </div>
 
