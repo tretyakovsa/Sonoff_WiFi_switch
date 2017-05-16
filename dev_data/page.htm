@@ -53,7 +53,7 @@
        xmlHttp.onload = function(e) {
 
         var jsonResponse1;
-        if (xmlHttp.status!=404){
+        if (xmlHttp.status==200){
          jsonResponse1=JSON.parse(xmlHttp.responseText);
         } else { jsonResponse1 = '[{"error":"File not found"}]'; }
 
@@ -63,7 +63,7 @@
 
 
          var jsonResponse2;
-         if (xmlHttp.status!=404){
+         if (xmlHttp.status==200){
           jsonResponse2=JSON.parse(xmlHttp.responseText);
          } else { jsonResponse1 = '[{"error":"File not found"}]'; }
 
