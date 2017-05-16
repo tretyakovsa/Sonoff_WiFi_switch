@@ -13,7 +13,6 @@
    "type": "select",
    "state": "{{lang}}",
    "style": "margin-top:-47px;float:right;width:70px",
-   "action":"setLang('ru')",
    "title": {
     "ru":"RU",
     "en":"EN",
@@ -77,9 +76,6 @@
   },
   {
    "type": "range",
-   "name":"lux",
-   "module": "rgb",
-   "action": "luksi=[[lux]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
