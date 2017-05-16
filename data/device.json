@@ -2,7 +2,33 @@
  "config": "config.live.json",
  "lang": "/lang/lang.{{lang}}.json",
  "title": "{{LangOptions1}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-danger"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "action":"setLang('ru')",
+   "title": {
+    "ru":"RU",
+    "en":"EN",
+    "lv":"LV"
+   }
+  },
+  {
+   "type": "lang222",
+   "title": "{{LangLoading}}",
+   "state": "{{lang}}",
+   "name": "language-set",
+   "action": "toggle('language-set');loadLang('language-set');",
+   "class": "group",
+   "style": "margin-top:-45px;float:right;"
+  },
   {
    "type": "link",
    "title": "{{LangDevices}}",
@@ -14,6 +40,9 @@
    "title": "{{LangSetting3}}",
    "action": "/setup.htm",
    "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "hr"
   },
   {
    "type": "h2",
@@ -48,8 +77,13 @@
   },
   {
    "type": "range",
-   "action": "",
+   "name":"lux",
+   "module": "rgb",
+   "action": "luksi=[[lux]]",
    "pattern":"min=0 max=255 step=1"
+  },
+  {
+   "type": "hr"
   },
   {
    "type": "h2",
@@ -63,8 +97,7 @@
   },
   {
    "type": "chart",
-   "title": "{{LangChart}}",
-   "name": "analog-chat",
+   "name": "analog-chart",
    "module": "analog",
    "state": "analog.json",
    "action": "/chart.htm#analog",
@@ -76,6 +109,9 @@
    "class": "alert alert-info"
   },
   {
+   "type": "hr"
+  },
+  {
    "type": "tables",
    "title": "{{LangTimer}}",
    "module": "timers",
@@ -85,15 +121,19 @@
   },
   {
    "type": "select",
-   "state": "{{LangDay}}",
+   "state": "Tue",
    "module": "day",
-   "title": [
-    {
-     "{{LangMon}}": "Mon",
-     "{{LangMon}}": "Mdon",
-     "{{LangTue}}": "Tue"
-    }
-   ]
+   "title": {
+    "All":"{{LangDay}}",
+    "All":"{{LangAll}}",
+    "Mon":"{{LangMon}}",
+    "Tue":"{{LangTue}}",
+    "Wed":"{{LangWed}}",
+    "Thu":"{{LangThu}}",
+    "Fri":"{{LangFri}}",
+    "Sat":"{{LangSat}}",
+    "Sun":"{{LangSun}}"
+   }
   },
   {
    "type": "wifi",
