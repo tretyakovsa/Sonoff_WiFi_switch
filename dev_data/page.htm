@@ -107,12 +107,13 @@
 
           for(i = 0;i<jsonPage.content.length;i++) {
 
-
            var action_val = renameGet(jsonPage.content[i].action);
            var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
            var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
            var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
            var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
+           var state_val = renameBlock(jsonResponse, jsonPage.content[i].state);
+           var module_val = jsonPage.content[i].module;
 
            var type_val=jsonPage.content[i].type;
 
@@ -123,31 +124,31 @@
             document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
            }
            if (type_val == 'input') {
-            if (action_val) action_val = 'onfocusout="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
+            if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'">';
            }
            if (type_val == 'password') {
-            if (action_val) action_val = 'onfocusout="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
+            if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
            }
            if (type_val == 'button') {
-            if (action_val) action_val = "onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+renameGet('"+jsonPage.content[i].action+"'))\"";
+            if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
             document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" "+action_val+" class=\""+class_val+"\" "+style_val+" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" type=\"button\">";
            }
            if (type_val == 'checkbox') {
-            if (action_val) action_val = 'onchange="val(\''+name_val+'\',(this.checked?\'1\':\'0\'));send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" '+action_val+' type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
+            if (action_val) action_val = 'onchange="val(\''+name_val+'\',(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
            }
            if (type_val == 'range') {
-            if (action_val) action_val = 'onchange="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" type="range">';
+            if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range">';
            }
            if (type_val == 'select') {
-            if (action_val) action_val = 'onchange="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
             var html = '';
             jsonSelect = jsonPage.content[i].title;
             for(var key in jsonSelect) {
-             html += '<option value="'+key+'"'+(jsonPage.content[i].state==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+             html += '<option value="'+key+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
             }
             document.getElementById('contents').innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+html+'<\/select>';
            }
@@ -160,11 +161,11 @@
            if (type_val == 'chart') {
             document.getElementById('contents').innerHTML += '<div id="g'+name_val+'" class="'+renameBlock(jsonResponse, '{{g'+name_val+'}}')+'"><button class="close" onclick="hide(\'g'+name_val+'\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
             if (renameBlock(jsonResponse, '{{g'+name_val+'}}') != 'hidden') {
-             setTimeout("loadChart('"+name_val+"','"+jsonPage.content[i].state+"')", 500);
+             setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
             }
            }
            if (type_val == 'lang') {
-            document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+renameBlock(jsonResponse, jsonPage.content[i].state)+' <span class="caret"><\/span><\/a><\/div>';
+            document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+state_val+' <span class="caret"><\/span><\/a><\/div>';
            }
 
 
@@ -191,8 +192,7 @@
       for (var i=0; i<arr.length; i++) {
        var id=arr[i].slice(2, -2);
        if (jsonResponse[id]) {
-        var txt=jsonResponse[id];
-        str = str.replace(new RegExp('\\{\\{'+id+'\\}\\}','gim'), txt);
+        str = str.replace(new RegExp('\\{\\{'+id+'\\}\\}','gim'), jsonResponse[id]);
        }
       };
      }
@@ -214,8 +214,6 @@
         } else {
          txt=document.getElementById(id).value;
         }
-
-
         str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','gim'), txt);
        }
       };
