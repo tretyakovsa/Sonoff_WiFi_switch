@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <script type="text/javascript" src="js/function.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Options page</title>
+  <title></title>
   <script type="text/javascript">
 
    document.onkeydown = function(e){
@@ -81,6 +81,7 @@
           }
 
 
+          document.title = renameBlock(jsonResponse, jsonPage.title);
           document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
           document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
           document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
@@ -94,7 +95,7 @@
            jsonPage=JSON.parse(document.getElementById('edit-json').value);
           }
 
-          val('edit-butt',jsonResponse.LangRefresh);
+          val('edit-butt','View');
 
           for(i = 0;i<jsonPage.content.length;i++) {
 
@@ -199,15 +200,15 @@
  <body>
   <div class="container loader-bg">
    <div class="row hidden" id="content">
-    <h1 id="title">{{LangOptions1}}</h1>
+    <h1 id="title"></h1>
     <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6" id="contents"></div>
    </div>
 
    <div id="edit-content" class="hidden" style="height:100%;right:0;position:fixed;top:0%;width:25%;">
     <textarea class="form-control" spellcheck="false" style="width:100%;height:90%;" id="edit-json"></textarea>
     <div class="btn-group btn-block">
-     <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="cetContent('edit');this.value='Загрузка...';" value="" type="button">
-     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), window.location.search.substring(1)+'.json');toggle('edit-content');" value="Сохранить" type="button">
+     <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="cetContent('edit');this.value='Loading...';" value="View" type="button">
+     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), window.location.search.substring(1)+'.json');toggle('edit-content');" value="Save" type="button">
     </div>
    </div>
 
