@@ -1,5 +1,6 @@
 {
  "config": "config.live.json",
+ "lang": "/lang/lang.{{lang}}.json",
  "title": "{{LangOptions1}}",
  "content": [
   {
@@ -46,6 +47,11 @@
    "class": "btn btn-block btn-success"
   },
   {
+   "type": "range",
+   "action": "",
+   "pattern":"min=0 max=255 step=1"
+  },
+  {
    "type": "h2",
    "title": "{{LangGMT1}}"
   },
@@ -79,15 +85,15 @@
   },
   {
    "type": "select",
-   "title": "{{LangDay}}",
+   "state": "{{LangDay}}",
    "module": "day",
-   "state": [
+   "title": [
     {
      "{{LangMon}}": "Mon",
+     "{{LangMon}}": "Mdon",
      "{{LangTue}}": "Tue"
     }
-   ],
-   "class": "btn btn-default form-control"
+   ]
   },
   {
    "type": "wifi",

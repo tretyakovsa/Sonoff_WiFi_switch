@@ -26,93 +26,134 @@
 
    function cetContent(stage) {
     var xmlHttp=createXmlHttpObject();
-    if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
-     xmlHttp.open('PUT','/config.live.json',true);
+
+    if (window.location.search.substring(1) == '') {
+     document.getElementById('contents').innerHTML += '<h1>Please add json file in you folder. Example: device.json and join on page.htm?device<\/h1>';
+     toggle('content','hide');
+
+    } else {
+
+     //  var xmlHttp=createXmlHttpObject();
+     xmlHttp.open('GET', window.location.search.substring(1)+".json",true);
      xmlHttp.send(null);
      xmlHttp.onload = function(e) {
-      var jsonResponse1=JSON.parse(xmlHttp.responseText);
-      xmlHttp.open('GET','/lang/lang.'+jsonResponse1.lang+'.json',true);
-      xmlHttp.send(null);
-      xmlHttp.onload = function(e) {
-       var jsonResponse2=JSON.parse(xmlHttp.responseText);
-       xmlHttp.open('GET','/modules.json',true);
+
+
+
+
+      var jsonPage=JSON.parse(xmlHttp.responseText);
+      var jsonEdit=xmlHttp.responseText;
+
+
+
+
+      if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
+       xmlHttp.open('PUT', jsonPage.config,true);
        xmlHttp.send(null);
        xmlHttp.onload = function(e) {
-        var modules=JSON.parse(xmlHttp.responseText);
-        jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-        jsonResponse.module = modules.module;
-        var theCookies = document.cookie.split(';');
-        for (var i = 1 ; i <= theCookies.length; i++) {
-         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-        }
 
+        var jsonResponse1;
+        if (xmlHttp.status!=404){
+         jsonResponse1=JSON.parse(xmlHttp.responseText);
+        } else { jsonResponse1 = '[{"error":"File not found"}]'; }
 
-        //  var xmlHttp=createXmlHttpObject();
-        xmlHttp.open('GET', window.location.search.substring(1)+".json",true);
+        xmlHttp.open('GET', renameBlock(jsonResponse1, jsonPage.lang),true);
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
 
 
-         document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
-         document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+         var jsonResponse2;
+         if (xmlHttp.status!=404){
+          jsonResponse2=JSON.parse(xmlHttp.responseText);
+         } else { jsonResponse1 = '[{"error":"File not found"}]'; }
 
-         var jsonPage;
-         if (stage == 'first') {
-          jsonPage=JSON.parse(xmlHttp.responseText);
-          document.getElementById('edit-json').value = xmlHttp.responseText;
-          toggle('content','hide');
-         } else {
-          jsonPage=JSON.parse(document.getElementById('edit-json').value);
+
+
+         xmlHttp.open('GET','/modules.json',true);
+         xmlHttp.send(null);
+         xmlHttp.onload = function(e) {
+          var modules=JSON.parse(xmlHttp.responseText);
+          jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+          jsonResponse.module = modules.module;
+          var theCookies = document.cookie.split(';');
+          for (var i = 1 ; i <= theCookies.length; i++) {
+           jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+          }
+
+
+          document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
+          document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
+          document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+
+
+          if (stage == 'first') {
+           // jsonPage=JSON.parse(xmlHttp.responseText);
+           document.getElementById('edit-json').value = jsonEdit;
+           toggle('content','hide');
+          } else {
+           jsonPage=JSON.parse(document.getElementById('edit-json').value);
+          }
+
+          val('edit-butt',jsonResponse.LangRefresh);
+
+          for(i = 0;i<jsonPage.content.length;i++) {
+
+
+           var action_val = renameGet(jsonPage.content[i].action);
+           var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
+           var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
+           var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
+           var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
+
+           if (jsonPage.content[i].type == 'h2') {
+            document.getElementById('contents').innerHTML += '<hr><h2 id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2>';
+           }
+           if (jsonPage.content[i].type == 'input') {
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
+           }
+           if (jsonPage.content[i].type == 'password') {
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
+           }
+           if (jsonPage.content[i].type == 'button') {
+            document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" class=\""+class_val+"\" "+style_val+" onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+'"+action_val+"')\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" type=\"button\">";
+           }
+           if (jsonPage.content[i].type == 'checkbox') {
+            document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onchange="'+action_val+'" type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
+           }
+           if (jsonPage.content[i].type == 'range') {
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" onchange="'+action_val+'" '+pattern_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" type="range">';
+           }
+           if (jsonPage.content[i].type == 'select') {
+            var html = '';
+            jsonSelect = jsonPage.content[i].title;
+            //  alert(jsonPage.content[i].title.length);
+            for(var key in jsonSelect) {
+             html += '<option value="">sss<\/option>';
+            }
+            document.getElementById('contents').innerHTML += '<select class="form-control '+class_val+'" '+style_val+' id="'+name_val+'">'+html+'<\/select>';
+           }
+           if (jsonPage.content[i].type == 'link') {
+            document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+action_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
+           }
+           if (jsonPage.content[i].type == 'text') {
+            document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
+           }
+           if (jsonPage.content[i].type == 'chart') {
+            document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+            //  document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+            setTimeout("loadChart('"+name_val+"','"+jsonPage.content[i].state+"')", 500);
+           }
+
+
+
+          }
+
+          document.getElementById('contents').innerHTM = html;
+
          }
 
-         val('edit-butt',jsonResponse.LangRefresh);
-
-
-         for(i = 0;i<jsonPage.content.length;i++) {
-
-
-          var action_val = renameGet(jsonPage.content[i].action);
-          var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
-          var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
-          var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
-          var pattern_val = (jsonPage.content[i].pattern?'pattern="'+jsonPage.content[i].pattern+'"':'');
-
-          if (jsonPage.content[i].type == 'h2') {
-           document.getElementById('contents').innerHTML += '<hr><h2 id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2>';
-          }
-          if (jsonPage.content[i].type == 'input') {
-           document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
-          }
-          if (jsonPage.content[i].type == 'password') {
-           document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
-          }
-          if (jsonPage.content[i].type == 'button') {
-           document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" class=\""+class_val+"\" "+style_val+" onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+'"+action_val+"')\" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" type=\"button\">";
-          }
-          if (jsonPage.content[i].type == 'checkbox') {
-           document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onchange="'+action_val+'" type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
-          }
-          if (jsonPage.content[i].type == 'link') {
-           document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+action_val+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
-          }
-          if (jsonPage.content[i].type == 'text') {
-           document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
-          }
-          if (jsonPage.content[i].type == 'chart') {
-           document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
-           //  document.getElementById('contents').innerHTML += '<div class="gid="'+name_val+'""><button class="close" onclick="hide(\'gid="'+name_val+'"\',this);" type="button">×<\/button><a href="'+action_val+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
-           setTimeout("loadChart('"+name_val+"','"+jsonPage.content[i].state+"')", 500);
-          }
-
-
-
-         }
-
-         document.getElementById('contents').innerHTM = html;
 
         }
-
-
        }
       }
      }
