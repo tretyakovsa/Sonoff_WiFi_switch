@@ -76,6 +76,9 @@
   },
   {
    "type": "range",
+   "name":"lux",
+   "module": "rgb",
+   "action": "luksi=[[lux]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -92,8 +95,11 @@
    "class": "btn btn-block btn-primary"
   },
   {
+   "type": "hr"
+  },
+{
    "type": "chart",
-   "name": "analog-chart",
+   "name": "analog-chat",
    "module": "analog",
    "state": "analog.json",
    "action": "/chart.htm#analog",
@@ -119,6 +125,7 @@
    "type": "select",
    "state": "Tue",
    "module": "day",
+   "name":"fdds4",
    "title": {
     "All":"{{LangDay}}",
     "All":"{{LangAll}}",
@@ -132,17 +139,32 @@
    }
   },
   {
+   "type": "button",
+   "title": "{{LangSave}}",
+   "module": "device",
+   "action": "ssp=[[fdds4]]&sce=[[space]]",
+   "state": "response",
+   "class": "btn btn-block btn-success"
+  },
+  {
    "type": "wifi",
    "title": "{{ssid}}",
    "module": "wifi"
   },
   {
    "type": "checkbox",
-   "title": "Задать статический IP",
+   "title": "Заsdfsdfsd",
    "name":"checkboxIP",
    "module": "checkboxIP",
    "state": "{{checkboxIP}}",
-   "action": "val('checkboxIP',(this.checked?'1':'0'));toggle('static-ip');"
+   "action": "sdf=[[checkboxIP]]"
+  },
+  {
+   "type": "checkbox",
+   "title": "Задать статический IP",
+   "name":"checkboxIP",
+   "module": "checkboxIP",
+   "state": "{{checkboxIP}}"
   },
   {
    "type": "text",

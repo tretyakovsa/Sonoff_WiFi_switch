@@ -123,12 +123,12 @@
             document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
            }
            if (type_val == 'input') {
-            if (action_val) action_val = 'onchange="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
+            if (action_val) action_val = 'onfocusout="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'">';
            }
            if (type_val == 'password') {
-            if (action_val) action_val = 'onchange="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
+            if (action_val) action_val = 'onfocusout="send_request(this, (\''+jsonPage.content[i].module+'\'?\'cmd?module='+jsonPage.content[i].module+'&\':\'\')+renameGet(\''+jsonPage.content[i].action+'\'))"';
+            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+renameBlock(jsonResponse, jsonPage.content[i].state)+'" onfocus="this.type=\'text\'" type="password">';
            }
            if (type_val == 'button') {
             if (action_val) action_val = "onclick=\"send_request(this, ('"+jsonPage.content[i].module+"'?'cmd?module="+jsonPage.content[i].module+"&':'')+renameGet('"+jsonPage.content[i].action+"'))\"";
