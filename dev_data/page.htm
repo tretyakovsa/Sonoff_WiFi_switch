@@ -72,7 +72,13 @@
          xmlHttp.open('GET','/modules.json',true);
          xmlHttp.send(null);
          xmlHttp.onload = function(e) {
-          var modules=JSON.parse(xmlHttp.responseText);
+
+          var modules;
+          if (xmlHttp.status==200){
+           var modules=JSON.parse(xmlHttp.responseText);
+          } else { modules = '[{"error":"File not found"}]'; }
+
+          //var modules=JSON.parse(xmlHttp.responseText);
           jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
           jsonResponse.module = modules.module;
           var theCookies = document.cookie.split(';');
