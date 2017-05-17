@@ -103,6 +103,7 @@
           document.title = renameBlock(jsonResponse, jsonPage.title);
           document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
           document.getElementById("contents").className = jsonPage.class;
+          document.getElementById("contents").style = jsonPage.style;
           document.getElementById('contents').innerHTML = '';
           // document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
           // document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
@@ -222,9 +223,9 @@
      if (arr) {
       for (var i=0; i<arr.length; i++) {
        var id=arr[i].slice(2, -2);
-       if (jsonResponse[id]) {
-        str = str.replace(new RegExp('\\{\\{'+id+'\\}\\}','gim'), jsonResponse[id]);
-       }
+       //if (jsonResponse[id]) {
+        str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+      // }
       };
      }
     }
@@ -245,7 +246,7 @@
         } else {
          txt=document.getElementById(id).value;
         }
-        str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','gim'), txt);
+        str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
        }
       };
      }
