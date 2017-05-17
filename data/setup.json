@@ -311,7 +311,7 @@
   {
    "type": "input",
    "title": "MQTT Server, example: cloudmqtt.com",
-   "name":"mqtt-name",
+   "name":"mqtt-server",
    "module": "mqtt",
    "state": "{{mqttServer}}",
    "style": "width:70%;display:inline"
@@ -328,7 +328,7 @@
   {
    "type": "input",
    "title": "User Name",
-   "name":"ddns-user",
+   "name":"mqtt-user",
    "module": "mqtt",
    "state": "{{mqttUser}}",
    "style": "width:50%;display:inline"
@@ -336,7 +336,7 @@
   {
    "type": "password",
    "title": "Pass",
-   "name":"ddns-pass",
+   "name":"mqtt-pass",
    "module": "mqtt",
    "state": "{{mqttPass}}",
    "style": "width:50%;display:inline"

@@ -105,6 +105,7 @@
           document.getElementById("contents").className = jsonPage.class;
           document.getElementById("contents").style = jsonPage.style;
           document.getElementById('contents').innerHTML = '';
+          document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
           // document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
           // document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
 
@@ -224,8 +225,8 @@
       for (var i=0; i<arr.length; i++) {
        var id=arr[i].slice(2, -2);
        //if (jsonResponse[id]) {
-        str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
-      // }
+       str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+       // }
       };
      }
     }
