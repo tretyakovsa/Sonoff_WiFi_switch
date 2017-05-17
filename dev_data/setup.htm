@@ -76,7 +76,6 @@
      var html = '';
      for(i = 0;i<jsonBuild.length;i++) {
       if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
-       //if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5) && jsonResponse[buildids+"Data"].substring(0,35==jsonBuild[i].name.substring(0,35) {
        html += '<li><a href="/upgrade?'+typeFile+'=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
       }
      }
@@ -195,7 +194,7 @@
      <div class="alert alert-dismissible alert-danger hidden" id="wifi-connect1">{{LangWiFi3}}</div>
      <h2>{{LangWiFi2}}</h2>
      <div class="btn-group btn-block" id="ssid-group">
-      <a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle('ssid-select');loadWifi('ssid-select');return false"><span id="ssid-name">{{ssid}}</span> <span class="caret"></span></a>
+      <a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle('ssid-select');loadWifi('ssid-select','ssid');return false"><span id="ssid-name">{{ssid}}</span> <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">{{LangLoading}}</a></li></ul>
      </div>
      <input id="ssid" value="{{ssid}}" class="form-control hidden" pattern=".{1,20}" placeholder="{{LangWiFi1}}">

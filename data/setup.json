@@ -1,19 +1,37 @@
 {
  "config": "config.live.json",
+ "lang": "/lang/lang.{{lang}}.json",
  "title": "{{LangOptions1}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-danger"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name": "languages",
+   "action": "/lang?set=[[languages]]",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV"}
+  },
+
+
   {
    "type": "link",
    "title": "{{LangDevices}}",
    "action": "/",
    "class": "btn btn-block btn-danger"
   },
+
+
   {
-   "type": "link",
-   "title": "{{LangSetting3}}",
-   "action": "/setup.htm",
-   "class": "btn btn-block btn-default"
+   "type": "hr"
   },
+
+
   {
    "type": "h2",
    "title": "{{LangDevice}}",
@@ -40,70 +58,316 @@
   {
    "type": "button",
    "title": "{{LangSave}}",
-   "module": "device",
-   "action": "ssdp=[[ssdp]]&space=[[space]]",
+   "module": "",
+   "action": "device?ssdp=[[ssdp]]&space=[[space]]",
    "state": "response",
    "class": "btn btn-block btn-success"
   },
+
+
+  {
+   "type": "hr"
+  },
+
+
   {
    "type": "h2",
+   "title": "{{LangWiFi2}}",
+   "module": "wifi"
+  },
+  {
+   "type": "wifi",
+   "module":"wifi",
+   "title":"{{LangWiFi1}}",
+   "name":"ssid",
+   "state": "{{ssid}}",
+   "pattern": ".{1,20}"
+  },
+  {
+   "type": "password",
+   "module":"wifi",
+   "title": "{{LangDevice}}",
+   "name":"ssidPass",
+   "state": "{{ssidPass}}",
+   "pattern": ".{8,20}"
+  },
+
+  {
+   "type": "checkbox",
+   "title": "Задать статический IP",
+   "name":"checkboxIP",
+   "module": "wifi",
+   "state": "{{checkboxIP}}",
+   "style": "display:block"
+  },
+  {
+   "type": "input",
+   "title": "IP Adress",
+   "name":"ip",
+   "module": "wifi",
+   "state": "{{ip}}",
+   "style": "width:50%;display:inline",
+   "pattern": "[0-9.]{1,15}"
+  },
+  {
+   "type": "input",
+   "title": "Subnet Mask",
+   "name":"subnet",
+   "module": "wifi",
+   "state": "{{subnet}}",
+   "style": "width:50%;display:inline",
+   "pattern": "[0-9.]{1,15}"
+  },
+  {
+   "type": "input",
+   "title": "Default Getway",
+   "name":"getway",
+   "module": "wifi",
+   "state": "{{getway}}",
+   "style": "width:50%;display:inline",
+   "pattern": "[0-9.]{1,15}"
+  },
+  {
+   "type": "input",
+   "title": "DNS Server (Optional)",
+   "name":"dns",
+   "module": "wifi",
+   "state": "{{dns}}",
+   "style": "width:50%;display:inline",
+   "pattern": "[0-9.]{1,15}"
+  },
+  {
+   "type": "button",
+   "module":"",
+   "title": "{{LangSave}}",
+   "state": "response",
+   "class": "btn btn-block btn-success",
+   "action": "ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&ip=[[ip]]&subnet=[[subnet]]&getway=[[getway]]&dns=[[dns]]&checkboxIP=[[checkboxIP]]"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "module": "ntp",
    "title": "{{LangGMT1}}"
   },
   {
+   "type": "input",
+   "title": "{{LangSpace}}",
+   "name":"timeZone",
+   "module": "ntp",
+   "state": "{{timeZone}}",
+   "pattern": "[0-9-]{1,3}"
+  },
+  {
+   "type": "button",
+   "module":"",
+   "title": "{{LangSave}}",
+   "state": "response",
+   "class": "btn btn-block btn-success",
+   "action": "timeZone?timeZone=[[timeZone]]"
+  },
+  {
    "type": "link",
+   "module":"ntp",
    "title": "{{LangGMT2}}",
    "action": "javascript:set_time_zone(this);",
    "class": "btn btn-block btn-primary"
   },
+
+
   {
-   "type": "chart",
-   "title": "{{LangChart}}",
-   "module": "analog",
-   "state": "analog.json"
+   "type": "hr",
+   "module":"ntp"
+  },
+
+
+  {
+   "type": "time",
+   "module":"ntp",
+   "title": "{{LangTime1}}",
+   "state":"{{time}}"
+  },
+  {
+   "type": "button",
+   "module":"",
+   "title": "{{LangTime2}}",
+   "state": "response",
+   "class": "btn btn-block btn-primary",
+   "action": "Time"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "module": "ap",
+   "title": "{{LangAP}}"
   },
   {
    "type": "text",
-   "title": "{{LangIfttt1}}",
-   "class": "alert alert-info"
+   "module": "ap",
+   "title": "{{LangWiFi4}}",
+   "class": "alert alert-warning",
+   "style": "width:45%;float:right;"
   },
   {
-   "type": "tables",
-   "title": "{{LangTimer}}",
-   "module": "timers",
-   "state": "timers.save.json",
-   "class": "table table-striped table-hover",
-   "style": "width:100%;"
-  },
-  {
-   "type": "select",
-   "title": "{{LangDay}}",
-   "module": "day",
-   "state": [
-    {
-     "{{LangMon}}": "Mon",
-     "{{LangTue}}": "Tue"
-    }
-   ],
-   "class": "btn btn-default form-control"
-  },
-  {
-   "type": "wifi",
-   "title": "{{ssid}}",
-   "module": "wifi"
+   "type": "input",
+   "title": "{{LangWiFi1}}",
+   "name":"ssidap",
+   "module": "ap",
+   "state": "{{ssidAP}}",
+   "style": "width:50%;display:inline",
+   "pattern": ".{1,20}"
   },
   {
    "type": "password",
    "title": "{{LangPass}}",
-   "module": "ssidPass",
-   "state": "{{pass}}",
-   "class": "form-control"
+   "name":"ssidApPass",
+   "module": "ap",
+   "state": "{{ssidApPass}}",
+   "style": "width:50%;display:inline",
+   "pattern": ".{8,20}"
   },
   {
-   "type": "checkbox",
-   "title": "{{LangCheckboxIP}}",
-   "module": "checkboxIP",
-   "state": "{{checkboxIP}}",
-   "class": "form-control"
+   "type": "button",
+   "title": "{{LangSave}}",
+   "module": "",
+   "action": "ssidap?ssidAP=[[ssidap]]&ssidApPass=[[ssidApPass]]",
+   "state": "response",
+   "class": "btn btn-block btn-success",
+   "style": "width:50%;display:inline"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "module": "ddns",
+   "title": "{{LangDdns1}}"
+  },
+  {
+   "type": "text",
+   "module": "ddns",
+   "title": "{{LangDdns2}}",
+   "class": "alert alert-info"
+  },
+  {
+   "type": "input",
+   "title": "Host name",
+   "name":"ddns-name",
+   "module": "ddns",
+   "state": "{{ddnsName}}",
+   "style": "width:70%;display:inline"
+  },
+  {
+   "type": "input",
+   "title": "Host port",
+   "name":"ddns-port",
+   "module": "ddns",
+   "state": "{{ddnsPort}}",
+   "style": "width:30%;display:inline",
+   "pattern": "[0-9]{1,5}"
+  },
+  {
+   "type": "input",
+   "title": "Service URL",
+   "name":"ddns-server",
+   "module": "ddns",
+   "state": "{{ddns}}",
+   "pattern": "http://.+"
+  },
+  {
+   "type": "button",
+   "title": "{{LangSave}}",
+   "module": "",
+   "state": "response",
+   "class": "btn btn-block btn-success",
+   "action": "ddns?ddnsName=[[ddns-name]]&ddnsPort=[[ddns-port]]&ddns=[[ddns-server]]"
+  },
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "module": "mqtt",
+   "title": "MQTT"
+  },
+  {
+   "type": "input",
+   "title": "MQTT Server, example: cloudmqtt.com",
+   "name":"mqtt-name",
+   "module": "mqtt",
+   "state": "{{mqttServer}}",
+   "style": "width:70%;display:inline"
+  },
+  {
+   "type": "input",
+   "title": "MQTT port",
+   "name":"mqtt-port",
+   "module": "mqtt",
+   "state": "{{mqttPort}}",
+   "style": "width:30%;display:inline",
+   "pattern": "[0-9]{1,5}"
+  },
+  {
+   "type": "input",
+   "title": "User Name",
+   "name":"ddns-user",
+   "module": "mqtt",
+   "state": "{{mqttUser}}",
+   "style": "width:50%;display:inline"
+  },
+  {
+   "type": "password",
+   "title": "Pass",
+   "name":"ddns-pass",
+   "module": "mqtt",
+   "state": "{{mqttPass}}",
+   "style": "width:50%;display:inline"
+  },
+  {
+   "type": "button",
+   "title": "{{LangSave}}",
+   "module": "",
+   "state": "response",
+   "class": "btn btn-block btn-success",
+   "action": "mqtt?port=[[mqtt-port]]&server=[[mqtt-server]]&user=[[mqtt-user]]&pass=[[mqtt-pass]]"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangCookie}}",
+   "action": "javascript:delAllCookies();location.reload();",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "button",
+   "title": "{{LangReset1}}",
+   "action": "restart?device=ok",
+   "state": "response",
+   "class": "btn btn-block btn-warning"
   }
  ]
 }

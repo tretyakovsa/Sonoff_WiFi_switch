@@ -20,6 +20,19 @@
    }
 
 
+   function isValidJson(str) {
+    try {
+     JSON.parse(str);
+     document.getElementById('edit-json').style.border = "";
+     html("error-json",' ');
+    } catch (e) {
+     document.getElementById("edit-json").style.border = "2px solid red";
+     html("error-json",'<div class="alert alert-danger">'+e.message+'<\/div><br><br><br>');
+     return false;
+    }
+    return true;
+   }
+
    window.onload = function() {
     cetContent('first');
    }
@@ -133,11 +146,13 @@
            }
            if (type_val == 'button') {
             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += "<input id=\""+name_val+"\" "+action_val+" class=\""+class_val+"\" "+style_val+" value=\""+renameBlock(jsonResponse, jsonPage.content[i].title)+"\" type=\"button\">";
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" type="button">';
            }
            if (type_val == 'checkbox') {
-            if (action_val) action_val = 'onchange="val(\''+name_val+'\',(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<label><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'"> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
+            var checked = '';
+            if (state_val == 1){ checked = 'checked'; }
+            if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+            document.getElementById('contents').innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
            }
            if (type_val == 'range') {
             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
@@ -147,8 +162,10 @@
             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
             var html = '';
             jsonSelect = jsonPage.content[i].title;
+            //jsonSelect = JSON.parse(renameBlock(jsonResponse, jsonPage.content[i].title));
+            //jsonSelect = renameBlock(jsonResponse, jsonPage.content[i].title).slice(1, -1);
             for(var key in jsonSelect) {
-             html += '<option value="'+key+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+             html += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
             }
             document.getElementById('contents').innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+html+'<\/select>';
            }
@@ -166,6 +183,20 @@
            }
            if (type_val == 'lang') {
             document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+state_val+' <span class="caret"><\/span><\/a><\/div>';
+           }
+           if (type_val == 'wifi') {
+            document.getElementById('contents').innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
+           }
+           if (type_val == 'time') {
+            document.getElementById('contents').innerHTML += '<h2 id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
+
+            var set_real_time;
+            clearTimeout(set_real_time);
+            var res = jsonResponse.time.split(":");
+            real_time(hours=res[0],min=res[1],sec=res[2]);
+
+
            }
 
 
@@ -232,7 +263,8 @@
    </div>
 
    <div id="edit-content" class="hidden" style="height:100%;right:0;position:fixed;top:0%;width:25%;">
-    <textarea class="form-control" spellcheck="false" style="width:100%;height:90%;" id="edit-json"></textarea>
+    <textarea class="form-control" onkeyup="isValidJson(this.value)" spellcheck="false" style="width:100%;height:90%;" id="edit-json"></textarea>
+    <div id="error-json"></div>
     <div class="btn-group btn-block">
      <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="cetContent('edit');this.value='Loading...';" value="View" type="button">
      <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), window.location.search.substring(1)+'.json');toggle('edit-content');" value="Save" type="button">

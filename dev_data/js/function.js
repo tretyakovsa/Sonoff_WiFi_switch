@@ -132,7 +132,7 @@ function setLang(submit){
  }
 }
 
-function loadWifi(ssids){
+function loadWifi(ssids,hiddenIds){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
@@ -147,10 +147,34 @@ function loadWifi(ssids){
    if (jsonWifi.networks[i].dbm <= -70) { wifiSignal = '<i class="wifi wifi-70-80"></i>';}
    if (jsonWifi.networks[i].dbm <= -80) { wifiSignal = '<i class="wifi wifi-80-90"></i>';}
    if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '<i class="wifi wifi-90-100"></i>';}
-   html += '<li><a href="#" onclick="val(\'ssid\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' '+wifiSignal+' <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
+   html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' '+wifiSignal+' <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
   document.getElementById(ssids).innerHTML = (html?html:'<li>No WiFi</li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
+}
+
+function loadBuild(buildids,typeFile){
+ htmls = '';
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET','http://backup.privet.lv/esp/build/'+buildids,true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  var jsonBuild=JSON.parse(xmlHttp.responseText);
+  jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+  var html = '';
+  for(i = 0;i<jsonBuild.length;i++) {
+   if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
+    html += '<li><a href="/upgrade?'+typeFile+'=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
+   }
+  }
+  document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
+ }
+}
+
+function set_time_zone(submit){
+ var gmtHours = new Date().getTimezoneOffset()/60*-1;
+ val('timeZone', gmtHours);
+ send_request(submit,'/timeZone?timeZone='+gmtHours);
 }
 
 function loadLang(langids){
@@ -201,6 +225,15 @@ function loadSpace(spaceids){
   }
   document.getElementById(spaceids).innerHTML = html;
  }
+}
+
+function real_time(hours,min,sec) {
+ sec=Number(sec)+1;
+ if (sec>=60){min=Number(min)+1;sec=0;}
+ if (min>=60){hours=Number(hours)+1;min=0;}
+ if (hours>=24){hours=0};
+ html('time',hours+":"+min+":"+sec);
+ set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
 
 function setCookie(name, value, days, submit) {
