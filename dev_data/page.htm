@@ -14,6 +14,8 @@
   <title></title>
   <script type="text/javascript">
 
+   var pages = window.location.search.substring(1);
+
    document.onkeydown = function(e){
     var evtobj = window.event? event : e
     if (evtobj.keyCode == 77 && evtobj.ctrlKey)toggle('edit-content');
@@ -40,24 +42,18 @@
    function cetContent(stage) {
     var xmlHttp=createXmlHttpObject();
 
-    if (window.location.search.substring(1) == '') {
-     document.getElementById('contents').innerHTML += '<h1>Please add json file in you folder. Example: device.json and join on page.htm?device<\/h1>';
-     toggle('content','hide');
-
-    } else {
-
-     //  var xmlHttp=createXmlHttpObject();
-     xmlHttp.open('GET', window.location.search.substring(1)+".json",true);
-     xmlHttp.send(null);
-     xmlHttp.onload = function(e) {
+    if (!pages) { pages = 'index'; }
 
 
+    //  var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET', pages+".json",true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
 
-
-      var jsonPage=JSON.parse(xmlHttp.responseText);
+     var jsonPage;
+     if (xmlHttp.status==200){
+      jsonPage=JSON.parse(xmlHttp.responseText);
       var jsonEdit=xmlHttp.responseText;
-
-
 
 
       if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
@@ -105,12 +101,13 @@
           document.getElementById("contents").className = jsonPage.class;
           document.getElementById("contents").style = jsonPage.style;
           document.getElementById('contents').innerHTML = '';
-          document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
           // document.getElementById('contents').innerHTML = '<h5 class="alert-danger">'+jsonResponse.SSDP+'<\/h5>';
           // document.getElementById('contents').innerHTML += '<div class="btn-group" id="language"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'language-set\');loadLang(\'language-set\');return false">'+jsonResponse.lang+' <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="language-set"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
 
 
           if (stage == 'first') {
+                   document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
+
            // jsonPage=JSON.parse(xmlHttp.responseText);
            document.getElementById('edit-json').value = jsonEdit;
            toggle('content','hide');
@@ -213,8 +210,14 @@
         }
        }
       }
+     } else {
+      jsonPage = '[{"error":"File not found"}]';
+      document.getElementById('contents').innerHTML += '<h1>Please add json file in you folder. Example: device.json and join on page.htm?device<\/h1>';
+      toggle('content','hide');
      }
     }
+
+
    };
 
 
@@ -269,7 +272,7 @@
     <div id="error-json"></div>
     <div class="btn-group btn-block">
      <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="cetContent('edit');this.value='Loading...';" value="View" type="button">
-     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), window.location.search.substring(1)+'.json');toggle('edit-content');" value="Save" type="button">
+     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), pages+'.json');toggle('edit-content');" value="Save" type="button">
     </div>
    </div>
 
