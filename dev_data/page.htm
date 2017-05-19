@@ -15,10 +15,34 @@
   <script type="text/javascript">
 
    var pages = window.location.search.substring(1);
+   var jsonResponse;
 
    document.onkeydown = function(e){
     var evtobj = window.event? event : e
-    if (evtobj.keyCode == 77 && evtobj.ctrlKey)toggle('edit-content');
+    let charCode = String.fromCharCode(evtobj.which).toLowerCase();
+    if (charCode === 'm' && evtobj.ctrlKey)toggle('edit-content');
+    if (charCode === 's' && evtobj.ctrlKey) {
+     evtobj.preventDefault();send_request_post(this, val('edit-json'), pages+'.json');toggle('edit-content');
+    }
+   }
+
+
+   function selectTextareaLine(tarea,lineNum) {
+    lineNum--;
+    var lines = tarea.value.split("\n");
+    var startPos = 0, endPos = tarea.value.length;
+    for(var x = 0; x < lines.length; x++) {
+     if(x == lineNum) {break;}
+     startPos += (lines[x].length+1);
+    }
+    var endPos = lines[lineNum].length+startPos;
+    if(typeof(tarea.selectionStart) != "undefined") {
+     tarea.focus();
+     tarea.selectionStart = startPos;
+     tarea.selectionEnd = endPos;
+     return true;
+    }
+    return false;
    }
 
 
@@ -106,7 +130,7 @@
 
 
           if (stage == 'first') {
-                   document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
+           document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
 
            // jsonPage=JSON.parse(xmlHttp.responseText);
            document.getElementById('edit-json').value = jsonEdit;
@@ -119,87 +143,99 @@
 
           for(i = 0;i<jsonPage.content.length;i++) {
 
-           var action_val = renameGet(jsonPage.content[i].action);
-           var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
-           var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
-           var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
-           var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
-           var state_val = renameBlock(jsonResponse, jsonPage.content[i].state);
-           var module_val = jsonPage.content[i].module;
+           if (!jsonPage.content[i].module || searchModule(jsonResponse.module,jsonPage.content[i].module)=='yes') {
 
-           var type_val=jsonPage.content[i].type;
 
-           if (type_val == 'hr') {
-            document.getElementById('contents').innerHTML += '<hr id="'+name_val+'" class="'+class_val+'" '+style_val+'>';
-           }
-           if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
-            document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
-           }
-           if (type_val == 'input') {
-            if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'">';
-           }
-           if (type_val == 'password') {
-            if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
-           }
-           if (type_val == 'button') {
-            if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" type="button">';
-           }
-           if (type_val == 'checkbox') {
-            var checked = '';
-            if (state_val == 1){ checked = 'checked'; }
-            if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
-            document.getElementById('contents').innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
-           }
-           if (type_val == 'range') {
-            if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range">';
-           }
-           if (type_val == 'select') {
-            if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
-            var html = '';
-            jsonSelect = jsonPage.content[i].title;
-            //jsonSelect = JSON.parse(renameBlock(jsonResponse, jsonPage.content[i].title));
-            //jsonSelect = renameBlock(jsonResponse, jsonPage.content[i].title).slice(1, -1);
-            for(var key in jsonSelect) {
-             html += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+
+            var action_val = renameGet(jsonPage.content[i].action);
+            var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
+            //    var title_val = renameBlock(jsonResponse, jsonPage.content[i].title);
+            var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
+            var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
+            var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
+            var state_val = renameBlock(jsonResponse, jsonPage.content[i].state);
+            var module_val = jsonPage.content[i].module;
+
+            var type_val=jsonPage.content[i].type;
+
+            if (type_val == 'hr') {
+             document.getElementById('contents').innerHTML += '<hr id="'+name_val+'" class="'+class_val+'" '+style_val+'>';
             }
-            document.getElementById('contents').innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+html+'<\/select>';
-           }
-           if (type_val == 'link') {
-            document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+renameGet(jsonPage.content[i].action)+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
-           }
-           if (type_val == 'text') {
-            document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
-           }
-           if (type_val == 'chart') {
-            document.getElementById('contents').innerHTML += '<div id="g'+name_val+'" class="'+renameBlock(jsonResponse, '{{g'+name_val+'}}')+'"><button class="close" onclick="hide(\'g'+name_val+'\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
-            if (renameBlock(jsonResponse, '{{g'+name_val+'}}') != 'hidden') {
-             setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
+            if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
+             document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
             }
+            if (type_val == 'input') {
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'">';
+            }
+            if (type_val == 'password') {
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
+            }
+            if (type_val == 'button') {
+             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].state+'\')"';
+             document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" type="button">';
+            }
+            if (type_val == 'checkbox') {
+             var checked = '';
+             if (state_val == 1){ checked = 'checked'; }
+             if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+             document.getElementById('contents').innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
+            }
+            if (type_val == 'range') {
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             document.getElementById('contents').innerHTML += '<input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range">';
+            }
+            if (type_val == 'select') {
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             var html = '';
+             jsonSelect = jsonPage.content[i].title;
+             //jsonSelect = JSON.parse(renameBlock(jsonResponse, jsonPage.content[i].title));
+             //jsonSelect = renameBlock(jsonResponse, jsonPage.content[i].title).slice(1, -1);
+             for(var key in jsonSelect) {
+              html += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+             }
+             document.getElementById('contents').innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+html+'<\/select>';
+            }
+            if (type_val == 'link') {
+             document.getElementById('contents').innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+renameGet(jsonPage.content[i].action)+'">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a>';
+            }
+            if (type_val == 'text') {
+             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
+            }
+            if (type_val == 'chart') {
+             document.getElementById('contents').innerHTML += '<div id="g'+name_val+'" class="'+renameBlock(jsonResponse, '{{g'+name_val+'}}')+'"><button class="close" onclick="hide(\'g'+name_val+'\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id='+name_val+' class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+             if (renameBlock(jsonResponse, '{{g'+name_val+'}}') != 'hidden') {
+              //var charTime;
+              //clearTimeout(charTime);
+              //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
+              setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
+             }
+            }
+            if (type_val == 'lang') {
+             document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+state_val+' <span class="caret"><\/span><\/a><\/div>';
+            }
+            if (type_val == 'wifi') {
+             document.getElementById('contents').innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+             document.getElementById('contents').innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
+            }
+            if (type_val == 'time') {
+             document.getElementById('contents').innerHTML += '<h2 id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
+             clearTimeout(set_real_time);
+             var res = jsonResponse.time.split(":");
+             real_time(hours=res[0],min=res[1],sec=res[2]);
+            }
+            if (type_val == 'dev') {
+             var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<span id="dev-update" class="hidden"><b>'+jsonResponse.LangSetting5+'<\/b>';
+             dev_html += '<div class="btn-group"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'repos-build\');return false">Build <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-build"><li><a href="#" onclick="toggle(\'sonoff-build\');loadBuild(\'sonoff\',\'build\');return false"><b>Sonoff<\/b> (Relay) <span class="caret"><\/span><\/a><ul class="hidden" id="sonoff-build" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><li><a href="#" onclick="toggle(\'rgb-build\');return false"><b>RGB<\/b> (WS2811/WS2812/NeoPixel LEDs) <span class="caret"><\/span><\/a><ul class="hidden" id="rgb-build" style="margin-right:20px"><li><a href="#">Soon...<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+             dev_html += ' <div class="btn-group"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'repos-spiffs\');return false">Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-spiffs"><li><a href="#" onclick="toggle(\'sonoff-spiffs\');loadBuild(\'sonoff\',\'spiffs\');return false"><b>Sonoff<\/b> (Relay) <span class="caret"><\/span><\/a><ul class="hidden" id="sonoff-spiffs" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><li><a href="#" onclick="toggle(\'rgb-spiffs\');return false"><b>RGB<\/b> (WS2811/WS2812/NeoPixel LEDs) <span class="caret"><\/span><\/a><ul class="hidden" id="rgb-spiffs" style="margin-right:20px"><li><a href="#">Soon...<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+             dev_html += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangSetting6+'<\/a><\/b><span id="repos-bin" class="hidden"><b>GitHub: <a href="https://github.com/renat2985/rgb/tree/master/build" target="_blank">RGB<\/a>, <a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build" target="_blank">Sonoff<\/a>, <a href="https://github.com/tretyakovsa/jaluzi/tree/master/build" target="_blank">Jalousie<\/a><\/b><form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><\/span>';
+             dev_html += '<\/span><\/div>';
+             document.getElementById('contents').innerHTML += dev_html;
+            }
+
+
            }
-           if (type_val == 'lang') {
-            document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+state_val+' <span class="caret"><\/span><\/a><\/div>';
-           }
-           if (type_val == 'wifi') {
-            document.getElementById('contents').innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
-            document.getElementById('contents').innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
-           }
-           if (type_val == 'time') {
-            document.getElementById('contents').innerHTML += '<h2 id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
-
-            var set_real_time;
-            clearTimeout(set_real_time);
-            var res = jsonResponse.time.split(":");
-            real_time(hours=res[0],min=res[1],sec=res[2]);
-
-
-           }
-
-
-
           }
 
           document.getElementById('contents').innerHTM = html;
@@ -212,7 +248,7 @@
       }
      } else {
       jsonPage = '[{"error":"File not found"}]';
-      document.getElementById('contents').innerHTML += '<h1>Please add json file in you folder. Example: device.json and join on page.htm?device<\/h1>';
+      document.getElementById('contents').innerHTML += '<br><br><h1>Files "'+pages+'.json" not found.<\/h1><hr><h2>Please add json file in you folder.<br>Example: device.json and join on page.htm?device<\/h2>';
       toggle('content','hide');
      }
     }

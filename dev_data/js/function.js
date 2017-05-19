@@ -7,6 +7,9 @@ function createXmlHttpObject(){
  }
  return xmlHttp;
 }
+
+var set_real_time;
+
 function load(stage){
  var xmlHttp=createXmlHttpObject();
  if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
@@ -88,7 +91,7 @@ function send_request_post(submit,server,filename){
  xmlHttp.send(formData);
 }
 
-function send_request(submit,server){
+function send_request(submit,server,state){
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
  submit_disabled(true);
@@ -96,9 +99,23 @@ function send_request(submit,server){
  xmlHttp.open("GET", server, true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
+
   submit.value=old_submit;
   submit_disabled(false);
-  load('next');
+
+  if (state && state!='undefined'){
+   var response=JSON.parse(xmlHttp.responseText);
+   var block = document.getElementById(state.slice(2,-2));
+   if (response.class && response.class!='undefined') {block.className = response.class;}
+   if (response.style && response.style!='undefined') {block.style = response.style;}
+   if (response.title && response.title!='undefined') {
+    if (block.tagName == 'INPUT') {block.value = renameBlock(jsonResponse, response.title);}
+    if (block.tagName == 'DIV' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
+   }
+  }
+
+
+  // load('next');
  }
 }
 
