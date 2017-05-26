@@ -33,8 +33,8 @@ void callback(const MQTT::Publish& pub)
    {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
     Serial.println(stled);
-    if(stled==1)   command = "relayOn";
-    if(stled==0)   command = "relayOff";
+    if(stled==1)   command = "relayon";
+    if(stled==0)   command = "relayoff";
      Serial.println(command);
 
   }
