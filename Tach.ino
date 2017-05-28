@@ -5,6 +5,8 @@ void tachinit() {
   // Виртуальная кнопка будет реагировать на
   HTTP.on("/sonoff", handle_sonoff);
   HTTP.on("/relay", handle_sonoff);
+  HTTP.on("/relayon", handle_relayon);
+  HTTP.on("/relayoff", handle_relayoff);
 
   HTTP.on("/rgb", LedRGB);
 }
@@ -12,7 +14,14 @@ void handle_sonoff() {
   command = "relaynot";
   HTTP.send(200, "text/json", "Ok");
 }
-
+void handle_relayon() {
+  command = "relayon";
+  HTTP.send(200, "text/json", "Ok");
+}
+void handle_relayoff() {
+  command = "relayoff";
+  HTTP.send(200, "text/json", "Ok");
+}
 void LedRGB() {
   command = "rgbnot";
   HTTP.send(200, "text/json", "Ok");
