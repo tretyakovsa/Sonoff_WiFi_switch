@@ -123,7 +123,7 @@
    "type": "link",
    "title": "{{LangReset1}}",
    "name":"titi",
-   "action": "javascript:toggle('ip-adress');send_request(this,'test.json','{{savsff}}');",
+   "action": "javascript:toggle('ip-adress');send_request(this,'restartWiFi','{{savsff}}');",
    "class": "btn btn-block btn-warning"
   }
 ]}

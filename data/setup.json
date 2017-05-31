@@ -356,7 +356,6 @@
    "type": "button",
    "title": "{{LangReset1}}",
    "action": "restart?device=ok",
-   "state": "response",
    "class": "btn btn-block btn-warning"
   }
  ]
