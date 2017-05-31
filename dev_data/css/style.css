@@ -156,6 +156,7 @@ ul#history {
  width:26%;
  overflow-y:auto;
  word-wrap:break-word;
+ z-index:1;
 }
 
 #edit-content {
