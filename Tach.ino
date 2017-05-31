@@ -12,15 +12,25 @@ void tachinit() {
 }
 void handle_sonoff() {
   command = "relaynot";
-  HTTP.send(200, "text/json", "Ok");
+  String state = "";
+  if (state0){state = "\{\"title\":\"\{\{LangOn\}\}\",\"class\":\"btn btn-block btn-lg btn-primary\"\}"; }
+  else {state = "\{\"title\":\"\{\{LangOff\}\}\",\"class\":\"btn btn-block btn-lg btn-info\"\}"; }
+
+  HTTP.send(200, "text/json", state);
 }
 void handle_relayon() {
   command = "relayon";
-  HTTP.send(200, "text/json", "Ok");
+   String state = "";
+  if (state0){state = "\{\"title\":\"\{\{LangOn\}\}\",\"class\":\"btn btn-block btn-lg btn-primary\"\}"; }
+  else {state = "\{\"title\":\"\{\{LangOff\}\}\",\"class\":\"btn btn-block btn-lg btn-info\"\}"; }
+  HTTP.send(200, "text/json", state);
 }
 void handle_relayoff() {
   command = "relayoff";
-  HTTP.send(200, "text/json", "Ok");
+String state = "";
+  if (state0){state = "\{\"title\":\"\{\{LangOn\}\}\",\"class\":\"btn btn-block btn-lg btn-primary\"\}"; }
+  else {state = "\{\"title\":\"\{\{LangOff\}\}\",\"class\":\"btn btn-block btn-lg btn-info\"\}"; }
+  HTTP.send(200, "text/json", state);
 }
 void LedRGB() {
   command = "rgbnot";
