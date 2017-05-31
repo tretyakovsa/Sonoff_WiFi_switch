@@ -378,14 +378,14 @@
  <body>
   <div class="container loader-bg">
 
-   <ul id="url-content" class="hidden"></ul>
+   <ul id="url-content" class="hidden" onclick="document.getElementById('contents').style.zIndex=0;"></ul>
 
    <div class="row hidden" id="content">
     <h1 id="title"></h1>
-    <div id="contents"></div>
+    <div id="contents" onclick="this.style.zIndex=10"></div>
    </div>
 
-   <div id="edit-content" class="hidden">
+   <div id="edit-content" class="hidden" onclick="document.getElementById('contents').style.zIndex=0;">
     <textarea class="form-control" onkeyup="isValidJson(this.value)" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
     <div class="btn-group btn-block">

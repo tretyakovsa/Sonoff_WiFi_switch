@@ -22,7 +22,7 @@
   {
    "type": "link",
    "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "page.htm?device",
+   "action": "page.htm?setup",
    "state":"response",
    "class": "btn btn-block btn-default"
   },
