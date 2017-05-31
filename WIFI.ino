@@ -137,7 +137,7 @@ bool StartAPMode()
   const byte DNS_PORT = 53;
   IPAddress apIP(192, 168, 4, 1);
   //WiFi.disconnect();
-  WiFi.mode(WIFI_AP);
+  WiFi.mode(WIFI_AP_STA);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   WiFi.softAP(ssidApName.c_str(), ssidApPass.c_str());
   dnsServer.start(DNS_PORT, "*", apIP);
@@ -152,21 +152,18 @@ bool RestartWiFi() {
   //Холодный перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
   // Не отключаясь точки доступа подключаемся к роутеру для получения будущего IP
-  WiFi.mode(WIFI_AP_STA );
-  WiFi.begin();
-  //WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
 
   tries(30);
 
   Serial.println("");
   Serial.println(WiFi.localIP());
-  HTTP.send(200, "text/plain", WiFi.localIP().toString());
-  delay(5000);
+
+  String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} http://" +WiFi.localIP().toString()+"</h3>\"\}";
+  Serial.println(state);
+  HTTP.send(200, "application/json", state);
+  delay(1000);
   // Отключаем точку доступа и переподключаемся к роутеру
-  /*WiFi.mode(WIFI_STA);
-    WiFi.begin();
-    tries(11);
-  */
   ESP.restart();
 }
 
