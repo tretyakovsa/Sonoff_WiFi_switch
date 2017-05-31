@@ -1,0 +1,151 @@
+{
+ "config": "config.live.json",
+ "lang": "/lang/lang.{{lang}}.json",
+ "title": "{{LangOptions1}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-danger"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV"}
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangDevices}}",
+   "action": "/",
+   "class": "btn btn-block btn-danger"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "text",
+   "title": "{{LangIfttt1}}",
+   "class": "alert alert-info"
+  },
+
+
+  {
+   "type": "button",
+   "title": "{{LangOnOff}}",
+   "name":"relay1",
+   "action": "sonoff",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "title": "{{LangTimer}}"
+  },
+
+
+  {
+   "type": "table",
+   "state": "timer.save.json",
+   "title": {
+    "module":"",
+    "trigger":"On/Off",
+    "day":"{{LangDay}}",
+    "time":"{{LangTime4}}"
+   },
+   "class": "table alert alert-dismissible alert-warning",
+   "style": "width:100%;"
+  },
+  {
+   "type": "link",
+   "title": "{{LangTimer}}",
+   "action": "timer.htm",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "chart",
+   "state": "analog.json",
+   "action": "/chart.htm#analog",
+   "style": "height:200px;margin-left:-20px"
+  },
+
+
+
+  {
+   "type": "h2",
+   "title": "{{LangPir1}}"
+  },
+  {
+   "type": "text",
+   "title": "{{LangPir2}}",
+   "class": "alert alert-info",
+   "style": "width:60%;float:left;"
+  },
+
+  {
+   "type": "input",
+   "title": "",
+   "name":"pir-time",
+   "state": "{{pirTime}}",
+   "style": "width:35%;float:right;",
+   "pattern": "[0-9]*[.,]?[0-9]+"
+  },
+  {
+   "type": "button",
+   "title": "{{LangOff.}}",
+   "action": "/pir?t=0",
+   "class": "btn btn-block btn-default",
+   "style": "width:15%;float:right;margin-top:5px;"
+  },
+  {
+   "type": "button",
+   "title": "{{LangSave}}",
+   "action": "/pir?t=[[pir-time]]",
+   "class": "btn btn-block btn-success",
+   "style": "width:20%;float:right;"
+  },
+
+
+  {
+   "type": "hr",
+   "style": "clear:both;"
+  },
+
+
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  }
+
+ ]
+}

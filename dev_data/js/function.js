@@ -103,14 +103,22 @@ function send_request(submit,server,state){
   submit.value=old_submit;
   submit_disabled(false);
 
-  if (state && state!='undefined'){
+  var element =  document.getElementById('url-content');
+  if (typeof(element) != 'undefined' && element != null){
+   element.innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(xmlHttp.status==200?'default':'danger')+'">'+xmlHttp.status+' '+xmlHttp.statusText+'</span></li>';
+  }
+
+  if (state != null && state!='undefined'){
    var response=JSON.parse(xmlHttp.responseText);
    var block = document.getElementById(state.slice(2,-2));
    if (response.class && response.class!='undefined') {block.className = response.class;}
    if (response.style && response.style!='undefined') {block.style = response.style;}
    if (response.title && response.title!='undefined') {
     if (block.tagName == 'INPUT') {block.value = renameBlock(jsonResponse, response.title);}
-    if (block.tagName == 'DIV' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
+    if (block.tagName == 'DIV' ||block.tagName == 'A' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
+   }
+   if (typeof(element) != 'undefined' && element != null){
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText+'</li>';
    }
   }
 

@@ -1,0 +1,273 @@
+{
+ "config": "config.live.json",
+ "lang": "/lang/lang.{{lang}}.json",
+ "title": "{{LangOptions1}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-info"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV"}
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangDevices}}",
+   "action": "/",
+   "class": "btn btn-block btn-danger"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "text",
+   "title": "{{LangIfttt1}}",
+   "class": "alert alert-info"
+  },
+
+  {
+   "type": "rgb",
+   "title": "/img/swatches.png",
+   "name":"color",
+   "state":"{{color}}",
+   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "style":"cursor:pointer;width:100%"
+  },
+
+  {
+   "type": "select",
+   "state": "0",
+   "name":"dynamic",
+   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "title": {
+    "0":"Static",
+    "1":"Blink",
+    "2":"Breath",
+    "3":"Color Wipe",
+    "4":"Color Wipe Random",
+    "5":"Random Color",
+    "6":"Single Dynamic",
+    "7":"Multi Dynamic",
+    "8":"Rainbow",
+    "9":"Rainbow Cycle",
+    "10":"Scan",
+    "11":"Dual Scan",
+    "12":"Fade",
+    "13":"Theater Chase",
+    "14":"Theater Chase Rainbow",
+    "15":"Running Lights",
+    "16":"Twinkle",
+    "17":"Twinkle Random",
+    "18":"Twinkle Fade",
+    "19":"Twinkle Fade Random",
+    "20":"Sparkle",
+    "21":"Flash Sparkle",
+    "22":"Hyper Sparkle",
+    "23":"Strobe",
+    "24":"Strobe Rainbow",
+    "25":"Multi Strobe",
+    "26":"Blink Rainbow",
+    "27":"Chase White",
+    "28":"Chase Color",
+    "29":"Chase Random",
+    "30":"Chase Rainbow",
+    "31":"Chase Flash",
+    "32":"Chase Flash Random",
+    "33":"Chase Rainbow White",
+    "34":"Chase Blackout",
+    "35":"Chase Blackout Rainbow",
+    "36":"Color Sweep Random",
+    "37":"Running Color",
+    "38":"Running Red Blue",
+    "39":"Running Random",
+    "40":"Larson Scanner",
+    "41":"Comet",
+    "42":"Fireworks",
+    "43":"Fireworks random",
+    "44":"Merry Christmas"
+   }
+  },
+
+
+  {
+   "type": "h4",
+   "title": "{{LangTime8}}"
+  },
+  {
+   "type": "select",
+   "state": "0",
+   "name":"time",
+   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "title": {
+    "60":"1",
+    "300":"5",
+    "600":"10",
+    "1500":"15",
+    "1800":"30",
+    "3600":"60",
+    "5400":"1:30",
+    "7200":"2:00",
+    "10800":"3:00",
+    "0":"&#8734;"
+   }
+  },
+  {
+   "type": "h4",
+   "title": "{{LangTime5}}"
+  },
+  {
+   "type": "input",
+   "title": "",
+   "name":"sound",
+   "state": "{{pirTime}}",
+   "pattern": "[-+]?[0-9]*[.]?[0-9]+"
+  },
+
+  {
+   "type": "range",
+   "title": "{{LangSpeed}}",
+   "name":"speed",
+   "state":"100",
+   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "pattern":"min=0 max=255 step=1"
+  },
+  {
+   "type": "range",
+   "title": "{{LengBrightness}}",
+   "name":"brightness",
+   "state":"100",
+   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "pattern":"min=0 max=255 step=1"
+  },
+
+
+
+  {
+   "type": "button",
+   "title": "{{LangOnOff}}",
+   "name":"relay1",
+   "action": "rgb",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
+
+
+  {
+   "type": "button",
+   "title": "test",
+   "action": "test.json",
+   "state":"[[time]]",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "h2",
+   "title": "{{LangTimer}}"
+  },
+  {
+   "type": "table",
+   "state": "timer.save.json",
+   "title": {
+    "module":"",
+    "trigger":"On/Off",
+    "day":"{{LangDay}}",
+    "time":"{{LangTime4}}"
+   },
+   "class": "table alert alert-dismissible alert-warning",
+   "style": "width:100%;"
+  },
+  {
+   "type": "link",
+   "title": "{{LangTimer}}",
+   "action": "timer.htm",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "chart",
+   "state": "analog.json",
+   "action": "/chart.htm#analog",
+   "style": "height:200px;margin-left:-20px"
+  },
+
+
+  {
+   "type": "h2",
+   "title": "{{LangPir1}}"
+  },
+  {
+   "type": "text",
+   "title": "{{LangPir2}}",
+   "class": "alert alert-info",
+   "style": "width:60%;float:left;"
+  },
+
+  {
+   "type": "input",
+   "title": "",
+   "name":"pir-time",
+   "state": "{{pirTime}}",
+   "style": "width:35%;float:right;",
+   "pattern": "[0-9]*[.,]?[0-9]+"
+  },
+  {
+   "type": "button",
+   "title": "{{LangOff.}}",
+   "action": "/pir?t=0",
+   "class": "btn btn-block btn-default",
+   "style": "width:15%;float:right;margin-top:5px;"
+  },
+  {
+   "type": "button",
+   "title": "{{LangSave}}",
+   "action": "/pir?t=[[pir-time]]",
+   "class": "btn btn-block btn-success",
+   "style": "width:20%;float:right;"
+  },
+
+
+  {
+   "type": "hr",
+   "style": "clear:both;"
+  },
+
+
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  }
+
+ ]
+}

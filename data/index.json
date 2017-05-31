@@ -37,7 +37,7 @@
   {
    "type": "link",
    "title": "{{LangSetting3}}",
-   "action": "/setup.htm",
+   "action": "/page.htm?setup",
    "class": "btn btn-block btn-default"
   },
   {

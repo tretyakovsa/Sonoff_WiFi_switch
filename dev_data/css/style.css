@@ -148,6 +148,29 @@ ul#history {
  columns:2;
 }
 
+#url-content {
+ height:90%;
+ left:-15px;
+ position:fixed;
+ top:0%;
+ width:26%;
+ overflow-y:auto;
+ word-wrap:break-word;
+}
+
+#edit-content {
+ height:100%;
+ right:0;
+ position:fixed;
+ top:0%;
+ width:25%;
+}
+
+#edit-json {
+ width:100%;
+ height:90%;
+}
+
 .opt-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img {
  display:inline-block;
  width:16px;

@@ -12,6 +12,7 @@
   {
    "type": "select",
    "state": "{{lang}}",
+   "name":"languages",
    "action": "/lang?set=[[languages]]",
    "style": "margin-top:-47px;float:right;width:70px",
    "title": {"ru":"RU","en":"EN","lv":"LV"}
@@ -62,7 +63,6 @@
    "type": "button",
    "title": "{{LangSave}}",
    "action": "device?ssdp=[[ssdp]]&space=[[space]]",
-   "state": "response",
    "class": "btn btn-block btn-success"
   },
 
@@ -259,7 +259,8 @@
    "name":"ddns-name",
    "module": "ddns",
    "state": "{{ddnsName}}",
-   "style": "width:80%;display:inline"
+   "style": "width:80%;display:inline",
+   "pattern":"^((?!http:)(?!https:).)+\\..+$"
   },
   {
    "type": "input",
@@ -302,7 +303,8 @@
    "name":"mqtt-server",
    "module": "mqtt",
    "state": "{{mqttServer}}",
-   "style": "width:80%;display:inline"
+   "style": "width:80%;display:inline",
+   "pattern":"^((?!http:)(?!https:).)+\\..+$"
   },
   {
    "type": "input",
