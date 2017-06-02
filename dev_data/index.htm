@@ -4,6 +4,8 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <!-- <script src="js/build.chart.js?v02.06.2017" charset="utf-8"></script> -->
   <link rel="stylesheet" type="text/css" href="css/build.css?v02.06.2017">
+  <!-- <script src="js/build.chart.js" charset="utf-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,8 +34,7 @@
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
     var xhttp=createXmlHttpObject();
-    //xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
-    xhttp.open("GET", "/devices.list.json", true);
+    xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var ipModule=JSON.parse(xhttp.responseText);
@@ -73,8 +74,7 @@
    function loadBlock(ipval, content, stage, modules) {
 
     var xhttp=createXmlHttpObject();
-    //xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
-    xhttp.open("GET", "http://"+ipval+"/config.live.json", true);
+    xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var jsonResponse1 = JSON.parse(xhttp.responseText);
