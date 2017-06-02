@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js" charset="utf-8"></script>
+  <script src="js/build.chart.js?v02.06.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v02.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js"></script>
+  <script type="text/javascript" src="js/function.js?v02.06.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -329,7 +329,7 @@
      // nex_color = rgbToHex(p[0],p[1],p[2]);
       //on_rgb(this,p[0],p[1],p[2]);
       // alert(p[0]+" "+p[1]+" "+p[2]);
-      if (valID){val(valID, p[0]+","+p[1]+","+p[2]);}
+      if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
       if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?module='+moduleID+'&':'')+renameGet(actionID)+'');}
       document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
      });
