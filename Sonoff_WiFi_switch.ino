@@ -50,13 +50,11 @@ Ticker ticker1sec;
 WiFiUDP udp;
 /*
 // Куда что подключено в RGB
-  #define TACH_PIN 0    // Кнопка управления
-  #define PIR_PIN 16     // RIR sensors
-  #define RELE1_PIN 12  // Реле
-  #define LED_PIN 13    // Светодиод
-  #define DHTPIN 14     // DHT сенсор.
-  #define RGB_PIN 2     // WS2811/WS2812/NeoPixel LEDs
-  #define impuls_PIN 3  //электросчетчик
+#define TACH_PIN 0    // Кнопка управления
+#define BUZER_PIN 3   // Бузер
+#define LED_PIN 2     // RGB лента
+// If you use ESP8266 12 you can add
+#define PIR_PIN 14    // RIR sensors
 */
 
   // Куда что подключено в sonoff

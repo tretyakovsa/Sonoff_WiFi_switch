@@ -92,7 +92,7 @@ void WIFIAP_Client() {
   IPAddress staticSubnet;
   //bool fromString(const String &address) { return fromString(address.c_str()); }
   //WiFi.disconnect();
-  WiFi.hostname ( "sonoff" );
+  WiFi.hostname ( "sonoff-"+chipID );
   WiFi.mode(WIFI_STA);
   if (checkboxIP == 1) {
     staticIP.fromString(ip);
@@ -110,12 +110,13 @@ void WIFIAP_Client() {
     WiFi.begin();
   }
   tries(11);
-  WiFi.setAutoReconnect(true);
   Serial.println("WiFi connected");
   Serial.println(WL_CONNECTED);
   Serial.println("IP address: ");
   //ipCurrent = WiFi.localIP().toString();
   Serial.println(WiFi.localIP().toString());
+   WiFi.setAutoConnect(true);
+   WiFi.setAutoReconnect(true);
   if (WiFi.status() != WL_CONNECTED)
   {
     StartAPMode();

@@ -19,12 +19,12 @@
  */
 
 void initRGB() {
-  Serial.end();
+  //Serial.end();
   // Настраивается по запросу /set?
   HTTP.on("/set", handle_RGB);
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgbnot",    rgbNot);
-  sCmd.addCommand("rgbnon",    rgbOn);
+  sCmd.addCommand("rgbon",    rgbOn);
   sCmd.addCommand("rgboff",    rgbOff);
   ws2812fx.init();
   ws2812fx.setMode(ModeRGB.toInt()); // Режим

@@ -29,7 +29,7 @@ void sensor_init(){
       }
 
  HTTP.on("/analog.json", handle_analog);
- //modulesReg("analog");
+ modulesReg("analog");
 }
 
 void handle_sensor() {
