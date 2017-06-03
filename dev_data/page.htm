@@ -60,10 +60,10 @@
    }
 
    window.onload = function() {
-    cetContent('first');
+    setContent('first');
    }
 
-   function cetContent(stage) {
+   function setContent(stage) {
     var xmlHttp=createXmlHttpObject();
 
     if (!pages) { pages='index'; }
@@ -120,6 +120,10 @@
           document.getElementById("contents").className = jsonPage.class;
           document.getElementById("contents").style = jsonPage.style;
           document.getElementById('contents').innerHTML = '';
+
+          if (jsonPage.reload) {
+           set_real_time = setTimeout("setContent('edit')", jsonPage.reload);
+          }
 
           if (stage == 'first') {
            document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'')+'<\/a>';
@@ -326,7 +330,7 @@
      useCanvas(canvas,img,function(){
       // get image data
       var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-     // nex_color = rgbToHex(p[0],p[1],p[2]);
+      // nex_color = rgbToHex(p[0],p[1],p[2]);
       //on_rgb(this,p[0],p[1],p[2]);
       // alert(p[0]+" "+p[1]+" "+p[2]);
       if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
@@ -389,7 +393,7 @@
     <textarea class="form-control" onkeyup="isValidJson(this.value)" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
     <div class="btn-group btn-block">
-     <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="cetContent('edit');this.value='Loading...';" value="View" type="button">
+     <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';" value="View" type="button">
      <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), pages+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     </div>
    </div>
