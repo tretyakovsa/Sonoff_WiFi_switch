@@ -24,6 +24,8 @@ void initRGB() {
   HTTP.on("/set", handle_RGB);
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgbnot",    rgbNot);
+  sCmd.addCommand("rgbnon",    rgbOn);
+  sCmd.addCommand("rgboff",    rgbOff);
   ws2812fx.init();
   ws2812fx.setMode(ModeRGB.toInt()); // Режим
   uint32_t  tmp = strtol(("0x" + colorRGB).c_str(), NULL, 0);
@@ -77,7 +79,7 @@ void handle_RGB() {
   timeRGB = HTTP.arg("s");
   if (timeBUZ != "") {
   }
-  stateRGB = 1;
+   command = "rgbon";
   HTTP.send(200, "text/plain", "Ok");
 }
 
@@ -94,6 +96,22 @@ void rgbNot(){
   stateRGB=!stateRGB;
   }
 
+void rgbOn(){
 
+  if (!stateRGB){
+  ws2812fx.start();
+  stateRGB=!stateRGB;
+  }
+
+  }
+
+  void rgbOff(){
+
+  if (stateRGB){
+  ws2812fx.stop();
+   stateRGB=!stateRGB;
+  }
+
+  }
 
 

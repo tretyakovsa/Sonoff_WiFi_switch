@@ -29,7 +29,7 @@ void sensor_init(){
       }
 
  HTTP.on("/analog.json", handle_analog);
- modulesReg("analog");
+ //modulesReg("analog");
 }
 
 void handle_sensor() {
@@ -43,21 +43,16 @@ void handle_analog() {
  HTTP.send(200, "text/json", graf(analogRead(A0),30,3000,"Analog (ADC/A0)"));
 }
 
-String graf(int datas, int points,int refresh,String title ){
-  String root = "{}";  // Формировать строку для отправки в браузер json формат
- // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
- // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
- DynamicJsonBuffer jsonBuffer;
- // вызовите парсер JSON через экземпляр jsonBuffer
- JsonObject& json = jsonBuffer.parseObject(root);
- // Заполняем поля json
- JsonArray& data = json.createNestedArray("data");
- data.add(datas);
- json["points"] = points;
- json["refresh"] = refresh;
- json["title"] = title;
- // Помещаем созданный json в переменную root
- root="";
- json.printTo(root);
- return root;
-  }
+
+
+  void Movement_init() {
+  HTTP.on("/pir", handle_pir);        // Установить время на которое будет срабатывать датчик движения
+  modulesReg("movement");
+}
+
+// Установить время на которое будет срабатывать датчик движения
+void handle_pir() {
+  pirTime = HTTP.arg("t").toInt();
+  saveConfig();
+  HTTP.send(200, "text/plain", "OK");
+}

@@ -52,16 +52,17 @@ void inquirySSDP() {
   //udp.beginPacketMulticast(ssdpAdress, ssdpPort);
   udp.write(ReplyBuffer);
   udp.endPacket();
+  //handleUDP();
   HTTP.send(200, "text/plain", "OK");
 }
 
 void handleUDP() {
   String input_string = "";
-  char packetBuffer[255]; //buffer to hold incoming packet
+  char packetBuffer[1024]; //buffer to hold incoming packet
   // if there's data available, read a packet
   int packetSize = udp.parsePacket();
   if (packetSize) {
-    int len = udp.read(packetBuffer, 255);
+    int len = udp.read(packetBuffer, 1024);
     if (len > 0) packetBuffer[len] = 0;
     input_string += packetBuffer;
     if (input_string.indexOf("Arduino") > 0) {
