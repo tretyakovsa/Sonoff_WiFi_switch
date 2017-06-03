@@ -181,7 +181,7 @@ void setup() {
   Movement_init();   // запускаем датчик движения
   ddns_init();       //запускаем DDNS сервис
   MQTT_init();
-  //initRGB();
+  initRGB();
   //electricMeter();
 
 
