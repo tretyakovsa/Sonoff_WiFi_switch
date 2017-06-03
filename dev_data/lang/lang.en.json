@@ -92,7 +92,7 @@
  "LangPir1":"PIR Sensor",
  "LangPir2":"Time in seconds how long the LED will light on the sensor to movement. If the sensor is not connected PIR, the value should be 0.",
 
- "_comment": "---RGB.HTM---",
+ "_comment": "---page.htm?rgb---",
  "LangClose":"Close",
  "LangTime5":"Alarm time work",
  "LangTime8":"How many minutes of play?",

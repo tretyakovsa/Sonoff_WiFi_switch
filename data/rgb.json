@@ -180,16 +180,19 @@
 
 
   {
-   "type": "hr"
+   "type": "hr",
+   "module":"timers"
   },
 
 
   {
    "type": "h2",
+   "module":"timers",
    "title": "{{LangTimer}}"
   },
   {
    "type": "table",
+   "module":"timers",
    "state": "timer.save.json",
    "title": {
     "module":"",
@@ -202,6 +205,7 @@
   },
   {
    "type": "link",
+   "module":"timers",
    "title": "{{LangTimer}}",
    "action": "timer.htm",
    "class": "btn btn-block btn-default"
@@ -216,6 +220,7 @@
   {
    "type": "chart",
    "state": "analog.json",
+   "module":"analog",
    "action": "/chart.htm#analog",
    "style": "height:200px;margin-left:-20px"
   },
@@ -223,10 +228,12 @@
 
   {
    "type": "h2",
+   "module": "movement",
    "title": "{{LangPir1}}"
   },
   {
    "type": "text",
+   "module": "movement",
    "title": "{{LangPir2}}",
    "class": "alert alert-info",
    "style": "width:60%;float:left;"
@@ -234,6 +241,7 @@
 
   {
    "type": "input",
+   "module": "movement",
    "title": "",
    "name":"pir-time",
    "state": "{{pirTime}}",
@@ -242,6 +250,7 @@
   },
   {
    "type": "button",
+   "module": "movement",
    "title": "{{LangOff.}}",
    "action": "/pir?t=0",
    "class": "btn btn-block btn-default",
@@ -249,6 +258,7 @@
   },
   {
    "type": "button",
+   "module": "movement",
    "title": "{{LangSave}}",
    "action": "/pir?t=[[pir-time]]",
    "class": "btn btn-block btn-success",
