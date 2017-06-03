@@ -161,6 +161,7 @@
 
       jsonResponse.ip = ipval;
       jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+      jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
 
       var new_string;
       for (var key in jsonResponse) {

@@ -57,7 +57,7 @@
    "type": "select",
    "state": "0",
    "name":"dynamic",
-   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "action": "set?m=[[dynamic]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "title": {
     "0":"Static",
     "1":"Blink",
