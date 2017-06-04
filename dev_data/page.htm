@@ -14,7 +14,7 @@
   <title></title>
   <script type="text/javascript">
 
-   var pages = window.location.search.substring(1);
+   var pages = window.location.search.substring(1).split("&");
    var jsonResponse;
 
    document.onkeydown = function(e){
@@ -22,7 +22,7 @@
     let charCode = String.fromCharCode(evtobj.which).toLowerCase();
     if (charCode === 'm' && evtobj.ctrlKey) {toggle('edit-content');toggle('url-content');}
     if (charCode === 's' && evtobj.ctrlKey) {
-     evtobj.preventDefault();send_request_post(this, val('edit-json'), pages+'.json');toggle('edit-content');toggle('url-content');
+     evtobj.preventDefault();send_request_post(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');
     }
    }
 
@@ -66,9 +66,9 @@
    function setContent(stage) {
     var xmlHttp=createXmlHttpObject();
 
-    if (!pages) { pages='index'; }
+    if (!pages[0]) { pages[0]='index'; }
 
-    xmlHttp.open('GET', pages+".json",true);
+    xmlHttp.open('GET', pages[0]+".json",true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
 
@@ -110,6 +110,18 @@
 
           jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
           jsonResponse.module = modules.module;
+
+
+          //jsonResponse.urlArray=pages;
+          //   for (var i=0; i < pages.length; i++) {
+          //    jsonResponse.[urlArray[i]] = pages[i];
+          //   }
+          jsonResponse.urlArray0 = pages[0];
+          jsonResponse.urlArray1 = pages[1];
+          jsonResponse.urlArray2 = pages[2];
+
+
+
           var theCookies = document.cookie.split(';');
           for (var i = 1 ; i <= theCookies.length; i++) {
            jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -253,7 +265,7 @@
       }
      } else {
       jsonPage = '[{"error":"File not found"}]';
-      document.getElementById('contents').innerHTML += '<br><br><h1>Files "'+pages+'.json" not found.<\/h1><hr><h2>Please add json file in you folder.<br>Example: device.json and join on page.htm?device<\/h2>';
+      document.getElementById('contents').innerHTML += '<br><br><h1>Files "'+pages[0]+'.json" not found.<\/h1><hr><h2>Please add json file in you folder.<br>Example: device.json and join on page.htm?device<\/h2>';
       toggle('content','hide');
      }
     }
@@ -394,7 +406,7 @@
     <div id="error-json"></div>
     <div class="btn-group btn-block">
      <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';" value="View" type="button">
-     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), pages+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     </div>
    </div>
 
