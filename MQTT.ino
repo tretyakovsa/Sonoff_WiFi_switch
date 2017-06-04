@@ -47,7 +47,7 @@ void MQTT_init() {
   pinMode(LED_PIN, OUTPUT);
   HTTP.on("/mqtt", handle_Set_MQTT);
   modulesReg("mqtt");
-  MQTT_Pablush();
+  if (mqtt_server!="")  MQTT_Pablush();
 }
 
 void MQTT_Pablush() {

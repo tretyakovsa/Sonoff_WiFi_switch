@@ -21,7 +21,7 @@ String graf(int datas, int points,int refresh,String title ){
 
 
 // /json?file=test.json&id=module&search=relay
-
+// Фильтр на json фаил
 String jsonFilter(String fileName, String column, String value) {
 boolean nots = true;
   if (value.substring(0, 1)=="!"){
@@ -61,9 +61,6 @@ boolean nots = true;
       }
     }
   }
-//for (JsonArray::iterator it=arr.begin(); it!=arr.end(); ++it) {
-//    Serial.println(it->as<char*>());
-//}
 
 jsonString += "]";
 

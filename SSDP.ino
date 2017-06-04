@@ -25,6 +25,7 @@ void SSDP_init() {
   sCmd.addCommand("device", device);
   sCmd.addCommand("P",     processCommand);
   sCmd.setDefaultHandler(unrecognized);
+  searchSSDP();
 }
 
 // Установить имя устройства
@@ -39,6 +40,13 @@ void handle_ssdp() {
 
 // запустить поиск устройств по ssdp
 void inquirySSDP() {
+searchSSDP();
+  HTTP.send(200, "text/plain", "OK");
+}
+
+
+// запустить поиск устройств по ssdp
+void searchSSDP() {
   IPAddress ssdpAdress = WiFi.localIP();
   ssdpAdress[0] = 239;
   ssdpAdress[1] = 255;
@@ -52,8 +60,6 @@ void inquirySSDP() {
   //udp.beginPacketMulticast(ssdpAdress, ssdpPort);
   udp.write(ReplyBuffer);
   udp.endPacket();
-  //handleUDP();
-  HTTP.send(200, "text/plain", "OK");
 }
 
 void handleUDP() {
@@ -67,7 +73,7 @@ void handleUDP() {
     input_string += packetBuffer;
     if (input_string.indexOf("Arduino") > 0) {
       IPAddress remoteIp = udp.remoteIP();
-        Serial.println(input_string);
+        //Serial.println(input_string);
       // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
       String urls = "http://" + udp.remoteIP().toString() + "/modules.json";
       HTTPClient http;

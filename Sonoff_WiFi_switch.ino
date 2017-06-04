@@ -43,7 +43,7 @@ ESP8266HTTPUpdateServer httpUpdater;
 File fsUploadFile;
 
 // Для тикера
-//Ticker ticker1sec;
+Ticker ticker30sec;
 Ticker ticker1sec;
 
 // Для поиска других устройств по протоколу SSDP
@@ -162,6 +162,7 @@ int stateRGB = 0;
 
 void setup() {
   ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
+  ticker30sec.attach(30, sec30); // Будет выполняться каждую секунду проверяя таймеры
   Serial.begin(115200);
   Serial.println("");
   chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
@@ -197,7 +198,7 @@ void loop() {
   handleMQTT();
   ws2812fx.service();
  if (ddnsTest){
-  ip_wan();
+  if (ddns!="") ip_wan();
   ddnsTest = false;
   }
 }
@@ -206,4 +207,6 @@ void sec(){
   sectest();
   }
 
-
+void sec30(){
+  searchSSDP();
+  }
