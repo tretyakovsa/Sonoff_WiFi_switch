@@ -25,7 +25,7 @@ void SSDP_init() {
   sCmd.addCommand("device", device);
   sCmd.addCommand("P",     processCommand);
   sCmd.setDefaultHandler(unrecognized);
-  searchSSDP();
+  //searchSSDP();
 }
 
 // Установить имя устройства
@@ -73,7 +73,7 @@ void handleUDP() {
     input_string += packetBuffer;
     if (input_string.indexOf("Arduino") > 0) {
       IPAddress remoteIp = udp.remoteIP();
-        //Serial.println(input_string);
+        Serial.println(input_string);
       // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
       String urls = "http://" + udp.remoteIP().toString() + "/modules.json";
       HTTPClient http;

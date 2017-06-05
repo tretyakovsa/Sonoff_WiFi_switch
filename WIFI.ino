@@ -138,7 +138,7 @@ bool StartAPMode()
   const byte DNS_PORT = 53;
   IPAddress apIP(192, 168, 4, 1);
   //WiFi.disconnect();
-  WiFi.mode(WIFI_AP_STA);
+  WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   WiFi.softAP(ssidApName.c_str(), ssidApPass.c_str());
   dnsServer.start(DNS_PORT, "*", apIP);

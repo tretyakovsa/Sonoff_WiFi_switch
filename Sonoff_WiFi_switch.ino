@@ -208,5 +208,5 @@ void sec(){
   }
 
 void sec30(){
-  searchSSDP();
+  //searchSSDP();
   }
