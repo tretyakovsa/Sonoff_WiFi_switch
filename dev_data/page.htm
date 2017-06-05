@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v02.06.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v04.06.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v02.06.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v04.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v02.06.2017"></script>
+  <script type="text/javascript" src="js/function.js?v04.06.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -111,16 +111,9 @@
           jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
           jsonResponse.module = modules.module;
 
-
-          //jsonResponse.urlArray=pages;
-          //   for (var i=0; i < pages.length; i++) {
-          //    jsonResponse.[urlArray[i]] = pages[i];
-          //   }
-          jsonResponse.urlArray0 = pages[0];
-          jsonResponse.urlArray1 = pages[1];
-          jsonResponse.urlArray2 = pages[2];
-
-
+          for (var i=0; i < pages.length; i++) {
+           jsonResponse["urlArray"+[i]] = pages[i];
+          }
 
           var theCookies = document.cookie.split(';');
           for (var i = 1 ; i <= theCookies.length; i++) {
@@ -218,7 +211,7 @@
              document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
             }
             if (type_val == 'chart') {
-             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/\./g, '-')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/\./g, '-')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close"><i class="popup-img"><\/i><\/a><div id="'+state_val.replace(/\./g, '-')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/\./g, '-')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/\./g, '-')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><div id="'+state_val.replace(/\./g, '-')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
              if (renameBlock(jsonResponse, '{{'+state_val.replace(/\./g, '-')+'-hidden}}') != 'hidden') {
               //var charTime;
               //clearTimeout(charTime);
