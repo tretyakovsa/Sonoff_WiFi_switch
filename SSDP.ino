@@ -25,7 +25,7 @@ void SSDP_init() {
   sCmd.addCommand("device", device);
   sCmd.addCommand("P",     processCommand);
   sCmd.setDefaultHandler(unrecognized);
-  //searchSSDP();
+  searchSSDP();
 }
 
 // Установить имя устройства
@@ -40,8 +40,11 @@ void handle_ssdp() {
 
 // запустить поиск устройств по ssdp
 void inquirySSDP() {
-searchSSDP();
-  HTTP.send(200, "text/plain", "OK");
+  Devices = "";
+  Serial.println(DevicesList);
+  devicesGet(DevicesList);
+
+  HTTP.send(200, "text/plain", Devices);
 }
 
 
@@ -53,7 +56,8 @@ void searchSSDP() {
   ssdpAdress[2] = 255;
   ssdpAdress[3] = 250;
   //IPAddress ssdpAdress(239,255,255,250);
-  Devices = "";
+
+  DevicesList = "";
   char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
   // send a reply, to the IP address and port that sent us the packet we received
   udp.beginPacket(ssdpAdress, ssdpPort);
@@ -64,18 +68,36 @@ void searchSSDP() {
 
 void handleUDP() {
   String input_string = "";
-  char packetBuffer[1024]; //buffer to hold incoming packet
+  char packetBuffer[256]; //buffer to hold incoming packet
   // if there's data available, read a packet
   int packetSize = udp.parsePacket();
   if (packetSize) {
-    int len = udp.read(packetBuffer, 1024);
+    int len = udp.read(packetBuffer, 256);
     if (len > 0) packetBuffer[len] = 0;
     input_string += packetBuffer;
     if (input_string.indexOf("Arduino") > 0) {
       IPAddress remoteIp = udp.remoteIP();
-        Serial.println(input_string);
+      Serial.println(input_string);
       // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
-      String urls = "http://" + udp.remoteIP().toString() + "/modules.json";
+      DevicesList += udp.remoteIP().toString() + ",";
+
+    }
+  }
+}
+
+// Получаем список модулей для запроса /devices.scan.json
+
+void devicesGet(String ipList) {
+  if (ipList != "") {
+    String list = ipList;
+    do {
+      String ipNext = subString (list, ",");
+      Serial.println(ipNext);
+
+
+      // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
+      String urls = "http://" + ipNext + "/modules.json";
+
       HTTPClient http;
       http.begin(urls); //HTTP
       int httpCode = http.GET();
@@ -84,22 +106,27 @@ void handleUDP() {
         Devices += http.getString();
       }
       http.end();
-    }
+
+      list = stringTrim(list, ",");
+      //Serial.println(list);
+
+    } while  (list != "");
   }
 }
 
 
-void device(){
-//  ssdp=Smart&space=test&
+
+void device() {
+  //  ssdp=Smart&space=test&
 
   char *arg;
   //arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
   //Serial.println(arg);
-   do  {    // As long as it existed, take it
+  do  {    // As long as it existed, take it
     arg = sCmd.next();
-    if (arg==NULL) return;
-    String temp=findParm(arg, "ssdp");
-    if(temp!="") ssdpName=temp;
+    if (arg == NULL) return;
+    String temp = findParm(arg, "ssdp");
+    if (temp != "") ssdpName = temp;
 
     delay(1);
     //temp=findParm(arg, "space");
@@ -110,11 +137,11 @@ void device(){
   Serial.println(spaceName);
 }
 
-String findParm(String str, String found){
-  if (subString (str, "=")==found){
+String findParm(String str, String found) {
+  if (subString (str, "=") == found) {
     return stringTrim(str, "=");
-    }
   }
+}
 
 void processCommand() {
   String aNumber;
