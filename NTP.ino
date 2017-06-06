@@ -80,8 +80,9 @@ void sectest() {
  }
 
  String ddnsTime = Time.substring(3, 8); // Выделяем из строки минуты секунды
+ //Serial.println(ddnsTime);
  // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
- if ((ddnsTime == "00:00" || ddnsTime == "15:00" || ddnsTime == "30:00"|| ddnsTime == "45:00") && ddns != "") {
+ if ((ddnsTime == "00:00" || ddnsTime == "15:00" || ddnsTime == "30:00"|| ddnsTime == "45:00")) {
   Serial.println("15 minits");
   ddnsTest = true;
  }

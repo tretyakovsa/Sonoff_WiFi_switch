@@ -161,8 +161,6 @@ String timeBUZ = "";
 int stateRGB = 0;
 
 void setup() {
-  ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
-  ticker30sec.attach(30, sec30); // Будет выполняться каждую секунду проверяя таймеры
   Serial.begin(115200);
   Serial.println("");
   chipID += String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
@@ -182,7 +180,8 @@ void setup() {
   MQTT_init();
   //initRGB();
   //electricMeter();
-
+  ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
+  ticker30sec.attach(30, sec30); // Будет выполняться каждую секунду проверяя таймеры
 
 }
 
@@ -205,7 +204,7 @@ void loop() {
 }
 
 void sec(){
-  //sectest();
+  sectest();
   }
 
 void sec30(){
