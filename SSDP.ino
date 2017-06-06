@@ -25,11 +25,7 @@ void SSDP_init() {
   sCmd.addCommand("device", device);
   sCmd.addCommand("P",     processCommand);
   sCmd.setDefaultHandler(unrecognized);
-<<<<<<< HEAD
-  //searchSSDP();
-=======
- // searchSSDP();
->>>>>>> origin/master
+
 }
 
 // Установить имя устройства

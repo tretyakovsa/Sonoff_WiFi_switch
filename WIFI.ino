@@ -160,7 +160,7 @@ bool RestartWiFi() {
   Serial.println("");
   Serial.println(WiFi.localIP());
 
-  String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} http://" +WiFi.localIP().toString()+"</h3>\"\}";
+  String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=\"http://" +WiFi.localIP().toString()+"\">http://" +WiFi.localIP().toString()+"</a></h3>\"\}";
   Serial.println(state);
   HTTP.send(200, "application/json", state);
   delay(1000);
