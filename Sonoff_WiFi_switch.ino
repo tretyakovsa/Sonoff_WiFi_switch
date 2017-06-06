@@ -198,7 +198,7 @@ void loop() {
   handleMQTT();
   ws2812fx.service();
  if (ddnsTest){
-  //searchSSDP();
+  searchSSDP();
   if (ddns!="") ip_wan();
   ddnsTest = false;
   }
