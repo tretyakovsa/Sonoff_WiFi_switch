@@ -42,8 +42,8 @@ void Tach_0() {
   static unsigned long millis_prev;
   // Устроняем дребезг контакта
   if (millis() - 100 > millis_prev) {
-    //command = "rgbnot";
-    command = "relaynot";
+    command = "rgbnot";
+    //command = "relaynot";
   }
   millis_prev = millis();
 }

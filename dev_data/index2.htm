@@ -26,7 +26,7 @@
    function findDevice(submit) {
     document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
     ajax(window.location.hostname,'devices.scan.json',submit, '1');
-    setTimeout(function(){deviceList('search');}, 7000);
+    deviceList('search');
    }
 
    function deviceList(stage,sorting) {
