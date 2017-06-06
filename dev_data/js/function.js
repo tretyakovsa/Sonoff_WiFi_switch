@@ -83,13 +83,37 @@ function html(id,val){
  }
 }
 
-function send_request_post(submit,server,filename){
+function send_request_edit(submit,server,filename){
  xmlHttp = new XMLHttpRequest();
  var formData = new FormData();
  formData.append("data", new Blob([server], { type: 'text/html' }), filename);
  xmlHttp.open("POST", "/edit");
  xmlHttp.send(formData);
 }
+
+
+
+function send_request_post(submit,server,state){
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open("POST", server, true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  if (state != null && state!='undefined'){
+   var response=JSON.parse(xmlHttp.responseText);
+   var block = document.getElementById(state.slice(2,-2));
+   if (response.class && response.class!='undefined') {block.className = response.class;}
+   if (response.style && response.style!='undefined') {block.style = response.style;}
+   if (response.title && response.title!='undefined') {
+    if (block.tagName == 'INPUT') {block.value = renameBlock(jsonResponse, response.title);}
+    if (block.tagName == 'DIV' ||block.tagName == 'A' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
+   }
+   if (typeof(element) != 'undefined' && element != null){
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+   }
+  }
+ }
+}
+
 
 function send_request(submit,server,state){
  var old_submit = submit.value;
@@ -118,7 +142,7 @@ function send_request(submit,server,state){
     if (block.tagName == 'DIV' ||block.tagName == 'A' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
    }
    if (typeof(element) != 'undefined' && element != null){
-    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText+'</li>';
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
    }
   }
 

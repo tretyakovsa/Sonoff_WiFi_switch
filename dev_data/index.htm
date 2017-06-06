@@ -2,8 +2,8 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <!-- <script src="js/build.chart.js?v04.06.2017" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v04.06.2017">
+  <!-- <script src="js/build.chart.js?v06.06.2017" charset="utf-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css?v06.06.2017">
   <!-- <script src="js/build.chart.js" charset="utf-8"></script> -->
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -45,7 +45,7 @@
      var allSpace = [];
      for(var key in ipModule) {
       var ipval = ipModule[key].ip;
-      if (ipval == '0.0.0.0') {location.href = "/setup.htm#wifi-connect";}
+      if (ipval == '0.0.0.0') {location.href = "/page.htm?first-connect";}
       if (stage == 'search') {
        loadBlock(ipval,'content','first',ipModule[key].module);
       }

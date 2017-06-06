@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v04.06.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v06.06.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v04.06.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v06.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v04.06.2017"></script>
+  <script type="text/javascript" src="js/function.js?v06.06.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -22,7 +22,7 @@
     let charCode = String.fromCharCode(evtobj.which).toLowerCase();
     if (charCode === 'm' && evtobj.ctrlKey) {toggle('edit-content');toggle('url-content');}
     if (charCode === 's' && evtobj.ctrlKey) {
-     evtobj.preventDefault();send_request_post(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');
+     evtobj.preventDefault();send_request_edit(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');
     }
    }
 
@@ -399,7 +399,7 @@
     <div id="error-json"></div>
     <div class="btn-group btn-block">
      <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';" value="View" type="button">
-     <input class="btn btn-danger" style="width:50%" onclick="send_request_post(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+     <input class="btn btn-danger" style="width:50%" onclick="send_request_edit(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     </div>
    </div>
 
