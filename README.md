@@ -36,7 +36,7 @@
 #define LED_PIN 13    // Светодиод
 #define DHTPIN 14     // DHT сенсор.
 #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
-// PIN ADC (A0)       // URL: /analog.json or /chart.htm#analog
+// PIN ADC (A0)       // URL: /analog.json or /page.htm?chart&analog
 ```
 
 ### Schematic

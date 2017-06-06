@@ -353,9 +353,9 @@
    "class": "btn btn-block btn-default"
   },
   {
-   "type": "button",
+   "type": "link",
    "title": "{{LangReset1}}",
-   "action": "restart?device=ok",
+   "action": "javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');}",
    "class": "btn btn-block btn-warning"
   }
  ]

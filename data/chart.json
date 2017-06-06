@@ -1,0 +1,58 @@
+{
+ "config": "config.live.json",
+ "lang": "/lang/lang.{{lang}}.json",
+ "title": "{{LangChart}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-danger"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV"}
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangDevices}}",
+   "action": "/",
+   "class": "btn btn-block btn-danger"
+  },
+  {
+   "type": "link",
+   "title": "{{urlArray1}} <i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  },
+
+  {
+   "type": "hr"
+  },
+
+  {
+   "type": "chart",
+   "state": "{{urlArray1}}.json",
+   "style": "height:400px;margin-left:-20px"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  }
+
+ ]
+}

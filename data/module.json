@@ -99,7 +99,7 @@
    "type": "chart",
    "state": "analog.json",
    "module":"analog",
-   "action": "/chart.htm#analog",
+   "action": "/page.htm?chart&analog",
    "style": "height:200px;margin-left:-20px"
   },
 
