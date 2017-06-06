@@ -59,11 +59,11 @@ WiFiUDP udp;
 
   // Куда что подключено в sonoff
   #define TACH_PIN 0    // Кнопка управления
-  #define PIR_PIN 16     // RIR sensors
+  #define PIR_PIN 2     // RIR sensors
   #define RELE1_PIN 12  // Реле
   #define LED_PIN 13    // Светодиод
   #define DHTPIN 14     // DHT сенсор.
-  #define RGB_PIN 2     // WS2811/WS2812/NeoPixel LEDs
+  #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
   #define impuls_PIN 3  //электросчетчик
 
 /*
@@ -173,12 +173,12 @@ void setup() {
   ntp_init();        // Включаем время из сети
   timers_init();     // Синхронизируем время
   tachinit();        // Включаем кнопку
-  //relay_init();      //Запускаем реле
+  relay_init();      //Запускаем реле
   sensor_init();     // Запускаем сенсоры
   Movement_init();   // запускаем датчик движения
   ddns_init();       //запускаем DDNS сервис
   MQTT_init();
-  initRGB();
+  //initRGB();
   //electricMeter();
   ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
   ticker30sec.attach(30, sec30); // Будет выполняться каждую секунду проверяя таймеры
