@@ -162,25 +162,25 @@
              document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
             }
             if (type_val == 'input') {
-             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
              document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'">';
             }
             if (type_val == 'password') {
-             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
              document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
             }
             if (type_val == 'button') {
-             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].state+'\')"';
+             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
              document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" type="button">';
             }
             if (type_val == 'checkbox') {
              var checked = '';
              if (state_val == 1){ checked = 'checked'; }
-             if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+             if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
              document.getElementById('contents').innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
             }
             if (type_val == 'range') {
-             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
              document.getElementById('contents').innerHTML += '<label '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label>';
             }
             if (type_val == 'table') {
@@ -193,7 +193,7 @@
              createTable(state_val, jsonTable);
             }
             if (type_val == 'select') {
-             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'))"';
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
              var option = '';
              jsonSelect = jsonPage.content[i].title;
              //jsonSelect = JSON.parse(renameBlock(jsonResponse, jsonPage.content[i].title));
@@ -218,9 +218,6 @@
               //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
               setTimeout("loadChart('"+state_val.replace(/\./g, '-')+"','"+state_val+"')", 500);
              }
-            }
-            if (type_val == 'lang') {
-             document.getElementById('contents').innerHTML += '<div class="'+class_val+'" '+style_val+'><ul class="dropdown-menu hidden" id="'+name_val+'"><li><a href="#">'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/a><\/li><\/ul><a href="#" class="btn btn-default dropdown-toggle" onclick="'+jsonPage.content[i].action+'return false">'+state_val+' <span class="caret"><\/span><\/a><\/div>';
             }
             if (type_val == 'wifi') {
              document.getElementById('contents').innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';

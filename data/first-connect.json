@@ -23,7 +23,6 @@
    "type": "link",
    "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action": "page.htm?setup",
-   "state":"response",
    "class": "btn btn-block btn-default"
   },
 
@@ -58,7 +57,6 @@
    "title": "{{LangSave}}",
    "module": "",
    "action": "device?ssdp=[[ssdp]]&space=[[space]]",
-   "state": "response",
    "class": "btn btn-block btn-success"
   },
 

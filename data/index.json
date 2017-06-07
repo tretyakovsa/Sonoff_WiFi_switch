@@ -7,27 +7,18 @@
   {
    "type": "h5",
    "title": "{{SSDP}}",
-   "class":"alert-danger"
+   "class":"alert-info"
   },
   {
    "type": "select",
    "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
    "style": "margin-top:-47px;float:right;width:70px",
-   "title": {
-    "ru":"RU",
-    "en":"EN",
-    "lv":"LV"
-   }
+   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
-  {
-   "type": "lang222",
-   "title": "{{LangLoading}}",
-   "state": "{{lang}}",
-   "name": "language-set",
-   "action": "toggle('language-set');loadLang('language-set');",
-   "class": "group",
-   "style": "margin-top:-45px;float:right;"
-  },
+
+
   {
    "type": "link",
    "title": "{{LangDevices}}",
@@ -36,147 +27,9 @@
   },
   {
    "type": "link",
-   "title": "{{LangSetting3}}",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action": "/page.htm?setup",
    "class": "btn btn-block btn-default"
-  },
-  {
-   "type": "hr"
-  },
-  {
-   "type": "h2",
-   "title": "{{LangDevice}}",
-   "module": "device"
-  },
-  {
-   "type": "input",
-   "title": "{{LangDevice}}",
-   "name":"ssdp",
-   "module": "device",
-   "state": "{{SSDP}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
-  },
-  {
-   "type": "input",
-   "title": "{{LangSpace}}",
-   "name":"space",
-   "module": "device",
-   "state": "{{space}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
-  },
-  {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "module": "device",
-   "action": "ssdp=[[ssdp]]&space=[[space]]",
-   "state": "response",
-   "class": "btn btn-block btn-success"
-  },
-  {
-   "type": "range",
-   "name":"lux",
-   "module": "rgb",
-   "action": "luksi=[[lux]]",
-   "pattern":"min=0 max=255 step=1"
-  },
-  {
-   "type": "hr"
-  },
-  {
-   "type": "h2",
-   "title": "{{LangGMT1}}"
-  },
-  {
-   "type": "link",
-   "title": "{{LangGMT2}}",
-   "action": "javascript:set_time_zone(this);",
-   "class": "btn btn-block btn-primary"
-  },
-  {
-   "type": "hr"
-  },
-{
-   "type": "chart",
-   "name": "analog-chat",
-   "module": "analog",
-   "state": "analog.json",
-   "action": "/page.htm?chart&analog",
-   "style": "height:200px;margin-left:-20px"
-  },
-  {
-   "type": "text",
-   "title": "{{LangIfttt1}}",
-   "class": "alert alert-info"
-  },
-  {
-   "type": "hr"
-  },
-  {
-   "type": "tables",
-   "title": "{{LangTimer}}",
-   "module": "timers",
-   "state": "timers.save.json",
-   "class": "table table-striped table-hover",
-   "style": "width:100%;"
-  },
-  {
-   "type": "select",
-   "state": "Tue",
-   "module": "day",
-   "name":"fdds4",
-   "title": {
-    "All":"{{LangDay}}",
-    "All":"{{LangAll}}",
-    "Mon":"{{LangMon}}",
-    "Tue":"{{LangTue}}",
-    "Wed":"{{LangWed}}",
-    "Thu":"{{LangThu}}",
-    "Fri":"{{LangFri}}",
-    "Sat":"{{LangSat}}",
-    "Sun":"{{LangSun}}"
-   }
-  },
-  {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "module": "device",
-   "action": "ssp=[[fdds4]]&sce=[[space]]",
-   "state": "response",
-   "class": "btn btn-block btn-success"
-  },
-  {
-   "type": "wifi",
-   "title": "{{ssid}}",
-   "module": "wifi"
-  },
-  {
-   "type": "checkbox",
-   "title": "Заsdfsdfsd",
-   "name":"checkboxIP",
-   "module": "checkboxIP",
-   "state": "{{checkboxIP}}",
-   "action": "sdf=[[checkboxIP]]"
-  },
-  {
-   "type": "checkbox",
-   "title": "Задать статический IP",
-   "name":"checkboxIP",
-   "module": "checkboxIP",
-   "state": "{{checkboxIP}}"
-  },
-  {
-   "type": "text",
-   "name": "static-ip",
-   "title": "test",
-   "class": "hidden"
-  },
-  {
-   "type": "password",
-   "title": "{{LangPass}}",
-   "module": "ssidPass",
-   "state": "{{ssidPass}}"
   }
  ]
 }

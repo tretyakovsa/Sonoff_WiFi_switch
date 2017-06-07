@@ -133,7 +133,6 @@
   {
    "type": "button",
    "title": "{{LangSave}}",
-   "state": "response",
    "class": "btn btn-block btn-success",
    "action": "ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&ip=[[ip]]&subnet=[[subnet]]&getway=[[getway]]&dns=[[dns]]&checkboxIP=[[checkboxIP]]"
   },
@@ -161,7 +160,6 @@
    "type": "button",
    "module":"",
    "title": "{{LangSave}}",
-   "state": "response",
    "class": "btn btn-block btn-success",
    "action": "timeZone?timeZone=[[timeZone]]"
   },
@@ -190,7 +188,6 @@
    "type": "button",
    "module":"",
    "title": "{{LangTime2}}",
-   "state": "response",
    "class": "btn btn-block btn-primary",
    "action": "Time"
   },
@@ -231,7 +228,6 @@
    "type": "button",
    "title": "{{LangSave}}",
    "action": "ssidap?ssidAP=[[ssidap]]&ssidApPass=[[ssidApPass]]",
-   "state": "response",
    "class": "btn btn-block btn-success",
    "style": "width:50%;display:inline"
   },
@@ -283,7 +279,6 @@
    "type": "button",
    "title": "{{LangSave}}",
    "module": "",
-   "state": "response",
    "class": "btn btn-block btn-success",
    "action": "ddns?ddnsName=[[ddns-name]]&ddnsPort=[[ddns-port]]&ddns=[[ddns-server]]"
   },
@@ -335,7 +330,6 @@
    "type": "button",
    "title": "{{LangSave}}",
    "module": "",
-   "state": "response",
    "class": "btn btn-block btn-success",
    "action": "mqtt?port=[[mqtt-port]]&server=[[mqtt-server]]&user=[[mqtt-user]]&pass=[[mqtt-pass]]"
   },
