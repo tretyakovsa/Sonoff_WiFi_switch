@@ -80,14 +80,7 @@ void handle_RGB() {
   if (timeBUZ != "") {
   }
   command = "rgbon";
-  String state = "";
-  if (stateRGB) {
-    state = "\{\"title\":\"\{\{LangOn\}\}\",\"class\":\"btn btn-block btn-lg btn-primary\"\}";
-  }
-  else {
-    state = "\{\"title\":\"\{\{LangOff\}\}\",\"class\":\"btn btn-block btn-lg btn-info\"\}";
-  }
-
+  String state = "\{\"title\":\"\{\{LangOff\}\}\",\"class\":\"btn btn-block btn-lg btn-info\"\}";
   HTTP.send(200, "text/plain", state);
 }
 
