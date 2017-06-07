@@ -182,7 +182,7 @@ void setup() {
   //electricMeter();
   ticker1sec.attach(1, sec); // Будет выполняться каждую секунду проверяя таймеры
   ticker30sec.attach(30, sec30); // Будет выполняться каждую секунду проверяя таймеры
-
+  Serial.println(jsonArray("modules.config.json", "Smart-Socket"));
 }
 
 void loop() {

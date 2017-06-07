@@ -5,7 +5,7 @@
       "pin": "12"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "13"
     },
     {
@@ -19,7 +19,7 @@
       "pin": "12"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "13"
     },
     {
@@ -33,7 +33,7 @@
       "pin": "12"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "13"
     },
     {
@@ -47,7 +47,7 @@
       "pin": "12"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "13"
     },
     {
@@ -73,7 +73,7 @@
       "pin": "2"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "16"
     },
     {
@@ -103,7 +103,7 @@
       "pin": "2"
     },
     {
-      "type": "led",
+      "type": "wifiled",
       "pin": "13"
     },
     {
