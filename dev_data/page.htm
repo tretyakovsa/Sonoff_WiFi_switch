@@ -211,12 +211,12 @@
              document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
             }
             if (type_val == 'chart') {
-             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/\./g, '-')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/\./g, '-')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><div id="'+state_val.replace(/\./g, '-')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
-             if (renameBlock(jsonResponse, '{{'+state_val.replace(/\./g, '-')+'-hidden}}') != 'hidden') {
+             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+             if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
               //var charTime;
               //clearTimeout(charTime);
               //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
-              setTimeout("loadChart('"+state_val.replace(/\./g, '-')+"','"+state_val+"')", 500);
+              setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"')", 500);
              }
             }
             if (type_val == 'wifi') {
