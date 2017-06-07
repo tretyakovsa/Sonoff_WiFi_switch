@@ -15,7 +15,7 @@
    "name":"languages",
    "action": "/lang?set=[[languages]]",
    "style": "margin-top:-47px;float:right;width:70px",
-   "title": {"ru":"RU","en":"EN","lv":"LV"}
+   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
 
 
