@@ -49,6 +49,7 @@
    "title": "/img/swatches.png",
    "name":"color",
    "state":"{{color}}",
+   "response":"[[rgb]]",
    "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "style":"cursor:pointer;width:100%"
   },

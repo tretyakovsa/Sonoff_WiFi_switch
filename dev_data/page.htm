@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v07.06.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v08.06.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v07.06.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v08.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v07.06.2017"></script>
+  <script type="text/javascript" src="js/function.js?v08.06.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -71,6 +71,8 @@
     xmlHttp.open('GET', pages[0]+".json",true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
+
+     document.getElementById('download-json').href = pages[0]+".json";
 
      var jsonPage;
      if (xmlHttp.status==200){
@@ -232,7 +234,7 @@
             if (type_val == 'rgb') {
              document.getElementById('contents').innerHTML += '<div class="'+name_val+'-thumb '+class_val+'"><div class="'+name_val+'-preview"><\/div><img alt="" '+style_val+' src="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'"><\/div><canvas id="'+name_val+'-cs" style="display:none"><\/canvas>';
              document.getElementById('contents').innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden">';
-             setTimeout("createRGB('"+name_val+"', '"+jsonPage.content[i].action+"','"+module_val+"')", 500);
+             setTimeout("createRGB('"+name_val+"', '"+jsonPage.content[i].action+"','"+module_val+"','"+jsonPage.content[i].response+"')", 500);
             }
             if (type_val == 'dev') {
              var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<span id="dev-update" class="hidden"><b>'+jsonResponse.LangSetting5+'<\/b>';
@@ -318,7 +320,7 @@
    }
 
 
-   function createRGB(valID,actionID,moduleID){
+   function createRGB(valID,actionID,moduleID,responseID){
     var img = _('.'+valID+'-thumb img'),
         canvas = _('#'+valID+'-cs'),
         result = _('.'+valID+'-result'),
@@ -336,7 +338,7 @@
       //on_rgb(this,p[0],p[1],p[2]);
       // alert(p[0]+" "+p[1]+" "+p[2]);
       if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
-      if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?module='+moduleID+'&':'')+renameGet(actionID)+'');}
+      if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?module='+moduleID+'&':'')+renameGet(actionID), responseID);}
       document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
      });
     },false);
@@ -395,8 +397,9 @@
     <textarea class="form-control" onkeyup="isValidJson(this.value)" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
     <div class="btn-group btn-block">
-     <input class="btn btn-success" style="width:50%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';" value="View" type="button">
-     <input class="btn btn-danger" style="width:50%" onclick="send_request_edit(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+     <input class="btn btn-success" style="width:40%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';" value="View" type="button">
+     <input class="btn btn-danger" style="width:40%" onclick="send_request_edit(this, val('edit-json'), pages[0]+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+     <a class="btn btn-info" style="width:20%" href="" id="download-json" download><i class="download-img"></i></a>
     </div>
    </div>
 

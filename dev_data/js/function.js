@@ -100,15 +100,18 @@ function send_request_post(submit,server,state){
  xmlHttp.onload = function(e) {
   if (state != null && state!='undefined'){
    var response=JSON.parse(xmlHttp.responseText);
-   var block = document.getElementById(state.slice(2,-2));
-   if (response.class && response.class!='undefined') {block.className = response.class;}
-   if (response.style && response.style!='undefined') {block.style = response.style;}
-   if (response.title && response.title!='undefined') {
-    if (block.tagName == 'INPUT') {block.value = renameBlock(jsonResponse, response.title);}
-    if (block.tagName == 'DIV' ||block.tagName == 'A' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
-   }
-   if (typeof(element) != 'undefined' && element != null){
-    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+   var block = state.split(',');
+   for (var i = 0 ; i < block.length; i++) {
+    var htmlblock = document.getElementById(block[i].slice(2,-2));
+    if (response.class && response.class!='undefined') {htmlblock.className = response.class;}
+    if (response.style && response.style!='undefined') {htmlblock.style = response.style;}
+    if (response.title && response.title!='undefined') {
+     if (htmlblock.tagName == 'INPUT') {htmlblock.value = renameBlock(jsonResponse, response.title);}
+     if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
+    }
+    if (typeof(element) != 'undefined' && element != null){
+     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+    }
    }
   }
  }
@@ -134,15 +137,18 @@ function send_request(submit,server,state){
 
   if (state != null && state!='undefined'){
    var response=JSON.parse(xmlHttp.responseText);
-   var block = document.getElementById(state.slice(2,-2));
-   if (response.class && response.class!='undefined') {block.className = response.class;}
-   if (response.style && response.style!='undefined') {block.style = response.style;}
-   if (response.title && response.title!='undefined') {
-    if (block.tagName == 'INPUT') {block.value = renameBlock(jsonResponse, response.title);}
-    if (block.tagName == 'DIV' ||block.tagName == 'A' || block.tagName == 'H1' || block.tagName == 'H2' || block.tagName == 'H3' || block.tagName == 'H4' || block.tagName == 'H5' || block.tagName == 'H6') {block.innerHTML = renameBlock(jsonResponse, response.title);}
-   }
-   if (typeof(element) != 'undefined' && element != null){
-    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+   var block = state.split(',');
+   for (var i = 0 ; i < block.length; i++) {
+    var htmlblock = document.getElementById(block[i].slice(2,-2));
+    if (response.class && response.class!='undefined') {htmlblock.className = response.class;}
+    if (response.style && response.style!='undefined') {htmlblock.style = response.style;}
+    if (response.title && response.title!='undefined') {
+     if (htmlblock.tagName == 'INPUT') {htmlblock.value = renameBlock(jsonResponse, response.title);}
+     if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
+    }
+    if (typeof(element) != 'undefined' && element != null){
+     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+    }
    }
   }
 

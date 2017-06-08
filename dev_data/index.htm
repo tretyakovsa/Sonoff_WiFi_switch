@@ -2,8 +2,8 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <!-- <script src="js/build.chart.js?v07.06.2017" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v07.06.2017">
+  <!-- <script src="js/build.chart.js?v08.06.2017" charset="utf-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css?v08.06.2017">
   <!-- <script src="js/build.chart.js" charset="utf-8"></script> -->
   <link rel="stylesheet" type="text/css" href="css/build.css">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -302,7 +302,10 @@
      <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul> -->
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
-     <a href="/index2.htm" class="btn btn-warning">{{LangNewDesign}}</a>
+     <div class="btn-group">
+      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');">{{LangDesign}} <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="skins"><li><a href="/index.htm"><b>Default</b></a></li><li><a href="/index2.htm"><b>Inline</b></a></li><li><a href="/index3.htm"><b>Block</b></a></li></ul>
+     </div>
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
