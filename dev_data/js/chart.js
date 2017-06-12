@@ -5,9 +5,9 @@ function loadChart(chartId,chartUrl,charOptions){
   return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
  }
 
- //var ne = document.createElement('h2');
- //ne.id = chartId+'-title';
- //document.getElementById(chartId).parentNode.insertBefore(ne,document.getElementById(chartId));
+ var ne = document.createElement('h2');
+ ne.id = chartId+'-title';
+ document.getElementById(chartId).parentNode.insertBefore(ne,document.getElementById(chartId));
 
  function adddata() {
   var xmlHttp=createXmlHttpObject();
