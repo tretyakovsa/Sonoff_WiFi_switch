@@ -35,12 +35,12 @@ void sensor_init(){
 void handle_sensor() {
  float temp = dht.getTemperature();
  if (temp == 'NaN') {temp = 0;}
- HTTP.send(200, "text/json", graf(temp,10,5000,"Temperature"));
+ HTTP.send(200, "text/json", graf(temp,10,5000));
 }
 
 void handle_analog() {
 
- HTTP.send(200, "text/json", graf(analogRead(A0),30,3000,"Analog (ADC/A0)"));
+ HTTP.send(200, "text/json", graf(analogRead(A0),30,3000));
 }
 
 

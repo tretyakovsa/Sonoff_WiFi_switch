@@ -1,5 +1,5 @@
 // Создание данных для графика
-String graf(int datas, int points, int refresh, String title ) {
+String graf(int datas, int points, int refresh) {
   String root = "{}";  // Формировать строку для отправки в браузер json формат
   // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
@@ -11,7 +11,6 @@ String graf(int datas, int points, int refresh, String title ) {
   data.add(datas);
   json["points"] = points;
   json["refresh"] = refresh;
-  json["title"] = title;
   // Помещаем созданный json в переменную root
   root = "";
   json.printTo(root);
