@@ -1,11 +1,8 @@
 <div class="col-md-6">
  <div class="block">
   <h5 class="alert-default">{{SSDP}}</h5>
-  <div class="alert alert-dismissible alert-info">
-   <a href="http://{{ip}}/page.htm?chart&sensor" target="_blank" class="close"><i class="popup-img"></i></a>
-   {{LangTemperature}}: <b>{{data}}<sup><sup>0</sup>C</sup></b> <br>
-   <span class="{{Humidity}}">{{LangHumidity}}: <b>{{data2}}<sup>%</sup></b></span>
-  </div>
+  <h2>{{LangTemperature}}</h2>
+  <div id="{{sensorId}}" style="height:200px;margin-left:-20px"></div>
   <a class="btn btn-block btn-default" href="http://{{ip}}/page.htm?chart&sensor">{{LangOptions1}}</a>
  </div>
 </div>

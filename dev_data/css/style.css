@@ -172,6 +172,10 @@ ul#history {
  height:90%;
 }
 
+.index .col-md-6 {
+ min-height: 390px;
+}
+
 .opt-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img {
  display:inline-block;
  width:16px;

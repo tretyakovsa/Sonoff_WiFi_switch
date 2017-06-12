@@ -14,6 +14,7 @@
    "state": "{{lang}}",
    "name":"languages",
    "action": "/lang?set=[[languages]]",
+   "response":"page.htm?{{urlArray0}}",
    "style": "margin-top:-47px;float:right;width:70px",
    "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
@@ -97,6 +98,7 @@
 
   {
    "type": "chart",
+   "title":"{{LangAnalog}}",
    "state": "analog.json",
    "module":"analog",
    "action": "/page.htm?chart&analog",

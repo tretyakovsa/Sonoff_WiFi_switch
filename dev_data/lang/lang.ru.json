@@ -27,7 +27,6 @@
  "LangIf":"Если",
  "LangThen":"Значит",
  "LangHedden":"Скрыть блок?\nЕго можно будет восстановить на странице \"Конфигурация\".",
- "LangChart":"График",
  "LangRefresh":"Обновить",
  "LangHelp":"Помощь",
  "LangDesign":"Дизайн",
@@ -108,5 +107,9 @@
  "LangTime11":"Время открытия:",
  "LangOnOff1":"Закрыть / Открыть",
  "LangOff1":"Закрыть",
- "LangOn1":"Открыть"
+ "LangOn1":"Открыть",
+
+ "_comment": "---page.htm?chart---",
+ "LangChart":"График",
+ "LangAnalog":"Analog (ADC/A0)"
 }

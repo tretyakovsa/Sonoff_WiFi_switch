@@ -2,10 +2,10 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <!-- <script src="js/build.chart.js?v08.06.2017" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v08.06.2017">
-  <!-- <script src="js/build.chart.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css">
+  <script src="js/build.chart.js?v12.06.2017" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css?v12.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,11 @@
    }
 
    window.onload = function() {
-    deviceList('first');
+    if (window.location.hash.substring(1)) {
+     deviceList('first', decodeURIComponent(window.location.hash.substring(1)));
+    } else {
+     deviceList('first');
+    }
    }
 
    function findDevice(submit) {
@@ -65,18 +69,18 @@
       for (var i in allSpace) {space_lookup[allSpace[i]] = allSpace[i];}
       for (i in space_lookup) {spaceArray.push(space_lookup[i]);}
       if (spaceArray.length == 1) {toggle('sorting-space','show');}
-      document.getElementById("sorting-space").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><input type="button" class="btn btn-default" value="all" onclick="deviceList(\'first\');">';
+      document.getElementById("sorting-space").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>';
       for(var key in spaceArray) {
-       if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<input type="button" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')" value="'+spaceArray[key]+'">';
+       if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
       }
       var moduleArray = [];
       var lookup  = {};
       for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
       for (i in lookup) {moduleArray.push(lookup[i]);}
       if (ipModule.length == 1) {toggle('sorting-module','show');}
-      document.getElementById("sorting-module").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><input type="button" class="btn btn-sm btn-default" value="all" onclick="deviceList(\'first\');">';
+      document.getElementById("sorting-module").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>';
       for(var key in moduleArray) {
-       if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<input type="button" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')" value="'+moduleArray[key]+'">';
+       if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
       }
      }
     }
@@ -174,6 +178,15 @@
       jsonResponse.ip = ipval;
       jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+
+      if (page == 'analog') {
+       jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 500);
+      }
+      if (page == 'temperature') {
+       jsonResponse.sensorId = 'sensorjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/sensor.json')", 500);
+      }
 
       var new_string;
       for (var key in jsonResponse) {
@@ -292,14 +305,14 @@
   </script>
  </head>
  <body>
-  <div class="container device">
+  <div class="container device index">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor/Servo)</a></li></ul>
-<!--      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul> -->
+     <!--      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+<ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul> -->
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
      <div class="btn-group">

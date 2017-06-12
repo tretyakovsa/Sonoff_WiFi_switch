@@ -27,7 +27,6 @@
  "LangIf":"Ja",
  "LangThen":"Tā",
  "LangHedden":"Slēpt bloku?\nTo var atjaunot no \"Ekstras iestatījumi\".",
- "LangChart":"Grafik",
  "LangRefresh":"Atjaunat",
  "LangHelp":"Palīdziba",
  "LangNewDesign":"jauns dizains",
@@ -109,4 +108,9 @@
  "LangTime11":"Atvēršanas laiks:",
  "LangOn1Off1":"Aizvert / Atvert",
  "LangOff1":"Aizvert",
- "LangOn1":"Atvert"}
+ "LangOn1":"Atvert",
+
+ "_comment": "---page.htm?chart---",
+ "LangChart":"Grafik",
+ "LangAnalog":"Analog (ADC/A0)"
+}

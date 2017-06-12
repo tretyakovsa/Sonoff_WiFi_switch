@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v08.06.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v12.06.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v08.06.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v12.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v08.06.2017"></script>
+  <script type="text/javascript" src="js/function.js?v12.06.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -153,6 +153,7 @@
             var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
             var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
             var state_val = renameBlock(jsonResponse, jsonPage.content[i].state);
+            var response_val = renameBlock(jsonResponse, jsonPage.content[i].response);
             var module_val = jsonPage.content[i].module;
 
             var type_val=jsonPage.content[i].type;
@@ -164,25 +165,25 @@
              document.getElementById('contents').innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/'+type_val+'>';
             }
             if (type_val == 'input') {
-             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
              document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'">';
             }
             if (type_val == 'password') {
-             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
+             if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
              document.getElementById('contents').innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
             }
             if (type_val == 'button') {
-             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
+             if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
              document.getElementById('contents').innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'" type="button">';
             }
             if (type_val == 'checkbox') {
              var checked = '';
              if (state_val == 1){ checked = 'checked'; }
-             if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+             if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
              document.getElementById('contents').innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/label>';
             }
             if (type_val == 'range') {
-             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
              document.getElementById('contents').innerHTML += '<label '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label>';
             }
             if (type_val == 'table') {
@@ -191,11 +192,11 @@
              for(var key in jsonTable) {
               thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
              }
-             document.getElementById('contents').innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead><tr>'+thead+'<\/tr><\/thead><tbody id="'+state_val.replace(/\./g, '-')+'"><\/tbody><\/table>';
+             document.getElementById('contents').innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead><tr>'+thead+'<\/tr><\/thead><tbody id="'+state_val.replace(/[^a-z0-9]/gi,'')+'"><\/tbody><\/table>';
              createTable(state_val, jsonTable);
             }
             if (type_val == 'select') {
-             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+jsonPage.content[i].response+'\')"';
+             if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?module='+module_val+'&':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
              var option = '';
              jsonSelect = jsonPage.content[i].title;
              //jsonSelect = JSON.parse(renameBlock(jsonResponse, jsonPage.content[i].title));
@@ -213,7 +214,7 @@
              document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
             }
             if (type_val == 'chart') {
-             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+             document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
              if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
               //var charTime;
               //clearTimeout(charTime);
@@ -234,7 +235,7 @@
             if (type_val == 'rgb') {
              document.getElementById('contents').innerHTML += '<div class="'+name_val+'-thumb '+class_val+'"><div class="'+name_val+'-preview"><\/div><img alt="" '+style_val+' src="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'"><\/div><canvas id="'+name_val+'-cs" style="display:none"><\/canvas>';
              document.getElementById('contents').innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden">';
-             setTimeout("createRGB('"+name_val+"', '"+jsonPage.content[i].action+"','"+module_val+"','"+jsonPage.content[i].response+"')", 500);
+             setTimeout("createRGB('"+name_val+"', '"+jsonPage.content[i].action+"','"+module_val+"','"+response_val+"')", 500);
             }
             if (type_val == 'dev') {
              var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<span id="dev-update" class="hidden"><b>'+jsonResponse.LangSetting5+'<\/b>';
@@ -277,7 +278,7 @@
       for(var keys in jsonTable) {
        tbody += '<td>'+timers.timer[i][keys]+'<\/td>';
       }
-      document.getElementById(state_val.replace(/\./g, '-')).innerHTML += '<tr>'+tbody+'<\/tr>';
+      document.getElementById(state_val.replace(/[^a-z0-9]/gi,'')).innerHTML += '<tr>'+tbody+'<\/tr>';
      }
     }
    }

@@ -27,7 +27,6 @@
  "LangIf":"If",
  "LangThen":"Then",
  "LangHedden":"Hide block?\nYou can restored this on \"Settings page\".",
- "LangChart":"Chart",
  "LangRefresh":"Refresh",
  "LangHelp":"Help",
  "LangDesign":"Design",
@@ -108,5 +107,9 @@
  "LangTime11":"Opening time:",
  "LangOn1Off1":"Close / Open",
  "LangOff1":"Closen",
- "LangOn1":"Open"
+ "LangOn1":"Open",
+
+ "_comment": "---page.htm?chart---",
+ "LangChart":"Chart",
+ "LangAnalog":"Analog (ADC/A0)"
 }
