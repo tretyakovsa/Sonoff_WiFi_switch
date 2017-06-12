@@ -211,7 +211,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+sensors.title+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.LangAnalog+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     }
    }
 
@@ -221,7 +221,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&analog">'+sensors.title+'<\/a> <b>'+sensors.data+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&analog">'+jsonResponse.LangAnalog+'<\/a> <b>'+sensors.data+'<\/b><br>';
     }
    }
 
