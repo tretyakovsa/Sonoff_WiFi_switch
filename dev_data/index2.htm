@@ -188,7 +188,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById(content).innerHTML+='<tr><td>'+(jsonResponse.space?'<a class="label label-default" href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');">'+jsonResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonResponse.LangAnalog+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td>'+(jsonResponse.space?'<a class="label label-default" href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');">'+jsonResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonResponse.LangTemperature+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
     }
    }
 

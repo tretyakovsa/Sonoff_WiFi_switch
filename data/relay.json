@@ -41,6 +41,7 @@
 
   {
    "type": "text",
+   "module":"ddns",
    "title": "{{LangIfttt1}}",
    "class": "alert alert-info"
   },

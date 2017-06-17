@@ -35,6 +35,7 @@
     //document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     //document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     //document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-warning">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+   document.getElementById("content-history").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">{{LangHistory}}<\/h5><ul id="history"><\/ul><\/div><\/div>';
 
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
@@ -211,7 +212,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.LangAnalog+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.LangTemperature+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     }
    }
 
@@ -239,8 +240,8 @@
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = '';
     //var parent = submit.parentNode.childNodes[1].innerHTML;
-    var parent = submit.parentNode.parentNode.children[0].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    var parent = submit.parentNode.parentNode.parentNode.children[0].innerHTML;
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"> URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();
@@ -333,11 +334,8 @@
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
-   <div class="col-sm-12 col-md-3">
-    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
-    <ul id="history" class="hidden" style="background-color:#fff;padding-bottom:10px;padding-top:10px;position:absolute;"></ul>
-   </div>
    <div class="col-md-12" id="content"></div>
+   <div id="content-history"></div>
   </div>
  </body>
 </html>

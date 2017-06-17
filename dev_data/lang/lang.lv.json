@@ -50,7 +50,7 @@
  "LangGMT2":"Automātiska laika joslas izvēle un saglabāšana",
  "LangAP":"Piekļuves punkts",
  "LangDdns1":"Dinamisks DNS",
- "LangDdns2":"Katras stundas 15., 30., 45., 00 minūtē iekārta iet uz linku. Jūs varat izmantot <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> un tādējādi izveidot sev domēnu ar dinamisko IP adresi. Tas ļaus ērti izmantot <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
+ "LangDdns2":"Katras stundas 15., 30., 45., 00 minūtē iekārta iet uz linku. Jūs varat izmantot <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> vai <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> un tādējādi izveidot sev domēnu ar dinamisko IP adresi. Tas ļaus ērti izmantot <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
  "LangTime1":"Plkst. uz ierīces tagad",
  "LangTime2":"Sinhronizēt laiku",
  "LangReset1":"Pārlādēt šo ierīci",
@@ -81,12 +81,10 @@
  "LangTime6":"Svarigi. Norādot laiku, rakstīt \"0\" pirms vienciparu skaitļa.",
 
  "_comment": "---page.htm?relay---",
- "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">vairāk...</a><span id=\"ifttt-help\" class=\"hidden\"> pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"url1\"></span><br>Global saite: <span id=\"url2\"></span></span>",
+ "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">vairāk...</a><span id=\"ifttt-help\" class=\"hidden\"> pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"ddns-url1\"></span><br>Global saite: <span id=\"ddns-url2\"></span></span>",
  "LangOnOff":"Ieslēgt/Izslēgt",
  "LangOn":"Ieslēgt",
  "LangOff":"Izslēgt",
- "LangTemperature":"Temperatūra",
- "LangHumidity":"Mitrums",
  "LangPir1":"PIR Sensor",
  "LangPir2":"Ja sensors nav pieslēgts PIR, vērtība 0.",
 
@@ -111,6 +109,8 @@
  "LangOn1":"Atvert",
 
  "_comment": "---page.htm?chart---",
+ "LangTemperature":"Temperatūra",
+ "LangHumidity":"Mitrums",
  "LangChart":"Grafik",
  "LangAnalog":"Analog (ADC/A0)"
 }

@@ -135,6 +135,15 @@ function send_request(submit,server,state){
    element.innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(xmlHttp.status==200?'default':'danger')+'">'+xmlHttp.status+' '+xmlHttp.statusText+'</span></li>';
   }
 
+  var ddnsUrl1 =  document.getElementById('ddns-url1');
+  if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
+   ddnsUrl1.innerHTML = '<a href="http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
+  }
+  var ddnsUrl2 =  document.getElementById('ddns-url2');
+  if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null){
+   ddnsUrl2.innerHTML = '<a href="http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
+  }
+
   if (state != '' && state != null && state!='undefined'){
    var block = state.split(',');
    for (var i = 0 ; i < block.length; i++) {
@@ -150,7 +159,7 @@ function send_request(submit,server,state){
       if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
      }
      if (typeof(element) != 'undefined' && element != null){
-      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
      }
     }
 

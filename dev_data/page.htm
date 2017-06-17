@@ -116,6 +116,7 @@
           for (var i=0; i < pages.length; i++) {
            jsonResponse["urlArray"+[i]] = pages[i];
           }
+          jsonResponse.urlArray=window.location.search.substring(1);
 
           var theCookies = document.cookie.split(';');
           for (var i = 1 ; i <= theCookies.length; i++) {
@@ -310,7 +311,7 @@
         if (document.getElementById(id).tagName=='select'){
          txt=document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
         } else {
-         txt=document.getElementById(id).value;
+         txt=encodeURIComponent(document.getElementById(id).value);
         }
         str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
        }

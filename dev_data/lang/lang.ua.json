@@ -50,7 +50,7 @@
  "LangGMT2":"Автовизначення і збереження зони",
  "LangAP":"Точка доступу",
  "LangDdns1":"Динамічний DNS",
- "LangDdns2":"Кожні 15 хвилин кожної години пристрій переходить за посиланням. Ви можете використати <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> і таким чином зробити собі домен на динамічному IP. Це дозволить комфортно користуватися <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
+ "LangDdns2":"Кожні 15 хвилин кожної години пристрій переходить за посиланням. Ви можете використати <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> или <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> і таким чином зробити собі домен на динамічному IP. Це дозволить комфортно користуватися <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
  "LangTime1":"На пристрої зараз",
  "LangTime2":"Синхронізувати час",
  "LangReset1":"Перезавантажити пристрій",
@@ -81,12 +81,10 @@
  "LangTime6":"Налаштовуючи час перед одиночними цифрами пишіть 0. Комірку Хв(Тривал. роботи) заповнювати не обов’язково.",
 
  "_comment": "---page.htm?relay---",
- "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"url1\"></span><br>Глобальне посилання: <span id=\"url2\"></span></span>",
+ "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"ddns-url1\"></span><br>Глобальне посилання: <span id=\"ddns-url2\"></span></span>",
  "LangOnOff":"Увімкнути/Вимкнути",
  "LangOn":"Увімкнути",
  "LangOff":"Вимкнути",
- "LangTemperature":"Температура",
- "LangHumidity":"Вологість",
  "LangPir1":"Датчик руху",
  "LangPir2":"Тривалість горіння LED ввімкненого датчиком руху в секундах. Якщо PIR сенсор не підключений, значення повинно бути 0.",
 
@@ -110,6 +108,8 @@
  "LangOn1":"Відкрити",
 
  "_comment": "---page.htm?chart---",
+ "LangTemperature":"Температура",
+ "LangHumidity":"Вологість",
  "LangChart":"Графік",
  "LangAnalog":"Analog (ADC/A0)"
 }

@@ -50,7 +50,7 @@
  "LangGMT2":"Auto search and save GMT zone",
  "LangAP":"Access point",
  "LangDdns1":"Dynamic DNS",
- "LangDdns2":"At 15, 30, 45, 00 minutes every hour the device switched to the link. You can use <a target=\"_blank\" href=\"http://dyndns.dk\"> dyndns.dk </a> and this make a domain on a dynamic IP. That will allow comfortable use <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
+ "LangDdns2":"At 15, 30, 45, 00 minutes every hour the device switched to the link. You can use <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> or <a target=\"_blank\" href=\"http://dyndns.dk\"> dyndns.dk </a> and this make a domain on a dynamic IP. That will allow comfortable use <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
  "LangTime1":"Device time",
  "LangTime2":"Synchronize time",
  "LangReset1":"Reload this device",
@@ -81,12 +81,10 @@
  "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit. Min (Work time) are optional.",
 
  "_comment": "---page.htm?relay---",
- "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"url1\"></span><br>Global link: <span id=\"url2\"></span></span>",
+ "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"ddns-url1\"></span><br>Global link: <span id=\"ddns-url2\"></span></span>",
  "LangOnOff":"On/Off",
  "LangOn":"On",
  "LangOff":"Off",
- "LangTemperature":"Temperature",
- "LangHumidity":"Humidity",
  "LangPir1":"PIR Sensor",
  "LangPir2":"Time in seconds how long the LED will light on the sensor to movement. If the sensor is not connected PIR, the value should be 0.",
 
@@ -110,6 +108,8 @@
  "LangOn1":"Open",
 
  "_comment": "---page.htm?chart---",
+ "LangTemperature":"Temperature",
+ "LangHumidity":"Humidity",
  "LangChart":"Chart",
  "LangAnalog":"Analog (ADC/A0)"
 }
