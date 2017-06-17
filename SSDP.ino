@@ -16,7 +16,7 @@ void SSDP_init() {
   SSDP.setSerialNumber(chipID);
   SSDP.setURL("/index.htm");
   SSDP.setModelName("sonoff");
-  SSDP.setModelNumber("000000000001");
+  SSDP.setModelNumber(chipID);
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
