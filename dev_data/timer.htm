@@ -75,7 +75,7 @@
       if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-info">rgb<\/span>';}
       if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-success">jalousie<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');}" type="button"><\/td><\/tr>';
+      html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');load();}" type="button"><\/td><\/tr>';
      }
      document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">'+jsonResponse.LangNoTimers+'<\/td><\/tr>');
     }
@@ -139,7 +139,7 @@
      <div class="col-xs-12 col-md-7">
       <input id="work-time" oninput="if(this.value.length==2 || this.value.length==5)this.value+=':'" maxlength="8" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 07:09:30">
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time'));" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time'));load('');" type="button">
      <hr>
     </div>
    </div>

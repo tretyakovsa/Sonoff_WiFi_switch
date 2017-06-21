@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-  <title>SD Editor</title>
+  <title>ESP Editor</title>
   <style type="text/css" media="screen">
    .contextMenu {
     z-index: 300;
@@ -40,51 +40,64 @@
     margin: 0;
     list-style: none;
    }
+
    .css-treeview input {
     position: absolute;
     opacity: 0;
    }
+
    .css-treeview {
     font: normal 11px Verdana, Arial, Sans-serif;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
    }
+
    .css-treeview span {
     color: #00f;
     cursor: pointer;
    }
+
    .css-treeview span:hover {
     text-decoration: underline;
    }
+
    .css-treeview input + label + ul {
     margin: 0 0 0 22px;
    }
+
    .css-treeview input ~ ul {
     display: none;
    }
+
    .css-treeview label, .css-treeview label::before {
     cursor: pointer;
    }
+
    .css-treeview input:disabled + label {
     cursor: default;
     opacity: .6;
    }
+
    .css-treeview input:checked:not(:disabled) ~ ul {
     display: block;
    }
+
    .css-treeview label, .css-treeview label::before {
     background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAACgCAYAAAAFOewUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAApxJREFUeNrslM1u00AQgGdthyalFFOK+ClIIKQKyqUVQvTEE3DmAhLwAhU8QZoH4A2Q2gMSFace4MCtJ8SPBFwAkRuiHKpA6sRN/Lu7zG5i14kctaUqRGhGXnu9O/Pt7MzsMiklvF+9t2kWTDvyIrAsA0aKRRi1T0C/hJ4LUbt5/8rNpWVlp8RSr9J40b48fxFaTQ9+ft8EZ6MJYb0Ok+dnYGpmPgXwKIAvLx8vYXc5GdMAQJgQEkpjRTh36TS2U+DWW/D17WuYgm8pwJyY1npZsZKOxImOV1I/h4+O6vEg5GCZBpgmA6hX8wHKUHDRBXQYicQ4rlc3Tf0VMs8DHBS864F2YFspjgUYjKX/Az3gsdQd2eeBHwmdGWXHcgBGSkZXOXohcEXebRoQcAgjqediNY+AVyu3Z3sAKqfKoGMsewBeEIOPgQxxPJIjcGH6qtL/0AdADzKGnuuD+2tLK7Q8DhHHbOBW+KEzcHLuYc82MkEUekLiwuvVH+guQBQzOG4XdAb8EOcRcqQvDkY2iCLuxECJ43JobMXoutqGgDa2T7UqLKwt9KRyuxKVByqVXXqIoCCUCAqhUOioTWC7G4TQEOD0APy2/7G2Xpu1J4+lxeQ4TXBbITDpoVelRN/BVFbwu5oMMJUBhoXy5tmdRcMwymP2OLQaLjx9/vnBo6V3K6izATmSnMa0Dq7ferIohJhr1p01zrlz49rZF4OMs8JkX23vVQzYp+wbYGV/KpXKjvspl8tsIKCrMNAYFxj2GKS5ZWxg4ewKsJfaGMIY5KXqPz8LBBj6+yDvVP79+yDp/9F9oIx3OisHWwe7Oal0HxCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgwD8E/BZgAP0qhKj3rXO7AAAAAElFTkSuQmCC") no-repeat;
    }
+
    .css-treeview label, .css-treeview span, .css-treeview label::before {
     display: inline-block;
     height: 16px;
     line-height: 16px;
     vertical-align: middle;
    }
+
    .css-treeview label {
     background-position: 18px 0;
    }
+
    .css-treeview label::before {
     content: "";
     width: 16px;
@@ -92,15 +105,18 @@
     vertical-align: middle;
     background-position: 0 -32px;
    }
+
    .css-treeview input:checked + label::before {
     background-position: 0 -16px;
    }
+
    /* webkit adjacent element selector bugfix */
    @media screen and (-webkit-min-device-pixel-ratio:0)
    {
     .css-treeview{
      -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s;
     }
+
     @-webkit-keyframes webkit-adjacent-element-selector-bugfix
     {
      from  {
@@ -111,6 +127,7 @@
      }
     }
    }
+
    #uploader {
     position: absolute;
     top: 0;
@@ -143,6 +160,16 @@
    }
   </style>
   <script>
+
+
+
+   var urlXXX = 'http://192.168.211.181';//bolt
+   if (window.location.search.substring(1).split("=")[1]) {
+    urlXXX = 'http://'+window.location.search.substring(1).split("=")[1];
+   } else {
+    urlXXX = 'http://'+window.location.hostname;
+   }
+
    function createFileUploader(element, tree, editor){
     var xmlHttp;
     var input = document.createElement("input");
@@ -179,7 +206,7 @@
      xmlHttp.onreadystatechange = httpPostProcessRequest;
      var formData = new FormData();
      formData.append("path", p);
-     xmlHttp.open("PUT", "/edit");
+     xmlHttp.open("PUT", urlXXX+"/edit");
      xmlHttp.send(formData);
     }
 
@@ -205,7 +232,7 @@
      xmlHttp.onreadystatechange = httpPostProcessRequest;
      var formData = new FormData();
      formData.append("data", input.files[0], path.value);
-     xmlHttp.open("POST", "/edit");
+     xmlHttp.open("POST", urlXXX+"/edit");
      xmlHttp.send(formData);
     }
     input.onchange = function(e){
@@ -214,7 +241,7 @@
      var ext = /(?:\.([^.]+))?$/.exec(filename)[1];
      var name = /(.*)\.[^.]+$/.exec(filename)[1];
      if(typeof name !== undefined){
-      if(name.length > 8) name = name.substring(0, 8);
+      //1197 bolt            if(name.length > 8) name = name.substring(0, 8);
       filename = name;
      }
      if(typeof ext !== undefined){
@@ -229,6 +256,7 @@
      }
     }
    }
+
    function createTree(element, editor){
     var preview = document.getElementById("preview");
     var treeRoot = document.createElement("div");
@@ -242,7 +270,7 @@
     function loadPreview(path){
      document.getElementById("editor").style.display = "none";
      preview.style.display = "block";
-     preview.innerHTML = '<img src="'+path+'" style="max-width:100%; max-height:100%; margin:auto; display:block;" />';
+     preview.innerHTML = '<img src="'+ urlXXX +path+'" style="max-width:100%; max-height:100%; margin:auto; display:block;" />';
     }
 
     function fillFolderMenu(el, path){
@@ -442,7 +470,7 @@
        case "css":
        case "xml":
         return true;
-      }
+                }
      }
      return false;
     }
@@ -456,7 +484,7 @@
        case "gif":
        case "ico":
         return true;
-      }
+                }
      }
      return false;
     }
@@ -500,7 +528,7 @@
      xmlHttp.onreadystatechange = delCb(filename);
      var formData = new FormData();
      formData.append("path", filename);
-     xmlHttp.open("DELETE", "/edit");
+     xmlHttp.open("DELETE", urlXXX+"/edit");
      xmlHttp.send(formData);
     }
 
@@ -516,7 +544,8 @@
     function httpGet(parent, path){
      xmlHttp = new XMLHttpRequest(parent, path);
      xmlHttp.onreadystatechange = getCb(parent, path);
-     xmlHttp.open("GET", "/list?dir="+path, true);
+     //Для отключения кэша random() иначе будут старые данные
+     xmlHttp.open("GET", urlXXX+"/list?dir=" + path +"&rand="+Math.random(), true);
      xmlHttp.send(null);
      //start loading
     }
@@ -524,6 +553,7 @@
     httpGet(treeRoot, "/");
     return this;
    }
+
    function createEditor(element, file, lang, theme, type){
     function getLangFromFilename(filename){
      var lang = "plain";
@@ -542,7 +572,7 @@
        case "json":
        case "xml":
         lang = ext;
-      }
+                }
      }
      return lang;
     }
@@ -574,7 +604,7 @@
      xmlHttp.onreadystatechange = httpPostProcessRequest;
      var formData = new FormData();
      formData.append("data", new Blob([data], { type: type }), filename);
-     xmlHttp.open("POST", "/edit");
+     xmlHttp.open("POST", urlXXX + "/edit");
      xmlHttp.send(formData);
     }
     //get
@@ -590,7 +620,11 @@
     function httpGet(theUrl){
      xmlHttp = new XMLHttpRequest();
      xmlHttp.onreadystatechange = httpGetProcessRequest;
-     xmlHttp.open("GET", theUrl, true);
+     if (theUrl.indexOf("/") == 0)
+      theUrl = urlXXX + theUrl;//bolt
+     //alert(theUrl);
+     //Для отключения кэша random() иначе будут старые данные
+     xmlHttp.open("GET", theUrl+"?rand="+Math.random(), true);
      xmlHttp.send(null);
     }
 
@@ -637,13 +671,39 @@
    }
    function onBodyLoad(){
     var vars = {};
+    //        var s = "http://192.168.211.180/edit/index.htm";
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
+    //        var parts = s.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
+
+    //alert(vars.file);
+    //alert(JSON.stringify(parts));
+    //alert(JSON.stringify(vars));
+    //alert(urlXXX);
+    if (typeof vars.url !== "undefined" && vars.url != "")
+     urlXXX = "http://" + vars.url;/**/
+    //alert(urlXXX);
+    //vars.file = urlXXX;
     var editor = createEditor("editor", vars.file, vars.lang, vars.theme);
     var tree = createTree("tree", editor);
     createFileUploader("uploader", tree, editor);
    };
   </script>
+  <!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js" type="text/javascript" charset="utf-8"></script>
+!-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+   (function() {
+    window.require(["ace/ace"], function(a) {
+     a && a.config.init(true);
+     if (!window.ace)
+      window.ace = a;
+     for (var key in a) if (a.hasOwnProperty(key))
+      window.ace[key] = a[key];
+    });
+   })();
+
+  </script>
  </head>
  <body onload="onBodyLoad();">
   <div id="uploader"></div>

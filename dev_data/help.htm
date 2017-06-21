@@ -5,45 +5,18 @@
   <link rel="stylesheet" type="text/css" href="css/build.css?v12.06.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <link rel="stylesheet" type="text/css" href="css/prism.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-json.min.js"></script>
   <script type="text/javascript" src="js/function.js?v12.06.2017"></script>
-  <script type="text/javascript" src="js/prism.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Помощь</title>
  </head>
  <body>
   <div class="container">
    <div class="row" id="content">
-    <h1 id="title">Помощь</h1>
-    <h3>Вывод данных в JS, HTML</h3>
-    <p>Можно загружать данные с config.live.json, Cookies, lang.*.json</p>
-    <pre><code class="language-js">
-jsonResponse.ssid;
-// В данном случае мы получим имя WiFi сети к которой мы подключены
-// Пример:
-alert(jsonResponse.ssid);
-
-// Если вы хотите вывести эти данные в HTML это необходимо сделать следующим способом:
-{{ssid}}
-// Пример:
-&lt;h3>{{ssid}}&lt;/h3>
-        </code></pre>
-    <h3>Ajax GET запросы</h3>
-    <pre><code class="language-js">
-send_request(this,'/test');
-// В данном случае мы отправим GET на /test
-// Пример:
-&lt;input class="btn btn-block btn-success" value="button" onclick="send_request(this,'/test');" type="button">
-        </code></pre>
-    <h3>Работы с input полями</h3>
-    <pre><code class="language-js">
-val('ID_name');
-
-// Пример:
-&lt;input class="form-control" value="" id="param">
-&lt;input class="btn btn-block btn-success" value="button" onclick="send_request(this,'/test='+val('param'));" type="button">
-// Нажав на кнопку мы отпрваим ajax get запрос на /test=значение_с_поля_param
-        </code></pre>
+    <h1 id="title">Wiki</h1>
+    <h3><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki">Sonoff WiFi switch</a>, <a href="https://github.com/renat2985/rgb/wiki">RGB</a>, <a href="https://github.com/tretyakovsa/jaluzi/wiki">Jalousie</a></h3>
     <hr>
     <h2>GET JSON</h2>
     <h3>GET <a href="/config.live.json">/config.live.json</a></h3>

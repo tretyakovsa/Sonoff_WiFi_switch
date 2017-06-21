@@ -22,6 +22,7 @@ rm data/css/bootstrap.min.css.gz
 rm data/css/style.css.gz
 rm data/js/chartist.min.js.gz
 rm data/js/chart.js.gz
+rm data/js/siema.min.js.gz
 
 #test -f *.generic.bin && cp *.generic.bin build/build.generic_flash_size_1Mb.254Kb_`date '+%G.%m.%d'`.bin
 FILE_SUM=`md5sum Sonoff_WiFi_switch.ino.generic.bin`
