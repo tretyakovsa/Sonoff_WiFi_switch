@@ -32,31 +32,49 @@
    function loadDevice(content){
     html("timer-list", ' ');
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
-     var ipModule=JSON.parse(xhttp.responseText);
-     for(var key in ipModule) {
-      if (ipModule[key].module[0] != 'jalousie') {
-       if (content) {
-
-        if (searchModule(ipModule[key].module,"relay") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule[key].ip+'/timerSave?module=relay">'+ipModule[key].SSDP+' / relay<\/option>';
-        }
-        if (searchModule(ipModule[key].module,"rgb") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule[key].ip+'/timerSave?module=rgb">'+ipModule[key].SSDP+' / rgb<\/option>';
-        }
-        if (searchModule(ipModule[key].module,"jalousie") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule[key].ip+'/timerSave?module=jalousie">'+ipModule[key].SSDP+' / jalousie<\/option>';
-        }
-
-       } else {
-        loadTimers(ipModule[key].ip,ipModule[key].SSDP,ipModule[key].space);
-       }
-      }
+     var ipDevice=JSON.parse(xhttp.responseText);
+     for(i = 0;i<ipDevice.ssdpList.length;i++) {
+      loadModule(ipDevice.ssdpList[i].ip);
      }
     }
    }
+
+
+   function loadModule(ipval) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/modules.json", true)
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var ipModule=JSON.parse(xhttp.responseText);
+    // for(var key in ipModule) {
+      if (ipModule.module[0] != 'jalousie') {
+       if (content) {
+
+        if (searchModule(ipModule.module,"relay") == 'yes'){
+         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=relay">'+ipModule.SSDP+' / relay<\/option>';
+        }
+        if (searchModule(ipModule.module,"rgb") == 'yes'){
+         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=rgb">'+ipModule.SSDP+' / rgb<\/option>';
+        }
+        if (searchModule(ipModule.module,"jalousie") == 'yes'){
+         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=jalousie">'+ipModule.SSDP+' / jalousie<\/option>';
+        }
+
+       } else {
+        loadTimers(ipModule.ip,ipModule.SSDP,ipModule.space);
+       }
+      }
+  //   }
+    }
+   }
+
+
+
+
+
 
    function loadTimers(ip,ssdp,space){
     var xmlHttp=createXmlHttpObject();
