@@ -38,31 +38,44 @@
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
+    xhttp.onload = function(e) {
+     var ipDevice=JSON.parse(xhttp.responseText);
+     for(i = 0;i<ipDevice.ssdpList.length;i++) {
+      loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
+     }
+    }
+   }
+
+
+
+   function loadModule(ipval,stage,sorting) {
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/devices.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "http://"+ipval+"/modules.json", true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var ipModule=JSON.parse(xhttp.responseText);
      var allModules = [];
      var allSpace = [];
-     for(var key in ipModule) {
-      var ipval = ipModule[key].ip;
-      if (ipval == '0.0.0.0') {location.href = "/page.htm?first-connect";}
-      if (stage == 'search') {
-       loadBlock(ipval,'content','first',ipModule[key].module);
-      }
-      // Сортировка
-      if (stage == 'first' && sorting == null || searchModule(ipModule[key].module,sorting) == 'yes' || ipModule[key].space == sorting) {
-       loadBlock(ipval,'content','first',ipModule[key].module);
-      }
-      for (var s in ipModule[key].module) {
-       // if (ipModule[key].module[s] != 'ntp' && ipModule[key].module[s] != 'ddns' && ipModule[key].module[s] != 'timers' && ipModule[key].module[s] != 'mqtt')
-       allModules.push(ipModule[key].module[s]);
-      }
-      allSpace.push(ipModule[key].space);
+     // for(var key in ipModule) {
+     var ipval = ipModule.ip;
+     if (ipval == '0.0.0.0') {location.href = "/page.htm?first-connect";}
+     if (stage == 'search') {
+      loadBlock(ipval,'content','first',ipModule.module);
      }
+     // Сортировка
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
+      loadBlock(ipval,'content','first',ipModule.module);
+
+     }
+     for (var s in ipModule.module) {
+      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
+      allModules.push(ipModule.module[s]);
+
+     }
+     allSpace.push(ipModule.space);
+     // }
      if (stage == 'first' || stage == 'search') {
       var spaceArray = [];
       var space_lookup  = {};
