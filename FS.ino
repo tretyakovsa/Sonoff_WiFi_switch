@@ -7,6 +7,7 @@ void FS_init(void) {
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
     }
+    // Создаем список файлов каталога /lang
     Lang = FileList("/lang");
   }
   //HTTP страницы для работы с FFS
@@ -124,6 +125,7 @@ void handleFileList() {
   HTTP.send(200, "text/json", FileList(path));
 }
 
+// Создаем список файлов каталога
 String FileList(String path) {
   Dir dir = SPIFFS.openDir(path);
   path = String();

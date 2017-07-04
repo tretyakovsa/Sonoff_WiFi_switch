@@ -1,175 +1,123 @@
-void SSDP_init() {
-  // Закускаем UDP для поиска устройств
+void initSSDP() {
+  // Включаем определение имени для Windows
+  // Модуль будет доступен по запросу вида
+  String temp = jsonRead(configJson, "SSDP");
+  LLMNR.begin(temp.c_str());
+  NBNS.begin(temp.c_str());
+  unsigned int localPort = 1901;
   udp.begin(localPort);
-  // /device?ssdp=Sonoff-Rele&space={{space}}
-  HTTP.on("/device", handle_ssdp);        // Установить имя устройства  HTTP.on("/ssdp", handle_ssdp);        // Установить имя устройства
-  HTTP.on("/devices.scan.json", inquirySSDP);  // запустить поиск устройств по ssdp
+  // задача проверять смену ip каждые 30 секунд
+ ts.add(1, 30000, [&](void*) {
+    ipChanges();
+  }, nullptr, true);
+    // задача проверять наличие устройств в сети каждые две минуты.
+ ts.add(2, 120000, [&](void*) {
+    requestSSDP();
+  }, nullptr, true);
   // SSDP дескриптор
   HTTP.on("/description.xml", HTTP_GET, []() {
     SSDP.schema(HTTP.client());
   });
-  //Если версия  2.0.0 закаментируйте следующую строчку
   SSDP.setDeviceType("upnp:rootdevice");
   SSDP.setSchemaURL("description.xml");
   SSDP.setHTTPPort(80);
-  SSDP.setName(ssdpName);
+  SSDP.setName(jsonRead(configJson, "SSDP"));
   SSDP.setSerialNumber(chipID);
   SSDP.setURL("/index.htm");
-  SSDP.setModelName("sonoff");
+  SSDP.setModelName(jsonRead(configJson, "configs"));
   SSDP.setModelNumber(chipID);
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
   SSDP.begin();
-  modulesReg("device");
-  sCmd.addCommand("device", device);
-  sCmd.addCommand("P",     processCommand);
-  sCmd.setDefaultHandler(unrecognized);
 
+  // Установить имя устройства
+  HTTP.on("/device", handle_device);        // Установить имя устройства
+  HTTP.on("/ip.list.json", HTTP_GET, []() {
+    HTTP.send(200, "text/plain", addressList);
+  });
 }
 
-// Установить имя устройства
-void handle_ssdp() {
+
+
+
+
+// ------------- Установить имя устройства
+void handle_device() {
   // /device?ssdp=Sonoff-Rele&space={{space}}
-  ssdpName = HTTP.arg("ssdp");
-  spaceName = HTTP.arg("space");
+  String  ssdpName = HTTP.arg("ssdp");
+  configJson = jsonWrite(configJson, "SSDP", ssdpName);
+  configJson = jsonWrite(configJson, "space", HTTP.arg("space"));
   SSDP.setName(ssdpName);
-  saveConfig();
-  HTTP.send(200, "text/plain", "OK");
+  HTTP.send(200, "text/plain", "Ok");
+  writeFile("config.save.json", configJson );
 }
 
-// запустить поиск устройств по ssdp
-void inquirySSDP() {
-  Devices = "";
-  Serial.println(DevicesList);
-  devicesGet(DevicesList);
-
-  HTTP.send(200, "text/plain", Devices);
+// ------------- SSDP запрос
+void requestSSDP () {
+  if (WiFi.status() == WL_CONNECTED) {
+    addressList = "{\"ssdpList\":[]}";
+    ssdpList(chipID,  WiFi.localIP().toString());
+    IPAddress ssdpAdress(239, 255, 255, 250);
+    unsigned int ssdpPort = 1900;
+    char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
+    udp.beginPacket(ssdpAdress, ssdpPort);
+    udp.write(ReplyBuffer);
+    udp.endPacket();
+    //Serial.println(addressList);
+  }
 }
-
-
-// запустить поиск устройств по ssdp
-void searchSSDP() {
-  IPAddress ssdpAdress = WiFi.localIP();
-  ssdpAdress[0] = 239;
-  ssdpAdress[1] = 255;
-  ssdpAdress[2] = 255;
-  ssdpAdress[3] = 250;
-  //IPAddress ssdpAdress(239,255,255,250);
-
-  DevicesList = "";
-  char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
-  // send a reply, to the IP address and port that sent us the packet we received
-  udp.beginPacket(ssdpAdress, ssdpPort);
-  //udp.beginPacketMulticast(ssdpAdress, ssdpPort);
-  udp.write(ReplyBuffer);
-  udp.endPacket();
-}
-
+// ------------- Чтение ответа от устройств SSDP слушаем порт все время
 void handleUDP() {
   String input_string = "";
-  char packetBuffer[512]; //buffer to hold incoming packet
-  // if there's data available, read a packet
+  String chipIDremote = "";
+  char packetBuffer[512];
   int packetSize = udp.parsePacket();
   if (packetSize) {
     int len = udp.read(packetBuffer, 512);
     if (len > 0) packetBuffer[len] = 0;
     input_string += packetBuffer;
-    if (input_string.indexOf("Arduino") > 0) {
-      IPAddress remoteIp = udp.remoteIP();
-      //Serial.println(input_string);
-      // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
-      DevicesList += udp.remoteIP().toString() + ",";
-
+    //Serial.println(input_string);
+    int i = input_string.indexOf("Arduino");
+    if (i > 0) {
+      chipIDremote = deleteBeforeDelimiter(input_string, "Arduino");
+      chipIDremote = selectToMarker(chipIDremote, "\n");
+      chipIDremote = selectToMarkerLast(chipIDremote, "/");
+      chipIDremote = selectToMarker(chipIDremote, "\r");
+      // строку input_string сохраняю для расширения
+      ssdpList(chipIDremote, udp.remoteIP().toString());
     }
+    //Serial.println(addressList);
+  }
+}
+void ssdpList(String chipIDremote, String remoteIP ) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& list = jsonBuffer.parseObject(addressList);
+  JsonArray& arrays = list["ssdpList"].asArray();
+  JsonObject& record = arrays.createNestedObject();
+  record["id"]  = chipIDremote;
+  record["ip"]  = remoteIP;
+  addressList = "";
+  list.printTo(addressList);
+  //list.printTo(Serial);
+}
+
+// Каждые 30 секунд проверяем не изиенился ли адрес ip
+void ipChanges() {
+  String ip = WiFi.localIP().toString();
+  if (jsonRead(configJson, "ip") != ip) {
+    configJson = jsonWrite(configJson, "ip", ip);
+    requestSSDP();
+
   }
 }
 
-// Получаем список модулей для запроса /devices.scan.json
+// {"ssdpList":[{"id":"14317906-1458400","ip":"192.168.0.102"},{"id":"16321347-1327328","ip":"192.168.0.108"}]}
 
-void devicesGet(String ipList) {
-  if (ipList != "") {
-    String list = ipList;
-    do {
-      String ipNext = subString (list, ",");
-      Serial.println(ipNext);
-
-
-      // Хотим узнать какие модули работают на этом устройстве отправляем запрос на найденый IP
-      String urls = "http://" + ipNext + "/modules.json";
-
-      HTTPClient http;
-      http.begin(urls); //HTTP
-      int httpCode = http.GET();
-      if (httpCode == HTTP_CODE_OK) {
-        Devices += ",";
-        Devices += http.getString();
-      }
-      http.end();
-
-      list = stringTrim(list, ",");
-      //Serial.println(list);
-
-    } while  (list != "");
-  }
+void deviceList() {
+  HTTP.send(200, "text/plain", "[" + modules + "]");
 }
 
 
 
-void device() {
-  //  ssdp=Smart&space=test&
 
-  char *arg;
-  //arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
-  //Serial.println(arg);
-  do  {    // As long as it existed, take it
-    arg = sCmd.next();
-    if (arg == NULL) return;
-    String temp = findParm(arg, "ssdp");
-    if (temp != "") ssdpName = temp;
-
-    delay(1);
-    //temp=findParm(arg, "space");
-    //if(temp!="") spaceName=temp;
-    //delay(1);
-  } while (arg != NULL);
-  Serial.println(ssdpName);
-  Serial.println(spaceName);
-}
-
-String findParm(String str, String found) {
-  if (subString (str, "=") == found) {
-    return stringTrim(str, "=");
-  }
-}
-
-void processCommand() {
-  String aNumber;
-  char *arg;
-
-  Serial.println("We're in processCommand");
-  arg = sCmd.next();
-  if (arg != NULL) {
-    aNumber = arg;    // Converts a char string to an integer
-    Serial.print("First argument was: ");
-    Serial.println(aNumber);
-  }
-  else {
-    Serial.println("No arguments");
-  }
-
-  arg = sCmd.next();
-  if (arg != NULL) {
-    aNumber = arg;
-    Serial.print("Second argument was: ");
-    Serial.println(aNumber);
-  }
-  else {
-    Serial.println("No second argument");
-  }
-}
-
-// This gets set as the default handler, and gets called when no other command matches.
-void unrecognized(const char *command) {
-  Serial.println("What?");
-}

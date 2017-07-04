@@ -1,10 +1,16 @@
-void timers_init() {
+void initTimers() {
   HTTP.on("/timerSave", handle_timer_Save);
   HTTP.on("/timersDel", handle_timer_Del);
-  HTTP.on("/json", handle_json); // /json?file=timer.save.json&module=relay
+// задача проверять таймеры каждую секунду.
+  ts.add(0, 1000, [&](void*) {
+    runTimers();
+  }, nullptr, true);
+
   loadTimer();
   modulesReg("timers");
+  //modulesReg("relay");
 }
+
 void handle_timer_Save() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
@@ -16,28 +22,12 @@ void handle_timer_Save() {
   record["day"]  = HTTP.arg("day");
   record["time"]  = HTTP.arg("time");
   record["work"]  = HTTP.arg("work").toInt();
-  File TimersFile = SPIFFS.open("/timer.save.json", "w");
-  if (!TimersFile) {
-    HTTP.send(200, "text/plain", "Failed to open config file for writing");
-    return;
-  }
-  Timers.printTo(TimersFile);
-  TimersFile.close();
+  jsonTimer = "";
+  Timers.printTo(jsonTimer);
+  writeFile("timer.save.json", jsonTimer );
+
   loadTimer();
   HTTP.send(200, "text/plain", "OK");
-}
-
-void timer_Save() {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
-  File TimersFile = SPIFFS.open("/timer.save.json", "w");
-  if (!TimersFile) {
-    Serial.println("Failed to open config file for writing");
-    return;
-  }
-  Timers.printTo(TimersFile);
-  TimersFile.close();
-  loadTimer();
 }
 
 void handle_timer_Del() {
@@ -51,35 +41,17 @@ void handle_timer_Del() {
 
   }
   nestedArray.removeAt(y);
-  File TimersFile = SPIFFS.open("/timer.save.json", "w");
-  if (!TimersFile) {
-    HTTP.send(200, "text/plain", "Failed to open config file for writing");
-    return;
-  }
-  Timers.printTo(TimersFile);
-  TimersFile.close();
+  jsonTimer = "";
+  Timers.printTo(jsonTimer);
+  writeFile("timer.save.json", jsonTimer );
   loadTimer();
   HTTP.send(200, "text/plain", "OK");
 }
 
 bool loadTimer() {
-  File TimersFile = SPIFFS.open("/timer.save.json", "r");
-  if (!TimersFile) {
-    Serial.println("Failed to open config file");
-    return false;
-  }
-
-  size_t size = TimersFile.size();
-  Weekday = GetWeekday();
   Timerset = "";
-  if (size > 1024) {
-    Serial.println("Config file size is too large");
-    TimersFile.close();
-    return false;
-  }
-  // загружаем файл конфигурации в глобальную переменную
-  jsonTimer = TimersFile.readString();
-  TimersFile.close();
+  jsonTimer = readFile("timer.save.json", 4096);
+  String Weekday = GetWeekday();
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
@@ -103,6 +75,8 @@ bool loadTimer() {
 void runTimers() {
   // Список текущих таймеров во временную переменную
   String timers = Timerset;
+  String now = GetTime();
+  configJson = jsonWrite(configJson, "time", now);
   int i;
   // Будем повторять проверку для каждого установленного таймера
   do {
@@ -112,7 +86,8 @@ void runTimers() {
       // получаем строку текщего таймера
       String timer = timers.substring(0, i);
       // Если время совпадает с текущим
-      if (timer.substring(0, 8) == Time) {
+      //Serial.println(GetTime());
+      if (timer.substring(0, 8) == now) {
         // Отрезаем время из строки 12:44:15,relay,0,not
         timer = timer.substring(9);
         int b = timer.indexOf(",");
@@ -120,7 +95,7 @@ void runTimers() {
         Serial.println(temp);
         int e = timer.lastIndexOf(",");
         // Загружаем время работы реле
-        timeSonoff = timer.substring(b, e).toInt();
+        int interval = timer.substring(b, e).toInt();
         // выполняем необходимое действие
         temp += timer.substring(e + 1);
         Serial.println(temp);
@@ -134,10 +109,7 @@ void runTimers() {
   } while (i != -1);
 }
 
-
-
-bool handle_json() {
-  // /json?file=test.json&id=module&search=relay
-  HTTP.send(200, "text/json", jsonFilter(HTTP.arg("file"),HTTP.arg("column"),HTTP.arg("search")));
-
+void timer_Save() {
+  writeFile("timer.save.json", jsonTimer);
+//  loadTimer();
 }

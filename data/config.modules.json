@@ -19,10 +19,7 @@
       "type": "DDNS"
     },
     {
-      "type": "A0"
-    },
-    {
-      "type": "Tach"
+      "type": "Tach relaynot"
     },
     {
       "type": "DHT 14"
@@ -38,12 +35,15 @@
     },
     {
       "type": "MQTT"
+    },
+    {
+      "type": "RGB 2 15"
     }
 
   ],
   "Smart-Room": [
     {
-      "type": "wifi 13"
+      "type": "wifi 11 13"
     },
     {
       "type": "NTP"
@@ -59,11 +59,35 @@
     },
     {
       "type": "DDNS"
+    },
+    {
+      "type": "A0"
+    },
+    {
+      "type": "Tach relaynot"
+    },
+    {
+      "type": "DHT 14"
+    },
+    {
+      "type": "D18B20"
+    },
+    {
+      "type": "TIMERS"
+    },
+    {
+      "type": "RELAY 12"
+    },
+    {
+      "type": "MQTT"
+    },
+    {
+      "type": "RGB 2 15"
     }
   ],
   "RGB": [
-    {
-      "type": "wifi 13"
+     {
+      "type": "wifi 11 13"
     },
     {
       "type": "NTP"
@@ -79,6 +103,21 @@
     },
     {
       "type": "DDNS"
+    },
+    {
+      "type": "A0"
+    },
+    {
+      "type": "Tach rgbnot"
+    },
+    {
+      "type": "TIMERS"
+    },
+    {
+      "type": "MQTT"
+    },
+    {
+      "type": "RGB 2 15"
     }
   ]
 }

@@ -1,38 +1,39 @@
 #include <time.h>               //Содержится в пакете
-void ntp_init() {
+void initNTP() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
-  timeSynch(timezone);
+  timeSynch(jsonReadtoInt(configJson, "timeZone"));
   modulesReg("ntp");
 }
+
 void timeSynch(int zone) {
   if (WiFi.status() == WL_CONNECTED) {
     // Инициализация UDP соединения с NTP сервером
     configTime(zone * 3600, 0, "pool.ntp.org", "ru.pool.ntp.org");
     int i = 0;
-    Serial.println("\nWaiting for time");
+    //Serial.print("\nWaiting for time ");
     while (!time(nullptr) && i < 10) {
-      Serial.print(".");
+      //Serial.print(".");
       i++;
-      delay(1000);
+      delay(100);
     }
     Serial.println("");
-    Serial.println("ITime Ready!");
-    Serial.println(GetTime());
-    Serial.println(GetDate());
+    configJson = jsonWrite(configJson, "time",  GetTime());
   }
 }
 
+// ---------- Синхронизация времени
 void handle_Time() {
-  timeSynch(timezone);
-  Serial.println(timezone);
+  timeSynch(jsonReadtoInt(configJson, "timeZone"));
   HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
-// Установка параметров времянной зоны по запросу вида http://192.168.0.101/TimeZone?timezone=3
+
+// ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
 void handle_time_zone() {
-  timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
+  int timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
+  configJson = jsonWrite(configJson, "timeZone",  timezone);
   timeSynch(timezone);
-  saveConfig();
+  writeFile("config.save.json", configJson );
   HTTP.send(200, "text/plain", "OK");
 }
 
@@ -43,7 +44,6 @@ String GetTime() {
   Time += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   int i = Time.indexOf(":"); //Ишем позицию первого символа :
   Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
-
   return Time; // Возврашаем полученное время
 }
 
@@ -65,26 +65,3 @@ String GetWeekday() {
   String weekday = Data.substring(i - 3, i); // Выделяем время и пробел
   return weekday;
 }
-
-// Вызывается каждую секунду в обход основного цикла.
-void sectest() {
-  Time = GetTime();
-  runTimers();
-
-  // Калибровка времени каждые сутки, получение текушего дня недели
- if (calibrationTime.compareTo(Time) == 0) {
-  //task=1;
- }
- if (pirTime > 0 && state0 == 0 && digitalRead(PIR_PIN)) {
-  //alarm_pir();
- }
-
- String ddnsTime = Time.substring(3, 8); // Выделяем из строки минуты секунды
- //Serial.println(ddnsTime);
- // В 15, 30, 45 минут каждого часа идет запрос на сервер ddns
- if ((ddnsTime == "00:00" || ddnsTime == "15:00" || ddnsTime == "30:00"|| ddnsTime == "45:00")) {
-  Serial.println("15 minits");
-  ddnsTest = true;
- }
-}
-
