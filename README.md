@@ -33,7 +33,7 @@
  - DallasTemperature.h       Ставим через менеджер библиотек
  - PubSubClient.h            https://github.com/Imroy/pubsubclient
  - Adafruit_NeoPixel.h       https://github.com/adafruit/Adafruit_NeoPixel
- - WS2812FX.h                https://github.com/kitesurfer1404/WS2812FX
+ - WS2812FX.h                https://github.com/MTJoker/WS2812FX
 
 ## Work example (Video)
 
