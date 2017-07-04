@@ -11,8 +11,6 @@ void initWIFI() {
   // Пишем ногу led и количество попыток в конфиг
   configJson = jsonWrite(configJson, "attempt", readArgsInt());
   configJson = jsonWrite(configJson, "led", readArgsInt());
-
-
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа

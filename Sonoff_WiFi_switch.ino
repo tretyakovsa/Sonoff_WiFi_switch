@@ -88,7 +88,7 @@ void setup() {
   if (configs == "") {
     configs = "Basic";
   }
-  //Serial.println (init);
+  Serial.println (configs);
   Serial.println(modulesInit(init, configs));
   Serial.println ("Start");
 }

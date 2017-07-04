@@ -2,6 +2,11 @@ void initSSDP() {
   // Включаем определение имени для Windows
   // Модуль будет доступен по запросу вида
   String temp = jsonRead(configJson, "SSDP");
+  if (temp ==""){
+    temp="Sonoff";
+    configJson = jsonWrite(configJson, "SSDP", temp);
+    writeFile("config.save.json", configJson );
+    }
   //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
@@ -37,10 +42,6 @@ void initSSDP() {
     HTTP.send(200, "text/plain", addressList);
   });
 }
-
-
-
-
 
 // ------------- Установить имя устройства
 void handle_device() {
