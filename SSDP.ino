@@ -2,8 +2,8 @@ void initSSDP() {
   // Включаем определение имени для Windows
   // Модуль будет доступен по запросу вида
   String temp = jsonRead(configJson, "SSDP");
-  LLMNR.begin(temp.c_str());
-  NBNS.begin(temp.c_str());
+  //LLMNR.begin(temp.c_str());
+  //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
   udp.begin(localPort);
   // задача проверять смену ip каждые 30 секунд
