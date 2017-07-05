@@ -46,6 +46,9 @@
      for(i = 0;i<ipDevice.ssdpList.length;i++) {
       loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
      }
+     if (ipDevice.ssdpList.length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
     }
    }
 
@@ -59,8 +62,6 @@
      var allModules = [];
      var allSpace = [];
      //   for(var key in ipModule) {
-     var ipval = ipModule.ip;
-     if (ipval == '0.0.0.0') {location.href = "/page.htm?first-connect";}
      if (stage == 'search') {
       loadBlock(ipval,ipModule.space,'first',ipModule.module);
      }

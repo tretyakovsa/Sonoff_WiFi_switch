@@ -54,17 +54,17 @@
        if (content) {
 
         if (searchModule(ipModule.module,"relay") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=relay">'+ipModule.SSDP+' / relay<\/option>';
+         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay">'+ipModule.SSDP+' / relay<\/option>';
         }
         if (searchModule(ipModule.module,"rgb") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=rgb">'+ipModule.SSDP+' / rgb<\/option>';
+         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb">'+ipModule.SSDP+' / rgb<\/option>';
         }
         if (searchModule(ipModule.module,"jalousie") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipModule.ip+'/timerSave?module=jalousie">'+ipModule.SSDP+' / jalousie<\/option>';
+         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie">'+ipModule.SSDP+' / jalousie<\/option>';
         }
 
        } else {
-        loadTimers(ipModule.ip,ipModule.SSDP,ipModule.space);
+        loadTimers(ipval,ipModule.SSDP,ipModule.space);
        }
       }
   //   }
