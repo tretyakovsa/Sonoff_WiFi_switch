@@ -166,7 +166,6 @@ String getURL(String urls) {
 void modulesReg(String modName) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(modules);
-  json["ip"] =  WiFi.localIP().toString();
   json["SSDP"] = jsonRead(configJson, "SSDP");
   json["space"] = jsonRead(configJson, "space");
   JsonArray& data = json["module"].asArray();

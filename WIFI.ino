@@ -70,6 +70,8 @@ bool RestartWiFi() {
   Serial.println(state);
   HTTP.send(200, "application/json", state);
   delay(1000);
+  WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
   // Отключаем точку доступа и переподключаемся к роутеру
   ESP.restart();
 }

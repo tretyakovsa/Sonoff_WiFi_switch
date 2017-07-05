@@ -62,7 +62,7 @@ void initD18B20() {
     modulesReg("temperature");
   }
 }
-
+// ----------------------Приемник на 433мГ
 void initRCSwitch() {
   mySwitch.enableReceive(readArgsInt());
   // задача опрашивать RC код
