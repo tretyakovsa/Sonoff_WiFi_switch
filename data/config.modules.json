@@ -1,7 +1,7 @@
 {
 "Basic": [
     {
-      "type": "wifi 11 13"
+      "type": "wifi 120 13"
     },
     {
       "type": "NTP"
@@ -40,7 +40,7 @@
   ],
   "Sonoff-rf": [
     {
-      "type": "wifi 11 13"
+      "type": "wifi 120 13"
     },
     {
       "type": "NTP"
@@ -79,7 +79,7 @@
   ],
   "sonoff": [
     {
-      "type": "wifi 11 13"
+      "type": "wifi 120 13"
     },
     {
       "type": "NTP"
@@ -118,7 +118,7 @@
   ],
   "Smart-Room": [
     {
-      "type": "wifi 11 13"
+      "type": "wifi 120 13"
     },
     {
       "type": "NTP"
@@ -162,7 +162,7 @@
   ],
   "RGB": [
      {
-      "type": "wifi 11 13"
+      "type": "wifi 120 13"
     },
     {
       "type": "NTP"
