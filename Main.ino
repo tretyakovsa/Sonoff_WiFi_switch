@@ -14,6 +14,7 @@ void initCMD() {
   sCmd.addCommand("RELAY",       initRelay);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
+  sCmd.addCommand("RCSwitch",       initRCSwitch);
   sCmd.setDefaultHandler(unrecognized);
 }
 

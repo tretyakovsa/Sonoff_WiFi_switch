@@ -21,9 +21,11 @@
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/MTJoker/WS2812FX
+#include <RCSwitch.h>                //Ставим через менеджер библиотек
 
 #define d18b20PIN 14
 DHT dht;
+RCSwitch mySwitch = RCSwitch();
 
 // DNSServer для режима AP
 DNSServer dnsServer;
@@ -51,7 +53,7 @@ DallasTemperature d18b20(&oneWire);
 WS2812FX ws2812fx = WS2812FX();
 
 
-TickerScheduler ts(3);
+TickerScheduler ts(4);
 
 boolean secTest = true;
 StringCommand sCmd;     // The demo StringCommand object

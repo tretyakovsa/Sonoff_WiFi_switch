@@ -28,10 +28,10 @@ void initDHT() {
   //delay(dht.getMinimumSamplingPeriod());
   delay (1000);
 
- String temp ="";
- temp += dht.getTemperature();
-  if (temp != "nan"){
-      Serial.println("ok");
+  String temp = "";
+  temp += dht.getTemperature();
+  if (temp != "nan") {
+    Serial.println("ok");
     HTTP.on("/sensor.json", HTTP_GET, []() {
       float temp = dht.getTemperature();
       if (temp == 'NaN') {
@@ -60,6 +60,28 @@ void initD18B20() {
       HTTP.send(200, "text/json", graf(temp, 10, 3000));
     });
     modulesReg("temperature");
+  }
+}
+
+void initRCSwitch() {
+  mySwitch.enableReceive(readArgsInt());
+  // задача опрашивать RC код
+  ts.add(3, 100, [&](void*) {
+    RCRCreceiv();
+  }, nullptr, true);
+  modulesReg("RCreceivi");
+}
+
+void RCRCreceiv() {
+  if (mySwitch.available()) {
+    int value = mySwitch.getReceivedValue();
+    if (value == 0) {
+      configJson = jsonWrite(configJson, "Received", 0);
+    } else {
+      Serial.print("Received ");
+      configJson = jsonWrite(configJson, "Received", mySwitch.getReceivedValue());
+    }
+    mySwitch.resetAvailable();
   }
 }
 

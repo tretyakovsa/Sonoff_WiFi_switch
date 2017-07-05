@@ -77,6 +77,45 @@
     }
 
   ],
+  "sonoff": [
+    {
+      "type": "wifi 11 13"
+    },
+    {
+      "type": "NTP"
+    },
+    {
+      "type": "Upgrade"
+    },
+    {
+      "type": "SSDP"
+    },
+    {
+      "type": "HTTP"
+    },
+    {
+      "type": "DDNS"
+    },
+    {
+      "type": "Tach relaynot"
+    },
+    {
+      "type": "DHT 14"
+    },
+    {
+      "type": "D18B20"
+    },
+    {
+      "type": "TIMERS"
+    },
+    {
+      "type": "RELAY 12"
+    },
+    {
+      "type": "MQTT"
+    }
+
+  ],
   "Smart-Room": [
     {
       "type": "wifi 11 13"
