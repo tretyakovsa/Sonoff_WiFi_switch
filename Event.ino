@@ -64,6 +64,7 @@ void initD18B20() {
 }
 // ----------------------Приемник на 433мГ
 void initRCSwitch() {
+  Serial.end();
   mySwitch.enableReceive(readArgsInt());
   // задача опрашивать RC код
   ts.add(3, 100, [&](void*) {

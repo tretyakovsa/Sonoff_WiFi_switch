@@ -27,11 +27,14 @@ void handle_ssid() {
   configJson = jsonWrite(configJson, "dns", HTTP.arg("dns"));
   configJson = jsonWrite(configJson, "ip", HTTP.arg("ip"));
   configJson = jsonWrite(configJson, "checkboxIP", HTTP.arg("checkboxIP"));
+  configJson = jsonWrite(configJson, "ssid", HTTP.arg("ssid"));
+  configJson = jsonWrite(configJson, "ssidPass", HTTP.arg("ssidPass"));
   ssidName = HTTP.arg("ssid");
   ssidPass = HTTP.arg("ssidPass");
+
   HTTP.send(200, "text/plain", "Ok");
   writeFile("config.save.json", configJson );
-  WiFi.begin(ssidName.c_str(), ssidPass.c_str(), false);
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
 }
 
 // --------------- Установить имя и пароль для AP
@@ -58,6 +61,8 @@ bool RestartWiFi() {
   //Перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
   // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
+  Serial.println(ssidName.c_str());
+  Serial.println(ssidPass.c_str());
   WiFi.begin(ssidName.c_str(), ssidPass.c_str());
 
   wifiConnect(jsonReadtoInt(configJson, "attempt"), jsonReadtoInt(configJson, "led"));
@@ -69,9 +74,9 @@ bool RestartWiFi() {
   String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";
   Serial.println(state);
   HTTP.send(200, "application/json", state);
-  delay(1000);
-  WiFi.disconnect();
-  WiFi.mode(WIFI_STA);
+  //delay(1000);
+  //WiFi.disconnect();
+  //WiFi.mode(WIFI_STA);
   // Отключаем точку доступа и переподключаемся к роутеру
   ESP.restart();
 }
@@ -146,6 +151,8 @@ boolean startSTA(String configWiFi) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     configJson = jsonWrite(configJson, "ip", WiFi.localIP().toString());
+    configJson = jsonWrite(configJson, "ssid", WiFi.SSID ());
+    Serial.println(WiFi.SSID ());
     statistics();
     return true;
   }
