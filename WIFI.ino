@@ -33,6 +33,8 @@ void handle_ssid() {
   ssidPass = HTTP.arg("ssidPass");
   Serial.println(ssidName.c_str());
   Serial.println(ssidPass.c_str());
+  configJson = jsonWrite(configJson, "ssid", HTTP.arg("ssid"));
+  configJson = jsonWrite(configJson, "ssidPass", "********");
   HTTP.send(200, "text/plain", "Ok");
   writeFile("config.save.json", configJson );
   WiFi.begin(ssidName.c_str(), ssidPass.c_str(), false);
