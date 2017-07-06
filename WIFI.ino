@@ -11,6 +11,8 @@ void initWIFI() {
   // Пишем ногу led и количество попыток в конфиг
   configJson = jsonWrite(configJson, "attempt", readArgsInt());
   configJson = jsonWrite(configJson, "led", readArgsInt());
+
+
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
@@ -27,14 +29,14 @@ void handle_ssid() {
   configJson = jsonWrite(configJson, "dns", HTTP.arg("dns"));
   configJson = jsonWrite(configJson, "ip", HTTP.arg("ip"));
   configJson = jsonWrite(configJson, "checkboxIP", HTTP.arg("checkboxIP"));
-  configJson = jsonWrite(configJson, "ssid", HTTP.arg("ssid"));
-  configJson = jsonWrite(configJson, "ssidPass", HTTP.arg("ssidPass"));
   ssidName = HTTP.arg("ssid");
   ssidPass = HTTP.arg("ssidPass");
-
+  Serial.println(ssidName.c_str());
+  Serial.println(ssidPass.c_str());
   HTTP.send(200, "text/plain", "Ok");
   writeFile("config.save.json", configJson );
-  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str(), false);
+  Serial.println(WiFi.SSID());
 }
 
 // --------------- Установить имя и пароль для AP
@@ -61,8 +63,6 @@ bool RestartWiFi() {
   //Перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
   // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
-  Serial.println(ssidName.c_str());
-  Serial.println(ssidPass.c_str());
   WiFi.begin(ssidName.c_str(), ssidPass.c_str());
 
   wifiConnect(jsonReadtoInt(configJson, "attempt"), jsonReadtoInt(configJson, "led"));
@@ -74,45 +74,15 @@ bool RestartWiFi() {
   String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";
   Serial.println(state);
   HTTP.send(200, "application/json", state);
-  //delay(1000);
-  //WiFi.disconnect();
-  //WiFi.mode(WIFI_STA);
+  delay(1000);
   // Отключаем точку доступа и переподключаемся к роутеру
   ESP.restart();
-}
-
-// ---------------- сканирование сети на доступные точки доступа
-void handle_wifi_scan() {
-  int n = WiFi.scanNetworks();
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.createObject();
-  JsonArray& networks = json.createNestedArray("networks");
-  for (int i = 0; i < n; i++) {
-    JsonObject& data = networks.createNestedObject();
-    data["ssid"] = WiFi.SSID(i);
-    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
-    data["dbm"] = WiFi.RSSI(i);
-  }
-  String root;
-  json.printTo(root);
-  HTTP.send(200, "application/json", root);
-}
-
-
-// ----------------- Запускаем WiFi
-void startWIFI() {
-  if (startSTA(configJson)) {
-    //Serial.println(WiFi.localIP().toString());
-  }
-  else {
-    startAP(configJson);
-    //Serial.println("Start AP");
-  }
 }
 
 //-------------Подключение к роутеру конфигурация в строке json
 //{"ip":"192.168.0.190","getway":"192.168.0.1","subnet":"255.255.255.0","dns":"","checkboxIP":0}
 boolean startSTA(String configWiFi) {
+  //WiFi.persistent (false);
   if (jsonRead(configWiFi, "checkboxIP") == "1") {
     Serial.println ("checkboxIP");
     IPAddress staticIP;
@@ -145,14 +115,15 @@ boolean startSTA(String configWiFi) {
   }
   WiFi.mode(WIFI_STA);
   WiFi.hostname ( "sonoff-" + chipID );
-  WiFi.begin();
-  //WiFi.begin(ssidName.c_str(), ssidPass.c_str());
+  //WiFi.begin();
+  Serial.println(ssidName.c_str());
+  Serial.println(ssidPass.c_str());
+  Serial.println("Start WIFI");
+  WiFi.begin(ssidName.c_str(), ssidPass.c_str());
   if ( wifiConnect(jsonReadtoInt(configWiFi, "attempt"), jsonReadtoInt(configWiFi, "led"))) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     configJson = jsonWrite(configJson, "ip", WiFi.localIP().toString());
-    configJson = jsonWrite(configJson, "ssid", WiFi.SSID ());
-    Serial.println(WiFi.SSID ());
     statistics();
     return true;
   }
@@ -194,4 +165,33 @@ boolean startAP(String configWiFi) {
     digitalWrite(pin, HIGH);
   }
   return true;
+}
+
+// ---------------- сканирование сети на доступные точки доступа
+void handle_wifi_scan() {
+  int n = WiFi.scanNetworks();
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.createObject();
+  JsonArray& networks = json.createNestedArray("networks");
+  for (int i = 0; i < n; i++) {
+    JsonObject& data = networks.createNestedObject();
+    data["ssid"] = WiFi.SSID(i);
+    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
+    data["dbm"] = WiFi.RSSI(i);
+  }
+  String root;
+  json.printTo(root);
+  HTTP.send(200, "application/json", root);
+}
+
+
+// ----------------- Запускаем WiFi
+void startWIFI() {
+  if (startSTA(configJson)) {
+    //Serial.println(WiFi.localIP().toString());
+  }
+  else {
+    startAP(configJson);
+    //Serial.println("Start AP");
+  }
 }

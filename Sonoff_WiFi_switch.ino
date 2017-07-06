@@ -59,8 +59,8 @@ boolean secTest = true;
 StringCommand sCmd;     // The demo StringCommand object
 String command = "";
 
-String ssidName = "home";            // Для хранения SSID
-String ssidPass = "i12345678";                // Для хранения пароля сети
+String ssidName = "";            // Для хранения SSID
+String ssidPass = "";                // Для хранения пароля сети
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";
 String configJson = "";
