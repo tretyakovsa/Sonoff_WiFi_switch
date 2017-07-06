@@ -35,7 +35,7 @@ void FS_init(void) {
   HTTP.on("/skins", HTTP_GET, []() {
     configJson = jsonWrite(configJson, "setIndex", HTTP.arg("set"));
     writeFile("config.save.json", configJson );
-    HTTP.send(301, "Moved Permanently\r\nLocation: /", "");
+    HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", "");
   });
 
 }
