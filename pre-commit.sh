@@ -33,4 +33,4 @@ cp Sonoff_WiFi_switch.ino.generic.bin build/build.0x00000_flash_size_1Mb.256Kb_`
 fi
 
 
-cp /tmp/buil*.spiffs/Sonoff_WiFi_switch.spiffs.bin ./build/spiffs.0xBB000_flash_size_1Mb.256Kb_`date '+%G.%m.%d'`.bin
+cp /tmp/arduino_build_*/Sonoff_WiFi_switch.spiffs.bin ./build/spiffs.0xBB000_flash_size_1Mb.256Kb_`date '+%G.%m.%d'`.bin
