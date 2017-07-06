@@ -5,10 +5,8 @@ void initTimers() {
   ts.add(0, 1000, [&](void*) {
     runTimers();
   }, nullptr, true);
-
   loadTimer();
   modulesReg("timers");
-  //modulesReg("relay");
 }
 
 void handle_timer_Save() {
@@ -109,7 +107,3 @@ void runTimers() {
   } while (i != -1);
 }
 
-void timer_Save() {
-  writeFile("timer.save.json", jsonTimer);
-//  loadTimer();
-}

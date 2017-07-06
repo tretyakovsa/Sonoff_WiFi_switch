@@ -53,7 +53,7 @@ DallasTemperature d18b20(&oneWire);
 WS2812FX ws2812fx = WS2812FX();
 
 
-TickerScheduler ts(4);
+TickerScheduler ts(5);
 
 boolean secTest = true;
 StringCommand sCmd;     // The demo StringCommand object
@@ -102,10 +102,6 @@ void loop() {
   dnsServer.processNextRequest();
   HTTP.handleClient();
   delay(1);
-  if (ddnsTest) {
-    //requestSSDP();
-    ddnsTest = false;
-  }
   handleUDP();
   handleMQTT();
   ws2812fx.service();

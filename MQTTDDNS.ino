@@ -105,6 +105,10 @@ void initDDNS() {
   HTTPWAN = ESP8266WebServer (jsonReadtoInt(configJson, "ddnsPort"));
   HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
   HTTPWAN.begin();
+    // задача синхронизайия с сервером ddns каждые 10 минут
+ ts.add(4, 600000, [&](void*) {
+    ip_wan();
+  }, nullptr, true);
   modulesReg("ddns");
 }
 

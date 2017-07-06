@@ -14,7 +14,8 @@ void webUpgrade() {
     Serial.println(spiffsData);
     ESPhttpUpdate.rebootOnUpdate(false);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
-    timer_Save();
+    writeFile("timer.save.json", jsonTimer);
+    //timer_Save();
     configJson = jsonWrite(configJson, "spiffsData", spiffsData);
     writeFile("config.save.json", configJson );
   }
