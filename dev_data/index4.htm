@@ -224,7 +224,7 @@
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+   // document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();
@@ -335,28 +335,6 @@
      </div>
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
-   </div>
-   <div class="col-sm-12 col-md-3">
-    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
-    <ul id="history" class="hidden-xs"></ul>
-    <hr>
-    <div class="block" id="sorting-space"></div>
-    <div class="block" id="sorting-module"></div>
-    <div class="col-xs-6 col-sm-12">
-     <div class="block">
-      <h5 class="alert-danger">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info {{g73683}}"><button class="close" onclick="hide('g73683',this);" type="button">×</button>{{LangSearch2}}</div>
-      <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
-     </div>
-    </div>
-    <div class="col-xs-6 col-md-12">
-     <div class="block">
-      <h5 class="alert-warning">{{LangScenery1}}</h5>
-      <div class="alert alert-dismissible alert-info {{g94244}}"><button class="close" onclick="hide('g94244',this);" type="button">×</button>{{LangScenery2}}</div>
-      <a class="btn btn-block btn-default" href="/scenery.htm">{{LangAddScenery}}</a>
-     </div>
-    </div>
-    <div class="row"></div>
    </div>
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
