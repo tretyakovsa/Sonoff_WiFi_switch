@@ -28,7 +28,7 @@ void initSSDP() {
   SSDP.setHTTPPort(80);
   SSDP.setName(jsonRead(configJson, "SSDP"));
   SSDP.setSerialNumber(chipID);
-  SSDP.setURL("/index.htm");
+  SSDP.setURL("/");
   SSDP.setModelName(jsonRead(configJson, "configs"));
   SSDP.setModelNumber(chipID);
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");

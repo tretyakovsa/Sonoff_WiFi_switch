@@ -32,6 +32,12 @@ void FS_init(void) {
     if (!handleFileRead(HTTP.uri()))
       HTTP.send(404, "text/plain", "FileNotFound");
   });
+  HTTP.on("/skins", HTTP_GET, []() {
+    configJson = jsonWrite(configJson, "setIndex", HTTP.arg("set"));
+    writeFile("config.save.json", configJson );
+    HTTP.send(301, "Moved Permanently\r\nLocation: /", "");
+  });
+
 }
 
 // Здесь функции для работы с файловой системой
@@ -54,7 +60,9 @@ String getContentType(String filename) {
 }
 
 bool handleFileRead(String path) {
-  if (path.endsWith("/")) path += "index.htm";
+  String setIndex =  jsonRead(configJson, "setIndex");
+  if (setIndex == "") setIndex = "index.htm";
+  if (path.endsWith("/")) path += setIndex;
   String contentType = getContentType(path);
   String pathWithGz = path + ".gz";
   if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {

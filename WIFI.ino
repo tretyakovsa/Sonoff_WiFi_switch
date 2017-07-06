@@ -64,6 +64,7 @@ void handle_restart() {
 bool RestartWiFi() {
   //Перезапуск Wi-Fi при первой настройке
   Serial.println("WiFi reconnect");
+    WiFi.mode(WIFI_AP_STA);
   // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.begin(ssidName.c_str(), ssidPass.c_str());
 
