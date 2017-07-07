@@ -26,13 +26,6 @@
     }
    }
 
-   function findDevice(submit) {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
-    ajax(window.location.hostname,'devices.scan.json',submit, '1');
-    deviceList('search');
-   }
-
-
 
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
@@ -335,15 +328,6 @@
     <hr>
     <div class="block" id="sorting-space"></div>
     <div class="block" id="sorting-module"></div>
-    <div class="col-xs-6 col-sm-12">
-     <div class="block">
-      <h5 class="alert-danger">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info {{g73683}}"><button class="close" onclick="hide('g73683',this);" type="button">×</button>{{LangSearch2}}</div>
-      <span>
-       <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
-      </span>
-     </div>
-    </div>
     <div class="col-xs-6 col-md-12">
      <div class="block">
       <h5 class="alert-warning">{{LangScenery1}}</h5>

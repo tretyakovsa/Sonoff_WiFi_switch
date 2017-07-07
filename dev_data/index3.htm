@@ -23,13 +23,6 @@
    }
 
 
-   function findDevice(submit) {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
-    ajax(window.location.hostname,'devices.scan.json',submit, '1');
-    deviceList('search');
-   }
-
-
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
 
@@ -341,7 +334,6 @@
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor/Servo)</a></li></ul>
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
-     <input class="btn btn-info" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);" type="button">
      <div class="btn-group">
       <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');">{{LangDesign}} <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
