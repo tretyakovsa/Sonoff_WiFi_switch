@@ -51,7 +51,6 @@
    "type": "button",
    "title": "{{LangOnOff}}",
    "name":"relay0",
-   "module":"relay",
    "response":"[[relay0]]",
    "action": "relay",
    "class": "btn btn-block btn-lg btn-primary"
