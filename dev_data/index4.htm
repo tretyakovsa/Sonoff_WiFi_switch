@@ -27,6 +27,13 @@
     } else {
      deviceList('first');
     }
+    loadIssues();
+   }
+
+   function findDevice(submit) {
+    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
+    ajax(window.location.hostname,'devices.scan.json',submit, '1');
+    deviceList('search');
    }
 
    function deviceList(stage,sorting) {
@@ -71,26 +78,6 @@
      }
      allSpace.push(ipModule.space);
      // }
-     if (stage == 'first' || stage == 'search') {
-      var spaceArray = [];
-      var space_lookup  = {};
-      for (var i in allSpace) {space_lookup[allSpace[i]] = allSpace[i];}
-      for (i in space_lookup) {spaceArray.push(space_lookup[i]);}
-      if (spaceArray.length == 1) {toggle('sorting-space','show');}
-      document.getElementById("sorting-space").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>';
-      for(var key in spaceArray) {
-       if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
-      }
-      var moduleArray = [];
-      var lookup  = {};
-      for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
-      for (i in lookup) {moduleArray.push(lookup[i]);}
-      if (ipModule.length == 1) {toggle('sorting-module','show');}
-      document.getElementById("sorting-module").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>';
-      for(var key in moduleArray) {
-       if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
-      }
-     }
     }
    }
 
@@ -218,7 +205,7 @@
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    // document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     submit_disabled(true);
     var xhttp=createXmlHttpObject();
@@ -310,6 +297,19 @@
      }
     }
    }
+
+   function loadIssues(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/issues',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var jsonIssues=JSON.parse(xmlHttp.responseText);
+     jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonIssues) {
+      document.getElementById('issues').innerHTML += '<p>'+jsonIssues[key].updated_at.substring(0,10)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+     }
+    }
+   }
   </script>
  </head>
  <body>
@@ -330,22 +330,16 @@
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
+   <div class="col-sm-12 col-md-9" id="content"></div>
    <div class="col-sm-12 col-md-3">
-    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
-    <ul id="history" class="hidden-xs"></ul>
-    <hr>
-    <div class="block" id="sorting-space"></div>
-    <div class="block" id="sorting-module"></div>
     <div class="col-xs-6 col-md-12">
      <div class="block">
-      <h5 class="alert-warning">{{LangScenery1}}</h5>
-      <div class="alert alert-dismissible alert-info {{g94244}}"><button class="close" onclick="hide('g94244',this);" type="button">×</button>{{LangScenery2}}</div>
-      <a class="btn btn-block btn-default" href="/scenery.htm">{{LangAddScenery}}</a>
+      <h5 class="alert-default">Issues</h5>
+      <div id="issues"></div>
      </div>
     </div>
     <div class="row"></div>
    </div>
-   <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
  </body>
 </html>

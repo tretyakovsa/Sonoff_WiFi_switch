@@ -26,13 +26,6 @@
     }
    }
 
-   function findDevice(submit) {
-    document.getElementById('content').innerHTML='<div class="alert alert-dismissible alert-info"><div class="loader"><\/div><strong><center>Пожалуйста подождите, идет сканирование сети.<\/center><\/strong><\/div>';
-    ajax(window.location.hostname,'devices.scan.json',submit, '1');
-    deviceList('search');
-   }
-
-
 
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
@@ -324,7 +317,7 @@
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
      <div class="btn-group">
       <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');">{{LangDesign}} <span class="caret"></span></a>
-      <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li></ul>
+      <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
      </div>
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
@@ -335,15 +328,6 @@
     <hr>
     <div class="block" id="sorting-space"></div>
     <div class="block" id="sorting-module"></div>
-    <div class="col-xs-6 col-sm-12">
-     <div class="block">
-      <h5 class="alert-danger">{{LangSearch1}}</h5>
-      <div class="alert alert-dismissible alert-info {{g73683}}"><button class="close" onclick="hide('g73683',this);" type="button">×</button>{{LangSearch2}}</div>
-      <span>
-       <input type="button" class="btn btn-block btn-default" value="{{LangSearch3}}" onclick="findDevice(this);window.scrollTo(0,0);">
-      </span>
-     </div>
-    </div>
     <div class="col-xs-6 col-md-12">
      <div class="block">
       <h5 class="alert-warning">{{LangScenery1}}</h5>

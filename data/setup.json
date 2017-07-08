@@ -32,13 +32,16 @@
    "type": "hr"
   },
 
+  {
+   "type": "h2",
+   "title": "{{configs}}"
+  },
 
   {
    "type": "dev",
    "title": "{{LangSetting4}}",
    "class": "alert alert-dismissible alert-info"
   },
-
 
   {
    "type": "h2",

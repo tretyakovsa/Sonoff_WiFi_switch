@@ -33,9 +33,6 @@
     <h3>GET <a href="/timer.save.json">/timer.save.json</a></h3>
     <p>Таймеры включения\выключения устройсва</p>
     <pre><code class="language-json" id="timer-save-json">Loading...</code></pre>
-    <h3>GET <a href="/wifi.scan.json">/wifi.scan.json</a></h3>
-    <p>Список доступных WiFi сетей</p>
-    <pre><code class="language-json" id="wifi-scan-json">Loading...</code></pre>
     <h3>GET <a href="/lang/lang.ru.json">/lang/lang.ru.json</a></h3>
     <p>Изменить язык можно GET запросом /lang?set=en </p>
     <pre><code class="language-json" id="lang-json">Loading...</code></pre>
@@ -61,7 +58,6 @@
   setTimeout(function(){load_request('devices-list-json','/ip.list.json');},5000);
   setTimeout(function(){load_request('modules-json','/modules.json');},6000);
   setTimeout(function(){load_request('timer-save-json','/timer.save.json');},7000);
-  setTimeout(function(){load_request('wifi-scan-json','/wifi.scan.json');},10000);
 
   function listCookies() {
    var theCookies = document.cookie.split(';');

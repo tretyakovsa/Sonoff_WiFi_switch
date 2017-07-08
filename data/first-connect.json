@@ -32,6 +32,27 @@
    "type": "hr"
   },
 
+  {
+   "type": "h2",
+   "title": "Type"
+  },
+
+  {
+   "type": "select",
+   "name":"build",
+   "state":"{{configs}}",
+   "action": "/configs?set=[[build]]",
+   "title": {
+    "RGB":"RGB (WS2811-12/NeoPixel)",
+    "Sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
+    "Smart-Room":"Smart-Room"
+   }
+  },
+
+  {
+   "type": "hr"
+  },
+
 
   {
    "type": "h2",
