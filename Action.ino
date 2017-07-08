@@ -11,16 +11,21 @@ void initRelay() {
   modulesReg("relay");
 }
 void relay() {
-  command = "relaynot";
+
+  sCmd.readStr("relaynot");
 
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 void relayon() {
-  command = "relayon";
+
+    sCmd.readStr("relayon");
+
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 void relayoff() {
-  command = "relayoff";
+
+  sCmd.readStr("relayoff");
+
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 
