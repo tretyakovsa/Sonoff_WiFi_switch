@@ -50,12 +50,41 @@
   {
    "type": "button",
    "title": "{{LangOnOff}}",
-   "name":"relay1",
-   "response":"[[relay1]]",
-   "action": "sonoff",
+   "name":"relay0",
+   "response":"[[relay0]]",
+   "action": "relay",
    "class": "btn btn-block btn-lg btn-primary"
   },
 
+  {
+   "type": "button",
+   "title": "{{LangOnOff}}",
+   "name":"relay1",
+   "module":"relay1",
+   "response":"[[relay1]]",
+   "action": "relay1",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type": "button",
+   "title": "{{LangOnOff}}",
+   "name":"relay2",
+   "module":"relay2",
+   "response":"[[relay2]]",
+   "action": "relay2",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type": "button",
+   "title": "{{LangOnOff}}",
+   "name":"relay3",
+   "module":"relay3",
+   "response":"[[relay3]]",
+   "action": "relay3",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
 
   {
    "type": "hr",

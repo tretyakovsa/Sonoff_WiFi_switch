@@ -12,8 +12,10 @@ void webUpgrade() {
   if (spiffsData != "") {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     Serial.println(spiffsData);
+    String modules = readFile("config.modules.json", 4096);
     ESPhttpUpdate.rebootOnUpdate(false);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
+    writeFile("config.modules.json", modules);
     writeFile("timer.save.json", jsonTimer);
     //timer_Save();
     configJson = jsonWrite(configJson, "spiffsData", spiffsData);
