@@ -64,19 +64,18 @@
      var allSpace = [];
      // for(var key in ipModule) {
      if (stage == 'search') {
-      loadBlock(ipval,'content','first',ipModule.module);
+      loadBlock(ipval,ipModule.space,'first',ipModule.module);
      }
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
-      loadBlock(ipval,'content','first',ipModule.module);
+      loadBlock(ipval,ipModule.space,'first',ipModule.module);
 
      }
-     for (var s in ipModule.module) {
-      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
-      allModules.push(ipModule.module[s]);
 
+     if(!document.getElementById(ipModule.space)){
+      document.getElementById("content").innerHTML += '<h2>'+ipModule.space+'<\/h2><hr><div class="row" id="'+ipModule.space+'"><\/div>';
      }
-     allSpace.push(ipModule.space);
+
      // }
     }
    }
