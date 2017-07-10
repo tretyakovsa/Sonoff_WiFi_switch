@@ -155,7 +155,7 @@
         document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/jalousie.htm" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
        }
 
-       if (window.location.hostname == ipval) {
+       if (window.location.hostname == ipval && stage == 'first') {
         var new_string2;
         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
         for (var key in jsonResponse) {

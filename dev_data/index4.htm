@@ -116,7 +116,7 @@
        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
       }
 
-      if (window.location.hostname == ipval) {
+      if (window.location.hostname == ipval && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
        for (var key in jsonResponse) {
