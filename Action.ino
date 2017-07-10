@@ -5,23 +5,43 @@ void initRelay() {
   sCmd.addCommand("relayoff",    relayOff);
   sCmd.addCommand("relaynot",    relayNot);
   HTTP.on("/relay", relay);        // Установить имя устройства
+  HTTP.on("/relayon", relayon);        // Установить имя устройства
+  HTTP.on("/relayoff", relayoff);        // Установить имя устройства
   HTTP.on("/sonoff", relay);        // Установить имя устройства
   modulesReg("relay");
 }
 void relay() {
-  command = "relaynot";
-  String state = "{}";
-  if (jsonReadtoInt(configJson, "state")) {
-    state = jsonWrite(state, "title", "{{LangOn}}");
-    state = jsonWrite(state, "class", "btn btn-block btn-lg btn-primary");
-  }
-  else {
-    state = jsonWrite(state, "title", "{{LangOff}}");
-    state = jsonWrite(state, "class", "btn btn-block btn-lg btn-info");
-  }
-  HTTP.send(200, "text/json", state);
+
+  sCmd.readStr("relaynot");
+
+  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
+}
+void relayon() {
+
+    sCmd.readStr("relayon");
+
+  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
+}
+void relayoff() {
+
+  sCmd.readStr("relayoff");
+
+  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 
+// читает данные из раздела state строки json и возвращает строку для смены класса кнопки
+String relayStatus(String json, String state) {
+  String out = "{}";
+  if (jsonReadtoInt(json, state)) {
+    out = jsonWrite(out, "title", "{{LangOn}}");
+    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
+  }
+  else {
+    out = jsonWrite(out, "title", "{{LangOff}}");
+    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
+  }
+  return out;
+}
 
 void relayOn() {
   configJson = jsonWrite(configJson, "state", 1);

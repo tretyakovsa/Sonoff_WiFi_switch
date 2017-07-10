@@ -64,8 +64,10 @@ void initD18B20() {
 }
 // ----------------------Приемник на 433мГ
 void initRCSwitch() {
-  Serial.end();
-  mySwitch.enableReceive(readArgsInt());
+  byte pin = readArgsInt();
+  if (pin == 1 || pin== 3)  Serial.end();
+  mySwitch.enableReceive(pin);
+  Serial.print("initRCSwitch ");
   // задача опрашивать RC код
   ts.add(3, 100, [&](void*) {
     RCRCreceiv();
@@ -79,8 +81,10 @@ void RCRCreceiv() {
     if (value == 0) {
       configJson = jsonWrite(configJson, "Received", 0);
     } else {
+      int codeRC = mySwitch.getReceivedValue();
       Serial.print("Received ");
-      configJson = jsonWrite(configJson, "Received", mySwitch.getReceivedValue());
+      Serial.println(codeRC);
+      configJson = jsonWrite(configJson, "Received", codeRC);
     }
     mySwitch.resetAvailable();
   }
