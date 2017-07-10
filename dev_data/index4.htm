@@ -28,6 +28,7 @@
      deviceList('first');
     }
     loadIssues();
+    loadCommits();
    }
 
    function findDevice(submit) {
@@ -309,6 +310,20 @@
      }
     }
    }
+
+
+   function loadCommits(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var jsonCommits=JSON.parse(xmlHttp.responseText);
+   //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonCommits) {
+      document.getElementById('commits').innerHTML += '<p>'+jsonCommits[key].commit.author.date.substring(0,10)+' <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+     }
+    }
+   }
   </script>
  </head>
  <body>
@@ -331,10 +346,14 @@
    </div>
    <div class="col-sm-12 col-md-9" id="content"></div>
    <div class="col-sm-12 col-md-3">
-    <div class="col-xs-6 col-md-12">
+    <div class="col-md-12">
      <div class="block">
       <h5 class="alert-default">Issues</h5>
       <div id="issues"></div>
+     </div>
+     <div class="block">
+      <h5 class="alert-default">Commits</h5>
+      <div id="commits"></div>
      </div>
     </div>
     <div class="row"></div>
