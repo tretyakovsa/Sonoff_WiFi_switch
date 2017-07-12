@@ -27,16 +27,19 @@ void initMotion() {
   int pin = readArgsInt();
   pinMode(pin, INPUT);
   attachInterrupt(pin, motionOn, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
+  configJson = jsonWrite(configJson, "Command", readArgsString());
   modulesReg("movement");
 }
 
 void motionOn() {
   motion.attach(120, motionOff);
-  command = "relayon";
+  command = jsonRead(configJson, "Command")+"on";
+
 }
 void motionOff() {
   motion.detach();
-  command = "relayoff";
+  command = jsonRead(configJson, "Command")+"off";
+
 }
 
 // -----------------  DHT
