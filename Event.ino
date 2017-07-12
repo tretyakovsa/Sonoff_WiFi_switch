@@ -22,6 +22,23 @@ void Tach_0() {
   millis_prev = millis();
 }
 
+// -----------------  Движение
+void initMotion() {
+  int pin = readArgsInt();
+  pinMode(pin, INPUT);
+  attachInterrupt(pin, motionOn, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
+  modulesReg("movement");
+}
+
+void motionOn() {
+  motion.attach(120, motionOff);
+  command = "relayon";
+}
+void motionOff() {
+  motion.detach();
+  command = "relayoff";
+}
+
 // -----------------  DHT
 void initDHT() {
   dht.setup(readArgsInt());
@@ -65,7 +82,7 @@ void initD18B20() {
 // ----------------------Приемник на 433мГ
 void initRCSwitch() {
   byte pin = readArgsInt();
-  if (pin == 1 || pin== 3)  Serial.end();
+  if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
   Serial.print("initRCSwitch ");
   // задача опрашивать RC код

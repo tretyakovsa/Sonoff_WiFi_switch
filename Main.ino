@@ -15,6 +15,7 @@ void initCMD() {
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("RCSwitch",       initRCSwitch);
+  sCmd.addCommand("MOTION",       initMotion);
   sCmd.setDefaultHandler(unrecognized);
 }
 
@@ -138,6 +139,8 @@ String modulesInit(String json, String nameArray) {
   }
   return "OK";
 }
+
+
 
 // ------------- Данные статистики
 void statistics() {

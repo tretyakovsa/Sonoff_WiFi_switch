@@ -3,7 +3,7 @@
 #include <ESP8266SSDP.h>             //Содержится в пакете
 #include <FS.h>                      //Содержится в пакете
 #include <time.h>                    //Содержится в пакете
-//#include <Ticker.h>                  //Содержится в пакете
+#include <Ticker.h>                  //Содержится в пакете
 #include <WiFiUdp.h>                 //Содержится в пакете
 #include <ESP8266HTTPUpdateServer.h> //Содержится в пакете
 #include <ESP8266httpUpdate.h>       //Содержится в пакете
@@ -39,6 +39,9 @@ ESP8266WebServer HTTPWAN;
 
 // Для файловой системы
 File fsUploadFile;
+
+// Для тикера
+Ticker motion;
 
 // Для поиска других устройств по протоколу SSDP
 WiFiUDP udp;
@@ -88,7 +91,10 @@ void setup() {
   String init = readFile("config.modules.json", 4096);
   String configs = jsonRead(configJson, "configs");
   if (configs == "") {
-    configs = "Basic";
+    sCmd.readStr("wifi 12");
+    sCmd.readStr("Upgrade");
+    sCmd.readStr("HTTP");
+    //configs = "Basic";
   }
   Serial.println (configs);
   Serial.println(modulesInit(init, configs));

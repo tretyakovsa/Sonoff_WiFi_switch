@@ -48,8 +48,12 @@ void handle_device() {
   // /device?ssdp=Sonoff-Rele&space={{space}}
   String  ssdpName = HTTP.arg("ssdp");
   configJson = jsonWrite(configJson, "SSDP", ssdpName);
-  configJson = jsonWrite(configJson, "space", HTTP.arg("space"));
+  modules = jsonWrite(modules, "SSDP", ssdpName);
   SSDP.setName(ssdpName);
+
+  String  space = HTTP.arg("space");
+  configJson = jsonWrite(configJson, "space", space);
+  modules = jsonWrite(modules, "space", space);
   HTTP.send(200, "text/plain", "Ok");
   writeFile("config.save.json", configJson );
 }
