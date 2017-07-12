@@ -72,6 +72,9 @@ h5 {
  text-align:center;
  text-transform:uppercase;
 }
+h5 a, h5 a:hover {
+ color:#fff;
+}
 .add span {
  background-color:#c0c7ca;
  border-radius:100px;
