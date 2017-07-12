@@ -306,7 +306,9 @@
      var jsonIssues=JSON.parse(xmlHttp.responseText);
      jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
      for(var key in jsonIssues) {
-      document.getElementById('issues').innerHTML += '<p>'+jsonIssues[key].updated_at.substring(0,10)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+      if (key < 10) {
+       document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+      }
      }
     }
    }
@@ -318,9 +320,11 @@
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var jsonCommits=JSON.parse(xmlHttp.responseText);
-   //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
      for(var key in jsonCommits) {
-      document.getElementById('commits').innerHTML += '<p>'+jsonCommits[key].commit.author.date.substring(0,10)+' <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+      if (key < 10) {
+       document.getElementById('commits').innerHTML += '<p><span class="label label-default">&#8987; '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+      }
      }
     }
    }
@@ -351,6 +355,7 @@
       <h5 class="alert-default">Issues</h5>
       <div id="issues"></div>
      </div>
+     <hr>
      <div class="block">
       <h5 class="alert-default">Commits</h5>
       <div id="commits"></div>
