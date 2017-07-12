@@ -111,5 +111,5 @@
  "LangTemperature":"Температура",
  "LangHumidity":"Влажность",
  "LangChart":"График",
- "LangAnalog":"Analog (ADC/A0)"
+ "LangAnalog":"Освещенность"
 }
