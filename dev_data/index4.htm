@@ -12,6 +12,7 @@
   <title>Device Page</title>
   <script type="text/javascript">
    var xhttp=createXmlHttpObject();
+   var jsonResponse;
    function createXmlHttpObject(){
     if(window.XMLHttpRequest){
      xhttp=new XMLHttpRequest();
@@ -95,7 +96,7 @@
      xhttp.onload = function(e) {
 
       var jsonResponse2=JSON.parse(xhttp.responseText);
-      var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+      jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
       if (searchModule(modules,"relay") == 'yes' || modules == "relay"){
        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
@@ -215,9 +216,18 @@
      submit.value=old_submit;
      submit_disabled(false);
 
-     if (!loadB) {
-      loadBlock(ipHost, pagename);
+     //if (!loadB) {
+     // loadBlock(ipHost, pagename);
+     //}
+
+
+     var response=JSON.parse(xhttp.responseText);
+     //if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
+     //if (response.style && response.style!='undefined') {submit.style = response.style;}
+     if (response.title && response.title!='undefined') {
+      if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
      }
+
      // function loadBlock(ipval, content, stage, modules) {
      // ipval, content, stage, modules
      // loadBlock(ipval, content, stage, modules) {
@@ -303,9 +313,22 @@
     xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/issues',true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
+     document.getElementById('issues').innerHTML = '';
      var jsonIssues=JSON.parse(xmlHttp.responseText);
      jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
      for(var key in jsonIssues) {
+      if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
+       for(var label in jsonIssues[key].labels) {
+        if (jsonIssues[key].labels[label] == 'news') {
+         //  alert(jsonResponse.news223898937+'---'+jsonIssues[key].id+'dd'+jsonResponse["news"+jsonIssues[key].id]);
+         // if (jsonResponse['news-'+jsonIssues[key].id]) {
+         //   if (jsonIssues[key].labels[0].name == "news") {
+         document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+         //   }
+         // }
+        }
+       }
+      }
       if (key < 10) {
        document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
       }
@@ -319,6 +342,7 @@
     xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
+     document.getElementById('commits').innerHTML = '';
      var jsonCommits=JSON.parse(xmlHttp.responseText);
      //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
      for(var key in jsonCommits) {
@@ -331,6 +355,7 @@
   </script>
  </head>
  <body>
+  <div id="news"></div>
   <div class="container device index">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
@@ -353,12 +378,12 @@
     <div class="col-md-12">
      <div class="block">
       <h5 class="alert-default">Issues</h5>
-      <div id="issues"></div>
+      <div id="issues">{{LangLoading}}</div>
      </div>
      <hr>
      <div class="block">
       <h5 class="alert-default">Commits</h5>
-      <div id="commits"></div>
+      <div id="commits">{{LangLoading}}</div>
      </div>
     </div>
     <div class="row"></div>
