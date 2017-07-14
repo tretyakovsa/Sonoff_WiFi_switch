@@ -297,6 +297,10 @@ function loadSpace(spaceids){
 }
 
 function real_time(hours,min,sec) {
+ var res = html('time').split(":");
+ hours=res[0];
+ min=res[1];
+ sec=res[2];
  sec=Number(sec)+1;
  if (sec>=60){min=Number(min)+1;sec=0;}
  if (min>=60){hours=Number(hours)+1;min=0;}
