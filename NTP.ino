@@ -25,7 +25,9 @@ void timeSynch(int zone) {
 // ---------- Синхронизация времени
 void handle_Time() {
   timeSynch(jsonReadtoInt(configJson, "timeZone"));
-  HTTP.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+  String out = "{}";
+  out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>"+GetTime()+"</strong>");
+  HTTP.send(200, "text/plain", out); // отправляем ответ о выполнении
 }
 
 // ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
