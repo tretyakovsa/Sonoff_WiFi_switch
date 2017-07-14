@@ -23,6 +23,7 @@ void initCMD() {
 void unrecognized(const char *command) {
   Serial.println("What?");
 }
+
 void uart(){
   Serial.end();
   Serial.begin(readArgsInt());

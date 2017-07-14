@@ -9,9 +9,16 @@ void initHTTP(void) {
   HTTP.on("/config.live.json", handle_ConfigJSON); // Выдаем данные configJson
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   HTTP.on("/configs", handle_configs);               // Установка конфигурации
+  HTTP.on("/cmd", cmd);               // Установка конфигурации
   //Запускаем HTTP сервер
   HTTP.begin();
 }
+
+void cmd(){
+   command = HTTP.arg("command");
+   HTTP.send(200, "text/plain", command);
+  }
+
 
 // --------------------Создаем lang.list.json
 void handle_leng_list() {

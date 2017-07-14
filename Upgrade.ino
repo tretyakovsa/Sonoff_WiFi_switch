@@ -2,6 +2,7 @@ void initUpgrade() {
     // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
     HTTP.on("/upgrade", webUpgrade);                // запустить обнавление
+    modulesReg("upgrade");
   }
 // ----------------------- Обновление с сайта
 void webUpgrade() {

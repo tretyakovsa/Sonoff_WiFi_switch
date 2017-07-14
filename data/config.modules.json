@@ -160,7 +160,10 @@
       "type": "MQTT"
     },
     {
-      "type": "RGB 2 15"
+      "type": "MOTION 2 relay"
+    },
+    {
+      "type": "RCSwitch 3"
     }
   ],
   "RGB": [
