@@ -27,7 +27,8 @@ void initMotion() {
   int pin = readArgsInt();
   pinMode(pin, INPUT);
   attachInterrupt(pin, motionOn, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
-  configJson = jsonWrite(configJson, "Command", readArgsString());
+  String cmd = readArgsString();
+  configJson = jsonWrite(configJson, "Command", cmd);
   modulesReg("movement");
 }
 

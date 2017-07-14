@@ -23,10 +23,10 @@ void callback(const MQTT::Publish& pub)
     //if (String(pub.topic()) == prefix + "/"+chipID + "/RELE_1_not/status") // проверяем из нужного ли нам топика пришли данные
   {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
-    Serial.println(stled);
+    //Serial.println(stled);
     if (stled == 1)   command = "relayon";
     if (stled == 0)   command = "relayoff";
-    Serial.println(command);
+    //Serial.println(command);
 
   }
 
@@ -45,17 +45,17 @@ void MQTT_Pablush() {
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
       if (!client.connected()) {
-        Serial.println("Connecting to MQTT server");
+        //Serial.println("Connecting to MQTT server");
         if (client.connect(MQTT::Connect(chipID)
                            .set_auth(jsonRead(configJson, "mqttUser"), jsonRead(configJson, "mqttPass")))) {
-          Serial.println("Connected to MQTT server");
+          //Serial.println("Connected to MQTT server");
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
           loadnWidgets();
         } else {
-          Serial.println("Could not connect to MQTT server");
+          //Serial.println("Could not connect to MQTT server");
         }
       }
     }
@@ -90,9 +90,9 @@ bool loadnWidgets() {
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       Widgets["nWidgets"][i]["topic"] = prefix + "/" + chipID + Widgets["nWidgets"][i]["topic"].as<String>();
-      Widgets["nWidgets"][i]["descr"] = jsonRead(configJson, "ssdpName");
+      Widgets["nWidgets"][i]["descr"] = jsonRead(configJson, "SSDP");
       String thing_config = Widgets["nWidgets"][i].as<String>();
-      Serial.println(thing_config);
+      //Serial.println(thing_config);
       client.publish(MQTT::Publish(prefix + "/" + chipID + "/config", thing_config).set_qos(1));
     }
   }

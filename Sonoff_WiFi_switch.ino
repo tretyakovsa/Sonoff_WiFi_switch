@@ -62,25 +62,22 @@ boolean secTest = true;
 StringCommand sCmd;     // The demo StringCommand object
 String command = "";
 
-String ssidName = "";            // Для хранения SSID
-String ssidPass = "";                // Для хранения пароля сети
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";
 String configJson = "";
+String configLive = "{}";
 String jsonTimer = "{}";
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String addressList = "{\"ssdpList\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
-boolean ddnsTest = true;
+//boolean ddnsTest = true;
 
 
 void setup() {
-  Serial.begin(115200);
-  delay(1000);
-  Serial.println ("");
-  Serial.println (ESP.getResetReason());
+
+  //Serial.println (ESP.getResetReason());
 
   TickerScheduler(1);
   Serial.println ("Load");
@@ -90,7 +87,9 @@ void setup() {
   configJson = readFile("config.save.json", 1024);
   String init = readFile("config.modules.json", 4096);
   String configs = jsonRead(configJson, "configs");
+
   if (configs == "") {
+    sCmd.readStr("Serial 115200");
     sCmd.readStr("wifi 12");
     sCmd.readStr("Upgrade");
     sCmd.readStr("HTTP");

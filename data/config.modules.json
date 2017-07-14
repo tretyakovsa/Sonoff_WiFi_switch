@@ -39,6 +39,9 @@
 
   ],
   "Sonoff-rf": [
+  {
+      "type": "Serial 115200"
+    },
     {
       "type": "wifi 60 13"
     },

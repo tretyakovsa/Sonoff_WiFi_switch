@@ -1,5 +1,6 @@
 // ---------------Инициализация модулей
 void initCMD() {
+  sCmd.addCommand("Serial",       uart);
   sCmd.addCommand("wifi",       initWIFI);
   sCmd.addCommand("NTP",        initNTP);
   sCmd.addCommand("Upgrade",    initUpgrade);
@@ -22,10 +23,16 @@ void initCMD() {
 void unrecognized(const char *command) {
   Serial.println("What?");
 }
+void uart(){
+  Serial.end();
+  Serial.begin(readArgsInt());
+  delay(100);
+  }
 
 String readArgsString() {
   String arg;
   arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  if (arg=="") arg="";
   return arg;
 }
 
