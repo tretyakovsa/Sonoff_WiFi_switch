@@ -138,7 +138,9 @@
         bodyData = new_string2;
        }
        document.getElementsByTagName('body')[0].innerHTML = new_string2;
-       loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+       if (searchModule(modules,"upgrade") == 'yes'){
+        loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+       }
       }
 
      }
