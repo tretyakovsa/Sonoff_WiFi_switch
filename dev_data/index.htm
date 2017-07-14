@@ -12,6 +12,7 @@
   <title>Device Page</title>
   <script type="text/javascript">
    var xhttp=createXmlHttpObject();
+   var jsonResponse;
    function createXmlHttpObject(){
     if(window.XMLHttpRequest){
      xhttp=new XMLHttpRequest();
@@ -108,7 +109,7 @@
      xhttp.onload = function(e) {
 
       var jsonResponse2=JSON.parse(xhttp.responseText);
-      var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+      jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
       if (searchModule(modules,"relay") == 'yes' || modules == "relay"){
        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
@@ -228,9 +229,17 @@
      submit.value=old_submit;
      submit_disabled(false);
 
-     if (!loadB) {
-      loadBlock(ipHost, pagename);
+     //if (!loadB) {
+     // loadBlock(ipHost, pagename);
+     //}
+
+     var response=JSON.parse(xhttp.responseText);
+     //if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
+     //if (response.style && response.style!='undefined') {submit.style = response.style;}
+     if (response.title && response.title!='undefined') {
+      if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
      }
+
      // function loadBlock(ipval, content, stage, modules) {
      // ipval, content, stage, modules
      // loadBlock(ipval, content, stage, modules) {

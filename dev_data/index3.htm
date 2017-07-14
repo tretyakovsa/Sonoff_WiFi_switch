@@ -9,6 +9,7 @@
   <title>Device Page</title>
   <script type="text/javascript">
    var xhttp=createXmlHttpObject();
+   var jsonResponse;
    function createXmlHttpObject(){
     if(window.XMLHttpRequest){
      xhttp=new XMLHttpRequest();
@@ -118,7 +119,7 @@
       xhttp.send(null);
       xhttp.onload = function(e) {
        var jsonResponse2=JSON.parse(xhttp.responseText);
-       var jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
        var theCookies = document.cookie.split(';');
        for (var i = 1 ; i <= theCookies.length; i++) {
         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -258,7 +259,13 @@
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-     if (!loadB) {loadBlock(ipHost,'block-'+ipHost, '');}
+     //if (!loadB) {loadBlock(ipHost,'block-'+ipHost, '');}
+     var response=JSON.parse(xhttp.responseText);
+     if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
+     if (response.style && response.style!='undefined') {submit.style = response.style;}
+     if (response.title && response.title!='undefined') {
+      if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
+     }
     }
    }
 
