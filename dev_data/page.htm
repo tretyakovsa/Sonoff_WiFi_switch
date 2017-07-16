@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v14.07.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v15.07.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v14.07.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v15.07.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v14.07.2017"></script>
+  <script type="text/javascript" src="js/function.js?v15.07.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -27,23 +27,23 @@
    }
 
 
-   function selectTextareaLine(tarea,lineNum) {
-    lineNum--;
-    var lines = tarea.value.split("\n");
-    var startPos = 0, endPos = tarea.value.length;
-    for(var x = 0; x < lines.length; x++) {
-     if(x == lineNum) {break;}
-     startPos += (lines[x].length+1);
-    }
-    var endPos = lines[lineNum].length+startPos;
-    if(typeof(tarea.selectionStart) != "undefined") {
-     tarea.focus();
-     tarea.selectionStart = startPos;
-     tarea.selectionEnd = endPos;
-     return true;
-    }
-    return false;
-   }
+   //function selectTextareaLine(tarea,lineNum) {
+   // lineNum--;
+   // var lines = tarea.value.split("\n");
+   // var startPos = 0, endPos = tarea.value.length;
+   // for(var x = 0; x < lines.length; x++) {
+   //  if(x == lineNum) {break;}
+   //  startPos += (lines[x].length+1);
+   // }
+   // var endPos = lines[lineNum].length+startPos;
+   // if(typeof(tarea.selectionStart) != "undefined") {
+   //  tarea.focus();
+   //  tarea.selectionStart = startPos;
+   //  tarea.selectionEnd = endPos;
+   //  return true;
+   // }
+   // return false;
+   //}
 
 
    function isValidJson(str) {
@@ -66,9 +66,7 @@
    function setContent(stage) {
     var xmlHttp=createXmlHttpObject();
 
-    if (!pages[0]) { pages[0]='index'; }
-
-    xmlHttp.open('GET', pages[0]+".json",true);
+    xmlHttp.open('GET', (pages[0]?pages[0]:'index')+".json",true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
 
@@ -79,48 +77,30 @@
       jsonPage=JSON.parse(xmlHttp.responseText);
       var jsonEdit=xmlHttp.responseText;
 
-
-      if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
-       xmlHttp.open('PUT', (jsonPage.config?jsonPage.config:'config-live-file-not-found'),true);
-       xmlHttp.send(null);
-       xmlHttp.onload = function(e) {
-
-        var jsonResponse1;
-        if (xmlHttp.status==200){
-         jsonResponse1=JSON.parse(xmlHttp.responseText);
-        } else { jsonResponse1 = JSON.parse('[{"error1":"File not found"}]'); }
-
-        xmlHttp.open('GET', (renameBlock(jsonResponse1, jsonPage.lang)?renameBlock(jsonResponse1, jsonPage.lang):'lang-file-not-found'),true);
+      if (jsonPage.configs){
+       var fileNumber = 0;
+       (function foo(){
+        xmlHttp.open('GET', jsonPage.configs[fileNumber],true);
         xmlHttp.send(null);
         xmlHttp.onload = function(e) {
-
-
-         var jsonResponse2;
          if (xmlHttp.status==200){
-          jsonResponse2=JSON.parse(xmlHttp.responseText);
-         } else { jsonResponse2 = JSON.parse('[{"error2":"File not found"}]'); }
+          var jsonResponseNew = JSON.parse(xmlHttp.responseText);
+          var jsonResponseOld = jsonResponse;
+          jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
+         } else {
+          document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0px;">File "'+jsonPage.configs[fileNumber]+'" not found.<\/li>';
+         }
 
+         fileNumber++;
 
-         xmlHttp.open('GET','/modules.json',true);
-         xmlHttp.send(null);
-         xmlHttp.onload = function(e) {
-
-          var modules;
-          if (xmlHttp.status==200){
-           var modules=JSON.parse(xmlHttp.responseText);
-          } else { modules = JSON.parse('[{"error3":"File not found"}]'); }
-
-          jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-          jsonResponse.module = modules.module;
-
-          for (var i=0; i < pages.length; i++) {
-           jsonResponse["urlArray"+[i]] = pages[i];
+         if(fileNumber == jsonPage.configs.length) {
+          for (var y=0; y < pages.length; y++) {
+           jsonResponse["urlArray"+[y]] = pages[y];
           }
           jsonResponse.urlArray=window.location.search.substring(1);
-
           var theCookies = document.cookie.split(';');
-          for (var i = 1 ; i <= theCookies.length; i++) {
-           jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+          for (var y = 1 ; y <= theCookies.length; y++) {
+           jsonResponse[theCookies[y-1].split("=")[0].replace(/^ /,'')] = theCookies[y-1].split("=")[1];
           }
 
           document.title = renameBlock(jsonResponse, jsonPage.title);
@@ -142,7 +122,6 @@
           }
 
           val('edit-butt','view');
-
 
           if (jsonPage.content){
            for(i = 0;i<jsonPage.content.length;i++) {
@@ -216,6 +195,9 @@
              if (type_val == 'text') {
               document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/div>';
              }
+             if (type_val == 'iframe') {
+              document.getElementById('contents').innerHTML += renameBlock(jsonResponse, jsonPage.content[i].title)+'<iframe src="'+action_val+'" id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/iframe>';
+             }
              if (type_val == 'chart') {
               document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
               if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
@@ -258,146 +240,37 @@
             }
            }
           } else {
-           //   document.getElementById('contents').innerHTML += JSON.stringify(jsonPage);
+           document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0px;">content array not found in "'+pages[0]+'.json"<\/li>';
            document.getElementById('contents').innerHTML += '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>You can edit it right.<\/h2>';
-
            toggle('edit-content');
            toggle('url-content');
-           //  toggle('edit-butt');
           }
 
          }
 
 
+         if(fileNumber < jsonPage.configs.length) {
+          jsonPage.configs[fileNumber] = renameBlock(jsonResponse, jsonPage.configs[fileNumber]);
+          foo();
+         }
+
+
         }
-       }
+
+       })()
+
+      } else {
+       document.getElementById('contents').innerHTML = '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>Please add configs array.<br>Example: "configs":["/config.live.json"],<\/h2>';
+       toggle('content','hide');
       }
+
      } else {
-      jsonPage = JSON.parse('[{"error4":"File not found"}]');
       document.getElementById('contents').innerHTML += '<br><br><h1>Files "'+pages[0]+'.json" not found.<\/h1><hr><h2>Please add json file in you folder.<br>Example: device.json and join on page.htm?device<\/h2>';
       toggle('content','hide');
      }
+
     }
-
-
    };
-
-
-   function createTable(state_val, jsonTable) {
-    var xmlHttp=createXmlHttpObject();
-    xmlHttp.open("GET", state_val, true);
-    xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
-     var timers=JSON.parse(xmlHttp.responseText);
-     for (var i = 0; i < timers.timer.length; i++) {
-      var tbody = '';
-      for(var keys in jsonTable) {
-       tbody += '<td>'+timers.timer[i][keys]+'<\/td>';
-      }
-      document.getElementById(state_val.replace(/[^a-z0-9]/gi,'')).innerHTML += '<tr>'+tbody+'<\/tr>';
-     }
-    }
-   }
-
-   function renameBlock(jsonResponse, str) {
-    if (str) {
-     var arr=str.match(/\{\{\S+?\}\}/gim);
-     if (arr) {
-      for (var i=0; i<arr.length; i++) {
-       var id=arr[i].slice(2, -2);
-       //if (jsonResponse[id]) {
-       str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
-       // }
-      };
-     }
-    }
-    return (typeof(str)!='undefined'&&str!=null?str:'');
-   }
-
-
-   function renameGet(str) {
-    if (str) {
-     var arr=str.match(/\[\[\S+?\]\]/gim);
-     if (arr) {
-      for (var i=0; i<arr.length; i++) {
-       var id=arr[i].slice(2, -2);
-       if (document.getElementById(id)) {
-        var txt='';
-        if (document.getElementById(id).tagName=='select'){
-         txt=document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
-        } else {
-         txt=encodeURIComponent(document.getElementById(id).value);
-        }
-        str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
-       }
-      };
-     }
-    }
-    return str;
-   }
-
-
-   function createRGB(valID,actionID,moduleID,responseID){
-    var img = _('.'+valID+'-thumb img'),
-        canvas = _('#'+valID+'-cs'),
-        result = _('.'+valID+'-result'),
-        preview = _('.'+valID+'-preview'),x = '',y = '';
-    // click function
-    img.addEventListener('click', function(e){
-     // chrome
-     if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
-     // firefox
-     else if(e.layerX) {x=e.layerX;y=e.layerY;}
-     useCanvas(canvas,img,function(){
-      // get image data
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      // nex_color = rgbToHex(p[0],p[1],p[2]);
-      //on_rgb(this,p[0],p[1],p[2]);
-      // alert(p[0]+" "+p[1]+" "+p[2]);
-      if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
-      if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?command=':'')+renameGet(actionID), responseID);}
-      document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
-     });
-    },false);
-    // preview function mousemove
-    img.addEventListener('mousemove', function(e){
-     // chrome
-     if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
-     // firefox
-     else if(e.layerX) {x=e.layerX;y=e.layerY;}
-     useCanvas(canvas,img,function(){
-      var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-      // document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
-     });
-    },false);
-   }
-   function useCanvas(el,image,callback){
-    el.width = image.width;
-    el.height = image.height;
-    el.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
-    return callback();
-   }
-   function _(el){
-    return document.querySelector(el);
-   };
-   function componentToHex(c) {
-    var hex = c.toString(16);
-    return hex.length == 1 ? "0" + hex : hex;
-   }
-   function rgbToHex(r, g, b) {
-    return componentToHex(r) + componentToHex(g) + componentToHex(b);
-   }
-   function findPos(obj) {
-    var curleft = 0, curtop = 0;
-    if (obj.offsetParent) {
-     do {
-      curleft += obj.offsetLeft;
-      curtop += obj.offsetTop;
-     } while (obj = obj.offsetParent);
-     return { x: curleft, y: curtop };
-    }
-    return undefined;
-   }
   </script>
  </head>
  <body>

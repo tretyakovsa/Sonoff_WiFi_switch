@@ -1,6 +1,9 @@
 {
- "config": "config.live.json",
- "lang": "/lang/lang.{{lang}}.json",
+ "configs": [
+  "/config.live.json",
+  "/lang/lang.{{lang}}.json",
+  "/modules.json"
+ ],
  "title": "{{LangOptions1}}",
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [

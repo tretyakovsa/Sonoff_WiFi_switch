@@ -140,7 +140,7 @@ function send_request(submit,server,state){
    ddnsUrl1.innerHTML = '<a href="http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
   }
   var ddnsUrl2 =  document.getElementById('ddns-url2');
-  if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null){
+  if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null && jsonResponse.ddnsName){
    ddnsUrl2.innerHTML = '<a href="http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
   }
 
@@ -164,6 +164,10 @@ function send_request(submit,server,state){
     }
 
    }
+  } else {
+   if (typeof(element) != 'undefined' && element != null){
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+   }
   }
 
 
@@ -177,6 +181,7 @@ function submit_disabled(request){
   if (inputs[i].type === 'button') {inputs[i].disabled = request;}
  }
 }
+
 function toggle(target,status) {
  var curVal = document.getElementById(target).classList;
  if (curVal.contains('hidden')) {
@@ -192,14 +197,14 @@ function toggle(target,status) {
  }
 }
 
-function setLang(submit){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET',"/lang?set="+submit,true);
- xmlHttp.send(null);
- xmlHttp.onload = function(e) {
-  location.reload();
- }
-}
+//function setLang(submit){
+// var xmlHttp=createXmlHttpObject();
+// xmlHttp.open('GET',"/lang?set="+submit,true);
+// xmlHttp.send(null);
+// xmlHttp.onload = function(e) {
+//  location.reload();
+// }
+//}
 
 function loadWifi(ssids,hiddenIds){
  var xmlHttp=createXmlHttpObject();
@@ -249,55 +254,55 @@ function set_time_zone(submit){
  send_request(submit,'/timeZone?timeZone='+gmtHours);
 }
 
-function loadLang(langids){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','/lang.list.json',true);
- xmlHttp.send(null);
- xmlHttp.onload = function(e) {
-  var jsonLang=JSON.parse(xmlHttp.responseText);
-  var html = '';
-  for(var key in jsonLang) {
-   var view_lang = jsonLang[key].name.substr(10,2);
-   html += '<li><a href="#" onclick="setLang(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
-  }
-  document.getElementById(langids).innerHTML = (html?html:'<li>No langs in folder: /lang/lang.*.json.gz</li>');
- }
-}
+//function loadLang(langids){
+// var xmlHttp=createXmlHttpObject();
+// xmlHttp.open('GET','/lang.list.json',true);
+// xmlHttp.send(null);
+// xmlHttp.onload = function(e) {
+//  var jsonLang=JSON.parse(xmlHttp.responseText);
+//  var html = '';
+//  for(var key in jsonLang) {
+//   var view_lang = jsonLang[key].name.substr(10,2);
+//   html += '<li><a href="#" onclick="setLang(\''+view_lang+'\')" title="'+jsonLang[key].name+'">'+view_lang+'</a></li>';
+//  }
+//  document.getElementById(langids).innerHTML = (html?html:'<li>No langs in folder: /lang/lang.*.json.gz</li>');
+// }
+//}
 
-function loadTimer(timerids,module){
- var xhttp=createXmlHttpObject();
- xhttp.open("GET", "/timer.save.json", true);
- xhttp.send(null);
- xhttp.onload = function(e) {
-  var timers=JSON.parse(xhttp.responseText);
-  timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
-  var html = '';
-  for (var i = 0; i < timers.timer.length; i++) {
-   if(timers.timer[i].module == module) {
-    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
-    if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
-    if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-    timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-    html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
-   }
-  }
-  document.getElementById(timerids).innerHTML = (html?html:'<li>'+jsonResponse.LangNoTimers+'</li>');
- }
-}
+//function loadTimer(timerids,module){
+// var xhttp=createXmlHttpObject();
+// xhttp.open("GET", "/timer.save.json", true);
+// xhttp.send(null);
+// xhttp.onload = function(e) {
+//  var timers=JSON.parse(xhttp.responseText);
+//  timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+//  var html = '';
+//  for (var i = 0; i < timers.timer.length; i++) {
+//   if(timers.timer[i].module == module) {
+//    if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'</span>';}
+//    if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'</span>';}
+//    if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+//    timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+//    html += '<li>'+timers.timer[i].trigger+' <b>'+timers.timer[i].day+'<\/b> '+timers.timer[i].time+'<\/li>';
+//   }
+//  }
+//  document.getElementById(timerids).innerHTML = (html?html:'<li>'+jsonResponse.LangNoTimers+'</li>');
+// }
+//}
 
-function loadSpace(spaceids){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','/devices.list.json',true);
- xmlHttp.send(null);
- xmlHttp.onload = function(e) {
-  var jsonSpace=JSON.parse(xmlHttp.responseText);
-  var html = '';
-  for(var key in jsonSpace) {
-   html += '<option value="'+jsonSpace[key].space+'">';
-  }
-  document.getElementById(spaceids).innerHTML = html;
- }
-}
+//function loadSpace(spaceids){
+// var xmlHttp=createXmlHttpObject();
+// xmlHttp.open('GET','/devices.list.json',true);
+// xmlHttp.send(null);
+// xmlHttp.onload = function(e) {
+//  var jsonSpace=JSON.parse(xmlHttp.responseText);
+//  var html = '';
+//  for(var key in jsonSpace) {
+//   html += '<option value="'+jsonSpace[key].space+'">';
+//  }
+//  document.getElementById(spaceids).innerHTML = html;
+// }
+//}
 
 function real_time(hours,min,sec) {
  var res = html('time').split(":");
@@ -337,4 +342,121 @@ function delAllCookies() {
   var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
   document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  }
+}
+
+function createTable(state_val, jsonTable) {
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open("GET", state_val, true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  var timers=JSON.parse(xmlHttp.responseText);
+  for (var i = 0; i < timers.timer.length; i++) {
+   var tbody = '';
+   for(var keys in jsonTable) {
+    tbody += '<td>'+timers.timer[i][keys]+'<\/td>';
+   }
+   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'')).innerHTML += '<tr>'+tbody+'<\/tr>';
+  }
+ }
+}
+
+
+function renameBlock(jsonResponse, str) {
+ if (str) {
+  var arr=str.match(/\{\{\S+?\}\}/gim);
+  if (arr) {
+   for (var i=0; i<arr.length; i++) {
+    var id=arr[i].slice(2, -2);
+    //if (jsonResponse[id]) {
+    str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+    // }
+   };
+  }
+ }
+ return (typeof(str)!='undefined'&&str!=null?str:'');
+}
+
+
+function renameGet(str) {
+ if (str) {
+  var arr=str.match(/\[\[\S+?\]\]/gim);
+  if (arr) {
+   for (var i=0; i<arr.length; i++) {
+    var id=arr[i].slice(2, -2);
+    if (document.getElementById(id)) {
+     var txt='';
+     if (document.getElementById(id).tagName=='select'){
+      txt=document.getElementById(id).options[document.getElementById(id).selectedIndex].value;
+     } else {
+      txt=encodeURIComponent(document.getElementById(id).value);
+     }
+     str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
+    }
+   };
+  }
+ }
+ return str;
+}
+
+
+function createRGB(valID,actionID,moduleID,responseID){
+ var img = _('.'+valID+'-thumb img'),
+     canvas = _('#'+valID+'-cs'),
+     result = _('.'+valID+'-result'),
+     preview = _('.'+valID+'-preview'),x = '',y = '';
+ // click function
+ img.addEventListener('click', function(e){
+  // chrome
+  if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
+  // firefox
+  else if(e.layerX) {x=e.layerX;y=e.layerY;}
+  useCanvas(canvas,img,function(){
+   // get image data
+   var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+   // nex_color = rgbToHex(p[0],p[1],p[2]);
+   //on_rgb(this,p[0],p[1],p[2]);
+   // alert(p[0]+" "+p[1]+" "+p[2]);
+   if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
+   if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?command=':'')+renameGet(actionID), responseID);}
+   document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
+  });
+ },false);
+ // preview function mousemove
+ img.addEventListener('mousemove', function(e){
+  // chrome
+  if(e.offsetX) {x=e.offsetX;y=e.offsetY;}
+  // firefox
+  else if(e.layerX) {x=e.layerX;y=e.layerY;}
+  useCanvas(canvas,img,function(){
+   var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+   // document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
+  });
+ },false);
+}
+function useCanvas(el,image,callback){
+ el.width = image.width;
+ el.height = image.height;
+ el.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
+ return callback();
+}
+function _(el){
+ return document.querySelector(el);
+};
+function componentToHex(c) {
+ var hex = c.toString(16);
+ return hex.length == 1 ? "0" + hex : hex;
+}
+function rgbToHex(r, g, b) {
+ return componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+function findPos(obj) {
+ var curleft = 0, curtop = 0;
+ if (obj.offsetParent) {
+  do {
+   curleft += obj.offsetLeft;
+   curtop += obj.offsetTop;
+  } while (obj = obj.offsetParent);
+  return { x: curleft, y: curtop };
+ }
+ return undefined;
 }
