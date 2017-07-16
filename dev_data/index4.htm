@@ -322,12 +322,9 @@
       if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
        for(var label in jsonIssues[key].labels) {
         if (jsonIssues[key].labels[label] == 'news') {
-         //  alert(jsonResponse.news223898937+'---'+jsonIssues[key].id+'dd'+jsonResponse["news"+jsonIssues[key].id]);
-         // if (jsonResponse['news-'+jsonIssues[key].id]) {
-         //   if (jsonIssues[key].labels[0].name == "news") {
-         document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
-         //   }
-         // }
+         if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
+          document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+         }
         }
        }
       }
@@ -353,6 +350,17 @@
       }
      }
     }
+   }
+
+   function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+     var c = ca[i];
+     while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
    }
   </script>
  </head>

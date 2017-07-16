@@ -39,17 +39,14 @@
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NrIrLw1rOdk/0.jpg)](https://www.youtube.com/watch?v=NrIrLw1rOdk&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
-## [Construction](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/Sonoff_WiFi_switch.ino#L50-L78)
+## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/config.modules.json)
 
+
+You can change here
 ```
-  #define TACH_PIN 0    // Кнопка управления
-  #define PIR_PIN 2     // RIR sensors
-  #define RELE1_PIN 12  // Реле
-  #define LED_PIN 13    // Светодиод
-  #define DHTPIN 14     // DHT сенсор.
-  #define RGB_PIN 1     // WS2811/WS2812/NeoPixel LEDs
-  #define impuls_PIN 3  //электросчетчик
+/data/config.modules.json
 ```
+
 
 ### Schematic
 
@@ -70,30 +67,30 @@
 If you like this project, you can give me a cup of coffee :)
 
 
-###Web Developer
-####AdvCash
+### Web Developer
+#### AdvCash
 
     U 0586 7862 1354
     E 8788 6352 1126
     R 7705 0208 6566
 
-####PayPal
+#### PayPal
 
     wul@inbox.lv
 
-####WebMoney
+#### WebMoney
 
 - Z242847016348
 - R466173026928
 - E555861976545
 
-###Arduino Developer
+### Arduino Developer
 
-####YandexMoney
+#### YandexMoney
 
 - 410011740665305
 
-####WebMoney
+#### WebMoney
 
 - Z343206590467
 - R124424038680
