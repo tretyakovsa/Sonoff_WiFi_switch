@@ -18,7 +18,7 @@ void relay() {
 }
 void relayon() {
 
-    sCmd.readStr("relayon");
+  sCmd.readStr("relayon");
 
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
@@ -33,12 +33,13 @@ void relayoff() {
 String relayStatus(String json, String state) {
   String out = "{}";
   if (jsonReadtoInt(json, state)) {
-    out = jsonWrite(out, "title", "{{LangOn}}");
-    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
-  }
-  else {
     out = jsonWrite(out, "title", "{{LangOff}}");
     out = jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
+  }
+  else {
+    out = jsonWrite(out, "title", "{{LangOn}}");
+    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
+
   }
   return out;
 }
