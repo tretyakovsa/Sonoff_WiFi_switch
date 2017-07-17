@@ -62,7 +62,7 @@ void handle_device() {
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
     addressList = "{\"ssdpList\":[]}";
-    ssdpList(chipID,  WiFi.localIP().toString());
+    ssdpList(chipID,  WiFi.localIP().toString(), jsonRead(configJson, "SSDP"));
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
@@ -76,6 +76,7 @@ void requestSSDP () {
 void handleUDP() {
   String input_string = "";
   String chipIDremote = "";
+  String ssdpName = "";
   char packetBuffer[512];
   int packetSize = udp.parsePacket();
   if (packetSize) {
@@ -87,21 +88,23 @@ void handleUDP() {
     if (i > 0) {
       chipIDremote = deleteBeforeDelimiter(input_string, "Arduino");
       chipIDremote = selectToMarker(chipIDremote, "\n");
+      ssdpName = selectToMarkerLast(chipIDremote, " ");
+      ssdpName = selectToMarker(ssdpName, "/");
       chipIDremote = selectToMarkerLast(chipIDremote, "/");
       chipIDremote = selectToMarker(chipIDremote, "\r");
       // строку input_string сохраняю для расширения
-      ssdpList(chipIDremote, udp.remoteIP().toString());
+      ssdpList(chipIDremote, udp.remoteIP().toString(), ssdpName);
     }
-    //Serial.println(addressList);
   }
 }
-void ssdpList(String chipIDremote, String remoteIP ) {
+void ssdpList(String chipIDremote, String remoteIP, String ssdpName ) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& list = jsonBuffer.parseObject(addressList);
   JsonArray& arrays = list["ssdpList"].asArray();
   JsonObject& record = arrays.createNestedObject();
   record["id"]  = chipIDremote;
   record["ip"]  = remoteIP;
+  record["ssdp"]  = ssdpName;
   addressList = "";
   list.printTo(addressList);
   //list.printTo(Serial);

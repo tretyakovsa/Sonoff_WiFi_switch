@@ -52,7 +52,7 @@ void initDHT() {
   String temp = "";
   temp += dht.getTemperature();
   if (temp != "nan") {
-    Serial.println("ok");
+    //Serial.println("ok");
     HTTP.on("/sensor.json", HTTP_GET, []() {
       float temp = dht.getTemperature();
       if (temp == 'NaN') {
@@ -70,7 +70,7 @@ void initD18B20() {
   d18b20.begin();
   d18b20.requestTemperatures();
   float ok = d18b20.getTempCByIndex(0);
-  Serial.println(ok);
+  //Serial.println(ok);
   if (ok != -127) {
     HTTP.on("/sensor.json", HTTP_GET, []() {
       d18b20.requestTemperatures();
@@ -88,7 +88,7 @@ void initRCSwitch() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
-  Serial.print("initRCSwitch ");
+  //Serial.print("initRCSwitch ");
   // задача опрашивать RC код
   ts.add(3, 100, [&](void*) {
     RCRCreceiv();
@@ -103,8 +103,8 @@ void RCRCreceiv() {
       configJson = jsonWrite(configJson, "Received", 0);
     } else {
       int codeRC = mySwitch.getReceivedValue();
-      Serial.print("Received ");
-      Serial.println(codeRC);
+      //Serial.print("Received ");
+      //Serial.println(codeRC);
       configJson = jsonWrite(configJson, "Received", codeRC);
     }
     mySwitch.resetAvailable();
