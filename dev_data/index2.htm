@@ -145,7 +145,13 @@
 
        if (searchModule(modules,"relay") == 'yes'){
         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
-        document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+        var relayNumber = '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+        for (var i = 1; i < 5; i++) {
+         if (searchModule(modules,"relay"+i) == 'yes'){
+          relayNumber += '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+         }
+        }
+        document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td>'+relayNumber+'<\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
        }
        if (searchModule(modules,"rgb") == 'yes'){
         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';}
@@ -318,6 +324,7 @@
   </script>
  </head>
  <body>
+  <div id="news"></div>
   <div class="container device index2">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">

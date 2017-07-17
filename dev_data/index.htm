@@ -111,7 +111,12 @@
       var jsonResponse2=JSON.parse(xhttp.responseText);
       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
-      if (searchModule(modules,"relay") == 'yes' || modules == "relay"){
+      if (searchModule(modules,"relay") == 'yes'){
+       for (var i = 1; i < 5; i++) {
+        if (searchModule(modules,"relay"+i) != 'yes'){
+         jsonResponse["relay"+i] = 'hidden';
+        }
+       }
        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
       }
       if (searchModule(modules,"rgb") == 'yes'){
@@ -324,6 +329,7 @@
   </script>
  </head>
  <body>
+  <div id="news"></div>
   <div class="container device index">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">

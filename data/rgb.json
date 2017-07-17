@@ -271,6 +271,7 @@
 
   {
    "type": "hr",
+   "module": "movement",
    "style": "clear:both;"
   },
 
