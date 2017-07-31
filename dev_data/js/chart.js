@@ -1,4 +1,4 @@
-function loadChart(chartId,chartUrl,charOptions,charRefresh){
+function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
  var valTime;
  function viewTime() {
   var now = new Date();
@@ -20,7 +20,8 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh){
    }
    if (typeof module.data != null && typeof module.data2 != null && typeof module.data3 != null) {
     for (var i = 0; i < module.data.length; i++) {
-     if (module.points != null && module.points <= LineChart.data.series[0].length) {
+     var points = (charPoints?charPoints:module.points);
+     if (points != null && points <= LineChart.data.series[0].length) {
       LineChart.data.labels.shift();
       LineChart.data.series[0].shift();
       if (module.data2 != null) {
@@ -46,7 +47,8 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh){
      LineChart.update();
     }
    }
-  // var strUser = module.refresh;
+   // charOptions = (charOptions?charOptions:module.options);
+   var strUser = module.refresh;
    var strUser = (charRefresh?charRefresh:module.refresh);
    clearInterval(valTime);
    valTime=setInterval(function(){adddata();}, strUser);

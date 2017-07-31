@@ -2,14 +2,14 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v15.07.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v31.07.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v15.07.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v31.07.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v15.07.2017"></script>
+  <script type="text/javascript" src="js/function.js?v31.07.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <script type="text/javascript">
@@ -204,7 +204,7 @@
                //var charTime;
                //clearTimeout(charTime);
                //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
-               setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+jsonPage.content[i].options+"},"+jsonPage.content[i].refresh+")", 500);
+               setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+jsonPage.content[i].options+"},"+jsonPage.content[i].refresh+","+jsonPage.content[i].points+")", 500);
               }
              }
              if (type_val == 'wifi') {
