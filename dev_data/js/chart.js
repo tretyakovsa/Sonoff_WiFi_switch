@@ -1,4 +1,4 @@
-function loadChart(chartId,chartUrl,charOptions){
+function loadChart(chartId,chartUrl,charOptions,charRefresh){
  var valTime;
  function viewTime() {
   var now = new Date();
@@ -46,7 +46,8 @@ function loadChart(chartId,chartUrl,charOptions){
      LineChart.update();
     }
    }
-   var strUser = module.refresh;
+  // var strUser = module.refresh;
+   var strUser = (charRefresh?charRefresh:module.refresh);
    clearInterval(valTime);
    valTime=setInterval(function(){adddata();}, strUser);
   }

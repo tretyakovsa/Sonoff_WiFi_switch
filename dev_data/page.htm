@@ -204,7 +204,7 @@
                //var charTime;
                //clearTimeout(charTime);
                //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
-               setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"')", 500);
+               setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+jsonPage.content[i].options+"},"+jsonPage.content[i].refresh+")", 500);
               }
              }
              if (type_val == 'wifi') {

@@ -43,11 +43,13 @@
   {
    "type": "select",
    "name":"build",
+   "class":"btn btn-block btn-info btn-lg",
+   "style":"height:auto;",
    "state":"{{configs}}",
    "action": "/configs?set=[[build]]",
    "title": {
-    "RGB":"RGB (WS2811-12/NeoPixel)",
     "Sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
+    "RGB":"RGB (WS2811-12/NeoPixel)",
     "Smart-Room":"Smart-Room"
    }
   },
