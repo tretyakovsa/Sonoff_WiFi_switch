@@ -47,7 +47,10 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
      LineChart.update();
     }
    }
-   charOptions = (charOptions?charOptions:module.options);
+
+   charOptions = (charOptions=!'{}'?charOptions:'{'+module.options+'}');
+   //LineChart.update(,,charOptions);
+
    var strUser = module.refresh;
    var strUser = (charRefresh?charRefresh:module.refresh);
    clearInterval(valTime);
