@@ -1,7 +1,7 @@
 // -----------------  Аналоговый вход A0
 void initA0() {
   HTTP.on("/analog.json", HTTP_GET, []() {
-    HTTP.send(200, "text/json", graf(analogRead(A0), 10, 3000));
+    HTTP.send(200, "text/json", graf(analogRead(A0), 10, 3000, "low:0"));
   });
   modulesReg("analog");
 }
@@ -58,7 +58,7 @@ void initDHT() {
       if (temp == 'NaN') {
         temp = 0;
       }
-      HTTP.send(200, "text/json", graf(temp, 10, 3000));
+      HTTP.send(200, "text/json", graf(temp, 10, 3000,"low:0"));
     });
     modulesReg("temperature");
   }
@@ -70,6 +70,7 @@ void initD18B20() {
   d18b20.begin();
   d18b20.requestTemperatures();
   float ok = d18b20.getTempCByIndex(0);
+  d18b20.setResolution(12);
   //Serial.println(ok);
   if (ok != -127) {
     HTTP.on("/sensor.json", HTTP_GET, []() {

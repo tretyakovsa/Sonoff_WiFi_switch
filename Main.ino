@@ -17,6 +17,8 @@ void initCMD() {
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("RCSwitch",       initRCSwitch);
   sCmd.addCommand("MOTION",       initMotion);
+  sCmd.addCommand("BUZER",       initBuzer);
+  sCmd.addCommand("beep",       buzerBeep);
   sCmd.setDefaultHandler(unrecognized);
 }
 
@@ -111,6 +113,27 @@ String jsonWrite(String json, String name, int volume) {
   return json;
 }
 
+// ------------- Создание данных для графика
+String graf(int datas, int points, int refresh, String options) {
+   String root = "{}";  // Формировать строку для отправки в браузер json формат
+  // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
+  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+  DynamicJsonBuffer jsonBuffer;
+  // вызовите парсер JSON через экземпляр jsonBuffer
+  JsonObject& json = jsonBuffer.parseObject(root);
+  // Заполняем поля json
+  JsonArray& data = json.createNestedArray("data");
+  data.add(datas);
+  json["points"] = points;
+  json["refresh"] = refresh;
+  json["options"] = options;
+  //"options":"low:0,showLine: false,showArea:true,showPoint:false",
+  // Помещаем созданный json в переменную root
+  root = "";
+  json.printTo(root);
+  return root;
+  }
+
 // --------------Создание данных для графика
 String graf(int datas, int points, int refresh) {
   String root = "{}";  // Формировать строку для отправки в браузер json формат
@@ -124,6 +147,7 @@ String graf(int datas, int points, int refresh) {
   data.add(datas);
   json["points"] = points;
   json["refresh"] = refresh;
+  //"options":"low:0,showLine: false,showArea:true,showPoint:false",
   // Помещаем созданный json в переменную root
   root = "";
   json.printTo(root);

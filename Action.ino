@@ -1,13 +1,29 @@
+// ------------------- Инициализация  Динамика
+void initBuzer(){
+   configLive = jsonWrite(configLive, "pinBuzer", readArgsInt());
+   pinMode(jsonReadtoInt(configLive, "pinBuzer"), OUTPUT);
+
+   analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+   analogWriteFreq(0);
+
+  }
+  void buzerBeep(){
+    analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+    analogWriteFreq(readArgsInt());
+    }
+
+
+// ------------------- Инициализация Реле
 void initRelay() {
-  configJson = jsonWrite(configJson, "relay1Pin", readArgsInt());
-  pinMode(jsonReadtoInt(configJson, "relay1Pin"), OUTPUT);
+  configLive = jsonWrite(configLive, "relay1Pin", readArgsInt());
+  pinMode(jsonReadtoInt(configLive, "relay1Pin"), OUTPUT);
   sCmd.addCommand("relayon",     relayOn);
   sCmd.addCommand("relayoff",    relayOff);
   sCmd.addCommand("relaynot",    relayNot);
-  HTTP.on("/relay", relay);        // Установить имя устройства
-  HTTP.on("/relayon", relayon);        // Установить имя устройства
-  HTTP.on("/relayoff", relayoff);        // Установить имя устройства
-  HTTP.on("/sonoff", relay);        // Установить имя устройства
+  HTTP.on("/relay", relay);        // реакция на запрос
+  HTTP.on("/relayon", relayon);        // реакция на запрос
+  HTTP.on("/relayoff", relayoff);        // реакция на запрос
+  HTTP.on("/sonoff", relay);        // реакция на запрос
   modulesReg("relay");
 }
 void relay() {
@@ -48,14 +64,14 @@ void relayOn() {
   configJson = jsonWrite(configJson, "state", 1);
   int state0 = jsonReadtoInt(configJson, "state");
   toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configJson, "relay1Pin"), state0);
+  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
   topicPub("/RELE_1_not/status", String(state0), 1 );
 }
 void relayOff() {
   configJson = jsonWrite(configJson, "state", 0);
   int state0 = jsonReadtoInt(configJson, "state");
   toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configJson, "relay1Pin"), state0);
+  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
   topicPub("/RELE_1_not/status", String(state0), 1 );
 }
 void relayNot() {
@@ -63,7 +79,7 @@ void relayNot() {
   configJson = jsonWrite(configJson, "state", !jsonReadtoInt(configJson, "state"));
   int state0 = jsonReadtoInt(configJson, "state");
   toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configJson, "relay1Pin"), state0);
+  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
   topicPub("/RELE_1_not/status", String(state0), 1 );
 }
 void topicPub(String topic, String data, boolean retain ) {
@@ -84,3 +100,4 @@ void toggleRelay(bool relayState) {
     Serial.write(miBufferOFF, sizeof(miBufferOFF));
   }
 }
+
