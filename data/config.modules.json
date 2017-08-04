@@ -198,7 +198,10 @@
    "type": "RGB 2 15"
   }
  ],
-  "Jalousie": [
+ "Jalousie": [
+  {
+   "type": "Serial 115200"
+  },
   {
    "type": "wifi 20 13"
   },
@@ -232,5 +235,5 @@
   {
    "type": "MQTT"
   }
-  ]
+ ]
 }

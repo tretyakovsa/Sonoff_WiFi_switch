@@ -13,7 +13,7 @@ void initCMD() {
   sCmd.addCommand("D18B20",       initD18B20);
   sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
-  sCmd.addCommand("JALOUSIE",       initJaluzi);
+  sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("RCSwitch",       initRCSwitch);
