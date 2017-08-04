@@ -58,7 +58,7 @@
 
   {
    "type": "h2",
-   "title": "{{configs}}"
+   "title": "{{LangType}} {{configs}}"
   },
 
   {

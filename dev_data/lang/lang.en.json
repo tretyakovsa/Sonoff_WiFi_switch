@@ -57,6 +57,7 @@
  "LangReset3":"Are you sure you want to reboot the device?",
  "LangRedirect":"Auto redirection through",
  "LangHiddenWifi":"Connect to hidden WiFi network",
+ "LangType":"Type device",
 
  "_comment": "---TIMER.HTM---",
  "LangTime3":"Set time",

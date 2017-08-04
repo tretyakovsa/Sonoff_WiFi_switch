@@ -150,7 +150,7 @@
 
        if (searchModule(modules,"jalousie") == 'yes'){
         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'jalousie','success',content);}
-        document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+        document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button">';
        }
 
 
@@ -436,4 +436,17 @@
    </div>
   </div>
  </body>
+ <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+ <script>
+  // Initialize Firebase
+  var config = {
+   apiKey: "AIzaSyBdMLzco7NGgrrWYPgrPGZuzJg5M227g5I",
+   authDomain: "smart-home-dc1e5.firebaseapp.com",
+   databaseURL: "https://smart-home-dc1e5.firebaseio.com",
+   projectId: "smart-home-dc1e5",
+   storageBucket: "smart-home-dc1e5.appspot.com",
+   messagingSenderId: "574408374727"
+  };
+  firebase.initializeApp(config);
+ </script>
 </html>
