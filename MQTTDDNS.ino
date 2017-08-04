@@ -52,7 +52,7 @@ void MQTT_Pablush() {
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
-          client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
+          //client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
           loadnWidgets();
         } else {
           //Serial.println("Could not connect to MQTT server");

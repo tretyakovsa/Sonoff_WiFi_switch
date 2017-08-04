@@ -101,3 +101,65 @@ void toggleRelay(bool relayState) {
   }
 }
 
+// ---------------- Управление двигателем жалюзи
+void initJaluzi(){
+  int pinMotor1 = readArgsInt();
+  int pinMotor2 = readArgsInt();
+  configLive = jsonWrite(configLive, "pinMotor1", pinMotor1);
+  configLive = jsonWrite(configLive, "pinMotor2", pinMotor2);
+  pinMode(pinMotor1, OUTPUT);
+  pinMode(pinMotor2, OUTPUT);
+  digitalWrite(pinMotor1, LOW);
+  digitalWrite(pinMotor2, LOW);
+  configJson = jsonWrite(configJson, "stateJaluzi", 0);
+  sCmd.addCommand("jalousieon",     jaluziOn);
+  sCmd.addCommand("jalousieoff",    jaluziOff);
+  sCmd.addCommand("jalousienot",    jaluziNot);
+  modulesReg("jalousie");
+  }
+
+  void jaluziOn() {
+  configJson = jsonWrite(configJson, "stateJalousie", 1);
+  int state0 = jsonReadtoInt(configJson, "stateJalousie");
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), HIGH);
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), LOW);
+  topicPub("/jalousie/status", String(state0), 1 );
+}
+void jaluziOff() {
+  configJson = jsonWrite(configJson, "stateJalousie", 0);
+  int state0 = jsonReadtoInt(configJson, "stateJalousie");
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
+  topicPub("/jalousie/status", String(state0), 1 );
+}
+
+void jaluziNot() {
+  //configJson = jsonWrite(configJson, "mem", ESP.getFreeHeap());
+  configJson = jsonWrite(configJson, "stateJalousie", !jsonReadtoInt(configJson, "stateJalousie"));
+  int state0 = jsonReadtoInt(configJson, "stateJalousie");
+  if (state0){
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
+  }
+  else {
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), HIGH);
+  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), LOW);
+    }
+  topicPub("/jalousie/status", String(state0), 1 );
+}
+
+// читает данные из раздела state строки json и возвращает строку для смены класса кнопки
+String jalousieStatus(String json, String state) {
+  String out = "{}";
+  if (jsonReadtoInt(json, state)) {
+    out = jsonWrite(out, "title", "{{LangClose}}");
+    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
+  }
+  else {
+    out = jsonWrite(out, "title", "{{LangOpen}}");
+    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
+
+  }
+  return out;
+}
+
