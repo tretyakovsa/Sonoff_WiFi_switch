@@ -1,0 +1,195 @@
+{
+ "configs": [
+  "/config.live.json",
+  "/lang/lang.{{lang}}.json",
+  "/modules.json"
+ ],
+ "title": "{{LangOptions1}}",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-success"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
+   "response":"page.htm?relay",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangDevices}}",
+   "action": "/",
+   "class": "btn btn-block btn-danger"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "text",
+   "module":"ddns",
+   "title": "{{LangIfttt1}}",
+   "class": "alert alert-info"
+  },
+
+
+  {
+   "type": "button",
+   "title": "{{LangOpenClose}}",
+   "name":"motor",
+   "response":"[[motor]]",
+   "action": "motor",
+   "class": "btn btn-block btn-lg btn-primary"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+  {
+   "type": "h2",
+   "title": "{{LangTurn}}"
+  },
+  {
+   "type": "input",
+   "title": "{{turn}}",
+   "name":"turn",
+   "state": "{{turn}}",
+   "pattern": "[0-9]{1,3}"
+  },
+  {
+   "type": "button",
+   "module":"",
+   "title": "{{LangSave}}",
+   "class": "btn btn-block btn-success",
+   "action": "turn?turn=[[turn]]"
+  },
+
+
+
+
+  {
+   "type": "hr",
+   "module":"timers"
+  },
+
+
+  {
+   "type": "h2",
+   "module":"timers",
+   "title": "{{LangTimer}}"
+  },
+
+
+  {
+   "type": "table",
+   "module":"timers",
+   "state": "timer.save.json",
+   "title": {
+    "module":"",
+    "trigger":"On/Off",
+    "day":"{{LangDay}}",
+    "time":"{{LangTime4}}"
+   },
+   "class": "table alert alert-dismissible alert-warning",
+   "style": "width:100%;"
+  },
+  {
+   "type": "link",
+   "module":"timers",
+   "title": "{{LangTimer}}",
+   "action": "timer.htm",
+   "class": "btn btn-block btn-default"
+  },
+
+
+  {
+   "type": "hr"
+  },
+
+
+  {
+   "type": "chart",
+   "title":"{{LangAnalog}}",
+   "state": "analog.json",
+   "module":"analog",
+   "action": "/page.htm?chart&analog",
+   "style": "height:200px;margin-left:-20px"
+  },
+
+
+
+  {
+   "type": "h2",
+   "module": "movement",
+   "title": "{{LangPir1}}"
+  },
+  {
+   "type": "text",
+   "module": "movement",
+   "title": "{{LangPir2}}",
+   "class": "alert alert-info",
+   "style": "width:60%;float:left;"
+  },
+
+  {
+   "type": "input",
+   "module": "movement",
+   "title": "",
+   "name":"pir-time",
+   "state": "{{pirTime}}",
+   "style": "width:35%;float:right;",
+   "pattern": "[0-9]*[.,]?[0-9]+"
+  },
+  {
+   "type": "button",
+   "module": "movement",
+   "title": "{{LangOff.}}",
+   "action": "/pir?t=0",
+   "class": "btn btn-block btn-default",
+   "style": "width:15%;float:right;margin-top:5px;"
+  },
+  {
+   "type": "button",
+   "module": "movement",
+   "title": "{{LangSave}}",
+   "action": "/pir?t=[[pir-time]]",
+   "class": "btn btn-block btn-success",
+   "style": "width:20%;float:right;"
+  },
+
+
+  {
+   "type": "hr",
+   "module": "movement",
+   "style": "clear:both;"
+  },
+
+
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  }
+
+ ]
+}

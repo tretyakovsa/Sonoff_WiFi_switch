@@ -150,7 +150,7 @@
 
        if (searchModule(modules,"jalousie") == 'yes'){
         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'jalousie','success',content);}
-        document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+        document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
        }
 
 
@@ -403,7 +403,7 @@
     <div class="btn-group pull-right" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor/Servo)</a></li></ul>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
      <div class="btn-group">

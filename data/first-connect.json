@@ -10,7 +10,7 @@
   {
    "type": "h5",
    "title": "{{SSDP}}",
-   "class":"alert-danger"
+   "class":"alert-warning"
   },
   {
    "type": "select",
@@ -50,6 +50,7 @@
    "title": {
     "Sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
     "RGB":"RGB (WS2811-12/NeoPixel)",
+    "Jalousie":"Jalousie",
     "Smart-Room":"Smart-Room"
    }
   },

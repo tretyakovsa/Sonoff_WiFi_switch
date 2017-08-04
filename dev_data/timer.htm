@@ -49,25 +49,23 @@
     xhttp.send(null);
     xhttp.onload = function(e) {
      var ipModule=JSON.parse(xhttp.responseText);
-    // for(var key in ipModule) {
-      if (ipModule.module[0] != 'jalousie') {
-       if (content) {
-
-        if (searchModule(ipModule.module,"relay") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay">'+ipModule.space+' - '+ipModule.SSDP+' / relay<\/option>';
-        }
-        if (searchModule(ipModule.module,"rgb") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
-        }
-        if (searchModule(ipModule.module,"jalousie") == 'yes'){
-         document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
-        }
-
-       } else {
-        loadTimers(ipval,ipModule.SSDP,ipModule.space);
-       }
+     // for(var key in ipModule) {
+     //  if (ipModule.module[0] != 'jalousie') {
+     if (content) {
+      if (searchModule(ipModule.module,"relay") == 'yes'){
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / relay<\/option>';
       }
-  //   }
+      if (searchModule(ipModule.module,"rgb") == 'yes'){
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
+      }
+      if (searchModule(ipModule.module,"jalousie") == 'yes'){
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie" onclick="html(\'val-on\',\''+jsonResponse["LangOpen"]+'\');html(\'val-off\',\''+jsonResponse["LangClose"]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
+      }
+     } else {
+      loadTimers(ipval,ipModule.SSDP,ipModule.space);
+     }
+     //   }
+     //   }
     }
    }
 
@@ -88,6 +86,8 @@
      for (var i = 0; i < timers.timer.length; i++) {
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+      //if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
+      //if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
       if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-danger">relay<\/span>';}
       if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-info">rgb<\/span>';}
@@ -137,8 +137,8 @@
      <div class="col-xs-5 col-md-2">
       <select class="btn btn-default form-control" id="trigger">
        <option value="not">{{LangSwitch.}}</option>
-       <option value="on">{{LangOn.}}</option>
-       <option value="off">{{LangOff.}}</option>
+       <option value="on" id="val-on">{{LangOn.}}</option>
+       <option value="off" id="val-off">{{LangOff.}}</option>
       </select>
      </div>
      <div class="col-xs-7 col-md-3">

@@ -10,7 +10,7 @@
   {
    "type": "h5",
    "title": "{{SSDP}}",
-   "class":"alert-danger"
+   "class":"alert-default"
   },
   {
    "type": "select",

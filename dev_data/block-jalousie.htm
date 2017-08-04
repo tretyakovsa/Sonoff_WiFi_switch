@@ -1,14 +1,17 @@
 <div class="col-md-6">
-<div class="block">
- <h5 class="alert-success"><a href="http://{{ip}}">{{SSDP}}</a></h5>
- <div class="alert alert-dismissible alert-warning {{g258426-{{ip}}}}">
-  <button class="close" onclick="hide('g258426-{{ip}}',this);" type="button">×</button>
-  {{LangTime4}} <b>{{timeUp}}</b>
-  <br>{{LangTime5}} <b>{{timeDown}}</b>
+ <div class="block">
+  <h5 class="alert-success"><a href="http://{{ip}}">{{SSDP}}</a></h5>
+  <div class="alert alert-dismissible alert-warning {{g691423-{{ip}}}}">
+   <button class="close" onclick="hide('g691423-{{ip}}',this);" type="button">×</button>
+   <a href="http://{{ip}}/timer.htm" target="_blank" class="close"><i class="popup-img"></i></a>
+   <ul>{{timerList}}</ul>
+  </div>
+  <hr>
+  <input type="button" onclick="ajax('{{ip}}', 'motor', this);" value="{{state}}" class="btn btn-block btn-lg btn-primary">
+  <hr>
+  <div class="btn-group btn-block">
+   <a href="http://{{ip}}/page.htm?jalousie" class="btn btn-default" style="width:80%"><i class="set-img"></i>{{LangOptions1}}</a>
+   <a href="http://{{ip}}/page.htm?setup" class="btn btn-default" style="width:20%"><i class="opt-img"></i></a>
+  </div>
  </div>
- <hr>
- <input type="button" onclick="ajax('{{ip}}', 'motor', this);" value="{{state}}" class="btn btn-block btn-lg btn-primary">
- <hr>
- <a href="http://{{ip}}/jalousie.htm" class="btn btn-block btn-default"><i class="set-img"></i>{{LangOptions1}}</a>
-</div>
 </div>
