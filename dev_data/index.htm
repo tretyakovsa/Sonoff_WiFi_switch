@@ -194,6 +194,7 @@
       jsonResponse.ip = ipval;
       jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+      jsonResponse.stateJalousie = (jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose);
 
       if (page == 'analog') {
        jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
@@ -337,12 +338,12 @@
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
      <!-- select class="btn btn-default" onchange="ajax('{{ip}}', 'lang?set='+this.value, this)" id="languages">
-      <option value="ru">Lang</option>
-      <option value="ru">RU</option>
-      <option value="en">EN</option>
-      <option value="lv">LV</option>
-      <option value="ua">UA</option>
-     </select -->
+<option value="ru">Lang</option>
+<option value="ru">RU</option>
+<option value="en">EN</option>
+<option value="lv">LV</option>
+<option value="ua">UA</option>
+</select -->
      <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
@@ -375,4 +376,17 @@
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
  </body>
+ <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+ <script>
+  // Initialize Firebase
+  var config = {
+   apiKey: "AIzaSyBdMLzco7NGgrrWYPgrPGZuzJg5M227g5I",
+   authDomain: "smart-home-dc1e5.firebaseapp.com",
+   databaseURL: "https://smart-home-dc1e5.firebaseio.com",
+   projectId: "smart-home-dc1e5",
+   storageBucket: "smart-home-dc1e5.appspot.com",
+   messagingSenderId: "574408374727"
+  };
+  firebase.initializeApp(config);
+ </script>
 </html>

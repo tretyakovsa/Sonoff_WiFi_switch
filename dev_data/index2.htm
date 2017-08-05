@@ -159,7 +159,7 @@
        }
        if (searchModule(modules,"jalousie") == 'yes'){
         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';}
-        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'jalousie\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
        }
 
        if (window.location.hostname == ipval && stage == 'first') {
@@ -358,4 +358,17 @@
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
  </body>
+ <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+ <script>
+  // Initialize Firebase
+  var config = {
+   apiKey: "AIzaSyBdMLzco7NGgrrWYPgrPGZuzJg5M227g5I",
+   authDomain: "smart-home-dc1e5.firebaseapp.com",
+   databaseURL: "https://smart-home-dc1e5.firebaseio.com",
+   projectId: "smart-home-dc1e5",
+   storageBucket: "smart-home-dc1e5.appspot.com",
+   messagingSenderId: "574408374727"
+  };
+  firebase.initializeApp(config);
+ </script>
 </html>
