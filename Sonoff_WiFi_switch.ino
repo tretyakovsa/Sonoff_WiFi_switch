@@ -95,8 +95,9 @@ void setup() {
     sCmd.readStr("HTTP");
     //configs = "Basic";
   }
-  Serial.println (configs);
+
   Serial.println(modulesInit(init, configs));
+  Serial.println (configLive);
   Serial.println ("Start");
 }
 

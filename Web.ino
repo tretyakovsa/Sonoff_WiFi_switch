@@ -43,7 +43,7 @@ void handle_leng() {
   HTTP.send(200, "text/plain", "OK");
 }
 
-// ------------------Установка языка
+// ------------------Установка конфигурации
 void handle_configs() {
   configJson = jsonWrite(configJson, "configs", HTTP.arg("set"));
   writeFile("config.save.json", configJson );

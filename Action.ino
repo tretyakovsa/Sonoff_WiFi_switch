@@ -121,7 +121,7 @@ void initJalousie(){
   void jalousieOn() {
   configJson = jsonWrite(configJson, "stateJalousie", 1);
   int state0 = jsonReadtoInt(configJson, "stateJalousie");
-  Serial.println(state0);
+  Serial.println(1);
   digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), HIGH);
   digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), LOW);
   topicPub("/jalousie/status", String(state0), 1 );
@@ -129,7 +129,7 @@ void initJalousie(){
 void jalousieOff() {
   configJson = jsonWrite(configJson, "stateJalousie", 0);
   int state0 = jsonReadtoInt(configJson, "stateJalousie");
-    Serial.println(state0);
+    Serial.println(0);
   digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
   digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
   topicPub("/jalousie/status", String(state0), 1 );
@@ -139,7 +139,7 @@ void jalousieNot() {
   //configJson = jsonWrite(configJson, "mem", ESP.getFreeHeap());
   configJson = jsonWrite(configJson, "stateJalousie", !jsonReadtoInt(configJson, "stateJalousie"));
   int state0 = jsonReadtoInt(configJson, "stateJalousie");
-    Serial.println(state0);
+    Serial.println(12);
   if (state0){
   digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
   digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
