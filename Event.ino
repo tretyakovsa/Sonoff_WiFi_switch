@@ -16,7 +16,7 @@ void initTach() {
 void Tach_0() {
   static unsigned long millis_prev;
   // Устроняем дребезг контакта
-  if (millis() - 100 > millis_prev) {
+  if (millis() - 500 > millis_prev) {
     command = jsonRead(configJson, "TachCommand");
   }
   millis_prev = millis();
