@@ -129,7 +129,7 @@ void initJalousie() {
 void turn_0() {
   static unsigned long millis_prev;
   // Устроняем дребезг контакта
-  if (millis() - 300 > millis_prev) {
+  if (millis() - 500 > millis_prev) {
     int turnSensor = jsonReadtoInt(configLive, "turnSensor");
     turnSensor++; // счетчик количества оборотов
     configLive = jsonWrite(configLive, "turnSensor", turnSensor);
