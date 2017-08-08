@@ -111,6 +111,7 @@ void initJalousie() {
   int pinMotor2 = readArgsInt();
   configLive = jsonWrite(configLive, "pinMotor1", pinMotor1);
   configLive = jsonWrite(configLive, "pinMotor2", pinMotor2);
+  configJson = jsonWrite(configJson, "stateJalousie", 1);
   pinMode(pinMotor1, OUTPUT);
   pinMode(pinMotor2, OUTPUT);
   digitalWrite(pinMotor1, LOW);
