@@ -116,7 +116,6 @@ void initJalousie() {
   pinMode(pinMotor2, OUTPUT);
   digitalWrite(pinMotor1, LOW);
   digitalWrite(pinMotor2, LOW);
-  configJson = jsonWrite(configJson, "stateJalousie", 0);
   sCmd.addCommand("jalousieopen",     jalousieOpen);
   sCmd.addCommand("jalousieclose",    jalousieClose);
   sCmd.addCommand("jalousienot",    jalousieNot);
