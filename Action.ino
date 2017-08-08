@@ -106,7 +106,7 @@ void initJalousie() {
    // Сенсор будет работать по прерыванию
   int pinTurn = readArgsInt();
   attachInterrupt(pinTurn, turn_0, FALLING );
-  //configLive = jsonWrite(configLive, "pinTurn", pinTurn));
+  configLive = jsonWrite(configLive, "pinTurn", pinTurn);
   int pinMotor1 = readArgsInt();
   int pinMotor2 = readArgsInt();
   configLive = jsonWrite(configLive, "pinMotor1", pinMotor1);
@@ -167,6 +167,7 @@ void jalousieStop() {
 
 void jalousieTurn(){
   configJson = jsonWrite(configJson, "turn", readArgsInt());
+  writeFile("config.save.json", configJson );
   }
 
 void jalousieNot() {
