@@ -53,13 +53,21 @@
      //  if (ipModule.module[0] != 'jalousie') {
      if (content) {
       if (searchModule(ipModule.module,"relay") == 'yes'){
-       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / relay<\/option>';
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');val(\'val-off\',\'off\');val(\'val-on\',\'on\');">'+ipModule.space+' - '+ipModule.SSDP+' / relay<\/option>';
       }
       if (searchModule(ipModule.module,"rgb") == 'yes'){
-       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');val(\'val-off\',\'close\');val(\'val-on\',\'open\');">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
       }
       if (searchModule(ipModule.module,"jalousie") == 'yes'){
-       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie" onclick="html(\'val-on\',\''+jsonResponse["LangOpen"]+'\');html(\'val-off\',\''+jsonResponse["LangClose"]+'\');">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie" onclick="html(\'val-on\',\''+jsonResponse["LangOpen"]+'\');html(\'val-off\',\''+jsonResponse["LangClose"]+'\');val(\'val-off\',\'off\');val(\'val-on\',\'on\');">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
+
+       if (location.hostname == ipval){
+        html('val-on',jsonResponse["LangOpen"]);
+        html('val-off', jsonResponse["LangClose"]);
+        val('val-off','close');
+        val('val-on','open');
+       }
+
       }
      } else {
       loadTimers(ipval,ipModule.SSDP,ipModule.space);
@@ -86,8 +94,8 @@
      for (var i = 0; i < timers.timer.length; i++) {
       if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
       if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-      //if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
-      //if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
+      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
+      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
       if (timers.timer[i].module == "relay") {timers.timer[i].module = '<span class="label label-danger">relay<\/span>';}
       if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-info">rgb<\/span>';}
