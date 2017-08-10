@@ -65,8 +65,8 @@
 
    function setContent(stage) {
     var xmlHttp=createXmlHttpObject();
-
-    xmlHttp.open('GET', (pages[0]?pages[0]:'index')+".json",true);
+    pages[0] = (pages[0]?pages[0]:'index');
+    xmlHttp.open('GET', pages[0]+".json",true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
 

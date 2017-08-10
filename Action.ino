@@ -105,7 +105,7 @@ void toggleRelay(bool relayState) {
 void initJalousie() {
    // Сенсор будет работать по прерыванию
   int pinTurn = readArgsInt();
-  attachInterrupt(pinTurn, turn_0, RISING );
+  attachInterrupt(pinTurn, turn_0, FALLING );
   configLive = jsonWrite(configLive, "pinTurn", pinTurn);
   int pinMotor1 = readArgsInt();
   int pinMotor2 = readArgsInt();
