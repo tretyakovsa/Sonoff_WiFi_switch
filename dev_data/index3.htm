@@ -221,7 +221,7 @@
       if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      timerList += '<a class="label label-default" href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+'<br>';
+      timerList += '<a class="label label-default" href="http://'+jsonResponse.ip+'/timer.htm">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
      }
      document.getElementById("timers-"+ipval).innerHTML+=''+(timerList?timerList:'')+'';
     }

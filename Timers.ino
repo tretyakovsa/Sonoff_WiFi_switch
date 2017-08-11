@@ -19,7 +19,7 @@ void handle_timer_Save() {
   record["module"]  = HTTP.arg("module");
   record["day"]  = HTTP.arg("day");
   record["time"]  = HTTP.arg("time");
-  record["work"]  = HTTP.arg("work").toInt();
+  record["work"]  = HTTP.arg("work");
   jsonTimer = "";
   Timers.printTo(jsonTimer);
   writeFile("timer.save.json", jsonTimer );

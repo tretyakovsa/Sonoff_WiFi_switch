@@ -109,7 +109,8 @@
     "module":"",
     "trigger":"On/Off",
     "day":"{{LangDay}}",
-    "time":"{{LangTime4}}"
+    "time":"{{LangTime4}}",
+    "work":"{{LangWorkTime}}"
    },
    "class": "table alert alert-dismissible alert-warning",
    "style": "width:100%;"
