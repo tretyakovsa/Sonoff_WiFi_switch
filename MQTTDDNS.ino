@@ -64,6 +64,10 @@ void MQTT_Pablush() {
 
 void  handleMQTT() {
   if (client.connected()) client.loop();
+  else {
+    MQTT_Pablush();
+    //Serial.println("MQTT");
+    }
 }
 
 //Установка параметров  http://192.168.0.101/mqtt?server=m13.cloudmqtt.com&port=15535&user=cxluynva&pass=4cje5WEkzqvR

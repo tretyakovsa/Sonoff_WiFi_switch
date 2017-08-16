@@ -1,7 +1,7 @@
 void initTimers() {
   HTTP.on("/timerSave", handle_timer_Save);
   HTTP.on("/timersDel", handle_timer_Del);
-// задача проверять таймеры каждую секунду.
+  // задача проверять таймеры каждую секунду.
   ts.add(0, 1000, [&](void*) {
     runTimers();
   }, nullptr, true);
@@ -46,6 +46,7 @@ void handle_timer_Del() {
   HTTP.send(200, "text/plain", "OK");
 }
 
+
 bool loadTimer() {
   Timerset = "";
   jsonTimer = readFile("timer.save.json", 4096);
@@ -57,10 +58,12 @@ bool loadTimer() {
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       if ((Weekday == Timers["timer"][i]["day"].as<String>()) || (Timers["timer"][i]["day"].as<String>() == "All")) {
+
         Timerset += Timers["timer"][i]["time"].as<String>() + ",";
         Timerset += Timers["timer"][i]["module"].as<String>() + ",";
+        Timerset += Timers["timer"][i]["trigger"].as<String>()+ ",";
         Timerset += Timers["timer"][i]["work"].as<String>() + ",";
-        Timerset += Timers["timer"][i]["trigger"].as<String>();
+        Timerset += Timers["timer"][i]["id"].as<String>();
         Timerset += "\r\n";
       }
     }
@@ -69,7 +72,6 @@ bool loadTimer() {
   //runTimers();
   return true;
 }
-
 void runTimers() {
   // Список текущих таймеров во временную переменную
   String timers = Timerset;
@@ -83,23 +85,28 @@ void runTimers() {
     if (i != -1) {
       // получаем строку текщего таймера
       String timer = timers.substring(0, i);
-      // Если время совпадает с текущим
-      //Serial.println(GetTime());
       if (timer.substring(0, 8) == now) {
-        // Отрезаем время из строки 12:44:15,relay,0,not
-        timer = timer.substring(9);
-        int b = timer.indexOf(",");
-        String temp = timer.substring(0, b);
-        Serial.println(temp);
-        int e = timer.lastIndexOf(",");
-        // Загружаем время работы реле
-        int interval = timer.substring(b, e).toInt();
+        // Отрезаем время из строки 12:44:15,relay,not,work,id
+        timer = deleteBeforeDelimiter(timer, ",");
+        // Выделяем модуль
+        String module = selectToMarker (timer, ",");
+        // отрезаем модуль
+        timer = deleteBeforeDelimiter(timer, ",");
+        // Выделяем команду
+        String com = selectToMarker (timer, ",");
+        // отрезаем команду
+        timer = deleteBeforeDelimiter(timer, ",");
+        // Выделяем интервал таймера
+        String interval = selectToMarker (timer, ",");
+        // отрезаем интервал
+        timer = deleteBeforeDelimiter(timer, ",");
+        // выделяем id таймера
+        String id = selectToMarker (timer, "\r\n");
         // выполняем необходимое действие
-        temp += timer.substring(e + 1);
-        Serial.println(temp);
-        if (temp != "") {
-          command = temp;
-        }
+
+          command = module+com + " " + interval+" "+id;
+          Serial.println(command);
+
 
       }
       timers = timers.substring(timers.indexOf("\r\n") + 2);

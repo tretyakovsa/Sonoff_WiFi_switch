@@ -3,7 +3,7 @@
 #include <ESP8266SSDP.h>             //Содержится в пакете
 #include <FS.h>                      //Содержится в пакете
 #include <time.h>                    //Содержится в пакете
-#include <Ticker.h>                  //Содержится в пакете
+//#include <Ticker.h>                  //Содержится в пакете
 #include <WiFiUdp.h>                 //Содержится в пакете
 #include <ESP8266HTTPUpdateServer.h> //Содержится в пакете
 #include <ESP8266httpUpdate.h>       //Содержится в пакете

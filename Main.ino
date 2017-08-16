@@ -27,16 +27,28 @@ void unrecognized(const char *command) {
   Serial.println("What?");
 }
 
-void uart(){
+
+unsigned int timeToSec(String inTime) {
+  String secstr = selectToMarker (inTime, ":"); // часы
+  unsigned int  sec = secstr.toInt() * 3600;
+  secstr = deleteBeforeDelimiter(inTime, ":");
+  secstr = selectToMarker (secstr, ":");
+  sec = sec + secstr.toInt() * 60;
+  secstr = selectToMarkerLast (inTime, ":");
+  sec = sec + secstr.toInt();
+  return sec;
+}
+
+void uart() {
   Serial.end();
   Serial.begin(readArgsInt());
   delay(100);
-  }
+}
 
 String readArgsString() {
   String arg;
   arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
-  if (arg=="") arg="";
+  if (arg == "") arg = "";
   return arg;
 }
 
@@ -116,7 +128,7 @@ String jsonWrite(String json, String name, int volume) {
 
 // ------------- Создание данных для графика
 String graf(int datas, int points, int refresh, String options) {
-   String root = "{}";  // Формировать строку для отправки в браузер json формат
+  String root = "{}";  // Формировать строку для отправки в браузер json формат
   // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
   DynamicJsonBuffer jsonBuffer;
@@ -133,7 +145,7 @@ String graf(int datas, int points, int refresh, String options) {
   root = "";
   json.printTo(root);
   return root;
-  }
+}
 
 // --------------Создание данных для графика
 String graf(int datas, int points, int refresh) {
@@ -228,8 +240,44 @@ String deleteBeforeDelimiter(String str, String found) {
   return str.substring(p);
 }
 
+// -------------------
+
+
 // ------------------- Проверка доступности pin
 int pinOk(int pin) {
   if ((pin > 5 && pin < 12) || pin > 16) return 32;
   return pin;
+}
+
+String jsonFilterArray(String jsonArray, String value){
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Timers = jsonBuffer.parseObject(jsonArray);
+  JsonArray& nestedArray = Timers[value].asArray();
+  String root = "";
+  nestedArray.printTo(root);
+  return root;
+  }
+
+// /json?file=test.json&id=module&search=relay
+// Фильтр на json фаил
+String jsonFilter(String jsonString, String column, String value) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonArray& nestedArray = jsonBuffer.parseArray(jsonString);
+  int j = nestedArray.size();
+  Serial.println(value+" "+column);
+  jsonString = "[";
+  if (j != 0) {
+    for (int i = 0; i <= j - 1; i++) {
+      boolean pFind = (value == nestedArray[i][column].as<String>());
+      if (pFind) {
+       //nestedArray.removeAt(i);
+       jsonString += nestedArray[i].as<String>();
+       if (i<=j-1) jsonString += ",";
+       //i--;
+      }
+    }
+  }
+jsonString += "]";
+  //nestedArray.printTo(jsonString);
+  return jsonString;
 }

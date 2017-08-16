@@ -75,6 +75,10 @@ void relayOff() {
   topicPub("/RELE_1_not/status", String(state0), 1 );
 }
 void relayNot() {
+  String str = readArgsString();
+  if (str != "") Serial.println(timeToSec(str));
+
+
   //configJson = jsonWrite(configJson, "mem", ESP.getFreeHeap());
   configJson = jsonWrite(configJson, "state", !jsonReadtoInt(configJson, "state"));
   int state0 = jsonReadtoInt(configJson, "state");
@@ -103,7 +107,7 @@ void toggleRelay(bool relayState) {
 
 // ---------------- Управление двигателем жалюзи
 void initJalousie() {
-   // Сенсор будет работать по прерыванию
+  // Сенсор будет работать по прерыванию
   int pinTurn = readArgsInt();
   attachInterrupt(pinTurn, turn_0, FALLING );
   configLive = jsonWrite(configLive, "pinTurn", pinTurn);
@@ -135,8 +139,8 @@ void turn_0() {
     configLive = jsonWrite(configLive, "turnSensor", turnSensor);
     int turn = jsonReadtoInt(configJson, "turn");
     if (turnSensor == turn) {     //Останавливаем
-    configLive = jsonWrite(configLive, "turnSensor", 0);
-    command = "jalousiestop";
+      configLive = jsonWrite(configLive, "turnSensor", 0);
+      command = "jalousiestop";
 
     }
   }
@@ -144,18 +148,24 @@ void turn_0() {
 }
 
 void jalousieOpen() {
-  configJson = jsonWrite(configJson, "stateJalousie", 1);
   int state0 = jsonReadtoInt(configJson, "stateJalousie");
-  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
-  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
-  topicPub("/jalousie/status", String(state0), 1 );
+  if (!state0) {
+    configJson = jsonWrite(configJson, "stateJalousie", 1);
+    state0 = !state0;
+    digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), HIGH);
+    digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), LOW);
+    topicPub("/jalousie/status", String(state0), 1 );
+  }
 }
 void jalousieClose() {
-  configJson = jsonWrite(configJson, "stateJalousie", 0);
   int state0 = jsonReadtoInt(configJson, "stateJalousie");
-  digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), HIGH);
-  digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), LOW);
-  topicPub("/jalousie/status", String(state0), 1 );
+  if (state0) {
+    configJson = jsonWrite(configJson, "stateJalousie", 0);
+    state0 = !state0;
+    digitalWrite(jsonReadtoInt(configLive, "pinMotor1"), HIGH);
+    digitalWrite(jsonReadtoInt(configLive, "pinMotor2"), LOW);
+    topicPub("/jalousie/status", String(state0), 1 );
+  }
 }
 
 void jalousieStop() {
@@ -165,10 +175,10 @@ void jalousieStop() {
 
 }
 
-void jalousieTurn(){
+void jalousieTurn() {
   configJson = jsonWrite(configJson, "turn", readArgsInt());
   writeFile("config.save.json", configJson );
-  }
+}
 
 void jalousieNot() {
   //configJson = jsonWrite(configJson, "mem", ESP.getFreeHeap());
