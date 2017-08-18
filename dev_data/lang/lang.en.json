@@ -34,6 +34,7 @@
  "LangQuestion":"Are you sure?",
  "LangUpgrade":"Install new version?",
  "LangDonate":"Donate",
+ "LangSoon":"<label class=\"label label-danger\">Soon...</label>",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Device Name",

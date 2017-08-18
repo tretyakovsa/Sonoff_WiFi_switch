@@ -34,6 +34,7 @@
  "LangQuestion":"Вы уверены?",
  "LangUpgrade":"Установить новое обновление?",
  "LangDonate":"Поддержи проект",
+ "LangSoon":"<label class=\"label label-danger\">Скоро...</label>",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Имя устройства",

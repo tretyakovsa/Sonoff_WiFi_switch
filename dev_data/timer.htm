@@ -56,10 +56,10 @@
        document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=relay" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');val(\'val-off\',\'off\');val(\'val-on\',\'on\');">'+ipModule.space+' - '+ipModule.SSDP+' / relay<\/option>';
       }
       if (searchModule(ipModule.module,"rgb") == 'yes'){
-       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');val(\'val-off\',\'close\');val(\'val-on\',\'open\');">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=rgb" onclick="html(\'val-on\',\''+jsonResponse["LangOn."]+'\');html(\'val-off\',\''+jsonResponse["LangOff."]+'\');val(\'val-off\',\'off\');val(\'val-on\',\'on\');">'+ipModule.space+' - '+ipModule.SSDP+' / rgb<\/option>';
       }
       if (searchModule(ipModule.module,"jalousie") == 'yes'){
-       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie" onclick="html(\'val-on\',\''+jsonResponse["LangOpen"]+'\');html(\'val-off\',\''+jsonResponse["LangClose"]+'\');val(\'val-off\',\'off\');val(\'val-on\',\'on\');">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
+       document.getElementById("device").innerHTML += '<option value="'+ipval+'/timerSave?module=jalousie" onclick="html(\'val-on\',\''+jsonResponse["LangOpen"]+'\');html(\'val-off\',\''+jsonResponse["LangClose"]+'\');val(\'val-off\',\'close\');val(\'val-on\',\'open\');">'+ipModule.space+' - '+ipModule.SSDP+' / jalousie<\/option>';
 
        if (location.hostname == ipval){
         html('val-on',jsonResponse["LangOpen"]);

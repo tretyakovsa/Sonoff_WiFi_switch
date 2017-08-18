@@ -34,6 +34,7 @@
  "LangQuestion":"Vai tu esi pārliecināts?",
  "LangUpgrade":"Installet jaunu versiju?",
  "LangDonate":"Atbalstīt projektu",
+ "LangSoon":"<label class=\"label label-danger\">Driz...</label>",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Ierīces nosaukums",

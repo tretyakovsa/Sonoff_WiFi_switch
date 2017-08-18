@@ -8,7 +8,7 @@
 
 ## Upload instruction
 
-### [NodeMCU Flasher (Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
+### [NodeMCU Flasher (Quick start / Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
 
 ### [Arduino Windows (Video)](https://www.youtube.com/watch?v=jMK9mySGHio)
 

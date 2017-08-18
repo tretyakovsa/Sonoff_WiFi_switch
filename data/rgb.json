@@ -117,7 +117,7 @@
 
   {
    "type": "h4",
-   "title": "{{LangTime8}}"
+   "title": "{{LangTime8}} {{LangSoon}}"
   },
   {
    "type": "select",
@@ -140,7 +140,7 @@
   },
   {
    "type": "h4",
-   "title": "{{LangTime5}}"
+   "title": "{{LangTime5}} {{LangSoon}}"
   },
   {
    "type": "input",
