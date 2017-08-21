@@ -238,7 +238,7 @@
   {
    "type": "text",
    "module": "movement",
-   "title": "{{LangPir2}}",
+   "title": "{{LangPir2}} {{LangSoon}}",
    "class": "alert alert-info",
    "style": "width:60%;float:left;"
   },

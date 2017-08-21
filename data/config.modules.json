@@ -235,5 +235,34 @@
   {
    "type": "MQTT"
   }
+ ],
+ "Leakag": [
+  {
+   "type": "Serial 115200"
+  },
+  {
+   "type": "wifi 20 13"
+  },
+  {
+   "type": "NTP"
+  },
+  {
+   "type": "Upgrade"
+  },
+  {
+   "type": "SSDP"
+  },
+  {
+   "type": "HTTP"
+  },
+  {
+   "type": "DDNS"
+  },
+  {
+   "type": "TIMERS"
+  },
+  {
+   "type": "MQTT"
+  }
  ]
 }

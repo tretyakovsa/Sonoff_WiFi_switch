@@ -51,6 +51,7 @@
     "Sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
     "RGB":"RGB (WS2811-12/NeoPixel)",
     "Jalousie":"Jalousie",
+    "Leakag":"Leakag",
     "Smart-Room":"Smart-Room"
    }
   },
