@@ -23,6 +23,7 @@
 #include <WS2812FX.h>                //https://github.com/MTJoker/WS2812FX
 #include <RCSwitch.h>                //Ставим через менеджер библиотек
 
+
 #define d18b20PIN 14
 DHT dht;
 RCSwitch mySwitch = RCSwitch();
