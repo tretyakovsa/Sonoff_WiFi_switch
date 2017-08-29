@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v31.07.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v28.08.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
 
     document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
-    document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-warning">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+    document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-danger">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
 
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);

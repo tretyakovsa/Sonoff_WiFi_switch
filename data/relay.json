@@ -108,7 +108,7 @@
    "state": "timer.save.json",
    "title": {
     "module":"",
-    "trigger":"On/Off",
+    "trigger":"{{LangOn.}}/{{LangOff.}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
     "work":"{{LangWorkTime}}"

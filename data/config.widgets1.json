@@ -1,27 +1,27 @@
 {
-  "nWidgets": [
-    {
-      "id": 0,
-      "page": "buttons",
-      "descr": "Toggle",
-      "widget": "toggle",
-      "color": "green",
-      "topic": "/RELE_1_not"
-    },
-    {
-      "id": "1",
-	  "page": "grafics",
-      "descr": "Steel 1",
-      "widget": "steel",
-      "topic": "/steel1",
-      "widgetConfig": {
-        "width": "auto",
-        "height": 100,
-        "type": "Linear",
-        "titleString": "Thermometer 2",
-        "unitString": "temp C",
-        "threshold": 40
-      }
-    }
-  ]
+ "nWidgets": [
+  {
+   "id": 0,
+   "page": "buttons",
+   "descr": "Toggle",
+   "widget": "toggle",
+   "color": "green",
+   "topic": "/RELE_1_not"
+  },
+  {
+   "id": "1",
+   "page": "grafics",
+   "descr": "Steel 1",
+   "widget": "steel",
+   "topic": "/steel1",
+   "widgetConfig": {
+    "width": "auto",
+    "height": 100,
+    "type": "Linear",
+    "titleString": "Thermometer 2",
+    "unitString": "temp C",
+    "threshold": 40
+   }
+  }
+ ]
 }

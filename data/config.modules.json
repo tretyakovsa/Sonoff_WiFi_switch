@@ -78,7 +78,7 @@
    "type": "MQTT"
   }
  ],
- "sonoff": [
+ "Sonoff": [
   {
    "type": "wifi 20 13"
   },

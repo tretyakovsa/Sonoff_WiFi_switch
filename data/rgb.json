@@ -61,7 +61,7 @@
 
   {
    "type": "select",
-   "state": "{{ModeRGB}}",
+   "state": "{{modeRGB}}",
    "name":"dynamic",
    "response":"[[rgb]]",
    "action": "set?m=[[dynamic]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
@@ -163,7 +163,7 @@
    "type": "range",
    "title": "{{LengBrightness}}",
    "name":"brightness",
-   "state":"{{BrightnessRGB}}",
+   "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
    "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "pattern":"min=0 max=255 step=1"
@@ -198,7 +198,7 @@
    "state": "timer.save.json",
    "title": {
     "module":"",
-    "trigger":"On/Off",
+    "trigger":"{{LangOn.}}/{{LangOff.}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
     "work":"{{LangWorkTime}}"

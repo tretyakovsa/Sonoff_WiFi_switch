@@ -2,22 +2,45 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v31.07.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v28.08.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v31.07.2017"></script>
+  <script type="text/javascript" src="js/function.js?v28.08.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timers</title>
   <script type="text/javascript">
    var set_real_time;
-   function handleServerResponse(){
-    clearTimeout(set_real_time);
-    var res = jsonResponse.time.split(":");
-    real_time(hours=res[0],min=res[1],sec=res[2]);
-    html("timer-list", ' ');
-    loadTimers(jsonResponse.ip);
-    html("device", ' ');
-    loadDevice('first');
+   var jsonResponse;
+   function handleServerResponse(state){
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "/config.live.json", true)
+    xhttp.send(null);
+    xhttp.onload = function(e) {
+     var jsonResponse1=JSON.parse(xhttp.responseText);
+     xhttp.open("GET", "/lang/lang."+jsonResponse1.lang+".json", true)
+     xhttp.send(null);
+     xhttp.onload = function(e) {
+      var jsonLang=JSON.parse(xhttp.responseText);
+      jsonResponse = Object.assign(jsonResponse1, jsonLang);
+      var new_string2;
+      var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+      for (var key in jsonResponse) {
+       new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+       bodyData = new_string2;
+      }
+      document.getElementsByTagName('body')[0].innerHTML = new_string2;
+      clearTimeout(set_real_time);
+      var res = jsonResponse.time.split(":");
+      real_time(hours=res[0],min=res[1],sec=res[2]);
+      html("timer-list", ' ');
+      loadTimers(jsonResponse.ip);
+      html("device", ' ');
+      loadDevice('first');
+      if (state == 'first') {
+       toggle('content','hide');
+      }
+     }
+    }
    }
 
    function real_time(hours,min,sec) {
@@ -41,7 +64,6 @@
      }
     }
    }
-
 
    function loadModule(ipval) {
     var xhttp=createXmlHttpObject();
@@ -78,10 +100,6 @@
    }
 
 
-
-
-
-
    function loadTimers(ip,ssdp,space){
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open("GET", "http://"+ip+"/timer.save.json", true);
@@ -101,14 +119,14 @@
       if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<span class="label label-info">rgb<\/span>';}
       if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<span class="label label-success">jalousie<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td>'+timers.timer[i].work+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');load();}" type="button"><\/td><\/tr>';
+      html += '<tr><td style="text-align:left;">'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td><b>'+timers.timer[i].day+'<\/b><\/td><td>'+timers.timer[i].time+'<\/td><td>'+timers.timer[i].work+'<\/td><td style="text-align:right;"><input class="btn btn-sm btn-danger" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+(ssdp?ssdp+' / ':'')+timers.timer[i].day+' '+timers.timer[i].time+' - '+jsonResponse.LangDel+'?\')){send_request(this,\'http://'+ip+'/timersDel?id='+timers.timer[i].id+'\');handleServerResponse(\'\');}" type="button"><\/td><\/tr>';
      }
      document.getElementById("timer-list").innerHTML += (html?html:'<tr><td colspan="5">'+jsonResponse.LangNoTimers+'<\/td><\/tr>');
     }
    }
   </script>
  </head>
- <body onload="load('first');">
+ <body onload="handleServerResponse('first');">
   <div class="container loader-bg">
    <div class="row hidden" id="content">
     <h1 id="title">{{LangTimer}}</h1>
@@ -138,7 +156,7 @@
        <tr><td colspan="5">{{LangLoading}}</td></tr>
       </tbody>
      </table>
-     <input class="btn btn-block btn-default" value="{{LangMoreDevice}}" onclick="loadDevice();" type="button">
+     <!-- <input class="btn btn-block btn-default" value="{{LangMoreDevice}}" onclick="loadDevice();" type="button"> -->
      <hr>
      <h2>{{LangTime3}}</h2>
      <div class="alert alert-dismissible alert-warning {{g3452}}"><button class="close" onclick="hide('g2532',this);" type="button">×</button>{{LangTime6}}</div>
@@ -171,7 +189,7 @@
        <span class="input-group-addon">{{LangWorkTime}}</span> <input id="work" oninput="if(this.value.length==2 || this.value.length==5)this.value+=':'" maxlength="8" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" class="form-control" placeholder="{{LangExample}}: 00:40:00">
       </div>
      </div>
-     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time')+'&work='+val('work'));load('');" type="button">
+     <input class="btn btn-block btn-success" value="{{LangSave}}" onclick="(val('work-time')?'':val('work-time','12:00:00'));send_request(this,'http://'+val('device')+'&trigger='+val('trigger')+'&id='+Math.floor(Math.random()*10000)+'&day='+val('day')+'&time='+val('work-time')+'&work='+val('work'));handleServerResponse('');" type="button">
      <hr>
     </div>
    </div>
