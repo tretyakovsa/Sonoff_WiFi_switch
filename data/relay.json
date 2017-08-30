@@ -120,7 +120,7 @@
    "type": "link",
    "module":"timers",
    "title": "{{LangTimer}}",
-   "action": "timer.htm",
+   "action": "page.htm?timer",
    "class": "btn btn-block btn-default"
   },
 

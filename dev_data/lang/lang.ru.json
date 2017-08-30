@@ -60,7 +60,7 @@
  "LangHiddenWifi":"Подключится к скрытой WiFi сети",
  "LangType":"Тип устройства",
 
- "_comment": "---TIMER.HTM---",
+ "_comment": "---page.htm?timer---",
  "LangTime3":"Установить время",
  "LangTime4":"Время",
  "LangList":"Список",

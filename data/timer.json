@@ -78,7 +78,7 @@
   },
   {
    "type": "table",
-   "name":"timers-list",
+   "name":"timer-list",
    "state": "timer.save.json",
    "title": {
     "module":"",
@@ -155,6 +155,7 @@
   {
    "type": "button",
    "title": "{{LangSave}}",
+    "response":"[[timer-list]]",
    "module": "",
    "class": "btn btn-block btn-success",
    "action": "/timerSave?module=[[module]]&trigger=[[trigger]]&id=[[time]]&day=[[day]]&time=[[set-time]]&work=[[work]]"

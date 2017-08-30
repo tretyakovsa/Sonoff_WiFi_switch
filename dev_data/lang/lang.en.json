@@ -60,7 +60,7 @@
  "LangHiddenWifi":"Connect to hidden WiFi network",
  "LangType":"Type device",
 
- "_comment": "---TIMER.HTM---",
+ "_comment": "---page.htm?timer---",
  "LangTime3":"Set time",
  "LangTime4":"Time",
  "LangList":"List",

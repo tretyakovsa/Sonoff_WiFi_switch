@@ -459,7 +459,7 @@ function createTable(state_val, jsonTable) {
     if (timers.timer[i][keys] == "rgb") {timers.timer[i][keys] = '<span class="label label-info">rgb<\/span>';}
     if (timers.timer[i][keys] == "jalousie") {timers.timer[i][keys] = '<span class="label label-success">jalousie<\/span>';}
     if (jsonTable[keys] == '{{LangDay}}') {timers.timer[i][keys] = jsonResponse["Lang"+timers.timer[i][keys]];}
-    if (jsonTable[keys] == '{{LangDel}}') {timers.timer[i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers.timer[i][keys]+'\'),\'[[tti]]\');}" type="button">'}
+    if (jsonTable[keys] == '{{LangDel}}') {timers.timer[i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers.timer[i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
     tbody += '<td>'+timers.timer[i][keys]+'<\/td>';
    }
 
