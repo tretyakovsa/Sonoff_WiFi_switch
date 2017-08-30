@@ -14,7 +14,7 @@ void handle_timer_Save() {
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& arrays = Timers["timer"].asArray();
   JsonObject& record = arrays.createNestedObject();
-  record["id"]  = HTTP.arg("id").toInt();
+  record["id"]  = HTTP.arg("id");
   record["trigger"]  = HTTP.arg("trigger");
   record["module"]  = HTTP.arg("module");
   record["day"]  = HTTP.arg("day");
@@ -25,8 +25,22 @@ void handle_timer_Save() {
   writeFile("timer.save.json", jsonTimer );
 
   loadTimer();
-  HTTP.send(200, "text/plain", "OK");
+  HTTP.send(200, "text/plain", responsTimer());
 }
+
+String responsTimer(){
+  String responsA="{\"state\": \"timer.save.json\",\"title\":";
+  String responsB ={};
+  responsB= jsonWrite(responsB, "module", " ");
+  responsB= jsonWrite(responsB, "trigger", "{{LangOn.}}/{{LangOff.}}");
+  responsB= jsonWrite(responsB, "day", "{{LangDay}}");
+  responsB= jsonWrite(responsB, "time", "{{LangTime4}}");
+  responsB= jsonWrite(responsB, "work", "{{LangWorkTime}}");
+  responsB= jsonWrite(responsB, "id", "{{LangDel}}");
+
+ return responsA +=responsB +="}";
+  }
+
 
 void handle_timer_Del() {
   DynamicJsonBuffer jsonBuffer;
@@ -43,7 +57,7 @@ void handle_timer_Del() {
   Timers.printTo(jsonTimer);
   writeFile("timer.save.json", jsonTimer );
   loadTimer();
-  HTTP.send(200, "text/plain", "OK");
+  HTTP.send(200, "text/plain", responsTimer());
 }
 
 
