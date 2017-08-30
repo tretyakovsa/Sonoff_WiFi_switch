@@ -79,7 +79,7 @@
  "LangAll":"Завжди",
  "LangSwitch.":"Перемк.",
  "LangMoreDevice":"Показати решту пристроїв",
- "LangTime6":"Налаштовуючи час перед одиночними цифрами пишіть 0. Комірку Хв(Тривал. роботи) заповнювати не обов’язково.",
+ "LangTime6":"Налаштовуючи час перед одиночними цифрами пишіть 0. Комірку \"Тривал. роботи\" заповнювати не обов’язково.",
 
  "_comment": "---page.htm?relay---",
  "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"ddns-url1\"></span><br>Глобальне посилання: <span id=\"ddns-url2\"></span></span>",
