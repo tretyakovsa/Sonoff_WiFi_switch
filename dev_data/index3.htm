@@ -153,7 +153,10 @@
         document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button">';
        }
 
-
+       if (searchModule(modules,"leakag") == 'yes'){
+        if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'leakag','success',content);}
+        document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button">';
+       }
 
        if (stage == 'first'){
         if (searchModule(modules,"timers") == 'yes'){

@@ -112,13 +112,16 @@
       if (searchModule(modules,"jalousie") == 'yes'){
        loadBlock2('jalousie','timer.save',ipval, content, stage, jsonResponse);
       }
+      if (searchModule(modules,"leakag") == 'yes'){
+       loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
+      }
       if (searchModule(modules,"temperature") == 'yes'){
        loadBlock2('temperature','sensor',ipval, content, stage, jsonResponse);
       }
       if (searchModule(modules,"analog") == 'yes'){
        loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
       }
-      if (!stage && content == "relay" || content == "rgb" || content == "jalousie"){
+      if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
       }
 
@@ -182,6 +185,7 @@
       jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose);
+      jsonResponse.stateLeakag = (jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
 
       if (page == 'analog') {
        jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
