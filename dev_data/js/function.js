@@ -304,16 +304,16 @@ function send_request(submit,server,state){
      if (response.title && response.title!='undefined') {
       if (htmlblock.tagName == 'INPUT') {
        htmlblock.value = renameBlock(jsonResponse, response.title);
-      } else if (htmlblock.tagName == 'SELECT') {
+      }
+      if (htmlblock.tagName == 'SELECT') {
        var option = '';
        jsonSelect = response.title;
        for(var key in jsonSelect) {
         option += '<option value="'+renameBlock(jsonResponse, key)+'">'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
        }
        htmlblock.innerHTML = option;
-      } else {
-       htmlblock.innerHTML = renameBlock(jsonResponse, response.title);
       }
+      if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
      }
      if (htmlblock.tagName == 'TABLE' && response.state) {
       createTable(response.state,response.title);
