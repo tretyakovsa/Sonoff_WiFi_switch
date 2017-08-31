@@ -31,7 +31,7 @@ void handle_timer_Save() {
 String responsTimer(){
   String responsA="{\"state\": \"timer.save.json\",\"title\":";
   String responsB ="{}";
-  responsB= jsonWrite(responsB, "module", " ");
+  responsB= jsonWrite(responsB, "module", "");
   responsB= jsonWrite(responsB, "trigger", "{{LangOn.}}/{{LangOff.}}");
   responsB= jsonWrite(responsB, "day", "{{LangDay}}");
   responsB= jsonWrite(responsB, "time", "{{LangTime4}}");

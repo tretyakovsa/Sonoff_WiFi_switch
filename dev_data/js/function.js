@@ -490,7 +490,16 @@ function renameBlock(jsonResponse, str) {
    };
   }
  }
- return (typeof(str)!='undefined'&&str!=null?str:'');
+ if (typeof(str)!='undefined'&&str!=null&&str) {
+  try {
+   return eval(str);
+  } catch(e) {
+   return str;
+  }
+ } else {
+  return '';
+ }
+ //return (typeof(str)!='undefined'&&str!=null?str:'');
 }
 
 function renameGet(str) {

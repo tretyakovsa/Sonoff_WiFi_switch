@@ -52,7 +52,7 @@
 
   {
    "type": "button",
-   "title": "{{LangOnOff}}",
+   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay0",
    "response":"[[relay0]]",
    "action": "relay",
@@ -61,7 +61,7 @@
 
   {
    "type": "button",
-   "title": "{{LangOnOff}}",
+   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay1",
    "module":"relay1",
    "response":"[[relay1]]",
@@ -71,7 +71,7 @@
 
   {
    "type": "button",
-   "title": "{{LangOnOff}}",
+   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay2",
    "module":"relay2",
    "response":"[[relay2]]",
@@ -81,7 +81,7 @@
 
   {
    "type": "button",
-   "title": "{{LangOnOff}}",
+   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay3",
    "module":"relay3",
    "response":"[[relay3]]",
