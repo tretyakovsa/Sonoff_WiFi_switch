@@ -24,6 +24,10 @@ void initRelay() {
   HTTP.on("/relayon", relayon);        // реакция на запрос
   HTTP.on("/relayoff", relayoff);        // реакция на запрос
   HTTP.on("/sonoff", relay);        // реакция на запрос
+  HTTPWAN.on("/relay", relay);        // реакция на запрос
+  HTTPWAN.on("/relayon", relayon);        // реакция на запрос
+  HTTPWAN.on("/relayoff", relayoff);        // реакция на запрос
+  HTTPWAN.on("/sonoff", relay);        // реакция на запрос
   modulesReg("relay");
 }
 void relay() {
@@ -125,8 +129,25 @@ void initJalousie() {
   sCmd.addCommand("jalousienot",    jalousieNot);
   sCmd.addCommand("jalousiestop",    jalousieStop);
   sCmd.addCommand("jalousieturn",    jalousieTurn);
+  HTTPWAN.on("/jalousie", jalousie);        // реакция на запрос
+  HTTPWAN.on("/jalousieopen", jalousieopen);        // реакция на запрос
+  HTTPWAN.on("/jalousieclose", jalousieclose);        // реакция на запрос
   modulesReg("jalousie");
 }
+
+void jalousie(){
+  jalousieNot();
+  HTTP.send(200, "text/plain", "Ok");
+  }
+  void jalousieopen(){
+  jalousieOpen();
+  HTTP.send(200, "text/plain", "Ok");
+  }
+  void jalousieclose(){
+  jalousieClose();
+  HTTP.send(200, "text/plain", "Ok");
+  }
+
 
 
 // Выполняется при вращение сенсора

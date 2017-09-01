@@ -22,6 +22,9 @@ void initRGB() {
   // Настраивается по запросу /set?
   HTTP.on("/set", handle_RGB);
   HTTP.on("/rgb", LedRGB);
+  HTTPWAN.on("/set", handle_RGB);
+  HTTPWAN.on("/rgb", LedRGB);
+
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgbnot",    rgbNot);
   sCmd.addCommand("rgbon",    rgbOn);

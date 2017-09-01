@@ -258,6 +258,15 @@ String jsonFilterArray(String jsonArray, String value){
   return root;
   }
 
+//------------------ Проверка неличия модуля
+boolean moduleFind(String found){
+    if (modules.indexOf(found)){ return false;}
+    else {
+      return true;
+      }
+
+  }
+
 // /json?file=test.json&id=module&search=relay
 // Фильтр на json фаил
 String jsonFilter(String jsonString, String column, String value) {
