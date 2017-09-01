@@ -52,7 +52,7 @@
 
   {
    "type": "button",
-   "title": "{{LangOpenClose}}",
+   "title": "({{LangOpenClose}}==0?'{{LangOpen}}':'{{LangClose}}')",
    "name":"motor",
    "module":"jalousie",
    "response":"[[motor]]",
