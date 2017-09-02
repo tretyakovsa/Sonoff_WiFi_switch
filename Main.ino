@@ -193,6 +193,8 @@ void statistics() {
   urls += WiFi.macAddress().c_str();
   urls += "&";
   urls += jsonRead(configJson, "configs");
+  urls += "&";
+  urls += ESP.getResetReason();
   getURL(urls);
 }
 

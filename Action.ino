@@ -24,28 +24,34 @@ void initRelay() {
   HTTP.on("/relayon", relayon);        // реакция на запрос
   HTTP.on("/relayoff", relayoff);        // реакция на запрос
   HTTP.on("/sonoff", relay);        // реакция на запрос
-  HTTPWAN.on("/relay", relay);        // реакция на запрос
-  HTTPWAN.on("/relayon", relayon);        // реакция на запрос
-  HTTPWAN.on("/relayoff", relayoff);        // реакция на запрос
-  HTTPWAN.on("/sonoff", relay);        // реакция на запрос
+  HTTPWAN.on("/relay", relayddns);        // реакция на запрос
+  HTTPWAN.on("/relayon", relayonddns);        // реакция на запрос
+  HTTPWAN.on("/relayoff", relayoffddns);        // реакция на запрос
+  HTTPWAN.on("/sonoff", relayddns);        // реакция на запрос
   modulesReg("relay");
 }
-void relay() {
-
+void relayddns() {
   sCmd.readStr("relaynot");
-
+  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+}
+void relayonddns() {
+  sCmd.readStr("relayon");
+  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+}
+void relayoffddns() {
+  sCmd.readStr("relayoff");
+  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+}
+void relay() {
+  sCmd.readStr("relaynot");
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 void relayon() {
-
   sCmd.readStr("relayon");
-
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 void relayoff() {
-
   sCmd.readStr("relayoff");
-
   HTTP.send(200, "text/json", relayStatus(configJson, "state"));
 }
 
@@ -129,12 +135,24 @@ void initJalousie() {
   sCmd.addCommand("jalousienot",    jalousieNot);
   sCmd.addCommand("jalousiestop",    jalousieStop);
   sCmd.addCommand("jalousieturn",    jalousieTurn);
-  HTTPWAN.on("/jalousie", jalousie);        // реакция на запрос
-  HTTPWAN.on("/jalousieopen", jalousieopen);        // реакция на запрос
-  HTTPWAN.on("/jalousieclose", jalousieclose);        // реакция на запрос
+  HTTPWAN.on("/jalousie", jalousieddns);        // реакция на запрос
+  HTTPWAN.on("/jalousieopen", jalousieopenddns);        // реакция на запрос
+  HTTPWAN.on("/jalousieclose", jalousiecloseddns);        // реакция на запрос
   modulesReg("jalousie");
 }
 
+void jalousieddns(){
+  jalousieNot();
+  HTTPWAN.send(200, "text/plain", "Ok");
+  }
+  void jalousieopenddns(){
+  jalousieOpen();
+  HTTPWAN.send(200, "text/plain", "Ok");
+  }
+  void jalousiecloseddns(){
+  jalousieClose();
+  HTTPWAN.send(200, "text/plain", "Ok");
+  }
 void jalousie(){
   jalousieNot();
   HTTP.send(200, "text/plain", "Ok");
@@ -147,7 +165,6 @@ void jalousie(){
   jalousieClose();
   HTTP.send(200, "text/plain", "Ok");
   }
-
 
 
 // Выполняется при вращение сенсора

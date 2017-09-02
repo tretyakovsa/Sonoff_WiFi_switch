@@ -61,6 +61,14 @@ void initDHT() {
       HTTP.send(200, "text/json", graf(temp, 10, 3000, "low:0"));
     });
     modulesReg("temperature");
+    HTTP.on("/humidity.json", HTTP_GET, []() {
+      float temp = dht.getHumidity();;
+      if (temp == 'NaN') {
+        temp = 0;
+      }
+      HTTP.send(200, "text/json", graf(temp, 10, 3000, "low:0"));
+    });
+    modulesReg("humidity");
   }
 }
 
@@ -96,7 +104,7 @@ void initRCSwitch() {
   }, nullptr, true);
 
   HTTP.on("rcreceivi.json", HTTP_GET, []() {
-    HTTP.send(200, "text/json", jsonWrite("{}", "Received",jsonRead(configJson, "Received")));
+    HTTP.send(200, "text/json", jsonWrite("{}", "Received", jsonRead(configJson, "Received")));
   });
   modulesReg("RCreceivi");
 }
