@@ -189,7 +189,7 @@ String modulesInit(String json, String nameArray) {
 
 // ------------- Данные статистики
 void statistics() {
-  String urls = "http://backup.privet.lv/visitors.php?";
+  String urls = "http://backup.privet.lv/visitors/?";
   urls += WiFi.macAddress().c_str();
   urls += "&";
   urls += jsonRead(configJson, "configs");

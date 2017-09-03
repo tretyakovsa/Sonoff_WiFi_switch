@@ -50,7 +50,7 @@
  "LangGMT2":"Автовизначення і збереження зони",
  "LangAP":"Точка доступу",
  "LangDdns1":"Динамічний DNS",
- "LangDdns2":"Кожні 15 хвилин кожної години пристрій переходить за посиланням. Ви можете використати <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> или <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> і таким чином зробити собі домен на динамічному IP. Це дозволить комфортно користуватися <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>",
+ "LangDdns2":"Кожні 15 хвилин кожної години пристрій переходить за посиланням. Ви можете використати <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> или <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> і таким чином зробити собі домен на динамічному IP. Це дозволить комфортно користуватися <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Посмотрите видео о настройки DDNS и ifttt.com</a>",
  "LangTime1":"На пристрої зараз",
  "LangTime2":"Синхронізувати час",
  "LangReset1":"Перезавантажити пристрій",
