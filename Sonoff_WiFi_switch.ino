@@ -100,8 +100,6 @@ void setup() {
   Serial.println(modulesInit(init, configs));
   Serial.println (configLive);
   Serial.println ("Start");
-  configJson = jsonWrite(configJson, "starting",GetDate()+" "+GetTime());
-  configJson = jsonWrite(configJson, "startingInfo", ESP.getResetReason());
   configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());
 }
 

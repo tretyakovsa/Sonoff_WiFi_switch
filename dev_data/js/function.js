@@ -155,9 +155,9 @@ function setContent(stage) {
            setTimeout("createRGB('"+name_val+"', '"+jsonPage.content[i].action+"','"+module_val+"','"+response_val+"')", 500);
           }
           if (type_val == 'dev') {
-           var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-default" target="_blank">File editor<\/a>';
+           var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-default" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-default">Starting log<\/a> ';
            if (searchModule(jsonResponse.module,"upgrade") == 'yes'){
-            dev_html += ' <div class="btn-group"><a href="#" class="btn btn-default dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade Build & Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+            dev_html += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade Build & Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
            }
            dev_html += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangSetting6+'<\/a><\/b><span id="repos-bin" class="hidden">';
            if (searchModule(jsonResponse.module,"upgrade") == 'yes'){
@@ -448,6 +448,7 @@ function createTable(state_val, jsonTable) {
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var timers=JSON.parse(xmlHttp.responseText);
+  var setTable = Object.keys(timers);
   html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
   html('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
 
@@ -456,21 +457,20 @@ function createTable(state_val, jsonTable) {
    thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
   }
   document.getElementById('thead-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += thead;
-
-  for (var i = 0; i < timers.timer.length; i++) {
+  for (var i = 0; i < timers[setTable].length; i++) {
    var tbody = '';
    for(var keys in jsonTable) {
-    if (timers.timer[i][keys] == "on") {timers.timer[i][keys] = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-    if (timers.timer[i][keys] == "off") {timers.timer[i][keys] = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
-    if (timers.timer[i][keys] == "open") {timers.timer[i][keys] = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
-    if (timers.timer[i][keys] == "close") {timers.timer[i][keys] = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
-    if (timers.timer[i][keys] == "not") {timers.timer[i][keys] = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
-    if (timers.timer[i][keys] == "relay") {timers.timer[i][keys] = '<span class="label label-danger">relay<\/span>';}
-    if (timers.timer[i][keys] == "rgb") {timers.timer[i][keys] = '<span class="label label-info">rgb<\/span>';}
-    if (timers.timer[i][keys] == "jalousie") {timers.timer[i][keys] = '<span class="label label-success">jalousie<\/span>';}
-    if (jsonTable[keys] == '{{LangDay}}') {timers.timer[i][keys] = jsonResponse["Lang"+timers.timer[i][keys]];}
-    if (jsonTable[keys] == '{{LangDel}}') {timers.timer[i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers.timer[i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
-    tbody += '<td>'+timers.timer[i][keys]+'<\/td>';
+    if (timers[setTable][i][keys] == "on") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+    if (timers[setTable][i][keys] == "off") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+    if (timers[setTable][i][keys] == "open") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
+    if (timers[setTable][i][keys] == "close") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
+    if (timers[setTable][i][keys] == "not") {timers[setTable][i][keys] = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+    if (timers[setTable][i][keys] == "relay") {timers[setTable][i][keys] = '<span class="label label-danger">relay<\/span>';}
+    if (timers[setTable][i][keys] == "rgb") {timers[setTable][i][keys] = '<span class="label label-info">rgb<\/span>';}
+    if (timers[setTable][i][keys] == "jalousie") {timers[setTable][i][keys] = '<span class="label label-success">jalousie<\/span>';}
+    if (jsonTable[keys] == '{{LangDay}}') {timers[setTable][i][keys] = jsonResponse["Lang"+timers[setTable][i][keys]];}
+    if (jsonTable[keys] == '{{LangDel}}') {timers[setTable][i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers[setTable][i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
+    tbody += '<td>'+timers[setTable][i][keys]+'<\/td>';
    }
 
    document.getElementById('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';

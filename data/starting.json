@@ -1,0 +1,85 @@
+{
+ "configs": [
+  "/config.live.json",
+  "/lang/lang.{{lang}}.json",
+  "/modules.json"
+ ],
+ "title": "Starting Log",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content": [
+  {
+   "type": "h5",
+   "title": "{{SSDP}}",
+   "class":"alert-default"
+  },
+  {
+   "type": "select",
+   "state": "{{lang}}",
+   "name":"languages",
+   "action": "/lang?set=[[languages]]",
+   "response":"page.htm?chart",
+   "style": "margin-top:-47px;float:right;width:70px",
+   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+  },
+
+
+  {
+   "type": "link",
+   "title": "{{LangDevices}}",
+   "action": "/",
+   "class": "btn btn-block btn-danger"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB",
+   "module": "rgb",
+   "action": "/page.htm?rgb",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Relay",
+   "module": "relay",
+   "action": "/page.htm?relay",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  },
+
+  {
+   "type": "hr"
+  },
+  {
+   "type": "h2",
+   "title":"{{LangHistory}}"
+  },
+
+
+  {
+   "type": "table",
+   "state": "http://backup.privet.lv/visitors/{{mac}}.json",
+   "title": {
+    "starting":"Starting",
+    "startingInfo":"Starting Info",
+    "module":"Module"
+   },
+   "class": "table table-striped table-hover",
+   "style": "width:100%;"
+  },
+
+  {
+   "type": "hr"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action": "/page.htm?setup",
+   "class": "btn btn-block btn-default"
+  }
+
+ ]
+}
