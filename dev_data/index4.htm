@@ -116,7 +116,10 @@
        loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
       }
       if (searchModule(modules,"temperature") == 'yes'){
-       loadBlock2('temperature','sensor',ipval, content, stage, jsonResponse);
+       loadBlock2('temperature','temperature',ipval, content, stage, jsonResponse);
+      }
+      if (searchModule(modules,"humidity") == 'yes'){
+       loadBlock2('humidity','humidity',ipval, content, stage, jsonResponse);
       }
       if (searchModule(modules,"analog") == 'yes'){
        loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
@@ -194,8 +197,12 @@
        setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 500);
       }
       if (page == 'temperature') {
-       jsonResponse.sensorId = 'sensorjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/sensor.json')", 500);
+       jsonResponse.sensorId = 'temperaturejson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/temperature.json')", 500);
+      }
+      if (page == 'humidity') {
+       jsonResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/humidity.json')", 500);
       }
 
       var new_string;

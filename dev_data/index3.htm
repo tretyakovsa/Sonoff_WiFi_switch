@@ -163,7 +163,10 @@
          loadTimers(ipval,content,jsonResponse);
         }
         if (searchModule(modules,"temperature") == 'yes'){
-         loadSensors(ipval,'table-sensors',jsonResponse);
+         loadTemperature(ipval,'table-sensors',jsonResponse);
+        }
+        if (searchModule(modules,"humidity") == 'yes'){
+         loadHumidity(ipval,'table-sensors',jsonResponse);
         }
         if (searchModule(modules,"analog") == 'yes'){
          loadAnalog(ipval,'table-sensors',jsonResponse);
@@ -231,13 +234,22 @@
    }
 
 
-   function loadSensors(ipval, content, jsonResponse) {
+   function loadTemperature(ipval, content, jsonResponse) {
     var xmlHttp=createXmlHttpObject();
-    xmlHttp.open("GET", "http://"+ipval+"/sensor.json", true);
+    xmlHttp.open("GET", "http://"+ipval+"/temperature.json", true);
     xmlHttp.send(null);
     xmlHttp.onload = function(e) {
      var sensors=JSON.parse(xmlHttp.responseText);
      document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&sensor">'+jsonResponse.LangTemperature+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+    }
+   }
+   function loadHumidity(ipval, content, jsonResponse) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/humidity.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function(e) {
+     var sensors=JSON.parse(xmlHttp.responseText);
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&humidity">'+jsonResponse.LangHumidity+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     }
    }
 

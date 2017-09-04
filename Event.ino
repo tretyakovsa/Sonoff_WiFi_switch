@@ -53,7 +53,7 @@ void initDHT() {
   temp += dht.getTemperature();
   if (temp != "nan") {
     //Serial.println("ok");
-    HTTP.on("/sensor.json", HTTP_GET, []() {
+    HTTP.on("/temperature.json", HTTP_GET, []() {
       float temp = dht.getTemperature();
       if (temp == 'NaN') {
         temp = 0;
@@ -81,7 +81,7 @@ void initD18B20() {
   d18b20.setResolution(12);
   //Serial.println(ok);
   if (ok != -127) {
-    HTTP.on("/sensor.json", HTTP_GET, []() {
+    HTTP.on("/temperature.json", HTTP_GET, []() {
       d18b20.requestTemperatures();
       float temp = d18b20.getTempCByIndex(0);
       if (temp == -127) {
