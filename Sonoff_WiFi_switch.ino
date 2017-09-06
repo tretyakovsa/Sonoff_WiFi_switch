@@ -86,18 +86,20 @@ void setup() {
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   FS_init();         // Включаем работу с файловой системой
   configJson = readFile("config.save.json", 1024);
-  String init = readFile("config.modules.json", 4096);
   String configs = jsonRead(configJson, "configs");
+  configs.toLowerCase();
 
-  if (configs == "") {
-    sCmd.readStr("Serial 115200");
-    sCmd.readStr("wifi 12");
-    sCmd.readStr("Upgrade");
-    sCmd.readStr("HTTP");
-    //configs = "Basic";
-  }
-
-  Serial.println(modulesInit(init, configs));
+  String test = readFile("config."+configs+".txt", 4096);
+    String rn = "\r\n";
+  if (test == "Failed"){
+    test ="Serial 115200"+rn;
+    test +="wifi 12"+rn;
+    test +="Upgrade"+rn;
+    test +="SSDP"+rn;
+    test +="HTTP"+rn;
+    }
+  Serial.println(modulesInit1(test));
+   Serial.println(configs);
   Serial.println (configLive);
   Serial.println ("Start");
   configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());

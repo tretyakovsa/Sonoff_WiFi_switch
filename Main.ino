@@ -67,12 +67,12 @@ int readArgsInt() {
 String readFile(String fileName, size_t len ) {
   File configFile = SPIFFS.open("/" + fileName, "r");
   if (!configFile) {
-    return "Failed to open config file";
+    return "Failed";
   }
   size_t size = configFile.size();
   if (size > len) {
     configFile.close();
-    return "Config file size is too large";
+    return "Large";
   }
   String temp = configFile.readString();
   configFile.close();
@@ -185,7 +185,23 @@ String modulesInit(String json, String nameArray) {
   return "OK";
 }
 
+//------------------Запуск конфигурации в соответствии с разделом строки
+String modulesInit1(String inits) {
+  String temp = "";
+  String rn = "\r\n";
+  Serial.println("stroka");
+  Serial.println("");
 
+  if (inits.lastIndexOf(rn)!=3) inits += rn;
+
+  do {
+    temp = selectToMarker (inits, rn);
+    Serial.println(temp);
+    sCmd.readStr(temp);
+    inits = deleteBeforeDelimiter(inits, rn);
+  } while (inits.indexOf(rn) != -1);
+  return "OK";
+}
 
 // ------------- Данные статистики
 void statistics() {
@@ -251,23 +267,25 @@ int pinOk(int pin) {
   return pin;
 }
 
-String jsonFilterArray(String jsonArray, String value){
+String jsonFilterArray(String jsonArray, String value) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonArray);
   JsonArray& nestedArray = Timers[value].asArray();
   String root = "";
   nestedArray.printTo(root);
   return root;
-  }
+}
 
 //------------------ Проверка неличия модуля
-boolean moduleFind(String found){
-    if (modules.indexOf(found)){ return false;}
-    else {
-      return true;
-      }
-
+boolean moduleFind(String found) {
+  if (modules.indexOf(found)) {
+    return false;
   }
+  else {
+    return true;
+  }
+
+}
 
 // /json?file=test.json&id=module&search=relay
 // Фильтр на json фаил
@@ -275,20 +293,20 @@ String jsonFilter(String jsonString, String column, String value) {
   DynamicJsonBuffer jsonBuffer;
   JsonArray& nestedArray = jsonBuffer.parseArray(jsonString);
   int j = nestedArray.size();
-  Serial.println(value+" "+column);
+  Serial.println(value + " " + column);
   jsonString = "[";
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       boolean pFind = (value == nestedArray[i][column].as<String>());
       if (pFind) {
-       //nestedArray.removeAt(i);
-       jsonString += nestedArray[i].as<String>();
-       if (i<=j-1) jsonString += ",";
-       //i--;
+        //nestedArray.removeAt(i);
+        jsonString += nestedArray[i].as<String>();
+        if (i <= j - 1) jsonString += ",";
+        //i--;
       }
     }
   }
-jsonString += "]";
+  jsonString += "]";
   //nestedArray.printTo(jsonString);
   return jsonString;
 }
