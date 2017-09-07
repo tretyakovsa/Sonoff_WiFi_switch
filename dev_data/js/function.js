@@ -169,7 +169,7 @@ function setContent(stage) {
             dev_html += ' <div class="btn-group"><a href="#" class="btn btn-default btn-sm dropdown-toggle" onclick="toggle(\'repos-spiffs\');return false">Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-spiffs" style="min-width:350px"><li><a href="#" onclick="toggle(\'sonoff-spiffs\');loadBuild(\'sonoff\',\'spiffs\');return false"><b>Sonoff<\/b> (Relay) <span class="caret"><\/span><\/a><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="sonoff-spiffs" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><li><a href="#" onclick="toggle(\'rgb-spiffs\');loadBuild(\'rgb\',\'spiffs\');return false""><b>RGB<\/b> (WS2811-12/NeoPixel) <span class="caret"><\/span><\/a><a href="https://github.com/renat2985/rgb/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="rgb-spiffs" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
            }
            dev_html += '<form method="POST" style="float:right" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
-           dev_html += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="rgb">RGB (WS2811-12/NeoPixel)<\/option><option value="jalousie">Jalousie<\/option><option value="leakag">Leakag<\/option><option value="smart-room">Smart-Room<\/option><\/select> <a href="/page.htm?config.modules" target="_blank" class="btn btn-primary">Edit<\/a><\/div>';
+           dev_html += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="rgb">RGB (WS2811-12/NeoPixel)<\/option><option value="jalousie">Jalousie<\/option><option value="leakag">Leakag<\/option><option value="smart-room">Smart-Room<\/option><\/select> <a href="/page.htm?configs&'+jsonResponse.configs+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
            dev_html += '<\/span><\/span><\/div>';
            document.getElementById('contents').innerHTML += dev_html;
           }
@@ -329,6 +329,9 @@ function send_request(submit,server,state){
      if (htmlblock.tagName == 'TABLE' && response.state) {
       createTable(response.state,response.title);
      }
+     if (htmlblock.tagName == 'A' && response.action) {
+      htmlblock.href = response.action;
+     }
      if (typeof(element) != 'undefined' && element != null){
       element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
      }
@@ -467,11 +470,11 @@ function loadConfigs(state_val) {
 
    configsLinePin = configsLine[key].replace(/# /,'').split(' ');
 
-   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input value="'+configsLinePin[3]+'">':'')+'</br>';
+   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input style="width:100px;" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input style="width:100px;" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input style="width:100px;" value="'+configsLinePin[3]+'">':'')+'</br>';
 
 
   }
-  document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" class="form-control">'+xmlHttp.responseText+'</textarea>';
+  document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="height:200px;" class="form-control">'+xmlHttp.responseText+'</textarea>';
   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<input onclick="send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
  }
 }
