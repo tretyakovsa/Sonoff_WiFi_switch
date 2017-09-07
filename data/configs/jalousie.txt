@@ -1,0 +1,12 @@
+Serial 115200
+wifi 20 13
+NTP
+Upgrade
+SSDP
+HTTP
+DDNS
+A0
+Tach jalousienot
+TIMERS
+JALOUSIE 4 12 13
+MQTT

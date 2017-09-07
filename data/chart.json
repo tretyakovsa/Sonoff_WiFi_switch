@@ -45,6 +45,13 @@
   },
   {
    "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
+   "module": "jalousie",
+   "action": "/page.htm?jalousie",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
    "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action": "/page.htm?setup",
    "class": "btn btn-block btn-default"

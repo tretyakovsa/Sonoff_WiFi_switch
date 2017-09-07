@@ -119,12 +119,19 @@
    "pattern": ".{8,20}"
   },
 
+
   {
    "type": "checkbox",
    "title": "Задать статический IP",
+   "action":"test",
    "name":"checkboxIP",
    "state": "{{checkboxIP}}",
    "style": "display:block"
+  },
+  {
+   "type": "text",
+   "title": "Если вы хотите задать статический IP, вам необходимо заполнить поля Default Getway и Subnet Mask.",
+   "class": "alert alert-warning"
   },
   {
    "type": "input",

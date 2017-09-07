@@ -1,0 +1,9 @@
+Serial 115200
+wifi 20 13
+NTP
+Upgrade
+SSDP
+HTTP
+DDNS
+TIMERS
+MQTT

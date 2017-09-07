@@ -1,0 +1,12 @@
+wifi 20 13
+NTP
+Upgrade
+SSDP
+HTTP
+DDNS
+Tach relaynot
+DHT 14
+D18B20
+TIMERS
+RELAY 12
+MQTT

@@ -13,7 +13,7 @@ body, html {
 input:invalid {
  border:2px solid red !important;
 }
-input:invalid + input[type=button], input:invalid + div input[type=button] {
+input:invalid ~ input[type=button] {
  pointer-events:none;
  opacity:0.5;
 }

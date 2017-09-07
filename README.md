@@ -70,13 +70,13 @@ If you like this project, you can give me a cup of coffee :)
 ### Web Developer
 #### AdvCash
 
-    U 0586 7862 1354
-    E 8788 6352 1126
-    R 7705 0208 6566
+- U 0586 7862 1354
+- E 8788 6352 1126
+- R 7705 0208 6566
 
 #### PayPal
 
-    wul@inbox.lv
+- wul@inbox.lv
 
 #### WebMoney
 

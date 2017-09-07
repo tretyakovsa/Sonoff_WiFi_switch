@@ -1,0 +1,11 @@
+wifi 20 13
+NTP
+Upgrade
+SSDP
+HTTP
+DDNS
+A0
+Tach rgbnot
+TIMERS
+MQTT
+RGB 2 15
