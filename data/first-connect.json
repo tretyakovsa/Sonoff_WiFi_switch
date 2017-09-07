@@ -48,11 +48,11 @@
    "state":"{{configs}}",
    "action": "/configs?set=[[build]]",
    "title": {
-    "Sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
-    "RGB":"RGB (WS2811-12/NeoPixel)",
-    "Jalousie":"Jalousie",
-    "Leakag":"Leakag",
-    "Smart-Room":"Smart-Room"
+    "sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
+    "rgb":"RGB (WS2811-12/NeoPixel)",
+    "jalousie":"Jalousie",
+    "leakag":"Leakag",
+    "smart-room":"Smart-Room"
    }
   },
 
