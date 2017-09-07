@@ -9,11 +9,11 @@ void initHTTP(void) {
   HTTP.on("/config.live.json", handle_ConfigJSON); // Выдаем данные configJson
   HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
   HTTP.on("/configs", handle_configs);               // Установка конфигурации
-  HTTP.on("/cmd", cmd);               // Установка конфигурации
+  HTTP.on("/cmd", cmd);               // Выполнение команды из запроса
   //Запускаем HTTP сервер
   HTTP.begin();
 }
-
+//  ------------------------------- Выполнение команды из запроса
 void cmd(){
    command = HTTP.arg("command");
    HTTP.send(200, "text/plain", command);
@@ -45,9 +45,11 @@ void handle_leng() {
 
 // ------------------Установка конфигурации
 void handle_configs() {
-  configJson = jsonWrite(configJson, "configs", HTTP.arg("set"));
+  String set = HTTP.arg("set");
+  configJson = jsonWrite(configJson, "configs", set);
   writeFile("config.save.json", configJson );
-  HTTP.send(200, "text/plain", "OK");
+  String reqvest = "{\"action\": \"page.htm?configs&"+set+"\"}";
+  HTTP.send(200, "text/plain", reqvest);
 }
 
 

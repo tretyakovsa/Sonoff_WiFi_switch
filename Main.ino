@@ -27,7 +27,7 @@ void unrecognized(const char *command) {
   Serial.println("What?");
 }
 
-
+// Переводит время в строке в формате 00:00:00 в секунды
 unsigned int timeToSec(String inTime) {
   String secstr = selectToMarker (inTime, ":"); // часы
   unsigned int  sec = secstr.toInt() * 3600;
@@ -39,19 +39,21 @@ unsigned int timeToSec(String inTime) {
   return sec;
 }
 
+// Настраивает Serial по команде sCmd.addCommand("Serial",       uart);
 void uart() {
   Serial.end();
   Serial.begin(readArgsInt());
   delay(100);
 }
 
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
 String readArgsString() {
   String arg;
   arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
   if (arg == "") arg = "";
   return arg;
 }
-
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
 int readArgsInt() {
   char *arg;
   arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
@@ -115,7 +117,6 @@ String jsonWrite(String json, String name, String volume) {
   return json;
 }
 
-
 // ------------- Запись значения json int
 String jsonWrite(String json, String name, int volume) {
   DynamicJsonBuffer jsonBuffer;
@@ -167,10 +168,6 @@ String graf(int datas, int points, int refresh) {
   return root;
 }
 
-// --------------Добавить данные в масивв json
-
-
-
 //------------------Запуск конфигурации в соответствии с разделом строки
 String modulesInit(String json, String nameArray) {
   DynamicJsonBuffer jsonBuffer;
@@ -185,15 +182,11 @@ String modulesInit(String json, String nameArray) {
   return "OK";
 }
 
-//------------------Запуск конфигурации в соответствии с разделом строки
-String modulesInit1(String inits) {
+//------------------Выполнить все команды по порядку из строки разделитель \r\n
+String goCommands(String inits) {
   String temp = "";
   String rn = "\r\n";
-  Serial.println("stroka");
-  Serial.println("");
-
   if (inits.lastIndexOf(rn)!=3) inits += rn;
-
   do {
     temp = selectToMarker (inits, rn);
     Serial.println(temp);
@@ -258,55 +251,4 @@ String deleteBeforeDelimiter(String str, String found) {
   return str.substring(p);
 }
 
-// -------------------
 
-
-// ------------------- Проверка доступности pin
-int pinOk(int pin) {
-  if ((pin > 5 && pin < 12) || pin > 16) return 32;
-  return pin;
-}
-
-String jsonFilterArray(String jsonArray, String value) {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& Timers = jsonBuffer.parseObject(jsonArray);
-  JsonArray& nestedArray = Timers[value].asArray();
-  String root = "";
-  nestedArray.printTo(root);
-  return root;
-}
-
-//------------------ Проверка неличия модуля
-boolean moduleFind(String found) {
-  if (modules.indexOf(found)) {
-    return false;
-  }
-  else {
-    return true;
-  }
-
-}
-
-// /json?file=test.json&id=module&search=relay
-// Фильтр на json фаил
-String jsonFilter(String jsonString, String column, String value) {
-  DynamicJsonBuffer jsonBuffer;
-  JsonArray& nestedArray = jsonBuffer.parseArray(jsonString);
-  int j = nestedArray.size();
-  Serial.println(value + " " + column);
-  jsonString = "[";
-  if (j != 0) {
-    for (int i = 0; i <= j - 1; i++) {
-      boolean pFind = (value == nestedArray[i][column].as<String>());
-      if (pFind) {
-        //nestedArray.removeAt(i);
-        jsonString += nestedArray[i].as<String>();
-        if (i <= j - 1) jsonString += ",";
-        //i--;
-      }
-    }
-  }
-  jsonString += "]";
-  //nestedArray.printTo(jsonString);
-  return jsonString;
-}

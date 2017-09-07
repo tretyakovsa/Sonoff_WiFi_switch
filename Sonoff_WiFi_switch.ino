@@ -99,7 +99,7 @@ void setup() {
     test +="SSDP"+rn;
     test +="HTTP"+rn;
     }
-  Serial.println(modulesInit1(test));
+  Serial.println(goCommands(test));
    Serial.println(configs);
   Serial.println (configLive);
   Serial.println ("Start");
