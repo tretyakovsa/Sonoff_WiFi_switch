@@ -89,7 +89,8 @@ void setup() {
   String configs = jsonRead(configJson, "configs");
   configs.toLowerCase();
 
-  String test = readFile("config."+configs+".txt", 4096);
+  String test = readFile("configs/"+configs+".txt", 4096);
+
     String rn = "\r\n";
   if (test == "Failed"){
     test ="Serial 115200"+rn;
