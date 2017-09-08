@@ -77,6 +77,12 @@
    "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action": "/page.htm?setup",
    "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
+   "title": "{{LangReset1}}",
+   "action": "javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');}",
+   "class": "btn btn-block btn-warning"
   }
 
  ]

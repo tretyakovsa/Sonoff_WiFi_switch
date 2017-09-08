@@ -52,7 +52,8 @@
     "rgb":"RGB (WS2811-12/NeoPixel)",
     "jalousie":"Jalousie",
     "leakag":"Leakag",
-    "smart-room":"Smart-Room"
+    "smart-room":"Smart-Room",
+    "manually":"Manually"
    }
   },
 
