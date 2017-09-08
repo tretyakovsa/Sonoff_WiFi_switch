@@ -11,7 +11,7 @@
 #include <DNSServer.h>               //Содержится в пакете
 #include <ArduinoJson.h>             //Ставим через менеджер библиотек
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
-//#include <ESP8266LLMNR.h>
+#include <ESP8266LLMNR.h>
 //#include <ESP8266NetBIOS.h>
 #include <TickerScheduler.h>         //https://github.com/Toshik/TickerScheduler
 #include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand

@@ -1,0 +1,16 @@
+Serial 115200
+wifi 20 13
+NTP
+Upgrade
+SSDP
+HTTP
+DDNS
+MQTT
+DHT 14
+D18B20
+A0
+Tach relaynot
+RELAY 12
+MOTION 2 relay
+RCSwitch 3
+TIMERS

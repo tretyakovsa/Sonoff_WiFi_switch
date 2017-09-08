@@ -1,12 +1,9 @@
 /*
    Модуль использует библиотеки
    #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
-   #include <WS2812FX.h>                //https://github.com/kitesurfer1404/WS2812FX
-   Глобальные переменные
-  int ledCount = 15;              // Количество лед огней
-   Переменная статуса stateRGB
+   #include <WS2812FX.h>                //https://github.com/MTJoker/WS2812FX
    Объект должен быть определен в начале скетча
-   WS2812FX ws2812fx = WS2812FX(ledCount, RGB_PIN, NEO_GRB + NEO_KHZ800);
+   WS2812FX ws2812fx = WS2812FX();
      В Loop обработчик
      ws2812fx.service();
 */
