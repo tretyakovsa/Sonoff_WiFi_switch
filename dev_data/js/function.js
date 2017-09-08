@@ -468,8 +468,13 @@ function loadConfigs(state_val) {
   var configsLinePin;
   var configsLine = xmlHttp.responseText.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
-   configsLinePin = configsLine[key].replace(/# /,'').split(' ');
-   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input style="width:100px;" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input style="width:100px;" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input style="width:100px;" value="'+configsLinePin[3]+'">':'')+'</br>';
+
+   if (configsLine[key].substr(0,2) == '//') {
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none"><span class="label label-danger">'+configsLine[key]+'</span><\/label></br>';
+   } else {
+    configsLinePin = configsLine[key].replace(/# /,'').split(' ');
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
+   }
   }
   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
   //changeTextarea(state_val.replace(/[^a-z0-9]/gi,'-'));
@@ -477,11 +482,16 @@ function loadConfigs(state_val) {
 }
 
 function changeTextarea(state_val) {
+ val(state_val.replace(/[^a-z0-9]/gi,'-')+'-edit', ' ');
  var area = document.querySelector('textarea');
  [].forEach.call(document.querySelectorAll('#'+state_val+'>*'), function(el){
   if(el.matches('label')) {
    area.value += '\r\n'+(el.children[0].checked?'':'# ');
-   area.value += el.textContent.replace(/ /,'');
+   if (el.textContent.substr(0,2) == '//') {
+    area.value += el.textContent;
+   } else {
+    area.value += el.textContent.replace(/ /,'');
+   }
   }
   if(el.matches('input')) area.value += ' '+el.value;
  });
