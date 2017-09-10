@@ -7,7 +7,7 @@ void initSSDP() {
     configJson = jsonWrite(configJson, "SSDP", temp);
     writeFile("config.save.json", configJson );
     }
-  LLMNR.begin(temp.c_str());
+  //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
   udp.begin(localPort);

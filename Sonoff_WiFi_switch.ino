@@ -11,7 +11,7 @@
 #include <DNSServer.h>               //Содержится в пакете
 #include <ArduinoJson.h>             //Ставим через менеджер библиотек
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
-#include <ESP8266LLMNR.h>
+//#include <ESP8266LLMNR.h>
 //#include <ESP8266NetBIOS.h>
 #include <TickerScheduler.h>         //https://github.com/Toshik/TickerScheduler
 #include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand
@@ -79,8 +79,10 @@ String prefix   = "/IoTmanager";
 void setup() {
 
   //Serial.println (ESP.getResetReason());
-
+  Serial.begin(115200);
+  delay(100);
   TickerScheduler(1);
+  Serial.println ("");
   Serial.println ("Load");
   initCMD();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
@@ -90,17 +92,29 @@ void setup() {
   configs.toLowerCase();
 
   String test = readFile("configs/"+configs+".txt", 4096);
+  //Serial.print(test);
+  test.replace("\r\n", "\n");
+   test +="\n";
+  //Serial.print(test);
+   sCmd.readStr("wifi 12");
+   sCmd.readStr("Upgrade");
+   sCmd.readStr("SSDP");
+   sCmd.readStr("HTTP");
 
-    String rn = "\r\n";
-  if (test == "Failed"){
-    test ="Serial 115200"+rn;
-    test +="wifi 12"+rn;
+  Serial.println(goCommands(test));
+  //Serial.println(modules);
+  //Serial.println(modules.lastIndexOf("[]"));
+  /*
+  if(modules.lastIndexOf("[]")!=-1){
+    String rn = "\n";
+    //test ="Serial 115200"+rn;
+    test ="wifi 12"+rn;
     test +="Upgrade"+rn;
     test +="SSDP"+rn;
     test +="HTTP"+rn;
+    Serial.println(goCommands(test));
     }
-  Serial.println(goCommands(test));
-   Serial.println(configs);
+   */
   Serial.println (configLive);
   Serial.println ("Start");
   configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());

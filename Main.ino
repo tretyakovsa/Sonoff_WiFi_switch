@@ -185,14 +185,15 @@ String modulesInit(String json, String nameArray) {
 //------------------Выполнить все команды по порядку из строки разделитель \r\n
 String goCommands(String inits) {
   String temp = "";
-  String rn = "\r\n";
-  if (inits.lastIndexOf(rn)!=3) inits += rn;
+  String rn = "\n";
+  inits += rn;
   do {
     temp = selectToMarker (inits, rn);
+    Serial.print("command=");
     Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
-  } while (inits.indexOf(rn) != -1);
+  } while (inits.indexOf(rn) != 0);
   return "OK";
 }
 

@@ -1,13 +1,14 @@
-Serial 115200
-wifi 60 13
 NTP
-Upgrade
-SSDP
-HTTP
 DDNS
-Tach relaynot
-DHT 14
-D18B20
-TIMERS
-RELAY 12
 MQTT
+TIMERS
+DHT 14
+D18B20 14 
+A0
+Tach relaynot
+RELAY 12
+# JALOUSIE 4 12 13
+# RGB 2 15
+# RGBSHIM 2 4 5
+# MOTION 2 relay
+# RCSwitch 3
