@@ -470,7 +470,7 @@ function loadConfigs(state_val) {
   for(var key in configsLine) {
 
    if (configsLine[key].substr(0,2) == '//') {
-    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none"><span class="label label-danger">'+configsLine[key]+'</span><\/label></br>';
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none"><span class="label label-default">'+configsLine[key]+'</span><\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
     document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';

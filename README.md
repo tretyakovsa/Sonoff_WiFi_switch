@@ -44,7 +44,7 @@
 
 You can change here
 ```
-/data/config.modules.json
+/data/configs/*.txt
 ```
 
 
