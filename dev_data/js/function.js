@@ -500,7 +500,7 @@ function changeTextarea(state_val) {
 
 function createTable(state_val, jsonTable) {
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", state_val, true);
+ xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var timers=JSON.parse(xmlHttp.responseText);
