@@ -62,7 +62,7 @@
   },
   {
    "type": "h2",
-   "title": "Configs"
+   "title": "{{LangType}} {{configs}}"
   },
   {
    "type": "configs",
