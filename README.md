@@ -8,38 +8,27 @@
 
 ## Upload instruction
 
-### [NodeMCU Flasher (Quick start / Easy)](https://github.com/tretyakovsa/Sonoff_WiFi_switch/tree/master/build)
+## Specification .bin files
+  -  Module: Generic ESP8266 Module
+  -  Flash Size: 1M(256K SPIFFS)
+  -  CPU Frequency: 80Mhz
+  -  Flash Mode: dio
+  -  Flash Frequency: 40Mhz
+  -  Upload Speed: 115200
 
-### [Arduino Windows (Video)](https://www.youtube.com/watch?v=jMK9mySGHio)
+## Download [Build & Spiffs (flash 1Mb 256Kb) 2017.09.11.zip](https://github.com/tretyakovsa/Sonoff_WiFi_switch/files/1293046/Build.Spiffs.flash.1Mb.256Kb.2017.09.11.zip)
 
-### [Arduino Linux (Video)](https://www.youtube.com/watch?v=1TAHlRqZ46k)
+![nodemcu-flasher](https://user-images.githubusercontent.com/1230815/29618247-34491ca2-8820-11e7-92c4-0bd85c1cf216.png)
+### NodeMCU Flasher
+https://github.com/nodemcu/nodemcu-flasher
+Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master/Win32/Release/ESP8266Flasher.exe) or [Win64](https://github.com/nodemcu/nodemcu-flasher/blob/master/Win64/Release/ESP8266Flasher.exe).
 
-#### Used Libraries
- - ESP8266WiFi.h
- - ESP8266WebServer.h
- - ESP8266SSDP.h
- - FS.h
- - time.h
- - Ticker.h
- - WiFiUdp.h
- - ESP8266HTTPUpdateServer.h
- - ESP8266httpUpdate.h
- - ESP8266HTTPClient.h
- - DNSServer.h
- - StringCommand.h           https://github.com/tretyakovsa/ESP8266-StringCommand
- - ArduinoJson.h             Ставим через менеджер библиотек
- - DHT.h                     https://github.com/markruys/arduino-DHT
- - OneWire.h                 Ставим через менеджер библиотек
- - DallasTemperature.h       Ставим через менеджер библиотек
- - PubSubClient.h            https://github.com/Imroy/pubsubclient
- - Adafruit_NeoPixel.h       https://github.com/adafruit/Adafruit_NeoPixel
- - WS2812FX.h                https://github.com/MTJoker/WS2812FX
 
 ## Work example (Video)
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/NrIrLw1rOdk/0.jpg)](https://www.youtube.com/watch?v=NrIrLw1rOdk&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi)
 
-## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/config.modules.json)
+## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/configs)
 
 
 You can change here

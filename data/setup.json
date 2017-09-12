@@ -215,14 +215,14 @@
   {
    "type": "time",
    "module":"ntp",
-   "name":"times1",
+   "name":"sync-time",
    "title": "{{LangTime1}}",
    "state":"{{time}}"
   },
   {
    "type": "button",
    "module":"",
-   "response":"[[times1]]",
+   "response":"[[sync-time]]",
    "title": "{{LangTime2}}",
    "class": "btn btn-block btn-primary",
    "action": "Time"

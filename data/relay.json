@@ -31,6 +31,20 @@
   },
   {
    "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB",
+   "module": "rgb",
+   "action": "/page.htm?rgb",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
+   "module": "jalousie",
+   "action": "/page.htm?jalousie",
+   "class": "btn btn-block btn-default"
+  },
+  {
+   "type": "link",
    "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action": "/page.htm?setup",
    "class": "btn btn-block btn-default"
@@ -52,7 +66,7 @@
 
   {
    "type": "button",
-   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title": "({{state}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay0",
    "response":"[[relay0]]",
    "action": "relay",
@@ -61,7 +75,7 @@
 
   {
    "type": "button",
-   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title": "({{state}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay1",
    "module":"relay1",
    "response":"[[relay1]]",
@@ -71,7 +85,7 @@
 
   {
    "type": "button",
-   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title": "({{state}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay2",
    "module":"relay2",
    "response":"[[relay2]]",
@@ -81,7 +95,7 @@
 
   {
    "type": "button",
-   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title": "({{state}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"relay3",
    "module":"relay3",
    "response":"[[relay3]]",
