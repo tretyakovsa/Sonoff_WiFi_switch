@@ -14,7 +14,6 @@
  "LangSorting":"Сортировка",
  "LangSearch1":"Поиск",
  "LangSearch2":"Если у вас несколько устройств подключено к сети, вы можете добавить его сюда нажав кнопку ниже:",
- "LangSearch3":"Найти устройства",
  "LangSearch4":"Пожалуйста подождите, идет сканирование сети.",
  "LangOptions2":"Изменить конфигурацию устройства вы можете на \"Cтраница управления\"",
  "LangLanguage":"Русский",
@@ -82,7 +81,6 @@
 
  "_comment": "---page.htm?relay---",
  "LangIfttt1":"С помощью сервиса <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Устройство может включатся по многим сценариев, например: новое сообщение в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">подробнее...</a><span id=\"ifttt-help\" class=\"hidden\"> задания в Google calendar, почта и многое другое. Подробней о том как это сделать вы можете посмотреть видео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">здесь</a>.<br>Локальная ссылка: <span id=\"ddns-url1\"></span><br>Глобальная ссылка: <span id=\"ddns-url2\"></span></span>",
- "LangOnOff":"Включить/Выключить",
  "LangOn":"Включить",
  "LangOff":"Выключить",
  "LangPir1":"Датчик движения",
@@ -100,7 +98,6 @@
  "LengBrightness":"Яркость",
 
  "_comment": "---page.htm?jalousie---",
- "LangOpenClose":"Закрыть / Открыть",
  "LangClose":"Закрыть",
  "LangOpen":"Открыть",
  "LangTurn":"Обороты мотора",

@@ -1,53 +1,53 @@
 {
- "configs": [
+ "configs":[
   "/config.live.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "title": "",
+ "title":"",
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
- "content": [
+ "content":[
   {
-   "type": "h5",
-   "title": "{{SSDP}}",
+   "type":"h5",
+   "title":"{{SSDP}}",
    "class":"alert-warning"
   },
   {
-   "type": "select",
-   "state": "{{lang}}",
-   "name": "languages",
-   "action": "/lang?set=[[languages]]",
+   "type":"select",
+   "state":"{{lang}}",
+   "name":"languages",
+   "action":"/lang?set=[[languages]]",
    "response":"page.htm?{{urlArray0}}",
-   "style": "margin-top:-47px;float:right;width:70px",
-   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+   "style":"margin-top:-47px;float:right;width:70px",
+   "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
 
 
   {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "page.htm?setup",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"page.htm?setup",
+   "class":"btn btn-block btn-default"
   },
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
 
   {
-   "type": "h2",
-   "title": "{{LangType}}"
+   "type":"h2",
+   "title":"{{LangType}}"
   },
 
   {
-   "type": "select",
+   "type":"select",
    "name":"build",
    "class":"btn btn-block btn-info btn-lg",
-   "style": "height:auto;",
+   "style":"height:auto;",
    "state":"{{configs}}",
-   "action": "/configs?set=[[build]]",
-   "title": {
+   "action":"/configs?set=[[build]]",
+   "title":{
     "sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
     "rgb":"RGB (WS2811-12/NeoPixel)",
     "jalousie":"Jalousie",
@@ -59,100 +59,99 @@
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
 
 
   {
-   "type": "h2",
-   "title": "{{LangDevice}}"
+   "type":"h2",
+   "title":"{{LangDevice}}"
   },
   {
-   "type": "input",
-   "title": "{{LangDevice}}",
+   "type":"input",
+   "title":"{{LangDevice}}",
    "name":"ssdp",
-   "state": "{{SSDP}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
+   "state":"{{SSDP}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
   },
   {
-   "type": "input",
-   "title": "{{LangSpace}}",
+   "type":"input",
+   "title":"{{LangSpace}}",
    "name":"space",
-   "state": "{{space}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
+   "state":"{{space}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "module": "",
-   "action": "device?ssdp=[[ssdp]]&space=[[space]]",
-   "class": "btn btn-block btn-success"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "module":"",
+   "action":"device?ssdp=[[ssdp]]&space=[[space]]",
+   "class":"btn btn-block btn-success"
   },
 
 
   {
-   "type": "text",
+   "type":"hr"
+  },
+
+
+  {
+   "type":"text",
    "name":"ip-adress",
-   "title": "<div class=\"loader\"></div><h3>{{LangConnect1}}</h3>",
-   "class": "col-sm-offset-2 col-sm-8 pop-up hidden"
+   "title":"<div class=\"loader\"></div><h3>{{LangConnect1}}</h3>",
+   "class":"col-sm-offset-2 col-sm-8 pop-up hidden"
   },
 
 
   {
-   "type": "text",
-   "title": "{{LangWiFi3}}",
-   "class": "alert alert-dismissible alert-danger"
+   "type":"text",
+   "title":"{{LangWiFi3}}",
+   "class":"alert alert-dismissible alert-danger"
   },
 
 
   {
-   "type": "h2",
-   "title": "{{LangWiFi2}}"
+   "type":"h2",
+   "title":"{{LangWiFi2}}"
   },
 
 
   {
-   "type": "wifi",
+   "type":"wifi",
    "title":"{{LangWiFi1}}",
    "name":"ssid",
-   "state": "{{ssid}}",
-   "pattern": ".{1,20}"
+   "state":"{{ssid}}",
+   "pattern":".{1,20}"
   },
   {
-   "type": "password",
-   "title": "{{LangDevice}}",
+   "type":"password",
+   "title":"{{LangDevice}}",
    "name":"ssidPass",
-   "state": "{{ssidPass}}",
-   "pattern": ".{8,20}"
+   "state":"{{ssidPass}}",
+   "pattern":".{8,20}"
   },
   {
-   "type": "button",
+   "type":"button",
    "module":"",
    "name":"savsff",
-   "title": "{{LangSave}}",
-   "class": "btn btn-block btn-success",
-   "action": "ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&checkboxIP=0"
+   "title":"{{LangSave}}",
+   "class":"btn btn-block btn-success",
+   "action":"ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&checkboxIP=0"
   },
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
 
 
-
   {
-   "type": "link",
-   "title": "{{LangReset1}}",
+   "type":"link",
+   "title":"{{LangReset1}}",
    "name":"titi",
-   "action": "javascript:toggle('ip-adress');send_request_post(this,'restartWiFi','{{ip-adress}}');",
-   "class": "btn btn-block btn-warning"
+   "action":"javascript:toggle('ip-adress');send_request_post(this,'restartWiFi','{{ip-adress}}');",
+   "class":"btn btn-block btn-warning"
   }
-]}
+ ]}

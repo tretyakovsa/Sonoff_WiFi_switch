@@ -1,86 +1,86 @@
 {
- "configs": [
+ "configs":[
   "/config.live.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "title": "{{LangTimer}}",
+ "title":"{{LangTimer}}",
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
- "content": [
+ "content":[
   {
-   "type": "h5",
-   "title": "{{SSDP}}",
+   "type":"h5",
+   "title":"{{SSDP}}",
    "class":"alert-danger"
   },
   {
-   "type": "select",
-   "state": "{{lang}}",
+   "type":"select",
+   "state":"{{lang}}",
    "name":"languages",
-   "action": "/lang?set=[[languages]]",
+   "action":"/lang?set=[[languages]]",
    "response":"page.htm?timer",
-   "style": "margin-top:-47px;float:right;width:70px",
-   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+   "style":"margin-top:-47px;float:right;width:70px",
+   "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
 
 
   {
-   "type": "link",
-   "title": "{{LangDevices}}",
-   "action": "/",
-   "class": "btn btn-block btn-danger"
+   "type":"link",
+   "title":"{{LangDevices}}",
+   "action":"/",
+   "class":"btn btn-block btn-danger"
   },
 
 
   {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB",
-   "module": "rgb",
-   "action": "/page.htm?rgb",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} RGB",
+   "module":"rgb",
+   "action":"/page.htm?rgb",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Relay",
-   "module": "relay",
-   "action": "/page.htm?relay",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
+   "module":"relay",
+   "action":"/page.htm?relay",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
-   "module": "jalousie",
-   "action": "/page.htm?jalousie",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
+   "module":"jalousie",
+   "action":"/page.htm?jalousie",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "/page.htm?setup",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
   },
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
   {
-   "type": "time",
-   "title": "{{LangTime1}}",
+   "type":"time",
+   "title":"{{LangTime1}}",
    "state":"{{time}}"
   },
 
   {
-   "type": "hr"
+   "type":"hr"
   },
   {
-   "type": "h2",
-   "title": "{{LangList}}"
+   "type":"h2",
+   "title":"{{LangList}}"
   },
   {
-   "type": "table",
+   "type":"table",
    "name":"timer-list",
-   "state": "timer.save.json",
-   "title": {
+   "state":"timer.save.json",
+   "title":{
     "module":"",
     "trigger":"{{LangOn.}}/{{LangOff.}}",
     "day":"{{LangDay}}",
@@ -88,89 +88,89 @@
     "work":"{{LangWorkTime}}",
     "id":"{{LangDel}}"
    },
-   "class": "table",
-   "style": "width:100%;"
+   "class":"table",
+   "style":"width:100%;"
   },
 
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
   {
-   "type": "h2",
-   "title": "{{LangTime3}}"
+   "type":"h2",
+   "title":"{{LangTime3}}"
   },
   {
-   "type": "text",
-   "title": "{{LangTime6}}",
-   "class": "alert alert-warning"
+   "type":"text",
+   "title":"{{LangTime6}}",
+   "class":"alert alert-warning"
   },
 
 
   {
-   "type": "select",
+   "type":"select",
    "name":"module",
    "response":"[[trigger]]",
-   "action": "/trigger.[[module]].json",
+   "action":"/trigger.[[module]].json",
    "title":{"rgb":"RGB","relay":"Relay","jalousie":"Jalousie"}
   },
 
 
 
   {
-   "type": "select",
+   "type":"select",
    "name":"trigger",
-   "style": "width:50%;display:inline",
-   "title": {"not":"{{LangSwitch.}}","on":"{{LangOn.}}","off":"{{LangOff.}}"}
+   "style":"width:50%;display:inline",
+   "title":{"not":"{{LangSwitch.}}","on":"{{LangOn.}}","off":"{{LangOff.}}"}
   },
   {
-   "type": "select",
+   "type":"select",
    "name":"day",
-   "style": "width:50%;display:inline",
-   "title": {
-       "All":"{{LangDay}}",
-       "All":"{{LangAll}}",
-       "Mon":"{{LangMon}}",
-       "Tue":"{{LangTue}}",
-       "Wed":"{{LangWed}}",
-       "Thu":"{{LangThu}}",
-       "Fri":"{{LangFri}}",
-       "Sat":"{{LangSat}}",
-       "Sun":"{{LangSun}}"
-}
+   "style":"width:50%;display:inline",
+   "title":{
+    "All":"{{LangDay}}",
+    "All":"{{LangAll}}",
+    "Mon":"{{LangMon}}",
+    "Tue":"{{LangTue}}",
+    "Wed":"{{LangWed}}",
+    "Thu":"{{LangThu}}",
+    "Fri":"{{LangFri}}",
+    "Sat":"{{LangSat}}",
+    "Sun":"{{LangSun}}"
+   }
   },
   {
-   "type": "input",
+   "type":"input",
    "name":"set-time",
-   "title": "{{LangExample}}: 07:09:30",
-   "style": "width:50%;display:inline",
+   "title":"{{LangExample}}: 07:09:30",
+   "style":"width:50%;display:inline",
    "pattern":"(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}"
   },
   {
-   "type": "input",
+   "type":"input",
    "name":"work",
-   "title": "{{LangWorkTime}}. {{LangExample}}: 00:40:00",
-   "style": "width:50%;display:inline",
-   "pattern": "(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}"
+   "title":"{{LangWorkTime}}. {{LangExample}}: 00:40:00",
+   "style":"width:50%;display:inline",
+   "pattern":"(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-    "response":"[[timer-list]]",
-   "module": "",
-   "class": "btn btn-block btn-success",
-   "action": "/timerSave?module=[[module]]&trigger=[[trigger]]&id=[[time]]&day=[[day]]&time=[[set-time]]&work=[[work]]"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "response":"[[timer-list]]",
+   "module":"",
+   "class":"btn btn-block btn-success",
+   "action":"/timerSave?module=[[module]]&trigger=[[trigger]]&id=[[time]]&day=[[day]]&time=[[set-time]]&work=[[work]]"
   },
   {
-   "type": "hr"
+   "type":"hr"
   },
 
   {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "/page.htm?setup",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
   }
 
  ]

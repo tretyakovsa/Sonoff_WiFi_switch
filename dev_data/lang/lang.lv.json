@@ -14,7 +14,6 @@
  "LangSorting":"Sorting",
  "LangSearch1":"Meklēt",
  "LangSearch2":"Ja jums ir vairākas ierīces, kas saistīts ar tīklu, jūs varat pievienot to šeit, noklikšķinot uz zemāk pogu:",
- "LangSearch3":"Atrast ierīces",
  "LangSearch4":"Lūdzu, uzgaidiet, skenējot tīklu.",
  "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat \"Vadība lapa\".",
  "LangLanguage":"Latviski",
@@ -82,7 +81,6 @@
 
  "_comment": "---page.htm?relay---",
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">vairāk...</a><span id=\"ifttt-help\" class=\"hidden\"> pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"ddns-url1\"></span><br>Global saite: <span id=\"ddns-url2\"></span></span>",
- "LangOnOff":"Ieslēgt/Izslēgt",
  "LangOn":"Ieslēgt",
  "LangOff":"Izslēgt",
  "LangPir1":"PIR Sensor",
@@ -100,7 +98,6 @@
  "LengBrightness":"Spilgtums",
 
  "_comment": "---page.htm?jalousie---",
- "LangOpenClose":"Aizvert / Atvert",
  "LangClose":"Aizvert",
  "LangOpen":"Atvert",
  "LangTurn":"Motora apgriezienu skaits",

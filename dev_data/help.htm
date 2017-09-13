@@ -48,7 +48,7 @@
    xmlHttp.open('GET',server,true);
    xmlHttp.send(null);
    xmlHttp.onload = function(e) {
-    document.getElementById(id_element).innerHTML = xmlHttp.responseText;
+    document.getElementById(id_element).innerHTML=xmlHttp.responseText;
     Prism.highlightAll();
    }
   }
@@ -60,12 +60,12 @@
   setTimeout(function(){load_request('timer-save-json','/timer.save.json');},7000);
 
   function listCookies() {
-   var theCookies = document.cookie.split(';');
-   var aString = '';
-   for (var i = 1 ; i <= theCookies.length; i++) {
-    aString += i + ' ' + theCookies[i-1] + "\n";
+   var theCookies=document.cookie.split(';');
+   var aString='';
+   for (var i=1;i<=theCookies.length;i++) {
+    aString+=i+' '+theCookies[i-1]+"\n";
    }
-   document.getElementById("lang-cookie").innerHTML = aString;
+   document.getElementById("lang-cookie").innerHTML=aString;
   }
   listCookies();
  </script>

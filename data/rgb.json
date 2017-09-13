@@ -1,85 +1,85 @@
 {
- "configs": [
+ "configs":[
   "/config.live.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "title": "{{LangOptions1}}",
+ "title":"{{LangOptions1}}",
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
- "content": [
+ "content":[
   {
-   "type": "h5",
-   "title": "{{SSDP}}",
+   "type":"h5",
+   "title":"{{SSDP}}",
    "class":"alert-info"
   },
   {
-   "type": "select",
-   "state": "{{lang}}",
+   "type":"select",
+   "state":"{{lang}}",
    "name":"languages",
-   "action": "/lang?set=[[languages]]",
+   "action":"/lang?set=[[languages]]",
    "response":"page.htm?rgb",
-   "style": "margin-top:-47px;float:right;width:70px",
-   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+   "style":"margin-top:-47px;float:right;width:70px",
+   "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
 
 
   {
-   "type": "link",
-   "title": "{{LangDevices}}",
-   "action": "/",
-   "class": "btn btn-block btn-danger"
+   "type":"link",
+   "title":"{{LangDevices}}",
+   "action":"/",
+   "class":"btn btn-block btn-danger"
   },
   {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Relay",
-   "module": "relay",
-   "action": "/page.htm?relay",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
+   "module":"relay",
+   "action":"/page.htm?relay",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
-   "module": "jalousie",
-   "action": "/page.htm?jalousie",
-   "class": "btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
+   "module":"jalousie",
+   "action":"/page.htm?jalousie",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "/page.htm?setup",
-   "class": "btn btn-block btn-default"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
   },
 
 
   {
-   "type": "text",
+   "type":"hr"
+  },
+
+
+  {
+   "type":"text",
    "module":"ddns",
-   "title": "{{LangIfttt1}}",
-   "class": "alert alert-info"
+   "title":"{{LangIfttt1}}",
+   "class":"alert alert-info"
   },
 
   {
-   "type": "rgb",
-   "title": "/img/swatches.png",
+   "type":"rgb",
+   "title":"/img/swatches.png",
    "name":"color",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
-   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "action":"set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "style":"cursor:pointer;width:100%"
   },
 
   {
-   "type": "select",
-   "state": "{{modeRGB}}",
+   "type":"select",
+   "state":"{{modeRGB}}",
    "name":"dynamic",
    "response":"[[rgb]]",
-   "action": "set?m=[[dynamic]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
-   "title": {
+   "action":"set?m=[[dynamic]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "title":{
     "0":"Static",
     "1":"Blink",
     "2":"Breath",
@@ -130,16 +130,16 @@
 
 
   {
-   "type": "h4",
-   "title": "{{LangTime8}} {{LangSoon}}"
+   "type":"h4",
+   "title":"{{LangTime8}} {{LangSoon}}"
   },
   {
-   "type": "select",
-   "state": "{{timeRGB}}",
+   "type":"select",
+   "state":"{{timeRGB}}",
    "name":"time",
    "response":"[[rgb]]",
-   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
-   "title": {
+   "action":"set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "title":{
     "60":"1",
     "300":"5",
     "600":"10",
@@ -153,164 +153,164 @@
    }
   },
   {
-   "type": "h4",
-   "title": "{{LangTime5}} {{LangSoon}}"
+   "type":"h4",
+   "title":"{{LangTime5}} {{LangSoon}}"
   },
   {
-   "type": "input",
-   "title": "",
+   "type":"input",
+   "title":"",
    "name":"sound",
-   "state": "{{timeBUZ}}",
-   "pattern": "[-+]?[0-9]*[.]?[0-9]+"
+   "state":"{{timeBUZ}}",
+   "pattern":"[-+]?[0-9]*[.]?[0-9]+"
   },
 
   {
-   "type": "range",
-   "title": "{{LangSpeed}}",
+   "type":"range",
+   "title":"{{LangSpeed}}",
    "name":"speed",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
-   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "action":"set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
-   "type": "range",
-   "title": "{{LengBrightness}}",
+   "type":"range",
+   "title":"{{LengBrightness}}",
    "name":"brightness",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action": "set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
+   "action":"set?c=[[color]]&time=[[time]]&sound=[[sound]]&s=[[speed]]&b=[[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
 
 
 
   {
-   "type": "button",
-   "title": "({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "type":"button",
+   "title":"({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
    "name":"rgb",
    "response":"[[rgb]]",
-   "action": "rgb",
-   "class": "btn btn-block btn-lg btn-primary"
+   "action":"rgb",
+   "class":"btn btn-block btn-lg btn-primary"
   },
 
 
   {
-   "type": "hr",
+   "type":"hr",
    "module":"timers"
   },
 
 
   {
-   "type": "h2",
+   "type":"h2",
    "module":"timers",
-   "title": "{{LangTimer}}"
+   "title":"{{LangTimer}}"
   },
   {
-   "type": "table",
+   "type":"table",
    "module":"timers",
-   "state": "timer.save.json",
-   "title": {
+   "state":"timer.save.json",
+   "title":{
     "module":"",
     "trigger":"{{LangOn.}}/{{LangOff.}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
     "work":"{{LangWorkTime}}"
    },
-   "class": "table alert alert-dismissible alert-warning",
-   "style": "width:100%;"
+   "class":"table alert alert-dismissible alert-warning",
+   "style":"width:100%;"
   },
   {
-   "type": "link",
+   "type":"link",
    "module":"timers",
-   "title": "{{LangTimer}}",
-   "action": "page.htm?timer",
-   "class": "btn btn-block btn-default"
+   "title":"{{LangTimer}}",
+   "action":"page.htm?timer",
+   "class":"btn btn-block btn-default"
   },
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
 
 
   {
-   "type": "chart",
+   "type":"chart",
    "title":"{{LangAnalog}}",
-   "state": "analog.json",
+   "state":"analog.json",
    "module":"analog",
-   "action": "/page.htm?chart&analog",
-   "style": "height:200px;margin-left:-20px"
+   "action":"/page.htm?chart&analog",
+   "style":"height:200px;margin-left:-20px"
   },
   {
-   "type": "chart",
+   "type":"chart",
    "title":"{{LangTemperature}}",
-   "state": "temperature.json",
+   "state":"temperature.json",
    "module":"temperature",
-   "action": "/page.htm?chart&analog",
-   "style": "height:200px;margin-left:-20px"
+   "action":"/page.htm?chart&analog",
+   "style":"height:200px;margin-left:-20px"
   },
   {
-   "type": "chart",
+   "type":"chart",
    "title":"{{LangHumidity}}",
-   "state": "humidity.json",
+   "state":"humidity.json",
    "module":"humidity",
-   "action": "/page.htm?chart&analog",
-   "style": "height:200px;margin-left:-20px"
+   "action":"/page.htm?chart&analog",
+   "style":"height:200px;margin-left:-20px"
   },
 
   {
-   "type": "h2",
-   "module": "movement",
-   "title": "{{LangPir1}}"
+   "type":"h2",
+   "module":"movement",
+   "title":"{{LangPir1}}"
   },
   {
-   "type": "text",
-   "module": "movement",
-   "title": "{{LangPir2}} {{LangSoon}}",
-   "class": "alert alert-info",
-   "style": "width:60%;float:left;"
+   "type":"text",
+   "module":"movement",
+   "title":"{{LangPir2}} {{LangSoon}}",
+   "class":"alert alert-info",
+   "style":"width:60%;float:left;"
   },
 
   {
-   "type": "input",
-   "module": "movement",
-   "title": "",
+   "type":"input",
+   "module":"movement",
+   "title":"",
    "name":"pir-time",
-   "state": "{{pirTime}}",
-   "style": "width:35%;float:right;",
-   "pattern": "[0-9]*[.,]?[0-9]+"
+   "state":"{{pirTime}}",
+   "style":"width:35%;float:right;",
+   "pattern":"[0-9]*[.,]?[0-9]+"
   },
   {
-   "type": "button",
-   "module": "movement",
-   "title": "{{LangOff.}}",
-   "action": "/pir?t=0",
-   "class": "btn btn-block btn-default",
-   "style": "width:15%;float:right;margin-top:5px;"
+   "type":"button",
+   "module":"movement",
+   "title":"{{LangOff.}}",
+   "action":"/pir?t=0",
+   "class":"btn btn-block btn-default",
+   "style":"width:15%;float:right;margin-top:5px;"
   },
   {
-   "type": "button",
-   "module": "movement",
-   "title": "{{LangSave}}",
-   "action": "/pir?t=[[pir-time]]",
-   "class": "btn btn-block btn-success",
-   "style": "width:20%;float:right;"
-  },
-
-
-  {
-   "type": "hr",
-   "module": "movement",
-   "style": "clear:both;"
+   "type":"button",
+   "module":"movement",
+   "title":"{{LangSave}}",
+   "action":"/pir?t=[[pir-time]]",
+   "class":"btn btn-block btn-success",
+   "style":"width:20%;float:right;"
   },
 
 
   {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "/page.htm?setup",
-   "class": "btn btn-block btn-default"
+   "type":"hr",
+   "module":"movement",
+   "style":"clear:both;"
+  },
+
+
+  {
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
   }
 
  ]

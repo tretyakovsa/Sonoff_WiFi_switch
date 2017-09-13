@@ -27,14 +27,11 @@
     }
    }
 
-
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
-
     document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-danger">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
-
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -49,15 +46,11 @@
     }
    }
 
-
-
    function loadModule(ipval,stage,sorting) {
-
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json", true)
     xhttp.send(null);
     xhttp.onload = function(e) {
-
      var ipModule=JSON.parse(xhttp.responseText);
      var allModules = [];
      var allSpace = [];
@@ -95,13 +88,10 @@
        if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
       }
      }
-
     }
    }
 
-
    function loadBlock(ipval, content, stage, modules) {
-
     if (!modules) {
      var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/modules.json", true);
@@ -113,14 +103,12 @@
     } else {
      loadBlock2(modules,stage);
     }
-
     function loadBlock2(modules,stage){
      var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
       var jsonResponse1 = JSON.parse(xhttp.responseText);
-
       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
       xhttp.send(null);
       xhttp.onload = function(e) {
@@ -130,7 +118,6 @@
        for (var i = 1 ; i <= theCookies.length; i++) {
         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
        }
-
        if (stage == 'first'){
         if (searchModule(modules,"timers") == 'yes'){
          loadTimers(ipval,'table-timers',jsonResponse);
@@ -145,7 +132,6 @@
          loadSensor(ipval,'table-sensors',jsonResponse,"analog");
         }
        }
-
        if (searchModule(modules,"relay") == 'yes'){
         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
         var relayNumber = '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
@@ -168,7 +154,6 @@
         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-leakag"><\/tr>';}
         document.getElementById("block-"+ipval+"-leakag").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#leakag" onclick="deviceList(\'first\',\'leakag\');" class="label label-success">leakag<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?leakag" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
        }
-
        if (window.location.hostname == ipval && stage == 'first') {
         var new_string2;
         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
@@ -177,18 +162,14 @@
          bodyData = new_string2;
         }
         document.getElementsByTagName('body')[0].innerHTML = new_string2;
-
         if (searchModule(modules,"upgrade") == 'yes'){
          loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
         }
-
        }
-
       }
      }
     }
    }
-
 
    function loadTimers(ipval, content, jsonResponse) {
     var xmlHttp=createXmlHttpObject();
@@ -237,7 +218,6 @@
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = '';
-    //var parent = submit.parentNode.childNodes[1].innerHTML;
     var parent = submit.parentNode.parentNode.children[0].innerHTML;
     document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
@@ -248,7 +228,6 @@
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-     // if (!loadB) {loadBlock(ipHost,'block-'+ipHost, '');}
      var response=JSON.parse(xhttp.responseText);
      if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
      if (response.style && response.style!='undefined') {submit.style = response.style;}

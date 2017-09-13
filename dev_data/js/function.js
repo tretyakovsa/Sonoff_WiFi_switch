@@ -104,9 +104,6 @@ function setContent(stage) {
           if (type_val == 'table') {
            var thead = '';
            jsonTable = jsonPage.content[i].title;
-           // for(var key in jsonTable) {
-           //  thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
-           // }
            document.getElementById('contents').innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
            createTable(state_val, jsonTable);
           }
@@ -138,9 +135,6 @@ function setContent(stage) {
           if (type_val == 'chart') {
            document.getElementById('contents').innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(jsonPage.content[i].action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2>'+renameBlock(jsonResponse, jsonPage.content[i].title)+'<\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
            if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
-            //var charTime;
-            //clearTimeout(charTime);
-            //charTime = setTimeout("loadChart('"+name_val+"','"+state_val+"')", 500);
             setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+jsonPage.content[i].options+"},"+jsonPage.content[i].refresh+","+jsonPage.content[i].points+")", 500);
            }
           }
@@ -457,8 +451,6 @@ function delAllCookies() {
  }
 }
 
-
-
 function loadConfigs(state_val) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", "configs/"+state_val, true);
@@ -468,12 +460,11 @@ function loadConfigs(state_val) {
   var configsLinePin;
   var configsLine = xmlHttp.responseText.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
-
    if (configsLine[key].substr(0,2) == '//') {
-    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none"><span class="label label-default">'+configsLine[key]+'</span><\/label></br>';
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none" disabled readonly><small>'+configsLine[key]+'</small><\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
-    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label style="margin-bottom:20px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
    }
   }
   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
@@ -507,7 +498,6 @@ function createTable(state_val, jsonTable) {
   var setTable = Object.keys(timers);
   html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
   html('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
-
   var thead = '';
   for(var key in jsonTable) {
    thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
@@ -528,7 +518,6 @@ function createTable(state_val, jsonTable) {
     if (jsonTable[keys] == '{{LangDel}}') {timers[setTable][i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers[setTable][i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
     tbody += '<td>'+timers[setTable][i][keys]+'<\/td>';
    }
-
    document.getElementById('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
   }
  }

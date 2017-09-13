@@ -54,8 +54,6 @@
     }
    }
 
-
-
    function loadModule(ipval,stage,sorting) {
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json", true);
@@ -71,30 +69,22 @@
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
       loadBlock(ipval,ipModule.space,'first',ipModule.module);
-
      }
-
      if(!document.getElementById(ipModule.space)){
       document.getElementById("content").innerHTML += '<h2>'+ipModule.space+'<\/h2><hr><div class="row" id="'+ipModule.space+'"><\/div>';
      }
-
-     // }
     }
    }
 
-
    function loadBlock(ipval, content, stage, modules) {
-
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var jsonResponse1 = JSON.parse(xhttp.responseText);
-
      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-
       var jsonResponse2=JSON.parse(xhttp.responseText);
       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
 
@@ -127,7 +117,6 @@
       if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
       }
-
       if (window.location.hostname == ipval && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
@@ -140,30 +129,25 @@
         loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
        }
       }
-
      }
     }
-
    }
 
    function loadBlock2(page, jsonPage, ipval, content, stage, jsonResponse){
     if (stage == 'first'){
      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
-
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var data = xhttp.responseText;
-
      var xmlHttp=createXmlHttpObject();
      xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
      xmlHttp.send(null);
      xmlHttp.onload = function(e) {
       var timers=JSON.parse(xmlHttp.responseText);
       var timerList = '';
-
       if (timers.timer) {
        timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
        for (var i = 0; i < timers.timer.length; i++) {
@@ -180,18 +164,15 @@
        jsonResponse.timerList = (timerList?timerList:'<li>'+jsonResponse.LangNoTimers+'<\/li>');
       }
       jsonResponse = Object.assign(jsonResponse, timers);
-
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
-
       jsonResponse.ip = ipval;
       jsonResponse.state = (jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose);
       jsonResponse.stateLeakag = (jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
-
       if (page == 'analog') {
        jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
        setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 500);
@@ -204,23 +185,15 @@
        jsonResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
        setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/humidity.json')", 500);
       }
-
       var new_string;
       for (var key in jsonResponse) {
        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
        data = new_string;
       }
       document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
-
-      //if (jsonPage == 'analog') {
-      // loadChart('ct-analog','analog.json');
-      //}
-
      }
-
     }
    }
-
 
    function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
@@ -236,26 +209,10 @@
     xhttp.onload = function(e) {
      submit.value=old_submit;
      submit_disabled(false);
-
-     //if (!loadB) {
-     // loadBlock(ipHost, pagename);
-     //}
-
-
      var response=JSON.parse(xhttp.responseText);
-     //if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
-     //if (response.style && response.style!='undefined') {submit.style = response.style;}
      if (response.title && response.title!='undefined') {
       if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
      }
-
-     // function loadBlock(ipval, content, stage, modules) {
-     // ipval, content, stage, modules
-     // loadBlock(ipval, content, stage, modules) {
-     //alert(ipHost+'block-'+ipHost+'-'+pagename);
-     //  if (!loadB) {
-     // loadBlock2(ipHost,'block-'+ipHost+'-'+pagename, '','[\''+pagename+'\']');
-     //  }
     }
    }
 
@@ -353,7 +310,6 @@
      }
     }
    }
-
 
    function loadCommits(){
     var xmlHttp=createXmlHttpObject();
