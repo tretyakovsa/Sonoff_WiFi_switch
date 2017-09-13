@@ -11,6 +11,13 @@ void webUpgrade() {
   HTTP.send(200, "text/html", refresh);
   String spiffsData = HTTP.arg("spiffs");
   if (spiffsData != "") {
+    SPIFFS.remove("/js/build.chart.js.gz");
+    SPIFFS.remove("/js/function.js.gz");
+    SPIFFS.remove("/css/build.css.gz");
+    SPIFFS.remove("/lang/lang.en.json.gz");
+    SPIFFS.remove("/lang/lang.ru.json.gz");
+    SPIFFS.remove("/lang/lang.lv.json.gz");
+    SPIFFS.remove("/lang/lang.ua.json.gz");
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     Serial.println(spiffsData);
     //String modules = readFile("config.modules.json", 4096);
