@@ -95,26 +95,12 @@ void setup() {
   //Serial.print(test);
   test.replace("\r\n", "\n");
    test +="\n";
-  //Serial.print(test);
    sCmd.readStr("wifi 12");
    sCmd.readStr("Upgrade");
    sCmd.readStr("SSDP");
    sCmd.readStr("HTTP");
 
   Serial.println(goCommands(test));
-  //Serial.println(modules);
-  //Serial.println(modules.lastIndexOf("[]"));
-  /*
-  if(modules.lastIndexOf("[]")!=-1){
-    String rn = "\n";
-    //test ="Serial 115200"+rn;
-    test ="wifi 12"+rn;
-    test +="Upgrade"+rn;
-    test +="SSDP"+rn;
-    test +="HTTP"+rn;
-    Serial.println(goCommands(test));
-    }
-   */
   Serial.println (configLive);
   Serial.println ("Start");
   configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());
@@ -126,9 +112,9 @@ void loop() {
   command = "";
   dnsServer.processNextRequest();
   HTTPWAN.handleClient();
-  delay(1);
+  yield();
   HTTP.handleClient();
-  delay(1);
+  yield();
   handleUDP();
   handleMQTT();
   ws2812fx.service();

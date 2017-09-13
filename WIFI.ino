@@ -9,17 +9,25 @@
 // ---------------- Инициализация WiFi
 void initWIFI() {
   // Пишем ногу led и количество попыток в конфиг
-  configLive = jsonWrite(configLive, "attempt", readArgsInt());
-  configLive = jsonWrite(configLive, "led", readArgsInt());
-  Serial.println(configLive);
+  //configLive = jsonWrite(configLive, "wifiConnect", readArgsInt());
+  //configLive = jsonWrite(configLive, "wifiled", readArgsInt());
+  //Serial.println(configLive);
 
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
+  HTTP.on("/wifi", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/restart", handle_restart);               // Перезагрузка модуля
   HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
   startWIFI();
 }
+
+void handle_wifi(){
+  configJson = jsonWrite(configJson, "wifiConnect", HTTP.arg("connect"));
+  configJson = jsonWrite(configJson, "wifiLed", HTTP.arg("led"));
+  HTTP.send(200, "text/plain", "Ok");
+  writeFile("config.save.json", configJson );
+  }
 
 // --------------Установить имя и пароль для роутера
 void handle_ssid() {
@@ -64,7 +72,7 @@ bool RestartWiFi() {
   // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.begin(jsonRead(configJson, "ssid").c_str(),jsonRead(configJson, "ssidPass").c_str());
 
-  wifiConnect(jsonReadtoInt(configLive, "attempt"), jsonReadtoInt(configLive, "led"));
+  wifiConnect(jsonReadtoInt(configJson, "wifiConnect"), jsonReadtoInt(configJson, "wifiLed"));
 
   Serial.println("");
   Serial.println(WiFi.localIP());
@@ -118,7 +126,7 @@ boolean startSTA(String configWiFi) {
   //WiFi.begin(jsonRead(configJson, "ssid").c_str(),jsonRead(configJson, "ssidPass").c_str());
   Serial.println(jsonRead(configJson, "ssid").c_str());
   Serial.println(jsonRead(configJson, "ssidPass").c_str());
-  if ( wifiConnect(jsonReadtoInt(configLive, "attempt"), jsonReadtoInt(configLive, "led"))) {
+  if ( wifiConnect(jsonReadtoInt(configJson, "wifiConnect"), jsonReadtoInt(configJson, "wifiLed"))) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     configJson = jsonWrite(configJson, "ip", WiFi.localIP().toString());
