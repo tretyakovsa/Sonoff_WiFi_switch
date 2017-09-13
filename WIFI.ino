@@ -15,7 +15,7 @@ void initWIFI() {
 
   HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
   HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
-  HTTP.on("/wifi", handle_ssidap);    // Установить имя и пароль для точки доступа
+  HTTP.on("/wifi", handle_wifi);    // Установить имя и пароль для точки доступа
   HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
   HTTP.on("/restart", handle_restart);               // Перезагрузка модуля
   HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
