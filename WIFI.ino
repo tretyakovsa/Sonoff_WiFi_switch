@@ -130,6 +130,8 @@ boolean startSTA(String configWiFi) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     configJson = jsonWrite(configJson, "ip", WiFi.localIP().toString());
+    configJson = jsonWrite(configJson, "getway", WiFi.gatewayIP().toString());
+    configJson = jsonWrite(configJson, "subnet", WiFi.subnetMask().toString());
     statistics();
     return true;
   }
