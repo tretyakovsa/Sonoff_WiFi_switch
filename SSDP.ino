@@ -30,7 +30,7 @@ void initSSDP() {
   SSDP.setSerialNumber(chipID);
   SSDP.setURL("/");
   SSDP.setModelName(jsonRead(configJson, "configs"));
-  SSDP.setModelNumber(chipID);
+  SSDP.setModelNumber(chipID+"/"+jsonRead(configJson, "SSDP"));
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
@@ -63,6 +63,7 @@ void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
     addressList = "{\"ssdpList\":[]}";
     ssdpList(chipID,  WiFi.localIP().toString(), jsonRead(configJson, "SSDP"));
+    configJson = jsonWrite(configJson, jsonRead(configJson, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
@@ -86,13 +87,21 @@ void handleUDP() {
     //Serial.println(input_string);
     int i = input_string.indexOf("Arduino");
     if (i > 0) {
+
       chipIDremote = deleteBeforeDelimiter(input_string, "Arduino");
+      //Serial.println(chipIDremote);
       chipIDremote = selectToMarker(chipIDremote, "\n");
-      ssdpName = selectToMarkerLast(chipIDremote, " ");
-      ssdpName = selectToMarker(ssdpName, "/");
+      //Serial.println(chipIDremote);
+      //1.0 UPNP/1.1 smart-room/4039-1458400/IoT-Room 2 (\n)
+      ssdpName = selectToMarkerLast(chipIDremote, "/");
+      ssdpName = selectToMarker(ssdpName, "\r");
+      //Serial.println(ssdpName);
+      //ssdpName = selectToMarker(ssdpName, "/");
+      //Serial.println(ssdpName);
       chipIDremote = selectToMarkerLast(chipIDremote, "/");
       chipIDremote = selectToMarker(chipIDremote, "\r");
       // строку input_string сохраняю для расширения
+      configJson = jsonWrite(configJson, chipIDremote, udp.remoteIP().toString());
       ssdpList(chipIDremote, udp.remoteIP().toString(), ssdpName);
     }
   }
@@ -102,7 +111,7 @@ void ssdpList(String chipIDremote, String remoteIP, String ssdpName ) {
   JsonObject& list = jsonBuffer.parseObject(addressList);
   JsonArray& arrays = list["ssdpList"].asArray();
   JsonObject& record = arrays.createNestedObject();
-  record["id"]  = chipIDremote;
+  //record["id"]  = chipIDremote;
   record["ip"]  = remoteIP;
   record["ssdp"]  = ssdpName;
   addressList = "";

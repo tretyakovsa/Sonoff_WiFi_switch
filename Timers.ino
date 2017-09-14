@@ -28,16 +28,16 @@ void handle_timer_Save() {
   HTTP.send(200, "text/plain", responsTimer());
 }
 
-String responsTimer(){
-  String responsA="{\"state\": \"timer.save.json\",\"title\":";
-  String responsB ="{}";
-  responsB= jsonWrite(responsB, "module", "");
-  responsB= jsonWrite(responsB, "trigger", "{{LangOn.}}/{{LangOff.}}");
-  responsB= jsonWrite(responsB, "day", "{{LangDay}}");
-  responsB= jsonWrite(responsB, "time", "{{LangTime4}}");
-  responsB= jsonWrite(responsB, "work", "{{LangWorkTime}}");
-  responsB= jsonWrite(responsB, "id", "{{LangDel}}");
-  return responsA +=responsB +="}";
+String responsTimer() {
+  String responsA = "{\"state\": \"timer.save.json\",\"title\":";
+  String responsB = "{}";
+  responsB = jsonWrite(responsB, "module", "");
+  responsB = jsonWrite(responsB, "trigger", "{{LangOn.}}/{{LangOff.}}");
+  responsB = jsonWrite(responsB, "day", "{{LangDay}}");
+  responsB = jsonWrite(responsB, "time", "{{LangTime4}}");
+  responsB = jsonWrite(responsB, "work", "{{LangWorkTime}}");
+  responsB = jsonWrite(responsB, "id", "{{LangDel}}");
+  return responsA += responsB += "}";
 }
 
 
@@ -91,9 +91,9 @@ void runTimers() {
   String timers = Timerset;
   String now = GetTime();
   String Weekday = GetWeekday();
-  if (jsonRead(configJson, "Weekday")!=Weekday){
-  configJson = jsonWrite(configJson, "Weekday", Weekday);
-  loadTimer();
+  if (jsonRead(configJson, "Weekday") != Weekday) {
+    configJson = jsonWrite(configJson, "Weekday", Weekday);
+    loadTimer();
   }
   configJson = jsonWrite(configJson, "time", now);
   int i;

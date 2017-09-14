@@ -1,9 +1,9 @@
 void initUpgrade() {
-    // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
+  // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
-    HTTP.on("/upgrade", webUpgrade);                // запустить обнавление
-    modulesReg("upgrade");
-  }
+  HTTP.on("/upgrade", webUpgrade);                // запустить обнавление
+  modulesReg("upgrade");
+}
 // ----------------------- Обновление с сайта
 void webUpgrade() {
   Serial.println("Update module...");
@@ -11,21 +11,21 @@ void webUpgrade() {
   HTTP.send(200, "text/html", refresh);
   String spiffsData = HTTP.arg("spiffs");
   if (spiffsData != "") {
-    SPIFFS.remove("/js/build.chart.js.gz");
-    SPIFFS.remove("/js/function.js.gz");
-    SPIFFS.remove("/css/build.css.gz");
-    SPIFFS.remove("/lang/lang.en.json.gz");
-    SPIFFS.remove("/lang/lang.ru.json.gz");
-    SPIFFS.remove("/lang/lang.lv.json.gz");
-    SPIFFS.remove("/lang/lang.ua.json.gz");
+    SPIFFS.format();
+    /*
+      SPIFFS.remove("/js/build.chart.js.gz");
+      SPIFFS.remove("/js/function.js.gz");
+      SPIFFS.remove("/css/build.css.gz");
+      SPIFFS.remove("/lang/lang.en.json.gz");
+      SPIFFS.remove("/lang/lang.ru.json.gz");
+      SPIFFS.remove("/lang/lang.lv.json.gz");
+      SPIFFS.remove("/lang/lang.ua.json.gz");
+    */
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     Serial.println(spiffsData);
-    //String modules = readFile("config.modules.json", 4096);
     ESPhttpUpdate.rebootOnUpdate(false);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
-    //writeFile("config.modules.json", modules);
     writeFile("timer.save.json", jsonTimer);
-    //timer_Save();
     configJson = jsonWrite(configJson, "spiffsData", spiffsData);
     writeFile("config.save.json", configJson );
   }

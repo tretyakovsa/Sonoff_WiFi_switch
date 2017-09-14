@@ -1,3 +1,18 @@
+// ------------------- Инициализация  Динамика
+void initBuzer() {
+  configLive = jsonWrite(configLive, "pinBuzer", readArgsInt());
+  pinMode(jsonReadtoInt(configLive, "pinBuzer"), OUTPUT);
+
+  analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+  analogWriteFreq(0);
+
+}
+void buzerBeep() {
+  analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+  analogWriteFreq(readArgsInt());
+}
+
+
 // -----------------  Аналоговый вход A0
 void initA0() {
   HTTP.on("/analog.json", HTTP_GET, []() {
