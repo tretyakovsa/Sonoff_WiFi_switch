@@ -1,6 +1,8 @@
 void initTimers() {
   HTTP.on("/timerSave", handle_timer_Save);
   HTTP.on("/timersDel", handle_timer_Del);
+  HTTP.on("/timer.modules.json", handle_timer_Mod);
+
   // задача проверять таймеры каждую секунду.
   ts.add(0, 1000, [&](void*) {
     runTimers();
@@ -8,6 +10,45 @@ void initTimers() {
   loadTimer();
   modulesReg("timers");
 }
+/*
+{
+  "configs": [
+    {
+      "type": "select",
+      "name": "module",
+      "response": "[[trigger]]",
+      "action": "/trigger.[[module]].json",
+      "title": {
+        "rgb": "RGB",
+        "relay": "Relay",
+        "jalousie": "Jalousie"
+      }
+    }
+  ]
+}
+*/
+void handle_timer_Mod(){
+  String responsA = "{\"configs\":[";
+  String responsB ="{}";
+  String responsC ="{}";
+responsC = jsonWrite(responsC, "rgb", "RGB");
+responsC = jsonWrite(responsC, "relay", "Relay");
+responsC = jsonWrite(responsC, "jalousie", "Jalousie");
+
+   responsB = jsonWrite(responsB, "type", "select");
+   responsB = jsonWrite(responsB, "name", "module");
+   responsB = jsonWrite(responsB, "response", "[[trigger]]");
+   responsB = jsonWrite(responsB, "action", "/trigger.[[module]].json");
+
+   responsB = selectToMarker (responsB, "}");
+
+   responsA +=responsB;
+   responsA += ",\"title\":";
+   responsA +=responsC;
+   responsA += "}]}";
+   HTTP.send(200, "text/json", responsA);
+  }
+
 
 void handle_timer_Save() {
   DynamicJsonBuffer jsonBuffer;
