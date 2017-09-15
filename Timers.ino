@@ -10,27 +10,13 @@ void initTimers() {
   loadTimer();
   modulesReg("timers");
 }
-/*
-{
-  "configs": [
-    {
-      "type": "select",
-      "name": "module",
-      "response": "[[trigger]]",
-      "action": "/trigger.[[module]].json",
-      "title": {
-        "rgb": "RGB",
-        "relay": "Relay",
-        "jalousie": "Jalousie"
-      }
-    }
-  ]
-}
-*/
+
 void handle_timer_Mod(){
-  String responsA = "{\"configs\":[";
+  String responsA = "{\"content\":[";
   String responsB ="{}";
   String responsC ="{}";
+
+  Serial.println(modules);
 responsC = jsonWrite(responsC, "rgb", "RGB");
 responsC = jsonWrite(responsC, "relay", "Relay");
 responsC = jsonWrite(responsC, "jalousie", "Jalousie");
