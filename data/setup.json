@@ -124,7 +124,7 @@
    "state": "{{wifiConnect}}",
    "name":"wifi-connect",
    "action": "wifi?connect=[[wifi-connect]]&led=[[wifi-led]]",
-   "style": "width:60%;display:inline;height:auto;font-weight:normal;",
+   "style": "width:65%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
    "title": {"10":"{{LangWiFi2}} 10 {{LangSec}}","15":"{{LangWiFi2}} 15 {{LangSec}}","30":"{{LangWiFi2}} 30 {{LangSec}}","60":"{{LangWiFi2}} 1 {{LangMin.}}","120":"{{LangWiFi2}} 2 {{LangMin.}}"}
   },
@@ -133,9 +133,9 @@
    "state": "{{wifiLed}}",
    "name":"wifi-led",
    "action": "wifi?connect=[[wifi-connect]]&led=[[wifi-led]]",
-   "style": "width:40%;display:inline;height:auto;font-weight:normal;",
+   "style": "width:35%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
-   "title": {"12":"Blink led GPIO 12","13":"Blink led GPIO 13","14":"Blink led GPIO 14","15":"Blink led GPIO 15","16":"Blink led GPIO 16"}
+   "title": {"":"Blink {{LangOff.}}","12":"Blink GPIO 12","13":"Blink GPIO 13","14":"Blink GPIO 14","15":"Blink GPIO 15","16":"Blink GPIO 16"}
   },
 
   {
