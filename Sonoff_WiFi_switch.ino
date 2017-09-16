@@ -87,7 +87,7 @@ void setup() {
   initCMD();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   FS_init();         // Включаем работу с файловой системой
-  configJson = readFile("config.save.json", 1024);
+  configJson = readFile("config.save.json", 4096);
   String configs = jsonRead(configJson, "configs");
   configs.toLowerCase();
 

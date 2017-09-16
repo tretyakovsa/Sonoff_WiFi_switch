@@ -25,6 +25,20 @@ void webUpgrade() {
     Serial.println(spiffsData);
     ESPhttpUpdate.rebootOnUpdate(false);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
+switch(ret) {
+            case HTTP_UPDATE_FAILED:
+            configJson = jsonWrite(configJson, "spiffsData", "HTTP_UPDATE_FAILED");
+            statistics();
+            break;
+            case HTTP_UPDATE_NO_UPDATES:
+            configJson = jsonWrite(configJson, "spiffsData", "HTTP_UPDATE_NO_UPDATES");
+            statistics();
+                break;
+            case HTTP_UPDATE_OK:
+            configJson = jsonWrite(configJson, "spiffsData", "HTTP_UPDATE_OK");
+            statistics();
+                break;
+        }
     writeFile("timer.save.json", jsonTimer);
     configJson = jsonWrite(configJson, "spiffsData", spiffsData);
     writeFile("config.save.json", configJson );
