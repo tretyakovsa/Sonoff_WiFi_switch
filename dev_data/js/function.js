@@ -11,6 +11,7 @@ function createXmlHttpObject(){
 var set_real_time;
 
 function setContent(stage) {
+ jsonResponse = '';
  var xmlHttp=createXmlHttpObject();
  pages[0] = (pages[0]?pages[0]:'index');
  xmlHttp.open('GET', pages[0]+".json",true);
