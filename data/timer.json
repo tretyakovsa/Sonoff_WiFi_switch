@@ -85,7 +85,7 @@
     "trigger":"{{LangOn.}}/{{LangOff.}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
-    "work":"{{LangWorkTime}}",
+    "work":"{{LangWorkTime}}{{LangSoon}}",
     "id":"{{LangDel}}"
    },
    "class":"table",
@@ -143,7 +143,7 @@
   {
    "type":"input",
    "name":"set-time",
-   "title":"{{LangExample}}: 07:09:30",
+   "title":"Start. {{LangExample}}: 07:09:30",
    "style":"width:50%;display:inline",
    "pattern":"(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}"
   },
