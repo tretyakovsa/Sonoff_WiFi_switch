@@ -191,13 +191,13 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    }
    if (type_val == 'loadJson') {
     document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'>'+jsonResponse.LangLoading+'<\/div>';
-    loadJson(state_val, jsonResponse, 'json-tes-json');
+    loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
    }
    if (type_val == 'wifi') {
     document.getElementById(idName).innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
     document.getElementById(idName).innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
    }
-   if (type_val == 'time') {
+   if (type_val == 'time' && typeof jsonResponse.time !== undefined) {
     document.getElementById(idName).innerHTML += '<h2 id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, jsonPage.content[i].title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
     clearTimeout(set_real_time);
     var res = jsonResponse.time.split(":");
@@ -311,7 +311,7 @@ function send_request(submit,server,state){
   }
   var ddnsUrl1 =  document.getElementById('ddns-url1');
   if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
-   ddnsUrl1.innerHTML = '<a href="http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ip+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
+   ddnsUrl1.innerHTML = '<a href="http://'+jsonResponse.ip+'/'+server+'">http://'+jsonResponse.ip+'/'+server+'</a>';
   }
   var ddnsUrl2 =  document.getElementById('ddns-url2');
   if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null && jsonResponse.ddnsName){

@@ -342,6 +342,12 @@
    "title": "MQTT"
   },
   {
+   "type": "text",
+   "module": "ddns",
+   "title": "Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a>. Try it now. :)",
+   "class": "alert alert-info"
+  },
+  {
    "type": "input",
    "title": "MQTT Server, example: cloudmqtt.com",
    "name":"mqtt-server",
