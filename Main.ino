@@ -244,12 +244,7 @@ void modulesReg(String modName) {
 // -------------- Регистрация команд
 //{"command":["sonoff"]}
 void commandsReg(String modName) {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.parseObject(regCommands);
-  JsonArray& data = json["command"].asArray();
-  data.add(modName);
-  regCommands = "";
-  json.printTo(regCommands);
+  regCommands = jsonWrite(regCommands, modName, 0);
 }
 
 // --------------------Выделяем строку до маркера
