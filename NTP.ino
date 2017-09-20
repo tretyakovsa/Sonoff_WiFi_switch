@@ -2,7 +2,7 @@
 void initNTP() {
   HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
   HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
-  timeSynch(jsonReadtoInt(configJson, "timeZone"));
+  timeSynch(jsonReadtoInt(configSetup, "timeZone"));
   modulesReg("ntp");
 }
 
@@ -18,13 +18,15 @@ void timeSynch(int zone) {
       delay(100);
     }
     Serial.println("");
-    configJson = jsonWrite(configJson, "time",  GetTime());
+    String timeNow = GetTime();
+    configJson = jsonWrite(configJson, "time",  timeNow);
+    configSetup = jsonWrite(configSetup, "time",  timeNow);
   }
 }
 
 // ---------- Синхронизация времени
 void handle_Time() {
-  timeSynch(jsonReadtoInt(configJson, "timeZone"));
+  timeSynch(jsonReadtoInt(configSetup, "timeZone"));
   String out = "{}";
   out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>"+GetTime()+"</strong>");
   HTTP.send(200, "text/plain", out); // отправляем ответ о выполнении
@@ -34,8 +36,9 @@ void handle_Time() {
 void handle_time_zone() {
   int timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
   configJson = jsonWrite(configJson, "timeZone",  timezone);
+  configSetup = jsonWrite(configSetup, "timeZone",  timezone);
   timeSynch(timezone);
-  writeFile("config.save.json", configJson );
+  saveConfigSetup ();
   HTTP.send(200, "text/plain", "OK");
 }
 

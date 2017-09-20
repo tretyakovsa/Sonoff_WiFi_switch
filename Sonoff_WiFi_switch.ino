@@ -65,7 +65,8 @@ String command = "";
 
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";
-String configJson = "";
+String configJson = "{}";
+String configSetup = "{}";
 String configLive = "{}";
 String jsonTimer = "{}";
 String Timerset = "";
@@ -87,22 +88,27 @@ void setup() {
   initCMD();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   FS_init();         // Включаем работу с файловой системой
-  configJson = readFile("config.save.json", 4096);
-  String configs = jsonRead(configJson, "configs");
+  // ----------------- начинаем загрузку
+  configSetup = readFile("config.save.json", 4096);
+  configSetup = jsonWrite(configSetup, "time", "00:00:00");
+  configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
+  configJson = jsonWrite(configJson, "lang", jsonRead(configSetup, "lang"));
+  configJson = jsonWrite(configJson, "SSDP", jsonRead(configSetup, "SSDP"));
+  configJson = jsonWrite(configJson, "space", jsonRead(configSetup, "space"));
+  String configs = jsonRead(configSetup, "configs");
   configs.toLowerCase();
-
+  // ----------- Грузим конфигурацию устройства
   String test = readFile("configs/"+configs+".txt", 4096);
-  //Serial.print(test);
   test.replace("\r\n", "\n");
    test +="\n";
+   // ----------- запускаем необходимые всегда модули
    sCmd.readStr("wifi 12");
    sCmd.readStr("Upgrade");
    sCmd.readStr("SSDP");
    sCmd.readStr("HTTP");
-
+   // ----------- Выполняем запуск кофигурации
   Serial.println(goCommands(test));
-  Serial.println (configLive);
-  Serial.println ("Start");
+  test = "";
   configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());
 }
 

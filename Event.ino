@@ -25,14 +25,14 @@ void initTach() {
   // Кнопка будет работать по прерыванию
   uint8_t TACH_PIN = 0;
   attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
-  configJson = jsonWrite(configJson, "TachCommand", readArgsString());
+  configLive = jsonWrite(configLive, "TachCommand", readArgsString());
 }
 // Выполняется при нажатии на кнопку
 void Tach_0() {
   static unsigned long millis_prev;
   // Устроняем дребезг контакта
   if (millis() - 500 > millis_prev) {
-    command = jsonRead(configJson, "TachCommand");
+    command = jsonRead(configLive, "TachCommand");
   }
   millis_prev = millis();
 }

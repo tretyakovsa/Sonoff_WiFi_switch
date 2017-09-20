@@ -1,6 +1,6 @@
 {
  "configs": [
-  "/config.live.json",
+  "/config.setup.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],

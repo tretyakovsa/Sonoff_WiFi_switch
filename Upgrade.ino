@@ -12,15 +12,6 @@ void webUpgrade() {
   String spiffsData = HTTP.arg("spiffs");
   if (spiffsData != "") {
     SPIFFS.format();
-    /*
-      SPIFFS.remove("/js/build.chart.js.gz");
-      SPIFFS.remove("/js/function.js.gz");
-      SPIFFS.remove("/css/build.css.gz");
-      SPIFFS.remove("/lang/lang.en.json.gz");
-      SPIFFS.remove("/lang/lang.ru.json.gz");
-      SPIFFS.remove("/lang/lang.lv.json.gz");
-      SPIFFS.remove("/lang/lang.ua.json.gz");
-    */
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     Serial.println(spiffsData);
     ESPhttpUpdate.rebootOnUpdate(false);
@@ -40,15 +31,15 @@ switch(ret) {
                 break;
         }
     writeFile("timer.save.json", jsonTimer);
-    configJson = jsonWrite(configJson, "spiffsData", spiffsData);
-    writeFile("config.save.json", configJson );
+    configSetup = jsonWrite(configSetup, "spiffsData", spiffsData);
+    saveConfigSetup ();
   }
   String buildData = HTTP.arg("build");
   if (buildData != "") {
     buildData = buildData.substring(buildData.lastIndexOf("/") + 1); // выделяем имя файла
     Serial.println(buildData);
-    configJson = jsonWrite(configJson, "buildData", buildData);
-    writeFile("config.save.json", configJson );
+    configSetup = jsonWrite(configSetup, "buildData", buildData);
+    saveConfigSetup ();
     ESPhttpUpdate.rebootOnUpdate(true);
     t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
   }

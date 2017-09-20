@@ -74,7 +74,6 @@ void relayNot() {
   if (str != "") Serial.println(timeToSec(str));
 
 
-  //configJson = jsonWrite(configJson, "mem", ESP.getFreeHeap());
   configJson = jsonWrite(configJson, "state", !jsonReadtoInt(configJson, "state"));
   int state0 = jsonReadtoInt(configJson, "state");
   toggleRelay(state0);

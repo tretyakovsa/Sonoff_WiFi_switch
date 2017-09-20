@@ -39,6 +39,11 @@ unsigned int timeToSec(String inTime) {
   return sec;
 }
 
+
+void saveConfigSetup (){
+  writeFile("config.save.json", configSetup );
+}
+
 // Настраивает Serial по команде sCmd.addCommand("Serial",       uart);
 void uart() {
   Serial.end();
@@ -202,7 +207,7 @@ void statistics() {
   String urls = "http://backup.privet.lv/visitors/?";
   urls += WiFi.macAddress().c_str();
   urls += "&";
-  urls += jsonRead(configJson, "configs");
+  urls += jsonRead(configSetup, "configs");
   urls += "&";
   urls += ESP.getResetReason();
   urls += "&";

@@ -5,51 +5,43 @@ void initHTTP(void) {
   HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
-  HTTP.on("/lang", handle_leng);               // Установить язык
-  HTTP.on("/config.live.json", handle_ConfigJSON); // Выдаем данные configJson
-  HTTP.on("/modules.json", handle_modules);               // Узнать какие модули есть в устройстве
-  HTTP.on("/configs", handle_configs);               // Установка конфигурации
-  HTTP.on("/cmd", cmd);               // Выполнение команды из запроса
+
+  // --------------------Выдаем данные configJson
+  HTTP.on("/config.live.json", HTTP_GET, []() {
+    HTTP.send(200, "text/plain", configJson);
+  });
+
+  // -------------------Выдаем данные configSetup
+  HTTP.on("/config.setup.json", HTTP_GET, []() {
+    HTTP.send(200, "text/plain", configSetup);
+  });
+
+  // --------------------Узнать какие модули есть в устройстве
+  HTTP.on("/modules.json", HTTP_GET, []() {
+    HTTP.send(200, "text/plain", modules);
+  });
+
+  // -------------------Установка конфигурации
+  HTTP.on("/configs", HTTP_GET, []() {
+    String set = HTTP.arg("set");
+    configJson = jsonWrite(configSetup, "configs", set);
+    saveConfigSetup();
+    String reqvest = "{\"action\": \"page.htm?configs&" + set + "\"}";
+    HTTP.send(200, "text/plain", reqvest);
+  });
+
+  // ------------------Выполнение команды из запроса
+  HTTP.on("/cmd", HTTP_GET, []() {
+    command = HTTP.arg("command");
+    HTTP.send(200, "text/plain", command);
+  });
+
+  HTTP.on("/lang", HTTP_GET, []() {
+    configSetup = jsonWrite(configSetup, "lang", HTTP.arg("set"));
+    saveConfigSetup();
+    HTTP.send(200, "text/plain", "OK");
+  });
+
   //Запускаем HTTP сервер
   HTTP.begin();
 }
-//  ------------------------------- Выполнение команды из запроса
-void cmd(){
-   command = HTTP.arg("command");
-   HTTP.send(200, "text/plain", command);
-  }
-
-
-// --------------------Создаем lang.list.json
-void handle_leng_list() {
-  HTTP.send(200, "text/plain", Lang);
-}
-
-// --------------------Создаем modules.json
-void handle_modules() {
-  HTTP.send(200, "text/plain", modules);
-}
-
-
-// --------------------Создаем config.live.json
-void handle_ConfigJSON() {
-  HTTP.send(200, "text/plain", configJson);
-}
-
-// ------------------Установка языка
-void handle_leng() {
-  configJson = jsonWrite(configJson, "lang", HTTP.arg("set"));
-  writeFile("config.save.json", configJson );
-  HTTP.send(200, "text/plain", "OK");
-}
-
-// ------------------Установка конфигурации
-void handle_configs() {
-  String set = HTTP.arg("set");
-  configJson = jsonWrite(configJson, "configs", set);
-  writeFile("config.save.json", configJson );
-  String reqvest = "{\"action\": \"page.htm?configs&"+set+"\"}";
-  HTTP.send(200, "text/plain", reqvest);
-}
-
-

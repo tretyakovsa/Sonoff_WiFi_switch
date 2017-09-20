@@ -122,6 +122,7 @@ void runTimers() {
     configJson = jsonWrite(configJson, "Weekday", Weekday);
     loadTimer();
   }
+  configSetup = jsonWrite(configSetup, "time", now);
   configJson = jsonWrite(configJson, "time", now);
   int i;
   // Будем повторять проверку для каждого установленного таймера

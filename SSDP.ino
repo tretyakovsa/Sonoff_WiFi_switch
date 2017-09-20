@@ -1,22 +1,22 @@
 void initSSDP() {
   // Включаем определение имени для Windows
   // Модуль будет доступен по запросу вида
-  String temp = jsonRead(configJson, "SSDP");
-  if (temp ==""){
-    temp="Sonoff";
-    configJson = jsonWrite(configJson, "SSDP", temp);
-    writeFile("config.save.json", configJson );
-    }
+  String temp = jsonRead(configSetup, "SSDP");
+  if (temp == "") {
+    temp = "Sonoff";
+    configSetup = jsonWrite(configSetup, "SSDP", temp);
+    saveConfigSetup ();
+  }
   //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
   udp.begin(localPort);
   // задача проверять смену ip каждые 30 секунд
- ts.add(1, 30000, [&](void*) {
+  ts.add(1, 30000, [&](void*) {
     ipChanges();
   }, nullptr, true);
-    // задача проверять наличие устройств в сети каждые две минуты.
- ts.add(2, 120000, [&](void*) {
+  // задача проверять наличие устройств в сети каждые две минуты.
+  ts.add(2, 120000, [&](void*) {
     requestSSDP();
   }, nullptr, true);
   // SSDP дескриптор
@@ -26,11 +26,11 @@ void initSSDP() {
   SSDP.setDeviceType("upnp:rootdevice");
   SSDP.setSchemaURL("description.xml");
   SSDP.setHTTPPort(80);
-  SSDP.setName(jsonRead(configJson, "SSDP"));
+  SSDP.setName(jsonRead(configSetup, "SSDP"));
   SSDP.setSerialNumber(chipID);
   SSDP.setURL("/");
-  SSDP.setModelName(jsonRead(configJson, "configs"));
-  SSDP.setModelNumber(chipID+"/"+jsonRead(configJson, "SSDP"));
+  SSDP.setModelName(jsonRead(configSetup, "configs"));
+  SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, "SSDP"));
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
@@ -47,23 +47,25 @@ void initSSDP() {
 void handle_device() {
   // /device?ssdp=Sonoff-Rele&space={{space}}
   String  ssdpName = HTTP.arg("ssdp");
+  configSetup = jsonWrite(configSetup, "SSDP", ssdpName);
   configJson = jsonWrite(configJson, "SSDP", ssdpName);
   modules = jsonWrite(modules, "SSDP", ssdpName);
   SSDP.setName(ssdpName);
 
   String  space = HTTP.arg("space");
+  configSetup = jsonWrite(configSetup, "space", space);
   configJson = jsonWrite(configJson, "space", space);
   modules = jsonWrite(modules, "space", space);
   HTTP.send(200, "text/plain", "Ok");
-  writeFile("config.save.json", configJson );
+  saveConfigSetup();
 }
 
 // ------------- SSDP запрос
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
     addressList = "{\"ssdpList\":[]}";
-    ssdpList(chipID,  WiFi.localIP().toString(), jsonRead(configJson, "SSDP"));
-    configJson = jsonWrite(configJson, jsonRead(configJson, "SSDP"), WiFi.localIP().toString());
+    ssdpList(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
+    configJson = jsonWrite(configJson, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
@@ -122,8 +124,9 @@ void ssdpList(String chipIDremote, String remoteIP, String ssdpName ) {
 // Каждые 30 секунд проверяем не изиенился ли адрес ip
 void ipChanges() {
   String ip = WiFi.localIP().toString();
-  if (jsonRead(configJson, "ip") != ip) {
+  if (jsonRead(configSetup, "ip") != ip) {
     configJson = jsonWrite(configJson, "ip", ip);
+    configSetup = jsonWrite(configSetup, "ip", ip);
     requestSSDP();
 
   }

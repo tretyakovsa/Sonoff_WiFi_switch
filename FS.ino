@@ -33,8 +33,10 @@ void FS_init(void) {
       HTTP.send(404, "text/plain", "FileNotFound");
   });
   HTTP.on("/skins", HTTP_GET, []() {
-    configJson = jsonWrite(configJson, "setIndex", HTTP.arg("set"));
-    writeFile("config.save.json", configJson );
+    String set=HTTP.arg("set");
+    configJson = jsonWrite(configJson, "setIndex", set);
+    configSetup = jsonWrite(configSetup, "setIndex", set);
+    saveConfigSetup();
     HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", "");
   });
 
