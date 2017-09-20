@@ -193,6 +193,10 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'>'+jsonResponse.LangLoading+'<\/div>';
     loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
    }
+   if (type_val == 'scenary') {
+    document.getElementById(idName).innerHTML += '<div id="scenary"><\/div>';
+    loadScenary(jsonResponse);
+   }
    if (type_val == 'wifi') {
     document.getElementById(idName).innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
     document.getElementById(idName).innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, jsonPage.content[i].title)+'">';
@@ -237,6 +241,50 @@ function loadJson(state_val, jsonResponse, idName) {
   viewTemplate(jsonPage,jsonResponse,idName);
  }
 }
+
+
+function loadScenary(jsonResponse) {
+ var option = '';
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET', "/config.live.json",true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  var jsonLive=JSON.parse(xmlHttp.responseText);
+  for(var key in jsonLive) {
+   option += '<option value="">'+key+'<\/option>';
+  }
+  document.getElementById("scenary").innerHTML += jsonResponse.LangIf+' <select class="form-control" style="width:30%;display:inline">'+option+'<\/select> <select class="form-control" style="width:30%;display:inline"><option value="=">равно<\/option><option value="<">меньше<\/option><option value=">">больше<\/option><option value="<=">меньше или равно<\/option><option value=">=">больше или равно<\/option><option value="!=">не равно<\/option><\/select><input id="if-command" class="form-control" style="width:30%;display:inline" value=""></br>';
+ }
+ var option2 = '';
+ var xhttp=createXmlHttpObject();
+ xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
+ xhttp.send(null);
+ xhttp.onload = function(e) {
+  var ipDevice=JSON.parse(xhttp.responseText);
+  for (var i in ipDevice) {
+   option2 += '<option value="" onclick="loadLive(\''+ipDevice[i]+'\')">'+i+'<\/option>';
+  }
+  loadLive(location.hostname);
+  document.getElementById("scenary").innerHTML += jsonResponse.LangThen+' <select class="form-control" style="width:30%;display:inline">'+option2+'<\/select> = <select class="form-control" style="width:30%;display:inline" id="scenary-then"><\/select>';
+ }
+}
+
+
+function loadLive(ip) {
+ var option = '';
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET', "http://"+ip+"/command.json",true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function(e) {
+  var jsonLive=JSON.parse(xmlHttp.responseText);
+  for(var key in jsonLive) {
+   option += '<option value="'+key+'">'+key+' '+jsonLive[key]+'<\/option>';
+  }
+  document.getElementById("scenary-then").innerHTML = option;
+ }
+}
+
+
 
 function val(id,val){
  if (val) {

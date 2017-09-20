@@ -33,16 +33,19 @@
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-danger">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var ipDevice=JSON.parse(xhttp.responseText);
-     for(i = 0;i<ipDevice.ssdpList.length;i++) {
-      loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
+     for (var i in ipDevice) {
+      loadModule(ipDevice[i],stage,sorting);
      }
-     if (ipDevice.ssdpList.length == 0) {
-      location.href = "/page.htm?first-connect";
-     }
+     //for(i = 0;i<ipDevice.ssdpList.length;i++) {
+     // loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
+     //}
+     //if (ipDevice.ssdpList.length == 0) {
+     // location.href = "/page.htm?first-connect";
+     //}
     }
    }
 
@@ -108,62 +111,67 @@
      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      var jsonResponse1 = JSON.parse(xhttp.responseText);
-      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+      var jsonResponse0 = JSON.parse(xhttp.responseText);
+      xhttp.open("GET", "http://"+ipval+"/config.save.json?"+Math.floor(Math.random()*10000), true);
       xhttp.send(null);
       xhttp.onload = function(e) {
-       var jsonResponse2=JSON.parse(xhttp.responseText);
-       jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
-       var theCookies = document.cookie.split(';');
-       for (var i = 1 ; i <= theCookies.length; i++) {
-        jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-       }
-       if (stage == 'first'){
-        if (searchModule(modules,"timers") == 'yes'){
-         loadTimers(ipval,'table-timers',jsonResponse);
+       var jsonResponse1 = JSON.parse(xhttp.responseText);
+       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+       xhttp.send(null);
+       xhttp.onload = function(e) {
+        var jsonResponse2=JSON.parse(xhttp.responseText);
+        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
+        var theCookies = document.cookie.split(';');
+        for (var i = 1 ; i <= theCookies.length; i++) {
+         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
         }
-        if (searchModule(modules,"temperature") == 'yes'){
-         loadSensor(ipval,'table-sensors',jsonResponse,"temperature");
-        }
-        if (searchModule(modules,"humidity") == 'yes'){
-         loadSensor(ipval,'table-sensors',jsonResponse,"humidity");
-        }
-        if (searchModule(modules,"analog") == 'yes'){
-         loadSensor(ipval,'table-sensors',jsonResponse,"analog");
-        }
-       }
-       if (searchModule(modules,"relay") == 'yes'){
-        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
-        var relayNumber = '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
-        for (var i = 1; i < 5; i++) {
-         if (searchModule(modules,"relay"+i) == 'yes'){
-          relayNumber += '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+        if (stage == 'first'){
+         if (searchModule(modules,"timers") == 'yes'){
+          loadTimers(ipval,'table-timers',jsonResponse);
+         }
+         if (searchModule(modules,"temperature") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"temperature");
+         }
+         if (searchModule(modules,"humidity") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"humidity");
+         }
+         if (searchModule(modules,"analog") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"analog");
          }
         }
-        document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td>'+relayNumber+'<\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
-       }
-       if (searchModule(modules,"rgb") == 'yes'){
-        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';}
-        document.getElementById("block-"+ipval+"-rgb").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#rgb" onclick="deviceList(\'first\',\'rgb\');" class="label label-info">rgb<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?rgb" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
-       }
-       if (searchModule(modules,"jalousie") == 'yes'){
-        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';}
-        document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
-       }
-       if (searchModule(modules,"leakag") == 'yes'){
-        if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-leakag"><\/tr>';}
-        document.getElementById("block-"+ipval+"-leakag").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#leakag" onclick="deviceList(\'first\',\'leakag\');" class="label label-success">leakag<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?leakag" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
-       }
-       if (window.location.hostname == ipval && stage == 'first') {
-        var new_string2;
-        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-        for (var key in jsonResponse) {
-         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-         bodyData = new_string2;
+        if (searchModule(modules,"relay") == 'yes'){
+         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
+         var relayNumber = '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+         for (var i = 1; i < 5; i++) {
+          if (searchModule(modules,"relay"+i) == 'yes'){
+           relayNumber += '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+          }
+         }
+         document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td>'+relayNumber+'<\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
         }
-        document.getElementsByTagName('body')[0].innerHTML = new_string2;
-        if (searchModule(modules,"upgrade") == 'yes'){
-         loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+        if (searchModule(modules,"rgb") == 'yes'){
+         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';}
+         document.getElementById("block-"+ipval+"-rgb").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#rgb" onclick="deviceList(\'first\',\'rgb\');" class="label label-info">rgb<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?rgb" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+        }
+        if (searchModule(modules,"jalousie") == 'yes'){
+         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';}
+         document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+        }
+        if (searchModule(modules,"leakag") == 'yes'){
+         if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-leakag"><\/tr>';}
+         document.getElementById("block-"+ipval+"-leakag").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#leakag" onclick="deviceList(\'first\',\'leakag\');" class="label label-success">leakag<\/a> <b><a href="http://'+jsonResponse.ip+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+jsonResponse.ip+'/page.htm?leakag" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+jsonResponse.ip+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+        }
+        if (window.location.hostname == ipval && stage == 'first') {
+         var new_string2;
+         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+         for (var key in jsonResponse) {
+          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+          bodyData = new_string2;
+         }
+         document.getElementsByTagName('body')[0].innerHTML = new_string2;
+         if (searchModule(modules,"upgrade") == 'yes'){
+          loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+         }
         }
        }
       }

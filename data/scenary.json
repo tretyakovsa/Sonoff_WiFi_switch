@@ -64,19 +64,14 @@
   {
    "type":"hr"
   },
-  {
-   "type":"time",
-   "title":"{{LangTime1}}",
-   "state":"{{time}}"
-  },
+
 
   {
-   "type":"hr"
-  },
-  {
    "type":"h2",
-   "title":"{{LangList}}"
+   "title":"{{LangScenary}}"
   },
+
+
   {
    "type":"table",
    "name":"timer-list",

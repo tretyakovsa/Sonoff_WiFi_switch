@@ -102,6 +102,11 @@
  "LangOpen":"Open",
  "LangTurn":"Turn of blinds",
 
+ "_comment": "---page.htm?scenary---",
+ "LangScenary":"Scenary",
+ "LangIf":"If",
+ "LangThen":"Then",
+
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
  "LangHumidity":"Humidity",

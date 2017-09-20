@@ -1,0 +1,5 @@
+if temperature > 10
+then relayon sonoff
+
+if tach
+then relaynot sonoff

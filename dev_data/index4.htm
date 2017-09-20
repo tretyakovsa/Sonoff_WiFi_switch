@@ -41,16 +41,19 @@
    function deviceList(stage,sorting) {
     document.getElementById('content').innerHTML='';
     var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/ip.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
      var ipDevice=JSON.parse(xhttp.responseText);
-     for(i = 0;i<ipDevice.ssdpList.length;i++) {
-      loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
+     for (var i in ipDevice) {
+      loadModule(ipDevice[i],stage,sorting);
      }
-     if (ipDevice.ssdpList.length == 0) {
-      location.href = "/page.htm?first-connect";
-     }
+     //for(i = 0;i<ipDevice.ssdpList.length;i++) {
+     // loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
+     //}
+     //if (ipDevice.ssdpList.length == 0) {
+     // location.href = "/page.htm?first-connect";
+     //}
     }
    }
 
@@ -82,52 +85,57 @@
     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
     xhttp.onload = function(e) {
-     var jsonResponse1 = JSON.parse(xhttp.responseText);
-     xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+     var jsonResponse0 = JSON.parse(xhttp.responseText);
+     xhttp.open("GET", "http://"+ipval+"/config.save.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function(e) {
-      var jsonResponse2=JSON.parse(xhttp.responseText);
-      jsonResponse = Object.assign(jsonResponse1, jsonResponse2);
+      var jsonResponse1 = JSON.parse(xhttp.responseText);
+      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+      xhttp.send(null);
+      xhttp.onload = function(e) {
+       var jsonResponse2=JSON.parse(xhttp.responseText);
+       jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
 
-      if (searchModule(modules,"relay") == 'yes'){
-       for (var i = 1; i < 5; i++) {
-        if (searchModule(modules,"relay"+i) != 'yes'){
-         jsonResponse["relay"+i] = 'hidden';
+       if (searchModule(modules,"relay") == 'yes'){
+        for (var i = 1; i < 5; i++) {
+         if (searchModule(modules,"relay"+i) != 'yes'){
+          jsonResponse["relay"+i] = 'hidden';
+         }
         }
+        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
        }
-       loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"rgb") == 'yes'){
-       loadBlock2('rgb','timer.save',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"jalousie") == 'yes'){
-       loadBlock2('jalousie','timer.save',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"leakag") == 'yes'){
-       loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"temperature") == 'yes'){
-       loadBlock2('temperature','temperature',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"humidity") == 'yes'){
-       loadBlock2('humidity','humidity',ipval, content, stage, jsonResponse);
-      }
-      if (searchModule(modules,"analog") == 'yes'){
-       loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
-      }
-      if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
-       loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
-      }
-      if (window.location.hostname == ipval && stage == 'first') {
-       var new_string2;
-       var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-       for (var key in jsonResponse) {
-        new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-        bodyData = new_string2;
+       if (searchModule(modules,"rgb") == 'yes'){
+        loadBlock2('rgb','timer.save',ipval, content, stage, jsonResponse);
        }
-       document.getElementsByTagName('body')[0].innerHTML = new_string2;
-       if (searchModule(modules,"upgrade") == 'yes'){
-        loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+       if (searchModule(modules,"jalousie") == 'yes'){
+        loadBlock2('jalousie','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"leakag") == 'yes'){
+        loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"temperature") == 'yes'){
+        loadBlock2('temperature','temperature',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"humidity") == 'yes'){
+        loadBlock2('humidity','humidity',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"analog") == 'yes'){
+        loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
+       }
+       if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
+        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (window.location.hostname == ipval && stage == 'first') {
+        var new_string2;
+        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+        for (var key in jsonResponse) {
+         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         bodyData = new_string2;
+        }
+        document.getElementsByTagName('body')[0].innerHTML = new_string2;
+        if (searchModule(modules,"upgrade") == 'yes'){
+         loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+        }
        }
       }
      }

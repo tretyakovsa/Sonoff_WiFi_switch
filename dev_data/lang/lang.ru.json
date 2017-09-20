@@ -102,6 +102,11 @@
  "LangOpen":"Открыть",
  "LangTurn":"Обороты мотора",
 
+ "_comment": "---page.htm?scenary---",
+ "LangScenary":"Сценарии",
+ "LangIf":"Если",
+ "LangThen":"Тогда",
+
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",
  "LangHumidity":"Влажность",

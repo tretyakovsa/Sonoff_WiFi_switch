@@ -102,6 +102,11 @@
  "LangOpen":"Atvert",
  "LangTurn":"Motora apgriezienu skaits",
 
+ "_comment": "---page.htm?scenary---",
+ "LangScenary":"Scenāriji",
+ "LangIf":"Ja",
+ "LangThen":"Tad",
+
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",
  "LangHumidity":"Mitrums",
