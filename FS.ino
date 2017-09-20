@@ -34,7 +34,7 @@ void FS_init(void) {
   });
   HTTP.on("/skins", HTTP_GET, []() {
     String set=HTTP.arg("set");
-    configJson = jsonWrite(configJson, "setIndex", set);
+    //configJson = jsonWrite(configJson, "setIndex", set);
     configSetup = jsonWrite(configSetup, "setIndex", set);
     saveConfigSetup();
     HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", "");
@@ -62,7 +62,7 @@ String getContentType(String filename) {
 }
 
 bool handleFileRead(String path) {
-  String setIndex =  jsonRead(configJson, "setIndex");
+  String setIndex =  jsonRead(configSetup, "setIndex");
   if (setIndex == "") setIndex = "index.htm";
   if (path.endsWith("/")) path += setIndex;
   String contentType = getContentType(path);

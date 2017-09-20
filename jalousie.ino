@@ -18,6 +18,9 @@ void initJalousie() {
   sCmd.addCommand("jalousienot",    jalousieNot);
   sCmd.addCommand("jalousiestop",    jalousieStop);
   sCmd.addCommand("jalousieturn",    jalousieTurn);
+  commandsReg("jalousieopen");
+  commandsReg("jalousieclose");
+  commandsReg("jalousienot");
   HTTPWAN.on("/jalousie", jalousieddns);        // реакция на запрос
   HTTPWAN.on("/jalousieopen", jalousieopenddns);        // реакция на запрос
   HTTPWAN.on("/jalousieclose", jalousiecloseddns);        // реакция на запрос

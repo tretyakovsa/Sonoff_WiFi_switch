@@ -39,7 +39,10 @@ void initSSDP() {
   // Установить имя устройства
   HTTP.on("/device", handle_device);        // Установить имя устройства
   HTTP.on("/ip.list.json", HTTP_GET, []() {
-    HTTP.send(200, "text/plain", addressList);
+    HTTP.send(200, "application/json", addressList);
+  });
+    HTTP.on("/ssdp.list.json", HTTP_GET, []() {
+    HTTP.send(200, "application/json", ssdpList);
   });
 }
 
@@ -48,13 +51,13 @@ void handle_device() {
   // /device?ssdp=Sonoff-Rele&space={{space}}
   String  ssdpName = HTTP.arg("ssdp");
   configSetup = jsonWrite(configSetup, "SSDP", ssdpName);
-  configJson = jsonWrite(configJson, "SSDP", ssdpName);
+  configOptions = jsonWrite(configOptions, "SSDP", ssdpName);
   modules = jsonWrite(modules, "SSDP", ssdpName);
   SSDP.setName(ssdpName);
 
   String  space = HTTP.arg("space");
   configSetup = jsonWrite(configSetup, "space", space);
-  configJson = jsonWrite(configJson, "space", space);
+  configOptions = jsonWrite(configOptions, "space", space);
   modules = jsonWrite(modules, "space", space);
   HTTP.send(200, "text/plain", "Ok");
   saveConfigSetup();
@@ -64,8 +67,8 @@ void handle_device() {
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
     addressList = "{\"ssdpList\":[]}";
-    ssdpList(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
-    configJson = jsonWrite(configJson, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
+    ssdpLists(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
+    ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
@@ -103,12 +106,12 @@ void handleUDP() {
       chipIDremote = selectToMarkerLast(chipIDremote, "/");
       chipIDremote = selectToMarker(chipIDremote, "\r");
       // строку input_string сохраняю для расширения
-      configJson = jsonWrite(configJson, chipIDremote, udp.remoteIP().toString());
-      ssdpList(chipIDremote, udp.remoteIP().toString(), ssdpName);
+      ssdpList = jsonWrite(ssdpList, chipIDremote, udp.remoteIP().toString());
+      ssdpLists(chipIDremote, udp.remoteIP().toString(), ssdpName);
     }
   }
 }
-void ssdpList(String chipIDremote, String remoteIP, String ssdpName ) {
+void ssdpLists(String chipIDremote, String remoteIP, String ssdpName ) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& list = jsonBuffer.parseObject(addressList);
   JsonArray& arrays = list["ssdpList"].asArray();

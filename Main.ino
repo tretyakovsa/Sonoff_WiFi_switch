@@ -241,6 +241,17 @@ void modulesReg(String modName) {
   json.printTo(modules);
 }
 
+// -------------- Регистрация команд
+//{"command":["sonoff"]}
+void commandsReg(String modName) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(regCommands);
+  JsonArray& data = json["command"].asArray();
+  data.add(modName);
+  regCommands = "";
+  json.printTo(regCommands);
+}
+
 // --------------------Выделяем строку до маркера
 String selectToMarker (String str, String found) {
   int p = str.indexOf(found);

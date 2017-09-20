@@ -65,9 +65,12 @@ String command = "";
 
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";
-String configJson = "{}";
-String configSetup = "{}";
-String configLive = "{}";
+String configJson = "{}";            // Здесь все статусы
+String configOptions = "{}";         // Здесь опции для всех страниц
+String configSetup = "{}";           // Здесь данные для setup
+String configLive = "{}";            // Здесь внутренние данные обмен пинами и тд
+String ssdpList = "{}";
+String regCommands = "{\"command\":[]}";
 String jsonTimer = "{}";
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
@@ -91,10 +94,10 @@ void setup() {
   // ----------------- начинаем загрузку
   configSetup = readFile("config.save.json", 4096);
   configSetup = jsonWrite(configSetup, "time", "00:00:00");
-  configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
-  configJson = jsonWrite(configJson, "lang", jsonRead(configSetup, "lang"));
-  configJson = jsonWrite(configJson, "SSDP", jsonRead(configSetup, "SSDP"));
-  configJson = jsonWrite(configJson, "space", jsonRead(configSetup, "space"));
+  //configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
+  configOptions = jsonWrite(configOptions, "lang", jsonRead(configSetup, "lang"));
+  configOptions = jsonWrite(configOptions, "SSDP", jsonRead(configSetup, "SSDP"));
+  configOptions = jsonWrite(configOptions, "space", jsonRead(configSetup, "space"));
   String configs = jsonRead(configSetup, "configs");
   configs.toLowerCase();
   // ----------- Грузим конфигурацию устройства
@@ -109,7 +112,7 @@ void setup() {
    // ----------- Выполняем запуск кофигурации
   Serial.println(goCommands(test));
   test = "";
-  configJson = jsonWrite(configJson, "mac", WiFi.macAddress().c_str());
+  configSetup = jsonWrite(configSetup, "mac", WiFi.macAddress().c_str());
 }
 
 void loop() {
