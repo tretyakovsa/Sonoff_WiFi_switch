@@ -9,9 +9,9 @@ void initRelay() {
   HTTP.on("/relayon", relayon);        // реакция на запрос
   HTTP.on("/relayoff", relayoff);        // реакция на запрос
   HTTP.on("/sonoff", relay);        // реакция на запрос
-  commandsReg("relayon");
-  commandsReg("relayoff");
-  commandsReg("relaynot");
+  commandsReg("relayon", "relay");
+  commandsReg("relayoff", "relay");
+  commandsReg("relaynot","relay");
   HTTPWAN.on("/relay", relayddns);        // реакция на запрос
   HTTPWAN.on("/relayon", relayonddns);        // реакция на запрос
   HTTPWAN.on("/relayoff", relayoffddns);        // реакция на запрос

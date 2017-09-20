@@ -18,39 +18,39 @@ void initJalousie() {
   sCmd.addCommand("jalousienot",    jalousieNot);
   sCmd.addCommand("jalousiestop",    jalousieStop);
   sCmd.addCommand("jalousieturn",    jalousieTurn);
-  commandsReg("jalousieopen");
-  commandsReg("jalousieclose");
-  commandsReg("jalousienot");
+  commandsReg("jalousieopen", "jalousie");
+  commandsReg("jalousieclose", "jalousie");
+  commandsReg("jalousienot", "jalousie");
   HTTPWAN.on("/jalousie", jalousieddns);        // реакция на запрос
   HTTPWAN.on("/jalousieopen", jalousieopenddns);        // реакция на запрос
   HTTPWAN.on("/jalousieclose", jalousiecloseddns);        // реакция на запрос
   modulesReg("jalousie");
 }
 
-void jalousieddns(){
+void jalousieddns() {
   jalousieNot();
   HTTPWAN.send(200, "text/plain", "Ok");
-  }
-  void jalousieopenddns(){
+}
+void jalousieopenddns() {
   jalousieOpen();
   HTTPWAN.send(200, "text/plain", "Ok");
-  }
-  void jalousiecloseddns(){
+}
+void jalousiecloseddns() {
   jalousieClose();
   HTTPWAN.send(200, "text/plain", "Ok");
-  }
-void jalousie(){
+}
+void jalousie() {
   jalousieNot();
   HTTP.send(200, "text/plain", "Ok");
-  }
-  void jalousieopen(){
+}
+void jalousieopen() {
   jalousieOpen();
   HTTP.send(200, "text/plain", "Ok");
-  }
-  void jalousieclose(){
+}
+void jalousieclose() {
   jalousieClose();
   HTTP.send(200, "text/plain", "Ok");
-  }
+}
 
 
 // Выполняется при вращение сенсора

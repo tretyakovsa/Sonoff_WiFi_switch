@@ -242,9 +242,9 @@ void modulesReg(String modName) {
 }
 
 // -------------- Регистрация команд
-//{"command":["sonoff"]}
-void commandsReg(String modName) {
-  regCommands = jsonWrite(regCommands, modName, 0);
+//
+void commandsReg(String comName, String modName) {
+  regCommands = jsonWrite(regCommands, comName, modName);
 }
 
 // --------------------Выделяем строку до маркера

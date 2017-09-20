@@ -26,9 +26,9 @@ void initRGB() {
   sCmd.addCommand("rgbnot",    rgbNot);
   sCmd.addCommand("rgbon",    rgbOn);
   sCmd.addCommand("rgboff",    rgbOff);
-  commandsReg("rgbon");
-  commandsReg("rgboff");
-  commandsReg("rgbnot");
+  commandsReg("rgbon","rgb");
+  commandsReg("rgboff","rgb");
+  commandsReg("rgbnot","rgb");
   ws2812fx.setPin(readArgsInt());
   ws2812fx.updateLength(readArgsInt());
   ws2812fx.init();
