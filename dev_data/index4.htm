@@ -24,7 +24,7 @@
 
    window.onload = function() {
     if (window.location.hash.substring(1)) {
-     deviceList('first', decodeURIComponent(window.location.hash.substring(1)));
+     deviceList('first');
     } else {
      deviceList('first');
     }
@@ -71,7 +71,8 @@
       loadBlock(ipval,ipModule.space,'first',ipModule.module);
      }
      if(!document.getElementById(ipModule.space)){
-      document.getElementById("content").innerHTML += '<h2>'+ipModule.space+'<\/h2><hr><div class="row" id="'+ipModule.space+'"><\/div>';
+      document.getElementById("content").innerHTML += '<h2 id="'+ipModule.space+'-title">'+ipModule.space+'<\/h2><hr><div class="row" id="'+ipModule.space+'"><\/div>';
+      document.getElementById("space-button").innerHTML += '<a href="#'+ipModule.space+'-title" class="btn btn-default">'+ipModule.space+'<\/a>';
      }
     }
    }
@@ -358,6 +359,7 @@
     </div>
     <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
+   <div class="col-sm-12 col-md-9 btn-group btn-block" id="space-button" style="margin-top:-10px"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
    <div class="col-sm-12 col-md-3">
     <div class="col-md-12">
@@ -374,5 +376,6 @@
     <div class="row"></div>
    </div>
   </div>
+  <a href="#news" class="btn btn-default" style="position:fixed;right:5px;bottom:5px;">top</a>
  </body>
 </html>

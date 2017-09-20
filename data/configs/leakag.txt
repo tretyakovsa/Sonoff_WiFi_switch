@@ -16,7 +16,7 @@ A0
 Tach relaynot
 // Настройка реле в дальнейшем будет больше
 RELAY 12
-// Сенсор движения, доступно relay rgb jalousie
+// Сенсор движения
 # MOTION 2 relay
 // RCSwitch в стадии разработки, пока не работает
 # RCSwitch 3

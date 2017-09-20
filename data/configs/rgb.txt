@@ -16,5 +16,5 @@ A0
 Tach rgbnot
 // WS2811/WS2812/NeoPixel LEDs. Первая ячейка - пин led ленты, вторая - количество лед
 RGB 2 15
-// Сенсор движения, доступно: relay rgb jalousie
+// Сенсор движения
 # MOTION 4 rgb
