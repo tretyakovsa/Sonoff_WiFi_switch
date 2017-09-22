@@ -20,27 +20,27 @@ void initRelay() {
 }
 void relayddns() {
   sCmd.readStr("relaynot");
-  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
 }
 void relayonddns() {
   sCmd.readStr("relayon");
-  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
 }
 void relayoffddns() {
   sCmd.readStr("relayoff");
-  HTTPWAN.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
 }
 void relay() {
   sCmd.readStr("relaynot");
-  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
 }
 void relayon() {
   sCmd.readStr("relayon");
-  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
 }
 void relayoff() {
   sCmd.readStr("relayoff");
-  HTTP.send(200, "text/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
 }
 
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки

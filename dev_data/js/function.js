@@ -156,7 +156,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     var thead = '';
     jsonTable = jsonPage.content[i].title;
     document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
-    createTable(state_val, jsonTable);
+    loadTable(state_val, jsonTable);
    }
    if (type_val == 'select') {
     if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+jsonPage.content[i].action+'\'),\''+response_val+'\')"';
@@ -193,8 +193,22 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'>'+jsonResponse.LangLoading+'<\/div>';
     loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
    }
+   if (type_val == 'scenary-list') {
+    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
+    loadScenaryList(jsonResponse);
+   }
    if (type_val == 'scenary') {
-    document.getElementById(idName).innerHTML += '<div id="scenary"><\/div>';
+    var option = '';
+    option += '<select class="form-control" id="ssdp-list0" style="width:50%;display:inline" onchange="loadScenaryList(0,\'loadInTextarea\');loadLive(this.value,\'config.live.json\',\'ssdp-module\')"><\/select>';
+    option += '<select class="form-control" id="ssdp-module" style="width:50%;display:inline"><\/select>';
+    option += '<br><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
+    option += '<input class="form-control" id="ssdp-command" style="width:50%;display:inline" value="">';
+    option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
+    option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
+    option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
+    option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
+    option += '<input onclick="loadInTextarea();send_request_edit(this, val(\'scenary-list-edit\'),\'scenary.save.txt\',\'loadScenaryList(jsonResponse);\');" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
+    document.getElementById(idName).innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
     loadScenary(jsonResponse);
    }
    if (type_val == 'wifi') {
@@ -242,49 +256,69 @@ function loadJson(state_val, jsonResponse, idName) {
  }
 }
 
+function loadScenaryList(jsonResponse,selectDevice) {
+ var xhttp=createXmlHttpObject();
+ xhttp.open("GET", "/scenary.save.txt?"+Math.floor(Math.random()*10000), true);
+ xhttp.send(null);
+ xhttp.onload = function(e) {
+  var ipDevice=xhttp.responseText;
+  if (selectDevice == 'loadInTextarea') {
+   document.getElementById("scenary-list-edit").innerHTML = ipDevice;
+  } else if (Number.isInteger(selectDevice) == true) {
+
+
+  //scenaryId = ipDevice.split("if ");
+  //    for(var key in scenaryId) {
+  //  alert(scenaryId[key]+'-----'+key);
+  // }
+
+
+   var reg = new RegExp("((id)\\s+(\\d+))[^\]+?id "+selectDevice, "mig");
+  // ipDevice = ipDevice.replace(/(id\s{1}\d+)(\D+id\s{1}\selectDevice\s)([0-9\n\r]+)/);
+ //  alert(ipDevice.replace(reg, "$1"));
+   //ipDevice = ipDevice.replace(/(id\s{1}\d+)(\D+id\s{1}9531\s)([a-zA-Z0-9\n\s]+)/im, '$1\n$3');
+   send_request_edit(this, ipDevice.replace(reg, "$1"),'scenary.save.txt','loadScenaryList(jsonResponse);');
+   //send_request_edit(this, ipDevice,'scenary.save.txt','loadScenaryList(jsonResponse);');
+  } else {
+   document.getElementById("scenary-list").innerHTML = ipDevice.replace(/if/gi,'<tr><td><b>'+jsonResponse.LangIf+'</b>').replace(/then/gi,'<b>'+jsonResponse.LangThen+'</b>').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2)}" type="button"><\/td><\/tr>');
+  }
+ }
+}
 
 function loadScenary(jsonResponse) {
  var option = '';
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET', "/config.live.json",true);
- xmlHttp.send(null);
- xmlHttp.onload = function(e) {
-  var jsonLive=JSON.parse(xmlHttp.responseText);
-  for(var key in jsonLive) {
-   option += '<option value="">'+key+'<\/option>';
-  }
-  document.getElementById("scenary").innerHTML += jsonResponse.LangIf+' <select class="form-control" style="width:30%;display:inline">'+option+'<\/select> <select class="form-control" style="width:30%;display:inline"><option value="=">равно<\/option><option value="<">меньше<\/option><option value=">">больше<\/option><option value="<=">меньше или равно<\/option><option value=">=">больше или равно<\/option><option value="!=">не равно<\/option><\/select><input id="if-command" class="form-control" style="width:30%;display:inline" value=""></br>';
- }
- var option2 = '';
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
  xhttp.send(null);
  xhttp.onload = function(e) {
   var ipDevice=JSON.parse(xhttp.responseText);
   for (var i in ipDevice) {
-   option2 += '<option value="" onclick="loadLive(\''+ipDevice[i]+'\')">'+i+'<\/option>';
+   option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
   }
-  loadLive(location.hostname);
-  document.getElementById("scenary").innerHTML += jsonResponse.LangThen+' <select class="form-control" style="width:30%;display:inline">'+option2+'<\/select> = <select class="form-control" style="width:30%;display:inline" id="scenary-then"><\/select>';
+  document.getElementById("ssdp-list0").innerHTML = '<option value="">Select<\/option>'+option;
+  document.getElementById("ssdp-list1").innerHTML = '<option value="">Select<\/option>'+option;
  }
 }
 
-
-function loadLive(ip) {
+function loadLive(ip,file,where) {
  var option = '';
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET', "http://"+ip+"/command.json",true);
+ xmlHttp.open('GET', "http://"+ip+"/"+file,true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonLive=JSON.parse(xmlHttp.responseText);
   for(var key in jsonLive) {
-   option += '<option value="'+key+'">'+key+' '+jsonLive[key]+'<\/option>';
+   option += '<option value="'+key+'">'+key+'<\/option>';
   }
-  document.getElementById("scenary-then").innerHTML = option;
+  document.getElementById(where).innerHTML = option;
  }
 }
 
-
+function loadInTextarea() {
+ document.getElementById("scenary-list-edit").innerHTML += '\r\n\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value;
+ document.getElementById("scenary-list-edit").innerHTML += '\r\nthen '+document.getElementById("ssdp-list1").options[document.getElementById("ssdp-list1").selectedIndex].text+' '+document.getElementById("scenary-then").options[document.getElementById("scenary-then").selectedIndex].value;
+ document.getElementById("scenary-list-edit").innerHTML += '\r\nid '+Math.floor(Math.random()*10000);
+}
 
 function val(id,val){
  if (val) {
@@ -304,7 +338,7 @@ function html(id,val){
  }
 }
 
-function send_request_edit(submit,server,filename){
+function send_request_edit(submit,server,filename,geturl){
  var xmlHttp = new XMLHttpRequest();
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
@@ -315,6 +349,10 @@ function send_request_edit(submit,server,filename){
  xmlHttp.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
+  if (geturl){
+   //window.location = geturl;
+   eval(geturl);
+  }
  }
  xmlHttp.send(formData);
 }
@@ -390,7 +428,7 @@ function send_request(submit,server,state){
       if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
      }
      if (htmlblock.tagName == 'TABLE' && response.state) {
-      createTable(response.state,response.title);
+      loadTable(response.state,response.title);
      }
      if (htmlblock.tagName == 'A' && response.action) {
       htmlblock.href = response.action;
@@ -488,6 +526,9 @@ function real_time(hours,min,sec) {
  if (sec>=60){min=Number(min)+1;sec=0;}
  if (min>=60){hours=Number(hours)+1;min=0;}
  if (hours>=24){hours=0};
+ if (sec<10){sec="0"+sec;}
+ if (min<10){min="0"+min;}
+ if (hours<10){hours="0"+hours;}
  html('time',hours+":"+min+":"+sec);
  set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
@@ -557,7 +598,7 @@ function changeTextarea(state_val) {
  area.value = area.value.replace(/\n+/g,'\n').slice(1);
 }
 
-function createTable(state_val, jsonTable) {
+function loadTable(state_val, jsonTable) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
  xmlHttp.send(null);

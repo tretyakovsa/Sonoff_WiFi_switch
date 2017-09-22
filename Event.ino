@@ -16,7 +16,7 @@ void buzerBeep() {
 // -----------------  Аналоговый вход A0
 void initA0() {
   HTTP.on("/analog.json", HTTP_GET, []() {
-    HTTP.send(200, "text/json", graf(analogRead(A0), 10, 3000, "low:0"));
+    HTTP.send(200, "application/json", graf(analogRead(A0), 10, 3000, "low:0"));
   });
   modulesReg("analog");
 }
@@ -73,7 +73,7 @@ void initDHT() {
       if (temp == 'NaN') {
         temp = 0;
       }
-      HTTP.send(200, "text/json", graf(temp, 10, 3000, "low:0"));
+      HTTP.send(200, "application/json", graf(temp, 10, 3000, "low:0"));
     });
     modulesReg("temperature");
     HTTP.on("/humidity.json", HTTP_GET, []() {
@@ -81,7 +81,7 @@ void initDHT() {
       if (temp == 'NaN') {
         temp = 0;
       }
-      HTTP.send(200, "text/json", graf(temp, 10, 3000, "low:0"));
+      HTTP.send(200, "application/json", graf(temp, 10, 3000, "low:0"));
     });
     modulesReg("humidity");
   }
@@ -102,7 +102,7 @@ void initD18B20() {
       if (temp == -127) {
         temp = 0;
       }
-      HTTP.send(200, "text/json", graf(temp, 10, 3000));
+      HTTP.send(200, "application/json", graf(temp, 10, 3000));
     });
     modulesReg("temperature");
   }
@@ -119,7 +119,7 @@ void initRCSwitch() {
   }, nullptr, true);
 
   HTTP.on("rcreceivi.json", HTTP_GET, []() {
-    HTTP.send(200, "text/json", jsonWrite("{}", "Received", jsonRead(configJson, "Received")));
+    HTTP.send(200, "application/json", jsonWrite("{}", "Received", jsonRead(configJson, "Received")));
   });
   modulesReg("RCreceivi");
 }

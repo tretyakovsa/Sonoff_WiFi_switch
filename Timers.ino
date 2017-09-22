@@ -32,7 +32,7 @@ responsC = jsonWrite(responsC, "jalousie", "Jalousie");
    responsA += ",\"title\":";
    responsA +=responsC;
    responsA += "}]}";
-   HTTP.send(200, "text/json", responsA);
+   HTTP.send(200, "application/json", responsA);
   }
 
 

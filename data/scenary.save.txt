@@ -1,0 +1,11 @@
+if tach
+then sonoff relaynot
+id 23522
+
+if tach
+then sonoff relaynot
+id 43423
+
+if tach
+then sonoff relaynot
+id 3456

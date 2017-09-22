@@ -248,7 +248,7 @@
    "title":"{{LangTemperature}}",
    "state":"temperature.json",
    "module":"temperature",
-   "action":"/page.htm?chart&analog",
+   "action":"/page.htm?chart&temperature",
    "style":"height:200px;margin-left:-20px"
   },
   {
@@ -256,7 +256,7 @@
    "title":"{{LangHumidity}}",
    "state":"humidity.json",
    "module":"humidity",
-   "action":"/page.htm?chart&analog",
+   "action":"/page.htm?chart&humidity",
    "style":"height:200px;margin-left:-20px"
   },
 

@@ -18,7 +18,7 @@
    "state":"{{lang}}",
    "name":"languages",
    "action":"/lang?set=[[languages]]",
-   "response":"page.htm?timer",
+   "response":"page.htm?scenary",
    "style":"margin-top:-47px;float:right;width:70px",
    "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
@@ -73,21 +73,9 @@
 
 
   {
-   "type":"table",
-   "name":"timer-list",
-   "state":"timer.save.json",
-   "title":{
-    "module":"",
-    "trigger":"{{LangOn.}}/{{LangOff.}}",
-    "day":"{{LangDay}}",
-    "time":"{{LangTime4}}",
-    "work":"{{LangWorkTime}}{{LangSoon}}",
-    "id":"{{LangDel}}"
-   },
-   "class":"table",
-   "style":"width:100%;"
+   "type":"scenary-list",
+   "style":"width:100%"
   },
-
 
 
   {
@@ -95,12 +83,19 @@
   },
 
 
+  {
+   "type":"h2",
+   "title":"{{LangAddScenery}}"
+  },
+  {
+   "type":"text",
+   "title":"{{LangScenery1}}",
+   "class":"alert alert-info"
+  },
 
   {
    "type":"scenary"
   },
-
-
 
   {
    "type":"hr"
