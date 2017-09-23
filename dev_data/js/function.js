@@ -265,20 +265,8 @@ function loadScenaryList(jsonResponse,selectDevice) {
   if (selectDevice == 'loadInTextarea') {
    document.getElementById("scenary-list-edit").innerHTML = ipDevice;
   } else if (Number.isInteger(selectDevice) == true) {
-
-
-  //scenaryId = ipDevice.split("if ");
-  //    for(var key in scenaryId) {
-  //  alert(scenaryId[key]+'-----'+key);
-  // }
-
-
-   var reg = new RegExp("((id)\\s+(\\d+))[^\]+?id "+selectDevice, "mig");
-  // ipDevice = ipDevice.replace(/(id\s{1}\d+)(\D+id\s{1}\selectDevice\s)([0-9\n\r]+)/);
- //  alert(ipDevice.replace(reg, "$1"));
-   //ipDevice = ipDevice.replace(/(id\s{1}\d+)(\D+id\s{1}9531\s)([a-zA-Z0-9\n\s]+)/im, '$1\n$3');
-   send_request_edit(this, ipDevice.replace(reg, "$1"),'scenary.save.txt','loadScenaryList(jsonResponse);');
-   //send_request_edit(this, ipDevice,'scenary.save.txt','loadScenaryList(jsonResponse);');
+   var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
+   send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','loadScenaryList(jsonResponse);');
   } else {
    document.getElementById("scenary-list").innerHTML = ipDevice.replace(/if/gi,'<tr><td><b>'+jsonResponse.LangIf+'</b>').replace(/then/gi,'<b>'+jsonResponse.LangThen+'</b>').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2)}" type="button"><\/td><\/tr>');
   }
