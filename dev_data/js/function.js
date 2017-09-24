@@ -207,7 +207,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
     option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
-    option += '<input onclick="loadInTextarea();send_request_edit(this, val(\'scenary-list-edit\'),\'scenary.save.txt\',\'loadScenaryList(jsonResponse);\');" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
+    option += '<input onclick="loadInTextarea();send_request_edit(this, val(\'scenary-list-edit\'),\'scenary.save.txt\',\'loadScenaryList(jsonResponse);\',document.getElementById(\'ssdp-list0\').options[document.getElementById(\'ssdp-list0\').selectedIndex].value);" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
     document.getElementById(idName).innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
     loadScenary(jsonResponse);
    }
@@ -268,7 +268,7 @@ function loadScenaryList(jsonResponse,selectDevice) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','loadScenaryList(jsonResponse);');
   } else {
-   document.getElementById("scenary-list").innerHTML = ipDevice.replace(/if/gi,'<tr><td><b>'+jsonResponse.LangIf+'</b>').replace(/then/gi,'<b>'+jsonResponse.LangThen+'</b>').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2)}" type="button"><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML = ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2)}" type="button"><\/td><\/tr>');
   }
  }
 }
@@ -326,14 +326,14 @@ function html(id,val){
  }
 }
 
-function send_request_edit(submit,server,filename,geturl){
+function send_request_edit(submit,server,filename,geturl,gethost){
  var xmlHttp = new XMLHttpRequest();
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
  submit_disabled(true);
  var formData = new FormData();
  formData.append("data", new Blob([server], { type: 'text/html' }), filename);
- xmlHttp.open("POST", "/edit");
+ xmlHttp.open("POST", (gethost?'http://'+gethost:'')+"/edit");
  xmlHttp.onload = function(e) {
   submit.value=old_submit;
   submit_disabled(false);
