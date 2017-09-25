@@ -19,7 +19,7 @@ void initWIFI() {
 
 void handle_wifi(){
   configSetup = jsonWrite(configSetup, "wifiConnect", HTTP.arg("connect"));
-  configSetup = jsonWrite(configSetup, "wifiLed", HTTP.arg("led"));
+  configSetup = jsonWrite(configSetup, "wifiBlink", HTTP.arg("blink"));
   HTTP.send(200, "text/plain", "Ok");
   saveConfigSetup();
   }
@@ -67,7 +67,7 @@ bool RestartWiFi() {
   // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
   WiFi.begin(jsonRead(configSetup, "ssid").c_str(),jsonRead(configSetup, "ssidPass").c_str());
 
-  wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiLed"));
+  wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"));
 
   Serial.println("");
   Serial.println(WiFi.localIP());
@@ -119,7 +119,7 @@ boolean startSTA(String configWiFi) {
   Serial.println(WiFi.SSID());
   WiFi.begin();
   //WiFi.begin(jsonRead(configJson, "ssid").c_str(),jsonRead(configJson, "ssidPass").c_str());
-  if ( wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiLed"))) {
+  if ( wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"))) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
     configSetup = jsonWrite(configSetup, "ip", WiFi.localIP().toString());
@@ -159,7 +159,7 @@ boolean startAP(String configWiFi) {
   WiFi.mode(WIFI_AP);
   dnsServer.start(53, "*", apIP);
   //Зажигаем светодиод если находимся в режиме AP
-  int pin = jsonReadtoInt(configWiFi, "led");
+  int pin = jsonReadtoInt(configWiFi, "blink");
   if ((pin > 5 && pin < 12) || pin > 16) pin = 0 ;
   if (pin != 0)  {
     pinMode(pin, OUTPUT);
