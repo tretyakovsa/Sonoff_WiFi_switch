@@ -155,7 +155,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    if (type_val == 'table') {
     var thead = '';
     jsonTable = jsonPage.content[i].title;
-    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
+    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td>'+jsonResponse.LangLoading+'</td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
     loadTable(state_val, jsonTable);
    }
    if (type_val == 'select') {
@@ -263,12 +263,12 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
  xhttp.onload = function(e) {
   var ipDevice=xhttp.responseText;
   if (selectDevice == 'loadInTextarea') {
-   document.getElementById("scenary-list-edit").innerHTML = ipDevice;
+   html("scenary-list-edit",ipDevice);
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
-   document.getElementById("scenary-list").innerHTML += '<tr><td row="3"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\')}" type="button"><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\')}" type="button"><\/td><\/tr>');
   }
  }
 }
@@ -288,9 +288,8 @@ function loadScenary(jsonResponse,loadList) {
    for (var i in ipDevice) {
     option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
    }
-   document.getElementById("ssdp-list0").innerHTML = '<option value="">Select<\/option>'+option;
-   document.getElementById("ssdp-list1").innerHTML = '<option value="">Select<\/option>'+option;
-
+   html("ssdp-list0",'<option value="">Select<\/option>'+option);
+   html("ssdp-list1",'<option value="">Select<\/option>'+option);
   }
  }
 }
@@ -305,7 +304,7 @@ function loadLive(ip,file,where) {
   for(var key in jsonLive) {
    option += '<option value="'+key+'">'+key+'<\/option>';
   }
-  document.getElementById(where).innerHTML = option;
+  html(where,option);
  }
 }
 
@@ -518,13 +517,10 @@ function real_time(hours,min,sec) {
  min=res[1];
  sec=res[2];
  sec=Number(sec)+1;
- if (sec>=60){min=Number(min)+1;sec=0;}
- if (min>=60){hours=Number(hours)+1;min=0;}
- if (hours>=24){hours=0};
- if (sec<10){sec="0"+sec;}
- if (min<10){min="0"+min;}
- if (hours<10){hours="0"+hours;}
- html('time',hours+":"+min+":"+sec);
+ if (sec>=60){min=Number(min)+1;sec=00;}
+ if (min>=60){hours=Number(hours)+1;min=00;}
+ if (hours>=24){hours=00;}
+ html('time',(hours<10&&hours.toString().length==1?"0"+hours:hours)+":"+(min<10&&min.toString().length==1?"0"+min:min)+":"+(sec<10?"0"+sec:sec));
  set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
 

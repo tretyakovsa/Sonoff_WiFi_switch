@@ -290,7 +290,7 @@
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {
-      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' New: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' You: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
      }
     }
    }
@@ -361,7 +361,7 @@
     </div>
     <div class="pull-right" style="margin-top:35px;margin-right:5px">
      <div class="btn-group">
-      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');">{{LangDesign}} <span class="caret"></span></a>
+      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');"><span class="hidden-xs">{{LangDesign}}</span> <span class="caret"></span></a>
       <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
      </div>
     </div>

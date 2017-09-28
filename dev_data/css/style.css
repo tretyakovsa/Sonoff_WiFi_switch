@@ -30,19 +30,6 @@ input:invalid ~ input[type=button] {
  padding:20px;
  margin:20px 0;
 }
-@media (max-width:480px) {
- .block {
-  margin:20px -15px;
- }
- #content .block {
-  margin:30px -30px;
- }
-}
-@media (min-width:1200px) {
- .block {
-  margin:20px 15px;
- }
-}
 .history {
  background-color:#fff;
  box-shadow:0 12px 15px rgba(0, 0, 0, 0.4);
@@ -62,6 +49,25 @@ input:invalid ~ input[type=button] {
  box-shadow:0 5px 25px rgba(0, 0, 0, 0.4);
  border-radius:10px;
  margin-top:5%;
+}
+@media (max-width:480px) {
+ .block {
+  margin:20px -15px;
+ }
+ #content .block {
+  margin:30px -30px;
+ }
+ .device {
+  margin-top:0;
+ }
+ .header {
+  padding:1px 20px 15px;
+ }
+}
+@media (min-width:1200px) {
+ .block {
+  margin:20px 15px;
+ }
 }
 h5 {
  background-color:#4db6ac;
