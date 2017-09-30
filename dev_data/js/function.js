@@ -92,7 +92,7 @@ function setContent(stage) {
     if (xmlHttp.status==200){
      html('file-list',' ');
      var jsonFiles = JSON.parse(xmlHttp.responseText);
-     for(i = 0;i<jsonFiles.length;i++) {
+     for(var i = 0;i<jsonFiles.length;i++) {
       if (jsonFiles[i].name.substr(-4) == 'json'){
        document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.slice(0,-5)+'">'+jsonFiles[i].name+'<\/a><br>';
       }
@@ -112,7 +112,7 @@ function searchModule(modules,find) {
 }
 
 function viewTemplate(jsonPage,jsonResponse,idName) {
- for(i = 0;i<jsonPage.content.length;i++) {
+ for(var i = 0;i<jsonPage.content.length;i++) {
   if (!jsonPage.content[i].module || searchModule(jsonResponse.module,jsonPage.content[i].module)=='yes') {
    var action_val = renameGet(jsonPage.content[i].action);
    var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
@@ -154,7 +154,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    }
    if (type_val == 'table') {
     var thead = '';
-    jsonTable = jsonPage.content[i].title;
+    var jsonTable = jsonPage.content[i].title;
     document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td>'+jsonResponse.LangLoading+'</td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
     loadTable(state_val, jsonTable);
    }
@@ -236,7 +236,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
      dev_html += ' <div class="btn-group"><a href="#" class="btn btn-default btn-sm dropdown-toggle" onclick="toggle(\'repos-build\');return false">Build <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-build" style="min-width:350px"><li><a href="#" onclick="toggle(\'sonoff-build\');loadBuild(\'sonoff\',\'build\');return false"><b>Sonoff<\/b> (Relay) <span class="caret"><\/span><\/a><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="sonoff-build" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><li><a href="#" onclick="toggle(\'rgb-build\');loadBuild(\'rgb\',\'build\');return false"><b>RGB<\/b> (WS2811-12/NeoPixel) <span class="caret"><\/span><\/a><a href="https://github.com/renat2985/rgb/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="rgb-build" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
      dev_html += ' <div class="btn-group"><a href="#" class="btn btn-default btn-sm dropdown-toggle" onclick="toggle(\'repos-spiffs\');return false">Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-spiffs" style="min-width:350px"><li><a href="#" onclick="toggle(\'sonoff-spiffs\');loadBuild(\'sonoff\',\'spiffs\');return false"><b>Sonoff<\/b> (Relay) <span class="caret"><\/span><\/a><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="sonoff-spiffs" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><li><a href="#" onclick="toggle(\'rgb-spiffs\');loadBuild(\'rgb\',\'spiffs\');return false""><b>RGB<\/b> (WS2811-12/NeoPixel) <span class="caret"><\/span><\/a><a href="https://github.com/renat2985/rgb/commits/master" style="float:right;margin-top:-27px" target="_blank"><i class="help-img"><\/i> History<\/a><ul class="hidden" id="rgb-spiffs" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
     }
-    dev_html += '<form method="POST" style="float:right" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
+    dev_html += '<form method="POST" style="'+(searchModule(jsonResponse.module,"upgrade") == 'yes'?'float:right':'')+'" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Download" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
     dev_html += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="rgb">RGB (WS2811-12/NeoPixel)<\/option><option value="jalousie">Jalousie<\/option><option value="leakag">Leakag<\/option><option value="smart-room">Smart-Room<\/option><option value="manually">Manually<\/option><\/select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
     dev_html += '<\/span><\/span><\/div>';
     document.getElementById(idName).innerHTML += dev_html;
@@ -338,7 +338,7 @@ function send_request_edit(submit,server,filename,geturl,gethost){
  submit.value = jsonResponse.LangLoading;
  submit_disabled(true);
  var formData = new FormData();
- formData.append("data", new Blob([server], { type: 'text/html' }), filename);
+ formData.append("data", new Blob([server], { type: 'text/json' }), "/"+filename);
  xmlHttp.open("POST", (gethost?'http://'+gethost:'')+"/edit");
  xmlHttp.onload = function(e) {
   submit.value=old_submit;
@@ -465,13 +465,14 @@ function toggle(target,status) {
 
 function loadWifi(ssids,hiddenIds){
  var xmlHttp=createXmlHttpObject();
+ document.getElementById(ssids).innerHTML ='<li><a href="#">Loading...</a></li>';
  xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
  xmlHttp.onload = function(e) {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
   jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
   var html = '';
-  for(i = 0;i<jsonWifi.networks.length;i++) {
+  for(var i = 0;i<jsonWifi.networks.length;i++) {
    var wifiSignal = '';
    if (jsonWifi.networks[i].dbm <= -0) { wifiSignal = '<i class="wifi wifi-0-60"></i>';}
    if (jsonWifi.networks[i].dbm <= -60) { wifiSignal = '<i class="wifi wifi-60-70"></i>';}
@@ -480,7 +481,7 @@ function loadWifi(ssids,hiddenIds){
    if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '<i class="wifi wifi-90-100"></i>';}
    html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' '+wifiSignal+' <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
-  document.getElementById(ssids).innerHTML = (html?html:'<li>No WiFi</li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
+  document.getElementById(ssids).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  }
 }
 
@@ -493,7 +494,7 @@ function loadBuild(buildids,typeFile){
   var jsonBuild=JSON.parse(xmlHttp.responseText);
   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
   var html = '';
-  for(i = 0;i<jsonBuild.length;i++) {
+  for(var i = 0;i<jsonBuild.length;i++) {
    if (typeFile == 'all' && jsonBuild[i].name.substring(0,5) == 'spiff') {
     html += '<li><a href="/upgrade?spiffs=http://backup.privet.lv/esp/'+buildids+'/spiffs.0xBB000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin&build=http://backup.privet.lv/esp/'+buildids+'/build.0x00000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin" '+(jsonResponse.spiffsData==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' (Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+')?\')">Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+'<\/a><\/li>';
    }
