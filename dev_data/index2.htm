@@ -35,17 +35,14 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var ipDevice=JSON.parse(xhttp.responseText);
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
-     //for(i = 0;i<ipDevice.ssdpList.length;i++) {
-     // loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
-     //}
-     //if (ipDevice.ssdpList.length == 0) {
-     // location.href = "/page.htm?first-connect";
-     //}
+     if (ipDevice.length == undefined) {
+      location.href = "/page.htm?first-connect";
+     }
     }
    }
 
@@ -53,7 +50,7 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json", true)
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var ipModule=JSON.parse(xhttp.responseText);
      var allModules = [];
      var allSpace = [];
@@ -99,7 +96,7 @@
      var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/modules.json", true);
      xhttp.send(null);
-     xhttp.onload = function(e) {
+     xhttp.onload = function() {
       var jsonResponse3=JSON.parse(xhttp.responseText);
       loadBlock2(jsonResponse3.module,stage);
      }
@@ -110,15 +107,15 @@
      var xhttp=createXmlHttpObject();
      xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
-     xhttp.onload = function(e) {
+     xhttp.onload = function() {
       var jsonResponse0 = JSON.parse(xhttp.responseText);
       xhttp.open("GET", "http://"+ipval+"/config.save.json?"+Math.floor(Math.random()*10000), true);
       xhttp.send(null);
-      xhttp.onload = function(e) {
+      xhttp.onload = function() {
        var jsonResponse1 = JSON.parse(xhttp.responseText);
        xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
        xhttp.send(null);
-       xhttp.onload = function(e) {
+       xhttp.onload = function() {
         var jsonResponse2=JSON.parse(xhttp.responseText);
         jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
         var theCookies = document.cookie.split(';');
@@ -183,7 +180,7 @@
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
     xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
+    xmlHttp.onload = function() {
      var timers=JSON.parse(xmlHttp.responseText);
      timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var timerList = '';
@@ -207,7 +204,7 @@
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open("GET", "http://"+ipval+"/"+module+".json", true);
     xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
+    xmlHttp.onload = function() {
      var sensors=JSON.parse(xmlHttp.responseText);
      document.getElementById(content).innerHTML+='<tr><td>'+(jsonResponse.space?'<a class="label label-default" href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');">'+jsonResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+jsonResponse.ip+'/page.htm?chart&'+module+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/td><td><b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
     }
@@ -233,7 +230,7 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      submit.value=old_submit;
      submit_disabled(false);
      var response=JSON.parse(xhttp.responseText);
@@ -298,7 +295,7 @@
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
     xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
+    xmlHttp.onload = function() {
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {

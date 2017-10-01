@@ -35,17 +35,14 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var ipDevice=JSON.parse(xhttp.responseText);
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
-     //  for(i = 0;i<ipDevice.ssdpList.length;i++) {
-     //   loadModule(ipDevice.ssdpList[i].ip,stage,sorting);
-     //  }
-     //  if (ipDevice.ssdpList.length == 0) {
-     //   location.href = "/page.htm?first-connect";
-     //  }
+     if (ipDevice.length == undefined) {
+      location.href = "/page.htm?first-connect";
+     }
     }
    }
 
@@ -53,7 +50,7 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/modules.json", true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var ipModule=JSON.parse(xhttp.responseText);
      var allModules = [];
      var allSpace = [];
@@ -98,15 +95,15 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var jsonResponse0 = JSON.parse(xhttp.responseText);
      xhttp.open("GET", "http://"+ipval+"/config.save.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
-     xhttp.onload = function(e) {
+     xhttp.onload = function() {
       var jsonResponse1 = JSON.parse(xhttp.responseText);
       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
       xhttp.send(null);
-      xhttp.onload = function(e) {
+      xhttp.onload = function() {
        var jsonResponse2=JSON.parse(xhttp.responseText);
        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
        if (searchModule(modules,"relay") == 'yes'){
@@ -162,12 +159,12 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      var data = xhttp.responseText;
      var xmlHttp=createXmlHttpObject();
      xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
      xmlHttp.send(null);
-     xmlHttp.onload = function(e) {
+     xmlHttp.onload = function() {
       var timers=JSON.parse(xmlHttp.responseText);
       var timerList = '';
       if (timers.timer) {
@@ -228,7 +225,7 @@
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
     xhttp.send(null);
-    xhttp.onload = function(e) {
+    xhttp.onload = function() {
      submit.value=old_submit;
      submit_disabled(false);
      if (pagename.slice(0, 9) == 'lang?set=') {
@@ -303,7 +300,7 @@
     var xmlHttp=createXmlHttpObject();
     xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
     xmlHttp.send(null);
-    xmlHttp.onload = function(e) {
+    xmlHttp.onload = function() {
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {

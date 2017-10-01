@@ -10,13 +10,13 @@ function createXmlHttpObject(){
 
 var set_real_time;
 
-function setContent(stage) {
+function setContent(stage,pages) {
  jsonResponse = '';
  var xmlHttp=createXmlHttpObject();
  pages[0] = (pages[0]?pages[0]:'index');
  xmlHttp.open('GET', pages[0]+".json",true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   document.getElementById('download-json').href = pages[0]+".json";
   var jsonPage;
   if (xmlHttp.status==200){
@@ -27,7 +27,7 @@ function setContent(stage) {
     (function foo(){
      xmlHttp.open('GET', jsonPage.configs[fileNumber],true);
      xmlHttp.send(null);
-     xmlHttp.onload = function(e) {
+     xmlHttp.onload = function() {
       if (xmlHttp.status==200){
        var jsonResponseNew = JSON.parse(xmlHttp.responseText);
        var jsonResponseOld = jsonResponse;
@@ -88,7 +88,7 @@ function setContent(stage) {
    toggle('content','hide');
    xmlHttp.open('GET', '/list?dir=/',true);
    xmlHttp.send(null);
-   xmlHttp.onload = function(e) {
+   xmlHttp.onload = function() {
     if (xmlHttp.status==200){
      html('file-list',' ');
      var jsonFiles = JSON.parse(xmlHttp.responseText);
@@ -101,7 +101,7 @@ function setContent(stage) {
    }
   }
  }
-};
+}
 
 function searchModule(modules,find) {
  for(var key in modules) {
@@ -249,7 +249,7 @@ function loadJson(state_val, jsonResponse, idName) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   html(idName, ' ');
   jsonPage=JSON.parse(xmlHttp.responseText);
   viewTemplate(jsonPage,jsonResponse,idName);
@@ -260,7 +260,7 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", (urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.floor(Math.random()*10000), true);
  xhttp.send(null);
- xhttp.onload = function(e) {
+ xhttp.onload = function() {
   var ipDevice=xhttp.responseText;
   if (selectDevice == 'loadInTextarea') {
    html("scenary-list-edit",ipDevice);
@@ -278,7 +278,7 @@ function loadScenary(jsonResponse,loadList) {
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
  xhttp.send(null);
- xhttp.onload = function(e) {
+ xhttp.onload = function() {
   var ipDevice=JSON.parse(xhttp.responseText);
   if (loadList) {
    for (var i in ipDevice) {
@@ -299,7 +299,7 @@ function loadLive(ip,file,where) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET', "http://"+ip+"/"+file,true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   var jsonLive=JSON.parse(xmlHttp.responseText);
   for(var key in jsonLive) {
    option += '<option value="'+key+'">'+key+'<\/option>';
@@ -340,7 +340,7 @@ function send_request_edit(submit,server,filename,geturl,gethost){
  var formData = new FormData();
  formData.append("data", new Blob([server], { type: 'text/json' }), "/"+filename);
  xmlHttp.open("POST", (gethost?'http://'+gethost:'')+"/edit");
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   submit.value=old_submit;
   submit_disabled(false);
   if (geturl){
@@ -355,7 +355,7 @@ function send_request_post(submit,server,state){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("POST", server, true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   if (state != null && state!='undefined'){
    var response=JSON.parse(xmlHttp.responseText);
    var block = state.split(',');
@@ -382,7 +382,7 @@ function send_request(submit,server,state){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", server, true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   submit.value=old_submit;
   submit_disabled(false);
   var element =  document.getElementById('url-content');
@@ -468,7 +468,7 @@ function loadWifi(ssids,hiddenIds){
  document.getElementById(ssids).innerHTML ='<li><a href="#">Loading...</a></li>';
  xmlHttp.open('GET','/wifi.scan.json',true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   var jsonWifi=JSON.parse(xmlHttp.responseText);
   jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
   var html = '';
@@ -490,7 +490,7 @@ function loadBuild(buildids,typeFile){
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET','http://backup.privet.lv/esp/build/'+buildids,true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   var jsonBuild=JSON.parse(xmlHttp.responseText);
   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
   var html = '';
@@ -556,7 +556,7 @@ function loadConfigs(state_val) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", "configs/"+state_val, true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML = '';
   var configsLinePin;
   var configsLine = xmlHttp.responseText.match(/^.*((\r\n|\n|\r)|$)/gm);
@@ -594,7 +594,7 @@ function loadTable(state_val, jsonTable) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
  xmlHttp.send(null);
- xmlHttp.onload = function(e) {
+ xmlHttp.onload = function() {
   var timers=JSON.parse(xmlHttp.responseText);
   var setTable = Object.keys(timers);
   html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
@@ -633,7 +633,7 @@ function renameBlock(jsonResponse, str) {
     //if (jsonResponse[id]) {
     str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
     // }
-   };
+   }
   }
  }
  if (typeof(str)!='undefined'&&str!=null&&str) {
@@ -666,7 +666,7 @@ function renameGet(str) {
      }
      str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
     }
-   };
+   }
   }
  }
  return str;
@@ -703,7 +703,7 @@ function useCanvas(el,image,callback){
 }
 function _(el){
  return document.querySelector(el);
-};
+}
 function componentToHex(c) {
  var hex = c.toString(16);
  return hex.length == 1 ? "0" + hex : hex;

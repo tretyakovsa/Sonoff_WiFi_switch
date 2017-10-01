@@ -13,7 +13,7 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
   var xmlHttp=createXmlHttpObject();
   xmlHttp.open("GET", chartUrl, true);
   xmlHttp.send(null);
-  xmlHttp.onload = function(e) {
+  xmlHttp.onload = function() {
    var module=JSON.parse(xmlHttp.responseText);
    if (module.title != null) {
     document.getElementById(chartId+'-title').innerHTML = module.title;

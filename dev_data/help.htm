@@ -47,7 +47,7 @@
    var xmlHttp=createXmlHttpObject();
    xmlHttp.open('GET',server,true);
    xmlHttp.send(null);
-   xmlHttp.onload = function(e) {
+   xmlHttp.onload = function() {
     document.getElementById(id_element).innerHTML=xmlHttp.responseText;
     Prism.highlightAll();
    }
