@@ -72,18 +72,20 @@ String configLive = "{}";            // Здесь внутренние данн
 String ssdpList = "{}";
 String regCommands = "{}";
 String jsonTimer = "{}";
+String Scenary;
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String addressList = "{\"ssdpList\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
-//boolean ddnsTest = true;
+boolean flag = false;
+boolean thenOk;
 
 
 void setup() {
 
   //Serial.println (ESP.getResetReason());
-  Serial.begin(115200);
+  //Serial.begin(115200);
   delay(100);
   TickerScheduler(1);
   Serial.println ("");
@@ -113,6 +115,8 @@ void setup() {
   Serial.println(goCommands(test));
   test = "";
   configSetup = jsonWrite(configSetup, "mac", WiFi.macAddress().c_str());
+  configSetup = jsonWrite(configSetup, "ip", WiFi.localIP().toString());
+  initScenary();
 }
 
 void loop() {
@@ -127,4 +131,5 @@ void loop() {
   handleUDP();
   handleMQTT();
   ws2812fx.service();
+  handleScenary();
 }

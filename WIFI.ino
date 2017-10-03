@@ -114,6 +114,7 @@ boolean startSTA(String configWiFi) {
       Serial.println (WiFi.gatewayIP ());
     }
   }
+  WiFi.mode(WIFI_OFF);
   WiFi.mode(WIFI_STA);
   WiFi.hostname ( "sonoff-" + chipID );
   Serial.println(WiFi.SSID());

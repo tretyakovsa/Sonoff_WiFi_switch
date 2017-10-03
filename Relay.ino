@@ -1,7 +1,10 @@
 // ------------------- Инициализация Реле
 void initRelay() {
-  configLive = jsonWrite(configLive, "relay1Pin", readArgsInt());
-  pinMode(jsonReadtoInt(configLive, "relay1Pin"), OUTPUT);
+   int pin = readArgsInt();
+  sendOptions("relay1Pin", pin);
+  pinMode(pin, OUTPUT);
+  sendStatus("state", readArgsInt());
+  digitalWrite(pin,   getStatusInt("state"));
   sCmd.addCommand("relayon",     relayOn);
   sCmd.addCommand("relayoff",    relayOff);
   sCmd.addCommand("relaynot",    relayNot);
@@ -72,6 +75,7 @@ void relayOff() {
   digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
   topicPub("/RELE_1_not/status", String(state0), 1 );
 }
+/*
 void relayNot() {
   String str = readArgsString();
   if (str != "") Serial.println(timeToSec(str));
@@ -82,6 +86,11 @@ void relayNot() {
   toggleRelay(state0);
   digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
   topicPub("/RELE_1_not/status", String(state0), 1 );
+}
+*/
+void relayNot() {
+  flag = sendStatus("state", !getStatusInt("state"));
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
 }
 void topicPub(String topic, String data, boolean retain ) {
   client.publish(MQTT::Publish(prefix + "/" + chipID + topic,    "{\"status\":" + data + "}").set_retain(1));
