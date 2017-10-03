@@ -35,7 +35,7 @@ void handle_Time() {
 // ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
 void handle_time_zone() {
   int timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
-  configJson = jsonWrite(configJson, "timeZone",  timezone);
+  configOptions = jsonWrite(configOptions, "timeZone",  timezone);
   configSetup = jsonWrite(configSetup, "timeZone",  timezone);
   timeSynch(timezone);
   saveConfigSetup ();

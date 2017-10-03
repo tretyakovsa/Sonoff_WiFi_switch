@@ -99,7 +99,7 @@ void handle_RGB() {
   HTTP.send(200, "text/plain", state);
 }
 
-
+/*
 void rgbNot() {
 
   if (jsonReadtoInt(configJson, "stateRGB")) {
@@ -112,23 +112,35 @@ void rgbNot() {
   configJson = jsonWrite(configJson, "stateRGB", !jsonReadtoInt(configJson, "stateRGB"));
 
 }
+*/
+void rgbNot() {
+  flag = sendStatus("stateRGB", !getStatusInt("stateRGB"));
+  if (getStatusInt("stateRGB")){
+    ws2812fx.stop();
+    }
+    else{
+    ws2812fx.stop();
+    ws2812fx.start();
+      }
+  topicPub("/RGB_not/status", String(getStatusInt("state")), 1 );
+}
 
 void rgbOn() {
 
-  if (!jsonReadtoInt(configJson, "stateRGB")) {
-    ws2812fx.start();
+  if (getStatusInt("stateRGB")) {
     configJson = jsonWrite(configJson, "stateRGB", 1);
-
+    flag = sendStatus("stateRGB", 1);
+    ws2812fx.start();
   }
 
 }
 
 void rgbOff() {
 
-  if (jsonReadtoInt(configJson, "stateRGB")) {
+ if (!getStatusInt("stateRGB")) {
+    configJson = jsonWrite(configJson, "stateRGB", 1);
+    flag = sendStatus("stateRGB", 0);
     ws2812fx.stop();
-    configJson = jsonWrite(configJson, "stateRGB", 0);
-
   }
 
 }
@@ -136,7 +148,7 @@ void rgbOff() {
 void LedRGB() {
   command = "rgbnot";
   String state = "{}";
-  if (jsonReadtoInt(configJson, "stateRGB")) {
+  if (getStatusInt("stateRGB")) {
     state = jsonWrite(state, "title", "{{LangOn}}");
     state = jsonWrite(state, "class", "btn btn-block btn-lg btn-primary");
   }

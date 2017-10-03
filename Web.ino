@@ -34,7 +34,6 @@ void initHTTP(void) {
   HTTP.on("/configs", HTTP_GET, []() {
     String set = HTTP.arg("set");
     configSetup = jsonWrite(configSetup, "configs", set);
-    configJson = jsonWrite(configJson, "configs", set);
     saveConfigSetup();
     String reqvest = "{\"action\": \"page.htm?configs&" + set + "\"}";
     HTTP.send(200, "text/plain", reqvest);
