@@ -99,23 +99,9 @@ void handle_RGB() {
   HTTP.send(200, "text/plain", state);
 }
 
-/*
-void rgbNot() {
-
-  if (jsonReadtoInt(configJson, "stateRGB")) {
-    ws2812fx.stop();
-  }
-  else {
-    ws2812fx.stop();
-    ws2812fx.start();
-  }
-  configJson = jsonWrite(configJson, "stateRGB", !jsonReadtoInt(configJson, "stateRGB"));
-
-}
-*/
 void rgbNot() {
   flag = sendStatus("stateRGB", !getStatusInt("stateRGB"));
-  if (getStatusInt("stateRGB")){
+  if (!getStatusInt("stateRGB")){
     ws2812fx.stop();
     }
     else{
@@ -127,7 +113,7 @@ void rgbNot() {
 
 void rgbOn() {
 
-  if (getStatusInt("stateRGB")) {
+  if (!getStatusInt("stateRGB")) {
     configJson = jsonWrite(configJson, "stateRGB", 1);
     flag = sendStatus("stateRGB", 1);
     ws2812fx.start();
@@ -137,7 +123,7 @@ void rgbOn() {
 
 void rgbOff() {
 
- if (!getStatusInt("stateRGB")) {
+ if (getStatusInt("stateRGB")) {
     configJson = jsonWrite(configJson, "stateRGB", 1);
     flag = sendStatus("stateRGB", 0);
     ws2812fx.stop();
