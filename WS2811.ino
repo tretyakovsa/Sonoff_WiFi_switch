@@ -51,7 +51,8 @@ void handle_RGB() {
   //Получаем цвет
   String colorRGB = HTTP.arg("c");
   if (colorRGB != "") {
-    configJson = jsonWrite(configJson, "colorRGB", colorRGB);
+    //configJson = jsonWrite(configJson, "colorRGB", colorRGB);
+    flag = sendStatus("colorRGB", colorRGB);
     uint32_t  tmp = strtol(("0x" + colorRGB).c_str(), NULL, 0);
     if (tmp >= 0x000000 && tmp <= 0xFFFFFF) {
       ws2812fx.setColor(tmp);
@@ -60,31 +61,36 @@ void handle_RGB() {
   //Получаем скорость
   String speedRGB = HTTP.arg("s");
   if (speedRGB != "") {
-    configJson = jsonWrite(configJson, "speedRGB", speedRGB);
+    //configJson = jsonWrite(configJson, "speedRGB", speedRGB);
+    flag = sendStatus("speedRGB", speedRGB);
     ws2812fx.setSpeed(speedRGB.toInt());
   }
   //Получаем яркость
   String brightnessRGB = HTTP.arg("b");
   if (brightnessRGB != "") {
-    configJson = jsonWrite(configJson, "brightnessRGB", brightnessRGB);
+    //configJson = jsonWrite(configJson, "brightnessRGB", brightnessRGB);
+    flag = sendStatus("brightnessRGB", brightnessRGB);
     ws2812fx.setBrightness(brightnessRGB.toInt());
 
   }
   //Получаем режим
   String modeRGB = HTTP.arg("m");
   if (modeRGB != "") {
-    configJson = jsonWrite(configJson, "modeRGB", modeRGB);
+    //configJson = jsonWrite(configJson, "modeRGB", modeRGB);
+    flag = sendStatus("modeRGB", modeRGB);
     ws2812fx.setMode(modeRGB.toInt() % ws2812fx.getModeCount());
   }
   //Получаем время таймера
   String timeRGB = HTTP.arg("time");
   if (timeRGB != "") {
-    configJson = jsonWrite(configJson, "timeRGB", timeRGB);
+    //configJson = jsonWrite(configJson, "timeRGB", timeRGB);
+    flag = sendStatus("timeRGB", timeRGB);
   }
   //Получаем время сигнала
   String timeBUZ = HTTP.arg("s");
   if (timeBUZ != "") {
-    configJson = jsonWrite(configJson, "timeBUZ", timeBUZ);
+    //configJson = jsonWrite(configJson, "timeBUZ", timeBUZ);
+    flag = sendStatus("timeBUZ", timeBUZ);
   }
   command = "rgbon";
   String  state = "{}";
