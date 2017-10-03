@@ -1,12 +1,23 @@
 void initScenary() {
+  loadScenary();
+  sCmd.addCommand("if",       ifCommand);
+  sCmd.addCommand("id",       idNot);
+  sCmd.addCommand("then",       thenCommand);
+  HTTP.on("/setscenary", HTTP_GET, []() {
+    loadScenary();
+    HTTP.send(200, "text/plain", "Ok");
+  });
+
+
+}
+
+void loadScenary(){
   Scenary = readFile("scenary.save.txt", 4096);
   Scenary.replace("\r\n", "\n");
   Scenary.replace("\n\n", "\n");
   Scenary += "\n";
-  sCmd.addCommand("if",       ifCommand);
-  sCmd.addCommand("id",       idNot);
-  sCmd.addCommand("then",       thenCommand);
-}
+  }
+
 // Ничего не делать если комманда id
 void idNot() {}
 

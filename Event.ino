@@ -25,14 +25,14 @@ void initTach() {
   // Кнопка будет работать по прерыванию
   uint8_t TACH_PIN = 0;
   attachInterrupt(TACH_PIN, Tach_0, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
-  configLive = jsonWrite(configLive, "TachCommand", readArgsString());
+  configOptions = jsonWrite(configOptions, "TachCommand", readArgsString());
 }
 // Выполняется при нажатии на кнопку
 void Tach_0() {
   static unsigned long millis_prev;
   // Устроняем дребезг контакта
   if (millis() - 500 > millis_prev) {
-    command = jsonRead(configLive, "TachCommand");
+    command = jsonRead(configOptions, "TachCommand");
   }
   millis_prev = millis();
 }
@@ -43,18 +43,18 @@ void initMotion() {
   pinMode(pin, INPUT);
   attachInterrupt(pin, motionOn, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
   String cmd = readArgsString();
-  configJson = jsonWrite(configJson, "Command", cmd);
+  configOptions = jsonWrite(configOptions, "Command", cmd);
   modulesReg("movement");
 }
 
 void motionOn() {
   motion.attach(120, motionOff);
-  command = jsonRead(configJson, "Command") + "on";
+  command = jsonRead(configOptions, "Command") + "on";
 
 }
 void motionOff() {
   motion.detach();
-  command = jsonRead(configJson, "Command") + "off";
+  command = jsonRead(configOptions, "Command") + "off";
 
 }
 
