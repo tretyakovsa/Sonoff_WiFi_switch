@@ -7,6 +7,7 @@ void initSSDP() {
     configSetup = jsonWrite(configSetup, "SSDP", temp);
     saveConfigSetup ();
   }
+  ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
   //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;

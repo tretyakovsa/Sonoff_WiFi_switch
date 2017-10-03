@@ -116,6 +116,7 @@ void setup() {
   test = "";
   configSetup = jsonWrite(configSetup, "mac", WiFi.macAddress().c_str());
   configSetup = jsonWrite(configSetup, "ip", WiFi.localIP().toString());
+  configOptions = jsonWrite(configOptions, "ip", WiFi.localIP().toString());
   initScenary();
 }
 

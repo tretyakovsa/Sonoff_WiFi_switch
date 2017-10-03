@@ -41,7 +41,7 @@
       loadModule(ipDevice[i],stage,sorting);
      }
      if (Object.keys(ipDevice).length == 0) {
-     // location.href = "/page.htm?first-connect";
+      location.href = "/page.htm?first-connect";
      }
     }
    }
@@ -97,7 +97,7 @@
     xhttp.send(null);
     xhttp.onload = function() {
      var jsonResponse0 = JSON.parse(xhttp.responseText);
-     xhttp.open("GET", "http://"+ipval+"/config.save.json?"+Math.floor(Math.random()*10000), true);
+     xhttp.open("GET", "http://"+ipval+"/config.options.json?"+Math.floor(Math.random()*10000), true);
      xhttp.send(null);
      xhttp.onload = function() {
       var jsonResponse1 = JSON.parse(xhttp.responseText);
