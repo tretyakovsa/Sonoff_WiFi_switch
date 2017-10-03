@@ -1,20 +1,23 @@
 // ------------------- Инициализация Реле
 void initRelay() {
-   int pin = readArgsInt();
+  int pin = readArgsInt();
   sendOptions("relay1Pin", pin);
   pinMode(pin, OUTPUT);
   sendStatus("state", readArgsInt());
   digitalWrite(pin,   getStatusInt("state"));
+
   sCmd.addCommand("relayon",     relayOn);
   sCmd.addCommand("relayoff",    relayOff);
   sCmd.addCommand("relaynot",    relayNot);
+  commandsReg("relayon", "relay");
+  commandsReg("relayoff", "relay");
+  commandsReg("relaynot", "relay");
+
   HTTP.on("/relay", relay);        // реакция на запрос
   HTTP.on("/relayon", relayon);        // реакция на запрос
   HTTP.on("/relayoff", relayoff);        // реакция на запрос
   HTTP.on("/sonoff", relay);        // реакция на запрос
-  commandsReg("relayon", "relay");
-  commandsReg("relayoff", "relay");
-  commandsReg("relaynot","relay");
+
   HTTPWAN.on("/relay", relayddns);        // реакция на запрос
   HTTPWAN.on("/relayon", relayonddns);        // реакция на запрос
   HTTPWAN.on("/relayoff", relayoffddns);        // реакция на запрос
@@ -60,37 +63,27 @@ String relayStatus(String json, String state) {
   }
   return out;
 }
-
 void relayOn() {
-  configJson = jsonWrite(configJson, "state", 1);
-  int state0 = jsonReadtoInt(configJson, "state");
-  toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
-  topicPub("/RELE_1_not/status", String(state0), 1 );
+  Serial.println(getStatusInt("state"));
+  if (!getStatusInt("state")) flag = sendStatus("state", 1);
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
+  toggleRelay(getStatusInt("state"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
 }
+
 void relayOff() {
-  configJson = jsonWrite(configJson, "state", 0);
-  int state0 = jsonReadtoInt(configJson, "state");
-  toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
-  topicPub("/RELE_1_not/status", String(state0), 1 );
+  Serial.println(getStatusInt("state"));
+  if (getStatusInt("state")) flag = sendStatus("state", 0);
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
+  toggleRelay(getStatusInt("state"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
 }
-/*
-void relayNot() {
-  String str = readArgsString();
-  if (str != "") Serial.println(timeToSec(str));
 
-
-  configJson = jsonWrite(configJson, "state", !jsonReadtoInt(configJson, "state"));
-  int state0 = jsonReadtoInt(configJson, "state");
-  toggleRelay(state0);
-  digitalWrite(jsonReadtoInt(configLive, "relay1Pin"), state0);
-  topicPub("/RELE_1_not/status", String(state0), 1 );
-}
-*/
 void relayNot() {
   flag = sendStatus("state", !getStatusInt("state"));
   digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
+  toggleRelay(getStatusInt("state"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
 }
 void topicPub(String topic, String data, boolean retain ) {
   client.publish(MQTT::Publish(prefix + "/" + chipID + topic,    "{\"status\":" + data + "}").set_retain(1));

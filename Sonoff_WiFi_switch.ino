@@ -85,7 +85,7 @@ boolean thenOk;
 void setup() {
 
   //Serial.println (ESP.getResetReason());
-  //Serial.begin(115200);
+  Serial.begin(115200);
   delay(100);
   TickerScheduler(1);
   Serial.println ("");
