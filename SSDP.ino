@@ -128,7 +128,7 @@ void ssdpLists(String chipIDremote, String remoteIP, String ssdpName ) {
 void ipChanges() {
   String ip = WiFi.localIP().toString();
   if (jsonRead(configSetup, "ip") != ip) {
-    configJson = jsonWrite(configJson, "ip", ip);
+    //configJson = jsonWrite(configJson, "ip", ip);
     configSetup = jsonWrite(configSetup, "ip", ip);
     requestSSDP();
 

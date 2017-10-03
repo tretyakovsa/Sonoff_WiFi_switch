@@ -1,11 +1,9 @@
-if tach
-then sonoff relaynot
-id 23522
 
-if tach
-then sonoff relaynot
-id 43423
 
-if tach
-then sonoff relaynot
-id 3456
+if state = 1 and time = 08:00:00
+then Sonoff relayoff
+id 7972
+
+if time = 08:00:00
+then Sonoff relaynot
+id 6888
