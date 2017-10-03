@@ -48,7 +48,7 @@
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
-     if (ipDevice.length == undefined) {
+     if (Object.keys(ipDevice).length == 0) {
       location.href = "/page.htm?first-connect";
      }
     }
