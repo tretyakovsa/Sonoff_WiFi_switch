@@ -1,10 +1,32 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
-  HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
-  HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
+// ---------- Синхронизация времени
+  HTTP.on("/Time", HTTP_GET, [](AsyncWebServerRequest * request) {
+      timeSynch(jsonReadtoInt(configSetup, "timeZone"));
+  String out = "{}";
+  out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>"+GetTime()+"</strong>");
+    request->send(200, "text/plain", out);
+  });
+
+  // ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
+  HTTP.on("/timeZone", HTTP_GET, [](AsyncWebServerRequest * request) {
+    String set;
+    if (request->hasArg("timeZone")) {
+      int timezone = request->arg("timeZone").toInt();
+  configJson = jsonWrite(configJson, "timeZone",  timezone);
+  configSetup = jsonWrite(configSetup, "timeZone",  timezone);
+  timeSynch(timezone);
+      saveConfigSetup();
+    }
+
+    request->send(200, "text/plain", "OK");
+  });
+
   timeSynch(jsonReadtoInt(configSetup, "timeZone"));
+
   modulesReg("ntp");
 }
+
 
 void timeSynch(int zone) {
   if (WiFi.status() == WL_CONNECTED) {
@@ -17,30 +39,14 @@ void timeSynch(int zone) {
       i++;
       delay(100);
     }
-    Serial.println("");
-    String timeNow = GetTime();
-    configJson = jsonWrite(configJson, "time",  timeNow);
-    configSetup = jsonWrite(configSetup, "time",  timeNow);
+    //Serial.println("");
+    //String timeNow = GetTime();
+    //Serial.println(timeNow);
+    //configJson = jsonWrite(configJson, "time",  timeNow);
+    //configSetup = jsonWrite(configSetup, "time",  timeNow);
   }
 }
 
-// ---------- Синхронизация времени
-void handle_Time() {
-  timeSynch(jsonReadtoInt(configSetup, "timeZone"));
-  String out = "{}";
-  out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>"+GetTime()+"</strong>");
-  HTTP.send(200, "text/plain", out); // отправляем ответ о выполнении
-}
-
-// ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
-void handle_time_zone() {
-  int timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
-  configJson = jsonWrite(configJson, "timeZone",  timezone);
-  configSetup = jsonWrite(configSetup, "timeZone",  timezone);
-  timeSynch(timezone);
-  saveConfigSetup ();
-  HTTP.send(200, "text/plain", "OK");
-}
 
 // Получение текущего времени
 String GetTime() {

@@ -1,5 +1,7 @@
 #include <ESP8266WiFi.h>             //Содержится в пакете
-#include <ESP8266WebServer.h>        //Содержится в пакете
+#include <ESPAsyncTCP.h>
+#include <ESPAsyncWebServer.h>  // https://github.com/me-no-dev/ESPAsyncWebServer
+#include <SPIFFSEditor.h>
 #include <ESP8266SSDP.h>             //Содержится в пакете
 #include <FS.h>                      //Содержится в пакете
 #include <time.h>                    //Содержится в пакете
@@ -32,11 +34,13 @@ RCSwitch mySwitch = RCSwitch();
 DNSServer dnsServer;
 
 // Web интерфейсы для устройства
-ESP8266WebServer HTTP(80);
-
+//ESP8266WebServer HTTP(80);
+AsyncWebServer HTTP(80);
+//AsyncWebServer HTTPWAN();
+//ESP8266WebServer HTTPWAN;
 // Обнавление прошивки
 ESP8266HTTPUpdateServer httpUpdater;
-ESP8266WebServer HTTPWAN;
+
 
 // Для файловой системы
 File fsUploadFile;
@@ -72,12 +76,14 @@ String configLive = "{}";            // Здесь внутренние данн
 String ssdpList = "{}";
 String regCommands = "{}";
 String jsonTimer = "{}";
+String Scenary;
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String addressList = "{\"ssdpList\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
-//boolean ddnsTest = true;
+boolean flag = false;
+boolean thenOk;
 
 
 void setup() {
@@ -90,7 +96,7 @@ void setup() {
   Serial.println ("Load");
   initCMD();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
-  FS_init();         // Включаем работу с файловой системой
+  SPIFFS.begin();        // Включаем работу с файловой системой
   // ----------------- начинаем загрузку
   configSetup = readFile("config.save.json", 4096);
   configSetup = jsonWrite(configSetup, "time", "00:00:00");
@@ -111,8 +117,10 @@ void setup() {
    sCmd.readStr("HTTP");
    // ----------- Выполняем запуск кофигурации
   Serial.println(goCommands(test));
-  test = "";
+  test ="";
   configSetup = jsonWrite(configSetup, "mac", WiFi.macAddress().c_str());
+  configSetup = jsonWrite(configSetup, "ip", WiFi.localIP().toString());
+  initScenary();
 }
 
 void loop() {
@@ -120,11 +128,8 @@ void loop() {
   sCmd.readStr(command);     // We don't do much, just process serial commands
   command = "";
   dnsServer.processNextRequest();
-  HTTPWAN.handleClient();
-  yield();
-  HTTP.handleClient();
   yield();
   handleUDP();
   handleMQTT();
-  ws2812fx.service();
+  handleScenary();
 }

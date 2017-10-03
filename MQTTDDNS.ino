@@ -33,7 +33,26 @@ void callback(const MQTT::Publish& pub)
 }
 
 void initMQTT() {
-  HTTP.on("/mqtt", handle_Set_MQTT);
+ // --------------Установить данные MQTT
+  HTTP.on("/mqtt", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("server")) {
+      configSetup = jsonWrite(configSetup, "mqttServer", request->arg("server"));
+    }
+    if (request->hasArg("port")) {
+      configSetup = jsonWrite(configSetup, "mqttPort", request->arg("port").toInt());
+    }
+    if (request->hasArg("user")) {
+      configSetup = jsonWrite(configSetup, "mqttUser", request->arg("user"));
+    }
+    if (request->hasArg("pass")) {
+      configSetup = jsonWrite(configSetup, "mqttPass", request->arg("pass"));
+    }
+      saveConfigSetup ();
+  client.disconnect();
+  MQTT_Pablush();
+   request->send(200, "text/plain", "Ok");
+
+  });
   modulesReg("mqtt");
   MQTT_Pablush();
 }
@@ -70,20 +89,6 @@ void  handleMQTT() {
     }
 }
 
-//Установка параметров  http://192.168.0.101/mqtt?server=m13.cloudmqtt.com&port=15535&user=cxluynva&pass=4cje5WEkzqvR
-void handle_Set_MQTT() {              //
-  configSetup = jsonWrite(configSetup, "mqttServer",  HTTP.arg("server"));
-  configSetup = jsonWrite(configSetup, "mqttPort",  HTTP.arg("port").toInt());
-  configSetup = jsonWrite(configSetup, "mqttUser",  HTTP.arg("user"));
-  configSetup = jsonWrite(configSetup, "mqttPass",  HTTP.arg("pass"));
-  saveConfigSetup ();
-  client.disconnect();
-  MQTT_Pablush();
-  HTTP.send(200, "text/plain", "OK");   // отправляем ответ о выполнении
-}
-
-
-
 // Читаем и отправляем виджеты на сервер
 bool loadnWidgets() {
 
@@ -101,37 +106,6 @@ bool loadnWidgets() {
     }
   }
   return true;
-}
-
-
-// --------------------- Включаем DDNS
-void initDDNS() {
-  HTTPWAN = ESP8266WebServer (jsonReadtoInt(configSetup, "ddnsPort"));
-  HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
-  HTTPWAN.begin();
-    // задача синхронизайия с сервером ddns каждые 10 минут
- ts.add(4, 600000, [&](void*) {
-    ip_wan();
-  }, nullptr, true);
-  modulesReg("ddns");
-}
-
-// ------------------------------Установка параметров ddns
-void handle_ddns() {
-  configSetup = jsonWrite(configSetup, "ddns",  HTTP.arg("ddns"));
-  configSetup = jsonWrite(configSetup, "ddnsName",  HTTP.arg("ddnsName"));
-  configSetup = jsonWrite(configSetup, "ddnsPort",  HTTP.arg("ddnsPort"));
-  ip_wan();
-  saveConfigSetup ();
-  HTTP.send(200, "text/plain", "OK");
-}
-
-// --------------------------------Запрос для синхронизации внешнего ip адреса с ddns
-int ip_wan() {
-  String ddns = jsonRead(configSetup, "ddns");
-  if (ddns != "") {
-    getURL(ddns);
-  }
 }
 
 

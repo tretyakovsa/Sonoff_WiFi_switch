@@ -7,6 +7,7 @@ void initSSDP() {
     configSetup = jsonWrite(configSetup, "SSDP", temp);
     saveConfigSetup ();
   }
+  ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
   //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
@@ -19,48 +20,61 @@ void initSSDP() {
   ts.add(2, 120000, [&](void*) {
     requestSSDP();
   }, nullptr, true);
-  // SSDP дескриптор
-  HTTP.on("/description.xml", HTTP_GET, []() {
-    SSDP.schema(HTTP.client());
+  // ---------------------- SSDP дескриптор
+  HTTP.on("/device", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("ssdp")) {
+      String arg = request->arg("ssdp");
+      configSetup = jsonWrite(configSetup, "SSDP", arg);
+      configLive = jsonWrite(configLive, "SSDP", arg);
+    }
+    request->send(200, "text/json", "Ok");
+    saveConfigSetup();
   });
+
+  HTTP.on("/description.xml", HTTP_GET, [](AsyncWebServerRequest * request) {
+    String ssdpSend = "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">";
+    String  ssdpHeder = xmlNode("major", "1");
+    ssdpHeder += xmlNode("minor", "0");
+    ssdpHeder = xmlNode("specVersion", ssdpHeder);
+    ssdpHeder += xmlNode("URLBase", "http://" + WiFi.localIP().toString());
+    String  ssdpDescription = xmlNode("deviceType", "upnp:rootdevice");
+    ssdpDescription += xmlNode("friendlyName", jsonRead(configSetup, "SSDP"));
+    ssdpDescription += xmlNode("presentationURL", "/");
+    ssdpDescription += xmlNode("serialNumber", chipID);
+    ssdpDescription += xmlNode("modelName", jsonRead(configSetup, "configs"));
+    ssdpDescription += xmlNode("modelNumber", chipID + "/" + jsonRead(configSetup, "SSDP"));
+    ssdpDescription += xmlNode("modelURL", "https://github.com/tretyakovsa/Sonoff_WiFi_switch");
+    ssdpDescription += xmlNode("manufacturer", "Tretyakov Sergey, Kevrels Renats");
+    ssdpDescription += xmlNode("manufacturerURL", "http://www.esp8266-arduinoide.ru");
+    ssdpDescription += xmlNode("UDN", "uuid:38323636-4558-4dda-9188-cda0e6" + decToHex(ESP.getChipId(), 6));
+    ssdpDescription = xmlNode("device", ssdpDescription);
+    ssdpHeder += ssdpDescription;
+    ssdpSend += ssdpHeder;
+    ssdpSend += "</root>";
+    request->send(200, "text/xml", ssdpSend);
+
+  });
+  //Если версия  2.0.0 закаментируйте следующую строчку
   SSDP.setDeviceType("upnp:rootdevice");
   SSDP.setSchemaURL("description.xml");
-  SSDP.setHTTPPort(80);
   SSDP.setName(jsonRead(configSetup, "SSDP"));
-  SSDP.setSerialNumber(chipID);
-  SSDP.setURL("/");
+  //SSDP.setSerialNumber(chipID);
+  //SSDP.setURL("/");
   SSDP.setModelName(jsonRead(configSetup, "configs"));
   SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, "SSDP"));
-  SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
-  SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
-  SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
   SSDP.begin();
 
   // Установить имя устройства
-  HTTP.on("/device", handle_device);        // Установить имя устройства
-  HTTP.on("/ip.list.json", HTTP_GET, []() {
-    HTTP.send(200, "application/json", addressList);
-  });
-    HTTP.on("/ssdp.list.json", HTTP_GET, []() {
-    HTTP.send(200, "application/json", ssdpList);
-  });
-}
+ // HTTP.on("/device", handle_device);        // Установить имя устройства
 
-// ------------- Установить имя устройства
-void handle_device() {
-  // /device?ssdp=Sonoff-Rele&space={{space}}
-  String  ssdpName = HTTP.arg("ssdp");
-  configSetup = jsonWrite(configSetup, "SSDP", ssdpName);
-  configOptions = jsonWrite(configOptions, "SSDP", ssdpName);
-  modules = jsonWrite(modules, "SSDP", ssdpName);
-  SSDP.setName(ssdpName);
-
-  String  space = HTTP.arg("space");
-  configSetup = jsonWrite(configSetup, "space", space);
-  configOptions = jsonWrite(configOptions, "space", space);
-  modules = jsonWrite(modules, "space", space);
-  HTTP.send(200, "text/plain", "Ok");
-  saveConfigSetup();
+  // --------------------Выдаем данные ssdpList
+  HTTP.on("/ip.list.json", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send(200, "application/json", addressList);
+  });
+  // --------------------Выдаем данные addressList
+  HTTP.on("/ssdp.list.json", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send(200, "application/json", ssdpList);
+  });
 }
 
 // ------------- SSDP запрос
@@ -135,12 +149,15 @@ void ipChanges() {
   }
 }
 
-// {"ssdpList":[{"id":"14317906-1458400","ip":"192.168.0.102"},{"id":"16321347-1327328","ip":"192.168.0.108"}]}
 
-void deviceList() {
-  HTTP.send(200, "text/plain", "[" + modules + "]");
+String xmlNode(String tags, String data) {
+  String temp = "<" + tags + ">" + data + "</" + tags + ">";
+  return temp;
 }
 
-
-
+String decToHex(uint32_t decValue, byte desiredStringLength) {
+  String hexString = String(decValue, HEX);
+  while (hexString.length() < desiredStringLength) hexString = "0" + hexString;
+  return hexString;
+}
 

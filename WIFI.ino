@@ -8,77 +8,104 @@
 */
 // ---------------- Инициализация WiFi
 void initWIFI() {
-  HTTP.on("/wifi.scan.json", handle_wifi_scan);      // сканирование сети на доступные точки доступа
-  HTTP.on("/ssid", handle_ssid);        // Установить имя и пароль роутера
-  HTTP.on("/wifi", handle_wifi);    // Установить имя и пароль для точки доступа
-  HTTP.on("/ssidap", handle_ssidap);    // Установить имя и пароль для точки доступа
-  HTTP.on("/restart", handle_restart);               // Перезагрузка модуля
-  HTTP.on("/restartWiFi", RestartWiFi);                // Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
-  startWIFI();
-}
+  // сканирование сети на доступные точки доступа
+  HTTP.on("/wifi.scan.json", HTTP_GET, [](AsyncWebServerRequest * request) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& json = jsonBuffer.createObject();
+    JsonArray& networks = json.createNestedArray("networks");
+    int n = WiFi.scanComplete();
+    if (n == -2) {
+      WiFi.scanNetworks(true);
+    } else if (n) {
+      for (int i = 0; i < n; i++) {
+        JsonObject& data = networks.createNestedObject();
+        data["ssid"] = WiFi.SSID(i);
+        data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
+        data["dbm"] = WiFi.RSSI(i);
+      }
+      WiFi.scanDelete();
+      if (WiFi.scanComplete() == -2) {
+        WiFi.scanNetworks(true);
+      }
+    }
+    String root;
+    json.printTo(root);
+    request->send(200, "application/json", root);
+  });
+  // --------------Установить имя и пароль для роутера
+  HTTP.on("/ssid", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("ssid")) {
+      configSetup = jsonWrite(configSetup, "ssid", request->arg("ssid"));
+    }
+    if (request->hasArg("password")) {
+      configSetup = jsonWrite(configSetup, "ssidPass", request->arg("password"));
+    }
+    if (request->hasArg("checkboxIP")) {
+      configSetup = jsonWrite(configSetup, "checkboxIP", request->arg("checkboxIP"));
+    }
+    if (request->hasArg("ip")) {
+      configSetup = jsonWrite(configSetup, "ip", request->arg("ip"));
+    }
+    if (request->hasArg("subnet")) {
+      configSetup = jsonWrite(configSetup, "subnet", request->arg("subnet"));
+    }
+    if (request->hasArg("getway")) {
+      configSetup = jsonWrite(configSetup, "getway", request->arg("getway"));
+    }
+    request->send(200, "text/plain", "Ok");
+    saveConfigSetup();
+  });
+  // --------------Установить led и попытки для wifi
+  HTTP.on("/wifi", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("connect")) {
+      configSetup = jsonWrite(configSetup, "wifiConnect", request->arg("connect"));
+    }
+    if (request->hasArg("blink")) {
+      configSetup = jsonWrite(configSetup, "wifiBlink", request->arg("blink"));
+    }
+    request->send(200, "text/plain", "Ok");
+    saveConfigSetup();
+  });
+  // --------------- Установить имя и пароль для AP
+  HTTP.on("/ssidap", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("ssidAP")) {
+      configSetup = jsonWrite(configSetup, "ssidAP", request->arg("ssidAP"));
+    }
+    if (request->hasArg("passwordAP")) {
+      configSetup = jsonWrite(configSetup, "passwordAP", request->arg("passwordAP"));
+    }
+    request->send(200, "text/plain", "Ok");
+    saveConfigSetup();
+  });
+  // -------------- Перезагрузка модуля
+  HTTP.on("/restart", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->hasArg("device")) {
+      if (request->arg("device") == "ok") {                         // Если значение равно Ок
+        request->send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
+        ESP.restart();                                // перезагружаем модуль
+      }
+      else {                                        // иначе
+        request->send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
+      }
+    }
+  });
 
-void handle_wifi(){
-  configSetup = jsonWrite(configSetup, "wifiConnect", HTTP.arg("connect"));
-  configSetup = jsonWrite(configSetup, "wifiBlink", HTTP.arg("blink"));
-  HTTP.send(200, "text/plain", "Ok");
-  saveConfigSetup();
-  }
-
-// --------------Установить имя и пароль для роутера
-void handle_ssid() {
-  configSetup = jsonWrite(configSetup, "ssid", HTTP.arg("ssid"));
-  configSetup = jsonWrite(configSetup, "subnet", HTTP.arg("subnet"));
-  configSetup = jsonWrite(configSetup, "getway", HTTP.arg("getway"));
-  configSetup = jsonWrite(configSetup, "dns", HTTP.arg("dns"));
-  configSetup = jsonWrite(configSetup, "ip", HTTP.arg("ip"));
-  configSetup = jsonWrite(configSetup, "checkboxIP", HTTP.arg("checkboxIP"));
-  String ssidName = HTTP.arg("ssid");
-  String ssidPass = HTTP.arg("ssidPass");
-  configSetup = jsonWrite(configSetup, "ssid", ssidName);
-  configSetup = jsonWrite(configSetup, "ssidPass", ssidPass);
-  HTTP.send(200, "text/plain", "Ok");
-  saveConfigSetup();
-}
-
-// --------------- Установить имя и пароль для AP
-void handle_ssidap() {
-  configSetup = jsonWrite(configSetup, "ssidAP", HTTP.arg("ssidAP"));
-  configSetup = jsonWrite(configSetup, "ssidApPass", HTTP.arg("ssidApPass"));
-  HTTP.send(200, "text/plain", "Ok");
-  saveConfigSetup();
-}
-
-// -------------- Перезагрузка модуля
-void handle_restart() {
-  String restart = HTTP.arg("device");
-  if (restart == "ok") {                         // Если значение равно Ок
-    HTTP.send(200, "text/plain", "Reset OK"); // Oтправляем ответ Reset OK
-    ESP.restart();                                // перезагружаем модуль
-  } else {                                        // иначе
-    HTTP.send(200, "text/plain", "No Reset"); // Oтправляем ответ No Reset
-  }
-}
-
-//-------------- Перизапустить wifi попытаться узнать будущий ip адрес перезагрузить устройство
-bool RestartWiFi() {
-  //Перезапуск Wi-Fi при первой настройке
-  Serial.println("WiFi reconnect");
+  // -------------- Перезагрузка модуля
+  HTTP.on("/restartWiFi", HTTP_POST, [](AsyncWebServerRequest * request) {
+    //Перезапуск Wi-Fi при первой настройке
+    Serial.println("WiFi reconnect");
     WiFi.mode(WIFI_AP_STA);
-  // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
-  WiFi.begin(jsonRead(configSetup, "ssid").c_str(),jsonRead(configSetup, "ssidPass").c_str());
-
-  wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"));
-
-  Serial.println("");
-  Serial.println(WiFi.localIP());
-  // {"title":"<h3>{{LangConnect2}} <a href="http://192.168.1.30">http://192.168.1.30</a></h3>"}
-  // {"title":"Любой текст и html","class":"класс", "style":"Стиль","state":"Данные для вставки в state input_а"}
-  String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";
-  Serial.println(state);
-  HTTP.send(200, "application/json", state);
-  delay(1000);
-  // Отключаем точку доступа и переподключаемся к роутеру
-  ESP.restart();
+    // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
+    WiFi.begin(jsonRead(configSetup, "ssid").c_str(), jsonRead(configSetup, "ssidPass").c_str());
+    wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"));
+    // {"title":"<h3>{{LangConnect2}} <a href="http://192.168.1.30">http://192.168.1.30</a></h3>"}
+    // {"title":"Любой текст и html","class":"класс", "style":"Стиль","state":"Данные для вставки в state input_а"}
+    String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";
+    request->send(200, "application/json", state);
+    // Отключаем точку доступа и переподключаемся к роутеру
+    ESP.restart();
+  });
+  startWIFI();
 }
 
 //-------------Подключение к роутеру конфигурация в строке json
@@ -114,6 +141,7 @@ boolean startSTA(String configWiFi) {
       Serial.println (WiFi.gatewayIP ());
     }
   }
+  WiFi.mode(WIFI_OFF);
   WiFi.mode(WIFI_STA);
   WiFi.hostname ( "sonoff-" + chipID );
   Serial.println(WiFi.SSID());
@@ -168,22 +196,6 @@ boolean startAP(String configWiFi) {
   return true;
 }
 
-// ---------------- сканирование сети на доступные точки доступа
-void handle_wifi_scan() {
-  int n = WiFi.scanNetworks();
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.createObject();
-  JsonArray& networks = json.createNestedArray("networks");
-  for (int i = 0; i < n; i++) {
-    JsonObject& data = networks.createNestedObject();
-    data["ssid"] = WiFi.SSID(i);
-    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
-    data["dbm"] = WiFi.RSSI(i);
-  }
-  String root;
-  json.printTo(root);
-  HTTP.send(200, "application/json", root);
-}
 
 
 // ----------------- Запускаем WiFi

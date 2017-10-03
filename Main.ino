@@ -6,25 +6,62 @@ void initCMD() {
   sCmd.addCommand("Upgrade",    initUpgrade);
   sCmd.addCommand("SSDP",       initSSDP);
   sCmd.addCommand("HTTP",       initHTTP);
-  sCmd.addCommand("DDNS",       initDDNS);
-  sCmd.addCommand("A0",       initA0);
-  sCmd.addCommand("Tach",       initTach);
-  sCmd.addCommand("DHT",       initDHT);
-  sCmd.addCommand("D18B20",       initD18B20);
   sCmd.addCommand("TIMERS",       initTimers);
-  sCmd.addCommand("RELAY",       initRelay);
-  sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
-  sCmd.addCommand("RGB",       initRGB);
-  sCmd.addCommand("RCSwitch",       initRCSwitch);
-  sCmd.addCommand("MOTION",       initMotion);
-  sCmd.addCommand("BUZER",       initBuzer);
-  sCmd.addCommand("beep",       buzerBeep);
+  sCmd.addCommand("print",       printTest);
+
+  sCmd.addCommand("RELAY",       initRelay);
+  //sCmd.addCommand("D18B20",       initD18B20);
+  //sCmd.addCommand("DDNS",       initDDNS);
   sCmd.setDefaultHandler(unrecognized);
 }
-
+// Печатает вопрос Что если комманда не распознана
 void unrecognized(const char *command) {
   Serial.println("What?");
+}
+// По комманде print печатает аргумент для тастов
+void printTest() {
+  Serial.println("Test " + readArgsString());
+}
+// ----------------- Процедуры статуса
+// Меняем любой статус в /config.live.json configJson
+// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
+boolean sendStatus(String Name, String volume) {
+  configJson = jsonWrite(configJson, Name, volume);
+  return true;
+}
+boolean sendStatus(String Name, int volume) {
+  configJson = jsonWrite(configJson, Name, volume);
+  return true;
+}
+// Читаем любой стстус /config.live.json configJson
+// Вернет String
+String getStatus(String Name) {
+  return jsonRead(configJson, Name);
+}
+// Вернет int
+int getStatusInt(String Name) {
+  return jsonReadtoInt(configJson, Name);
+}
+// ----------------- Процедуры Параметров
+// Меняем любой статус в /config.live.json configJson
+// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
+boolean sendOptions(String Name, String volume) {
+  configOptions = jsonWrite(configOptions, Name, volume);
+  return true;
+}
+boolean sendOptions(String Name, int volume) {
+  configOptions = jsonWrite(configOptions, Name, volume);
+  return true;
+}
+// Читаем любой стстус /config.live.json configJson
+// Вернет String
+String getOptions(String Name) {
+  return jsonRead(configOptions, Name);
+}
+// Вернет int
+int getOptionsInt(String Name) {
+  return jsonReadtoInt(configOptions, Name);
 }
 
 // Переводит время в строке в формате 00:00:00 в секунды
@@ -40,7 +77,7 @@ unsigned int timeToSec(String inTime) {
 }
 
 
-void saveConfigSetup (){
+void saveConfigSetup () {
   writeFile("config.save.json", configSetup );
 }
 
@@ -194,8 +231,6 @@ String goCommands(String inits) {
   inits += rn;
   do {
     temp = selectToMarker (inits, rn);
-    Serial.print("command=");
-    Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
   } while (inits.indexOf(rn) != 0);

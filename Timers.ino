@@ -1,7 +1,78 @@
 void initTimers() {
-  HTTP.on("/timerSave", handle_timer_Save);
-  HTTP.on("/timersDel", handle_timer_Del);
-  HTTP.on("/timer.modules.json", handle_timer_Mod);
+  HTTP.on("/timerSave", HTTP_GET, [](AsyncWebServerRequest * request) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+    JsonArray& arrays = Timers["timer"].asArray();
+    JsonObject& record = arrays.createNestedObject();
+    if (request->hasArg("id")) {
+      record["id"]  = request->arg("id");
+    }
+    if (request->hasArg("trigger")) {
+      record["trigger"]  = request->arg("trigger");
+    }
+    if (request->hasArg("module")) {
+      record["module"]  = request->arg("module");
+    }
+    if (request->hasArg("day")) {
+      record["day"]  = request->arg("day");
+    }
+    if (request->hasArg("time")) {
+      record["time"]  = request->arg("time");
+    }  if (request->hasArg("work")) {
+      record["work"]  = request->arg("work");
+    }
+    jsonTimer = "";
+    Timers.printTo(jsonTimer);
+    writeFile("timer.save.json", jsonTimer );
+    //loadTimer();
+    request->send(200, "text/plain", responsTimer());
+  });
+  HTTP.on("/timersDel", HTTP_GET, [](AsyncWebServerRequest * request) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+    JsonArray& nestedArray = Timers["timer"].asArray();
+    //nestedArray.printTo(Serial);
+    String id;
+    if (request->hasArg("id")) {
+      id = request->arg("id");
+    }
+    int y;
+    for (int i = 0; i <= nestedArray.size() - 1; i++) {
+      if (Timers["timer"][i]["id"] == id.toInt()) y = i;
+    }
+    nestedArray.removeAt(y);
+    jsonTimer = "";
+    Timers.printTo(jsonTimer);
+    writeFile("timer.save.json", jsonTimer );
+    //loadTimer();
+    request->send(200, "text/plain", responsTimer());
+  });
+
+  HTTP.on("/timer.modules.json", HTTP_GET, [](AsyncWebServerRequest * request) {
+    String responsA = "{\"content\":[";
+  String responsB = "{}";
+  String responsC = "{}";
+
+  Serial.println(modules);
+  responsC = jsonWrite(responsC, "rgb", "RGB");
+  responsC = jsonWrite(responsC, "relay", "Relay");
+  responsC = jsonWrite(responsC, "jalousie", "Jalousie");
+
+  responsB = jsonWrite(responsB, "type", "select");
+  responsB = jsonWrite(responsB, "name", "module");
+  responsB = jsonWrite(responsB, "response", "[[trigger]]");
+  responsB = jsonWrite(responsB, "action", "/trigger.[[module]].json");
+
+  responsB = selectToMarker (responsB, "}");
+
+  responsA += responsB;
+  responsA += ",\"title\":";
+  responsA += responsC;
+  responsA += "}]}";
+    request->send(200, "application/json", responsA);
+  });
+
+
 
   // задача проверять таймеры каждую секунду.
   ts.add(0, 1000, [&](void*) {
@@ -11,49 +82,7 @@ void initTimers() {
   modulesReg("timers");
 }
 
-void handle_timer_Mod(){
-  String responsA = "{\"content\":[";
-  String responsB ="{}";
-  String responsC ="{}";
 
-  Serial.println(modules);
-responsC = jsonWrite(responsC, "rgb", "RGB");
-responsC = jsonWrite(responsC, "relay", "Relay");
-responsC = jsonWrite(responsC, "jalousie", "Jalousie");
-
-   responsB = jsonWrite(responsB, "type", "select");
-   responsB = jsonWrite(responsB, "name", "module");
-   responsB = jsonWrite(responsB, "response", "[[trigger]]");
-   responsB = jsonWrite(responsB, "action", "/trigger.[[module]].json");
-
-   responsB = selectToMarker (responsB, "}");
-
-   responsA +=responsB;
-   responsA += ",\"title\":";
-   responsA +=responsC;
-   responsA += "}]}";
-   HTTP.send(200, "application/json", responsA);
-  }
-
-
-void handle_timer_Save() {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
-  JsonArray& arrays = Timers["timer"].asArray();
-  JsonObject& record = arrays.createNestedObject();
-  record["id"]  = HTTP.arg("id");
-  record["trigger"]  = HTTP.arg("trigger");
-  record["module"]  = HTTP.arg("module");
-  record["day"]  = HTTP.arg("day");
-  record["time"]  = HTTP.arg("time");
-  record["work"]  = HTTP.arg("work");
-  jsonTimer = "";
-  Timers.printTo(jsonTimer);
-  writeFile("timer.save.json", jsonTimer );
-
-  loadTimer();
-  HTTP.send(200, "text/plain", responsTimer());
-}
 
 String responsTimer() {
   String responsA = "{\"state\": \"timer.save.json\",\"title\":";
@@ -66,26 +95,6 @@ String responsTimer() {
   responsB = jsonWrite(responsB, "id", "{{LangDel}}");
   return responsA += responsB += "}";
 }
-
-
-void handle_timer_Del() {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
-  JsonArray& nestedArray = Timers["timer"].asArray();
-  //nestedArray.printTo(Serial);
-  int y;
-  for (int i = 0; i <= nestedArray.size() - 1; i++) {
-    if (Timers["timer"][i]["id"] == HTTP.arg("id").toInt()) y = i;
-
-  }
-  nestedArray.removeAt(y);
-  jsonTimer = "";
-  Timers.printTo(jsonTimer);
-  writeFile("timer.save.json", jsonTimer );
-  loadTimer();
-  HTTP.send(200, "text/plain", responsTimer());
-}
-
 
 bool loadTimer() {
   Timerset = "";
