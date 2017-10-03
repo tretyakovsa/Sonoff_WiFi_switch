@@ -140,7 +140,7 @@
 
   {
    "type": "checkbox",
-   "title": "Задать статический IP",
+   "title": "Задать статический IP  {{LangSoon}}",
    "name":"checkboxIP",
    "state": "{{checkboxIP}}",
    "style": "display:block"

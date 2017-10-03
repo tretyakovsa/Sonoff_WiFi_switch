@@ -2,10 +2,10 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v21.09.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v03.10.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v21.09.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,17 +67,13 @@
       loadBlock(ipval,ipModule.space,'first',ipModule.module);
      }
      // Сортировка
-     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
-      loadBlock(ipval,ipModule.space,'first',ipModule.module);
-     }
-     if(!document.getElementById(ipModule.space)){
-      document.getElementById("content").innerHTML += '<h2 id="'+ipModule.space+'-title">'+ipModule.space+'<\/h2><hr><div class="row" id="'+ipModule.space+'"><\/div>';
-      document.getElementById("space-button").innerHTML += '<a href="#'+ipModule.space+'-title" class="btn btn-default">'+ipModule.space+'<\/a>';
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes') {
+      loadBlock(ipval,'first',ipModule.module);
      }
     }
    }
 
-   function loadBlock(ipval, content, stage, modules) {
+   function loadBlock(ipval, stage, modules) {
     var xhttp=createXmlHttpObject();
     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
     xhttp.send(null);
@@ -99,28 +95,28 @@
           jsonResponse["relay"+i] = 'hidden';
          }
         }
-        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
+        loadBlock2('relay','timer.save',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"rgb") == 'yes'){
-        loadBlock2('rgb','timer.save',ipval, content, stage, jsonResponse);
+        loadBlock2('rgb','timer.save',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"jalousie") == 'yes'){
-        loadBlock2('jalousie','timer.save',ipval, content, stage, jsonResponse);
+        loadBlock2('jalousie','timer.save',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"leakag") == 'yes'){
-        loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
+        loadBlock2('leakag','timer.save',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"temperature") == 'yes'){
-        loadBlock2('temperature','temperature',ipval, content, stage, jsonResponse);
+        loadBlock2('temperature','temperature',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"humidity") == 'yes'){
-        loadBlock2('humidity','humidity',ipval, content, stage, jsonResponse);
+        loadBlock2('humidity','humidity',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (searchModule(modules,"analog") == 'yes'){
-        loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
+        loadBlock2('analog','analog',ipval, jsonResponse.space, stage, jsonResponse);
        }
-       if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
-        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
+       if (!stage && jsonResponse.space == "relay" || jsonResponse.space == "rgb" || jsonResponse.space == "jalousie" || jsonResponse.space == "leakag"){
+        loadBlock2(jsonResponse.space,'timer.save',ipval, jsonResponse.space, stage, jsonResponse);
        }
        if (window.location.hostname == ipval && stage == 'first') {
         var new_string2;
@@ -141,6 +137,13 @@
 
    function loadBlock2(page, jsonPage, ipval, content, stage, jsonResponse){
     if (stage == 'first'){
+     var element = document.getElementById(content);
+     if (typeof(element) != 'undefined' && element != null && element != ''){
+      //  document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     } else {
+      document.getElementById("content").innerHTML += '<h2 id="'+content+'-title">'+content+'<\/h2><hr><div class="row" id="'+content+'"><\/div>';
+      document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
+     }
      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
     var xhttp=createXmlHttpObject();

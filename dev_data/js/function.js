@@ -10,9 +10,10 @@ function createXmlHttpObject(){
 
 var set_real_time;
 
-function setContent(stage,pages) {
+function setContent(stage) {
  jsonResponse = '';
  var xmlHttp=createXmlHttpObject();
+ var pages = window.location.search.substring(1).split("&");
  pages[0] = (pages[0]?pages[0]:'index');
  xmlHttp.open('GET', pages[0]+".json",true);
  xmlHttp.send(null);
@@ -155,7 +156,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    if (type_val == 'table') {
     var thead = '';
     var jsonTable = jsonPage.content[i].title;
-    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td>'+jsonResponse.LangLoading+'</td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
+    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><span class="loader"></span>'+jsonResponse.LangLoading+'</td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
     loadTable(state_val, jsonTable);
    }
    if (type_val == 'select') {
@@ -170,7 +171,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     document.getElementById(idName).innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
    }
    if (type_val == 'configs') {
-    document.getElementById(idName).innerHTML += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'" '+style_val+'><center>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
+    document.getElementById(idName).innerHTML += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
     document.getElementById(idName).innerHTML += '<input onclick="changeTextarea(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\');alert(\''+jsonResponse.LangReset2+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
     setTimeout("loadConfigs('"+state_val+"')", 500);
    }
@@ -190,7 +191,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     }
    }
    if (type_val == 'loadJson') {
-    document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'>'+jsonResponse.LangLoading+'<\/div>';
+    document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><span class="loader"></span>'+jsonResponse.LangLoading+'<\/div>';
     loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
    }
    if (type_val == 'scenary-list') {
@@ -207,7 +208,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
     option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
-    option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','html(\\'scenary-list\\', \\' \\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+    option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','html(\\'scenary-list\\', \\' \\');send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
     document.getElementById(idName).innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
     loadScenary(jsonResponse);
    }
@@ -266,9 +267,9 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
    html("scenary-list-edit",ipDevice);
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
-   send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');loadScenary(jsonResponse,\'loadList\');',urlList);
+   send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\')}" type="button"><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}" type="button"><\/td><\/tr>');
   }
  }
 }
@@ -391,7 +392,7 @@ function send_request(submit,server,state){
   }
   var ddnsUrl1 =  document.getElementById('ddns-url1');
   if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
-   ddnsUrl1.innerHTML = '<a href="http://'+jsonResponse.ip+'/'+server+'">http://'+jsonResponse.ip+'/'+server+'</a>';
+   ddnsUrl1.innerHTML = '<a href="http://'+location.hostname+'/'+server+'">http://'+location.hostname+'/'+server+'</a>';
   }
   var ddnsUrl2 =  document.getElementById('ddns-url2');
   if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null && jsonResponse.ddnsName){

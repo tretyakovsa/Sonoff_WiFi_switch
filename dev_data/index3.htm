@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v21.09.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,25 +105,25 @@
          jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
         }
         if (searchModule(modules,"relay") == 'yes'){
-         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'relay','danger',content);}
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
          for (var i = 1; i < 5; i++) {
           if (searchModule(modules,"relay"+i) != 'yes'){
-           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
           }
          }
-         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
         }
         if (searchModule(modules,"rgb") == 'yes'){
-         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'rgb','info',content);}
-         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button">';
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
+         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajax(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button">';
         }
         if (searchModule(modules,"jalousie") == 'yes'){
-         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'jalousie','success',content);}
-         document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button">';
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'jalousie','success');}
+         document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+ipval+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button">';
         }
         if (searchModule(modules,"leakag") == 'yes'){
-         if (stage == 'first'){loadElement(jsonResponse.ip,jsonResponse.SSDP,jsonResponse.space,'leakag','success',content);}
-         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajax(\''+jsonResponse.ip+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button">';
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'leakag','success');}
+         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajax(\''+ipval+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button">';
         }
         if (stage == 'first'){
          if (searchModule(modules,"timers") == 'yes'){
@@ -157,12 +157,12 @@
     }
    }
 
-   function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal, contentVal) {
-    var element =  document.getElementById(contentVal);
+   function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
+    var element = document.getElementById(spaceVal);
     if (typeof(element) != 'undefined' && element != null && element != ''){
      element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
     } else {
-     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+contentVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
+     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
     }
    }
 
@@ -181,7 +181,7 @@
       if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
       timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      timerList += '<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?timer">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
+      timerList += '<a class="label label-default" href="http://'+ipval+'/page.htm?timer">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
      }
      document.getElementById("timers-"+ipval).innerHTML+=''+(timerList?timerList:'')+'';
     }
@@ -193,7 +193,7 @@
     xmlHttp.send(null);
     xmlHttp.onload = function() {
      var sensors=JSON.parse(xmlHttp.responseText);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+jsonResponse.ip+'/page.htm?chart&'+module+'">'+jsonResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     }
    }
 
