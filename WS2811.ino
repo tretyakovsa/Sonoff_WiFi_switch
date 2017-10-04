@@ -108,7 +108,7 @@ void rgbNot() {
     ws2812fx.stop();
     ws2812fx.start();
       }
-  topicPub("/RGB_not/status", String(getStatusInt("state")), 1 );
+  topicPub("/RGB_not/status", String(getStatusInt("stateRGB")), 1 );
 }
 
 void rgbOn() {

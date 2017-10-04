@@ -91,7 +91,7 @@ bool loadTimer() {
   Timerset = "";
   jsonTimer = readFile("timer.save.json", 4096);
   String Weekday = GetWeekday();
-  configJson = jsonWrite(configJson, "Weekday", Weekday);
+  configJson = jsonWrite(configJson, "weekday", Weekday);
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
@@ -118,8 +118,8 @@ void runTimers() {
   String timers = Timerset;
   String now = GetTime();
   String Weekday = GetWeekday();
-  if (jsonRead(configJson, "Weekday") != Weekday) {
-    configJson = jsonWrite(configJson, "Weekday", Weekday);
+  if (jsonRead(configJson, "weekday") != Weekday) {
+    configJson = jsonWrite(configJson, "weekday", Weekday);
     loadTimer();
   }
   configSetup = jsonWrite(configSetup, "time", now);

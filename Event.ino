@@ -1,12 +1,13 @@
 // ------------------- Инициализация  Динамика
 void initBuzer() {
-  configLive = jsonWrite(configLive, "pinBuzer", readArgsInt());
-  pinMode(jsonReadtoInt(configLive, "pinBuzer"), OUTPUT);
-
-  analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+  int pin = readArgsInt();
+  sendOptions("pinBuzer", pin);
+  pinMode(pin, OUTPUT);
+  sendStatus("stateBuzer", readArgsInt());
+  analogWrite(pin,   getStatusInt("stateBuzer"));
   analogWriteFreq(0);
-
 }
+
 void buzerBeep() {
   analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
   analogWriteFreq(readArgsInt());

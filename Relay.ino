@@ -3,8 +3,8 @@ void initRelay() {
   int pin = readArgsInt();
   sendOptions("relay1Pin", pin);
   pinMode(pin, OUTPUT);
-  sendStatus("state", readArgsInt());
-  digitalWrite(pin,   getStatusInt("state"));
+  sendStatus("stateRelay", readArgsInt());
+  digitalWrite(pin,   getStatusInt("stateRelay"));
 
   sCmd.addCommand("relayon",     relayOn);
   sCmd.addCommand("relayoff",    relayOff);
@@ -26,27 +26,27 @@ void initRelay() {
 }
 void relayddns() {
   sCmd.readStr("relaynot");
-  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "stateRelay"));
 }
 void relayonddns() {
   sCmd.readStr("relayon");
-  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "stateRelay"));
 }
 void relayoffddns() {
   sCmd.readStr("relayoff");
-  HTTPWAN.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTPWAN.send(200, "application/json", relayStatus(configJson, "stateRelay"));
 }
 void relay() {
   sCmd.readStr("relaynot");
-  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "stateRelay"));
 }
 void relayon() {
   sCmd.readStr("relayon");
-  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "stateRelay"));
 }
 void relayoff() {
   sCmd.readStr("relayoff");
-  HTTP.send(200, "application/json", relayStatus(configJson, "state"));
+  HTTP.send(200, "application/json", relayStatus(configJson, "stateRelayRelay"));
 }
 
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки
@@ -64,26 +64,26 @@ String relayStatus(String json, String state) {
   return out;
 }
 void relayOn() {
-  Serial.println(getStatusInt("state"));
-  if (!getStatusInt("state")) flag = sendStatus("state", 1);
-  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
-  toggleRelay(getStatusInt("state"));
-  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
+  Serial.println(getStatusInt("stateRelay"));
+  if (!getStatusInt("stateRelay")) flag = sendStatus("stateRelay", 1);
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("stateRelay"));
+  toggleRelay(getStatusInt("stateRelay"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("stateRelay")), 1 );
 }
 
 void relayOff() {
-  Serial.println(getStatusInt("state"));
-  if (getStatusInt("state")) flag = sendStatus("state", 0);
-  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
-  toggleRelay(getStatusInt("state"));
-  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
+  Serial.println(getStatusInt("stateRelay"));
+  if (getStatusInt("stateRelay")) flag = sendStatus("stateRelay", 0);
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("stateRelay"));
+  toggleRelay(getStatusInt("stateRelay"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("stateRelay")), 1 );
 }
 
 void relayNot() {
-  flag = sendStatus("state", !getStatusInt("state"));
-  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("state"));
-  toggleRelay(getStatusInt("state"));
-  topicPub("/RELE_1_not/status", String(getStatusInt("state")), 1 );
+  flag = sendStatus("stateRelay", !getStatusInt("stateRelay"));
+  digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("stateRelay"));
+  toggleRelay(getStatusInt("stateRelay"));
+  topicPub("/RELE_1_not/status", String(getStatusInt("stateRelay")), 1 );
 }
 void topicPub(String topic, String data, boolean retain ) {
   client.publish(MQTT::Publish(prefix + "/" + chipID + topic,    "{\"status\":" + data + "}").set_retain(1));
