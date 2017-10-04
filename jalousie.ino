@@ -103,6 +103,7 @@ void jalousieStop() {
 
 void jalousieTurn() {
   configSetup = jsonWrite(configSetup, "turn", readArgsInt());
+  sendOptions("turn", jsonReadtoInt(configSetup, "turn"));
   writeFile("config.save.json", configSetup );
 }
 
