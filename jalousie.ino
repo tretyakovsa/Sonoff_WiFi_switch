@@ -64,7 +64,7 @@ void turn_0() {
     //Текущее состояние оборотов
     int turnSensor = jsonReadtoInt(configJson, "turnSensor");
     turnSensor++; // счетчик количества оборотов
-    configLive = jsonWrite(configJson, "turnSensor", turnSensor);
+    configJson = jsonWrite(configJson, "turnSensor", turnSensor);
 
     int turn = jsonReadtoInt(configSetup, "turn");
     if (turnSensor == turn) {     //Останавливаем
@@ -108,10 +108,10 @@ void jalousieTurn() {
 
 void jalousieNot() {
   if (getStatusInt("stateJalousie")) {
-    jalousieOpen();
+    jalousieClose();
   }
   else{
-    jalousieClose();
+    jalousieOpen();
     }
 }
 
