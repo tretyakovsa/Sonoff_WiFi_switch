@@ -68,7 +68,7 @@ void turn_0() {
 
     int turn = jsonReadtoInt(configSetup, "turn");
     if (turnSensor == turn) {     //Останавливаем
-      configLive = jsonWrite(configLive, "turnSensor", 0);
+      configJson = jsonWrite(configJson, "turnSensor", 0);
       command = "jalousiestop";
 
     }
