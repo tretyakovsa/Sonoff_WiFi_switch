@@ -20,19 +20,32 @@
     <hr>
     <h2>GET JSON</h2>
     <h3>GET <a href="/config.live.json">/config.live.json</a></h3>
-    <p>Здесь хранятся основные настройки устройсва (живой режим)</p>
+    <p>Динамические данные</p>
     <pre><code class="language-json" id="configs-live-json">Loading...</code></pre>
+
+    <h3>GET <a href="/config.options.json">/config.options.json</a></h3>
+    <p>Основные настройки</p>
+    <pre><code class="language-json" id="configs-options-json">Loading...</code></pre>
+
+    <h3>GET <a href="/config.setup.json">/config.setup.json</a></h3>
+    <p>Данные для страинцы "Конфигурация"</p>
+    <pre><code class="language-json" id="configs-setup-json">Loading...</code></pre>
+
     <h3>GET <a href="/config.save.json">/config.save.json</a></h3>
-    <p>Здесь хранятся основные настройки устройсва (Эти настройки восстанавливаются посте рестарта)</p>
+    <p>Файл хранится на ESP и содержит в себе все настройки (Эти настройки восстанавливаются посте рестарта)</p>
     <pre><code class="language-json" id="configs-save-json">Loading...</code></pre>
-    <h3>GET <a href="/ip.list.json">/ip.list.json</a></h3>
+
+    <h3>GET <a href="/ssdp.list.json">/ssdp.list.json</a></h3>
     <p>Количество устройст найденых в локальной сети.</p>
-    <pre><code class="language-json" id="devices-list-json">Loading...</code></pre>
+    <pre><code class="language-json" id="devices-ssdp-json">Loading...</code></pre>
+
     <h3>GET <a href="/modules.json">/modules.json</a></h3>
     <pre><code class="language-json" id="modules-json">Loading...</code></pre>
+
     <h3>GET <a href="/timer.save.json">/timer.save.json</a></h3>
     <p>Таймеры включения\выключения устройсва</p>
     <pre><code class="language-json" id="timer-save-json">Loading...</code></pre>
+
     <h3>GET <a href="/lang/lang.ru.json">/lang/lang.ru.json</a></h3>
     <p>Изменить язык можно GET запросом /lang?set=en </p>
     <pre><code class="language-json" id="lang-json">Loading...</code></pre>
@@ -53,11 +66,13 @@
    }
   }
   setTimeout(function(){load_request('configs-live-json','/config.live.json');},1000);
-  setTimeout(function(){load_request('configs-save-json','/config.save.json');},2000);
-  setTimeout(function(){load_request('lang-json','/lang/lang.ru.json');},4000);
-  setTimeout(function(){load_request('devices-list-json','/ip.list.json');},5000);
-  setTimeout(function(){load_request('modules-json','/modules.json');},6000);
-  setTimeout(function(){load_request('timer-save-json','/timer.save.json');},7000);
+  setTimeout(function(){load_request('configs-options-json','/config.options.json');},2000);
+  setTimeout(function(){load_request('configs-setup-json','/config.setup.json');},3000);
+  setTimeout(function(){load_request('configs-save-json','/config.save.json');},4000);
+  setTimeout(function(){load_request('lang-json','/lang/lang.ru.json');},5000);
+  setTimeout(function(){load_request('devices-ssdp-json','/ssdp.list.json');},6000);
+  setTimeout(function(){load_request('modules-json','/modules.json');},7000);
+  setTimeout(function(){load_request('timer-save-json','/timer.save.json');},8000);
 
   function listCookies() {
    var theCookies=document.cookie.split(';');

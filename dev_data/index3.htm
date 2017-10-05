@@ -108,10 +108,10 @@
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
          for (var i = 1; i < 5; i++) {
           if (searchModule(modules,"relay"+i) != 'yes'){
-           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
           }
          }
-         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
         }
         if (searchModule(modules,"rgb") == 'yes'){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}

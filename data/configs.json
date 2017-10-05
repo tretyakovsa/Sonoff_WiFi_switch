@@ -1,7 +1,6 @@
 {
  "configs": [
-  "/config.save.json",
-  "/config.options.json",
+  "/config.setup.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],

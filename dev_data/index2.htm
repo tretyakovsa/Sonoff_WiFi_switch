@@ -138,10 +138,10 @@
         }
         if (searchModule(modules,"relay") == 'yes'){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
-         var relayNumber = '<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+         var relayNumber = '<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
          for (var i = 1; i < 5; i++) {
           if (searchModule(modules,"relay"+i) == 'yes'){
-           relayNumber += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.state=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.state=='0'?'primary':'info')+'" type="button">';
+           relayNumber += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
           }
          }
          document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td>'+relayNumber+'<\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';

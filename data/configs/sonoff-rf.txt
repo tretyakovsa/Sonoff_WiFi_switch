@@ -14,4 +14,5 @@ D18B20 14
 # MOTION 14 relay
 // Кнопка на GPIO0 реакция вторым параметром: rgbnot relaynot jalousienot
 Tach relaynot
-RELAY 12
+// Первая ячейка - PIN, вторая - состояние реле при включение ESP
+RELAY 12 0

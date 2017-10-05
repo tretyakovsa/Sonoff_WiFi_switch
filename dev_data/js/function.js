@@ -264,7 +264,8 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
  xhttp.onload = function() {
   var ipDevice=xhttp.responseText;
   if (selectDevice == 'loadInTextarea') {
-   html("scenary-list-edit",ipDevice);
+   //html("scenary-list-edit",ipDevice);
+   document.getElementById("scenary-list-edit").innerHTML = ipDevice;
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
