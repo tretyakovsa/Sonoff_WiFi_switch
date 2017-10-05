@@ -78,20 +78,24 @@ void turn_0() {
 
 
 void jalousieOpen() {
-  if (!getStatusInt("stateJalousie")) flag = sendStatus("stateJalousie", 1);
-  digitalWrite(getOptionsInt("pinMotor1"), LOW);
-  digitalWrite(getOptionsInt("pinMotor2"),  HIGH);
-  topicPub("/Jalousie_not/status", String(getStatusInt("stateJalousie")), 1 );
+  if (!getStatusInt("stateJalousie")) {
+    flag = sendStatus("stateJalousie", 1);
+    digitalWrite(getOptionsInt("pinMotor1"), LOW);
+    digitalWrite(getOptionsInt("pinMotor2"),  HIGH);
+    topicPub("/Jalousie_not/status", String(getStatusInt("stateJalousie")), 1 );
+  }
 }
 
 
 
 
 void jalousieClose() {
-  if (getStatusInt("stateJalousie")) flag = sendStatus("stateJalousie", 0);
-  digitalWrite(getOptionsInt("pinMotor1"), HIGH);
-  digitalWrite(getOptionsInt("pinMotor2"),  LOW);
-  topicPub("/Jalousie_not/status", String(getStatusInt("stateJalousie")), 1 );
+  if (getStatusInt("stateJalousie")) {
+    flag = sendStatus("stateJalousie", 0);
+    digitalWrite(getOptionsInt("pinMotor1"), HIGH);
+    digitalWrite(getOptionsInt("pinMotor2"),  LOW);
+    topicPub("/Jalousie_not/status", String(getStatusInt("stateJalousie")), 1 );
+  }
 }
 
 
@@ -111,9 +115,9 @@ void jalousieNot() {
   if (getStatusInt("stateJalousie")) {
     jalousieClose();
   }
-  else{
+  else {
     jalousieOpen();
-    }
+  }
 }
 
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки
