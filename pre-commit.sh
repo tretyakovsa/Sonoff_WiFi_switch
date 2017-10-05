@@ -2,6 +2,7 @@
 cat dev_data/css/chartist.min.css dev_data/css/bootstrap.min.css dev_data/css/style.css > dev_data/css/build.css
 cat dev_data/js/chartist.min.js dev_data/js/chart.js > dev_data/js/build.chart.js
 
+#find ./dev_data3 -type f -iname '*.html' -exec sed -i -e 's|\?v\([0-9]\+\).\([0-9]\+\).\([0-9]\+\)|?ver=05.10.2017|g' '{}' \;
 #find ./dev_data -iname "*.htm" -type f -exec sed -i 's/vvda$today/v07.06.2017/gi' {} \;
 
 gzip -vrkf dev_data/*.htm

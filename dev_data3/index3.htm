@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Page</title>
+  <script type="text/javascript">
+   var xhttp=createXmlHttpObject();
+   var jsonResponse;
+   function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+     xhttp=new XMLHttpRequest();
+    }else{
+     xhttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xhttp;
+   }
+
+   window.onload = function() {
+    deviceList('first');
+    if (readCookie("issues-hidden") != "hidden") {
+     loadIssues();
+    } else {
+     document.getElementById('issues').parentNode.classList.add('hidden');}
+    if (readCookie("commits-hidden") != "hidden") {
+     loadCommits();
+    } else {
+     document.getElementById('commits').parentNode.classList.add('hidden');}
+   }
+
+   function deviceList(stage,sorting) {
+    document.getElementById('content').innerHTML='';
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var ipDevice=JSON.parse(xhttp.responseText);
+     for (var i in ipDevice) {
+      loadModule(ipDevice[i],stage,sorting);
+     }
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
+    }
+   }
+
+   function loadModule(ipval,stage,sorting) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/modules.json", true)
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var ipModule=JSON.parse(xhttp.responseText);
+     var allModules = [];
+     var allSpace = [];
+     //   for(var key in ipModule) {
+     if (stage == 'search') {
+      loadBlock(ipval,ipModule.space,'first',ipModule.module);
+     }
+     // Сортировка
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
+      loadBlock(ipval,ipModule.space,'first',ipModule.module);
+     }
+     for (var s in ipModule.module) {
+      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
+      allModules.push(ipModule.module[s]);
+     }
+     allSpace.push(ipModule.space);
+    }
+   }
+
+
+   function loadBlock(ipval, content, stage, modules) {
+    if (!modules) {
+     var xhttp=createXmlHttpObject();
+     xhttp.open("GET", "http://"+ipval+"/modules.json", true);
+     xhttp.send(null);
+     xhttp.onload = function() {
+      var jsonResponse3=JSON.parse(xhttp.responseText);
+      loadBlock2(jsonResponse3.module,stage);
+     }
+    } else {
+     loadBlock2(modules,stage);
+    }
+
+    function loadBlock2(modules,stage){
+     var xhttp=createXmlHttpObject();
+     xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
+     xhttp.send(null);
+     xhttp.onload = function() {
+      var jsonResponse0 = JSON.parse(xhttp.responseText);
+      xhttp.open("GET", "http://"+ipval+"/config.options.json?"+Math.floor(Math.random()*10000), true);
+      xhttp.send(null);
+      xhttp.onload = function() {
+       var jsonResponse1 = JSON.parse(xhttp.responseText);
+       xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+       xhttp.send(null);
+       xhttp.onload = function() {
+        var jsonResponse2=JSON.parse(xhttp.responseText);
+        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
+        var theCookies = document.cookie.split(';');
+        for (var i = 1 ; i <= theCookies.length; i++) {
+         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+        }
+        if (searchModule(modules,"relay") == 'yes'){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
+         for (var i = 1; i < 5; i++) {
+          if (searchModule(modules,"relay"+i) != 'yes'){
+           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
+          }
+         }
+         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
+        }
+        if (searchModule(modules,"rgb") == 'yes'){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
+         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajax(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button">';
+        }
+        if (searchModule(modules,"jalousie") == 'yes'){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'jalousie','success');}
+         document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajax(\''+ipval+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button">';
+        }
+        if (searchModule(modules,"leakag") == 'yes'){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'leakag','success');}
+         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajax(\''+ipval+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button">';
+        }
+        if (stage == 'first'){
+         if (searchModule(modules,"timers") == 'yes'){
+          loadTimers(ipval,content,jsonResponse);
+         }
+         if (searchModule(modules,"temperature") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"temperature");
+         }
+         if (searchModule(modules,"humidity") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"humidity");
+         }
+         if (searchModule(modules,"analog") == 'yes'){
+          loadSensor(ipval,'table-sensors',jsonResponse,"analog");
+         }
+        }
+        if (window.location.hostname == ipval && stage == 'first') {
+         var new_string2;
+         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+         for (var key in jsonResponse) {
+          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+          bodyData = new_string2;
+         }
+         document.getElementsByTagName('body')[0].innerHTML = new_string2;
+         if (searchModule(modules,"upgrade") == 'yes'){
+          loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+
+   function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
+    var element = document.getElementById(spaceVal);
+    if (typeof(element) != 'undefined' && element != null && element != ''){
+     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
+    } else {
+     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
+    }
+   }
+
+   function loadTimers(ipval, content, jsonResponse) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/timer.save.json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     var timers=JSON.parse(xmlHttp.responseText);
+     timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+     var timerList = '';
+     for (var i = 0; i < timers.timer.length; i++) {
+      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
+      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
+      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+      timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+      timerList += '<a class="label label-default" href="http://'+ipval+'/page.htm?timer">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
+     }
+     document.getElementById("timers-"+ipval).innerHTML+=''+(timerList?timerList:'')+'';
+    }
+   }
+
+   function loadSensor(ipval, content, jsonResponse, module) {
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open("GET", "http://"+ipval+"/"+module+".json", true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     var sensors=JSON.parse(xmlHttp.responseText);
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+    }
+   }
+
+   function searchModule(modules,find) {
+    for(var key in modules) {
+     if (modules[key] == find) {
+      return "yes";
+     }
+    }
+   }
+
+   function ajax(ipHost, pagename, submit, loadB) {
+    var old_submit = submit.value;
+    var d = new Date(); // for now
+    var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+    var parent = '';
+    var parent = submit.parentNode.parentNode.parentNode.children[0].innerHTML;
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"> URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    submit.value = 'Loading...';
+    submit_disabled(true);
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     submit.value=old_submit;
+     submit_disabled(false);
+     var response=JSON.parse(xhttp.responseText);
+     if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
+     if (response.style && response.style!='undefined') {submit.style = response.style;}
+     if (response.title && response.title!='undefined') {
+      if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
+     }
+    }
+   }
+
+   function submit_disabled(request){
+    var inputs = document.getElementsByTagName("input");
+    for (var i = 0; i < inputs.length; i++) {
+     if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
+    }
+   }
+
+   function toggle(target,status) {
+    var curVal = document.getElementById(target).classList;
+    if (curVal.contains('hidden')) {
+     if (status != 'show') {
+      curVal.remove('hidden');
+      curVal.add('show');
+     }
+    } else {
+     if (status != 'hidden') {
+      curVal.remove('show');
+      curVal.add('hidden');
+     }
+    }
+   }
+
+   function val(id,val){
+    if (val) {
+     document.getElementById(id).value=(val==' '?'':val);
+    } else {
+     var v = document.getElementById(id).value;
+     return v;
+    }
+   }
+
+   function setCookie(name, value, days, submit) {
+    if (days) {
+     var date = new Date();
+     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+     var expires = "; expires=" + date.toGMTString();
+    }
+    else expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+    submit.parentNode.classList.add('hidden');
+   }
+
+   function hide(name, submit) {
+    // if (confirm(jsonResponse.LangHedden)) {
+    submit.parentNode.classList.add('hidden');
+    setCookie(name,'hidden',365,submit);
+    // }
+   }
+
+   function loadBuild(spiffs, LangUpgrade){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     var jsonBuild=JSON.parse(xmlHttp.responseText);
+     jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+     if (jsonBuild[0].name != spiffs) {
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
+     }
+    }
+   }
+
+   function loadIssues(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/issues',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     document.getElementById('issues').innerHTML = '';
+     var jsonIssues=JSON.parse(xmlHttp.responseText);
+     jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonIssues) {
+      if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
+       for(var label in jsonIssues[key].labels) {
+        if (jsonIssues[key].labels[label] == 'news') {
+         if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
+          document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+         }
+        }
+       }
+      }
+      if (key < 5) {
+       document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+      }
+     }
+    }
+   }
+
+   function loadCommits(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     document.getElementById('commits').innerHTML = '';
+     var jsonCommits=JSON.parse(xmlHttp.responseText);
+     //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonCommits) {
+      if (key < 5) {
+       document.getElementById('commits').innerHTML += '<p><span class="label label-default">&#8987; '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+      }
+     }
+    }
+   }
+
+   function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+     var c = ca[i];
+     while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+   }
+  </script>
+ </head>
+ <body>
+  <div id="news"></div>
+  <div class="container device index3">
+   <div class="header">
+    <div class="btn-group pull-right" style="margin-top:35px;">
+     <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
+     <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
+    </div>
+    <div class="pull-right" style="margin-top:35px;margin-right:5px">
+     <div class="btn-group">
+      <a href="/page.htm?scenary" class="btn btn-info dropdown-toggle">{{LangScenary}}</a>
+      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');"><span class="hidden-xs">{{LangDesign}}</span> <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
+     </div>
+    </div>
+    <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
+   </div>
+   <div class="col-md-12" id="content">{{LangLoading}}</div>
+   <div class="col-md-6">
+    <div class="block">
+     <button class="close" onclick="hide('issues-hidden',this);" type="button">×</button>
+     <h5 class="alert-default">Issues</h5>
+     <div id="issues">{{LangLoading}}</div>
+    </div>
+   </div>
+   <div class="col-md-6">
+    <div class="block">
+     <button class="close" onclick="hide('commits-hidden',this);" type="button">×</button>
+     <h5 class="alert-default">Commits</h5>
+     <div id="commits">{{LangLoading}}</div>
+    </div>
+   </div>
+   <div class="col-md-6">
+    <div class="block">
+     <h5 class="alert-default">{{LangHistory}}</h5>
+     <ul id="history"></ul>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

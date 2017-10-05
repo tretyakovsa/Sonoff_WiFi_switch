@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <script src="js/build.chart.js?v03.10.2017" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Page</title>
+  <script type="text/javascript">
+   var xhttp=createXmlHttpObject();
+   var jsonResponse;
+   function createXmlHttpObject(){
+    if(window.XMLHttpRequest){
+     xhttp=new XMLHttpRequest();
+    }else{
+     xhttp=new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    return xhttp;
+   }
+
+   window.onload = function() {
+    if (window.location.hash.substring(1)) {
+     deviceList('first', decodeURIComponent(window.location.hash.substring(1)));
+    } else {
+     deviceList('first');
+    }
+   }
+
+   function deviceList(stage,sorting) {
+    document.getElementById('content').innerHTML='';
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var ipDevice=JSON.parse(xhttp.responseText);
+     for (var i in ipDevice) {
+      loadModule(ipDevice[i],stage,sorting);
+     }
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
+    }
+   }
+
+   function loadModule(ipval,stage,sorting) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/modules.json", true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var ipModule=JSON.parse(xhttp.responseText);
+     var allModules = [];
+     var allSpace = [];
+     // for(var key in ipModule) {
+     if (stage == 'search') {
+      loadBlock(ipval,'content','first',ipModule.module);
+     }
+     // Сортировка
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
+      loadBlock(ipval,'content','first',ipModule.module);
+     }
+     for (var s in ipModule.module) {
+      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
+      allModules.push(ipModule.module[s]);
+     }
+     allSpace.push(ipModule.space);
+     // }
+     if (stage == 'first' || stage == 'search') {
+      var spaceArray = [];
+      var space_lookup  = {};
+      for (var i in allSpace) {space_lookup[allSpace[i]] = allSpace[i];}
+      for (i in space_lookup) {spaceArray.push(space_lookup[i]);}
+      if (spaceArray.length == 1) {toggle('sorting-space','show');}
+      document.getElementById("sorting-space").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>';
+      for(var key in spaceArray) {
+       if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
+      }
+      var moduleArray = [];
+      var lookup  = {};
+      for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
+      for (i in lookup) {moduleArray.push(lookup[i]);}
+      if (ipModule.length == 1) {toggle('sorting-module','show');}
+      document.getElementById("sorting-module").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>';
+      for(var key in moduleArray) {
+       if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
+      }
+     }
+    }
+   }
+
+   function loadBlock(ipval, content, stage, modules) {
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var jsonResponse0 = JSON.parse(xhttp.responseText);
+     xhttp.open("GET", "http://"+ipval+"/config.options.json?"+Math.floor(Math.random()*10000), true);
+     xhttp.send(null);
+     xhttp.onload = function() {
+      var jsonResponse1 = JSON.parse(xhttp.responseText);
+      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
+      xhttp.send(null);
+      xhttp.onload = function() {
+       var jsonResponse2=JSON.parse(xhttp.responseText);
+       jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
+       if (searchModule(modules,"relay") == 'yes'){
+        for (var i = 1; i < 5; i++) {
+         if (searchModule(modules,"relay"+i) != 'yes'){
+          jsonResponse["relay"+i] = 'hidden';
+         }
+        }
+        loadBlock2('relay','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"rgb") == 'yes'){
+        loadBlock2('rgb','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"jalousie") == 'yes'){
+        loadBlock2('jalousie','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"leakag") == 'yes'){
+        loadBlock2('leakag','timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"temperature") == 'yes'){
+        loadBlock2('temperature','temperature',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"humidity") == 'yes'){
+        loadBlock2('humidity','humidity',ipval, content, stage, jsonResponse);
+       }
+       if (searchModule(modules,"analog") == 'yes'){
+        loadBlock2('analog','analog',ipval, content, stage, jsonResponse);
+       }
+       if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
+        loadBlock2(content,'timer.save',ipval, content, stage, jsonResponse);
+       }
+       if (window.location.hostname == ipval && stage == 'first') {
+        var new_string2;
+        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+        for (var key in jsonResponse) {
+         new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+         bodyData = new_string2;
+        }
+        document.getElementsByTagName('body')[0].innerHTML = new_string2;
+        if (searchModule(modules,"upgrade") == 'yes'){
+         loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+        }
+       }
+      }
+     }
+    }
+   }
+
+   function loadBlock2(page, jsonPage, ipval, content, stage, jsonResponse){
+    if (stage == 'first'){
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+    }
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     var data = xhttp.responseText;
+     var xmlHttp=createXmlHttpObject();
+     xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
+     xmlHttp.send(null);
+     xmlHttp.onload = function() {
+      var timers=JSON.parse(xmlHttp.responseText);
+      var timerList = '';
+      if (timers.timer) {
+       timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+       for (var i = 0; i < timers.timer.length; i++) {
+        if(timers.timer[i].module == page) {
+         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
+         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+         if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
+         if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
+         timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
+         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<\/li>';
+        }
+       }
+       jsonResponse.timerList = (timerList?timerList:'<li>'+jsonResponse.LangNoTimers+'<\/li>');
+      }
+      jsonResponse = Object.assign(jsonResponse, timers);
+      var theCookies = document.cookie.split(';');
+      for (var i = 1 ; i <= theCookies.length; i++) {
+       jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+      }
+      jsonResponse.ip = ipval;
+      jsonResponse.stateRelay = (jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+      jsonResponse.stateRGB = (jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+      jsonResponse.stateJalousie = (jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose);
+      jsonResponse.stateLeakag = (jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff);
+      if (page == 'analog') {
+       jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 500);
+      }
+      if (page == 'temperature') {
+       jsonResponse.sensorId = 'temperaturejson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/temperature.json')", 500);
+      }
+      if (page == 'humidity') {
+       jsonResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/humidity.json')", 500);
+      }
+      var new_string;
+      for (var key in jsonResponse) {
+       new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
+       data = new_string;
+      }
+      document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
+     }
+    }
+   }
+
+   function ajax(ipHost, pagename, submit, loadB) {
+    var old_submit = submit.value;
+    var d = new Date(); // for now
+    var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+    var parent = submit.parentNode.childNodes[1].innerHTML;
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    submit.value = 'Loading...';
+    submit_disabled(true);
+    var xhttp=createXmlHttpObject();
+    xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
+    xhttp.send(null);
+    xhttp.onload = function() {
+     submit.value=old_submit;
+     submit_disabled(false);
+     if (pagename.slice(0, 9) == 'lang?set=') {
+      window.location = '/';
+     } else {
+      var response=JSON.parse(xhttp.responseText);
+      if (response.title && response.title!='undefined') {
+       if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
+      }
+     }
+    }
+   }
+
+   function submit_disabled(request){
+    var inputs = document.getElementsByTagName("input");
+    for (var i = 0; i < inputs.length; i++) {
+     if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
+    }
+   }
+
+   function toggle(target,status) {
+    var curVal = document.getElementById(target).classList;
+    if (curVal.contains('hidden')) {
+     if (status != 'show') {
+      curVal.remove('hidden');
+      curVal.add('show');
+     }
+    } else {
+     if (status != 'hidden') {
+      curVal.remove('show');
+      curVal.add('hidden');
+     }
+    }
+   }
+
+   function val(id,val){
+    if (val) {
+     document.getElementById(id).value=(val==' '?'':val);
+    } else {
+     var v = document.getElementById(id).value;
+     return v;
+    }
+   }
+
+   function setCookie(name, value, days, submit) {
+    if (days) {
+     var date = new Date();
+     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+     var expires = "; expires=" + date.toGMTString();
+    }
+    else expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+    submit.parentNode.classList.add('hidden');
+   }
+
+   function hide(name, submit) {
+    // if (confirm(jsonResponse.LangHedden)) {
+    submit.parentNode.classList.add('hidden');
+    setCookie(name,'hidden',365,submit);
+    // }
+   }
+
+   function searchModule(modules,find) {
+    for(var key in modules) {
+     if (modules[key] == find) {
+      return "yes";
+     }
+    }
+   }
+
+   function loadBuild(spiffs, LangUpgrade){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     var jsonBuild=JSON.parse(xmlHttp.responseText);
+     jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+     if (jsonBuild[0].name != spiffs) {
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
+     }
+    }
+   }
+  </script>
+ </head>
+ <body>
+  <div id="news"></div>
+  <div class="container device index">
+   <div class="header">
+    <div class="btn-group pull-right" style="margin-top:35px;">
+     <!-- select class="btn btn-default" onchange="ajax('{{ip}}', 'lang?set='+this.value, this)" id="languages">
+<option value="ru">Lang</option>
+<option value="ru">RU</option>
+<option value="en">EN</option>
+<option value="lv">LV</option>
+<option value="ua">UA</option>
+</select -->
+     <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
+     <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
+     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
+     <!--      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>
+<ul class="dropdown-menu hidden" id="language-set"><li><a href="#">{{LangLoading}}</a></li></ul> -->
+    </div>
+    <div class="pull-right" style="margin-top:35px;margin-right:5px">
+     <div class="btn-group">
+      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');"><span class="hidden-xs">{{LangDesign}}</span> <span class="caret"></span></a>
+      <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
+     </div>
+    </div>
+    <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
+   </div>
+   <div class="col-sm-12 col-md-3">
+    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
+    <ul id="history" class="hidden-xs"></ul>
+    <hr>
+    <div class="block" id="sorting-space"></div>
+    <div class="block" id="sorting-module"></div>
+    <div class="col-xs-6 col-md-12">
+     <div class="block">
+      <h5 class="alert-warning">{{LangScenary}}</h5>
+      <div class="alert alert-dismissible alert-info {{g94244}}"><button class="close" onclick="hide('g94244',this);" type="button">×</button>{{LangScenery1}}</div>
+      <a class="btn btn-block btn-default" href="/page.htm?scenary">{{LangAddScenery}}</a>
+     </div>
+    </div>
+    <div class="row"></div>
+   </div>
+   <div class="col-sm-12 col-md-9" id="content"></div>
+  </div>
+ </body>
+</html>

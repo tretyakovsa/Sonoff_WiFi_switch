@@ -270,19 +270,7 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
-
-   // var createTable = '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}" type="button"><\/td><\/tr>');
-   // var createText = '';
-   // var block = createTable.split(' ');
-   // for (var i = 0 ; i < block.length; i++) {
-   //  createText += (renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?' '+block[i]:(jsonResponse, '{{Lang'+block[i]+'}}'));
-   //  //createText += ' '+block[i];
-   // }
-   // document.getElementById("scenary-list").innerHTML += createText;
    document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}" type="button"><\/td><\/tr>');
-
-
-
   }
  }
 }
@@ -316,7 +304,7 @@ function loadLive(ip,file,where) {
  xmlHttp.onload = function() {
   var jsonLive=JSON.parse(xmlHttp.responseText);
   for(var key in jsonLive) {
-   option += '<option value="'+key+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+   option += '<option value="'+key+'">'+key+'<\/option>';
   }
   html(where,option);
  }
