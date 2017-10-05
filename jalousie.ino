@@ -22,8 +22,8 @@ void initJalousie() {
   commandsReg("jalousieopen", "jalousie");
   commandsReg("jalousieclose", "jalousie");
   commandsReg("jalousienot", "jalousie");
-  commandsReg("jalousiestop", "jalousie");
-  commandsReg("jalousieturn", "jalousie");
+  //commandsReg("jalousiestop", "jalousie");
+  //commandsReg("jalousieturn", "jalousie");
   HTTPWAN.on("/jalousie", jalousieddns);        // реакция на запрос
   HTTPWAN.on("/jalousieopen", jalousieopenddns);        // реакция на запрос
   HTTPWAN.on("/jalousieclose", jalousiecloseddns);        // реакция на запрос
@@ -64,8 +64,7 @@ void turn_0() {
     //Текущее состояние оборотов
     int turnSensor = jsonReadtoInt(configJson, "turnSensor");
     turnSensor++; // счетчик количества оборотов
-    configJson = jsonWrite(configJson, "turnSensor", turnSensor);
-
+    sendStatus("turnSensor", turnSensor);
     int turn = jsonReadtoInt(configSetup, "turn");
     if (turnSensor == turn) {     //Останавливаем
       configJson = jsonWrite(configJson, "turnSensor", 0);
