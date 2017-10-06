@@ -123,6 +123,10 @@
  "LangturnSensor":"Tern sensor",
  "Langtime":"Time",
  "Langweekday":"Weekday",
+ "LangcolorRGB":"color RGB",
+ "LangspeedRGB":"Speed RGB",
+ "LangbrightnessRGB":"Brightness RGB",
+ "LangmodeRGB":"Mode RGB",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",

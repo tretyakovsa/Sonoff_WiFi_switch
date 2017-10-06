@@ -208,7 +208,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
     option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
-    option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','html(\\'scenary-list\\', \\' \\');send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+    option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\', \\' \\');val(\\'ssdp-module\\', \\' \\');val(\\'ssdp-command\\', \\' \\');val(\\'ssdp-list1\\', \\' \\');val(\\'scenary-then\\', \\' \\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
     document.getElementById(idName).innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
     loadScenary(jsonResponse);
    }
@@ -288,11 +288,13 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
 }
 
 function loadScenary(jsonResponse,loadList) {
+ html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
  var option = '';
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
  xhttp.send(null);
  xhttp.onload = function() {
+  html('scenary-list', ' ');
   var ipDevice=JSON.parse(xhttp.responseText);
   if (loadList) {
    for (var i in ipDevice) {
