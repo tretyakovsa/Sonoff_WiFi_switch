@@ -13,6 +13,7 @@ void initJalousie() {
   digitalWrite(pinMotor1, HIGH);
   digitalWrite(pinMotor2, HIGH);
   sendStatus("stateJalousie", 1);
+  sendStatus("turnSensor", 0);
   sendOptions("turn", jsonReadtoInt(configSetup, "turn"));
   sCmd.addCommand("jalousieopen",     jalousieOpen);
   sCmd.addCommand("jalousieclose",    jalousieClose);
@@ -64,7 +65,7 @@ void turn_0() {
     //Текущее состояние оборотов
     int turnSensor = jsonReadtoInt(configJson, "turnSensor");
     turnSensor++; // счетчик количества оборотов
-    sendStatus("turnSensor", turnSensor);
+    flag = sendStatus("turnSensor", turnSensor);
     int turn = jsonReadtoInt(configSetup, "turn");
     if (turnSensor == turn) {     //Останавливаем
       configJson = jsonWrite(configJson, "turnSensor", 0);
