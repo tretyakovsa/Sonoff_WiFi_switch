@@ -94,7 +94,7 @@ bool loadnWidgets() {
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       Widgets["nWidgets"][i]["topic"] = prefix + "/" + chipID + Widgets["nWidgets"][i]["topic"].as<String>();
-      Widgets["nWidgets"][i]["descr"] = jsonRead(configSetup, "SSDP");
+      //Widgets["nWidgets"][i]["descr"] = jsonRead(configSetup, "SSDP");
       String thing_config = Widgets["nWidgets"][i].as<String>();
       //Serial.println(thing_config);
       client.publish(MQTT::Publish(prefix + "/" + chipID + "/config", thing_config).set_qos(1));

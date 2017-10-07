@@ -115,13 +115,14 @@ void initRCSwitch() {
   mySwitch.enableReceive(pin);
   //Serial.print("initRCSwitch ");
   // задача опрашивать RC код
-  ts.add(3, 100, [&](void*) {
+  ts.add(3, 500, [&](void*) {
     RCRCreceiv();
   }, nullptr, true);
 
   HTTP.on("rcreceivi.json", HTTP_GET, []() {
     HTTP.send(200, "application/json", jsonWrite("{}", "Received", jsonRead(configJson, "Received")));
   });
+  sendStatus("Received", 0);
   modulesReg("RCreceivi");
 }
 
@@ -134,7 +135,8 @@ void RCRCreceiv() {
       int codeRC = mySwitch.getReceivedValue();
       //Serial.print("Received ");
       //Serial.println(codeRC);
-      configJson = jsonWrite(configJson, "Received", codeRC);
+      //configJson = jsonWrite(configJson, "Received", codeRC);
+      flag = sendStatus("Received", codeRC);
     }
     mySwitch.resetAvailable();
   }

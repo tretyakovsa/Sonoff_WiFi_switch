@@ -255,7 +255,7 @@ void statistics() {
   urls += "&";
   urls += ESP.getResetReason();
   urls += "&";
-  urls += jsonRead(configJson, "spiffsData");
+  urls += jsonRead(configSetup, "spiffsData");
   getURL(urls);
 }
 
