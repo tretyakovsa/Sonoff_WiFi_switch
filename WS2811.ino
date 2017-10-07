@@ -43,6 +43,9 @@ void initRGB() {
   ws2812fx.setSpeed(jsonReadtoInt(configJson, "speedRGB")); // Скорость
   ws2812fx.setBrightness(jsonReadtoInt(configJson, "brightnessRGB")); //Яркость
   //регистрируем модуль
+  int state = readArgsInt();
+  sendStatus("stateRGB", state);
+  if (state) {command = "rgbon";}
   modulesReg("rgb");
 }
 
