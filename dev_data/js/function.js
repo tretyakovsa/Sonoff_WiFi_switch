@@ -200,10 +200,10 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    }
    if (type_val == 'scenary') {
     var option = '';
-    option += '<select class="form-control" id="ssdp-list0" style="width:50%;display:inline" onchange="loadScenaryList(0,\'loadInTextarea\',document.getElementById(\'ssdp-list0\').options[document.getElementById(\'ssdp-list0\').selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\')"><\/select>';
-    option += '<select class="form-control" id="ssdp-module" style="width:50%;display:inline"><\/select>';
+    option += '<select class="form-control" id="ssdp-list0" style="width:50%;display:inline" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\')"><\/select>';
+    option += '<select class="form-control" id="ssdp-module" style="width:50%;display:inline" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'));"><\/select>';
     option += '<br><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
-    option += '<input class="form-control" id="ssdp-command" style="width:50%;display:inline" value="">';
+    option += '<input class="form-control" id="ssdp-command" pattern="" style="width:50%;display:inline" value="">';
     option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
@@ -255,6 +255,10 @@ function loadJson(state_val, jsonResponse, idName) {
   jsonPage=JSON.parse(xmlHttp.responseText);
   viewTemplate(jsonPage,jsonResponse,idName);
  }
+}
+
+function pattern(s) {
+ document.getElementById("ssdp-command").setAttribute("pattern","["+(!isNaN(s)?'0-9':'0-9a-zA-Z')+"]{1,20}");
 }
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {
@@ -318,7 +322,7 @@ function loadLive(ip,file,where) {
  xmlHttp.onload = function() {
   var jsonLive=JSON.parse(xmlHttp.responseText);
   for(var key in jsonLive) {
-   option += '<option value="'+key+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+   option += '<option value="'+key+'" title="'+jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
   }
   html(where,option);
  }
