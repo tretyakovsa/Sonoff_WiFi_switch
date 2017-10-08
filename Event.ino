@@ -117,7 +117,6 @@ void initRCSwitch() {
   ts.add(3, 500, [&](void*) {
     RCRCreceiv();
   }, nullptr, true);
-  });
   sendStatus("Received", 0);
   modulesReg("rfReceived");
 }
