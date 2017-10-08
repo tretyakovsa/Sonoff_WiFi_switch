@@ -114,7 +114,7 @@ void initRCSwitch() {
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
   // задача опрашивать RC код
-  ts.add(3, 500, [&](void*) {
+  ts.add(3, 5, [&](void*) {
     RCRCreceiv();
   }, nullptr, true);
   sendStatus("Received", 0);

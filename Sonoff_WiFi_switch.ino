@@ -100,6 +100,8 @@ void setup() {
   configOptions = jsonWrite(configOptions, "lang", jsonRead(configSetup, "lang"));
   configOptions = jsonWrite(configOptions, "SSDP", jsonRead(configSetup, "SSDP"));
   configOptions = jsonWrite(configOptions, "space", jsonRead(configSetup, "space"));
+  configOptions = jsonWrite(configOptions, "space", jsonRead(configSetup, "spiffsData"));
+  configOptions = jsonWrite(configOptions, "space", jsonRead(configSetup, "buildData"));
   String configs = jsonRead(configSetup, "configs");
   configs.toLowerCase();
   // ----------- Грузим конфигурацию устройства
@@ -133,4 +135,5 @@ void loop() {
   handleMQTT();
   ws2812fx.service();
   handleScenary();
+  //RCRCreceiv();
 }
