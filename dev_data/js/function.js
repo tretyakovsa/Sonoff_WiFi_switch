@@ -202,8 +202,8 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     var option = '';
     option += '<select class="form-control" id="ssdp-list0" style="width:50%;display:inline" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\')"><\/select>';
     option += '<select class="form-control" id="ssdp-module" style="width:50%;display:inline" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'));"><\/select>';
-    option += '<br><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
-    option += '<input class="form-control" id="ssdp-command" pattern="" style="width:50%;display:inline" value="">';
+    option += '<select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
+    option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" class="btn btn-default" style="width:10%;" onclick="loadLive2();return false"><i class="find-replace-img"></i></a>';
     option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
@@ -274,7 +274,6 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
-
    // var createTable = '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}" type="button"><\/td><\/tr>');
    // var createText = '';
    // var block = createTable.split(' ');
@@ -284,9 +283,6 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
    // }
    // document.getElementById("scenary-list").innerHTML += createText;
    document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+ipDevice.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><input class="btn btn-sm btn-danger" style="float:right;" value="'+jsonResponse.LangDel+'" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}" type="button"><\/td><\/tr>');
-
-
-
   }
  }
 }
@@ -300,6 +296,7 @@ function loadScenary(jsonResponse,loadList) {
  xhttp.onload = function() {
   html('scenary-list', ' ');
   var ipDevice=JSON.parse(xhttp.responseText);
+  //ipDevice = Object.keys(ipDevice).sort((a, b) => ipDevice[b] - ipDevice[a]);
   if (loadList) {
    for (var i in ipDevice) {
     loadScenaryList(jsonResponse,i,ipDevice[i]);
@@ -325,6 +322,23 @@ function loadLive(ip,file,where) {
    option += '<option value="'+key+'" title="'+jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
   }
   html(where,option);
+ }
+}
+
+function loadLive2() {
+ document.getElementById("ssdp-command").value= 'Loading...';
+ var ip = document.getElementById("ssdp-list0").options[document.getElementById("ssdp-list0").selectedIndex].value;
+ var who = document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value;
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open('GET', "http://"+ip+"/config.live.json",true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function() {
+  var jsonLive=JSON.parse(xmlHttp.responseText);
+  for(var key in jsonLive) {
+   if (key == who) {
+    document.getElementById("ssdp-command").value= jsonLive[key];
+   }
+  }
  }
 }
 

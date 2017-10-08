@@ -2,10 +2,10 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v03.10.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v08.10.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v08.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,6 +45,7 @@
     xhttp.send(null);
     xhttp.onload = function() {
      var ipDevice=JSON.parse(xhttp.responseText);
+     // ipDevice = Object.keys(ipDevice).sort(function(a,b){return ipDevice[a]-ipDevice[b]});
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
@@ -290,7 +291,7 @@
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {
-      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
      }
     }
    }
@@ -353,7 +354,7 @@
   <div class="container device index">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
-     <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
+     <a href="#" class="btn btn-default" onclick="deviceList('first');" title="{{LangRefresh}}"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
      <!--      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('language-set');loadLang('language-set');return false">{{lang}} <span class="caret"></span></a>

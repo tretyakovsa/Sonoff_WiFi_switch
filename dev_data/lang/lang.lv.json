@@ -13,7 +13,6 @@
  "LangLoading":"Ielādē...",
  "LangSorting":"Sorting",
  "LangSearch1":"Meklēt",
- "LangSearch2":"Ja jums ir vairākas ierīces, kas saistīts ar tīklu, jūs varat pievienot to šeit, noklikšķinot uz zemāk pogu:",
  "LangSearch4":"Lūdzu, uzgaidiet, skenējot tīklu.",
  "LangOptions2":"Mainīt konfigurāciju ierīcē, jūs varat \"Vadība lapa\".",
  "LangLanguage":"Latviski",
@@ -127,6 +126,7 @@
  "LangspeedRGB":"Скорость лед",
  "LangbrightnessRGB":"Яркость лед",
  "LangmodeRGB":"Динамический режим лед",
+ "LangReceived":"Беспроводной приемник",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",

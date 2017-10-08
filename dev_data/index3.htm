@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v03.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v08.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,9 +160,9 @@
    function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
     var element = document.getElementById(spaceVal);
     if (typeof(element) != 'undefined' && element != null && element != ''){
-     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
+     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
     } else {
-     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
+     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajax(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
     }
    }
 
@@ -286,7 +286,7 @@
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {
-      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')"><i class="warning-img"><\/i><\/a>';
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
      }
     }
    }
@@ -349,7 +349,7 @@
   <div class="container device index3">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
-     <a href="#" class="btn btn-default" onclick="deviceList('first');"><i class="refresh-img"></i></a>
+     <a href="#" class="btn btn-default" onclick="deviceList('first');" title="{{LangRefresh}}"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
      <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
     </div>
