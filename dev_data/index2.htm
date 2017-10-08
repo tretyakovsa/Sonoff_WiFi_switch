@@ -37,15 +37,10 @@
     xhttp.send(null);
     xhttp.onload = function() {
      var ipDevice=JSON.parse(xhttp.responseText);
-     //tested
-     const ordered = {};
-     Object.keys(ipDevice).sort().forEach(function(key) {
-      ordered[key] = ipDevice[key];
-     });
-     for (var i in ordered) {
-      loadModule(ordered[i],stage,sorting);
+     for (var i in ipDevice) {
+      loadModule(ipDevice[i],stage,sorting);
      }
-     if (Object.keys(ordered).length == 0) {
+     if (Object.keys(ipDevice).length == 0) {
       location.href = "/page.htm?first-connect";
      }
     }
@@ -304,7 +299,7 @@
      var jsonBuild=JSON.parse(xmlHttp.responseText);
      jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      if (jsonBuild[0].name != spiffs) {
-      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(typeof spiffs?'Not Found':spiffs.split('_')[4].slice(0,-4))+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
+      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+spiffs.split('_')[4].slice(0,-4)+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
      }
     }
    }

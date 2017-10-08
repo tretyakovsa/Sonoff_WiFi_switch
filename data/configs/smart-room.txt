@@ -27,4 +27,4 @@ RELAY 12 1
 // Беспроводной приемник mHz частот
 RF-RECEIVED 3 433
 // Беспроводной передатчик mHz частот, скоро.
-RF-TRANSMITTER 1 433
+# RF-TRANSMITTER 1 433
