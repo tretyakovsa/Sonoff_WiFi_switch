@@ -113,17 +113,13 @@ void initRCSwitch() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
-  //Serial.print("initRCSwitch ");
   // задача опрашивать RC код
   ts.add(3, 500, [&](void*) {
     RCRCreceiv();
   }, nullptr, true);
-
-  HTTP.on("rcreceivi.json", HTTP_GET, []() {
-    HTTP.send(200, "application/json", jsonWrite("{}", "Received", jsonRead(configJson, "Received")));
   });
   sendStatus("Received", 0);
-  modulesReg("RCreceivi");
+  modulesReg("rfReceived");
 }
 
 void RCRCreceiv() {

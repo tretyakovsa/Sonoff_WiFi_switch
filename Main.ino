@@ -16,7 +16,8 @@ void initCMD() {
   sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
-  sCmd.addCommand("RCSwitch",       initRCSwitch);
+  sCmd.addCommand("RF-RECEIVED",       initRCSwitch);
+  sCmd.addCommand("RF-TRANSMITTER",     initRCSwitch);
   sCmd.addCommand("MOTION",       initMotion);
   sCmd.addCommand("BUZER",       initBuzer);
   sCmd.addCommand("beep",       buzerBeep);
