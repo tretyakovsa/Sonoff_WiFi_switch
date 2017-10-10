@@ -7,8 +7,6 @@ void initScenary() {
     loadScenary();
     HTTP.send(200, "text/plain", "Ok");
   });
-
-
 }
 
 void loadScenary(){
