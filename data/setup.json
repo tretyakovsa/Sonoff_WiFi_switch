@@ -63,7 +63,7 @@
 
   {
    "type": "dev",
-   "title": "{{LangSetting4}}",
+   "title": "{{LangSetting}}",
    "class": "alert alert-dismissible alert-info"
   },
 

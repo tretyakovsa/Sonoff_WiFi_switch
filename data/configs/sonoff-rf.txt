@@ -10,7 +10,7 @@ TIMERS
 DHT 14
 // Пока только один датчик и пин менять нельзя
 D18B20 14
-// Кнопка на GPIO0 реакция вторым параметром: rgbnot relaynot jalousienot
+// Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
 Tach relaynot
 // Первая ячейка - PIN, вторая - состояние реле при включение ESP
 RELAY 12 0

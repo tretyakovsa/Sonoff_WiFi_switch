@@ -12,7 +12,7 @@ DHT 14
 D18B20 14
 // Аналоговый вход
 A0
-// Кнопка на GPIO0 реакция вторым параметром: rgbnot relaynot jalousienot
+// Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
 Tach rgbnot
 // Первая ячейка - PIN, вторая - состояние реле при включение ESP
 # RELAY 12 0

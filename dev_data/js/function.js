@@ -156,7 +156,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    if (type_val == 'table') {
     var thead = '';
     var jsonTable = jsonPage.content[i].title;
-    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><span class="loader"></span>'+jsonResponse.LangLoading+'</td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
+    document.getElementById(idName).innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
     loadTable(state_val, jsonTable);
    }
    if (type_val == 'select') {
@@ -171,8 +171,13 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     document.getElementById(idName).innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
    }
    if (type_val == 'configs') {
-    document.getElementById(idName).innerHTML += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
-    document.getElementById(idName).innerHTML += '<input onclick="changeTextarea(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\');alert(\''+jsonResponse.LangReset2+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
+    var htmlopt = '';
+    htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
+    htmlopt += '<div class="btn-group btn-block"><input  style="width:85%" onclick="changeTextarea(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\');alert(\''+jsonResponse.LangReset2+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
+    htmlopt += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
+    htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> Upload to cloud</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> Download from cloud</a></li></ul>';
+    htmlopt += '</div>';
+    document.getElementById(idName).innerHTML += htmlopt;
     setTimeout("loadConfigs('"+state_val+"')", 500);
    }
    if (type_val == 'link') {
@@ -191,7 +196,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     }
    }
    if (type_val == 'loadJson') {
-    document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><span class="loader"></span>'+jsonResponse.LangLoading+'<\/div>';
+    document.getElementById(idName).innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
     loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
    }
    if (type_val == 'scenary-list') {
@@ -232,11 +237,10 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     if (searchModule(jsonResponse.module,"upgrade") == 'yes'){
      dev_html += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade Build & Spiffs <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
     }
-    dev_html += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangSetting6+'<\/a><\/b><span id="repos-bin" class="hidden">';
-    dev_html += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Upload build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
+    dev_html += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangOtheSetting+'<\/a><\/b><span id="repos-bin" class="hidden">';
+    dev_html += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
     dev_html += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="rgb">RGB (WS2811-12/NeoPixel)<\/option><option value="jalousie">Jalousie<\/option><option value="leakag">Leakag<\/option><option value="smart-room">Smart-Room<\/option><option value="manually">Manually<\/option><\/select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
     dev_html += '<\/span><\/span><\/div>';
-
     document.getElementById(idName).innerHTML += dev_html;
    }
   }
@@ -286,12 +290,12 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
 
 function loadScenary(jsonResponse,loadList) {
  html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- var option = '';
  var xhttp=createXmlHttpObject();
  xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
  xhttp.send(null);
  xhttp.onload = function() {
   html('scenary-list', ' ');
+  var option = '';
   var ipDevice=JSON.parse(xhttp.responseText);
   //ipDevice = Object.keys(ipDevice).sort((a, b) => ipDevice[b] - ipDevice[a]);
   if (loadList) {
@@ -309,11 +313,12 @@ function loadScenary(jsonResponse,loadList) {
 }
 
 function loadLive(ip,file,where) {
- var option = '';
+ html(where,'<option value="">Loading...</option>');
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open('GET', "http://"+ip+"/"+file,true);
  xmlHttp.send(null);
  xmlHttp.onload = function() {
+  var option = '';
   var jsonLive=JSON.parse(xmlHttp.responseText);
   for(var key in jsonLive) {
    option += '<option value="'+key+'" title="'+jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
@@ -596,11 +601,36 @@ function loadConfigs(state_val) {
     document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label><input checked="" type="checkbox" style="display:none" disabled readonly><small>'+configsLine[key]+'</small><\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
-    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label style="margin-bottom:20px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
+    document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
    }
   }
   document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
   //changeTextarea(state_val.replace(/[^a-z0-9]/gi,'-'));
+ }
+}
+
+
+function cloudUpload(mac,file) {
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open("GET", "configs/"+file+".txt", true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function() {
+  changeTextarea(file+'-txt');
+  var data = xmlHttp.responseText;
+  xmlHttp.open("POST","http://backup.privet.lv/configs/?file="+mac+"-"+file,true);
+  //Must add this request header to XMLHttpRequest request for POST
+  xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlHttp.send("data="+val(file+'-txt-edit'));
+  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt');
+ }
+}
+function cloudDownload(mac,file) {
+ var xmlHttp=createXmlHttpObject();
+ xmlHttp.open("GET", "http://backup.privet.lv/configs/"+mac+"-"+file+".txt", true);
+ xmlHttp.send(null);
+ xmlHttp.onload = function() {
+  var data = xmlHttp.responseText;
+  send_request_edit(this, data,'configs/'+file+'.txt','loadConfigs("'+file+'.txt");');
  }
 }
 
