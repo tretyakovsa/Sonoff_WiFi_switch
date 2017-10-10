@@ -55,7 +55,8 @@ void handle_device() {
   configOptions = jsonWrite(configOptions, "SSDP", ssdpName);
   modules = jsonWrite(modules, "SSDP", ssdpName);
   SSDP.setName(ssdpName);
-
+  //Serial.println(jsonRead(configSetup, "SSDP"));
+  SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, "SSDP"));
   String  space = HTTP.arg("space");
   configSetup = jsonWrite(configSetup, "space", space);
   configOptions = jsonWrite(configOptions, "space", space);
@@ -67,8 +68,8 @@ void handle_device() {
 // ------------- SSDP запрос
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
-    addressList = "{\"ssdpList\":[]}";
-    ssdpLists(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
+    //addressList = "{\"ssdpList\":[]}";
+    //ssdpLists(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
     ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
@@ -76,7 +77,6 @@ void requestSSDP () {
     udp.beginPacket(ssdpAdress, ssdpPort);
     udp.write(ReplyBuffer);
     udp.endPacket();
-    //Serial.println(addressList);
   }
 }
 // ------------- Чтение ответа от устройств SSDP слушаем порт все время
@@ -108,7 +108,7 @@ void handleUDP() {
       chipIDremote = selectToMarker(chipIDremote, "\r");
       // строку input_string сохраняю для расширения
       ssdpList = jsonWrite(ssdpList, chipIDremote, udp.remoteIP().toString());
-      ssdpLists(chipIDremote, udp.remoteIP().toString(), ssdpName);
+
     }
   }
 }

@@ -21,7 +21,7 @@
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/MTJoker/WS2812FX
-#include <RCSwitch.h>                //Ставим через менеджер библиотек
+#include <RCSwitch.h>                //https://github.com/sui77/rc-switch/
 
 
 #define d18b20PIN 14

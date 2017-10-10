@@ -109,7 +109,7 @@ void initD18B20() {
   }
 }
 // ----------------------Приемник на 433мГ
-void initRCSwitch() {
+void rfReceived() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
