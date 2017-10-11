@@ -20,7 +20,7 @@
 #include <OneWire.h>                 //Ставим через менеджер библиотек
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
-#include <WS2812FX.h>                //https://github.com/MTJoker/WS2812FX
+#include <WS2812FX.h>                //https://github.com/renat2985/WS2812FX
 #include <RCSwitch.h>                //https://github.com/sui77/rc-switch/
 
 
