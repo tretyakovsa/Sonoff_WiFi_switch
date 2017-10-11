@@ -64,7 +64,6 @@ String relayStatus(String json, String state) {
   return out;
 }
 void relayOn() {
-  Serial.println(getStatusInt("stateRelay"));
   if (!getStatusInt("stateRelay")) flag = sendStatus("stateRelay", 1);
   digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("stateRelay"));
   toggleRelay(getStatusInt("stateRelay"));
@@ -72,7 +71,6 @@ void relayOn() {
 }
 
 void relayOff() {
-  Serial.println(getStatusInt("stateRelay"));
   if (getStatusInt("stateRelay")) flag = sendStatus("stateRelay", 0);
   digitalWrite(getOptionsInt("relay1Pin"),   getStatusInt("stateRelay"));
   toggleRelay(getStatusInt("stateRelay"));

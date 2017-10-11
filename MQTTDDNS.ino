@@ -23,10 +23,9 @@ void callback(const MQTT::Publish& pub)
     //if (String(pub.topic()) == prefix + "/"+chipID + "/RELE_1_not/status") // проверяем из нужного ли нам топика пришли данные
   {
     int stled = payload.toInt(); // преобразуем полученные данные в тип integer
-    //Serial.println(stled);
     if (stled == 1)   command = "relayon";
     if (stled == 0)   command = "relayoff";
-    //Serial.println(command);
+
 
   }
 
@@ -45,17 +44,14 @@ void MQTT_Pablush() {
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
       if (!client.connected()) {
-        //Serial.println("Connecting to MQTT server");
         if (client.connect(MQTT::Connect(chipID)
                            .set_auth(jsonRead(configSetup, "mqttUser"), jsonRead(configSetup, "mqttPass")))) {
-          //Serial.println("Connected to MQTT server");
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           //client.subscribe("/" + chipID + "/RELE_1"); // подписываемся по топик с данными для светодиода
           loadnWidgets();
         } else {
-          //Serial.println("Could not connect to MQTT server");
         }
       }
     }

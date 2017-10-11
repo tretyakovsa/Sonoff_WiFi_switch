@@ -69,12 +69,9 @@ bool RestartWiFi() {
 
   wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"));
 
-  Serial.println("");
-  Serial.println(WiFi.localIP());
   // {"title":"<h3>{{LangConnect2}} <a href="http://192.168.1.30">http://192.168.1.30</a></h3>"}
   // {"title":"Любой текст и html","class":"класс", "style":"Стиль","state":"Данные для вставки в state input_а"}
   String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";
-  Serial.println(state);
   HTTP.send(200, "application/json", state);
   delay(1000);
   // Отключаем точку доступа и переподключаемся к роутеру
@@ -86,7 +83,6 @@ bool RestartWiFi() {
 boolean startSTA(String configWiFi) {
   //WiFi.persistent (false);
   if (jsonRead(configWiFi, "checkboxIP") == "1") {
-    Serial.println ("checkboxIP");
     IPAddress staticIP;
     IPAddress staticGateway;
     IPAddress staticSubnet;
@@ -108,16 +104,11 @@ boolean startSTA(String configWiFi) {
       check = false;
     }
     if (!check) {
-      Serial.println ("check");
-      Serial.println (WiFi.config(staticIP, staticGateway, staticSubnet));
-      Serial.println (WiFi.subnetMask ());
-      Serial.println (WiFi.gatewayIP ());
     }
   }
   WiFi.mode(WIFI_OFF);
   WiFi.mode(WIFI_STA);
   WiFi.hostname ( "sonoff-" + chipID );
-  Serial.println(WiFi.SSID());
   WiFi.begin();
   //WiFi.begin(jsonRead(configJson, "ssid").c_str(),jsonRead(configJson, "ssidPass").c_str());
   if ( wifiConnect(jsonReadtoInt(configSetup, "wifiConnect"), jsonReadtoInt(configSetup, "wifiBlink"))) {
@@ -140,7 +131,6 @@ boolean wifiConnect(byte tries, byte pin) {
   {
     //Мигаем сетодиодом при попытке подключится к роутеру
     if (pin != 0)   digitalWrite(pin, HIGH);
-    Serial.print(".");
     delay(500);
     if (pin != 0)  digitalWrite(pin, LOW);
     delay(500);
@@ -190,10 +180,8 @@ void handle_wifi_scan() {
 // ----------------- Запускаем WiFi
 void startWIFI() {
   if (startSTA(configSetup)) {
-    //Serial.println(WiFi.localIP().toString());
   }
   else {
     startAP(configSetup);
-    //Serial.println("Start AP");
   }
 }

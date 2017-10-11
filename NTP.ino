@@ -11,13 +11,10 @@ void timeSynch(int zone) {
     // Инициализация UDP соединения с NTP сервером
     configTime(zone * 3600, 0, "pool.ntp.org", "ru.pool.ntp.org");
     int i = 0;
-    //Serial.print("\nWaiting for time ");
     while (!time(nullptr) && i < 10) {
-      //Serial.print(".");
       i++;
       delay(100);
     }
-    Serial.println("");
     String timeNow = GetTime();
     configJson = jsonWrite(configJson, "time",  timeNow);
     configSetup = jsonWrite(configSetup, "time",  timeNow);

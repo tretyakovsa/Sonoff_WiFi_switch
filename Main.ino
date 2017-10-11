@@ -226,7 +226,6 @@ String modulesInit(String json, String nameArray) {
   int k = nestedArray.size();
   for (int i = 0; i <= k - 1; i++) {
     String temp =  All[nameArray][i]["type"];
-    Serial.println( temp );
     sCmd.readStr(temp);
   }
   return "OK";
@@ -239,8 +238,6 @@ String goCommands(String inits) {
   inits += rn;
   do {
     temp = selectToMarker (inits, rn);
-    //Serial.print("command=");
-    //Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
   } while (inits.indexOf(rn) != 0);

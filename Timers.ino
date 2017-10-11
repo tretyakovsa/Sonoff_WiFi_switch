@@ -16,7 +16,6 @@ void handle_timer_Mod(){
   String responsB ="{}";
   String responsC ="{}";
 
-  Serial.println(modules);
 responsC = jsonWrite(responsC, "rgb", "RGB");
 responsC = jsonWrite(responsC, "relay", "Relay");
 responsC = jsonWrite(responsC, "jalousie", "Jalousie");
@@ -72,7 +71,6 @@ void handle_timer_Del() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
-  //nestedArray.printTo(Serial);
   int y;
   for (int i = 0; i <= nestedArray.size() - 1; i++) {
     if (Timers["timer"][i]["id"] == HTTP.arg("id").toInt()) y = i;
@@ -108,7 +106,6 @@ bool loadTimer() {
         Timerset += "\r\n";
       }
     }
-    Serial.println(Timerset);
   }
   //runTimers();
   return true;
@@ -152,7 +149,6 @@ void runTimers() {
         // выполняем необходимое действие
 
         command = module + com + " " + interval + " " + id;
-        Serial.println(command);
 
       }
       timers = timers.substring(timers.indexOf("\r\n") + 2);

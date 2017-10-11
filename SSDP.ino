@@ -55,7 +55,6 @@ void handle_device() {
   configOptions = jsonWrite(configOptions, "SSDP", ssdpName);
   modules = jsonWrite(modules, "SSDP", ssdpName);
   SSDP.setName(ssdpName);
-  //Serial.println(jsonRead(configSetup, "SSDP"));
   SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, "SSDP"));
   String  space = HTTP.arg("space");
   configSetup = jsonWrite(configSetup, "space", space);
@@ -90,20 +89,14 @@ void handleUDP() {
     int len = udp.read(packetBuffer, 512);
     if (len > 0) packetBuffer[len] = 0;
     input_string += packetBuffer;
-    //Serial.println(input_string);
     int i = input_string.indexOf("Arduino");
     if (i > 0) {
 
       chipIDremote = deleteBeforeDelimiter(input_string, "Arduino");
-      //Serial.println(chipIDremote);
       chipIDremote = selectToMarker(chipIDremote, "\n");
-      //Serial.println(chipIDremote);
       //1.0 UPNP/1.1 smart-room/4039-1458400/IoT-Room 2 (\n)
       ssdpName = selectToMarkerLast(chipIDremote, "/");
       ssdpName = selectToMarker(ssdpName, "\r");
-      //Serial.println(ssdpName);
-      //ssdpName = selectToMarker(ssdpName, "/");
-      //Serial.println(ssdpName);
       chipIDremote = selectToMarkerLast(chipIDremote, "/");
       chipIDremote = selectToMarker(chipIDremote, "\r");
       // строку input_string сохраняю для расширения
@@ -122,7 +115,6 @@ void ssdpLists(String chipIDremote, String remoteIP, String ssdpName ) {
   record["ssdp"]  = ssdpName;
   addressList = "";
   list.printTo(addressList);
-  //list.printTo(Serial);
 }
 
 // Каждые 30 секунд проверяем не изиенился ли адрес ip

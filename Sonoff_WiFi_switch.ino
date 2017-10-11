@@ -72,6 +72,7 @@ String configLive = "{}";            // Здесь внутренние данн
 String ssdpList = "{}";
 String regCommands = "{}";
 String jsonTimer = "{}";
+String previousSetup;
 String Scenary;
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
@@ -84,17 +85,23 @@ boolean thenOk;
 
 void setup() {
 
-  //Serial.println (ESP.getResetReason());
   //Serial.begin(115200);
-  delay(100);
+  //delay(100);
   TickerScheduler(1);
-  Serial.println ("");
-  Serial.println ("Load");
   initCMD();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   FS_init();         // Включаем работу с файловой системой
   // ----------------- начинаем загрузку
   configSetup = readFile("config.save.json", 4096);
+
+ //previousSetup = configSetup;
+  //configSetup ="{}";
+  //Serial.println(configSetup);
+//savePrevious();
+  
+
+
+  
   configSetup = jsonWrite(configSetup, "time", "00:00:00");
   //configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
   configOptions = jsonWrite(configOptions, "lang", jsonRead(configSetup, "lang"));
@@ -114,7 +121,7 @@ void setup() {
    sCmd.readStr("SSDP");
    sCmd.readStr("HTTP");
    // ----------- Выполняем запуск кофигурации
-  Serial.println(goCommands(test));
+goCommands(test);
   test = "";
   configSetup = jsonWrite(configSetup, "mac", WiFi.macAddress().c_str());
   configSetup = jsonWrite(configSetup, "ip", WiFi.localIP().toString());
@@ -124,7 +131,7 @@ void setup() {
 
 void loop() {
   ts.update();
-  sCmd.readStr(command);     // We don't do much, just process serial commands
+  sCmd.readStr(command);     
   command = "";
   dnsServer.processNextRequest();
   HTTPWAN.handleClient();
