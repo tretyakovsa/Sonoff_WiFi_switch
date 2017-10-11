@@ -40,7 +40,7 @@
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
-     if (Object.keys(ipDevice).length == 0) {
+     if (ipDevice[i] == '0.0.0.0') {
       location.href = "/page.htm?first-connect";
      }
     }

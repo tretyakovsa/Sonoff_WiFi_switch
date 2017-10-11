@@ -175,7 +175,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
     htmlopt += '<div class="btn-group btn-block"><input  style="width:85%" onclick="changeTextarea(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\');alert(\''+jsonResponse.LangReset2+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
     htmlopt += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
-    htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> Upload to cloud</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> Download from cloud</a></li></ul>';
+    htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> Upload to cloud</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> Download from cloud</a></li></ul>';
     htmlopt += '</div>';
     document.getElementById(idName).innerHTML += htmlopt;
     setTimeout("loadConfigs('"+state_val+"')", 500);
@@ -609,7 +609,6 @@ function loadConfigs(state_val) {
  }
 }
 
-
 function cloudUpload(mac,file) {
  var xmlHttp=createXmlHttpObject();
  xmlHttp.open("GET", "configs/"+file+".txt", true);
@@ -618,7 +617,6 @@ function cloudUpload(mac,file) {
   changeTextarea(file+'-txt');
   var data = xmlHttp.responseText;
   xmlHttp.open("POST","http://backup.privet.lv/configs/?file="+mac+"-"+file,true);
-  //Must add this request header to XMLHttpRequest request for POST
   xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlHttp.send("data="+val(file+'-txt-edit'));
   send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt');
@@ -626,11 +624,15 @@ function cloudUpload(mac,file) {
 }
 function cloudDownload(mac,file) {
  var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", "http://backup.privet.lv/configs/"+mac+"-"+file+".txt", true);
+ xmlHttp.open("GET", "http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.floor(Math.random()*10000), true);
  xmlHttp.send(null);
  xmlHttp.onload = function() {
-  var data = xmlHttp.responseText;
-  send_request_edit(this, data,'configs/'+file+'.txt','loadConfigs("'+file+'.txt");');
+  if(xmlHttp.status == 200) {
+   var data = xmlHttp.responseText;
+   send_request_edit(this, data,'configs/'+file+'','loadConfigs("'+file+'");');
+  } else {
+   alert('File not found in cloud.');
+  }
  }
 }
 
