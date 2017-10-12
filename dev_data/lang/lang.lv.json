@@ -129,6 +129,8 @@
  "LangmodeRGB":"Динамический режим RGB",
  "LangrfReceived":"Беспроводной RF приемник",
  "LangirReceived":"Беспроводной IR приемник",
+ "LangrfTransmitter":"Беспроводной RF передатчик",
+ "LangirTransmitter":"Беспроводной IR передатчик",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",

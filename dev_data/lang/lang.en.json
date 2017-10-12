@@ -127,8 +127,10 @@
  "LangspeedRGB":"Speed RGB",
  "LangbrightnessRGB":"Brightness RGB",
  "LangmodeRGB":"Mode RGB",
- "LangrfReceived":"Received RF",
- "LangrfReceived":"Received IR",
+ "LangrfReceived":"RF Received",
+ "LangriReceived":"IR Received",
+ "LangrfTransmitter":"RF Transmitter",
+ "LangirTransmitter":"IR Transmitter",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
