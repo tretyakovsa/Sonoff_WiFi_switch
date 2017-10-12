@@ -5,9 +5,9 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
   return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
  }
 
- var ne = document.createElement('h2');
- ne.id = chartId+'-title';
- document.getElementById(chartId).parentNode.insertBefore(ne,document.getElementById(chartId));
+ //var ne = document.createElement('h2');
+ //ne.id = chartId+'-title';
+ //document.getElementById(chartId).parentNode.insertBefore(ne,document.getElementById(chartId));
 
  function adddata() {
   var xmlHttp=createXmlHttpObject();
@@ -33,6 +33,10 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
      }
 
      LineChart.data.series[0].push(module.data[i]);
+
+     var element = document.getElementById(chartId+'-data');
+     if (element){element.innerHTML = module.data;}
+
      if (module.data2 != null) {
       LineChart.data.series[1].push(module.data2[i]);
      }
