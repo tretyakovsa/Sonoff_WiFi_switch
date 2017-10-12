@@ -28,6 +28,7 @@
  "LangUpgrade":"Installet jaunu versiju?",
  "LangDonate":"Atbalstīt projektu",
  "LangSoon":"<label class=\"label label-danger\">Driz...</label>",
+ "LangCloud":"Pēc atjaunināšanas iestatījumi tiek zaudēti, tādēļ iesakām noklikšķināt uz <i class=\"cloud-img\"></i> un saglabāt tos mākonī, pēc atjaunināšanas varat tos lejupielādēt savā ierīcē.",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Ierīces nosaukums",
@@ -126,7 +127,8 @@
  "LangspeedRGB":"Скорость RGB",
  "LangbrightnessRGB":"Яркость RGB",
  "LangmodeRGB":"Динамический режим RGB",
- "LangReceived":"Беспроводной приемник",
+ "LangrfReceived":"Беспроводной RF приемник",
+ "LangirReceived":"Беспроводной IR приемник",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",

@@ -28,6 +28,7 @@
  "LangUpgrade":"Install new version?",
  "LangDonate":"Donate",
  "LangSoon":"<label class=\"label label-danger\">Soon...</label>",
+ "LangCloud":"After updating the settings are lost, so we suggest clicking on <i class=\"cloud-img\"></i> and saving them in the cloud, after updating you can download them to your device.",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Device Name",
@@ -126,7 +127,8 @@
  "LangspeedRGB":"Speed RGB",
  "LangbrightnessRGB":"Brightness RGB",
  "LangmodeRGB":"Mode RGB",
- "LangReceived":"Received",
+ "LangrfReceived":"Received RF",
+ "LangrfReceived":"Received IR",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",

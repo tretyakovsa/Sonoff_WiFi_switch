@@ -67,6 +67,11 @@
    "title": "{{LangType}} {{configs}}"
   },
   {
+   "type": "text",
+   "title": "{{LangCloud}}",
+   "class": "alert alert-info"
+  },
+  {
    "type": "configs",
    "state": "{{urlArray1}}.txt"
   },

@@ -28,6 +28,7 @@
  "LangUpgrade":"Встановити нове оновлення?",
  "LangDonate":"Підтримай проект",
  "LangSoon":"<label class=\"label label-danger\">Скоро...</label>",
+ "LangCloud":"После обновления эти настройки теряются, поэтому мы предлагаем нажать на <i class=\"cloud-img\"></i> и сохранить их в облаке, после обновлеиня вы сможете скачать их на свое устройство.",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Ім’я пристрою",
@@ -126,7 +127,8 @@
  "LangspeedRGB":"Швидкість RGB",
  "LangbrightnessRGB":"Яскравість RGB",
  "LangmodeRGB":"Динамічний режим RGB",
- "LangReceived":"Беспроводной приемник",
+ "LangrfReceived":"Беспроводной RF приемник",
+ "LangirReceived":"Беспроводной IR приемник",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",
