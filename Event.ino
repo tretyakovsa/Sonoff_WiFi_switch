@@ -113,23 +113,41 @@ void rfReceived() {
   mySwitch.enableReceive(pin);
   // задача опрашивать RC код
   ts.add(3, 5, [&](void*) {
-    RCRCreceiv();
+    handleRfReceiv();
   }, nullptr, true);
-  sendStatus("Received", 0);
+  sendStatus("rfReceived", 0);
   modulesReg("rfReceived");
 }
 
-void RCRCreceiv() {
+void handleRfReceiv() {
   if (mySwitch.available()) {
     int value = mySwitch.getReceivedValue();
     if (value == 0) {
       configJson = jsonWrite(configJson, "Received", 0);
     } else {
       int codeRC = mySwitch.getReceivedValue(); 
-      flag = sendStatus("Received", codeRC);
+      flag = sendStatus("rfReceived", codeRC);
     }
     mySwitch.resetAvailable();
   }
 }
 
+// ----------------------Приемник ИK
+void irReceived() {
+  byte pin = readArgsInt();
+  if (pin == 1 || pin == 3)  Serial.end();
+   //irrecv.enableIRIn();  // Start the receiver
+   // задача опрашивать RC код
+  ts.add(5, 100, [&](void*) {
+    handleIrReceiv();
+  }, nullptr, true);
+  sendStatus("irReceived", 0);
+  modulesReg("irReceived");
+}
 
+void handleIrReceiv() {
+//if (irrecv.decode(&results)) {
+//    flag = sendStatus("irReceived", String((uint32_t) results.value, HEX));
+//    irrecv.resume();  // Receive the next value
+//  }
+}

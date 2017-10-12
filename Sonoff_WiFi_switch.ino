@@ -22,12 +22,15 @@
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/renat2985/WS2812FX
 #include <RCSwitch.h>                //https://github.com/sui77/rc-switch/
-
+#include <IRremoteESP8266.h>         //https://github.com/markszabo/IRremoteESP8266
+#include <IRrecv.h>
+#include <IRutils.h>
 
 #define d18b20PIN 14
 DHT dht;
 RCSwitch mySwitch = RCSwitch();
-
+//IRrecv irrecv();
+//decode_results results;
 // DNSServer для режима AP
 DNSServer dnsServer;
 
@@ -57,7 +60,7 @@ DallasTemperature d18b20(&oneWire);
 WS2812FX ws2812fx = WS2812FX();
 
 
-TickerScheduler ts(5);
+TickerScheduler ts(6);
 
 boolean secTest = true;
 StringCommand sCmd;     // The demo StringCommand object
