@@ -54,9 +54,6 @@ input:invalid ~ input[type=button] {
  .block {
   margin:20px -15px;
  }
- #content .block {
-  margin:30px -30px;
- }
  .device {
   margin-top:0;
  }
