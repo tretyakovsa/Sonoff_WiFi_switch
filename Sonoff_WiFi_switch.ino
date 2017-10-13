@@ -29,8 +29,8 @@
 #define d18b20PIN 14
 DHT dht;
 RCSwitch mySwitch = RCSwitch();
-//IRrecv irrecv();
-//decode_results results;
+IRrecv *irReceiver; 
+decode_results results;
 // DNSServer для режима AP
 DNSServer dnsServer;
 
@@ -71,7 +71,6 @@ String chipID = "";
 String configJson = "{}";            // Здесь все статусы
 String configOptions = "{}";         // Здесь опции для всех страниц
 String configSetup = "{}";           // Здесь данные для setup
-String configLive = "{}";            // Здесь внутренние данные обмен пинами и тд
 String ssdpList = "{}";
 String regCommands = "{}";
 String jsonTimer = "{}";

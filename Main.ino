@@ -18,6 +18,8 @@ void initCMD() {
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("RF-RECEIVED",       rfReceived);
   sCmd.addCommand("RF-TRANSMITTER",     rfReceived);
+  sCmd.addCommand("IR-RECEIVED",       irReceived);
+  sCmd.addCommand("IR-TRANSMITTER",     irReceived);
   sCmd.addCommand("MOTION",       initMotion);
   sCmd.addCommand("BUZER",       initBuzer);
   sCmd.addCommand("beep",       buzerBeep);
@@ -26,7 +28,7 @@ void initCMD() {
 }
 
 void unrecognized(const char *command) {
-  Serial.println("What?");
+  //Serial.println("What?");
 }
 // По комманде print печатает аргумент для тастов
 void printTest() {
@@ -238,6 +240,7 @@ String goCommands(String inits) {
   inits += rn;
   do {
     temp = selectToMarker (inits, rn);
+    //Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
   } while (inits.indexOf(rn) != 0);

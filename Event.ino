@@ -9,7 +9,7 @@ void initBuzer() {
 }
 
 void buzerBeep() {
-  analogWrite(jsonReadtoInt(configLive, "pinBuzer"), readArgsInt());
+  analogWrite(getStatusInt("stateBuzer"), readArgsInt());
   analogWriteFreq(readArgsInt());
 }
 
@@ -123,7 +123,7 @@ void handleRfReceiv() {
   if (mySwitch.available()) {
     int value = mySwitch.getReceivedValue();
     if (value == 0) {
-      configJson = jsonWrite(configJson, "Received", 0);
+      configJson = jsonWrite(configJson, "rfReceived", 0);
     } else {
       int codeRC = mySwitch.getReceivedValue(); 
       flag = sendStatus("rfReceived", codeRC);
@@ -136,7 +136,8 @@ void handleRfReceiv() {
 void irReceived() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
-   //irrecv.enableIRIn();  // Start the receiver
+  irReceiver = new IRrecv(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
+  irReceiver->enableIRIn(); // Start the receiver   
    // задача опрашивать RC код
   ts.add(5, 100, [&](void*) {
     handleIrReceiv();
@@ -146,8 +147,66 @@ void irReceived() {
 }
 
 void handleIrReceiv() {
-//if (irrecv.decode(&results)) {
-//    flag = sendStatus("irReceived", String((uint32_t) results.value, HEX));
-//    irrecv.resume();  // Receive the next value
-//  }
+ if (irReceiver->decode(&results)) {
+      //serialPrintUint64(results.value, HEX);
+    //Serial.println("");
+    //dump(&results);
+    flag = sendStatus("irReceived", String((uint32_t) results.value, HEX));
+    irReceiver->resume();  // Continue looking for IR codes after your finished dealing with the data.
+  }    
+  
+}
+
+void dump(decode_results *results) {
+  // Dumps out the decode_results structure.
+  // Call this after IRrecv::decode()
+  uint16_t count = results->rawlen;
+  if (results->decode_type == UNKNOWN) {
+    Serial.print("Unknown encoding: ");
+  } else if (results->decode_type == NEC) {
+    Serial.print("Decoded NEC: ");
+  } else if (results->decode_type == SONY) {
+    Serial.print("Decoded SONY: ");
+  } else if (results->decode_type == RC5) {
+    Serial.print("Decoded RC5: ");
+  } else if (results->decode_type == RC5X) {
+    Serial.print("Decoded RC5X: ");
+  } else if (results->decode_type == RC6) {
+    Serial.print("Decoded RC6: ");
+  } else if (results->decode_type == RCMM) {
+    Serial.print("Decoded RCMM: ");
+  } else if (results->decode_type == PANASONIC) {
+    Serial.print("Decoded PANASONIC - Address: ");
+    Serial.print(results->address, HEX);
+    Serial.print(" Value: ");
+  } else if (results->decode_type == LG) {
+    Serial.print("Decoded LG: ");
+  } else if (results->decode_type == JVC) {
+    Serial.print("Decoded JVC: ");
+  } else if (results->decode_type == AIWA_RC_T501) {
+    Serial.print("Decoded AIWA RC T501: ");
+  } else if (results->decode_type == WHYNTER) {
+    Serial.print("Decoded Whynter: ");
+  } else if (results->decode_type == NIKAI) {
+    Serial.print("Decoded Nikai: ");
+  }
+  serialPrintUint64(results->value, 16);
+  Serial.print(" (");
+  Serial.print(results->bits, DEC);
+  Serial.println(" bits)");
+  Serial.print("Raw (");
+  Serial.print(count, DEC);
+  Serial.print("): {");
+
+  for (uint16_t i = 1; i < count; i++) {
+    if (i % 100 == 0)
+      yield();  // Preemptive yield every 100th entry to feed the WDT.
+    if (i & 1) {
+      Serial.print(results->rawbuf[i] * RAWTICK, DEC);
+    } else {
+      Serial.print(", ");
+      Serial.print((uint32_t) results->rawbuf[i] * RAWTICK, DEC);
+    }
+  }
+  Serial.println("};");
 }
