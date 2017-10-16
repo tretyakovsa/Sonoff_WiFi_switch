@@ -13,7 +13,7 @@ void initSSDP() {
   unsigned int localPort = 1901;
   udp.begin(localPort);
   // задача проверять смену ip каждые 30 секунд
-  ts.add(1, 30000, [&](void*) {
+  ts.add(1, 300000, [&](void*) {
     ipChanges();
   }, nullptr, true);
   // задача проверять наличие устройств в сети каждые две минуты.

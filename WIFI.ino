@@ -104,6 +104,7 @@ boolean startSTA(String configWiFi) {
       check = false;
     }
     if (!check) {
+      WiFi.config (staticIP,staticGateway,staticSubnet);
     }
   }
   WiFi.mode(WIFI_OFF);
