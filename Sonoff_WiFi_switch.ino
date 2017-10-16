@@ -26,7 +26,7 @@
 #include <IRrecv.h>
 #include <IRutils.h>
 
-#define d18b20PIN 14
+#define DS18B20PIN 14
 DHT dht;
 RCSwitch mySwitch = RCSwitch();
 IRrecv *irReceiver; 
@@ -52,10 +52,10 @@ WiFiUDP udp;
 WiFiClient wclient;
 PubSubClient client(wclient);
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
-OneWire oneWire(d18b20PIN);
+OneWire oneWire(DS18B20PIN);
 
 // Pass our oneWire reference to Dallas Temperature.
-DallasTemperature d18b20(&oneWire);
+DallasTemperature DS18B20(&oneWire);
 
 WS2812FX ws2812fx = WS2812FX();
 

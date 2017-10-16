@@ -87,17 +87,17 @@ void initDHT() {
   }
 }
 
-// ---------- initD18B20
-void initD18B20() {
-  pinMode(d18b20PIN, INPUT_PULLUP);
-  d18b20.begin();
-  d18b20.requestTemperatures();
-  float ok = d18b20.getTempCByIndex(0);
-  d18b20.setResolution(12);
+// ---------- initDS18B20
+void initDS18B20() {
+  pinMode(DS18B20PIN, INPUT_PULLUP);
+  DS18B20.begin();
+  DS18B20.requestTemperatures();
+  float ok = DS18B20.getTempCByIndex(0);
+  DS18B20.setResolution(12);
   if (ok != -127) {
     HTTP.on("/temperature.json", HTTP_GET, []() {
-      d18b20.requestTemperatures();
-      float temp = d18b20.getTempCByIndex(0);
+      DS18B20.requestTemperatures();
+      float temp = DS18B20.getTempCByIndex(0);
       if (temp == -127) {
         temp = 0;
       }

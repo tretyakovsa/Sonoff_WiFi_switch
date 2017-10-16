@@ -10,7 +10,7 @@ void initCMD() {
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("Tach",       initTach);
   sCmd.addCommand("DHT",       initDHT);
-  sCmd.addCommand("D18B20",       initD18B20);
+  sCmd.addCommand("DS18B20",       initDS18B20);
   sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
   sCmd.addCommand("JALOUSIE",       initJalousie);

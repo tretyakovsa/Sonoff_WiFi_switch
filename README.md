@@ -34,7 +34,7 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 - DDNS
 - MQTT
 - TIMERS
-- DHT11, DHT22, AM2302, RHT03, D18B20
+- DHT11, DHT22, AM2302, RHT03, DS18B20
 - A0
 - Tachе
 - RELAY
