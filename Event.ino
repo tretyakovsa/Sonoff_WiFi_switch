@@ -142,7 +142,7 @@ void irReceived() {
   ts.add(5, 100, [&](void*) {
     handleIrReceiv();
   }, nullptr, true);
-  sendStatus("irReceived", 0);
+  sendStatus("irReceived", "ffffffff");
   modulesReg("irReceived");
 }
 
