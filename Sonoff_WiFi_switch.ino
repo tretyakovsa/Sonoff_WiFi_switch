@@ -74,7 +74,6 @@ String configSetup = "{}";           // Здесь данные для setup
 String ssdpList = "{}";
 String regCommands = "{}";
 String jsonTimer = "{}";
-String previousSetup;
 String Scenary;
 String Timerset = "";
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
@@ -95,15 +94,6 @@ void setup() {
   FS_init();         // Включаем работу с файловой системой
   // ----------------- начинаем загрузку
   configSetup = readFile("config.save.json", 4096);
-
- //previousSetup = configSetup;
-  //configSetup ="{}";
-  //Serial.println(configSetup);
-//savePrevious();
-  
-
-
-  
   configSetup = jsonWrite(configSetup, "time", "00:00:00");
   //configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
   configOptions = jsonWrite(configOptions, "lang", jsonRead(configSetup, "lang"));

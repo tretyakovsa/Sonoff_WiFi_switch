@@ -44,7 +44,7 @@ void initRGB() {
   //регистрируем модуль
   int state = readArgsInt();
   sendStatus("stateRGB", state);
-  if (state) {command = "rgbon";}
+  if (state) {ws2812fx.start();}
   modulesReg("rgb");
 }
 

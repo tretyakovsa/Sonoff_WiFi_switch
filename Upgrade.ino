@@ -42,37 +42,4 @@ switch(ret) {
   }
 }
 
-void savePrevious(){
-   moveSetup ("lang");
-  moveSetup ("setIndex");
-  moveSetup ("SSDP");
-  moveSetup ("space");
-  moveSetup ("ssid");
-  moveSetup ("ssidPass");
-  moveSetupInt ("wifiConnect");
-  moveSetupInt ("wifiBlink");
-  moveSetup ("checkboxIP");
-  moveSetup ("ip");
-  moveSetup ("subnet");
-  moveSetup ("getway");
-  moveSetup ("dns");
-  moveSetupInt ("timeZone");
-  moveSetup ("ssidAP");
-  moveSetup ("ssidApPass");
-  moveSetup ("configs");
-  moveSetup ("ddns");
-  moveSetup ("ddnsName");
-  moveSetupInt ("ddnsPort");
-  moveSetup ("mqttServer");
-  moveSetupInt ("mqttPort");
-  moveSetup ("mqttUser");
-  moveSetup ("mqttPass");
-  }
 
-void moveSetup (String Name){
-  configSetup = jsonWrite(previousSetup, Name, jsonRead(previousSetup, Name));
-  }
-
-  void moveSetupInt (String Name){
-  configSetup = jsonWrite(previousSetup, Name, jsonReadtoInt(previousSetup, Name));
-  }
