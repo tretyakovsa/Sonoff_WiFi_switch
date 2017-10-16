@@ -29,6 +29,8 @@
  "LangDonate":"Donate",
  "LangSoon":"<label class=\"label label-danger\">Soon...</label>",
  "LangCloud":"After updating the settings are lost, so we suggest clicking on <i class=\"cloud-img\"></i> and saving them in the cloud, after updating you can download them to your device.",
+ "LangCloudUpload":"Upload to cloud",
+ "LangCloudDownload":"Download from cloud",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Device Name",

@@ -37,6 +37,7 @@
     } else {
      deviceList('first');
     }
+    loadIssues();
    }
 
    function deviceList(stage,sorting) {
@@ -317,6 +318,59 @@
      }
     }
    }
+
+
+   function loadIssues(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/issues',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     document.getElementById('issues').innerHTML = '';
+     var jsonIssues=JSON.parse(xmlHttp.responseText);
+     jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonIssues) {
+      if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
+       for(var label in jsonIssues[key].labels) {
+        if (jsonIssues[key].labels[label].name == 'news') {
+         if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
+          document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+         }
+        }
+       }
+      }
+      // if (key < 10) {
+      //  document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+      // }
+     }
+    }
+   }
+
+   function loadCommits(){
+    var xmlHttp=createXmlHttpObject();
+    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
+    xmlHttp.send(null);
+    xmlHttp.onload = function() {
+     document.getElementById('commits').innerHTML = '';
+     var jsonCommits=JSON.parse(xmlHttp.responseText);
+     //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+     for(var key in jsonCommits) {
+      if (key < 10) {
+       document.getElementById('commits').innerHTML += '<p><span class="label label-default">&#8987; '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+      }
+     }
+    }
+   }
+
+   function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+     var c = ca[i];
+     while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+   }
   </script>
  </head>
  <body>
@@ -362,5 +416,6 @@
    </div>
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
+  <a href="#news" class="btn btn-default" style="position:fixed;right:5px;bottom:5px;">top</a>
  </body>
 </html>
