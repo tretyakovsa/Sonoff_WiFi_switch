@@ -29,6 +29,7 @@ switch(ret) {
                 break;
         }
     writeFile("timer.save.json", jsonTimer);
+    writeFile("scenary.save.txt", Scenary);
     configSetup = jsonWrite(configSetup, "spiffsData", spiffsData);
     saveConfigSetup ();
   }
