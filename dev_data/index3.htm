@@ -311,7 +311,7 @@
      for(var key in jsonIssues) {
       if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
        for(var label in jsonIssues[key].labels) {
-        if (jsonIssues[key].labels[label] == 'news') {
+        if (jsonIssues[key].labels[label].name == 'news') {
          if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
           document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
          }
@@ -393,5 +393,6 @@
     </div>
    </div>
   </div>
+  <a href="#news" class="btn btn-default" style="position:fixed;right:5px;bottom:5px;">top</a>
  </body>
 </html>
