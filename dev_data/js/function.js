@@ -212,7 +212,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
     option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
     option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
     option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
-    option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
+    option += '<input class="form-control" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
     option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\', \\' \\');val(\\'ssdp-command\\', \\' \\');val(\\'ssdp-list1\\', \\' \\');document.getElementById(\\'ssdp-module\\').options.length=0;document.getElementById(\\'scenary-then\\').options.length=0;',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
     document.getElementById(idName).innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
     loadScenary(jsonResponse);
@@ -346,7 +346,7 @@ function loadLive2() {
 
 function loadInTextarea() {
  document.getElementById("scenary-list-edit").innerHTML += '\r\n\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value;
- document.getElementById("scenary-list-edit").innerHTML += '\r\nthen '+document.getElementById("ssdp-list1").options[document.getElementById("ssdp-list1").selectedIndex].text+' '+document.getElementById("scenary-then").options[document.getElementById("scenary-then").selectedIndex].value;
+ document.getElementById("scenary-list-edit").innerHTML += '\r\nthen '+document.getElementById("ssdp-list1").options[document.getElementById("ssdp-list1").selectedIndex].text+' '+document.getElementById("scenary-then").options[document.getElementById("scenary-then").selectedIndex].value+' '+document.getElementById("scenary-othe").value;
  document.getElementById("scenary-list-edit").innerHTML += '\r\nid '+Math.floor(Math.random()*10000);
 }
 
