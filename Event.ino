@@ -150,7 +150,7 @@ void handleIrReceiv() {
  if (irReceiver->decode(&results)) {
       //serialPrintUint64(results.value, HEX);
     //Serial.println("");
-    //dump(&results);
+    dump(&results);
     flag = sendStatus("irReceived", String((uint32_t) results.value, HEX));
     irReceiver->resume();  // Continue looking for IR codes after your finished dealing with the data.
   }    
@@ -162,51 +162,52 @@ void dump(decode_results *results) {
   // Call this after IRrecv::decode()
   uint16_t count = results->rawlen;
   if (results->decode_type == UNKNOWN) {
-    Serial.print("Unknown encoding: ");
+    sendOptions("irDecodeType", "UNKNOWN"); 
   } else if (results->decode_type == NEC) {
-    Serial.print("Decoded NEC: ");
+    sendOptions("irDecodeType", "NEC"); 
   } else if (results->decode_type == SONY) {
-    Serial.print("Decoded SONY: ");
+    sendOptions("irDecodeType", "SONY"); 
   } else if (results->decode_type == RC5) {
-    Serial.print("Decoded RC5: ");
+    sendOptions("irDecodeType", "RC5"); 
   } else if (results->decode_type == RC5X) {
-    Serial.print("Decoded RC5X: ");
+    sendOptions("irDecodeType", "RC5X"); 
   } else if (results->decode_type == RC6) {
-    Serial.print("Decoded RC6: ");
+    sendOptions("irDecodeType", "RC6"); 
   } else if (results->decode_type == RCMM) {
-    Serial.print("Decoded RCMM: ");
+    sendOptions("irDecodeType", "RCMM"); 
   } else if (results->decode_type == PANASONIC) {
-    Serial.print("Decoded PANASONIC - Address: ");
-    Serial.print(results->address, HEX);
-    Serial.print(" Value: ");
+    sendOptions("irDecodeType", "PANASONIC"); 
   } else if (results->decode_type == LG) {
-    Serial.print("Decoded LG: ");
+    sendOptions("irDecodeType", "LG"); 
   } else if (results->decode_type == JVC) {
-    Serial.print("Decoded JVC: ");
+    sendOptions("irDecodeType", "JVC"); 
   } else if (results->decode_type == AIWA_RC_T501) {
-    Serial.print("Decoded AIWA RC T501: ");
+    sendOptions("irDecodeType", "AIWA_RC_T501"); 
   } else if (results->decode_type == WHYNTER) {
-    Serial.print("Decoded Whynter: ");
+    sendOptions("irDecodeType", "WHYNTER"); 
   } else if (results->decode_type == NIKAI) {
-    Serial.print("Decoded Nikai: ");
-  }
-  serialPrintUint64(results->value, 16);
-  Serial.print(" (");
-  Serial.print(results->bits, DEC);
-  Serial.println(" bits)");
-  Serial.print("Raw (");
-  Serial.print(count, DEC);
-  Serial.print("): {");
+    sendOptions("irDecodeType", "NIKAI"); 
+  }  
+}
 
-  for (uint16_t i = 1; i < count; i++) {
-    if (i % 100 == 0)
-      yield();  // Preemptive yield every 100th entry to feed the WDT.
-    if (i & 1) {
-      Serial.print(results->rawbuf[i] * RAWTICK, DEC);
-    } else {
-      Serial.print(", ");
-      Serial.print((uint32_t) results->rawbuf[i] * RAWTICK, DEC);
-    }
+// ----------------------Передатчик ИK
+void irTransmitter() {
+  String moduleName = "irTransmitter";
+  byte pin = readArgsInt();
+  if (pin == 1 || pin == 3)  Serial.end();
+  irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
+  irSender->begin();  
+  sCmd.addCommand("irsend",handleIrTransmit);
+  commandsReg("irsend", moduleName);
+  modulesReg(moduleName);
+}
+ 
+void handleIrTransmit() {
+  uint32_t  tmp = strtol(("0x" + readArgsString()).c_str(), NULL, 0);
+  if (tmp >= 0x000000 && tmp <= 0xFFFFFF) {
+    irSender->sendNEC(tmp, 32); 
   }
-  Serial.println("};");
+ 
+  
+  
 }

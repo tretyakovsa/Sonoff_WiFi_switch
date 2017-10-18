@@ -19,7 +19,7 @@ void initCMD() {
   sCmd.addCommand("RF-RECEIVED",       rfReceived);
   sCmd.addCommand("RF-TRANSMITTER",     rfReceived);
   sCmd.addCommand("IR-RECEIVED",       irReceived);
-  sCmd.addCommand("IR-TRANSMITTER",     irReceived);
+  sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
   sCmd.addCommand("MOTION",       initMotion);
   sCmd.addCommand("BUZER",       initBuzer);
   sCmd.addCommand("beep",       buzerBeep);

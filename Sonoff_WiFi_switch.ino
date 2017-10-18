@@ -25,12 +25,16 @@
 #include <IRremoteESP8266.h>         //https://github.com/markszabo/IRremoteESP8266
 #include <IRrecv.h>
 #include <IRutils.h>
+#include <IRsend.h> 
 
 #define DS18B20PIN 14
 DHT dht;
 RCSwitch mySwitch = RCSwitch();
 IRrecv *irReceiver; 
 decode_results results;
+
+IRsend *irSender;
+
 // DNSServer для режима AP
 DNSServer dnsServer;
 
