@@ -69,6 +69,7 @@ void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
     //addressList = "{\"ssdpList\":[]}";
     //ssdpLists(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
+    ssdpList="";
     ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
