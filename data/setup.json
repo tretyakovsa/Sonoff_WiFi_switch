@@ -77,7 +77,7 @@
    "name":"ssdp",
    "state": "{{SSDP}}",
    "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\-]{1,20}"
+   "pattern":"[0-9a-zA-Z\\-]{1,15}"
   },
   {
    "type": "input",
@@ -85,7 +85,7 @@
    "name":"space",
    "state": "{{space}}",
    "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я.\\- ]{1,20}"
+   "pattern": "[0-9a-zA-Zа-яА-Я\\-]{1,20}"
   },
   {
    "type": "button",
