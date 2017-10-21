@@ -182,6 +182,12 @@ ul#history {
  min-height: 390px;
 }
 
+.top {
+ position:fixed;
+ right:5px;
+ bottom:5px;
+}
+
 .opt-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img {
  display:inline-block;
  width:16px;

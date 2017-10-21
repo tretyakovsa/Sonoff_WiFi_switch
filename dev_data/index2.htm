@@ -10,10 +10,10 @@
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v12.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v19.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v12.10.2017"></script>
+  <script type="text/javascript" src="js/function.js?v19.10.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
@@ -34,12 +34,11 @@
     } else {
      deviceList('first');
     }
-    loadIssues();
+    loadIssues('tretyakovsa/Sonoff_WiFi_switch',0);
    }
 
    function deviceList(stage,sorting) {
-    document.getElementById('content').innerHTML='';
-    document.getElementById("content").innerHTML = '<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
+    html('content','<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>');
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-default">Sensors<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-danger">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     var xhttp=createXmlHttpObject();
@@ -69,7 +68,7 @@
       loadBlock(ipval,'content','first',ipModule.module);
      }
      // Сортировка
-     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) == 'yes' || ipModule.space == sorting) {
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
       loadBlock(ipval,'content','first',ipModule.module);
      }
      for (var s in ipModule.module) {
@@ -84,7 +83,7 @@
       for (var i in allSpace) {space_lookup[allSpace[i]] = allSpace[i];}
       for (i in space_lookup) {spaceArray.push(space_lookup[i]);}
       if (spaceArray.length == 1) {toggle('sorting-space','show');}
-      document.getElementById("sorting-space").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>';
+      html("sorting-space",'<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>');
       for(var key in spaceArray) {
        if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
       }
@@ -93,7 +92,7 @@
       for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
       for (i in lookup) {moduleArray.push(lookup[i]);}
       if (ipModule.length == 1) {toggle('sorting-module','show');}
-      document.getElementById("sorting-module").innerHTML = '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>';
+      html("sorting-module", '<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>');
       for(var key in moduleArray) {
        if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
       }
@@ -133,40 +132,40 @@
          jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
         }
         if (stage == 'first'){
-         if (searchModule(modules,"timers") == 'yes'){
+         if (searchModule(modules,"timers")){
           loadTimers(ipval,'table-timers',jsonResponse);
          }
-         if (searchModule(modules,"temperature") == 'yes'){
+         if (searchModule(modules,"temperature")){
           loadSensor(ipval,'table-sensors',jsonResponse,"temperature");
          }
-         if (searchModule(modules,"humidity") == 'yes'){
+         if (searchModule(modules,"humidity")){
           loadSensor(ipval,'table-sensors',jsonResponse,"humidity");
          }
-         if (searchModule(modules,"analog") == 'yes'){
+         if (searchModule(modules,"analog")){
           loadSensor(ipval,'table-sensors',jsonResponse,"analog");
          }
         }
-        if (searchModule(modules,"relay") == 'yes'){
+        if (searchModule(modules,"relay")){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
-         var relayNumber = '<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
-         for (var i = 1; i < 5; i++) {
-          if (searchModule(modules,"relay"+i) == 'yes'){
-           relayNumber += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.stateRelay=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRelay=='0'?'primary':'info')+'" type="button">';
+         var relayNumber = '<input onclick="ajax(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         for (var i = 1; i < 10; i++) {
+          if (searchModule(modules,"relay"+i)){
+           relayNumber += '<input onclick="ajax(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
           }
          }
          document.getElementById("block-"+ipval+"-relay").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#relay" onclick="deviceList(\'first\',\'relay\');" class="label label-danger">relay<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td>'+relayNumber+'<\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?relay" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
         }
-        if (searchModule(modules,"rgb") == 'yes'){
+        if (searchModule(modules,"rgb")){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-rgb"><\/tr>';}
-         document.getElementById("block-"+ipval+"-rgb").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#rgb" onclick="deviceList(\'first\',\'rgb\');" class="label label-info">rgb<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateRGB=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?rgb" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+         document.getElementById("block-"+ipval+"-rgb").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#rgb" onclick="deviceList(\'first\',\'rgb\');" class="label label-info">rgb<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?rgb" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
         }
-        if (searchModule(modules,"jalousie") == 'yes'){
+        if (searchModule(modules,"jalousie")){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-jalousie"><\/tr>';}
-         document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie=='0'?jsonResponse.LangOpen:jsonResponse.LangClose)+'" class="btn btn-'+(jsonResponse.stateJalousie=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+         document.getElementById("block-"+ipval+"-jalousie").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');" class="label label-success">jalousie<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen)+'" class="btn btn-'+(jsonResponse.stateJalousie?'info':'primary')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?jalousie" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
         }
-        if (searchModule(modules,"leakag") == 'yes'){
+        if (searchModule(modules,"leakag")){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-leakag"><\/tr>';}
-         document.getElementById("block-"+ipval+"-leakag").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#leakag" onclick="deviceList(\'first\',\'leakag\');" class="label label-success">leakag<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag=='0'?jsonResponse.LangOn:jsonResponse.LangOff)+'" class="btn btn-'+(jsonResponse.stateLeakag=='0'?'primary':'info')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?leakag" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
+         document.getElementById("block-"+ipval+"-leakag").innerHTML='<td>'+(jsonResponse.space?'<a href="#'+jsonResponse.space+'" onclick="deviceList(\'first\',\''+jsonResponse.space+'\');" class="label label-default">'+jsonResponse.space+'<\/a>':'')+' <a href="#leakag" onclick="deviceList(\'first\',\'leakag\');" class="label label-success">leakag<\/a> <b><a href="http://'+ipval+'">'+jsonResponse.SSDP+'<\/a><\/b><\/td><td><input onclick="ajax(\''+ipval+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateLeakag?'info':'primary')+'" type="button"><\/td><td><div class="btn-group pull-right"><a href="http://'+ipval+'/page.htm?leakag" class="btn btn-default"><i class="set-img"><\/i><span class="hidden-xs">'+jsonResponse.LangOptions1+'<\/span><\/a><a href="http://'+ipval+'/page.htm?setup" title="'+jsonResponse.LangSetting3+'" class="btn btn-default"><i class="opt-img"><\/i><\/a><\/div><\/td>';
         }
         if (window.location.hostname == ipval && stage == 'first') {
          var new_string2;
@@ -176,8 +175,8 @@
           bodyData = new_string2;
          }
          document.getElementsByTagName('body')[0].innerHTML = new_string2;
-         if (searchModule(modules,"upgrade") == 'yes'){
-          loadBuild(jsonResponse.spiffsData, jsonResponse.LangUpgrade);
+         if (searchModule(modules,"upgrade")){
+          loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonResponse.spiffsData, jsonResponse.LangUpgrade);
          }
         }
        }
@@ -220,14 +219,6 @@
     }
    }
 
-   function searchModule(modules,find) {
-    for(var key in modules) {
-     if (modules[key] == find) {
-      return "yes";
-     }
-    }
-   }
-
    function ajax(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
     var d = new Date(); // for now
@@ -250,121 +241,6 @@
       if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
      }
     }
-   }
-
-   function submit_disabled(request){
-    var inputs = document.getElementsByTagName("input");
-    for (var i = 0; i < inputs.length; i++) {
-     if (inputs[i].type === 'submit') {inputs[i].disabled = request;}
-    }
-   }
-
-   function toggle(target,status) {
-    var curVal = document.getElementById(target).classList;
-    if (curVal.contains('hidden')) {
-     if (status != 'show') {
-      curVal.remove('hidden');
-      curVal.add('show');
-     }
-    } else {
-     if (status != 'hidden') {
-      curVal.remove('show');
-      curVal.add('hidden');
-     }
-    }
-   }
-
-   function val(id,val){
-    if (val) {
-     document.getElementById(id).value=(val==' '?'':val);
-    } else {
-     var v = document.getElementById(id).value;
-     return v;
-    }
-   }
-
-   function setCookie(name, value, days, submit) {
-    if (days) {
-     var date = new Date();
-     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-     var expires = "; expires=" + date.toGMTString();
-    }
-    else expires = "";
-    document.cookie = name + "=" + value + expires + "; path=/";
-    submit.parentNode.classList.add('hidden');
-   }
-
-   function hide(name, submit) {
-    // if (confirm(jsonResponse.LangHedden)) {
-    submit.parentNode.classList.add('hidden');
-    setCookie(name,'hidden',365,submit);
-    // }
-   }
-
-   function loadBuild(spiffs, LangUpgrade){
-    var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',true);
-    xmlHttp.send(null);
-    xmlHttp.onload = function() {
-     var jsonBuild=JSON.parse(xmlHttp.responseText);
-     jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
-     if (jsonBuild[0].name != spiffs) {
-      document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+spiffs.split('_')[4].slice(0,-4)+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
-     }
-    }
-   }
-
-
-   function loadIssues(){
-    var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/issues',true);
-    xmlHttp.send(null);
-    xmlHttp.onload = function() {
-     document.getElementById('issues').innerHTML = '';
-     var jsonIssues=JSON.parse(xmlHttp.responseText);
-     jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
-     for(var key in jsonIssues) {
-      if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
-       for(var label in jsonIssues[key].labels) {
-        if (jsonIssues[key].labels[label].name == 'news') {
-         if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
-          document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
-         }
-        }
-       }
-      }
-      //  if (key < 10) {
-      //   document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
-      //  }
-     }
-    }
-   }
-
-   function loadCommits(){
-    var xmlHttp=createXmlHttpObject();
-    xmlHttp.open('GET','https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/commits',true);
-    xmlHttp.send(null);
-    xmlHttp.onload = function() {
-     document.getElementById('commits').innerHTML = '';
-     var jsonCommits=JSON.parse(xmlHttp.responseText);
-     //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
-     for(var key in jsonCommits) {
-      if (key < 10) {
-       document.getElementById('commits').innerHTML += '<p><span class="label label-default">&#8987; '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
-      }
-     }
-    }
-   }
-
-   function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-     var c = ca[i];
-     while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
    }
   </script>
  </head>
@@ -402,6 +278,6 @@
    </div>
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
-  <a href="#news" class="btn btn-default" style="position:fixed;right:5px;bottom:5px;">top</a>
+  <a href="#news" class="btn btn-default top">top</a>
  </body>
 </html>

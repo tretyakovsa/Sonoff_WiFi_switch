@@ -31,6 +31,7 @@
  "LangCloud":"Pēc atjaunināšanas iestatījumi tiek zaudēti, tādēļ iesakām noklikšķināt uz <i class=\"cloud-img\"></i> un saglabāt tos mākonī, pēc atjaunināšanas varat tos lejupielādēt savā ierīcē.",
  "LangCloudUpload":"Закачать в облако",
  "LangCloudDownload":"Скачать с облака",
+ "LangSelect":"Izvēlieties",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Ierīces nosaukums",

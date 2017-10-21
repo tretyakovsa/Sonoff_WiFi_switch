@@ -67,7 +67,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay0",
    "response":"[[relay0]]",
    "action":"relay",
@@ -76,7 +76,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay1",
    "module":"relay1",
    "response":"[[relay1]]",
@@ -86,7 +86,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay2",
    "module":"relay2",
    "response":"[[relay2]]",
@@ -96,11 +96,71 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay3",
    "module":"relay3",
    "response":"[[relay3]]",
    "action":"relay3",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay4",
+   "module":"relay4",
+   "response":"[[relay4]]",
+   "action":"relay4",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay5",
+   "module":"relay5",
+   "response":"[[relay5]]",
+   "action":"relay5",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay6",
+   "module":"relay6",
+   "response":"[[relay6]]",
+   "action":"relay6",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay7",
+   "module":"relay7",
+   "response":"[[relay7]]",
+   "action":"relay7",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay8",
+   "module":"relay8",
+   "response":"[[relay8]]",
+   "action":"relay8",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay9",
+   "module":"relay9",
+   "response":"[[relay9]]",
+   "action":"relay9",
    "class":"btn btn-block btn-lg btn-primary"
   },
 

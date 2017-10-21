@@ -67,7 +67,7 @@
 
   {
    "type":"button",
-   "title":"('{{stateJalousie}}'==0?'{{LangOpen}}':'{{LangClose}}')",
+   "title":"('{{stateJalousie}}'?'{{LangClose}}':'{{LangOpen}}')",
    "name":"motor",
    "module":"jalousie",
    "response":"[[motor]]",

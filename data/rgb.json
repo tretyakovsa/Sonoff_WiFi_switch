@@ -197,7 +197,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRGB}}==0?'{{LangOn}}':'{{LangOff}}')",
+   "title":"({{stateRGB}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
    "response":"[[rgb]]",
    "action":"rgb",
