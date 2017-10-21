@@ -134,6 +134,8 @@
  "LangirReceived":"Беспроводной IR приемник",
  "LangrfTransmitter":"Беспроводной RF передатчик",
  "LangirTransmitter":"Беспроводной IR передатчик",
+ "Langirsend":"Отправить IR сигнал",
+ "Langrfsend":"Отправить RF сигнал",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",

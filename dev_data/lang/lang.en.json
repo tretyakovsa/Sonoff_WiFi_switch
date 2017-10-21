@@ -134,6 +134,8 @@
  "LangriReceived":"IR Received",
  "LangrfTransmitter":"RF Transmitter",
  "LangirTransmitter":"IR Transmitter",
+ "Langirsend":"Send IR",
+ "Langrfsend":"Send RF",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
