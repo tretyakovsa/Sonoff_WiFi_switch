@@ -92,7 +92,7 @@
       ajax.get('http://'+ipval+'/lang/lang.'+jsonResponse1.lang+'.json',{},function(response) {
        var jsonResponse2=JSON.parse(response);
        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
-       if (searchModule(modules,"relay")){
+       if(/relay/.test(modules)) {
         for (var i = 0; i < 10; i++) {
          if (!searchModule(modules,"relay"+i)){
           jsonResponse["relay"+i] = 'hidden';
@@ -169,11 +169,9 @@
       }
       jsonResponse.ip = ipval;
       jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
-      //for (var i = 1; i < 10; i++) {
-      // if (searchModule(modules,"relay"+i)){
-      //  jsonResponse[stateRelay+i] = (jsonResponse[stateRelay+i]?jsonResponse.LangOff:jsonResponse.LangOn);
-      // }
-      //}
+      for (var i = 0; i < 10; i++) {
+        jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
+      }
       jsonResponse.stateRGB = (jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen);
       jsonResponse.stateLeakag = (jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn);
