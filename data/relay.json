@@ -64,13 +64,21 @@
    "class":"alert alert-info"
   },
 
-
   {
    "type":"button",
    "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "name":"relay",
+   "response":"[[relay]]",
+   "action":"relay",
+   "class":"btn btn-block btn-lg btn-primary"
+  },
+
+  {
+   "type":"button",
+   "title":"({{stateRelay0}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay0",
    "response":"[[relay0]]",
-   "action":"relay",
+   "action":"relay not 0",
    "class":"btn btn-block btn-lg btn-primary"
   },
 

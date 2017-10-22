@@ -88,7 +88,7 @@
         }
         if (searchModule(modules,"relay")){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
-         for (var i = 1; i < 10; i++) {
+         for (var i = 0; i < 10; i++) {
           if (searchModule(modules,"relay"+i)){
            document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse[stateRelay+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse[stateRelay+i]?'info':'primary')+'" type="button">';
           }

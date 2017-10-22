@@ -121,7 +121,7 @@
         if (searchModule(modules,"relay")){
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
          var relayNumber = '<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
-         for (var i = 1; i < 10; i++) {
+         for (var i = 0; i < 10; i++) {
           if (searchModule(modules,"relay"+i)){
            relayNumber += '<input onclick="ajaxm(\''+ipval+'\',\'relay'+i+'\',this);" value="'+(jsonResponse[stateRelay+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse[stateRelay+i]?'info':'primary')+'" type="button">';
           }
