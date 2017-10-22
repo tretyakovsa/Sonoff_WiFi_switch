@@ -356,7 +356,7 @@ function loadLive2() {
  val("ssdp-command","Loading...");
  var ip = document.getElementById("ssdp-list0").options[document.getElementById("ssdp-list0").selectedIndex].value;
  var who = document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value;
- ajax.get('http://"+ip+"/config.live.json',{},function(response) {
+ ajax.get('http://'+ip+'/config.live.json',{},function(response) {
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    if (key == who) {
