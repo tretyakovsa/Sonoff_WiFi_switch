@@ -201,7 +201,7 @@
    "name":"rgb",
    "response":"[[rgb]]",
    "action":"rgb",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRGB}}?'info':'primary')"
   },
 
 

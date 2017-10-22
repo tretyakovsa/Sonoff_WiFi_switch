@@ -72,7 +72,7 @@
    "module":"jalousie",
    "response":"[[motor]]",
    "action":"jalousienot",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateJalousie}}?'info':'primary')"
   },
 
 

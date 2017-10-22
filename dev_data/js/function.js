@@ -159,7 +159,7 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
    var action_val = renameGet(jsonPage.content[i].action);
    var name_val = (jsonPage.content[i].name?jsonPage.content[i].name:'');
    //    var title_val = renameBlock(jsonResponse, jsonPage.content[i].title);
-   var class_val = (jsonPage.content[i].class?jsonPage.content[i].class:'');
+   var class_val = (jsonPage.content[i].class?renameBlock(jsonResponse, jsonPage.content[i].class):'');
    var style_val = (jsonPage.content[i].style?'style="'+jsonPage.content[i].style+'"':'');
    var pattern_val = (jsonPage.content[i].pattern?jsonPage.content[i].pattern:'');
    var state_val = renameBlock(jsonResponse, jsonPage.content[i].state);

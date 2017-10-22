@@ -70,7 +70,7 @@
    "name":"relay",
    "response":"[[relay]]",
    "action":"relay",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay}}?'info':'primary')"
   },
 
   {
@@ -80,7 +80,7 @@
    "module":"relay0",
    "response":"[[relay0]]",
    "action":"relay not 0",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay0}}?'info':'primary')"
   },
 
   {
@@ -90,7 +90,7 @@
    "module":"relay1",
    "response":"[[relay1]]",
    "action":"relay not 1",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay1}}?'info':'primary')"
   },
 
   {
@@ -100,7 +100,7 @@
    "module":"relay2",
    "response":"[[relay2]]",
    "action":"relay not 2",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay2}}?'info':'primary')"
   },
 
   {
@@ -110,7 +110,7 @@
    "module":"relay3",
    "response":"[[relay3]]",
    "action":"relay not 3",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay3}}?'info':'primary')"
   },
 
   {
@@ -120,7 +120,7 @@
    "module":"relay4",
    "response":"[[relay4]]",
    "action":"relay not 4",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay4}}?'info':'primary')"
   },
 
   {
@@ -130,7 +130,7 @@
    "module":"relay5",
    "response":"[[relay5]]",
    "action":"relay not 5",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay5}}?'info':'primary')"
   },
 
   {
@@ -140,7 +140,7 @@
    "module":"relay6",
    "response":"[[relay6]]",
    "action":"relay not 6",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay6}}?'info':'primary')"
   },
 
   {
@@ -150,7 +150,7 @@
    "module":"relay7",
    "response":"[[relay7]]",
    "action":"relay not 7",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay7}}?'info':'primary')"
   },
 
   {
@@ -160,7 +160,7 @@
    "module":"relay8",
    "response":"[[relay8]]",
    "action":"relay not 8",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay8}}?'info':'primary')"
   },
 
   {
@@ -170,7 +170,7 @@
    "module":"relay9",
    "response":"[[relay9]]",
    "action":"relay not 9",
-   "class":"btn btn-block btn-lg btn-primary"
+   "class":"'btn btn-block btn-lg btn-'+({{stateRelay9}}?'info':'primary')"
   },
 
   {
