@@ -169,11 +169,11 @@
       }
       jsonResponse.ip = ipval;
       jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
-      for (var i = 1; i < 10; i++) {
-       if (searchModule(modules,"relay"+i)){
-        jsonResponse[stateRelay+i] = (jsonResponse[stateRelay+i]?jsonResponse.LangOff:jsonResponse.LangOn);
-       }
-      }
+      //for (var i = 1; i < 10; i++) {
+      // if (searchModule(modules,"relay"+i)){
+      //  jsonResponse[stateRelay+i] = (jsonResponse[stateRelay+i]?jsonResponse.LangOff:jsonResponse.LangOn);
+      // }
+      //}
       jsonResponse.stateRGB = (jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen);
       jsonResponse.stateLeakag = (jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn);
