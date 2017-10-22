@@ -76,7 +76,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay1}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay1",
    "module":"relay1",
    "response":"[[relay1]]",
@@ -86,7 +86,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay2}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay2",
    "module":"relay2",
    "response":"[[relay2]]",
@@ -96,7 +96,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay3}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay3",
    "module":"relay3",
    "response":"[[relay3]]",
@@ -106,7 +106,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay4}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay4",
    "module":"relay4",
    "response":"[[relay4]]",
@@ -116,7 +116,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay5}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay5",
    "module":"relay5",
    "response":"[[relay5]]",
@@ -126,7 +126,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay6}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay6",
    "module":"relay6",
    "response":"[[relay6]]",
@@ -136,7 +136,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay7}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay7",
    "module":"relay7",
    "response":"[[relay7]]",
@@ -146,7 +146,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay8}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay8",
    "module":"relay8",
    "response":"[[relay8]]",
@@ -156,7 +156,7 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{stateRelay9}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay9",
    "module":"relay9",
    "response":"[[relay9]]",

@@ -10,13 +10,13 @@
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v19.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v22.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-json.min.js"></script>
-  <script type="text/javascript" src="js/function.js?v19.10.2017"></script>
+  <script type="text/javascript" src="js/function.js?v22.10.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Помощь</title>
  </head>
@@ -65,13 +65,10 @@
  </body>
  <script type="text/javascript">
   function load_request(id_element, server){
-   var xmlHttp=createXmlHttpObject();
-   xmlHttp.open('GET',server,true);
-   xmlHttp.send(null);
-   xmlHttp.onload = function() {
-    document.getElementById(id_element).innerHTML=xmlHttp.responseText;
+   ajax.get(server,{},function(response) {
+    document.getElementById(id_element).innerHTML=response;
     Prism.highlightAll();
-   }
+   },true);
   }
   setTimeout(function(){load_request('configs-live-json','/config.live.json');},1000);
   setTimeout(function(){load_request('configs-options-json','/config.options.json');},2000);

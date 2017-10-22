@@ -1,18 +1,18 @@
-// Включаем время из сети
+// {{LangConfNTP}}
 NTP pool.ntp.org ru.pool.ntp.org
-// Доступ по DDNS
+// {{LangConfDDNS}}
 DDNS
-// Для управления IoT Manager
+// {{LangConfMQTT}}
 MQTT
-// Если требуются таймеры
+// {{LangConfTIMERS}}
 TIMERS
-// Датчики температуры и влажности DHT11, DHT22, AM2302, RHT03, Si7021
+// {{LangConfDHT}}
 DHT 14
-// Пока только на GPIO14, менять его нельзя
+// {{LangConfDS18B20}}
 DS18B20 14
-// Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
+// {{LangConfTach}}
 Tach relaynot
-// Включить порт UART
+// {{LangConfSerial}}
 Serial 9600
-// Первая ячейка - PIN реле, вторая - состояние реле при включение ESP
+// {{LangConfRELAY}}
 RELAY 12 0

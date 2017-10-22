@@ -1,3 +1,49 @@
+var ajax = {};
+ajax.x = function () {
+ var xhr;
+ if (window.XMLHttpRequest) {
+  xhr = new XMLHttpRequest();
+ } else {
+  xhr = new ActiveXObject("Microsoft.XMLHTTP");
+ }
+ return xhr;
+};
+
+ajax.send = function (url, callback, method, data, async) {
+ submit_disabled(true);
+ if (async === undefined) {
+  async = true;
+ }
+ var x = ajax.x();
+ x.open(method, url, async);
+ x.onreadystatechange = function () {
+  if (x.readyState == 4) {
+   submit_disabled(false);
+   callback(x.responseText)
+  }
+ };
+ if (method == 'POST') {
+  x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+ }
+ x.send(data)
+};
+
+ajax.get = function (url, data, callback, async) {
+ var query = [];
+ for (var key in data) {
+  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+ }
+ ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
+};
+
+ajax.post = function (url, data, callback, async) {
+ var query = [];
+ for (var key in data) {
+  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+ }
+ ajax.send(url, callback, 'POST', query.join('&'), async)
+};
+
 var xmlHttp=createXmlHttpObject();
 function createXmlHttpObject(){
  if(window.XMLHttpRequest){
@@ -12,29 +58,25 @@ var set_real_time;
 
 function setContent(stage) {
  jsonResponse = '';
- var xmlHttp=createXmlHttpObject();
  var pages = window.location.search.substring(1).split("&");
  pages[0] = (pages[0]?pages[0]:'index');
- xmlHttp.open('GET', pages[0]+".json",true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get(pages[0]+'.json',{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
   var jsonPage;
-  if (xmlHttp.status==200){
-   jsonPage=JSON.parse(xmlHttp.responseText);
-   var jsonEdit=xmlHttp.responseText;
+  if (response!='FileNotFound'){
+   jsonPage=JSON.parse(response);
+   var jsonEdit=response;
    if (jsonPage.configs){
     var fileNumber = 0;
     (function foo(){
-     xmlHttp.open('GET', jsonPage.configs[fileNumber],true);
-     xmlHttp.send(null);
-     xmlHttp.onload = function() {
-      if (xmlHttp.status==200){
-       var jsonResponseNew = JSON.parse(xmlHttp.responseText);
+     ajax.get(jsonPage.configs[fileNumber],{},function(response) {
+      if (response!='FileNotFound'){
+       var jsonResponseNew = JSON.parse(response);
        var jsonResponseOld = jsonResponse;
        jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
+       document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
       } else {
-       document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0px;">File "'+jsonPage.configs[fileNumber]+'" not found.<\/li>';
+       document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
       }
       fileNumber++;
       if(fileNumber == jsonPage.configs.length) {
@@ -75,7 +117,7 @@ function setContent(stage) {
        jsonPage.configs[fileNumber] = renameBlock(jsonResponse, jsonPage.configs[fileNumber]);
        foo();
       }
-     }
+     },true);
     })()
    } else {
     document.getElementById('contents').innerHTML = '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>Please add configs array.<br>Example: "configs":["/config.live.json"]<br>You can edit this file on right side of this page.<\/h2>';
@@ -87,21 +129,17 @@ function setContent(stage) {
   } else {
    document.getElementById('contents').innerHTML += '<br><br><h1>Files "'+pages[0]+'.json" not found.<\/h1><hr><h2>Maybe you want to open some file of these:<\/h2><h3 id="file-list">Loading...<\/h3>';
    toggle('content','hide');
-   xmlHttp.open('GET', '/list?dir=/',true);
-   xmlHttp.send(null);
-   xmlHttp.onload = function() {
-    if (xmlHttp.status==200){
-     html('file-list',' ');
-     var jsonFiles = JSON.parse(xmlHttp.responseText);
-     for(var i = 0;i<jsonFiles.length;i++) {
-      if (jsonFiles[i].name.substr(-4) == 'json'){
-       document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.slice(0,-5)+'">'+jsonFiles[i].name+'<\/a><br>';
-      }
+   ajax.get('/list?dir=/',{},function(response) {
+    html('file-list',' ');
+    var jsonFiles = JSON.parse(response);
+    for(var i = 0;i<jsonFiles.length;i++) {
+     if (jsonFiles[i].name.substr(-4) == 'json'){
+      document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.slice(0,-5)+'">'+jsonFiles[i].name+'<\/a><br>';
      }
     }
-   }
+   },true);
   }
- }
+ },true);
 }
 
 function searchModule(modules,find) {
@@ -251,14 +289,11 @@ function viewTemplate(jsonPage,jsonResponse,idName) {
 }
 
 function loadJson(state_val, jsonResponse, idName) {
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get(state_val+'?'+Math.floor(Math.random()*10000),{},function(response) {
   html(idName, ' ');
-  jsonPage=JSON.parse(xmlHttp.responseText);
+  jsonPage=JSON.parse(response);
   viewTemplate(jsonPage,jsonResponse,idName);
- }
+ },true);
 }
 
 function pattern(s) {
@@ -266,37 +301,30 @@ function pattern(s) {
 }
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {
- var xhttp=createXmlHttpObject();
- xhttp.open("GET", (urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.floor(Math.random()*10000), true);
- xhttp.send(null);
- xhttp.onload = function() {
-  var ipDevice=xhttp.responseText;
+ ajax.get((urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.floor(Math.random()*10000),{},function(response) {
   if (selectDevice == 'loadInTextarea') {
-   //html("scenary-list-edit",ipDevice);
-   document.getElementById("scenary-list-edit").innerHTML = ipDevice;
+   //html("scenary-list-edit",response);
+   document.getElementById("scenary-list-edit").innerHTML = response;
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
-   send_request_edit(this, ipDevice.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
+   send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
    var createText = '';
-    var block = ipDevice.split(/\n| /);
-    for (var i = 0 ; i < block.length; i++) {
-     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
-    }
+   var block = response.split(/\n| /);
+   for (var i = 0 ; i < block.length; i++) {
+    createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
+   }
    document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/and /gi,'<b>and</b> ').replace(/then /gi,'<b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<\/td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
- }
+ },true);
 }
 
 function loadScenary(jsonResponse,loadList) {
  html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- var xhttp=createXmlHttpObject();
- xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
- xhttp.send(null);
- xhttp.onload = function() {
+ ajax.get('/ssdp.list.json?'+Math.floor(Math.random()*10000),{},function(response) {
   html('scenary-list', ' ');
   var option = '';
-  var ipDevice=JSON.parse(xhttp.responseText);
+  var ipDevice=JSON.parse(response);
   //ipDevice = Object.keys(ipDevice).sort((a, b) => ipDevice[b] - ipDevice[a]);
   if (loadList) {
    for (var i in ipDevice) {
@@ -309,39 +337,33 @@ function loadScenary(jsonResponse,loadList) {
    html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
    html("ssdp-list1",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
   }
- }
+ },true);
 }
 
 function loadLive(ip,file,where) {
  html(where,'<option value="">Loading...</option>');
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET', "http://"+ip+"/"+file,true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get('http://'+ip+'/'+file,{},function(response) {
   var option = '';
-  var jsonLive=JSON.parse(xmlHttp.responseText);
+  var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
   }
   html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
- }
+ },true);
 }
 
 function loadLive2() {
  val("ssdp-command","Loading...");
  var ip = document.getElementById("ssdp-list0").options[document.getElementById("ssdp-list0").selectedIndex].value;
  var who = document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value;
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET', "http://"+ip+"/config.live.json",true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  var jsonLive=JSON.parse(xmlHttp.responseText);
+ ajax.get('http://"+ip+"/config.live.json',{},function(response) {
+  var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    if (key == who) {
     document.getElementById("ssdp-command").value= jsonLive[key];
    }
   }
- }
+ },true);
 }
 
 function loadInTextarea() {
@@ -389,12 +411,9 @@ function send_request_edit(submit,server,filename,geturl,gethost){
 }
 
 function send_request_post(submit,server,state){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("POST", server, true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.post(server,{},function(response) {
   if (state != null && state!='undefined'){
-   var response=JSON.parse(xmlHttp.responseText);
+   var response=JSON.parse(response);
    var block = state.split(',');
    for (var i = 0 ; i < block.length; i++) {
     var element = document.getElementById(block[i].slice(2,-2));
@@ -405,26 +424,21 @@ function send_request_post(submit,server,state){
      if (element.tagName == 'DIV' ||element.tagName == 'A' || element.tagName == 'H1' || element.tagName == 'H2' || element.tagName == 'H3' || element.tagName == 'H4' || element.tagName == 'H5' || element.tagName == 'H6') {element.innerHTML = renameBlock(jsonResponse, response.title);}
     }
     if (typeof(element) != 'undefined' && element != null){
-     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+response.replace(/</g,'&lt;')+'</li>';
     }
    }
   }
- }
+ },true);
 }
 
 function send_request(submit,server,state){
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
- submit_disabled(true);
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", server, true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get(server,{},function(responses) {
   submit.value=old_submit;
-  submit_disabled(false);
   var element =  document.getElementById('url-content');
   if (typeof(element) != 'undefined' && element != null){
-   element.innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(xmlHttp.status==200?'default':'danger')+'">'+xmlHttp.status+' '+xmlHttp.statusText+'</span></li>';
+   element.innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(responses=='FileNotFound'?'danger':'default')+'">'+(responses=='FileNotFound'?'File Not Found':'200 OK')+'</span></li>';
   }
   var ddnsUrl1 =  document.getElementById('ddns-url1');
   if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
@@ -440,42 +454,42 @@ function send_request(submit,server,state){
     if (block[i].slice(0, 2) != '[[') {
      window.location = block[i];
     } else {
-     var response=JSON.parse(xmlHttp.responseText);
-     var element = document.getElementById(block[i].slice(2,-2));
-     if (response.class && response.class!='undefined') {element.className = response.class;}
-     if (response.style && response.style!='undefined') {element.style = response.style;}
+     var response=JSON.parse(responses);
+     var htmlblock = document.getElementById(block[i].slice(2,-2));
+     if (response.class && response.class!='undefined') {htmlblock.className = response.class;}
+     if (response.style && response.style!='undefined') {htmlblock.style = response.style;}
      if (response.title && response.title!='undefined') {
-      if (element.tagName == 'INPUT') {
-       element.value = renameBlock(jsonResponse, response.title);
+      if (htmlblock.tagName == 'INPUT') {
+       htmlblock.value = renameBlock(jsonResponse, response.title);
       }
-      if (element.tagName == 'SELECT') {
+      if (htmlblock.tagName == 'SELECT') {
        var option = '';
        jsonSelect = response.title;
        for(var key in jsonSelect) {
         option += '<option value="'+renameBlock(jsonResponse, key)+'">'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
        }
-       element.innerHTML = option;
+       htmlblock.innerHTML = option;
       }
-      if (element.tagName == 'DIV' ||element.tagName == 'A' || element.tagName == 'H1' || element.tagName == 'H2' || element.tagName == 'H3' || element.tagName == 'H4' || element.tagName == 'H5' || element.tagName == 'H6') {element.innerHTML = renameBlock(jsonResponse, response.title);}
+      if (htmlblock.tagName == 'DIV' ||htmlblock.tagName == 'A' || htmlblock.tagName == 'H1' || htmlblock.tagName == 'H2' || htmlblock.tagName == 'H3' || htmlblock.tagName == 'H4' || htmlblock.tagName == 'H5' || htmlblock.tagName == 'H6') {htmlblock.innerHTML = renameBlock(jsonResponse, response.title);}
      }
-     if (element.tagName == 'TABLE' && response.state) {
+     if (htmlblock.tagName == 'TABLE' && response.state) {
       loadTable(response.state,response.title);
      }
-     if (element.tagName == 'A' && response.action) {
-      element.href = response.action;
+     if (htmlblock.tagName == 'A' && response.action) {
+      htmlblock.href = response.action;
      }
      if (typeof(element) != 'undefined' && element != null){
-      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+responses.replace(/</g,'&lt;')+'</li>';
      }
     }
    }
   } else {
    if (typeof(element) != 'undefined' && element != null){
-    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+xmlHttp.responseText.replace(/</g,'&lt;')+'</li>';
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+responses.replace(/</g,'&lt;')+'</li>';
    }
   }
   // load('next');
- }
+ },true);
 }
 
 function submit_disabled(request){
@@ -501,33 +515,27 @@ function toggle(target,status) {
 }
 
 function loadWifi(ssids,hiddenIds){
- var xmlHttp=createXmlHttpObject();
  html(ssids, '<li><a href="#">Loading...</a></li>');
- xmlHttp.open('GET','/wifi.scan.json',true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  var jsonWifi=JSON.parse(xmlHttp.responseText);
+ ajax.get('/wifi.scan.json',{},function(response) {
+  var jsonWifi=JSON.parse(response);
   jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
   var html = '';
   for(var i = 0;i<jsonWifi.networks.length;i++) {
    var wifiSignal = '';
-   if (jsonWifi.networks[i].dbm <= -0) { wifiSignal = '<i class="wifi wifi-0-60"></i>';}
-   if (jsonWifi.networks[i].dbm <= -60) { wifiSignal = '<i class="wifi wifi-60-70"></i>';}
-   if (jsonWifi.networks[i].dbm <= -70) { wifiSignal = '<i class="wifi wifi-70-80"></i>';}
-   if (jsonWifi.networks[i].dbm <= -80) { wifiSignal = '<i class="wifi wifi-80-90"></i>';}
-   if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '<i class="wifi wifi-90-100"></i>';}
-   html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' '+wifiSignal+' <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
+   if (jsonWifi.networks[i].dbm <= -0) { wifiSignal = '0-60';}
+   if (jsonWifi.networks[i].dbm <= -60) { wifiSignal = '60-70';}
+   if (jsonWifi.networks[i].dbm <= -70) { wifiSignal = '70-80';}
+   if (jsonWifi.networks[i].dbm <= -80) { wifiSignal = '80-90';}
+   if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '90-100';}
+   html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' <i class="wifi wifi-'+wifiSignal+'"></i> <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
   document.getElementById(ssids).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
- }
+ },true);
 }
 
 function loadBuild(buildids,typeFile){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','http://backup.privet.lv/esp/build/'+buildids,true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  var jsonBuild=JSON.parse(xmlHttp.responseText);
+ ajax.get('http://backup.privet.lv/esp/build/'+buildids,{},function(response) {
+  var jsonBuild=JSON.parse(response);
   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
   var html = '';
   for(var i = 0;i<jsonBuild.length;i++) {
@@ -539,7 +547,7 @@ function loadBuild(buildids,typeFile){
    }
   }
   document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
- }
+ },true);
 }
 
 function set_time_zone(submit){
@@ -600,50 +608,22 @@ function hide(name, submit) {
 }
 
 function loadConfigs(state_val) {
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", "configs/"+state_val, true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get("configs/"+state_val,{},function(response) {
   var element = document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-'));
   element.innerHTML = '';
   var configsLinePin;
-  var configsLine = xmlHttp.responseText.match(/^.*((\r\n|\n|\r)|$)/gm);
+  var configsLine = response.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
    if (configsLine[key].substr(0,2) == '//') {
-    element.innerHTML += '<label><input checked="" type="checkbox" style="display:none" disabled readonly><small>'+configsLine[key]+'</small><\/label></br>';
+    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly><small>// '+renameBlock(jsonResponse, configsLine[key].split(" ")[1])+'</small><\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
-    element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:100px;" pattern="[a-zA-Z0-9\s]+" value="'+configsLinePin[3]+'">':'')+'</br>';
+    element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[1].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[2].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[3].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[3]+'">':'')+'</br>';
    }
   }
   element.innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
   //changeTextarea(state_val.replace(/[^a-z0-9]/gi,'-'));
- }
-}
-
-function cloudUpload(mac,file) {
- changeTextarea(file+'-txt');
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("POST","http://backup.privet.lv/configs/?file="+mac+"-"+file,true);
- xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- xmlHttp.send("data="+val(file+'-txt-edit'));
- //xmlHttp.onload = function () {
- send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt');
- //}
-}
-function cloudDownload(mac,file) {
- submit_disabled(true);
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", "http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.floor(Math.random()*10000), true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  if(xmlHttp.status == 200) {
-   var data = xmlHttp.responseText;
-   send_request_edit(this, data,'configs/'+file+'','loadConfigs("'+file+'");');
-  } else {
-   alert('File not found in cloud.');
-  }
- }
+ },true);
 }
 
 function changeTextarea(state_val) {
@@ -653,7 +633,7 @@ function changeTextarea(state_val) {
   if(el.matches('label')) {
    area.value += '\r\n'+(el.children[0].checked?'':'# ');
    if (el.textContent.substr(0,2) == '//') {
-    area.value += el.textContent;
+    area.value += el.title;
    } else {
     area.value += el.textContent.replace(/ /,'');
    }
@@ -663,12 +643,24 @@ function changeTextarea(state_val) {
  area.value = area.value.replace(/\n+/g,'\n').slice(1);
 }
 
+function cloudUpload(mac,file) {
+ changeTextarea(file+'-txt');
+ ajax.post("http://backup.privet.lv/configs/?file="+mac+"-"+file,{data:val(file+'-txt-edit')},function(response) {
+  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt');
+ },true);
+}
+
+
+function cloudDownload(mac,file) {
+ ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.floor(Math.random()*10000),{},function(response) {
+  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");');
+ },true);
+}
+
+
 function loadTable(state_val, jsonTable) {
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open("GET", state_val+"?"+Math.floor(Math.random()*10000), true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  var timers=JSON.parse(xmlHttp.responseText);
+ ajax.get(state_val+"?"+Math.floor(Math.random()*10000),{},function(response) {
+  var timers=JSON.parse(response);
   var setTable = Object.keys(timers);
   html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
   html('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
@@ -694,7 +686,7 @@ function loadTable(state_val, jsonTable) {
    }
    document.getElementById('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
   }
- }
+ },true);
 }
 
 function renameBlock(jsonResponse, str) {
@@ -798,28 +790,22 @@ function findPos(obj) {
 }
 
 function loadCommits(repos,viewCommits){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','https://api.github.com/repos/'+repos+'/commits',true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get('https://api.github.com/repos/'+repos+'/commits',{},function(response) {
   html('commits', ' ');
-  var jsonCommits=JSON.parse(xmlHttp.responseText);
+  var jsonCommits=JSON.parse(response);
   //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
   for(var key in jsonCommits) {
    if (key < viewCommits) {
     document.getElementById('commits').innerHTML += '<p><span class="label label-default">&#8987; '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
    }
   }
- }
+ },true);
 }
 
 function loadIssues(repos,viewIssues){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','https://api.github.com/repos/'+repos+'/issues',true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
+ ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
   html('issues', ' ');
-  var jsonIssues=JSON.parse(xmlHttp.responseText);
+  var jsonIssues=JSON.parse(response);
   jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
   for(var key in jsonIssues) {
    if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
@@ -835,18 +821,15 @@ function loadIssues(repos,viewIssues){
     document.getElementById('issues').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
    }
   }
- }
+ },true);
 }
 
 function loadUpdate(repos, spiffs, LangUpgrade){
- var xmlHttp=createXmlHttpObject();
- xmlHttp.open('GET','https://api.github.com/repos/'+repos+'/contents/build',true);
- xmlHttp.send(null);
- xmlHttp.onload = function() {
-  var jsonBuild=JSON.parse(xmlHttp.responseText);
+ ajax.get('https://api.github.com/repos/'+repos+'/contents/build',{},function(response) {
+  var jsonBuild=JSON.parse(response);
   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
   if (jsonBuild[0].name != spiffs) {
    document.getElementById('update').innerHTML = '<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+spiffs.split('_')[4].slice(0,-4)+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>';
   }
- }
+ },true);
 }

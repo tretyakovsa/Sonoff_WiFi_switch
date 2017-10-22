@@ -32,6 +32,7 @@
  "LangCloudUpload":"Upload to cloud",
  "LangCloudDownload":"Download from cloud",
  "LangSelect":"Select",
+ "LangSensors":"Sensors",
 
  "_comment": "---page.htm?setup---",
  "LangDevice":"Device Name",
@@ -141,5 +142,25 @@
  "LangTemperature":"Temperature",
  "LangHumidity":"Humidity",
  "LangChart":"Chart",
- "LangAnalog":"Analog (ADC/A0)"
+ "LangAnalog":"Analog (ADC/A0)",
+
+ "_comment": "---page.htm?configs---",
+ "LangConfNTP":"Включаем время из сети",
+ "LangConfDDNS":"Доступ по DDNS",
+ "LangConfMQTT":"Для управления IoT Manager",
+ "LangConfTIMERS":"Если требуются таймеры",
+ "LangConfDHT":"Датчики температуры и влажности DHT11, DHT22, AM2302, RHT03, Si7021",
+ "LangConfDS18B20":"Пока только на GPIO14, менять его нельзя",
+ "LangConfA0":"Аналоговый вход",
+ "LangConfTach":"Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot",
+ "LangConfRELAY":"Первая ячейка - PIN реле, вторая - состояние реле при включение ESP",
+ "LangConfJALOUSIE":"Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором",
+ "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. Первая ячейка - PIN LED ленты, вторая - количество лед, терья - состояние LED при включение ESP",
+ "LangConfRGBSHIM":"В стадии разработки, пока не работает",
+ "LangConfMOTION":"Сенсор движения, доступно: relay rgb jalousie",
+ "LangConfRF-RECEIVED":"Беспроводной приемник MHz частот",
+ "LangConfRF-TRANSMITTER":"Беспроводной передатчик MHz частот, скоро.",
+ "LangConfIR-RECEIVED":"Беспроводной приемник IR частот",
+ "LangConfIR-TRANSMITTER":"Беспроводной передатчик IR частот.",
+ "LangConfSerial":"Включить порт UART"
 }

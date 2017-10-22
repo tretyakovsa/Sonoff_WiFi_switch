@@ -10,27 +10,16 @@
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v19.10.2017" charset="utf-8"></script>
+  <script src="js/build.chart.js?v22.10.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v19.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v22.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v19.10.2017"></script>
+  <script type="text/javascript" src="js/function.js?v22.10.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
-   var xhttp=createXmlHttpObject();
-   var jsonResponse;
-   function createXmlHttpObject(){
-    if(window.XMLHttpRequest){
-     xhttp=new XMLHttpRequest();
-    }else{
-     xhttp=new ActiveXObject('Microsoft.XMLHTTP');
-    }
-    return xhttp;
-   }
-
    window.onload = function() {
     if (window.location.hash.substring(1)) {
      deviceList('first', decodeURIComponent(window.location.hash.substring(1)));
@@ -42,26 +31,20 @@
 
    function deviceList(stage,sorting) {
     html('content',' ');
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "/ssdp.list.json?"+Math.floor(Math.random()*10000), true);
-    xhttp.send(null);
-    xhttp.onload = function() {
-     var ipDevice=JSON.parse(xhttp.responseText);
+    ajax.get('/ssdp.list.json?'+Math.floor(Math.random()*10000),{},function(response) {
+     var ipDevice=JSON.parse(response);
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
      }
      if (ipDevice[i] == '0.0.0.0') {
       location.href = "/page.htm?first-connect";
      }
-    }
+    },true);
    }
 
    function loadModule(ipval,stage,sorting) {
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/modules.json", true);
-    xhttp.send(null);
-    xhttp.onload = function() {
-     var ipModule=JSON.parse(xhttp.responseText);
+    ajax.get('http://'+ipval+'/modules.json',{},function(response) {
+     var ipModule=JSON.parse(response);
      var allModules = [];
      var allSpace = [];
      // for(var key in ipModule) {
@@ -98,23 +81,16 @@
        if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
       }
      }
-    }
+    },true);
    }
 
    function loadBlock(ipval, content, stage, modules) {
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/config.live.json?"+Math.floor(Math.random()*10000), true);
-    xhttp.send(null);
-    xhttp.onload = function() {
-     var jsonResponse0 = JSON.parse(xhttp.responseText);
-     xhttp.open("GET", "http://"+ipval+"/config.options.json?"+Math.floor(Math.random()*10000), true);
-     xhttp.send(null);
-     xhttp.onload = function() {
-      var jsonResponse1 = JSON.parse(xhttp.responseText);
-      xhttp.open("GET", "http://"+ipval+"/lang/lang."+jsonResponse1.lang+".json", true);
-      xhttp.send(null);
-      xhttp.onload = function() {
-       var jsonResponse2=JSON.parse(xhttp.responseText);
+    ajax.get('http://'+ipval+'/config.live.json?'+Math.floor(Math.random()*10000),{},function(response) {
+     var jsonResponse0 = JSON.parse(response);
+     ajax.get('http://'+ipval+'/config.options.json?'+Math.floor(Math.random()*10000),{},function(response) {
+      var jsonResponse1 = JSON.parse(response);
+      ajax.get('http://'+ipval+'/lang/lang.'+jsonResponse1.lang+'.json',{},function(response) {
+       var jsonResponse2=JSON.parse(response);
        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
        if (searchModule(modules,"relay")){
         for (var i = 1; i < 10; i++) {
@@ -157,25 +133,19 @@
          loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonResponse.spiffsData, jsonResponse.LangUpgrade);
         }
        }
-      }
-     }
-    }
+      },true);
+     },true);
+    },true);
    }
 
    function loadBlock2(page, jsonPage, ipval, content, stage, jsonResponse){
     if (stage == 'first'){
      document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipval+"/block-"+page+".htm", true);
-    xhttp.send(null);
-    xhttp.onload = function() {
-     var data = xhttp.responseText;
-     var xmlHttp=createXmlHttpObject();
-     xmlHttp.open("GET", "http://"+ipval+"/"+jsonPage+".json", true);
-     xmlHttp.send(null);
-     xmlHttp.onload = function() {
-      var timers=JSON.parse(xmlHttp.responseText);
+    ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
+     var data = response;
+     ajax.get('http://'+ipval+'/'+jsonPage+'.json',{},function(response) {
+      var timers=JSON.parse(response);
       var timerList = '';
       if (timers.timer) {
        timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
@@ -220,33 +190,28 @@
        data = new_string;
       }
       document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
-     }
-    }
+     },true);
+    },true);
    }
 
-   function ajax(ipHost, pagename, submit, loadB) {
+   function ajaxm(ipHost, pagename, submit, loadB) {
     var old_submit = submit.value;
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
     document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
-    submit_disabled(true);
-    var xhttp=createXmlHttpObject();
-    xhttp.open("GET", "http://"+ipHost+"/"+pagename, true);
-    xhttp.send(null);
-    xhttp.onload = function() {
+    ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;
-     submit_disabled(false);
      if (pagename.slice(0, 9) == 'lang?set=') {
       window.location = '/';
      } else {
-      var response=JSON.parse(xhttp.responseText);
+      var response=JSON.parse(response);
       if (response.title && response.title!='undefined') {
        if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
       }
      }
-    }
+    },true);
    }
   </script>
  </head>
@@ -255,7 +220,7 @@
   <div class="container device index">
    <div class="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
-     <!-- select class="btn btn-default" onchange="ajax('{{ip}}', 'lang?set='+this.value, this)" id="languages">
+     <!-- select class="btn btn-default" onchange="ajaxm('{{ip}}', 'lang?set='+this.value, this)" id="languages">
 <option value="ru">Lang</option>
 <option value="ru">RU</option>
 <option value="en">EN</option>

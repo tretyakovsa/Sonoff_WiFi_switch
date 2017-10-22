@@ -1,34 +1,34 @@
-// Включаем время из сети
+// {{LangConfNTP}}
 NTP pool.ntp.org ru.pool.ntp.org
-// Доступ по DDNS
+// {{LangConfDDNS}}
 DDNS
-// Для управления IoT Manager
+// {{LangConfMQTT}}
 MQTT
-// Если требуются таймеры
+// {{LangConfTIMERS}}
 TIMERS
-// Датчики температуры и влажности DHT11, DHT22, AM2302, RHT03, Si7021
+// {{LangConfDHT}}
 DHT 14
-// Пока только на GPIO14, менять его нельзя
+// {{LangConfDS18B20}}
 DS18B20 14
-// Аналоговый вход
+// {{LangConfA0}}
 A0
-// Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
+// {{LangConfTach}}
 Tach relaynot
-// Первая ячейка - PIN реле, вторая - состояние реле при включение ESP
+// {{LangConfRELAY}}
 RELAY 12 0
-// WS2811/WS2812/NeoPixel LEDs. Первая ячейка - PIN LED ленты, вторая - количество лед, терья - состояние LED при включение ESP
+// {{LangConfRGB}}
 RGB 2 15 0
-// Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором
+// {{LangConfJALOUSIE}}
 # JALOUSIE 4 12 13
-// В стадии разработки, пока не работает
+// {{LangConfRGBSHIM}}
 # RGBSHIM 2 4 5
-// Сенсор движения, доступно: relay rgb jalousie
+// {{LangConfMOTION}}
 # MOTION 4 rgb
-// Беспроводной приемник MHz частот
+// {{LangConfRF-RECEIVED}}
 # RF-RECEIVED 3 433
-// Беспроводной передатчик MHz частот, скоро.
+// {{LangConfRF-TRANSMITTER}}
 # RF-TRANSMITTER 1 433
-// Беспроводной приемник IR частот
+// {{LangConfIR-RECEIVED}}
 # IR-RECEIVED 3
-// Беспроводной передатчик IR частот.
+// {{LangConfIR-TRANSMITTER}}
 # IR-TRANSMITTER 1
