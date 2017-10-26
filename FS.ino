@@ -36,6 +36,8 @@ void FS_init(void) {
     String set=HTTP.arg("set");
     //configJson = jsonWrite(configJson, "setIndex", set);
     configSetup = jsonWrite(configSetup, "setIndex", set);
+    configOptions = jsonWrite(configOptions, "setIndex", set);
+
     saveConfigSetup();
     HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", "");
   });

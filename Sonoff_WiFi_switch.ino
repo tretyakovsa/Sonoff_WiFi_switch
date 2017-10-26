@@ -100,6 +100,7 @@ void setup() {
   configSetup = readFile("config.save.json", 4096);
   configSetup = jsonWrite(configSetup, "time", "00:00:00");
   //configJson = jsonWrite(configJson, "setIndex", jsonRead(configSetup, "setIndex"));
+  configOptions = jsonWrite(configOptions, "setIndex", jsonRead(configSetup, "setIndex"));
   configOptions = jsonWrite(configOptions, "lang", jsonRead(configSetup, "lang"));
   configOptions = jsonWrite(configOptions, "SSDP", jsonRead(configSetup, "SSDP"));
   configOptions = jsonWrite(configOptions, "space", jsonRead(configSetup, "space"));
