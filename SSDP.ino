@@ -70,7 +70,7 @@ void requestSSDP () {
     //addressList = "{\"ssdpList\":[]}";
     //ssdpLists(chipID,  WiFi.localIP().toString(), jsonRead(configSetup, "SSDP"));
     ssdpList="";
-    ssdpList = jsonWrite(ssdpList, jsonRead(configSetup, "SSDP"), WiFi.localIP().toString());
+    ssdpList = jsonWrite(ssdpList, jsonRead(configOptions, "SSDP"), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
