@@ -1,40 +1,5 @@
 {
- "configs":[
-  "/config.live.json",
-  "/config.options.json",
-  "/lang/lang.{{lang}}.json",
-  "/modules.json"
- ],
- "title":"{{LangOptions1}}",
- "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
- "content":[
-  {
-   "type":"h5",
-   "title":"{{SSDP}}",
-   "class":"alert-info"
-  },
-  {
-   "type":"select",
-   "state":"{{lang}}",
-   "name":"languages",
-   "action":"/lang?set=[[languages]]",
-   "response":"page.htm?{{urlArray0}}",
-   "style":"margin-top:-47px;float:right;width:70px",
-   "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
-  },
-
-
-  {
-   "type":"link",
-   "title":"{{LangDevices}}",
-   "action":"/",
-   "class":"btn btn-block btn-danger"
-  },
-  {
-   "type":"link",
-   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action":"/page.htm?setup",
-   "class":"btn btn-block btn-default"
-  }
- ]
+ "configs":["ssdp.list.json"],
+ "content":[],
+ "top-content":[]
 }

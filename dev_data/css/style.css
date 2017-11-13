@@ -37,7 +37,7 @@ input:invalid ~ input[type=button] {
  margin:10px 15px 15px 5px;
  display:block;
 }
-.header {
+#header {
  background-color:#fff;
  box-shadow:0 22px 22px -22px gray;
  margin:0 -15px 23px;
@@ -57,7 +57,7 @@ input:invalid ~ input[type=button] {
  .device {
   margin-top:0;
  }
- .header {
+ #header {
   padding:1px 20px 15px;
  }
 }
@@ -90,13 +90,13 @@ h5 a, h5 a:hover {
 #date {
  text-transform:capitalize;
 }
-#content h1,#content h2,#content h3 {
+#content h1,#content h2,#content h3,#container_column h1,#container_column h2,#container_column h3 {
  text-align:center;
 }
-#content ul li {
+#content ul li,#container_column ul li {
  text-align:left;
 }
-#title {
+#container_column #title {
  margin:50px;
 }
 #language {

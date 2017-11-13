@@ -108,6 +108,7 @@
         if (searchModule(modules,"upgrade")){
          loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonResponse.spiffsData, jsonResponse.LangUpgrade);
         }
+        setContent('first');
        }
       },true);
      },true);
@@ -153,7 +154,7 @@
       jsonResponse.ip = ipval;
       jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
       for (var i = 0; i < 10; i++) {
-        jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
+       jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
       }
       jsonResponse.stateRGB = (jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen);
@@ -199,8 +200,9 @@
  </head>
  <body>
   <div id="news"></div>
-  <div class="container device index">
-   <div class="header">
+  <ul id="url-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;"></ul>
+  <div class="container device index" id="container" onclick="this.style.position='relative';this.style.zIndex=10">
+   <div id="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
      <a href="#" class="btn btn-default" onclick="deviceList('first');" title="{{LangRefresh}}"><i class="refresh-img"></i></a>
      <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
@@ -214,9 +216,10 @@
       <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
      </div>
     </div>
-    <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
+    <h1 id="title">{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
    <div class="col-sm-12 col-md-9 btn-group btn-block" id="space-button" style="margin-top:-10px"></div>
+   <div class="col-sm-12 col-md-9" id="top-content"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
    <div class="col-sm-12 col-md-3">
     <div class="col-md-12">
@@ -226,19 +229,27 @@
       <a class="btn btn-block btn-default" href="/page.htm?scenary">{{LangAddScenery}}</a>
      </div>
      <hr>
-     <div class="block">
+     <div class="block" id="issues">
       <h5 class="alert-default">Issues</h5>
-      <div id="issues">{{LangLoading}}</div>
+      <div id="issues-list">{{LangLoading}}</div>
      </div>
      <hr>
-     <div class="block">
+     <div class="block" id="commits">
       <h5 class="alert-default">Commits</h5>
-      <div id="commits">{{LangLoading}}</div>
+      <div id="commits-list">{{LangLoading}}</div>
      </div>
     </div>
     <div class="row"></div>
    </div>
   </div>
-  <a href="#news" class="btn btn-default top">top</a>
+  <div id="edit-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;">
+   <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
+   <div id="error-json"></div>
+   <div class="btn-group btn-block">
+    <input class="btn btn-danger" style="width:80%" onclick="send_request_edit(this, val('edit-json'),'index.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+    <a class="btn btn-info" style="width:20%" href="#" id="download-json" download><i class="download-img"></i></a>
+   </div>
+  </div>
+  <a href="#" class="btn btn-default top">top</a>
  </body>
 </html>

@@ -92,7 +92,7 @@
       ajax.get('http://'+ipval+'/lang/lang.'+jsonResponse1.lang+'.json',{},function(response) {
        var jsonResponse2=JSON.parse(response);
        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
-       if(/relay/.test(modules)) {
+       if(searchModule(modules,"relay")) {
         for (var i = 0; i < 10; i++) {
          if (!searchModule(modules,"relay"+i)){
           jsonResponse["relay"+i] = 'hidden';
@@ -132,6 +132,7 @@
         if (searchModule(modules,"upgrade")){
          loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonResponse.spiffsData, jsonResponse.LangUpgrade);
         }
+        setContent('first');
        }
       },true);
      },true);
@@ -170,7 +171,7 @@
       jsonResponse.ip = ipval;
       jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
       for (var i = 0; i < 10; i++) {
-        jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
+       jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
       }
       jsonResponse.stateRGB = (jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn);
       jsonResponse.stateJalousie = (jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen);
@@ -220,8 +221,9 @@
  </head>
  <body>
   <div id="news"></div>
-  <div class="container device index">
-   <div class="header">
+  <ul id="url-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;"></ul>
+  <div class="container device index" id="container" onclick="this.style.position='relative';this.style.zIndex=10">
+   <div id="header">
     <div class="btn-group pull-right" style="margin-top:35px;">
      <!-- select class="btn btn-default" onchange="ajaxm('{{ip}}', 'lang?set='+this.value, this)" id="languages">
 <option value="ru">Lang</option>
@@ -242,7 +244,7 @@
       <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
      </div>
     </div>
-    <h1>{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
+    <h1 id="title">{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
    </div>
    <div class="col-sm-12 col-md-3">
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
@@ -259,8 +261,17 @@
     </div>
     <div class="row"></div>
    </div>
+   <div class="col-sm-12 col-md-9" id="top-content"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
   </div>
-  <a href="#news" class="btn btn-default top">top</a>
+  <div id="edit-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;">
+   <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
+   <div id="error-json"></div>
+   <div class="btn-group btn-block">
+    <input class="btn btn-danger" style="width:80%" onclick="send_request_edit(this, val('edit-json'),'index.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+    <a class="btn btn-info" style="width:20%" href="#" id="download-json" download><i class="download-img"></i></a>
+   </div>
+  </div>
+  <a href="#" class="btn btn-default top">top</a>
  </body>
 </html>
