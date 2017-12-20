@@ -132,7 +132,7 @@
    "title":"{{LangDevice}}",
    "name":"ssidPass",
    "state":"{{ssidPass}}",
-   "pattern":".{8,20}"
+   "pattern":".{8,}"
   },
   {
    "type":"button",

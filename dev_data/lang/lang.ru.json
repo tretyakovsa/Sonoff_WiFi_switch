@@ -48,7 +48,7 @@
  "LangGMT2":"Автоопределение и сохранение зоны",
  "LangAP":"Точка доступа",
  "LangDdns1":"Динамический DNS",
- "LangDdns2":"В 15, 30, 45, 00 минут каждого часа устройство переходить по ссылке. Вы можете воспользоваться <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> или <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> и таким образом сделать себе домен на динамическом IP. Что позволит комфортно пользоваться <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Посмотрите видео о настройки DDNS и ifttt.com</a>",
+ "LangDdns2":"В 15, 30, 45, 00 минут каждого часа устройство переходит по ссылке. Вы можете воспользоваться <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> или <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> и таким образом сделать себе домен на динамическом IP. Это позволит комфортно пользоваться <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Посмотрите видео о настройке DDNS и ifttt.com</a>",
  "LangTime1":"Время модуля",
  "LangTime2":"Синхронизировать время",
  "LangReset1":"Перезагрузка модуля",

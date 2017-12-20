@@ -116,7 +116,7 @@
    "title": "{{LangDevice}}",
    "name":"ssidPass",
    "state": "{{ssidPass}}",
-   "pattern": ".{8,20}"
+   "pattern": ".{8,}"
   },
 
   {
@@ -126,7 +126,7 @@
    "action": "wifi?connect=[[wifi-connect]]&led=[[wifi-blink]]",
    "style": "width:65%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
-   "title": {"10":"{{LangWiFi2}} 10 {{LangSec}}","15":"{{LangWiFi2}} 15 {{LangSec}}","30":"{{LangWiFi2}} 30 {{LangSec}}","60":"{{LangWiFi2}} 1 {{LangMin.}}","120":"{{LangWiFi2}} 2 {{LangMin.}}"}
+   "title": {"10":"{{LangWiFi2}} 10 {{LangSec}}","15":"{{LangWiFi2}} 15 {{LangSec}}","30":"{{LangWiFi2}} 30 {{LangSec}}","60":"{{LangWiFi2}} 1 {{LangMin.}}","120":"{{LangWiFi2}} 2 {{LangMin.}}","300":"{{LangWiFi2}} 5 {{LangMin.}}"}
   },
   {
    "type": "select",
@@ -271,7 +271,7 @@
    "name":"ssidApPass",
    "state": "{{ssidApPass}}",
    "style": "width:50%;display:inline",
-   "pattern": ".{8,20}"
+   "pattern": ".{8,}"
   },
   {
    "type": "button",

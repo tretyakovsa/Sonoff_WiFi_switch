@@ -243,6 +243,9 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'link') {
       element.innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+renameGet(obj.action)+'">'+renameBlock(jsonResponse, obj.title)+'<\/a>';
      }
+     if (type_val == 'img') {
+      element.innerHTML += '<img id="'+name_val+'" class="'+class_val+'" '+style_val+' src="'+renameGet(obj.state)+'" onclick="'+renameGet(obj.action)+'" title="'+renameBlock(jsonResponse, obj.title)+'"\/>';
+     }
      if (type_val == 'text') {
       element.innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/div>';
      }
@@ -726,7 +729,8 @@ function renameBlock(jsonResponse, str) {
    for (var i=0; i<arr.length; i++) {
     var id=arr[i].slice(2, -2);
     //if (jsonResponse[id]) {
-    str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+    //str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+    str = str.replace(new RegExp('{{'+id+'}}','g'), eval("jsonResponse."+id));
     // }
    }
   }
