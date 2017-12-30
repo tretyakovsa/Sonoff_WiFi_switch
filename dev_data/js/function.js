@@ -641,22 +641,27 @@ function hide(name, submit) {
 }
 
 function loadConfigs(state_val) {
+ var element = document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-'));
+ element.innerHTML = '';
  ajax.get("/configs/"+state_val,{},function(response) {
-  var element = document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-'));
-  element.innerHTML = '';
   var configsLinePin;
   var configsLine = response.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
    if (configsLine[key].substr(0,2) == '//') {
-    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly><small>// '+renameBlock(jsonResponse, configsLine[key].split(" ")[1])+'</small><\/label></br>';
+    var configsLine2 = configsLine[key].split(" ");
+    var configsLine3 = '';
+    for (var i = 1; i < configsLine2.length; i++) {
+     configsLine3 = configsLine3+' '+renameBlock(jsonResponse, configsLine2[i]);
+    }
+    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly><small>// '+configsLine3+'</small><\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
     element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> '+(configsLinePin[1]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[1].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[1]+'">':'')+' '+(configsLinePin[2]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[2].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[2]+'">':'')+' '+(configsLinePin[3]?'<input class="form-control" style="display:inline;width:'+Number(configsLinePin[3].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[3]+'">':'')+'</br>';
    }
   }
-  element.innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
   //changeTextarea(state_val.replace(/[^a-z0-9]/gi,'-'));
  },true);
+ element.innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
 }
 
 function changeTextarea(state_val) {
