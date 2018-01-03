@@ -14,21 +14,21 @@ DS18B20 14
 A0
 // {{LangConfTach}}
 Tach rgbnot
-// {{LangConfRELAY}}
+// {{LangConfRelay}}
 # RELAY 12 0
 // {{LangConfRGB}}
 # RGB 2 15 0
-// {{LangConfJALOUSIE}}
+// {{LangConfJalousie}}
 # JALOUSIE 4 12 13
 // {{LangConfRGBSHIM}}
 RGBSHIM 2 4 5
-// {{LangConfMOTION}}
+// {{LangConfMotion}}
 # MOTION 4 rgb
-// {{LangConfRF-RECEIVED}}
+// {{LangConfRfReceived}}
 # RF-RECEIVED 3 433
-// {{LangConfRF-TRANSMITTER}}
+// {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
-// {{LangConfIR-RECEIVED}}
+// {{LangConfIrReceived}}
 # IR-RECEIVED 3
-// {{LangConfIR-TRANSMITTER}}
+// {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 1

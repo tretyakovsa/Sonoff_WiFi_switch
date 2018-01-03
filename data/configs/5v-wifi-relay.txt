@@ -14,5 +14,5 @@ DS18B20 14
 Tach relaynot
 // {{LangConfSerial}}
 Serial 9600
-// {{LangConfRELAY}}
+// {{LangConfRelay}}
 RELAY 12 0
