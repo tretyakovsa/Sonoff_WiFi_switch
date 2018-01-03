@@ -83,7 +83,7 @@
    "state":"timer.save.json",
    "title":{
     "module":"",
-    "trigger":"{{LangOn.}}/{{LangOff.}}",
+    "trigger":"{{LangOnM}}/{{LangOffM}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
     "work":"{{LangWorkTime}}{{LangSoon}}",
@@ -123,7 +123,7 @@
    "type":"select",
    "name":"trigger",
    "style":"width:50%;display:inline",
-   "title":{"not":"{{LangSwitch.}}","on":"{{LangOn.}}","off":"{{LangOff.}}"}
+   "title":{"not":"{{LangSwitch}}","on":"{{LangOn}}","off":"{{LangOff}}"}
   },
   {
    "type":"select",

@@ -1,3 +1,14 @@
+/*
+Web Developer: Renats Kevrels (ex. Zozula)
+Site: http://www.onclick.lv
+Contact: info [at] onclick.lv
+Skype: renat2985
+Twitter: @Ramzies
+Facebook: http://www.facebook.com/renat2985
+GitHub: https://github.com/renat2985
+From: Latvia, Valmiera
+*/
+
 var ajax = {};
 ajax.x = function () {
  var xhr;
@@ -710,11 +721,11 @@ function loadTable(state_val, jsonTable) {
   for (var i = 0; i < timers[setTable].length; i++) {
    var tbody = '';
    for(var keys in jsonTable) {
-    if (timers[setTable][i][keys] == "on") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOn."]+'<\/span>';}
-    if (timers[setTable][i][keys] == "off") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangOff."]+'<\/span>';}
+    if (timers[setTable][i][keys] == "on") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOnM"]+'<\/span>';}
+    if (timers[setTable][i][keys] == "off") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangOffM"]+'<\/span>';}
     if (timers[setTable][i][keys] == "open") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
     if (timers[setTable][i][keys] == "close") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "not") {timers[setTable][i][keys] = '<span class="label label-info">'+jsonResponse["LangSwitch."]+'<\/span>';}
+    if (timers[setTable][i][keys] == "not") {timers[setTable][i][keys] = '<span class="label label-info">'+jsonResponse["LangSwitch"]+'<\/span>';}
     if (timers[setTable][i][keys] == "relay") {timers[setTable][i][keys] = '<span class="label label-danger">relay<\/span>';}
     if (timers[setTable][i][keys] == "rgb") {timers[setTable][i][keys] = '<span class="label label-info">rgb<\/span>';}
     if (timers[setTable][i][keys] == "jalousie") {timers[setTable][i][keys] = '<span class="label label-success">jalousie<\/span>';}

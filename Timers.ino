@@ -58,7 +58,7 @@ String responsTimer() {
   String responsA = "{\"state\": \"timer.save.json\",\"title\":";
   String responsB = "{}";
   responsB = jsonWrite(responsB, "module", "");
-  responsB = jsonWrite(responsB, "trigger", "{{LangOn.}}/{{LangOff.}}");
+  responsB = jsonWrite(responsB, "trigger", "{{LangOnM}}/{{LangOffM}}");
   responsB = jsonWrite(responsB, "day", "{{LangDay}}");
   responsB = jsonWrite(responsB, "time", "{{LangTime4}}");
   responsB = jsonWrite(responsB, "work", "{{LangWorkTime}}");

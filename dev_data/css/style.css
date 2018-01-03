@@ -1,3 +1,14 @@
+/*
+Web Developer: Renats Kevrels (ex. Zozula)
+Site: http://www.onclick.lv
+Contact: info [at] onclick.lv
+Skype: renat2985
+Twitter: @Ramzies
+Facebook: http://www.facebook.com/renat2985
+GitHub: https://github.com/renat2985
+From: Latvia, Valmiera
+*/
+
 body, html {
  background-color:#E9F0F0;
 }
@@ -217,5 +228,4 @@ ul#history {
 .wifi-90-100 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkklEQVQ4jc3QMQrCQBhE4Q9ipYKNsVU0HkCFpNJKIq73v4+FWTASzUYbB37Y5s0Oj3/LFAUqnHFFaN4Vtph0gTOUuCVe2TBg1fySCscLWGomXb4oqDGOKxYDVwTkrx6KAQWbLpFwSIB372AY4fQBPiL7VMBDat0Bt6T1JdeWGjBPhWOepa6HwjF7PdL6kkmQ9lPu7WseJohUYa0AAAAASUVORK5CYII=)}
 .wifi-key {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmUlEQVQ4je3QvwqBYRgF8F8mVkZGuRq2b1AuQhnYldyMzaCU2ahcA8kNUL6B5VVvL58/M6fO8jznnOfp8EeMHrbIsccUlU/NA1yfcIXSO3MN52C4YI5DFDJBt4AN6ETiYQhtFnyUMoN2NBiFgNY3AVWcwiDHAsdINA7CDOvEXL/30C+4sExKnEW7B3SxCV/sQnnlRPMy4FdxA96PRYPg7eb3AAAAAElFTkSuQmCC)}
 .wifi {display:inline-block;width:16px;height:16px;background-size:16px;background-position:center center;background-repeat:no-repeat;vertical-align:middle;margin-right:3px;}
-
 

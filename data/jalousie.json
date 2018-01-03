@@ -120,7 +120,7 @@
    "state":"timer.save.json",
    "title":{
     "module":"",
-    "trigger":"{{LangOn.}}/{{LangOff.}}",
+    "trigger":"{{LangOnM}}/{{LangOffM}}",
     "day":"{{LangDay}}",
     "time":"{{LangTime4}}",
     "work":"{{LangWorkTime}}"
@@ -193,7 +193,7 @@
   {
    "type":"button",
    "module":"movement",
-   "title":"{{LangOff.}}",
+   "title":"{{LangOffM}}",
    "action":"/pir?t=0",
    "class":"btn btn-block btn-default",
    "style":"width:15%;float:right;margin-top:5px;"
