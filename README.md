@@ -41,16 +41,20 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 - JALOUSIE
 - WS2811/WS2812/NeoPixel LEDs
 - MOTION
-- RC Switch
+- RF-RECEIVED
+- RF-TRANSMITTER
+- IR-RECEIVED
+- IR-TRANSMITTER
 
 ## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/configs)
-
 
 You can change here
 ```
 /data/configs/*.txt
 ```
 
+Or here
+![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/pins-edit.png)
 
 ### Schematic
 

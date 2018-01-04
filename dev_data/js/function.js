@@ -117,7 +117,7 @@ function setContent(stage) {
        if (jsonPage.style) {document.getElementById('content').style = jsonPage.style;}
        if (jsonPage.reload) {set_real_time = setTimeout("setContent('edit')", jsonPage.reload);}
        if (stage == 'first') {
-        document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0px;">'+(jsonResponse.LangDonate?jsonResponse.LangDonate:'Donate')+'<\/a>';
+        document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0;"><i class="fav-img"></i> '+(jsonResponse.LangDonate?jsonResponse.LangDonate:'Donate')+'<\/a>';
         val('edit-json', jsonEdit);
         toggle('container_column','hide');
        } else {
@@ -128,7 +128,7 @@ function setContent(stage) {
        if (jsonPage.content){
         viewTemplate(jsonPage,jsonResponse);
        } else {
-        document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0px;">content array not found in "'+pages[0]+'.json"<\/li>';
+        document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0;">content array not found in "'+pages[0]+'.json"<\/li>';
         document.getElementById('content').innerHTML += '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>You can edit it right.<\/h2>';
         toggle('edit-content');
         toggle('url-content');
@@ -466,7 +466,7 @@ function send_request_post(submit,server,state){
      if (element.tagName == 'DIV' ||element.tagName == 'A' || element.tagName == 'H1' || element.tagName == 'H2' || element.tagName == 'H3' || element.tagName == 'H4' || element.tagName == 'H5' || element.tagName == 'H6') {element.innerHTML = renameBlock(jsonResponse, response.title);}
     }
     if (typeof(element) != 'undefined' && element != null){
-     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><span class="label label-success">'+block[i]+'</span> '+response.replace(/</g,'&lt;')+'</li>';
+     element.innerHTML += '<li class="alert alert-info" style="margin:5px 0;"><span class="label label-success">'+block[i]+'</span> '+response.replace(/</g,'&lt;')+'</li>';
     }
    }
   }
@@ -521,13 +521,13 @@ function send_request(submit,server,state){
       htmlblock.href = response.action;
      }
      if (typeof(element) != 'undefined' && element != null){
-      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+responses.replace(/</g,'&lt;')+'</li>';
+      element.innerHTML += '<li class="alert alert-info" style="margin:5px 0;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+responses.replace(/</g,'&lt;')+'</li>';
      }
     }
    }
   } else {
    if (typeof(element) != 'undefined' && element != null){
-    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0px;">'+responses.replace(/</g,'&lt;')+'</li>';
+    element.innerHTML += '<li class="alert alert-info" style="margin:5px 0;">'+responses.replace(/</g,'&lt;')+'</li>';
    }
   }
   // load('next');
