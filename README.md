@@ -48,12 +48,13 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 
 ## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/configs)
 
-You can change here
+You can change here:
 ```
 /data/configs/*.txt
 ```
 
-Or here
+Or here:
+
 ![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/pins-edit.png)
 
 ### Schematic

@@ -126,7 +126,7 @@
    "action": "wifi?connect=[[wifi-connect]]&led=[[wifi-blink]]",
    "style": "width:65%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
-   "title": {"10":"{{LangWiFi2}} 10 {{LangSecM}}","15":"{{LangWiFi2}} 15 {{LangSecM}}","30":"{{LangWiFi2}} 30 {{LangSecM}}","60":"{{LangWiFi2}} 1 {{LangMin}}","120":"{{LangWiFi2}} 2 {{LangMin}}","300":"{{LangWiFi2}} 5 {{LangMin}}"}
+   "title": {"10":"{{LangWiFi2}} 10 {{LangSecM}}","15":"{{LangWiFi2}} 15 {{LangSecM}}","30":"{{LangWiFi2}} 30 {{LangSecM}}","60":"{{LangWiFi2}} 1 {{LangMin}}","120":"{{LangWiFi2}} 2 {{LangMin}}","240":"{{LangWiFi2}} 4 {{LangMin}}"}
   },
   {
    "type": "select",
