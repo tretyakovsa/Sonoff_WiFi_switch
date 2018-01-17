@@ -1,0 +1,51 @@
+
+if voice = Включи_люстру
+or voice = Включи_свет
+or voice = Люстру_включи
+or voice = Свет_включи
+then IoT-Room-5 relay on 1
+then IoT-Room-5 relay on 2
+then IoT-Room-5 relay on 3
+id 194
+if voice = Выключи_люстру
+or voice = Выключи_свет
+or voice = Люстру_выключи
+or voice = Свет_выключи
+then IoT-Room-5 relay off 1
+then IoT-Room-5 relay off 2
+then IoT-Room-5 relay off 3
+id 195
+if voice = Включи_ночник
+then this rgb on
+then SonoffRF relay on 1
+id 196
+if voice = Включи_красный
+then this rgb on FF0000
+id 198
+if voice = Включи_зелёный
+then this rgb on 008000
+id 199
+if voice = Включи_жёлтый
+then this rgb on FFFF00
+id 200
+if voice = Включи_синий
+then this rgb on 0000FF
+id 201
+if voice = Выключи_ночник
+then this rgb off
+then SonoffRF relay off 1
+id 197
+if voice = Включи_телевизор
+then Sonoff irsend 20df0ff0
+then IoT-Room-4 irsend 20df0ff0
+id 6006
+if voice = Выключи_телевизор
+then Sonoff irsend 20df10ef
+then IoT-Room-4 irsend 20df10ef
+id 6007
+if voice = Включи_свет_в_коридоре
+then SonoffRF relay on 1
+id 1959
+if voice = выключи_свет_в_коридоре
+then SonoffRF relay off 1
+id 1959
