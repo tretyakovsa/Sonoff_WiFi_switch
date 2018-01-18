@@ -1,8 +1,8 @@
 // Первая ячейка - PIN реле, вторая - состояние реле при включение ESP
-RELAY 15 0 1
-RELAY 12 0 2
-RELAY 13 0 3
-RELAY 14 1 4
+RELAY 12 1 1
+# RELAY 15 0 2
+# RELAY 13 0 3
+# RELAY 14 1 4
 // Включить отладочный вывод
 UART 115200
 print print
@@ -21,20 +21,20 @@ NTP
 // Аналоговый вход
 A0
 // Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
-# Tach 0 0 20
+TACH 0 0 20
 // WS2811/WS2812/NeoPixel LEDs. Первая ячейка - PIN LED ленты, вторая - количество лед, терья - состояние LED при включение ESP
-# RGB 4 15 1 FF000 100 256 1
+RGB 5 15 1 ff0000 100 255 3
 // Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором
 # JALOUSIE 4 12 13
 // В стадии разработки, пока не работает
-# RGBSHIM 2 4 5
+RGBSHIM 15 13 4 1 ffffff 100 255
 // Сенсор движения, доступно: relay rgb jalousie
-MOTION 2 120
+# MOTION 2 120
 // Беспроводной приемник MHz частот
 # RF-RECEIVED 3 433
 // Беспроводной передатчик MHz частот, скоро.
 # RF-TRANSMITTER 1 433
 // Беспроводной приемник IR частот
-IR-RECEIVED 0
+# IR-RECEIVED 0
 // Беспроводной передатчик IR частот, скоро.
-# IR-TRANSMITTER 14
+IR-TRANSMITTER 14
