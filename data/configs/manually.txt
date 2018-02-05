@@ -1,40 +1,40 @@
-// Первая ячейка - PIN реле, вторая - состояние реле при включение ESP
+// {{LangConfRelay}}
 RELAY 12 1 1
 # RELAY 15 0 2
 # RELAY 13 0 3
 # RELAY 14 1 4
-// Включить отладочный вывод
+// {{LangConfSerial}}
 UART 115200
 print print
-// Включаем время из сети
+// {{LangConfNTP}}
 NTP
-// Доступ по DDNS
+// {{LangConfDDNS}}
 # DDNS
-// Для управления IoT Manager
+// {{LangConfMQTT}}
 # MQTT
-// Если требуются таймеры
+// {{LangConfTIMERS}}
 # TIMERS
-// Датчики температуры и влажности DHT11, DHT22, AM2302, RHT03, Si7021
+// {{LangConfDHT}}
 # DHT 14
-// Пока только на 14 PIN, менять его нельзя
+// {{LangConfDS18B20}}
 # D18B20 14
-// Аналоговый вход
+// {{LangConfA0}}
 A0
-// Кнопка на GPIO0, доступно: rgbnot relaynot jalousienot
+// {{LangConfTach}}
 TACH 0 0 20
-// WS2811/WS2812/NeoPixel LEDs. Первая ячейка - PIN LED ленты, вторая - количество лед, терья - состояние LED при включение ESP
+// {{LangConfRGB}}
 RGB 5 15 1 ff0000 100 255 3
-// Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором
-# JALOUSIE 4 12 13
-// В стадии разработки, пока не работает
+// {{LangConfRGBSHIM}}
 RGBSHIM 15 13 4 1 ffffff 100 255
-// Сенсор движения, доступно: relay rgb jalousie
+// {{LangConfJalousie}}
+# JALOUSIE 4 12 13
+// {{LangConfMotion}}
 # MOTION 2 120
-// Беспроводной приемник MHz частот
+// {{LangConfRfReceived}}
 # RF-RECEIVED 3 433
-// Беспроводной передатчик MHz частот, скоро.
+// {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
-// Беспроводной приемник IR частот
+// {{LangConfIrReceived}}
 # IR-RECEIVED 0
-// Беспроводной передатчик IR частот, скоро.
-IR-TRANSMITTER 14
+// {{LangConfIrTransmitter}}
+# IR-TRANSMITTER 14
