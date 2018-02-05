@@ -747,8 +747,8 @@ function renameBlock(jsonResponse, str) {
    for (var i=0; i<arr.length; i++) {
     var id=arr[i].slice(2, -2);
     //if (jsonResponse[id]) {
-    //str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
-    str = str.replace(new RegExp('{{'+id+'}}','g'), eval("jsonResponse."+id));
+    str = str.replace(new RegExp('{{'+id+'}}','g'), jsonResponse[id]);
+    //str = str.replace(new RegExp('{{'+id+'}}','g'), eval("jsonResponse."+id));
     // }
    }
   }
