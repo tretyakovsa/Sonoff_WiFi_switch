@@ -7,7 +7,7 @@ RELAY 12 1 1
 UART 115200
 print print
 // {{LangConfNTP}}
-NTP
+NTP pool.ntp.org ru.pool.ntp.org
 // {{LangConfDDNS}}
 # DDNS
 // {{LangConfMQTT}}

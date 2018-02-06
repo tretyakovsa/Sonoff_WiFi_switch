@@ -333,7 +333,7 @@ function loadJson(state_val, jsonResponse, idName) {
 }
 
 function pattern(s) {
- document.getElementById("ssdp-command").setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Z:')+"]{1,15}");
+ document.getElementById("ssdp-command").setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_ ')+"]{1,15}");
 }
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {
