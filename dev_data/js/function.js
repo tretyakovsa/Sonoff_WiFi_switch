@@ -285,8 +285,8 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" class="btn btn-default" style="width:10%;" onclick="loadLive2();return false"><i class="find-replace-img"></i></a>';
       option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
       option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
-      option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then"><\/select>';
-      option += '<input class="form-control" placeholder="Optional" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
+      option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then" onchange="loadCommandHelp(this.value,\'command-help.json\')"><\/select>';
+      option += '<div id="command-help"></div><input class="form-control" placeholder="Optional" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
       option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\', \\' \\');val(\\'ssdp-command\\', \\' \\');val(\\'ssdp-list1\\', \\' \\');document.getElementById(\\'ssdp-module\\').options.length=0;document.getElementById(\\'scenary-then\\').options.length=0;',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
@@ -345,7 +345,7 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
   } else {
-     //  alert(selectDevice+' '+urlList);
+   //  alert(selectDevice+' '+urlList);
    var createText = '';
    var block = response.split(/\n|\r| /);
    //var block = response.split(/\n\r|\r\n|\n|\r| /g);
@@ -376,6 +376,21 @@ function loadScenary(jsonResponse,loadList) {
    html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
    html("ssdp-list1",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
   }
+ },true);
+}
+
+function loadCommandHelp(jsonParam,files) {
+ ajax.get('/'+files+'?'+Math.floor(Math.random()*10000),{},function(response) {
+  var ipDevice=JSON.parse(response);
+  html('command-help', ' ');
+  var option = '';
+ // for(var i = 0;i<ipDevice.rgb.length;i++) {
+ //  option+='<br>'+ipDevice.rgb[i].command+'<br>'+ipDevice.rgb[i].title;
+ // }
+  for (var i in ipDevice[jsonParam]) {
+   option+='<li><a href="#" onclick="val(\'scenary-othe\',\''+ipDevice[jsonParam][i].command+'\');return false">'+ipDevice[jsonParam][i].command+'</a> <sup>'+ipDevice[jsonParam][i].title+'</i></sup>';
+  }
+  html('command-help', ipDevice.title+'<ul>'+option+'</ul>');
  },true);
 }
 
