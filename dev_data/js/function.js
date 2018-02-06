@@ -277,7 +277,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
       loadScenary(jsonResponse,'loadList');
      }
-     if (type_val == 'scenary') {
+     if (type_val == 'scenary-add') {
       var option = '';
       option += '<select class="form-control" id="ssdp-list0" style="width:50%;display:inline" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\')"><\/select>';
       option += '<select class="form-control" id="ssdp-module" style="width:50%;display:inline" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'));"><\/select>';
@@ -370,7 +370,8 @@ function loadScenary(jsonResponse,loadList) {
    }
   } else {
    for (var i in ipDevice) {
-    option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+    //option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+    option += '<option value="'+ipDevice[i]+'">'+(ipDevice[i]==document.location.hostname?'this':i)+'<\/option>';
    }
    html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
    html("ssdp-list1",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);

@@ -147,6 +147,9 @@
  "LangirTransmitter":"Беспроводной IR передатчик",
  "Langirsend":"Nosutit IR",
  "Langrfsend":"Nosutit RF",
+ "LangstateA0":"Аналоговый вход",
+ "Langvoice":"Голосовое управление",
+ "LangstateMovement":"Сенсор движения",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",

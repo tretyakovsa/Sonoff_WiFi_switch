@@ -147,6 +147,9 @@
  "LangirTransmitter":"Беспроводной IR передатчик",
  "Langirsend":"Отправить IR сигнал",
  "Langrfsend":"Отправить RF сигнал",
+ "LangstateA0":"Аналоговый вход",
+ "Langvoice":"Голосовое управление",
+ "LangstateMovement":"Сенсор движения",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",

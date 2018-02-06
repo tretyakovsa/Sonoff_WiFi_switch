@@ -147,6 +147,9 @@
  "LangirTransmitter":"IR Transmitter",
  "Langirsend":"Send IR",
  "Langrfsend":"Send RF",
+ "LangstateA0":"Аналоговый вход",
+ "Langvoice":"Голосовое управление",
+ "LangstateMovement":"Сенсор движения",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
