@@ -287,7 +287,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
       option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then" onchange="loadCommandHelp(this.value,\'command-help.json\')"><\/select>';
       option += '<div id="command-help"></div><input class="form-control" placeholder="Optional" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
-      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\', \\' \\');val(\\'ssdp-command\\', \\' \\');val(\\'ssdp-list1\\', \\' \\');document.getElementById(\\'ssdp-module\\').options.length=0;document.getElementById(\\'scenary-then\\').options.length=0;',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\',\\' \\');val(\\'ssdp-command\\',\\' \\');val(\\'ssdp-list1\\',\\' \\');val(\\'scenary-othe\\',\\' \\');html(\\'command-help\\',\\' \\');document.getElementById(\\'ssdp-module\\').options.length=0;document.getElementById(\\'scenary-then\\').options.length=0;',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
      }
@@ -384,11 +384,8 @@ function loadCommandHelp(jsonParam,files) {
   var ipDevice=JSON.parse(response);
   html('command-help', ' ');
   var option = '';
- // for(var i = 0;i<ipDevice.rgb.length;i++) {
- //  option+='<br>'+ipDevice.rgb[i].command+'<br>'+ipDevice.rgb[i].title;
- // }
   for (var i in ipDevice[jsonParam]) {
-   option+='<li><a href="#" onclick="val(\'scenary-othe\',\''+ipDevice[jsonParam][i].command+'\');return false">'+ipDevice[jsonParam][i].command+'</a> <sup>'+ipDevice[jsonParam][i].title+'</i></sup>';
+   option+='<li><a href="#" onclick="val(\'scenary-othe\',\''+ipDevice[jsonParam][i].command+'\');return false">'+ipDevice[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ipDevice[jsonParam][i].title)+'</i></sup>';
   }
   html('command-help', ipDevice.title+'<ul>'+option+'</ul>');
  },true);

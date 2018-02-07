@@ -3,37 +3,55 @@
  "relay":[
   {
    "command":"on",
-   "title":"Включить реле"
+   "title":"{{Langrelayon}}"
   },
   {
    "command":"on 1",
-   "title":"Включить реле под номером 1"
+   "title":"{{Langrelayon}} под номером 1"
+  },
+  {
+   "command":"not",
+   "title":"{{Langrelaynot}}"
   },
   {
    "command":"off",
-   "title":"Выключить реле"
+   "title":"{{Langrelayoff}}"
   },
   {
    "command":"off 1",
-   "title":"Выключить реле под номером 1"
+   "title":"{{Langrelayoff}} под номером 1"
+  }
+ ],
+ "jalousie":[
+  {
+   "command":"open",
+   "title":"{{Langjalousieopen}}"
+  },
+  {
+   "command":"close",
+   "title":"{{Langjalousieclose}}"
   }
  ],
  "rgb":[
   {
    "command":"on",
-   "title":"Включить RGB"
+   "title":"{{Langrgbon}}"
   },
   {
    "command":"on ff0000",
-   "title":"Включить RGB, цвет"
+   "title":"{{Langrgbon}}, цвет"
   },
   {
    "command":"on ff0000 100 255 9",
-   "title":"Включить RGB, цвет, скорость, яркость, динамический режим"
+   "title":"{{Langrgbon}}, цвет, скорость, яркость, динамический режим"
+  },
+  {
+   "command":"not",
+   "title":"{{Langrgbnot}}"
   },
   {
    "command":"off",
-   "title":"Выключить RGB"
+   "title":"{{Langrgboff}}"
   }
  ]
 }
