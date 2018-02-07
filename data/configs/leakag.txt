@@ -1,3 +1,11 @@
+// {{LangConfRelay}}
+RELAY 12 1 1 0
+# RELAY 15 0 2 0
+# RELAY 13 0 3 0
+# RELAY 14 1 4 0
+// {{LangConfSerial}}
+# UART 115200
+# print print
 // {{LangConfNTP}}
 NTP pool.ntp.org ru.pool.ntp.org
 // {{LangConfDDNS}}
@@ -13,22 +21,20 @@ DS18B20 14
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
-Tach relaynot
-// {{LangConfRelay}}
-RELAY 12 0
+TACH 0 0 20
 // {{LangConfRGB}}
-# RGB 2 15 0
+# RGB 5 15 1 ff0000 100 255 3
+// {{LangConfRGBS}}
+# SRGB 2 4 5 1 ffffff 100 255
 // {{LangConfJalousie}}
 # JALOUSIE 4 12 13
-// {{LangConfRGBSHIM}}
-# RGBSHIM 2 4 5
 // {{LangConfMotion}}
-# MOTION 4 rgb
+# MOTION 4 120
 // {{LangConfRfReceived}}
 # RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
 // {{LangConfIrReceived}}
-# IR-RECEIVED 3
+# IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
-# IR-TRANSMITTER 1
+# IR-TRANSMITTER 14

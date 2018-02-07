@@ -98,7 +98,7 @@ From: Latvia, Valmiera
         }
         if(/relay/.test(modules)) {
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
-         document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         //document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
          for (var i = 0; i < 10; i++) {
           if (searchModule(modules,"relay"+i)){
            document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay%20not%20'+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';

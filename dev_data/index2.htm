@@ -130,7 +130,8 @@ From: Latvia, Valmiera
         }
         if(/relay/.test(modules)) {
          if (stage == 'first'){document.getElementById('table-content').innerHTML+='<tr id="block-'+ipval+'-relay"><\/tr>';}
-         var relayNumber = '<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         //var relayNumber = '<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         var relayNumber = '';
          for (var i = 0; i < 10; i++) {
           if (searchModule(modules,"relay"+i)){
            relayNumber += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay%20not%20'+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';

@@ -68,7 +68,7 @@
    "type":"rgb",
    "title":"/img/swatches.png",
    "name":"color",
- "module":"rgb",
+   "module":"rgb",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
    "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
@@ -79,9 +79,9 @@
    "type":"select",
    "state":"{{modeRGB}}",
    "name":"dynamic",
- "module":"rgb",
+   "module":"rgb",
    "response":"[[rgb]]",
-     "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "title":{
     "0":"Static",
     "1":"Blink",
@@ -149,9 +149,9 @@
    "type":"select",
    "state":"{{timeRGB}}",
    "name":"time",
- "module":"rgb",
+   "module":"rgb",
    "response":"[[rgb]]",
-     "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "title":{
     "60":"1",
     "300":"5",
@@ -173,7 +173,7 @@
    "type":"input",
    "title":"",
    "name":"sound",
- "module":"rgb",
+   "module":"rgb",
    "state":"{{timeBUZ}}",
    "pattern":"[-+]?[0-9]*[.]?[0-9]+"
   },
@@ -182,20 +182,20 @@
    "type":"range",
    "title":"{{LangSpeed}}",
    "name":"speed",
- "module":"rgb",
+   "module":"rgb",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
-     "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
    "type":"range",
    "title":"{{LengBrightness}}",
    "name":"brightness",
- "module":"rgb",
+   "module":"rgb",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-    "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb on [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
@@ -205,7 +205,7 @@
    "type":"button",
    "title":"({{stateRGB}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
-"module":"rgb",
+   "module":"rgb",
    "response":"[[rgb]]",
    "action":"rgb not",
    "class":"'btn btn-block btn-lg btn-'+({{stateRGB}}?'info':'primary')"
@@ -273,53 +273,6 @@
    "action":"/page.htm?chart&humidity",
    "style":"height:200px;margin-left:-20px"
   },
-
-  {
-   "type":"h2",
-   "module":"movement",
-   "title":"{{LangPir1}}"
-  },
-  {
-   "type":"text",
-   "module":"movement",
-   "title":"{{LangPir2}} {{LangSoon}}",
-   "class":"alert alert-info",
-   "style":"width:60%;float:left;"
-  },
-
-  {
-   "type":"input",
-   "module":"movement",
-   "title":"",
-   "name":"pir-time",
-   "state":"{{pirTime}}",
-   "style":"width:35%;float:right;",
-   "pattern":"[0-9]*[.,]?[0-9]+"
-  },
-  {
-   "type":"button",
-   "module":"movement",
-   "title":"{{LangOffM}}",
-   "action":"/pir?t=0",
-   "class":"btn btn-block btn-default",
-   "style":"width:15%;float:right;margin-top:5px;"
-  },
-  {
-   "type":"button",
-   "module":"movement",
-   "title":"{{LangSave}}",
-   "action":"/pir?t=[[pir-time]]",
-   "class":"btn btn-block btn-success",
-   "style":"width:20%;float:right;"
-  },
-
-
-  {
-   "type":"hr",
-   "module":"movement",
-   "style":"clear:both;"
-  },
-
 
   {
    "type":"link",

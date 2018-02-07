@@ -1,8 +1,8 @@
 // {{LangConfRelay}}
-RELAY 12 1 1
-# RELAY 15 0 2
-# RELAY 13 0 3
-# RELAY 14 1 4
+RELAY 12 1 1 0
+# RELAY 15 0 2 0
+# RELAY 13 0 3 0
+# RELAY 14 1 4 0
 // {{LangConfSerial}}
 UART 115200
 print print
@@ -17,15 +17,15 @@ NTP pool.ntp.org ru.pool.ntp.org
 // {{LangConfDHT}}
 # DHT 14
 // {{LangConfDS18B20}}
-# D18B20 14
+# DS18B20 14
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
 TACH 0 0 20
 // {{LangConfRGB}}
 RGB 5 15 1 ff0000 100 255 3
-// {{LangConfRGBSHIM}}
-RGBSHIM 15 13 4 1 ffffff 100 255
+// {{LangConfRGBS}}
+# SRGB 2 4 5 1 ffffff 100 255
 // {{LangConfJalousie}}
 # JALOUSIE 4 12 13
 // {{LangConfMotion}}

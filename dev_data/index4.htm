@@ -162,7 +162,7 @@ From: Latvia, Valmiera
        jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       jsonResponse.ip = ipval;
-      jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
+      //jsonResponse.stateRelay = (jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn);
       for (var i = 0; i < 10; i++) {
        jsonResponse["stateRelay"+i] = (jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn);
       }
