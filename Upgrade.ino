@@ -7,39 +7,41 @@ void initUpgrade() {
 // ----------------------- Обновление с сайта
 void webUpgrade() {
   String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"40;/\">Update module...</head></html>";
-  HTTP.send(200, "text/html", refresh);
-  String spiffsData = HTTP.arg("spiffs");
+  //httpOkText(refresh);
+    HTTP.send(200, "text/html", refresh);
+  String spiffsData = HTTP.arg(spiffsS);
   if (spiffsData != "") {
-    SPIFFS.format();
+    //SPIFFS.format();
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     ESPhttpUpdate.rebootOnUpdate(false);
-    t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg("spiffs"));
+    t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg(spiffsS));
 switch(ret) {
             case HTTP_UPDATE_FAILED:
-            configSetup = jsonWrite(configSetup, "spiffsData", "HTTP_UPDATE_FAILED");
+            jsonWrite(configSetup, spiffsDataS, "Spiffs_FAILED");
             statistics();
             break;
             case HTTP_UPDATE_NO_UPDATES:
-            configSetup = jsonWrite(configSetup, "spiffsData", "HTTP_UPDATE_NO_UPDATES");
+            jsonWrite(configSetup, spiffsDataS, "Spiffs_NO_UPDATES");
             statistics();
                 break;
             case HTTP_UPDATE_OK:
-            configSetup = jsonWrite(configSetup, "spiffsData", "HTTP_UPDATE_OK");
+            jsonWrite(configSetup, spiffsDataS, "Spiffs_UPDATE_OK");
             statistics();
                 break;
         }
     writeFile("timer.save.json", jsonTimer);
     writeFile("scenary.save.txt", Scenary);
-    configSetup = jsonWrite(configSetup, "spiffsData", spiffsData);
+    jsonWrite(configSetup, spiffsDataS, spiffsData);
     saveConfigSetup ();
   }
   String buildData = HTTP.arg("build");
   if (buildData != "") {
     buildData = buildData.substring(buildData.lastIndexOf("/") + 1); // выделяем имя файла
-     configSetup = jsonWrite(configSetup, "buildData", buildData);
+    jsonWrite(configSetup, buildDataS, buildData);
     saveConfigSetup ();
     ESPhttpUpdate.rebootOnUpdate(true);
     t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
+
   }
 }
 

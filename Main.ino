@@ -1,120 +1,36 @@
-// ---------------Инициализация модулей
-void initCMD() {
-  sCmd.addCommand("Serial",       uart);
-  sCmd.addCommand("wifi",       initWIFI);
-  sCmd.addCommand("NTP",        initNTP);
-  sCmd.addCommand("Upgrade",    initUpgrade);
-  sCmd.addCommand("SSDP",       initSSDP);
-  sCmd.addCommand("HTTP",       initHTTP);
-  sCmd.addCommand("DDNS",       initDDNS);
-  sCmd.addCommand("A0",       initA0);
-  sCmd.addCommand("Tach",       initTach);
-  sCmd.addCommand("DHT",       initDHT);
-  sCmd.addCommand("DS18B20",       initDS18B20);
-  sCmd.addCommand("TIMERS",       initTimers);
-  sCmd.addCommand("RELAY",       initRelay);
-  sCmd.addCommand("JALOUSIE",       initJalousie);
-  sCmd.addCommand("MQTT",       initMQTT);
-  sCmd.addCommand("RGB",       initRGB);
-  sCmd.addCommand("RF-RECEIVED",       rfReceived);
-  sCmd.addCommand("RF-TRANSMITTER",     rfReceived);
-  sCmd.addCommand("IR-RECEIVED",       irReceived);
-  sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
-  sCmd.addCommand("MOTION",       initMotion);
-  sCmd.addCommand("BUZER",       initBuzer);
-  sCmd.addCommand("beep",       buzerBeep);
-  sCmd.addCommand("print",       printTest);
-  sCmd.setDefaultHandler(unrecognized);
-}
-
-void unrecognized(const char *command) {
-  //Serial.println("What?");
-}
-// По комманде print печатает аргумент для тастов
-void printTest() {
-  Serial.println("Test " + readArgsString());
-}
-// ----------------- Процедуры статуса
-// Меняем любой статус в /config.live.json configJson
-// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
-boolean sendStatus(String Name, String volume) {
-  configJson = jsonWrite(configJson, Name, volume);
-  return true;
-}
-boolean sendStatus(String Name, int volume) {
-  configJson = jsonWrite(configJson, Name, volume);
-  return true;
-}
-// Читаем любой стстус /config.live.json configJson
-// Вернет String
-String getStatus(String Name) {
-  return jsonRead(configJson, Name);
-}
-// Вернет int
-int getStatusInt(String Name) {
-  return jsonReadtoInt(configJson, Name);
-}
-// ----------------- Процедуры Параметров
-// Меняем любой статус в /config.live.json configJson
-// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
-boolean sendOptions(String Name, String volume) {
-  configOptions = jsonWrite(configOptions, Name, volume);
-  return true;
-}
-boolean sendOptions(String Name, int volume) {
-  configOptions = jsonWrite(configOptions, Name, volume);
-  return true;
-}
-// Читаем любой стстус /config.live.json configJson
-// Вернет String
-String getOptions(String Name) {
-  return jsonRead(configOptions, Name);
-}
-// Вернет int
-int getOptionsInt(String Name) {
-  return jsonReadtoInt(configOptions, Name);
-}
-// Переводит время в строке в формате 00:00:00 в секунды
-unsigned int timeToSec(String inTime) {
-  String secstr = selectToMarker (inTime, ":"); // часы
-  unsigned int  sec = secstr.toInt() * 3600;
-  secstr = deleteBeforeDelimiter(inTime, ":");
-  secstr = selectToMarker (secstr, ":");
-  sec = sec + secstr.toInt() * 60;
-  secstr = selectToMarkerLast (inTime, ":");
-  sec = sec + secstr.toInt();
-  return sec;
-}
-
-
-void saveConfigSetup (){
-  writeFile("config.save.json", configSetup );
-}
-
-// Настраивает Serial по команде sCmd.addCommand("Serial",       uart);
-void uart() {
-  Serial.end();
-  Serial.begin(readArgsInt());
-  delay(100);
-}
-
-// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
-String readArgsString() {
-  String arg;
-  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
-  if (arg == "") arg = "";
-  return arg;
-}
-// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
-int readArgsInt() {
-  char *arg;
-  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
-  if (arg != NULL) {
-    return atoi(arg);
-  }
-  else {
-    return 0;
-  }
+void start_init() {
+  SPIFFS.begin();
+  chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
+  initCMD();
+  // ----------------- начинаем загрузку
+  configSetup = readFile(fileConfigS, 4096);                      //Получим файл конфигурации configSetup можно считать по запросу
+  sendStatus(timeS, "00:00:00");                                         //Добавить раздел времени в configJson
+  sendOptions(langS, jsonRead(configSetup, langS));                      //Скопировать ключ "lang" из configSetup в configOptions
+  sendOptions(ssdpS, jsonRead(configSetup, ssdpS));                      //Скопировать ключ "ssdp"  из configSetup в configOptions
+  sendOptions(timeZoneS, jsonRead(configSetup, timeZoneS));              //Скопировать ключ "space"  из configSetup в configOptions
+  sendOptions(spaceS, jsonRead(configSetup, spaceS));
+  sendOptions(spiffsDataS, jsonRead(configSetup, spiffsDataS));          //Скопировать ключ "spiffsData"  из configSetup в configOptions
+  sendOptions(buildDataS, jsonRead(configSetup, buildDataS));            //Скопировать ключ "buildData"  из configSetup в configOptions
+  String configs = jsonRead(configSetup, configsS);
+  configs.toLowerCase();
+  sendOptions("flashChip", String(ESP.getFlashChipId(), HEX));
+  sendOptions("ideFlashSize", ESP.getFlashChipSize());
+  sendOptions("realFlashSize", ESP.getFlashChipRealSize());
+  initWIFI();
+  initHTTP();
+  initUpgrade();
+  initFS();
+  initSSDP();
+  initScenary();
+  String test = readFile("configs/"+configs+".txt", 4096);
+  test.replace("\r\n", "\n");
+  test +="\n";
+  goCommands(test);
+  test = "";
+  jsonWrite(configSetup, macS, WiFi.macAddress().c_str());
+  jsonWrite(configSetup, ipS, WiFi.localIP().toString());
+   testJson = configJson;
+  Serial.println("");
 }
 
 // ------------- Чтение файла в строку
@@ -140,27 +56,26 @@ String writeFile(String fileName, String strings ) {
     return "Failed to open config file";
   }
   configFile.print(strings);
-  //strings.printTo(configFile);
   configFile.close();
   return "Write sucsses";
 }
 
+
 // ------------- Чтение значения json
-String jsonRead(String json, String name) {
+String jsonRead(String &json, String name) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   return root[name].as<String>();
 }
-
 // ------------- Чтение значения json
-int jsonReadtoInt(String json, String name) {
+int jsonReadtoInt(String &json, String name) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   return root[name];
 }
 
 // ------------- Запись значения json String
-String jsonWrite(String json, String name, String volume) {
+String jsonWrite(String &json, String name, String volume) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   root[name] = volume;
@@ -170,7 +85,7 @@ String jsonWrite(String json, String name, String volume) {
 }
 
 // ------------- Запись значения json int
-String jsonWrite(String json, String name, int volume) {
+String jsonWrite(String &json, String name, int volume) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   root[name] = volume;
@@ -179,72 +94,69 @@ String jsonWrite(String json, String name, int volume) {
   return json;
 }
 
-// ------------- Создание данных для графика
-String graf(int datas, int points, int refresh, String options) {
-  String root = "{}";  // Формировать строку для отправки в браузер json формат
-  // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
-  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
-  DynamicJsonBuffer jsonBuffer;
-  // вызовите парсер JSON через экземпляр jsonBuffer
-  JsonObject& json = jsonBuffer.parseObject(root);
-  // Заполняем поля json
-  JsonArray& data = json.createNestedArray("data");
-  data.add(datas);
-  json["points"] = points;
-  json["refresh"] = refresh;
-  json["options"] = options;
-  //"options":"low:0,showLine: false,showArea:true,showPoint:false",
-  // Помещаем созданный json в переменную root
-  root = "";
-  json.printTo(root);
-  return root;
+// ----------------- Процедуры статуса
+// Меняем любой статус в /config.live.json configJson
+// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
+boolean sendStatus(String Name, String volume) {
+  jsonWrite(configJson, Name, volume);
+  return true;
+}
+boolean sendStatus(String Name, int volume) {
+  jsonWrite(configJson, Name, volume);
+  return true;
+}
+// Читаем любой стстус /config.live.json configJson
+// Вернет String
+String getStatus(String Name) {
+  return jsonRead(configJson, Name);
+}
+// Вернет int
+int getStatusInt(String Name) {
+  return jsonReadtoInt(configJson, Name);
+}
+// ----------------- Процедуры Параметров
+// Меняем любой статус в /config.live.json configJson
+// Если нужновызвать проверку скрипта то присвоить ответ переенной flag
+boolean sendOptions(String Name, String volume) {
+  jsonWrite(configOptions, Name, volume);
+  return true;
+}
+boolean sendOptions(String Name, int volume) {
+  jsonWrite(configOptions, Name, volume);
+  return true;
 }
 
-// --------------Создание данных для графика
-String graf(int datas, int points, int refresh) {
-  String root = "{}";  // Формировать строку для отправки в браузер json формат
-  // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
-  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
-  DynamicJsonBuffer jsonBuffer;
-  // вызовите парсер JSON через экземпляр jsonBuffer
-  JsonObject& json = jsonBuffer.parseObject(root);
-  // Заполняем поля json
-  JsonArray& data = json.createNestedArray("data");
-  data.add(datas);
-  json["points"] = points;
-  json["refresh"] = refresh;
-  //"options":"low:0,showLine: false,showArea:true,showPoint:false",
-  // Помещаем созданный json в переменную root
-  root = "";
-  json.printTo(root);
-  return root;
+// Вернет из json строки в configOptionsint значение ключа Name как String
+String getOptions(String Name) {
+  return jsonRead(configOptions, Name);
+}
+// Вернет из json строки в configOptionsint значение ключа Name как int
+int getOptionsInt(String Name) {
+  return jsonReadtoInt(configOptions, Name);
 }
 
-//------------------Запуск конфигурации в соответствии с разделом строки
-String modulesInit(String json, String nameArray) {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& All = jsonBuffer.parseObject(json);
-  JsonArray& nestedArray = All[nameArray].asArray();
-  int k = nestedArray.size();
-  for (int i = 0; i <= k - 1; i++) {
-    String temp =  All[nameArray][i]["type"];
-    sCmd.readStr(temp);
+void saveConfigSetup () {
+  writeFile("config.save.json", configSetup );
+}
+
+void httpOkText() {
+  HTTP.send(200, "text/plain", "Ok");
+}
+void httpOkText(String text) {
+  HTTP.send(200, "text/plain", text);
+}
+void httpOkJson(String text) {
+  HTTP.send(200, "application/json", text);
+}
+
+uint8_t pinTest(uint8_t pin) {
+  if ((pin > 5 && pin < 12) || pin > 16) pin = 17 ;
+  if (!pins[pin]) {
+    pins[pin] = true;
+  } else {
+    pin = 17;
   }
-  return "OK";
-}
-
-//------------------Выполнить все команды по порядку из строки разделитель \r\n
-String goCommands(String inits) {
-  String temp = "";
-  String rn = "\n";
-  inits += rn;
-  do {
-    temp = selectToMarker (inits, rn);
-    //Serial.println(temp);
-    sCmd.readStr(temp);
-    inits = deleteBeforeDelimiter(inits, rn);
-  } while (inits.indexOf(rn) != 0);
-  return "OK";
+  return pin;
 }
 
 // ------------- Данные статистики
@@ -252,11 +164,11 @@ void statistics() {
   String urls = "http://backup.privet.lv/visitors/?";
   urls += WiFi.macAddress().c_str();
   urls += "&";
-  urls += jsonRead(configSetup, "configs");
+  urls += jsonRead(configSetup, configsS);
   urls += "&";
   urls += ESP.getResetReason();
   urls += "&";
-  urls += jsonRead(configSetup, "spiffsData");
+  urls += jsonRead(configSetup, spiffsDataS);
   getURL(urls);
 }
 
@@ -271,25 +183,6 @@ String getURL(String urls) {
   }
   http.end();
   return answer;
-}
-
-// -------------- Регистрация модуля
-//{"ip":"192.168.0.103","SSDP":"Sonoff","module":["sonoff"]}
-void modulesReg(String modName) {
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.parseObject(modules);
-  json["SSDP"] = jsonRead(configJson, "SSDP");
-  json["space"] = jsonRead(configJson, "space");
-  JsonArray& data = json["module"].asArray();
-  data.add(modName);
-  modules = "";
-  json.printTo(modules);
-}
-
-// -------------- Регистрация команд
-//
-void commandsReg(String comName, String modName) {
-  regCommands = jsonWrite(regCommands, comName, modName);
 }
 
 // --------------------Выделяем строку до маркера
@@ -311,3 +204,53 @@ String deleteBeforeDelimiter(String str, String found) {
 }
 
 
+// -------------- Регистрация модуля
+void modulesReg(String modName) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(modules);
+  json[ssdpS] = jsonRead(configJson, ssdpS);
+  json[spaceS] = jsonRead(configJson, spaceS);
+  JsonArray& data = json["module"].asArray();
+  data.add(modName);
+  modules = "";
+  json.printTo(modules);
+}
+
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
+String readArgsString() {
+  String arg;
+  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  if (arg == "") arg = "";
+  return arg;
+}
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
+int readArgsInt() {
+  char *arg;
+  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  if (arg != NULL) {
+    return atoi(arg);
+  }
+  else {
+    return 0;
+  }
+}
+
+//------------------Выполнить все команды по порядку из строки разделитель \r\n
+String goCommands(String inits) {
+  String temp = "";
+  String rn = "\n";
+  inits += rn;
+  do {
+    temp = selectToMarker (inits, rn);
+    //Serial.println(temp);
+    sCmd.readStr(temp);
+    inits = deleteBeforeDelimiter(inits, rn);
+  } while (inits.indexOf(rn) != 0);
+  return "OK";
+}
+
+// -------------- Регистрация команд
+//
+void commandsReg(String comName, String modName) {
+  regCommands = jsonWrite(regCommands, comName, modName);
+}

@@ -1,54 +1,66 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
-  HTTP.on("/Time", handle_Time);     // Синхронизировать время устройства по запросу вида /Time
-  HTTP.on("/timeZone", handle_time_zone);    // Установка времянной зоны
-  timeSynch(jsonReadtoInt(configSetup, "timeZone"));
+  String ntpTemp = readArgsString();
+  if (ntpTemp == "") ntpTemp = "pool.ntp.org";
+  sendOptions(ntp1S, ntpTemp);
+  ntpTemp = readArgsString();
+  if (ntpTemp == "") ntpTemp = "ru.pool.ntp.org";
+  sendOptions(ntp2S, ntpTemp);
+  HTTP.on("/Time", HTTP_GET, []() {
+    timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
+    String out = "{}";
+    out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
+    httpOkText(out);
+  });
+  // Установка времянной зоны
+  HTTP.on("/timeZone", HTTP_GET, []() {
+    uint8_t timezone = HTTP.arg("timeZone").toInt();
+    jsonWrite(configSetup, timeZoneS,  timezone);
+    sendOptions(timeZoneS, timezone);
+    timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
+    saveConfigSetup ();
+    httpOkText();
+  });
+  timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
+    // задача проверять таймеры каждую секунду обновлять текущее время.
+  ts.add(0, 1000, [&](void*) {
+    String timeNow = GetTime();
+    jsonWrite(configSetup, timeS,  timeNow);
+    sendStatus(timeS, timeNow);
+    sendOptions(timeS, timeNow);
+    flagT = true;
+  }, nullptr, true);
   modulesReg("ntp");
 }
 
-void timeSynch(int zone) {
+void timeSynch(uint8_t zone, String ntp1, String ntp2) {
   if (WiFi.status() == WL_CONNECTED) {
     // Инициализация UDP соединения с NTP сервером
-    configTime(zone * 3600, 0, "pool.ntp.org", "ru.pool.ntp.org");
-    int i = 0;
+    configTime(zone * 3600, 0, ntp1.c_str(), ntp2.c_str());
+    uint8_t i = 0;
     while (!time(nullptr) && i < 10) {
       i++;
       delay(100);
     }
     String timeNow = GetTime();
-    configJson = jsonWrite(configJson, "time",  timeNow);
-    configSetup = jsonWrite(configSetup, "time",  timeNow);
+    jsonWrite(configSetup, timeS,  timeNow);
+    sendStatus(timeS, timeNow);
+    //sendOptions(timeS, timeNow);
+    timeNow = GetWeekday();
+    //configSetup = jsonWrite(configSetup, weekdayS,  timeNow);
+    sendStatus(weekdayS, timeNow);
+    //sendOptions(timeS, timeNow);
   }
 }
-
-// ---------- Синхронизация времени
-void handle_Time() {
-  timeSynch(jsonReadtoInt(configSetup, "timeZone"));
-  String out = "{}";
-  out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>"+GetTime()+"</strong>");
-  HTTP.send(200, "text/plain", out); // отправляем ответ о выполнении
-}
-
-// ---------- Установка параметров времянной зоны по запросу вида http://192.168.0.101/timeZone?timezone=3
-void handle_time_zone() {
-  int timezone = HTTP.arg("timeZone").toInt(); // Получаем значение timezone из запроса конвертируем в int сохраняем в глобальной переменной
-  configOptions = jsonWrite(configOptions, "timeZone",  timezone);
-  configSetup = jsonWrite(configSetup, "timeZone",  timezone);
-  timeSynch(timezone);
-  saveConfigSetup ();
-  HTTP.send(200, "text/plain", "OK");
-}
-
 // Получение текущего времени
 String GetTime() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
   String Time = ""; // Строка для результатов времени
   Time += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
-  int i = Time.indexOf(":"); //Ишем позицию первого символа :
+  uint8_t i = Time.indexOf(":"); //Ишем позицию первого символа :
   Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
   return Time; // Возврашаем полученное время
 }
-
 
 // Получение даты
 String GetDate() {
@@ -56,15 +68,15 @@ String GetDate() {
   String Data = ""; // Строка для результатов времени
   Data += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   Data.replace("\n", "");
-  int i = Data.lastIndexOf(" "); //Ишем позицию последнего символа пробел
-  String Time = Data.substring(i - 8, i+1); // Выделяем время и пробел
+  uint8_t i = Data.lastIndexOf(" "); //Ишем позицию последнего символа пробел
+  String Time = Data.substring(i - 8, i + 1); // Выделяем время и пробел
   Data.replace(Time, ""); // Удаляем из строки 8 символов времени и пробел
   return Data; // Возврашаем полученную дату
 }
 // Получение дня недели
 String GetWeekday() {
   String Data = GetDate();
-  int i = Data.indexOf(" "); //Ишем позицию первого символа пробел
+  uint8_t i = Data.indexOf(" "); //Ишем позицию первого символа пробел
   String weekday = Data.substring(i - 3, i); // Выделяем время и пробел
   return weekday;
 }

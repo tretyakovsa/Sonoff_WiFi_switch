@@ -1,65 +1,102 @@
 void initScenary() {
   loadScenary();
   sCmd.addCommand("if",       ifCommand);
+  sCmd.addCommand("or",       orCommand);
   sCmd.addCommand("id",       idNot);
   sCmd.addCommand("then",       thenCommand);
   HTTP.on("/setscenary", HTTP_GET, []() {
     loadScenary();
-    HTTP.send(200, "text/plain", "Ok");
+    loadTimer();
+    httpOkText();
   });
+  loadScenary();
+  loadTimer();
 }
 
-void loadScenary(){
+void loadScenary() {
   Scenary = readFile("scenary.save.txt", 4096);
   Scenary.replace("\r\n", "\n");
   Scenary.replace("\n\n", "\n");
   Scenary += "\n";
-  }
+  //Serial.println(Scenary);
+}
+
+void loadTimer() {
+  Timerset = readFile("timer.save.txt", 4096);
+  Timerset.replace("\r\n", "\n");
+  Timerset.replace("\n\n", "\n");
+  Timerset += "\n";
+  //Serial.println(Timerset);
+}
 
 // Ничего не делать если комманда id
 void idNot() {}
 
 void handleScenary() {
   if (flag) {
-    goCommands(Scenary);
     //Serial.println(goCommands(Scenary));
+    goCommands(Scenary);
+    //Serial.println(flag);
+    testJson = configJson;
     flag = false;
+  }
+  if (flagT) {
+    goCommands(Timerset);
+    //Serial.println(goCommands(Timerset));
+    //Serial.println("timer");
+    flagT = false;
   }
 }
 
 // Разбор команды if
 void ifCommand() {
-  thenOk = false;
+    //Serial.println(thenOk);
+    thenOk = false;
+    orCommand();
+  }
+
+void orCommand() {
   String Name =  readArgsString();
   String Condition =  readArgsString();
   String Volume =  readArgsString();
-  if (Condition == "=") {
-    if (Volume == getStatus(Name)) thenOk = true;
-  }
-  if (Condition == "<") {
-    if (Volume > getStatus(Name)) thenOk = true;
-  }
-  if (Condition == ">") {
-    if (Volume < getStatus(Name)) thenOk = true;
-  }
-  if (Condition == "<=") {
-    if (Volume >= getStatus(Name)) thenOk = true;
-  }
-  if (Condition == ">=") {
-    if (Volume <= getStatus(Name)) thenOk = true;
-  }
-  if (Condition == "!=") {
-    if (Volume != getStatus(Name)) thenOk = true;
+  String test = getStatus(Name);
+  String testOld = jsonRead(testJson, Name);
+  if (test != testOld) {
+    //Serial.println(Name);
+    //Serial.println(test);
+    //Serial.println(testOld);
+    if (Condition == "=") {
+      if (Volume == test) thenOk = true;
+    }
+    if (Condition == "<") {
+      if (Volume > test) thenOk = true;
+    }
+    if (Condition == ">") {
+      if (Volume < test) thenOk = true;
+    }
+    if (Condition == "<=") {
+      if (Volume >= test) thenOk = true;
+    }
+    if (Condition == ">=") {
+      if (Volume <= test) thenOk = true;
+    }
+    if (Condition == "!=") {
+      if (Volume != test) thenOk = true;
+    }
   }
 }
 // Выполнение then
 void thenCommand() {
   if (thenOk) {
-    String ssdp = jsonRead(configSetup, "SSDP");
+    String ssdp = jsonRead(configSetup, ssdpS);
     String test = readArgsString();
     String comm = readArgsString();
+    comm += " " + readArgsString();
+    comm += " " + readArgsString();
     // Если это локальное устройство
-    if (ssdp == test ) {
+    if (ssdp == test or test == "this") {
+      Serial.println(comm);
+      sendStatus("test", comm);
       sCmd.readStr(comm);
     }
     else {
@@ -68,8 +105,10 @@ void thenCommand() {
       String ip = jsonRead(ssdpList, test);
       urls += ip;
       urls += "/cmd?command=" + comm;
+      urls.replace(" ", "%20");
       if (ip != "") {
-        //Serial.println(urls);
+        Serial.println(urls);
+        sendStatus("test", comm);
         getURL(urls);
       }
 
