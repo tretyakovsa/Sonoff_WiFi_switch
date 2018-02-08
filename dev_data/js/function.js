@@ -284,9 +284,9 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
       option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" class="btn btn-default" style="width:10%;" onclick="loadLive2();return false"><i class="find-replace-img"></i></a>';
       option += '<br><h3>'+jsonResponse.LangThen+'</h3> ';
-      option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadLive(this.value,\'command.json\',\'scenary-then\')"><\/select>';
+      option += '<select class="form-control" id="ssdp-list1" style="width:50%;display:inline" onchange="loadCommand(this.value,\'commands2.json\',\'scenary-then\')"><\/select>';
       option += '<select class="form-control" style="width:50%;display:inline" id="scenary-then" onchange="loadCommandHelp(this.value,\'command-help.json\')"><\/select>';
-      option += '<div id="command-help"></div><input class="form-control" placeholder="Optional" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
+      option += '<div id="command-help"></div><input class="form-control" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe" type="text" /><textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
       option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');val(\\'ssdp-list0\\',\\' \\');val(\\'ssdp-command\\',\\' \\');val(\\'ssdp-list1\\',\\' \\');val(\\'scenary-othe\\',\\' \\');html(\\'command-help\\',\\' \\');document.getElementById(\\'ssdp-module\\').options.length=0;document.getElementById(\\'scenary-then\\').options.length=0;',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
@@ -398,6 +398,18 @@ function loadLive(ip,file,where) {
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+  }
+  html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
+ },true);
+}
+
+function loadCommand(ip,file,where) {
+ html(where,'<option value="">Loading...</option>');
+ ajax.get('http://'+ip+'/'+file,{},function(response) {
+  var option = '';
+  var jsonLive=JSON.parse(response);
+  for(var key in jsonLive.command) {
+   option += '<option value="'+jsonLive.command[key]+'" title="'+typeof jsonLive.command[key]+'">'+jsonLive.command[key]+'<\/option>';
   }
   html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
  },true);

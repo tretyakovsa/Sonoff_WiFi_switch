@@ -82,8 +82,6 @@
  "LangIfttt1":"С помощью сервиса <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Устройство может включатся по многим сценариев, например: новое сообщение в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">подробнее...</a><span id=\"ifttt-help\" class=\"hidden\"> задания в Google calendar, почта и многое другое. Подробней о том как это сделать вы можете посмотреть видео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">здесь</a>.<br>Локальная ссылка: <span id=\"ddns-url1\"></span><br>Глобальная ссылка: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"Включить",
  "LangOff":"Выключить",
- "LangPir1":"Датчик движения",
- "LangPir2":"Время в секундах как долго будет гореть LED от сенсора на движения. Если PIR сенсор не подключен, значение должно быть 0.",
 
  "_comment": "---page.htm?rgb---",
  "LangClose":"Закрыть",
@@ -103,6 +101,7 @@
 
  "_comment": "---page.htm?scenary---",
  "LangScenary":"Сценарии",
+ "LangAction":"Действие",
  "LangIf":"Если",
  "LangThen":"Тогда",
  "LangScenery1":"Ниже вы можете автоматизировать некоторые задачи. <a target=\"_blank\" href=\"https://youtu.be/E_llovvoZe4\">Посмотрите видео как это работает</a>",
@@ -150,6 +149,8 @@
  "LangstateA0":"Аналоговый вход",
  "Langvoice":"Голосовое управление",
  "LangstateMovement":"Сенсор движения",
+ "LangtimeRGB":"Время работы RGB",
+ "LangtimeBUZ":"Время работы Buzzer",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",
@@ -170,7 +171,7 @@
  "LangConfJalousie":"Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором",
  "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. (PIN/Количество лед/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
  "LangConfRGBS":"RGB SHIM. В стадии разработки, пока не работает. (PIN R/PIN G/PIN B/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
- "LangConfMotion":"Сенсор движения (PIN/Время работы в секундах)",
+ "LangConfMovement":"Сенсор движения (PIN/Время работы в секундах, 120 = 2мин.)",
  "LangConfRfReceived":"Беспроводной приемник MHz частот",
  "LangConfRfTransmitter":"Беспроводной передатчик MHz частот, скоро.",
  "LangConfIrReceived":"Беспроводной приемник IR частот",

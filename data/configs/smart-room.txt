@@ -25,12 +25,11 @@ TACH 0 0 20
 // {{LangConfRGB}}
 # RGB 5 15 1 ff0000 100 255 3
 // {{LangConfRGBS}}
-# biedriba nauda. Косметологов
-29330964 2 4 5 1 ffffff 100 255
+# SRGB 2 4 5 1 ffffff 100 255
 // {{LangConfJalousie}}
 # JALOUSIE 4 12 13
-// {{LangConfMotion}}
-# MOTION 2 120
+// {{LangConfMovement}}
+# MOVEMENT 2 120
 // {{LangConfRfReceived}}
 RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}

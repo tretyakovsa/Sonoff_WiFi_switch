@@ -82,8 +82,6 @@
  "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"ddns-url1\"></span><br>Global link: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"On",
  "LangOff":"Off",
- "LangPir1":"PIR Sensor",
- "LangPir2":"Time in seconds how long the LED will light on the sensor to movement. If the sensor is not connected PIR, the value should be 0.",
 
  "_comment": "---page.htm?rgb---",
  "LangClose":"Close",
@@ -103,6 +101,7 @@
 
  "_comment": "---page.htm?scenary---",
  "LangScenary":"Scenary",
+ "LangAction":"Action",
  "LangIf":"If",
  "LangThen":"Then",
  "LangScenery1":"Here you can automatize your life. :) . <a target=\"_blank\" href=\"https://youtu.be/E_llovvoZe4\">How it works?</a>",
@@ -150,6 +149,8 @@
  "LangstateA0":"Аналоговый вход",
  "Langvoice":"Голосовое управление",
  "LangstateMovement":"Сенсор движения",
+ "LangtimeRGB":"Время работы RGB",
+ "LangtimeBUZ":"Время работы Buzzer",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
@@ -170,7 +171,7 @@
  "LangConfJalousie":"Первая ячейка - PIN счетчик оборотов, вторая и третья - управление мотором",
  "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. (PIN/Количество лед/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
  "LangConfRGBS":"RGB SHIM. В стадии разработки, пока не работает. (PIN R/PIN G/PIN B/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
- "LangConfMotion":"Сенсор движения (PIN/Время работы в секундах)",
+ "LangConfMovement":"Сенсор движения (PIN/Время работы в секундах, 120 = 2мин.)",
  "LangConfRfReceived":"Беспроводной приемник MHz частот",
  "LangConfRfTransmitter":"Беспроводной передатчик MHz частот, скоро.",
  "LangConfIrReceived":"Беспроводной приемник IR частот",

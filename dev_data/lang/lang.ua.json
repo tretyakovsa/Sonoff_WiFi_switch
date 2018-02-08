@@ -82,8 +82,6 @@
  "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"ddns-url1\"></span><br>Глобальне посилання: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"Увімкнути",
  "LangOff":"Вимкнути",
- "LangPir1":"Датчик руху",
- "LangPir2":"Тривалість горіння LED ввімкненого датчиком руху в секундах. Якщо PIR сенсор не підключений, значення повинно бути 0.",
 
  "_comment": "---RGB.HTM---",
  "LangClose":"Закрити",
@@ -103,6 +101,7 @@
 
  "_comment": "---page.htm?scenary---",
  "LangScenary":"Сценарії",
+ "LangAction":"Действие",
  "LangIf":"Якщо",
  "LangThen":"Значить",
  "LangScenery1":"Нижче Ви можете автоматизувати деякі задачі. <a target=\"_blank\" href=\"https://youtu.be/E_llovvoZe4\">Посмотрите видео как это работает</a>",
@@ -150,6 +149,8 @@
  "LangstateA0":"Аналоговый вход",
  "Langvoice":"Голосовое управление",
  "LangstateMovement":"Сенсор движения",
+ "LangtimeRGB":"Время работы RGB",
+ "LangtimeBUZ":"Время работы Buzzer",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",
@@ -170,7 +171,7 @@
  "LangConfJalousie":"Перша комірка - PIN лічильник оборотів, друга та третя - керування двигуном",
  "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. (PIN/Количество лед/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
  "LangConfRGBS":"RGB SHIM. В стадии разработки, пока не работает. (PIN R/PIN G/PIN B/Состояние после рестарта/цвет/скорость/яркость/динамический режим)",
- "LangConfMotion":"Сенсор движения (PIN/Время работы в секундах)",
+ "LangConfMovement":"Сенсор движения (PIN/Время работы в секундах, 120 = 2мин.)",
  "LangConfRfReceived":"Бездротовий приймач MHz частот",
  "LangConfRfTransmitter":"Бездротовий передавач MHz частот, вже незабаром.",
  "LangConfIrReceived":"Бездротовий приймач IR частот",

@@ -167,54 +167,6 @@
    "style":"height:200px;margin-left:-20px"
   },
 
-
-  {
-   "type":"h2",
-   "module":"movement",
-   "title":"{{LangPir1}}"
-  },
-  {
-   "type":"text",
-   "module":"movement",
-   "title":"{{LangPir2}}",
-   "class":"alert alert-info",
-   "style":"width:60%;float:left;"
-  },
-
-  {
-   "type":"input",
-   "module":"movement",
-   "title":"",
-   "name":"pir-time",
-   "state":"{{pirTime}}",
-   "style":"width:35%;float:right;",
-   "pattern":"[0-9]*[.,]?[0-9]+"
-  },
-  {
-   "type":"button",
-   "module":"movement",
-   "title":"{{LangOffM}}",
-   "action":"/pir?t=0",
-   "class":"btn btn-block btn-default",
-   "style":"width:15%;float:right;margin-top:5px;"
-  },
-  {
-   "type":"button",
-   "module":"movement",
-   "title":"{{LangSave}}",
-   "action":"/pir?t=[[pir-time]]",
-   "class":"btn btn-block btn-success",
-   "style":"width:20%;float:right;"
-  },
-
-
-  {
-   "type":"hr",
-   "module":"movement",
-   "style":"clear:both;"
-  },
-
-
   {
    "type":"link",
    "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
