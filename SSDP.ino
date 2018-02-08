@@ -6,6 +6,8 @@ void initSSDP() {
     temp = "Sonoff";//+jsonRead(configSetup, macS);
     jsonWrite(configSetup, ssdpS, temp);
   }
+  //LLMNR.begin(temp.c_str());
+  //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
   udp.begin(localPort);
   // SSDP дескриптор

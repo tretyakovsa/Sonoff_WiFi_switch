@@ -12,6 +12,8 @@
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
 #include <TickerScheduler.h>         //https://github.com/Toshik/TickerScheduler
 #include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand
+//#include <ESP8266LLMNR.h>
+//#include <ESP8266NetBIOS.h>
 // Библиотеки устройств
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 #include <OneWire.h>                 //Ставим через менеджер библиотек
@@ -39,7 +41,7 @@ String testJson = "{}";
 String configOptions = "{}";         // Здесь данные для всех страниц /config.options.json
 String configSetup = "{}";           // Здесь данные для setup /config.setup.json
 String ssdpList = "{}";              // SSDP имя ip всех модулей в сети /ssdp.list.json
-String regCommands = "{}";           // список доступных комманд для различных модулей /command.json
+String regCommands = "{\"command\":[]}";           // список доступных комманд для различных модулей /command.json
 String jsonTimer = "{}";             // список таймеров /jsontimer.json
 String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев

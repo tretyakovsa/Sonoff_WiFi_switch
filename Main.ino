@@ -250,7 +250,11 @@ String goCommands(String inits) {
 }
 
 // -------------- Регистрация команд
-//
-void commandsReg(String comName, String modName) {
-  regCommands = jsonWrite(regCommands, comName, modName);
+void commandsReg(String comName, String temp) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.parseObject(regCommands);
+  JsonArray& data = json["command"].asArray();
+  data.add(comName);
+  regCommands = "";
+  json.printTo(regCommands);
 }

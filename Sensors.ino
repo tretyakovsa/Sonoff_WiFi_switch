@@ -5,13 +5,13 @@ void initOneWire() {
   Serial.println(t);
   static uint8_t averageFactor = readArgsInt();
   if (t < 500) t = 2000;
-  OneWire ow(pin);
-  DallasTemperature DS18B20(&ow);
-  DS18B20.begin();
-  DS18B20.requestTemperatures();
-  float ok = DS18B20.getTempCByIndex(0);
-  DS18B20.setResolution(12);
-  sendStatus(temperatureS, ok);
+  //OneWire = new ow(pin);
+  //DallasTemperature = new DS18B20(&OneWire);
+  //DS18B20->begin();
+  //DS18B20.requestTemperatures();
+  //float ok = DS18B20.getTempCByIndex(0);
+  //DS18B20.setResolution(12);
+  //sendStatus(temperatureS, ok);
 
   ts.add(4, t, [&](void*) {
     //DS18B20.requestTemperatures();
@@ -19,6 +19,8 @@ void initOneWire() {
   }, nullptr, true);
   HTTP.on("/temperature.json", HTTP_GET, []() {
     //DS18B20.requestTemperatures();
+
+    //String data = graf(DS18B20.getTempCByIndex(0), 10, t, "low:0");
     String data = graf(getStatusInt(temperatureS), 10, t, "low:0");
     httpOkJson(data);
   });

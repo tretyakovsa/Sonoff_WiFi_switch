@@ -80,3 +80,41 @@ bool loadnWidgets() {
   }
   return true;
 }
+
+// --------------------- Включаем DDNS
+void initDDNS() {
+  HTTPWAN = ESP8266WebServer (jsonReadtoInt(configSetup, ddnsPortS));
+  HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
+  // ------------------Выполнение команды из запроса
+  HTTPWAN.on("/cmd", HTTP_GET, []() {
+    String com = HTTPWAN.arg("command");
+    Serial.println(com);
+    sendStatus("test", com);
+    sCmd.readStr(com);
+    HTTPWAN.send(200, "text/plain", com);
+  });
+  HTTPWAN.begin();
+    // задача синхронизайия с сервером ddns каждые 10 минут
+ ts.add(8, 600000, [&](void*) {
+    ip_wan();
+  }, nullptr, true);
+  modulesReg(ddnsS);
+}
+
+// ------------------------------Установка параметров ddns
+void handle_ddns() {
+jsonWrite(configSetup, ddnsS,  HTTP.arg(ddnsS));
+jsonWrite(configSetup, ddnsNameS,  HTTP.arg(ddnsNameS));
+jsonWrite(configSetup, ddnsPortS,  HTTP.arg(ddnsPortS));
+  ip_wan();
+  saveConfigSetup ();
+  httpOkText();
+}
+
+// --------------------------------Запрос для синхронизации внешнего ip адреса с ddns
+int ip_wan() {
+  String ddns = jsonRead(configSetup, ddnsS);
+  if (ddns != "") {
+    getURL(ddns);
+  }
+}
