@@ -109,6 +109,10 @@ From: Latvia, Valmiera
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
          document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
         }
+        if (searchModule(modules,"rgb")){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
+         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
+        }
         if (searchModule(modules,"jalousie")){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'jalousie','success');}
          document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=jalousienot\',this);" value="'+(jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen)+'" class="btn btn-'+(jsonResponse.stateJalousie?'info':'primary')+'" type="button">';

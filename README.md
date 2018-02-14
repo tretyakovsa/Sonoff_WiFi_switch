@@ -37,10 +37,11 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 - DHT11, DHT22, AM2302, RHT03, DS18B20
 - A0
 - Tachе
-- RELAY
+- RELAY (4)
 - JALOUSIE
 - WS2811/WS2812/NeoPixel LEDs
-- MOTION
+- RGB 5050/3528/2835
+- MOVEMENT
 - RF-RECEIVED
 - RF-TRANSMITTER
 - IR-RECEIVED

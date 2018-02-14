@@ -31,6 +31,13 @@
    "class":"btn btn-block btn-danger"
   },
   {
+   "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB SHIM",
+   "module": "rgbs",
+   "action": "/page.htm?rgbs",
+   "class": "btn btn-block btn-default"
+  },
+  {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
    "module":"relay",
