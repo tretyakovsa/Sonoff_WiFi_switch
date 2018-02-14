@@ -370,8 +370,8 @@ function loadScenary(jsonResponse,loadList) {
    }
   } else {
    for (var i in ipDevice) {
-    //option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
-    option += '<option value="'+ipDevice[i]+'">'+(ipDevice[i]==document.location.hostname?'this':i)+'<\/option>';
+    option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+    //option += '<option value="'+ipDevice[i]+'">'+(ipDevice[i]==document.location.hostname?'this':i)+'<\/option>';
    }
    html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
    html("ssdp-list1",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
@@ -430,9 +430,12 @@ function loadLive2() {
 }
 
 function loadInTextarea() {
+ var scenary_if = document.getElementById("ssdp-list0").options[document.getElementById("ssdp-list0").selectedIndex].text;
+ var scenary_then = document.getElementById("ssdp-list1").options[document.getElementById("ssdp-list1").selectedIndex].text;
+
  var element = document.getElementById("scenary-list-edit");
  element.innerHTML += '\r\n\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value;
- element.innerHTML += '\r\nthen '+document.getElementById("ssdp-list1").options[document.getElementById("ssdp-list1").selectedIndex].text+' '+document.getElementById("scenary-then").options[document.getElementById("scenary-then").selectedIndex].value+' '+document.getElementById("scenary-othe").value;
+ element.innerHTML += '\r\nthen '+(scenary_if==scenary_then?'this':scenary_then)+' '+document.getElementById("scenary-then").options[document.getElementById("scenary-then").selectedIndex].value+' '+document.getElementById("scenary-othe").value;
  element.innerHTML += '\r\nid '+Math.floor(Math.random()*10000);
 }
 
