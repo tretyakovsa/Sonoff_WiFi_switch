@@ -2,20 +2,12 @@
  "title":"Напишите ниже действие:",
  "relay":[
   {
-   "command":"on",
-   "title":"{{Langrelayon}}"
-  },
-  {
    "command":"on 1",
    "title":"{{Langrelayon}} под номером 1"
   },
   {
-   "command":"not",
-   "title":"{{Langrelaynot}}"
-  },
-  {
-   "command":"off",
-   "title":"{{Langrelayoff}}"
+   "command":"not 1",
+   "title":"{{Langrelaynot}} под номером 1"
   },
   {
    "command":"off 1",
