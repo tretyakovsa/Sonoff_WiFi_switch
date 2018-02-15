@@ -123,6 +123,7 @@
  "LangstateJalousie":"Стан жалюзі",
  "LangstateRGB":"Стан RGB",
  "LangstateRelay":"Стан релє",
+ "LangstateTach0":"Состояние кнопки",
  "LangstateRelay0":"Состояние реле 0",
  "LangstateRelay1":"Состояние реле 1",
  "LangstateRelay2":"Состояние реле 2",

@@ -123,6 +123,7 @@
  "LangstateJalousie":"State jalousie",
  "LangstateRGB":"State RGB",
  "LangstateRelay":"State relay",
+ "LangstateTach0":"State Tach",
  "LangstateRelay0":"State relay 0",
  "LangstateRelay1":"State relay 1",
  "LangstateRelay2":"State relay 2",

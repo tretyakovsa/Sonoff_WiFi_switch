@@ -122,6 +122,7 @@
  "Langjalousienot":"Переключить жалюзи",
  "LangstateJalousie":"Состояние жалюзи",
  "LangstateRGB":"Состояние RGB",
+ "LangstateTach0":"Состояние кнопки",
  "LangstateRelay":"Состояние реле",
  "LangstateRelay0":"Состояние реле 0",
  "LangstateRelay1":"Состояние реле 1",
