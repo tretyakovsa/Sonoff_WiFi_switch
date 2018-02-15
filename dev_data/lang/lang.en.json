@@ -84,7 +84,6 @@
  "LangOff":"Off",
 
  "_comment": "---page.htm?rgb---",
- "LangClose":"Close",
  "LangTime5":"Alarm time work",
  "LangTime8":"How many minutes of play?",
  "LangTime9":"minutes",
@@ -168,7 +167,7 @@
  "LangConfDHT":"Датчики температуры и влажности DHT11, DHT22, AM2302, RHT03, Si7021",
  "LangConfDS18B20":"Пока только на GPIO14, менять его нельзя",
  "LangConfA0":"Аналоговый вход",
- "LangConfTach":"Кнопка. (PIN/Время/Номер кнопки)",
+ "LangConfTach":"Кнопка. (PIN/Номер кнопки/Время)",
  "LangConfRelay":"Реле. (PIN реле/Состояние реле при включение/Номер реле/Игверсия)",
  "LangConfJalousie":"Жалюзи. (PIN счетчик оборотов/Вторая и Третья PIN - управление мотором)",
  "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. (PIN/Количество лед/Состояние после рестарта/Цвет/Скорость/Яркость/Динамический режим)",
