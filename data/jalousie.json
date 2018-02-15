@@ -78,7 +78,7 @@
    "name":"motor",
    "module":"jalousie",
    "response":"[[motor]]",
-   "action":"jalousienot",
+   "action":"jalousie not",
    "class":"'btn btn-block btn-lg btn-'+({{stateJalousie}}?'info':'primary')"
   },
 
@@ -104,7 +104,7 @@
    "module":"jalousie",
    "title":"{{LangSave}}",
    "class":"btn btn-block btn-success",
-   "action":"jalousieturn [[turn]]"
+   "action":"jalousie turn [[turn]]"
   },
 
 

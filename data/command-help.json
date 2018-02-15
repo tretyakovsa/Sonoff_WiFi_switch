@@ -20,6 +20,10 @@
    "title":"{{Langjalousieopen}}"
   },
   {
+   "command":"not",
+   "title":"{{Langjalousienot}}"
+  },
+  {
    "command":"close",
    "title":"{{Langjalousieclose}}"
   }
