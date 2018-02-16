@@ -101,17 +101,17 @@ From: Latvia, Valmiera
          //document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
          for (var i = 0; i < 10; i++) {
           if (searchModule(modules,"relay"+i)){
-           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay%20not%20'+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
+           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
           }
          }
         }
         if (searchModule(modules,"rgb")){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
-         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
+         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgb not\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
         }
-        if (searchModule(modules,"rgb")){
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
-         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'rgb\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
+        if (searchModule(modules,"rgbs")){
+         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgbs','info');}
+         document.getElementById("button-"+ipval+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
         }
         if (searchModule(modules,"jalousie")){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'jalousie','success');}
@@ -119,7 +119,7 @@ From: Latvia, Valmiera
         }
         if (searchModule(modules,"leakag")){
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'leakag','success');}
-         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakagnot\',this);" value="'+(jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateLeakag?'info':'primary')+'" type="button">';
+         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakag not\',this);" value="'+(jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateLeakag?'info':'primary')+'" type="button">';
         }
         if (stage == 'first'){
          if (searchModule(modules,"timers")){
