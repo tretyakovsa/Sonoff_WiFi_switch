@@ -66,6 +66,7 @@ function createXmlHttpObject(){
 }
 
 var set_real_time;
+var  valTime;
 
 document.onkeydown = function(e){
  var evtobj = window.event? event : e
@@ -271,7 +272,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'loadJson') {
       element.innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
-      loadJson(state_val, jsonResponse, 'json-'+state_val.replace(/[^a-z0-9]/gi,'-'));
+      loadJson(state_val, jsonResponse, obj.refresh);
      }
      if (type_val == 'scenary-list') {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
@@ -324,12 +325,15 @@ function viewTemplate(jsonPage,jsonResponse) {
  }
 }
 
-function loadJson(state_val, jsonResponse, idName) {
- ajax.get(state_val+'?'+Math.floor(Math.random()*10000),{},function(response) {
-  html(idName, ' ');
-  jsonPage=JSON.parse(response);
-  viewTemplate(jsonPage,jsonResponse);
- },true);
+function loadJson(state_val, jsonResponse, refresh) {
+ clearInterval(valTime);
+ valTime=setInterval(function(){
+  ajax.get(state_val+'?'+Math.floor(Math.random()*10000),{},function(response) {
+   html('json-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
+   jsonPage=JSON.parse(response);
+   viewTemplate(jsonPage,jsonResponse);
+  },true);
+ }, refresh);
 }
 
 function pattern(s) {

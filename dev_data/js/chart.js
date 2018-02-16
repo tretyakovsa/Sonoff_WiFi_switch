@@ -1,5 +1,5 @@
+var time_refresh_chart;
 function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
- var valTime;
  function viewTime() {
   var now = new Date();
   return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
@@ -57,8 +57,8 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
 
    var strUser = module.refresh;
    var strUser = (charRefresh?charRefresh:module.refresh);
-   clearInterval(valTime);
-   valTime=setInterval(function(){adddata();}, strUser);
+   clearInterval(time_refresh_chart);
+   time_refresh_chart=setInterval(function(){adddata();}, strUser);
   }
  }
  var LineChart = Chartist.Line("#"+chartId, {
