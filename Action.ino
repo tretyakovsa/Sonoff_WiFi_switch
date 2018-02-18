@@ -10,7 +10,7 @@ void initRelay() {
   pinMode(pin, OUTPUT);
   digitalWrite(pin, state^inv);
   sCmd.addCommand("relay",     relay); //
-  commandsReg(relayS, "relay");
+  commandsReg(relayS);
   modulesReg(relayS+num);
   //modulesReg(relayS); // для совместимости со старым кодом
 }
@@ -85,7 +85,7 @@ void irTransmitter() {
   irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
   irSender->begin();
   sCmd.addCommand("irsend",handleIrTransmit);
-  commandsReg(irsendS, moduleName);
+  commandsReg(irsendS);
   modulesReg(moduleName);
 
 }

@@ -1,18 +1,18 @@
 // ---------------Инициализация модулей
 void initCMD() {
   sCmd.addCommand("UART",       uart);
-  sCmd.addCommand("ONEWIRE",        initOneWire);
+  //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
   sCmd.addCommand("Upgrade",    initUpgrade);
   sCmd.addCommand("DDNS",       initDDNS);
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
   sCmd.addCommand("DHT",       initDHT);
-  sCmd.addCommand("DS18B20",       initOneWire);
+  //sCmd.addCommand("DS18B20",       initOneWire);
   //sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
   //sCmd.addCommand("POW",       initPOW);
-  //sCmd.addCommand("JALOUSIE",       initJalousie);
+  sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("SRGB",       initRGBSHIM);

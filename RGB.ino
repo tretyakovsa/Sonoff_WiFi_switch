@@ -12,7 +12,7 @@ void initRGB() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgb",    rgb);
 
-  commandsReg(rgbS, rgbS);
+  commandsReg(rgbS);
 
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
@@ -99,7 +99,7 @@ void rgb() {
 void initRGBSHIM() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgbs",    rgbShim);
-  commandsReg(rgbSS, rgbSS);
+  commandsReg(rgbSS);
   for (uint8_t i = 0; i <= 2; i++) {
     byte pin = readArgsInt();
     if (pin == 1 || pin == 3)  Serial.end();

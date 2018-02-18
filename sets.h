@@ -16,7 +16,7 @@
 //#include <ESP8266NetBIOS.h>
 // Библиотеки устройств
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
-#include <OneWire.h>                 //Ставим через менеджер библиотек
+//#include <OneWire.h>                 //Ставим через менеджер библиотек
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/renat2985/WS2812FX
@@ -128,6 +128,13 @@ const String modeSRGBS   = "modeSRGB";
 const String speedSRGBS   = "speedSRGB";
 
 const String relayS   = "relay";
+
+const String turnS   = "turn";
+const String pinTurnS   = "pinTurn";
+const String pinMotorS   = "pinMotor";
+const String stateJalousieS   = "stateJalousie";
+const String turnSensorS   = "turnSensor";
+
 const String irsendS   = "irsend";
 const String temperatureS   = "temperature";
 const String humidityS   = "humidity";

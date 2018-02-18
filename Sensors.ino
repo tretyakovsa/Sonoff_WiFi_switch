@@ -1,3 +1,4 @@
+/*
 // ----------------- OneWire
 void initOneWire() {
   uint8_t pin = readArgsInt();
@@ -26,7 +27,7 @@ void initOneWire() {
   });
   modulesReg(temperatureS);
 }
-
+*/
 // -----------------  DHT
 void initDHT() {
   uint8_t pin = readArgsInt();
@@ -41,7 +42,7 @@ void initDHT() {
   if (temp != "nan") {
     sendStatus(temperatureS, temp);
     sendStatus(humidityS, dht.getHumidity());
-    ts.add(5, t, [&](void*) {
+    ts.add(5, test, [&](void*) {
       flag = sendStatus(temperatureS, dht.getTemperature());
       flag = sendStatus(humidityS, dht.getHumidity());
     }, nullptr, true);
@@ -57,33 +58,7 @@ void initDHT() {
     modulesReg(humidityS);
   }
 }
-// -----------------  DHT
-void initDHT2() {
-  dht.setup(readArgsInt());
-  //delay(dht.getMinimumSamplingPeriod());
-  delay (1000);
 
-  String temp = "";
-  temp += dht.getTemperature();
-  if (temp != "nan") {
-    HTTP.on("/temperature.json", HTTP_GET, []() {
-      float temp = dht.getTemperature();
-      if (temp == 'NaN') {
-        temp = 0;
-      }
-      HTTP.send(200, "application/json", graf(temp, 10, 3000, "low:0"));
-    });
-    modulesReg(temperatureS);
-    HTTP.on("/humidity.json", HTTP_GET, []() {
-      float temp = dht.getHumidity();;
-      if (temp == 'NaN') {
-        temp = 0;
-      }
-      HTTP.send(200, "application/json", graf(temp, 10, 3000, "low:0"));
-    });
-    modulesReg(humidityS);
-  }
-}
 
 
 // -----------------  Кнопка
