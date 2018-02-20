@@ -18,16 +18,16 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
    if (module.title != null) {
     document.getElementById(chartId+'-title').innerHTML = module.title;
    }
-   if (typeof module.data != null && typeof module.data2 != null && typeof module.data3 != null) {
+   if (typeof module.data != null && typeof module.data1 != null && typeof module.data2 != null) {
     for (var i = 0; i < module.data.length; i++) {
      var points = (charPoints?charPoints:module.points);
      if (points != null && points <= LineChart.data.series[0].length) {
       LineChart.data.labels.shift();
       LineChart.data.series[0].shift();
-      if (module.data2 != null) {
+      if (module.data1 != null) {
        LineChart.data.series[1].shift();
       }
-      if (module.data3 != null) {
+      if (module.data2 != null) {
        LineChart.data.series[2].shift();
       }
      }
@@ -37,10 +37,10 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
      var element = document.getElementById(chartId+'-data');
      if (element){element.innerHTML = module.data;}
 
-     if (module.data2 != null) {
+     if (module.data1 != null) {
       LineChart.data.series[1].push(module.data2[i]);
      }
-     if (module.data3 != null) {
+     if (module.data2 != null) {
       LineChart.data.series[2].push(module.data3[i]);
      }
      if (module.label != null) {
