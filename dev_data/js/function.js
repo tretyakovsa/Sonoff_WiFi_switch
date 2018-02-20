@@ -66,7 +66,6 @@ function createXmlHttpObject(){
 }
 
 var set_real_time;
-var  valTime;
 
 document.onkeydown = function(e){
  var evtobj = window.event? event : e
@@ -326,6 +325,7 @@ function viewTemplate(jsonPage,jsonResponse) {
 }
 
 function loadJson(state_val, jsonResponse, refresh) {
+var valTime;
  clearInterval(valTime);
  valTime=setInterval(function(){
   ajax.get(state_val+'?'+Math.floor(Math.random()*10000),{},function(response) {

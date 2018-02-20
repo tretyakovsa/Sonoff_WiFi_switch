@@ -1,5 +1,5 @@
-var time_refresh_chart;
 function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
+ var time_refresh_chart;
  function viewTime() {
   var now = new Date();
   return now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();

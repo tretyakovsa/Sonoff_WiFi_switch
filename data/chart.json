@@ -73,7 +73,8 @@
    "type":"chart",
    "title":"{{LangChart}}",
    "state":"{{urlArray1}}.json",
-   "style":"height:400px;margin-left:-20px"
+   "style":"height:400px;margin-left:-20px",
+   "options":"fullWidth:true"
   },
 
 
