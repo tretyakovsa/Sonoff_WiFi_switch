@@ -34,6 +34,7 @@ SRGB 2 4 5 1 ffffff 100 255
 # RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
+# RF-LIVOLO 1
 // {{LangConfIrReceived}}
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}

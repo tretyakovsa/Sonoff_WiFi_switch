@@ -34,6 +34,7 @@ RGB 5 15 0 ff0000 100 255 3
 # RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
+# RF-LIVOLO 1
 // {{LangConfIrReceived}}
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
