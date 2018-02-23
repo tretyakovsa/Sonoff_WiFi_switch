@@ -11,7 +11,7 @@
   {
    "type":"h5",
    "title":"{{SSDP}}",
-   "class":"alert-success"
+   "class":"alert-danger"
   },
   {
    "type":"select",
@@ -46,16 +46,9 @@
   },
   {
    "type":"link",
-   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
-   "module":"relay",
-   "action":"/page.htm?relay",
-   "class":"btn btn-block btn-default"
-  },
-  {
-   "type":"link",
-   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Livolo",
-   "module":"rfLivolo",
-   "action":"/page.htm?livolo",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
+   "module":"jalousie",
+   "action":"/page.htm?jalousie",
    "class":"btn btn-block btn-default"
   },
   {
@@ -78,41 +71,103 @@
    "class":"alert alert-info"
   },
 
-
   {
    "type":"button",
-   "title":"('{{stateJalousie}}'==1?'{{LangClose}}':'{{LangOpen}}')",
-   "name":"motor",
-   "module":"jalousie",
-   "response":"[[motor]]",
-   "action":"jalousie not",
-   "class":"'btn btn-block btn-lg btn-'+({{stateJalousie}}?'info':'primary')"
-  },
-
-
-  {
-   "type":"hr"
-  },
-
-  {
-   "type":"h2",
-   "title":"{{LangTurn}}"
-  },
-  {
-   "type":"input",
-   "title":"{{turn}}",
-   "module":"jalousie",
-   "name":"turn",
-   "state":"{{turn}}",
-   "pattern":"[0-9]{1,3}"
+   "title":"1",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 0",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
   },
   {
    "type":"button",
-   "module":"jalousie",
-   "title":"{{LangSave}}",
-   "class":"btn btn-block btn-success",
-   "action":"jalousie turn [[turn]]"
+   "title":"2",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 96",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
   },
+  {
+   "type":"button",
+   "title":"3",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 120",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"4",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 24",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"5",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 80",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"6",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 48",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"7",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 108",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"8",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 12",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"9",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 72",
+   "style": "width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"0",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 40",
+   "style": "margin-left:33.33333%;width:33.33333%;display:inline",
+   "class":"btn btn-lg btn-primary"
+  },
+  {
+   "type":"button",
+   "title":"All off",
+   "module":"rfLivolo",
+   "action":"lvsend 6400 106",
+   "class":"btn btn-block btn-lg btn-warning"
+  },
+
+
+
+
+
+
+
+
+
+
 
 
   {
@@ -142,6 +197,7 @@
    "class":"table alert alert-dismissible alert-warning",
    "style":"width:100%;"
   },
+
   {
    "type":"link",
    "module":"timers",
@@ -149,7 +205,6 @@
    "action":"page.htm?timer",
    "class":"btn btn-block btn-default"
   },
-
 
   {
    "type":"hr"
