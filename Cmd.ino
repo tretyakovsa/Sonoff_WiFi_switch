@@ -17,10 +17,11 @@ void initCMD() {
   sCmd.addCommand("RGB",       initRGB);
   sCmd.addCommand("SRGB",       initRGBSHIM);
   sCmd.addCommand("RF-RECEIVED",       rfReceived);
-  //sCmd.addCommand("RF-TRANSMITTER",     rfReceived);
+  sCmd.addCommand("RF-TRANSMITTER",     rfTransmitter);
   sCmd.addCommand("IR-RECEIVED",       irReceived);
   sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
-  sCmd.addCommand("MOVEMENT",       initMotion);
+  sCmd.addCommand("RF-LIVOLO",     rfLivolo);
+   // sCmd.addCommand("MOVEMENT",       initMotion);
   //sCmd.addCommand("BUZER",       initBuzer);
   //sCmd.addCommand("beep",       buzerBeep);
   sCmd.addCommand("print",       printTest);

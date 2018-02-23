@@ -172,6 +172,7 @@ void statistics() {
   getURL(urls);
 }
 
+
 // Запрос на удаленный URL
 String getURL(String urls) {
   String answer = "";
