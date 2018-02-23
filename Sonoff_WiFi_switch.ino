@@ -24,13 +24,14 @@ IRrecv *irReceiver;
 decode_results results;
 IRsend *irSender;
 
+LivoloTx *gLivolo;
+
 WS2812FX ws2812fx = WS2812FX();
 
-static InputDebounce buttonTestA;
-//static InputDebounce buttonTestB ;
+Bounce * buttons = new Bounce[NUM_BUTTONS];
 
 void setup() {
-  Serial.begin(115200);
+  //Serial.begin(115200);
   TickerScheduler(1);
   start_init();
 }
@@ -44,7 +45,6 @@ void loop() {
   handleScenary();
   handleMQTT();
   ws2812fx.service();
-  unsigned long now = millis();
-  buttonTestA.process(now); // callbacks called in context of this function
   handleRfReceiv();
+  handleButtons();
 }

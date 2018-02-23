@@ -96,4 +96,42 @@ void handleIrTransmit() {
 }
 
 
+// ----------------------Передатчик на 433мГ
+void rfTransmitter() {
+  byte pin = readArgsInt();
+  if (pin == 1 || pin == 3)  Serial.end();
+  mySwitch.enableTransmit(pin);
+  Serial.println(pin);
+  sCmd.addCommand("rfsend",handleRfTransmit);
+  commandsReg("rfsend");
+  modulesReg("rfTransmitter");
+}
+
+void handleRfTransmit() {
+  Serial.println("rf");
+    int cod = readArgsInt();
+    int len = readArgsInt();
+    if (len==0) len = 24;
+    mySwitch.send(cod, len);
+}
+
+// ----------------------Передатчик Livolvo на 433мГ
+void rfLivolo() {
+  byte pin = readArgsInt();
+  if (pin == 1 || pin == 3)  Serial.end();
+  gLivolo = new LivoloTx(pin);
+  sCmd.addCommand("lvsend",handleRfLivolo);
+  commandsReg("lvsend");
+  modulesReg("rfLivolo");
+}
+
+
+
+
+void handleRfLivolo() {
+    int cod = readArgsInt();
+    int len = readArgsInt();
+    gLivolo->sendButton(cod, len);
+}
+
 

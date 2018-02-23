@@ -1,6 +1,6 @@
 /*
-// ----------------- OneWire
-void initOneWire() {
+  // ----------------- OneWire
+  void initOneWire() {
   uint8_t pin = readArgsInt();
   static uint16_t t = readArgsInt();
   Serial.println(t);
@@ -26,7 +26,7 @@ void initOneWire() {
     httpOkJson(data);
   });
   modulesReg(temperatureS);
-}
+  }
 */
 // -----------------  DHT
 void initDHT() {
@@ -59,42 +59,19 @@ void initDHT() {
   }
 }
 
-
-
 // -----------------  Кнопка
 void initTach() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
-  uint8_t bDelay = readArgsInt(); // третий время подавления дребизга
+  uint16_t bDelay = readArgsInt(); // третий время подавления дребезга
   sendStatus(stateTachS + num, 0);
-  buttonTestA.registerCallbacks(buttonTest_pressedCallback, buttonTest_releasedCallback, buttonTest_pressedDurationCallback);
-  buttonTestA.setup(pin, bDelay, InputDebounce::PIM_INT_PULL_UP_RES);
-}
-
-void buttonTest_pressedCallback(uint8_t pinIn)
-{
-  flag = sendStatus(stateTachS + String(pinIn, DEC), 1);
-}
-
-void buttonTest_releasedCallback(uint8_t pinIn)
-{
-  flag = sendStatus(stateTachS + String(pinIn, DEC), 0);
-}
-
-void buttonTest_pressedDurationCallback(uint8_t pinIn, unsigned long duration)
-{
-  /*// handle still pressed state
-    Serial.print(pinIn);
-    Serial.print(") still pressed (");
-    Serial.print(duration);
-    Serial.println("ms)");*/
-}
-
-// -----------------  Движение
-void initMotion() {
-  int pin = readArgsInt();
-  pinMode(pin, INPUT);
-  attachInterrupt(pin, motionOn, RISING); //прерывание сработает, когда состояние вывода изменится с низкого уровня на высокий
+  buttons[num.toInt()].attach( pin , INPUT_PULLUP);
+  buttons[num.toInt()].interval(bDelay);
+  //sendOptions(buttonNumS, getOptionsInt(buttonNumS) + 1);
+  boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
+  sendOptions("invTach" + num, inv);
+  String m = readArgsString();
+  if (m=="m") {
   sendOptions(movementTimeS, readArgsInt());
   sendStatus(stateMovementS, 0);
   modulesReg("movement");
@@ -103,21 +80,48 @@ void initMotion() {
     //String data = graf(digitalRead(2), 10, 1000, "low:0");
     httpOkJson(data);
   });
+  HTTP.on("/mov.json", HTTP_GET, []() {
+    //String data = graf(getStatusInt(stateMovementS), 10, 1000, "low:0");
+    String data = graf(digitalRead(2), 10, 1000, "low:0");
+    httpOkJson(data);
+  });
+    sCmd.addCommand("motion",     motionOn); //
+    commandsReg("motion");
+    }
 }
 
+void handleButtons() {
+  static uint8_t num = 0;
+  buttons[num].update();
+  //if (buttons[num].fell() != getStatusInt(stateTachS + String(num, DEC))) {
+    if (buttons[num].fell()) {
+    flag = sendStatus(stateTachS + String(num, DEC), 1);
+    Serial.print("test"+String(num, DEC)+" = ");
+    Serial.println("1");
+  }
+  if (buttons[num].rose()) {
+    flag = sendStatus(stateTachS + String(num, DEC), 0);
+    Serial.print("test"+String(num, DEC)+" = ");
+    Serial.println("0");
+  }
+  //buttons[num].rose()
+  num++;
+  //if (num == getOptionsInt(buttonNumS)) num = 0;
+  if (num == 8) num = 0;
+}
+
+// -----------------  Движение
+
 void motionOn() {
-  motion.attach(getOptionsInt(movementTimeS), motionOff);
-  //Serial.println(getStatusInt(stateMovementS));
+  uint16_t t= getOptionsInt(movementTimeS);
+    motion.attach(t, motionOff);
   if (!getStatusInt(stateMovementS)) {
-    //Serial.println(getStatusInt(stateMovementS));
     flag = sendStatus(stateMovementS, 1);
   }
-
 }
 void motionOff() {
   motion.detach();
   if (getStatusInt(stateMovementS)) {
-    //Serial.println(getStatusInt(stateMovementS));
     flag = sendStatus(stateMovementS, 0);
   }
 }
@@ -228,7 +232,7 @@ void dump(decode_results *results) {
 
 // ----------------------Приемник на 433мГ
 void rfReceived() {
-  byte pin = readArgsInt();
+   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
   // задача опрашивать RC код
@@ -239,19 +243,6 @@ void rfReceived() {
   sendStatus(rfBitS, 0);
   sendStatus(rfProtocolS, 0);
   modulesReg(rfReceivedS);
-}
-
-void handleRfReceiv1() {
-  if (mySwitch.available()) {
-    int value = mySwitch.getReceivedValue();
-    if (value == 0) {
-      jsonWrite(configJson, rfReceivedS, 0);
-    } else {
-      int codeRC = mySwitch.getReceivedValue();
-      flag = sendStatus(rfReceivedS, codeRC);
-    }
-    mySwitch.resetAvailable();
-  }
 }
 
 

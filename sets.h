@@ -25,8 +25,13 @@
 #include <IRrecv.h>
 #include <IRutils.h>
 #include <IRsend.h>
-#include <InputDebounce.h>
+#include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
+#include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
 
+#define NUM_BUTTONS 8
+
+
+static const uint16_t LIVOLO_REMOTE_ID = 6400;
 
 boolean secTest = true;
 boolean flag = false;
@@ -100,6 +105,7 @@ const String btnS   = "btn btn-block btn-lg btn-";
 const String infoS   = "info";
 const String primaryS   = "primary";
 const String stateTachS   = "stateTach";
+const String buttonNumS   = "buttonNum";
 
 const String irReceivedS   = "irReceived";
 const String irDecodeTypeS   = "irDecodeType";
