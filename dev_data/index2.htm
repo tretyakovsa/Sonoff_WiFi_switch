@@ -41,7 +41,7 @@ From: Latvia, Valmiera
     html('content','<div class="col-md-12"><div class="block"><h5 class="alert-info">{{LangDevices}}<\/h5><table id="table-content" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>');
     document.getElementById("content").innerHTML += '<div class="col-md-6" id="sensors"><div class="block"><h5 class="alert-default">{{LangSensors}}<\/h5><table id="table-sensors" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
     document.getElementById("content").innerHTML += '<div class="col-md-6" id="timers"><div class="block"><h5 class="alert-danger">{{LangTimer}}<\/h5><table id="table-timers" class="table table-striped table-hover" style="width:100%;text-align:left;"><\/table><\/div><\/div>';
-    ajax.get('/ssdp.list.json?'+Math.floor(Math.random()*10000),{},function(response) {
+    ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
      for (var i in ipDevice) {
       loadModule(ipDevice[i],stage,sorting);
@@ -104,9 +104,9 @@ From: Latvia, Valmiera
      loadBlock2(modules,stage);
     }
     function loadBlock2(modules,stage){
-     ajax.get('http://'+ipval+'/config.live.json?'+Math.floor(Math.random()*10000),{},function(response) {
+     ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
       var jsonResponse0 = JSON.parse(response);
-      ajax.get('http://'+ipval+'/config.options.json?'+Math.floor(Math.random()*10000),{},function(response) {
+      ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
        var jsonResponse1 = JSON.parse(response);
        ajax.get('http://'+ipval+'/lang/lang.'+jsonResponse1.lang+'.json',{},function(response) {
         var jsonResponse2=JSON.parse(response);

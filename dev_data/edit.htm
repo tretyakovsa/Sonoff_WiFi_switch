@@ -318,6 +318,8 @@
      var list = document.createElement("ul");
      parent.appendChild(list);
      var ll = items.length;
+     //Сортировка файлов
+     items.sort(function(a,b){return (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
      for(var i = 0; i < ll; i++){
       var item = items[i];
       var itemEl;
@@ -346,7 +348,7 @@
        case "css":
        case "xml":
         return true;
-                }
+      }
      }
      return false;
     }
@@ -360,7 +362,7 @@
        case "gif":
        case "ico":
         return true;
-                }
+      }
      }
      return false;
     }
@@ -448,7 +450,7 @@
        case "json":
        case "xml":
         lang = ext;
-                }
+      }
      }
      return lang;
     }

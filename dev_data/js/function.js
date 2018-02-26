@@ -153,6 +153,7 @@ function setContent(stage) {
    ajax.get('/list?dir=/',{},function(response) {
     html('file-list',' ');
     var jsonFiles = JSON.parse(response);
+    jsonFiles.sort(function(a,b){return (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
     for(var i = 0;i<jsonFiles.length;i++) {
      if (jsonFiles[i].name.substr(-4) == 'json'){
       document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.slice(0,-5)+'">'+jsonFiles[i].name+'<\/a><br>';
@@ -325,10 +326,10 @@ function viewTemplate(jsonPage,jsonResponse) {
 }
 
 function loadJson(state_val, jsonResponse, refresh) {
-var valTime;
+ var valTime;
  clearInterval(valTime);
  valTime=setInterval(function(){
-  ajax.get(state_val+'?'+Math.floor(Math.random()*10000),{},function(response) {
+  ajax.get(state_val+'?'+Math.random(),{},function(response) {
    html('json-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
    jsonPage=JSON.parse(response);
    viewTemplate(jsonPage,jsonResponse);
@@ -341,7 +342,7 @@ function pattern(s) {
 }
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {
- ajax.get((urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.floor(Math.random()*10000),{},function(response) {
+ ajax.get((urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
   if (selectDevice == 'loadInTextarea') {
    //html("scenary-list-edit",response);
    document.getElementById("scenary-list-edit").innerHTML = response;
@@ -363,7 +364,7 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
 
 function loadScenary(jsonResponse,loadList) {
  html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- ajax.get('/ssdp.list.json?'+Math.floor(Math.random()*10000),{},function(response) {
+ ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   html('scenary-list', ' ');
   var option = '';
   var ipDevice=JSON.parse(response);
@@ -384,7 +385,7 @@ function loadScenary(jsonResponse,loadList) {
 }
 
 function loadCommandHelp(jsonParam,files) {
- ajax.get('/'+files+'?'+Math.floor(Math.random()*10000),{},function(response) {
+ ajax.get('/'+files+'?'+Math.random(),{},function(response) {
   var ipDevice=JSON.parse(response);
   html('command-help', ' ');
   var option = '';
@@ -413,7 +414,7 @@ function loadCommand(ip,file,where) {
   var option = '';
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive.command) {
-   option += '<option value="'+jsonLive.command[key]+'" title="'+typeof jsonLive.command[key]+'">'+jsonLive.command[key]+'<\/option>';
+   option += '<option value="'+jsonLive.command[key]+'" title="'+typeof jsonLive.command[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+jsonLive.command[key]+'}}')===undefined?jsonLive.command[key]:renameBlock(jsonResponse, '{{Lang'+jsonLive.command[key]+'}}'))+'<\/option>';
   }
   html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
  },true);
@@ -735,14 +736,14 @@ function cloudUpload(mac,file) {
 
 
 function cloudDownload(mac,file) {
- ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.floor(Math.random()*10000),{},function(response) {
+ ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.random(),{},function(response) {
   send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");');
  },true);
 }
 
 
 function loadTable(state_val, jsonTable) {
- ajax.get(state_val+"?"+Math.floor(Math.random()*10000),{},function(response) {
+ ajax.get(state_val+"?"+Math.random(),{},function(response) {
   var timers=JSON.parse(response);
   var setTable = Object.keys(timers);
   html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
