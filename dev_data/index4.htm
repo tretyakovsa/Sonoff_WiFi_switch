@@ -20,13 +20,13 @@ From: Latvia, Valmiera
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script src="js/build.chart.js?v22.10.2017" charset="utf-8"></script>
+  <script defer src="js/build.chart.js?v22.10.2017" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
   <link rel="stylesheet" type="text/css" href="css/build.css?v22.10.2017">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v22.10.2017"></script>
+  <script defer type="text/javascript" src="js/function.js?v22.10.2017"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
@@ -172,15 +172,15 @@ From: Latvia, Valmiera
       jsonResponse.stateLeakag = (jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn);
       if (page == 'analog') {
        jsonResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 500);
+       setTimeout("loadChart('"+jsonResponse.analogId+"','http://"+ipval+"/analog.json')", 1500);
       }
       if (page == 'temperature') {
        jsonResponse.sensorId = 'temperaturejson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/temperature.json')", 500);
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/temperature.json')", 1500);
       }
       if (page == 'humidity') {
        jsonResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/humidity.json')", 500);
+       setTimeout("loadChart('"+jsonResponse.sensorId+"','http://"+ipval+"/humidity.json')", 1500);
       }
       var new_string;
       for (var key in jsonResponse) {

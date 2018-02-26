@@ -49,5 +49,27 @@
    "command":"off",
    "title":"{{Langrgboff}}"
   }
+ ],
+ "lvsend":[
+  {
+   "command":"6400 0",
+   "title":"Button 1"
+  },
+  {
+   "command":"6400 96",
+   "title":"Button 2"
+  },
+  {
+   "command":"6400 120",
+   "title":"Button 3"
+  },
+  {
+   "command":"6400 24",
+   "title":"Button 4"
+  },
+  {
+   "command":"6400 106",
+   "title":"All off"
+  }
  ]
 }
