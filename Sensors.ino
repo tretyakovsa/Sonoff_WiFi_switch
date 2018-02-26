@@ -65,9 +65,9 @@ void initTach() {
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
   uint16_t bDelay = readArgsInt(); // третий время подавления дребезга
   sendStatus(stateTachS + num, 0);
-  buttons[num.toInt()].attach( pin , INPUT_PULLUP);
+  buttons[num.toInt()].attach(pin);
   buttons[num.toInt()].interval(bDelay);
-  //sendOptions(buttonNumS, getOptionsInt(buttonNumS) + 1);
+  but[num.toInt()]=true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
   sendOptions("invTach" + num, inv);
   String m = readArgsString();
@@ -92,19 +92,22 @@ void initTach() {
 
 void handleButtons() {
   static uint8_t num = 0;
+  if (but[num]){
   buttons[num].update();
   //if (buttons[num].fell() != getStatusInt(stateTachS + String(num, DEC))) {
     if (buttons[num].fell()) {
-    flag = sendStatus(stateTachS + String(num, DEC), 1);
+    flag = sendStatus(stateTachS + String(num, DEC), !getOptionsInt("invTach" + String(num)));
     Serial.print("test"+String(num, DEC)+" = ");
-    Serial.println("1");
+    Serial.println(!getOptionsInt("invTach" + String(num)));
   }
+  //if (buttons[num].rose() != getStatusInt(stateTachS + String(num, DEC))) {
   if (buttons[num].rose()) {
-    flag = sendStatus(stateTachS + String(num, DEC), 0);
+    flag = sendStatus(stateTachS + String(num, DEC), getOptionsInt("invTach" + String(num)));
     Serial.print("test"+String(num, DEC)+" = ");
-    Serial.println("0");
+    Serial.println(getOptionsInt("invTach" + String(num)));
   }
   //buttons[num].rose()
+  }
   num++;
   //if (num == getOptionsInt(buttonNumS)) num = 0;
   if (num == 8) num = 0;

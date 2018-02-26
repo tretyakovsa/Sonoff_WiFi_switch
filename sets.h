@@ -27,11 +27,16 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
+#include "HLW8012.h"
 
 #define NUM_BUTTONS 8
+boolean but[NUM_BUTTONS];
 
+// These are the nominal values for the resistors in the circuit
+#define CURRENT_RESISTOR                0.001
+#define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
+#define VOLTAGE_RESISTOR_DOWNSTREAM     ( 1000 ) // Real 1.009k
 
-static const uint16_t LIVOLO_REMOTE_ID = 6400;
 
 boolean secTest = true;
 boolean flag = false;

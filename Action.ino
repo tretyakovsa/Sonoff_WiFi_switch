@@ -126,8 +126,6 @@ void rfLivolo() {
 }
 
 
-
-
 void handleRfLivolo() {
     int cod = readArgsInt();
     int len = readArgsInt();

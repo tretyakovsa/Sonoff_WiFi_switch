@@ -1,3 +1,6 @@
+#include <Boards.h>
+#include <Firmata.h>
+
 #include "sets.h"             //Содержится в пакете
 
 File fsUploadFile;
@@ -29,6 +32,9 @@ LivoloTx *gLivolo;
 WS2812FX ws2812fx = WS2812FX();
 
 Bounce * buttons = new Bounce[NUM_BUTTONS];
+
+
+HLW8012 hlw8012;
 
 void setup() {
   //Serial.begin(115200);

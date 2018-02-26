@@ -150,14 +150,22 @@ void httpOkJson(String text) {
 }
 
 uint8_t pinTest(uint8_t pin) {
-  if ((pin > 5 && pin < 12) || pin > 16) pin = 17 ;
-  if (!pins[pin]) {
-    pins[pin] = true;
-  } else {
-    pin = 17;
-  }
-  return pin;
+  if (pins[pin]) pin = 17 ;
+  pins[pin] = true;
+  if (((pin > 5 && pin < 12) || pin > 16)) pin = 17 ;
+  if (pin == 1 || pin == 3)  Serial.end();
+   return pin;
 }
+
+uint8_t pinTest(uint8_t pin, boolean multi){
+ pins[pin] = !multi;
+ if (pins[pin]) pin = 17 ;
+  pins[pin] = true;
+  if (((pin > 5 && pin < 12) || pin > 16)) pin = 17 ;
+  if (pin == 1 || pin == 3)  Serial.end();
+   return pin;
+}
+
 
 // ------------- Данные статистики
 void statistics() {
