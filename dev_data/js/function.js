@@ -191,7 +191,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      var name_val = (obj.name?obj.name:'');
      //    var title_val = renameBlock(jsonResponse, obj.title);
      var class_val = (obj.class?renameBlock(jsonResponse, obj.class):'');
-     var style_val = (obj.style?'style="'+obj.style+'"':'');
+     var style_val = (obj.style?'style="'+renameBlock(jsonResponse, obj.style)+'"':'');
      var pattern_val = (obj.pattern?obj.pattern:'');
      var state_val = renameBlock(jsonResponse, obj.state);
      var response_val = renameBlock(jsonResponse, obj.response);
@@ -326,15 +326,20 @@ function viewTemplate(jsonPage,jsonResponse) {
 }
 
 function loadJson(state_val, jsonResponse, refresh) {
- var valTime;
- clearInterval(valTime);
- valTime=setInterval(function(){
+ function setLoad(){
   ajax.get(state_val+'?'+Math.random(),{},function(response) {
    html('json-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
    jsonPage=JSON.parse(response);
    viewTemplate(jsonPage,jsonResponse);
   },true);
- }, refresh);
+ };
+ if (refresh!="undefined") {
+  var valTime;
+  clearInterval(valTime);
+  valTime=setInterval(setLoad(), refresh);
+ } else {
+  setLoad();
+ }
 }
 
 function pattern(s) {

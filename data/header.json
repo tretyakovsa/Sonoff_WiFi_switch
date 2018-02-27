@@ -10,7 +10,6 @@
    "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
   },
 
-
   {
    "type":"link",
    "title":"{{LangDevices}}",
@@ -22,35 +21,41 @@
    "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB SHIM",
    "module": "rgbs",
    "action": "/page.htm?rgbs",
-   "class": "btn btn-block btn-default"
+   "class": "btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='rgbs'?'display:none':'')"
   },
   {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
    "module":"relay",
    "action":"/page.htm?relay",
-   "class":"btn btn-block btn-default"
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='relay'?'display:none':'')"
   },
   {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
    "module":"jalousie",
    "action":"/page.htm?jalousie",
-   "class":"btn btn-block btn-default"
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='jalousie'?'display:none':'')"
   },
   {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Livolo",
    "module":"rfLivolo",
    "action":"/page.htm?livolo",
-   "class":"btn btn-block btn-default"
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='livolo'?'display:none':'')"
   },
   {
    "type":"link",
    "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action":"/page.htm?setup",
-   "class":"btn btn-block btn-default"
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='setup'?'display:none':'')"
   },
+
   {
    "type":"hr"
   }
