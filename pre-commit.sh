@@ -8,12 +8,14 @@ cat dev_data/js/chartist.min.js dev_data/js/chart.js > dev_data/js/build.chart.j
 gzip -vrkf dev_data/*.htm
 gzip -vrkf dev_data/css/*.css
 gzip -vrkf dev_data/js/*.js
+gzip -vrkf dev_data/*.json
 gzip -vrkf dev_data/lang/lang.*.json
 
 mv dev_data/*.htm.gz data/
 mv dev_data/js/*.js.gz data/js
 mv dev_data/css/*.css.gz data/css
 mv dev_data/lang/*.json.gz data/lang
+mv dev_data/*.json.gz data/
 
 rm dev_data/css/build.css
 rm dev_data/js/build.chart.js

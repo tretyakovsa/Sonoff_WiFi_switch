@@ -13,68 +13,12 @@
    "title": "{{SSDP}}",
    "class":"alert-default"
   },
-  {
-   "type": "select",
-   "state": "{{lang}}",
-   "name":"languages",
-   "action": "/lang?set=[[languages]]",
-   "response":"page.htm?{{urlArray0}}",
-   "style": "margin-top:-47px;float:right;width:70px",
-   "title": {"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
-  },
-
 
   {
-   "type": "link",
-   "title": "{{LangDevices}}",
-   "action": "/",
-   "class": "btn btn-block btn-danger"
-  },
-  {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB",
-   "module": "rgb",
-   "action": "/page.htm?rgb",
-   "class": "btn btn-block btn-default"
-  },
-  {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB SHIM",
-   "module": "rgbs",
-   "action": "/page.htm?rgbs",
-   "class": "btn btn-block btn-default"
-  },
-  {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Relay",
-   "module": "relay",
-   "action": "/page.htm?relay",
-   "class": "btn btn-block btn-default"
-  },
-  {
-   "type": "link",
-   "title": "<i class=\"set-img\"></i>{{LangOptions1}} Jalousie",
-   "module": "jalousie",
-   "action": "/page.htm?jalousie",
-   "class": "btn btn-block btn-default"
-  },
-  {
-   "type":"link",
-   "title":"<i class=\"set-img\"></i>{{LangOptions1}} Livolo",
-   "module":"rfLivolo",
-   "action":"/page.htm?livolo",
-   "class":"btn btn-block btn-default"
-  },
-  {
-   "type": "link",
-   "title": "<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action": "/page.htm?setup",
-   "class": "btn btn-block btn-default"
+   "type": "loadJson",
+   "state": "header.json"
   },
 
-  {
-   "type": "hr"
-  },
   {
    "type": "h2",
    "title": "{{LangType}} {{configs}}"

@@ -12,6 +12,10 @@
   {
    "command":"off 1",
    "title":"{{Langrelayoff}} под номером 1"
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=relat on 1</i>"
   }
  ],
  "jalousie":[
@@ -26,6 +30,10 @@
   {
    "command":"close",
    "title":"{{Langjalousieclose}}"
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=jalousie open</i>"
   }
  ],
  "rgb":[
@@ -48,6 +56,10 @@
   {
    "command":"off",
    "title":"{{Langrgboff}}"
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=rgb on ff0000</i>"
   }
  ],
  "lvsend":[
@@ -70,6 +82,10 @@
   {
    "command":"6400 106",
    "title":"All off"
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=lvsend 6400 24</i>"
   }
  ]
 }

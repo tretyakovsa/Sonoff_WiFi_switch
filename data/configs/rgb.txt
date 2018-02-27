@@ -21,7 +21,14 @@ DS18B20 14
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
-TACH 0 0 100
+TACH 0 0 20
+# TACH 0 1 20
+# TACH 0 2 20
+# TACH 0 3 20
+# TACH 0 4 20
+# TACH 0 5 20
+# TACH 0 6 20
+# TACH 0 7 20
 // {{LangConfRGB}}
 RGB 5 15 0 ff0000 100 255 3
 // {{LangConfRGBS}}
