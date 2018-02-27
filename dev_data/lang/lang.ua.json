@@ -183,8 +183,8 @@
  "LangConfRGB":"WS2811/WS2812/NeoPixel LEDs. (PIN/Количество лед/Состояние после рестарта/Цвет/Скорость/Яркость/Динамический режим)",
  "LangConfRGBS":"RGB 5050/3528/2835. Пока не работает. (PIN R/PIN G/PIN B/Состояние после рестарта/Цвет/Скорость/Яркость/Динамический режим)",
  "LangConfMovement":"Сенсор движения (PIN/Время работы в секундах, 120 = 2мин.)",
- "LangConfRfReceived":"Бездротовий приймач MHz частот",
- "LangConfRfTransmitter":"Бездротовий передавач MHz частот",
+ "LangConfRfReceived":"Беспроводной приемник MHz частот. (PIN/Частата - не обязательно)",
+ "LangConfRfTransmitter":"Беспроводной передатчик MHz частот. (PIN/Частата - не обязательно)",
  "LangConfIrReceived":"Бездротовий приймач IR частот",
  "LangConfIrTransmitter":"Бездротовий передавач IR частот",
  "LangConfSerial":"Включити порт UART"

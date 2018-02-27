@@ -35,8 +35,6 @@ TACH 0 0 20
 # SRGB 2 4 5 1 ffffff 100 255
 // {{LangConfJalousie}}
 JALOUSIE 4 12 13
-// {{LangConfMovement}}
-# MOVEMENT 4 120
 // {{LangConfRfReceived}}
 # RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}

@@ -1,8 +1,7 @@
 // {{LangConfRelay}}
-RELAY 12 1 1 0
-# RELAY 15 0 2 0
-# RELAY 13 0 3 0
-# RELAY 14 1 4 0
+RELAY 12 1 1 1
+RELAY 15 1 2 1
+RELAY 13 1 3 1
 // {{LangConfSerial}}
 # UART 115200
 # print print
@@ -15,34 +14,26 @@ MQTT
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
-DHT 14
+# DHT 4
 // {{LangConfDS18B20}}
-DS18B20 14
+# DS18B20 5
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
 TACH 0 0 20
-# TACH 0 1 20
-# TACH 0 2 20
-# TACH 0 3 20
-# TACH 0 4 20
-# TACH 0 5 20
-# TACH 0 6 20
-# TACH 0 7 20
+# TACH 2 1 20 1 m 120
 // {{LangConfRGB}}
 # RGB 5 15 1 ff0000 100 255 3
 // {{LangConfRGBS}}
-# SRGB 2 4 5 1 ffffff 100 255
+# SRGB 3 4 5 1 ffffff 100 255
 // {{LangConfJalousie}}
-# JALOUSIE 4 12 13
-// {{LangConfMovement}}
-# MOVEMENT 2 120
+# JALOUSIE 3 4 5
 // {{LangConfRfReceived}}
-RF-RECEIVED 3 433
+# RF-RECEIVED 3 433
 // {{LangConfRfTransmitter}}
 # RF-TRANSMITTER 1 433
 # RF-LIVOLO 1
 // {{LangConfIrReceived}}
-# IR-RECEIVED 0
+IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
-# IR-TRANSMITTER 14
+IR-TRANSMITTER 14
