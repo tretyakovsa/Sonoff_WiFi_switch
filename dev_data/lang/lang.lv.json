@@ -161,6 +161,8 @@
  "LangstateMovement":"Kustības sensors",
  "LangtimeRGB":"RGB darbības laiks",
  "LangtimeBUZ":"Zvana laiks",
+ "Langtemperature":"Temperatūra",
+ "Langhumidity":"Mitrums",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",

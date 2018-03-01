@@ -99,9 +99,10 @@ From: Latvia, Valmiera
         }
         if(/relay/.test(modules)) {
          if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
-         //document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         // document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
+         html("button-"+ipval+"-relay",' ');
          for (var i = 0; i < 10; i++) {
-          if (searchModule(modules,"relay"+i)){
+          if (searchModule(modules,"relay"+i) == '1'){
            document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
           }
          }
@@ -232,14 +233,14 @@ From: Latvia, Valmiera
    <div class="col-md-12" id="content">{{LangLoading}}</div>
    <div class="col-md-6">
     <div class="block" id="issues">
-     <button class="close" onclick="hide('issues-hidden',this);" type="button">×</button>
+     <button class="close" onclick="hide('issues-hidden',this)" type="button">×</button>
      <h5 class="alert-default">Issues</h5>
      <div id="issues-list">{{LangLoading}}</div>
     </div>
    </div>
    <div class="col-md-6">
     <div class="block" id="commits">
-     <button class="close" onclick="hide('commits-hidden',this);" type="button">×</button>
+     <button class="close" onclick="hide('commits-hidden',this)" type="button">×</button>
      <h5 class="alert-default">Commits</h5>
      <div id="commits-list">{{LangLoading}}</div>
     </div>

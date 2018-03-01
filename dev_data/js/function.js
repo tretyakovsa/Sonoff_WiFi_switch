@@ -21,15 +21,15 @@ ajax.x = function () {
 };
 
 ajax.send = function (url, callback, method, data, async) {
- submit_disabled(true);
+ if (method != 'PUT') {submit_disabled(true);}
  if (async === undefined) {
   async = true;
  }
  var x = ajax.x();
- x.open(method, url, async);
+ x.open((method=='PUT'?'GET':''+method+''), url, async);
  x.onreadystatechange = function () {
   if (x.readyState == 4) {
-   submit_disabled(false);
+   if (method != 'PUT') {submit_disabled(false);}
    callback(x.responseText)
   }
  };
@@ -45,6 +45,14 @@ ajax.get = function (url, data, callback, async) {
   query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
  }
  ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
+};
+
+ajax.put = function (url, data, callback, async) {
+ var query = [];
+ for (var key in data) {
+  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+ }
+ ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'PUT', null, async)
 };
 
 ajax.post = function (url, data, callback, async) {
@@ -265,7 +273,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += renameBlock(jsonResponse, obj.title)+'<iframe src="'+state_val+'" id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/iframe>';
      }
      if (type_val == 'chart') {
-      element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this);" type="button">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+      element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)" type="button">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
       if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
        setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+")", 1500);
       }
@@ -902,7 +910,7 @@ function loadIssues(repos,viewIssues){
     for(var label in jsonIssues[key].labels) {
      if (jsonIssues[key].labels[label].name == 'news') {
       if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
-       document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this);" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+       document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this)" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
       }
      }
     }

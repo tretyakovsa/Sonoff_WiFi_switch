@@ -161,6 +161,8 @@
  "LangstateMovement":"Сенсор движения",
  "LangtimeRGB":"Время работы RGB",
  "LangtimeBUZ":"Время работы Buzzer",
+ "Langtemperature":"Температура",
+ "Langhumidity":"Влажность",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",

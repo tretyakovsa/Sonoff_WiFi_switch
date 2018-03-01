@@ -40,10 +40,11 @@
    "type":"h2",
    "title":"{{LangAddScenery}}"
   },
-  {
+ {
    "type":"text",
-   "title":"{{LangScenery1}}",
-   "class":"alert alert-info"
+   "name":"alert-scenary",
+   "title":"<button class=\"close\" onclick=\"hide('alert-scenary',this)\" type=\"button\">×</button>{{LangScenery1}}",
+   "class":"alert alert-info {{alert-scenary}}"
   },
 
   {

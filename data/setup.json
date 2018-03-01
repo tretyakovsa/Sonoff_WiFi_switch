@@ -257,8 +257,9 @@
   {
    "type": "text",
    "module": "ddns",
-   "title": "{{LangDdns2}}",
-   "class": "alert alert-info"
+   "name":"alert-ddns",
+   "title": "<button class=\"close\" onclick=\"hide('alert-ddns',this)\" type=\"button\">×</button>{{LangDdns2}}",
+   "class": "alert alert-info {{alert-ddns}}"
   },
   {
    "type": "input",

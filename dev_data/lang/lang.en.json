@@ -161,6 +161,8 @@
  "LangstateMovement":"State motion sensor",
  "LangtimeRGB":"Work time RGB",
  "LangtimeBUZ":"Work time Buzzer",
+ "Langtemperature":"Temperature",
+ "Langhumidity":"Humidity",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
