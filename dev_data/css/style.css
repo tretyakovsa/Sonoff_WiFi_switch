@@ -54,6 +54,7 @@ input:invalid ~ input[type=button] {
  margin:0 -15px 23px;
  padding:1px 50px 15px;
  border-radius:10px 10px 0 0;
+ min-height:100px;
 }
 .device {
  background-color:#F5F5F5;

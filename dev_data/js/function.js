@@ -250,6 +250,21 @@ function viewTemplate(jsonPage,jsonResponse) {
       }
       element.innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
      }
+     if (type_val == 'dropdown') {
+      var option = '';
+      var i = 0;
+      var title1 = '';
+      jsonSelect = obj.title;
+      for(var key in jsonSelect) {
+       if (i == 0) {
+        title1 += renameBlock(jsonResponse, jsonSelect[key]);
+       } else {
+        option += '<li><a href="'+renameBlock(jsonResponse, key)+'">'+renameBlock(jsonResponse, jsonSelect[key])+'</a><\/li>';
+       }
+       i++;
+      }
+      element.innerHTML += '<div class="btn-group"><a href="#" class="dropdown-toggle '+class_val+'" '+style_val+' onclick="toggle(\''+name_val+'\');return false">'+title1+'</a><ul class="dropdown-menu hidden" id="'+name_val+'">'+option+'<\/ul><\/div>';
+     }
      if (type_val == 'configs') {
       var htmlopt = '';
       htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
@@ -482,7 +497,7 @@ function html(id,val){
 function send_request_edit(submit,server,filename,geturl,gethost){
  var xmlHttp = new XMLHttpRequest();
  var old_submit = submit.value;
- submit.value = jsonResponse.LangLoading;
+ submit.value = 'Loading...';
  submit_disabled(true);
  var formData = new FormData();
  formData.append("data", new Blob([server], { type: 'text/json' }), "/"+filename);
@@ -922,14 +937,16 @@ function loadIssues(repos,viewIssues){
  },true);
 }
 
-function loadUpdate(repos, spiffs, LangUpgrade){
- ajax.get('https://api.github.com/repos/'+repos+'/contents/build',{},function(response) {
-  var jsonBuild=JSON.parse(response);
-  jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
-  if (jsonBuild[0].name != spiffs) {
-   html('update','<a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a>');
-  }
- },true);
+function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
+ setTimeout(function() {
+  ajax.put('https://api.github.com/repos/'+repos+'/contents/build',{},function(response) {
+   var jsonBuild=JSON.parse(response);
+   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+   if (jsonBuild[0].name != spiffs) {
+    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
+   }
+  },true);
+ }, LoadDelay);
 }
 
 function isValidJson(str,idMess) {

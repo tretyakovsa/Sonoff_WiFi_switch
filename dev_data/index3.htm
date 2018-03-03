@@ -27,7 +27,7 @@ From: Latvia, Valmiera
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
-   var jsonResponse;
+   var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
     if (readCookie("issues-hidden") != "hidden") {
@@ -45,32 +45,43 @@ From: Latvia, Valmiera
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
      for (var i in ipDevice) {
-      loadModule(ipDevice[i],stage,sorting);
-     }
-     if (ipDevice[i] == '0.0.0.0') {
-      location.href = "/page.htm?first-connect";
+      if (ipDevice[i] == '0.0.0.0') {
+       location.href = "/page.htm?first-connect";
+      } else {
+       loadModule(ipDevice[i],stage,sorting,ipDevice);
+      }
+      break;
      }
     },true);
    }
 
-   function loadModule(ipval,stage,sorting) {
+   function loadModule(ipval,stage,sorting,ipDevice) {
     ajax.get('http://'+ipval+'/modules.json',{},function(response) {
      var ipModule=JSON.parse(response);
-     var allModules = [];
-     var allSpace = [];
-     //   for(var key in ipModule) {
-     if (stage == 'search') {
-      loadBlock(ipval,ipModule.space,'first',ipModule.module);
-     }
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
-      loadBlock(ipval,ipModule.space,'first',ipModule.module);
+
+      if (window.location.hostname == ipval) {
+       ajax.get('http://'+ipval+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
+        jsonLang=JSON.parse(response);
+        loadBlock(ipval,ipModule.space,'first',ipModule.module);
+        setContent('first');
+
+
+        for (var i in ipDevice) {
+         if (window.location.hostname != ipDevice[i]) {
+          loadModule(ipDevice[i],stage,sorting);
+         }
+        }
+
+       },true);
+      } else {
+       //var testd = setTimeout(function() {loadBlock(ipval,ipModule.space,'first',ipModule.module);}, 3000);
+       loadBlock(ipval,ipModule.space,'first',ipModule.module);
+
+      }
+
      }
-     for (var s in ipModule.module) {
-      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
-      allModules.push(ipModule.module[s]);
-     }
-     allSpace.push(ipModule.space);
     },true);
    }
 
@@ -78,115 +89,117 @@ From: Latvia, Valmiera
    function loadBlock(ipval, content, stage, modules) {
     if (!modules) {
      ajax.get('http://'+ipval+'/modules.json',{},function(response) {
-      var jsonResponse3=JSON.parse(response);
-      loadBlock2(jsonResponse3.module,stage);
+      var jsonIndexResponse3=JSON.parse(response);
+      loadBlock2(jsonIndexResponse3.module,stage,ipval);
      },true);
     } else {
-     loadBlock2(modules,stage);
-    }
-
-    function loadBlock2(modules,stage){
-     ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
-      var jsonResponse0 = JSON.parse(response);
-      ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
-       var jsonResponse1 = JSON.parse(response);
-       ajax.get('http://'+ipval+'/lang/lang.'+jsonResponse1.lang+'.json',{},function(response) {
-        var jsonResponse2=JSON.parse(response);
-        jsonResponse = Object.assign(jsonResponse0, jsonResponse1, jsonResponse2);
-        var theCookies = document.cookie.split(';');
-        for (var i = 1 ; i <= theCookies.length; i++) {
-         jsonResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
-        }
-        if(/relay/.test(modules)) {
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'relay','danger');}
-         // document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonResponse.stateRelay?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRelay?'info':'primary')+'" type="button">';
-         html("button-"+ipval+"-relay",' ');
-         for (var i = 0; i < 10; i++) {
-          if (searchModule(modules,"relay"+i) == '1'){
-           document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonResponse["stateRelay"+i]?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
-          }
-         }
-        }
-        if (searchModule(modules,"rgb")){
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgb','info');}
-         document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgb not\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
-        }
-        if (searchModule(modules,"rgbs")){
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'rgbs','info');}
-         document.getElementById("button-"+ipval+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonResponse.stateRGB?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateRGB?'info':'primary')+'" type="button">';
-        }
-        if (searchModule(modules,"jalousie")){
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'jalousie','success');}
-         document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonResponse.stateJalousie?jsonResponse.LangClose:jsonResponse.LangOpen)+'" class="btn btn-'+(jsonResponse.stateJalousie?'info':'primary')+'" type="button">';
-        }
-        if (searchModule(modules,"leakag")){
-         if (stage == 'first'){loadElement(ipval,jsonResponse.SSDP,jsonResponse.space,'leakag','success');}
-         document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakag not\',this);" value="'+(jsonResponse.stateLeakag?jsonResponse.LangOff:jsonResponse.LangOn)+'" class="btn btn-'+(jsonResponse.stateLeakag?'info':'primary')+'" type="button">';
-        }
-        if (stage == 'first'){
-         if (searchModule(modules,"timers")){
-          loadTimers(ipval,content,jsonResponse);
-         }
-         if (searchModule(modules,"temperature")){
-          loadSensor(ipval,'table-sensors',jsonResponse,"temperature");
-         }
-         if (searchModule(modules,"humidity")){
-          loadSensor(ipval,'table-sensors',jsonResponse,"humidity");
-         }
-         if (searchModule(modules,"analog")){
-          loadSensor(ipval,'table-sensors',jsonResponse,"analog");
-         }
-        }
-        if (window.location.hostname == ipval && stage == 'first') {
-         var new_string2;
-         var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-         for (var key in jsonResponse) {
-          new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonResponse[key]);
-          bodyData = new_string2;
-         }
-         document.getElementsByTagName('body')[0].innerHTML = new_string2;
-         if (searchModule(modules,"upgrade")){
-          loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonResponse.spiffsData, jsonResponse.LangUpgrade);
-         }
-         setContent('first');
-        }
-       },true);
-      },true);
-     },true);
+     loadBlock2(modules,stage,ipval);
     }
    }
+
+   function loadBlock2(modules,stage,ipval){
+    ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
+     var jsonIndexResponse0 = JSON.parse(response);
+     ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
+      var jsonIndexResponse1 = JSON.parse(response);
+      jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      var theCookies = document.cookie.split(';');
+      for (var i = 1 ; i <= theCookies.length; i++) {
+       jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+      }
+      if(/relay/.test(modules)) {
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
+       // document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRelay?'info':'primary')+'" type="button">';
+       html("button-"+ipval+"-relay",' ');
+       for (var i = 0; i < 10; i++) {
+        if (searchModule(modules,"relay"+i) == '1'){
+         document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
+        }
+       }
+      }
+      if (searchModule(modules,"rgb")){
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info');}
+       document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
+      }
+      if (searchModule(modules,"rfLivolo")){
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','info');}
+       document.getElementById("button-"+ipval+"-livolo").innerHTML='';
+      }
+      if (searchModule(modules,"rgbs")){
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info');}
+       document.getElementById("button-"+ipval+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
+      }
+      if (searchModule(modules,"jalousie")){
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success');}
+       document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.stateJalousie?'info':'primary')+'" type="button">';
+      }
+      if (searchModule(modules,"leakag")){
+       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'leakag','success');}
+       document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
+      }
+      if (stage == 'first'){
+       if (searchModule(modules,"timers")){
+        loadTimers(ipval,content,jsonIndexResponse);
+       }
+       if (searchModule(modules,"temperature")){
+        loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+       }
+       if (searchModule(modules,"humidity")){
+        loadSensor(ipval,'table-sensors',jsonIndexResponse,"humidity");
+       }
+       if (searchModule(modules,"analog")){
+        loadSensor(ipval,'table-sensors',jsonIndexResponse,"analog");
+       }
+      }
+      if (window.location.hostname == ipval && stage == 'first') {
+       var new_string2;
+       var bodyData = document.getElementsByTagName('body')[0].innerHTML;
+       for (var key in jsonIndexResponse) {
+        new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonIndexResponse[key]);
+        bodyData = new_string2;
+       }
+       document.getElementsByTagName('body')[0].innerHTML = new_string2;
+       if (searchModule(modules,"upgrade")){
+        loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonIndexResponse.spiffsData, jsonIndexResponse.LangUpgrade, 10000);
+       }
+       // setContent('first');
+      }
+     },true);
+    },true);
+   }
+
 
    function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
     var element = document.getElementById(spaceVal);
     if (typeof(element) != 'undefined' && element != null && element != ''){
-     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajaxm(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
+     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
     } else {
-     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><input onclick="ajaxm(\''+ipVal+'\',\''+moduleVal+'\',this);" value="Off/On" class="btn btn-primary" type="button"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
+     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
     }
    }
 
-   function loadTimers(ipval, content, jsonResponse) {
+   function loadTimers(ipval, content, jsonIndexResponse) {
     ajax.get('http://'+ipval+'/timer.save.json',{},function(response) {
      var timers=JSON.parse(response);
      timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var timerList = '';
      for (var i = 0; i < timers.timer.length; i++) {
-      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOnM"]+'<\/span>';}
-      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangOffM"]+'<\/span>';}
-      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
-      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
-      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonResponse["LangSwitch"]+'<\/span>';}
-      timers.timer[i].day = jsonResponse["Lang"+timers.timer[i].day];
-      timerList += '<a class="label label-default" href="http://'+ipval+'/page.htm?timer">'+jsonResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
+      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
+      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangOffM"]+'<\/span>';}
+      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOpen"]+'<\/span>';}
+      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
+      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
+      timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
+      timerList += '<a class="label label-default" href="http://'+ipval+'/page.htm?timer">'+jsonIndexResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
      }
      document.getElementById("timers-"+ipval).innerHTML+=''+(timerList?timerList:'')+'';
     },true);
    }
 
-   function loadSensor(ipval, content, jsonResponse, module) {
+   function loadSensor(ipval, content, jsonIndexResponse, module) {
     ajax.get('http://'+ipval+'/'+module+'.json',{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     },true);
    }
 
@@ -196,7 +209,7 @@ From: Latvia, Valmiera
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = '';
     var parent = submit.parentNode.parentNode.parentNode.children[0].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"> URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default">&#8987; '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;
@@ -204,7 +217,7 @@ From: Latvia, Valmiera
      if (response.class && response.class!='undefined') {submit.className = response.class.replace(/btn-block btn-lg/,'');}
      if (response.style && response.style!='undefined') {submit.style = response.style;}
      if (response.title && response.title!='undefined') {
-      if (submit.tagName == 'INPUT') {submit.value = jsonResponse[response.title.slice(2, -2)];}
+      if (submit.tagName == 'INPUT') {submit.value = jsonLang[response.title.slice(2, -2)];}
      }
     },true);
    }
@@ -215,19 +228,8 @@ From: Latvia, Valmiera
   <ul id="url-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;"></ul>
   <div class="container device index3" id="container" onclick="this.style.position='relative';this.style.zIndex=10">
    <div id="header">
-    <div class="btn-group pull-right" style="margin-top:35px;">
-     <a href="#" class="btn btn-default" onclick="deviceList('first');" title="{{LangRefresh}}"><i class="refresh-img"></i></a>
-     <a href="#" class="btn btn-default dropdown-toggle" onclick="toggle('help');"><i class="help-img"></i> <span class="hidden-xs">{{LangHelp}}</span> <span class="caret"></span></a>
-     <ul class="dropdown-menu hidden" id="help"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues" target="_blank"><b>Sonoff</b> (Relay)</a></li><li><a href="https://github.com/renat2985/rgb/issues" target="_blank"><b>RGB</b> (WS2811-12/NeoPixel)</a></li><li><a href="https://github.com/tretyakovsa/jaluzi/issues" target="_blank"><b>Jalousie</b> (Motor)</a></li></ul>
-    </div>
-    <div class="pull-right" style="margin-top:35px;margin-right:5px">
-     <div class="btn-group">
-      <a href="/page.htm?scenary" class="btn btn-info dropdown-toggle">{{LangScenary}}</a>
-      <a href="#" class="btn btn-warning dropdown-toggle" onclick="toggle('skins');"><span class="hidden-xs">{{LangDesign}}</span> <span class="caret"></span></a>
-      <ul class="dropdown-menu hidden" id="skins"><li><a href="/skins?set=index.htm"><b>Default</b></a></li><li><a href="/skins?set=index2.htm"><b>Inline</b></a></li><li><a href="/skins?set=index3.htm"><b>Block</b></a></li><li><a href="/skins?set=index4.htm"><b>Life</b></a></li></ul>
-     </div>
-    </div>
-    <h1 id="title">{{space}}<br><small class="show">{{SSDP}}<sup id="update"></sup></small></h1>
+    <div class="btn-group pull-right" id="header-right" style="margin-top:35px;"></div>
+    <div id="header-left"></div>
    </div>
    <div class="col-sm-12" id="top-content"></div>
    <div class="col-md-12" id="content">{{LangLoading}}</div>

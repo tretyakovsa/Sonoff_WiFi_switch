@@ -24,8 +24,9 @@
   },
   {
    "type": "text",
-   "title": "{{LangCloud}}",
-   "class": "alert alert-info"
+   "name":"alert-cloud",
+   "title": "<button class=\"close\" onclick=\"hide('alert-cloud',this)\" type=\"button\">×</button>{{LangCloud}}",
+   "class": "alert alert-info {{alert-cloud}}"
   },
   {
    "type": "configs",
