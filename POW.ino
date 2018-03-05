@@ -30,21 +30,56 @@ void initHLW8012() {
 }
 
 void calibrate() {
-
   // Let some time to register values
   unsigned long timeout = millis();
   while ((millis() - timeout) < 10000) {
     delay(1);
   }
-
   // Calibrate using a 60W bulb (pure resistive) on a 230V line
   hlw8012.expectedActivePower(60.0);
   hlw8012.expectedVoltage(220.0);
   hlw8012.expectedCurrent(60.0 / 220.0);
-
   sendOptions("current", hlw8012.getCurrentMultiplier());
   sendOptions("voltage", hlw8012.getVoltageMultiplier());
   sendOptions("power", hlw8012.getPowerMultiplier());
-
-
 }
+
+void initFurnace(){
+  uint8_t pin1 = readArgsInt(); // первый аргумент pin1
+  uint8_t pin2 = readArgsInt(); // первый аргумент pin2
+  String num = readArgsString(); // третьий аргумент прификс конфорки 0 1 2
+  sendStatus(stateFurnaceS + num, LOW);
+  sendOptions(furnacePin1S + num, pin1);
+  sendOptions(furnacePin2S + num, pin2);
+  pinMode(pin1, OUTPUT);
+  pinMode(pin2, OUTPUT);
+  digitalWrite(pin1,LOW);
+  digitalWrite(pin2,LOW);
+  sCmd.addCommand("furnace", furnaceGo);
+  commandsReg("furnace");
+  modulesReg("furnace");
+  }
+
+void furnaceGo(){
+  // команда furnace 0 on 0-1-2-3
+  String num = readArgsString();
+  String com = readArgsString();
+  String state = readArgsString();
+  uint8_t pin1 = getOptionsInt(furnacePin1S + num);
+  uint8_t pin2 = getOptionsInt(furnacePin2S + num);
+  Serial.println("furnace");
+  if (state != "") {
+          }
+      if (com == "on") {
+  digitalWrite(pin1,HIGH);
+  digitalWrite(pin2,HIGH);
+  sendStatus(stateFurnaceS + num, HIGH);
+      }
+        if (com == "off") {
+  digitalWrite(pin1,LOW);
+  digitalWrite(pin2,LOW);
+   sendStatus(stateFurnaceS + num, LOW);
+      }
+  }
+
+

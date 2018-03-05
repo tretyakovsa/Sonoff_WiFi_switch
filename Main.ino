@@ -7,10 +7,13 @@ void start_init() {
   sendStatus(timeS, "00:00:00");                                         //Добавить раздел времени в configJson
   sendOptions(langS, jsonRead(configSetup, langS));                      //Скопировать ключ "lang" из configSetup в configOptions
   sendOptions(ssdpS, jsonRead(configSetup, ssdpS));                      //Скопировать ключ "ssdp"  из configSetup в configOptions
-  sendOptions(timeZoneS, jsonRead(configSetup, timeZoneS));              //Скопировать ключ "space"  из configSetup в configOptions
-  sendOptions(spaceS, jsonRead(configSetup, spaceS));
+  sendOptions(timeZoneS, jsonRead(configSetup, timeZoneS));              //Скопировать ключ "timeZone"  из configSetup в configOptions
+  sendOptions(spaceS, jsonRead(configSetup, spaceS));                    //Скопировать ключ "space"  из configSetup в configOptions
+  sendOptions(ddnsNameS, jsonRead(configSetup, ddnsNameS));              //Скопировать ключ "ddnsName"  из configSetup в configOptions
+  sendOptions(ddnsPortS, jsonRead(configSetup, ddnsPortS));              //Скопировать ключ "ddnsPort"  из configSetup в configOptions
   sendOptions(spiffsDataS, jsonRead(configSetup, spiffsDataS));          //Скопировать ключ "spiffsData"  из configSetup в configOptions
   sendOptions(buildDataS, jsonRead(configSetup, buildDataS));            //Скопировать ключ "buildData"  из configSetup в configOptions
+  jsonWrite(modules, langS, jsonRead(configSetup, langS));
   String configs = jsonRead(configSetup, configsS);
   configs.toLowerCase();
   sendOptions("flashChip", String(ESP.getFlashChipId(), HEX));

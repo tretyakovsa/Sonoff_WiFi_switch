@@ -63,6 +63,7 @@ void initHTTP(void) {
   HTTP.on("/lang", HTTP_GET, []() {
     jsonWrite(configSetup, langS, HTTP.arg("set"));
     sendOptions(langS, jsonRead(configSetup, langS));
+    jsonWrite(modules, langS, jsonRead(configSetup, langS));
     saveConfigSetup();
     httpOkText();
   });

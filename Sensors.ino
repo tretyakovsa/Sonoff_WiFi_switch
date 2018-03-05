@@ -67,46 +67,36 @@ void initTach() {
   sendStatus(stateTachS + num, 0);
   buttons[num.toInt()].attach(pin);
   buttons[num.toInt()].interval(bDelay);
-  but[num.toInt()]=true;
+  but[num.toInt()] = true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
   sendOptions("invTach" + num, inv);
   String m = readArgsString();
-  if (m=="m") {
-  sendOptions(movementTimeS, readArgsInt());
-  sendStatus(stateMovementS, 0);
-  modulesReg("movement");
-  HTTP.on("/movement.json", HTTP_GET, []() {
-    String data = graf(getStatusInt(stateMovementS), 10, 1000, "low:0");
-    //String data = graf(digitalRead(2), 10, 1000, "low:0");
-    httpOkJson(data);
-  });
-  HTTP.on("/mov.json", HTTP_GET, []() {
-    //String data = graf(getStatusInt(stateMovementS), 10, 1000, "low:0");
-    String data = graf(digitalRead(2), 10, 1000, "low:0");
-    httpOkJson(data);
-  });
+  if (m == "m") {
+    sendOptions(movementTimeS, readArgsInt());
+    sendStatus(stateMovementS, 0);
+    modulesReg("movement");
+    HTTP.on("/movement.json", HTTP_GET, []() {
+      String data = graf(getStatusInt(stateMovementS), 10, 1000, "low:0");
+      httpOkJson(data);
+    });
     sCmd.addCommand("motion",     motionOn); //
     commandsReg("motion");
-    }
+  }
 }
 
 void handleButtons() {
   static uint8_t num = 0;
-  if (but[num]){
-  buttons[num].update();
-  //if (buttons[num].fell() != getStatusInt(stateTachS + String(num, DEC))) {
+  if (but[num]) {
+    buttons[num].update();
+    //if (buttons[num].fell() != getStatusInt(stateTachS + String(num, DEC))) {
     if (buttons[num].fell()) {
-    flag = sendStatus(stateTachS + String(num, DEC), !getOptionsInt("invTach" + String(num)));
-    Serial.print("test"+String(num, DEC)+" = ");
-    Serial.println(!getOptionsInt("invTach" + String(num)));
-  }
-  //if (buttons[num].rose() != getStatusInt(stateTachS + String(num, DEC))) {
-  if (buttons[num].rose()) {
-    flag = sendStatus(stateTachS + String(num, DEC), getOptionsInt("invTach" + String(num)));
-    Serial.print("test"+String(num, DEC)+" = ");
-    Serial.println(getOptionsInt("invTach" + String(num)));
-  }
-  //buttons[num].rose()
+      flag = sendStatus(stateTachS + String(num, DEC), !getOptionsInt("invTach" + String(num)));
+    }
+    //if (buttons[num].rose() != getStatusInt(stateTachS + String(num, DEC))) {
+    if (buttons[num].rose()) {
+      flag = sendStatus(stateTachS + String(num, DEC), getOptionsInt("invTach" + String(num)));
+    }
+    //buttons[num].rose()
   }
   num++;
   //if (num == getOptionsInt(buttonNumS)) num = 0;
@@ -116,8 +106,8 @@ void handleButtons() {
 // -----------------  Движение
 
 void motionOn() {
-  uint16_t t= getOptionsInt(movementTimeS);
-    motion.attach(t, motionOff);
+  uint16_t t = getOptionsInt(movementTimeS);
+  motion.attach(t, motionOff);
   if (!getStatusInt(stateMovementS)) {
     flag = sendStatus(stateMovementS, 1);
   }
@@ -235,7 +225,7 @@ void dump(decode_results *results) {
 
 // ----------------------Приемник на 433мГ
 void rfReceived() {
-   byte pin = readArgsInt();
+  byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
   // задача опрашивать RC код

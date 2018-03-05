@@ -103,6 +103,7 @@ boolean startAP() {
   WiFi.mode(WIFI_AP);
   dnsServer.start(53, "*", apIP);
   digitalWrite(jsonReadtoInt(configSetup, wifiBlinkS), HIGH);                 //Зажигаем светодиод если находимся в режиме AP
+  jsonWrite(ssdpList, jsonRead(configSetup, ssdpS), "0.0.0.0");
   return true;
 }
 

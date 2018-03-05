@@ -1,6 +1,3 @@
-#include <Boards.h>
-#include <Firmata.h>
-
 #include "sets.h"             //Содержится в пакете
 
 File fsUploadFile;
@@ -11,6 +8,8 @@ ESP8266HTTPUpdateServer httpUpdater;
 ESP8266WebServer HTTPWAN;
 
 Ticker motion;
+Ticker furnace[8];
+
 WiFiUDP udp;
 WiFiClient wclient;
 StringCommand sCmd;     // Обьект для работы с командами

@@ -27,7 +27,7 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
-#include "HLW8012.h"
+#include "HLW8012.h"                 // https://bitbucket.org/xoseperez/hlw8012/src
 
 #define NUM_BUTTONS 8
 boolean but[NUM_BUTTONS];
@@ -153,4 +153,8 @@ const String movementS   = "movement";
 const String stateA0S   = "stateA0";
 const String rgbS   = "rgb";
 const String rgbSS   = "rgbs";
+
+const String stateFurnaceS   = "stateFurnace";
+const String furnacePin1S   = "furnacePin1-";
+const String furnacePin2S   = "furnacePin2-";
 

@@ -25,6 +25,7 @@ void initCMD() {
   //sCmd.addCommand("BUZER",       initBuzer);
   //sCmd.addCommand("beep",       buzerBeep);
   sCmd.addCommand("print",       printTest);
+  sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.setDefaultHandler(unrecognized);
 }
 

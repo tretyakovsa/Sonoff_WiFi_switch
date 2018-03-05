@@ -95,6 +95,7 @@ void rgb() {
   }
   statusS = relayStatus(configJson, stateRGBS);
 }
+
 // Шим RGB лента
 void initRGBSHIM() {
   // Реагирует на комманду rgbnot
