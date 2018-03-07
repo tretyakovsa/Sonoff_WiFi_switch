@@ -25,6 +25,14 @@
    "style":"('{{urlArray0}}'=='rgbs'?'display:none':'')"
   },
   {
+   "type": "link",
+   "title": "<i class=\"set-img\"></i>{{LangOptions1}} RGB",
+   "module": "rgb",
+   "action": "/page.htm?rgb",
+   "class": "btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='rgb'?'display:none':'')"
+  },
+  {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
    "module":"relay",

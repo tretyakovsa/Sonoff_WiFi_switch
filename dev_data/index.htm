@@ -20,13 +20,13 @@ From: Latvia, Valmiera
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <script defer src="js/build.chart.js?v22.10.2017" charset="utf-8"></script>
+  <script defer src="js/build.chart.js?v07.03.2018" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v22.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v07.03.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script defer type="text/javascript" src="js/function.js?v22.10.2017"></script>
+  <script defer type="text/javascript" src="js/function.js?v07.03.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
@@ -42,6 +42,8 @@ From: Latvia, Valmiera
 
    function deviceList(stage,sorting) {
     html('content',' ');
+    html('header-left',' ');
+    html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
      for (var i in ipDevice) {
@@ -127,7 +129,8 @@ From: Latvia, Valmiera
      var jsonIndexResponse0 = JSON.parse(response);
      ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
-      jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       if(searchModule(modules,"relay")) {
        for (var i = 0; i < 10; i++) {
         if (!searchModule(modules,"relay"+i)){
@@ -198,7 +201,9 @@ From: Latvia, Valmiera
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
       }
-      jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
+
+      jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
+      //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];

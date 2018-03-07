@@ -20,10 +20,10 @@ From: Latvia, Valmiera
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v22.10.2017">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v07.03.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v22.10.2017"></script>
+  <script type="text/javascript" src="js/function.js?v07.03.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
@@ -42,6 +42,8 @@ From: Latvia, Valmiera
 
    function deviceList(stage,sorting) {
     html('content',' ');
+    html('header-left',' ');
+    html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
      for (var i in ipDevice) {
@@ -102,7 +104,8 @@ From: Latvia, Valmiera
      var jsonIndexResponse0 = JSON.parse(response);
      ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
-      jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -171,10 +174,11 @@ From: Latvia, Valmiera
 
    function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
     var element = document.getElementById(spaceVal);
+    var blockButton = '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
     if (typeof(element) != 'undefined' && element != null && element != ''){
-     element.innerHTML += '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
+     element.innerHTML += blockButton;
     } else {
-     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"><tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/td><\/tr> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr><\/table><\/div><\/div><\/div>';
+     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"> '+blockButton+' <\/table><\/div><\/div><\/div>';
     }
    }
 

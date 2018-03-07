@@ -102,7 +102,8 @@ function setContent(stage) {
       if (response!='FileNotFound'){
        var jsonResponseNew = JSON.parse(response);
        var jsonResponseOld = jsonResponse;
-       jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
+       jsonResponse = mergeObject(jsonResponseNew, jsonResponseOld);
+       //jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
       } else {
        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
@@ -960,4 +961,16 @@ function isValidJson(str,idMess) {
   return false;
  }
  return true;
+}
+
+function mergeObject(target) {
+ for (var i = 1; i < arguments.length; i++) {
+  var source = arguments[i];
+  for (var key in source) {
+   if (source.hasOwnProperty(key)) {
+    target[key] = source[key];
+   }
+  }
+ }
+ return target;
 }
