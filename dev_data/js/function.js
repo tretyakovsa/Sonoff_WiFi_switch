@@ -78,7 +78,7 @@ var set_real_time;
 document.onkeydown = function(e){
  var evtobj = window.event? event : e
  var element=document.getElementById('edit-content');
- let charCode = String.fromCharCode(evtobj.which).toLowerCase();
+ var charCode = String.fromCharCode(evtobj.which).toLowerCase();
  if (charCode === 'm' && evtobj.ctrlKey && element) {toggle('edit-content');toggle('url-content');}
  if (charCode === 's' && evtobj.ctrlKey && element) {
   evtobj.preventDefault();send_request_edit(this, val('edit-json'), window.location.search.substring(1).split("&")[0]+'.json');toggle('edit-content');toggle('url-content');
