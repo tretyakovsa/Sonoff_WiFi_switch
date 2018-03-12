@@ -153,6 +153,9 @@ From: Latvia, Valmiera
        if (searchModule(modules,"analog")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"analog");
        }
+       if (searchModule(modules,"movement")){
+        loadSensor(ipval,'table-sensors',jsonIndexResponse,"movement");
+       }
       }
       if (window.location.hostname == ipval && stage == 'first') {
        var new_string2;

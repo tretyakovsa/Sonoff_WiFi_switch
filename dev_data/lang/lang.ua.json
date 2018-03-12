@@ -163,6 +163,7 @@
  "LangtimeBUZ":"Время работы Buzzer",
  "Langtemperature":"Температура",
  "Langhumidity":"Вологість",
+ "LangOptional":"Не обязательно",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",

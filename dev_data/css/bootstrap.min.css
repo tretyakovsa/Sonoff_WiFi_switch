@@ -3,6 +3,8 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 .close:hover,.close:focus{color:#000000;text-decoration:none;cursor:pointer;opacity:0.5;filter:alpha(opacity=50);}
 button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-appearance:none;}
 .alert-dismissable .close,.alert-dismissible .close {position:relative;top:-5px;right:-25px;}
+.alert a{color:#fff;text-decoration:underline;}
+.alert ul.dropdown-menu li a{color:#158cba;text-decoration:none;}
 display: block;}
 .dropdown-toggle:focus { outline: 0 none;}
 .dropdown-menu { background-clip: padding-box; background-color: #ffffff; border: 1px solid #e7e7e7; border-radius: 4px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176); display: none; float: left; font-size: 14px; left: 0; list-style: outside none none; margin: 2px 0 0; min-width: 160px; padding: 5px 0; position: absolute; text-align: left; top: 100%; z-index: 1000;}

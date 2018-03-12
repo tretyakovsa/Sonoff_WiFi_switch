@@ -198,6 +198,7 @@ ul#history {
  position:fixed;
  right:5px;
  bottom:5px;
+ z-index:999;
 }
 
 .opt-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img {

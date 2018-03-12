@@ -163,6 +163,7 @@
  "LangtimeBUZ":"Work time Buzzer",
  "Langtemperature":"Temperature",
  "Langhumidity":"Humidity",
+ "LangOptional":"Optional",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperature",
