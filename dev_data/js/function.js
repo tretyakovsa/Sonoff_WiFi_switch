@@ -312,7 +312,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<input type="hidden" id="hidden-val-then" value="1">';
       option += '<div id="new-then"></div>';
       option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-block btn-default" value="+" type="button">';
-      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');val(\\'ssdp-list0\\',\\' \\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
      }
@@ -505,7 +505,6 @@ function loadInTextarea() {
  }
  element.innerHTML += '\r\nid '+Math.floor(Math.random()*10000);
  val('ssdp-command',' ');
- val('ssdp-list0',' ');
  val('hidden-val-then',1);
  document.getElementById('ssdp-module').options.length=0;
 }
@@ -996,9 +995,11 @@ function isValidJson(str,idMess) {
   JSON.parse(str);
   document.getElementById(idMess).style.border = "";
   html(idMess,' ');
+  submit_disabled(false);
  } catch (e) {
   document.getElementById(idMess).style.border = "2px solid red";
   html(idMess,'<div class="alert alert-danger">'+e.message+'<\/div><br><br><br>');
+  submit_disabled(true);
   return false;
  }
  return true;
