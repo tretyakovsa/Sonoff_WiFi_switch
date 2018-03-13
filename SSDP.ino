@@ -50,14 +50,15 @@ void initSSDP() {
   }, nullptr, true);
   // задача проверять наличие устройств в сети каждые две минуты.
   ts.add(2, 120000, [&](void*) {
-    requestSSDP();
+        requestSSDP();
+        //Serial.println(ssdpList);
+        //Serial.println("requestSSDP "+GetTime());
   }, nullptr, true);
-  requestSSDP();
+
 }
 // ------------- SSDP запрос
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
-    ssdpList = "{}";
     jsonWrite(ssdpList, jsonRead(configSetup, ssdpS), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;

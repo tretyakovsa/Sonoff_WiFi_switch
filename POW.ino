@@ -44,7 +44,7 @@ void calibrate() {
   sendOptions("power", hlw8012.getPowerMultiplier());
 }
 
-void initFurnace(){
+void initFurnace() {
   uint8_t pin1 = readArgsInt(); // первый аргумент pin1
   uint8_t pin2 = readArgsInt(); // первый аргумент pin2
   String num = readArgsString(); // третьий аргумент прификс конфорки 0 1 2
@@ -53,33 +53,36 @@ void initFurnace(){
   sendOptions(furnacePin2S + num, pin2);
   pinMode(pin1, OUTPUT);
   pinMode(pin2, OUTPUT);
-  digitalWrite(pin1,LOW);
-  digitalWrite(pin2,LOW);
+  digitalWrite(pin1, LOW);
+  digitalWrite(pin2, LOW);
   sCmd.addCommand("furnace", furnaceGo);
   commandsReg("furnace");
-  modulesReg("furnace");
-  }
+  modulesReg("furnace" + num);
+}
 
-void furnaceGo(){
-  // команда furnace 0 on 0-1-2-3
+void furnaceGo() {
+  // команда furnace 0 up (down)
   String num = readArgsString();
   String com = readArgsString();
-  String state = readArgsString();
+  uint8_t state = getStatusInt(stateFurnaceS + num);
+  if (com == "up") {
+    ++ state;
+    if (state == 4) state =0;
+    sendStatus(stateFurnaceS + num, state);
+    jsonWrite(statusS, "title", getStatus(stateFurnaceS + num));
+  }
+  if (com == "down") {
+    -- state;
+    if (state == 255) state =3;
+    sendStatus(stateFurnaceS + num, state);
+    jsonWrite(statusS, "title", getStatus(stateFurnaceS + num));
+  }
+}
+
+void furnaceOn(uint8_t num, uint8_t state) {
   uint8_t pin1 = getOptionsInt(furnacePin1S + num);
   uint8_t pin2 = getOptionsInt(furnacePin2S + num);
-  Serial.println("furnace");
-  if (state != "") {
-          }
-      if (com == "on") {
-  digitalWrite(pin1,HIGH);
-  digitalWrite(pin2,HIGH);
-  sendStatus(stateFurnaceS + num, HIGH);
-      }
-        if (com == "off") {
-  digitalWrite(pin1,LOW);
-  digitalWrite(pin2,LOW);
-   sendStatus(stateFurnaceS + num, LOW);
-      }
-  }
+  digitalWrite(pin1, LOW);
+  digitalWrite(pin2, LOW);
 
-
+}

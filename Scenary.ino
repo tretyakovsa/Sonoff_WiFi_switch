@@ -56,16 +56,22 @@ void ifCommand() {
   }
 
 void orCommand() {
-  String Name =  readArgsString();
-  String Condition =  readArgsString();
-  String Volume =  readArgsString();
+  String Name =  readArgsString();      // Какой параметр проверяем
+  String Condition =  readArgsString(); // Операция
+  String Volume =  readArgsString();    // Значение параметра
   String test = getStatus(Name);
   String testOld = jsonRead(testJson, Name);
   if (test != testOld) {
+    //Serial.print("Name= ");
     //Serial.println(Name);
+    //Serial.print("test= ");
     //Serial.println(test);
-    //Serial.println(testOld);
+    //Serial.print("Volume= ");
+    //Serial.println(Volume);
+    //Serial.print("Condition= ");
+    //Serial.println(Condition);
     if (Condition == "=") {
+      //Serial.println("test=");
       if (Volume == test) thenOk = true;
     }
     if (Condition == "<") {
@@ -95,7 +101,8 @@ void thenCommand() {
     comm += " " + readArgsString();
     // Если это локальное устройство
     if (ssdp == test or test == "this") {
-      Serial.println(comm);
+      //Serial.println("comm= ");
+      //Serial.println(comm);
       sendStatus("test", comm);
       sCmd.readStr(comm);
     }
@@ -107,7 +114,7 @@ void thenCommand() {
       urls += "/cmd?command=" + comm;
       urls.replace(" ", "%20");
       if (ip != "") {
-        Serial.println(urls);
+        //Serial.println(urls);
         sendStatus("test", comm);
         getURL(urls);
       }

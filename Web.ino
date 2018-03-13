@@ -46,13 +46,14 @@ void initHTTP(void) {
     sendStatus("test", com);
     sCmd.readStr(com);
     httpOkText(statusS);
+    //Serial.println(statusS);
   });
   // ------------------Выполнение голосовой команды
     HTTP.on("/dusi", HTTP_GET, []() {
     String com = HTTP.arg("command");
     com.replace(" ", "_");
     //com.toLowerCase();
-    Serial.println(com);
+    //Serial.println(com);
     flag = sendStatus("voice", com);
     //handleScenary();
     //sCmd.readStr(com);

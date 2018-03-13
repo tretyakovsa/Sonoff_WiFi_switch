@@ -263,6 +263,7 @@ String goCommands(String inits) {
 
 // -------------- Регистрация команд
 void commandsReg(String comName) {
+  if (regCommands.indexOf(comName)==-1){
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(regCommands);
   JsonArray& data = json["command"].asArray();
@@ -270,4 +271,5 @@ void commandsReg(String comName) {
   data.add(comName);
   regCommands = "";
   json.printTo(regCommands);
+  }
 }

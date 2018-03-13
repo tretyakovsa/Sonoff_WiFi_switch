@@ -36,7 +36,7 @@ void initDHT() {
   static uint16_t t = readArgsInt();
   static uint16_t test = dht.getMinimumSamplingPeriod();
   if (t < test) t = test;
-  Serial.println(t);
+  //Serial.println(t);
   String temp = "";
   temp += dht.getTemperature();
   if (temp != "nan") {
@@ -63,16 +63,16 @@ void initDHT() {
 void initTach() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
-  uint16_t bDelay = readArgsInt(); // третий время подавления дребезга
+  uint16_t bDelay = readArgsInt(); // третий время нажатия
   sendStatus(stateTachS + num, 0);
   buttons[num.toInt()].attach(pin);
   buttons[num.toInt()].interval(bDelay);
   but[num.toInt()] = true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
   sendOptions("invTach" + num, inv);
-  String m = readArgsString();
+  String m = readArgsString(); // подключаем движение
   if (m == "m") {
-    sendOptions(movementTimeS, readArgsInt());
+    sendOptions(movementTimeS, readArgsInt()); // время тригера
     sendStatus(stateMovementS, 0);
     modulesReg("movement");
     HTTP.on("/movement.json", HTTP_GET, []() {
