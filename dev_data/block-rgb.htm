@@ -8,7 +8,7 @@
   </div>
   <hr>
   <input type="color" style="height:40px;margin-bottom:5px;" id="color-{{ip}}" class="form-control btn-primary" onchange="ajaxm('{{ip}}','cmd?command=rgb on '+val('color-{{ip}}').substr(1),this);" value="#fdfdfd">
-  <input type="button" onclick="ajaxm('{{ip}}','cmd?command=rgb not',this);" value="{{stateRGB}}" class="btn btn-block btn-primary">
+  <input type="button" onclick="ajaxm('{{ip}}','cmd?command=rgb not',this);" value="{{stateRGB}}" class="btn btn-block btn-lg btn-primary">
   <hr>
   <div class="btn-group btn-block">
    <a href="http://{{ip}}/page.htm?rgb" class="btn btn-default" style="width:80%"><i class="set-img"></i>{{LangOptions1}}</a>

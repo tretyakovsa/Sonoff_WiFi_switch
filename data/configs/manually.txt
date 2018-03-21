@@ -29,6 +29,8 @@ TACH 0 0 20
 # TACH 0 5 20
 # TACH 0 6 20
 # TACH 0 7 20
+// {{LangConfBUZZER}}
+# BUZZER 16 0
 // {{LangConfRGB}}
 RGB 5 15 1 ff0000 100 255 3
 // {{LangConfRGBS}}
