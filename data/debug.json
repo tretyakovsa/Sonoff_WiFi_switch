@@ -1,0 +1,60 @@
+{
+ "configs":[
+  "/config.options.json",
+  "/lang/lang.{{lang}}.json",
+  "/modules.json"
+ ],
+ "title":"Debug",
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content":[
+  {
+   "type":"h5",
+   "title":"{{SSDP}}",
+   "class":"alert-danger"
+  },
+  {
+   "type": "loadJson",
+   "state": "header.json"
+  },
+  {
+   "type": "text",
+   "class": "alert alert-dismissible alert-info",
+   "title": "Chip ID<br>* 00 - always 00 (Chip ID use only 3 byte)<br>* 17 - ? looks like 2^xx is size in Byte ? //todo: find docu to this<br>* 40 - ? may be Speed ? //todo: find docu to this<br>* C8 - manufacturer ID"
+  },
+  {
+   "type": "h3",
+   "title": "Flash Chip: <b>{{flashChip}}</b>",
+   "style":"text-align: left;"
+  },
+  {
+   "type": "h3",
+   "title": "Flash Size: <b>{{ideFlashSize}}</b> bytes",
+   "style":"text-align: left;"
+  },
+  {
+   "type": "h3",
+   "title": "Real Flash Size: <b>{{realFlashSize}}</b> bytes",
+   "style":"text-align: left;"
+  },
+  {
+   "type": "h3",
+   "title": "Flash Chip Speed: <b>{{flashChipSpeed}}</b> Hz",
+   "style":"text-align: left;"
+  },
+  {
+   "type": "h3",
+   "title": "Flash Chip Mode: <b>{{flashChipMode}}</b>",
+   "style":"text-align: left;"
+  },
+  {
+   "type": "hr"
+  },
+  {
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
+  }
+
+ ]
+}
