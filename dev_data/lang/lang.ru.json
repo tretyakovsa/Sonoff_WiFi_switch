@@ -161,10 +161,13 @@
  "Langvoice":"Голосовое сообщение",
  "LangstateMovement":"Сенсор движения",
  "LangtimeRGB":"Время работы RGB",
- "LangtimeBUZ":"Время работы Buzzer",
+ "LangtimeBUZ":"Время работы зуммера",
  "Langtemperature":"Температура",
  "Langhumidity":"Влажность",
  "LangOptional":"Не обязательно",
+ "LangFurnace":"Электрическая плита",
+ "LangJalousie":"Жалюзи на моторе",
+ "LangLeakag":"Защита от протечки воды",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Температура",
@@ -192,5 +195,6 @@
  "LangConfRfTransmitter":"Беспроводной передатчик MHz частот. (PIN/Частота - не обязательно)",
  "LangConfIrReceived":"Беспроводной приемник IR частот",
  "LangConfIrTransmitter":"Беспроводной передатчик IR частот",
+ "LangConfFurnace":"Электрическая плита (PIN / PIN)",
  "LangConfSerial":"Включить порт UART"
 }

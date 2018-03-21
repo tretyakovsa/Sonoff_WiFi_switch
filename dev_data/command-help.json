@@ -6,12 +6,12 @@
    "title":"{{Langrelayon}} под номером 1"
   },
   {
-   "command":"not 1",
-   "title":"{{Langrelaynot}} под номером 1"
-  },
-  {
    "command":"off 1",
    "title":"{{Langrelayoff}} под номером 1"
+  },
+  {
+   "command":"not 1",
+   "title":"{{Langrelaynot}} под номером 1"
   },
   {
    "command":"",
@@ -24,12 +24,12 @@
    "title":"{{Langjalousieopen}}"
   },
   {
-   "command":"not",
-   "title":"{{Langjalousienot}}"
-  },
-  {
    "command":"close",
    "title":"{{Langjalousieclose}}"
+  },
+  {
+   "command":"not",
+   "title":"{{Langjalousienot}}"
   },
   {
    "command":"",
@@ -50,12 +50,12 @@
    "title":"{{Langrgbon}}, цвет, скорость, яркость, динамический режим"
   },
   {
-   "command":"not",
-   "title":"{{Langrgbnot}}"
-  },
-  {
    "command":"off",
    "title":"{{Langrgboff}}"
+  },
+  {
+   "command":"not",
+   "title":"{{Langrgbnot}}"
   },
   {
    "command":"",
@@ -86,6 +86,34 @@
   {
    "command":"",
    "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=lvsend 6400 24</i>"
+  }
+ ],
+ "irsend":[
+  {
+   "command":"20dfc03f",
+   "title":""
+  },
+  {
+   "command":"20df40bf",
+   "title":""
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=irsend 20dfc03f</i>"
+  }
+ ],
+ "rfsend":[
+  {
+   "command":"423441",
+   "title":""
+  },
+  {
+   "command":"6244622",
+   "title":""
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=rfsend 423441</i>"
   }
  ]
 }

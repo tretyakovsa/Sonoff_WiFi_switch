@@ -1,0 +1,51 @@
+// {{LangConfRelay}}
+# RELAY 12 1 1 0
+# RELAY 15 0 2 0
+# RELAY 13 0 3 0
+# RELAY 14 1 4 0
+// {{LangConfFurnace}}
+FURNACE 15 14
+FURNACE 12 13
+// {{LangConfSerial}}
+# UART 115200
+# print print
+// {{LangConfNTP}}
+NTP pool.ntp.org ru.pool.ntp.org
+// {{LangConfDDNS}}
+# DDNS
+// {{LangConfMQTT}}
+# MQTT
+// {{LangConfTIMERS}}
+# TIMERS
+// {{LangConfDHT}}
+# DHT 14
+// {{LangConfDS18B20}}
+# DS18B20 14
+// {{LangConfA0}}
+# A0
+// {{LangConfTach}}
+# TACH 0 0 20
+# TACH 0 1 20
+# TACH 0 2 20
+# TACH 0 3 20
+# TACH 0 4 20
+# TACH 0 5 20
+# TACH 0 6 20
+# TACH 0 7 20
+// {{LangConfBUZZER}}
+# BUZZER 16 0
+// {{LangConfRGB}}
+# RGB 5 15 1 ff0000 100 255 3
+// {{LangConfRGBS}}
+# SRGB 2 4 5 1 ffffff 100 255
+// {{LangConfJalousie}}
+# JALOUSIE 4 12 13
+// {{LangConfRfReceived}}
+# RF-RECEIVED 3 433
+// {{LangConfRfTransmitter}}
+# RF-TRANSMITTER 1 433
+# RF-LIVOLO 1
+// {{LangConfIrReceived}}
+# IR-RECEIVED 0
+// {{LangConfIrTransmitter}}
+# IR-TRANSMITTER 14

@@ -165,6 +165,9 @@
  "Langtemperature":"Temperatūra",
  "Langhumidity":"Mitrums",
  "LangOptional":"Nav nepieciešams",
+ "LangFurnace":"Elektriskā plīts",
+ "LangJalousie":"Žalūzijas (motors)",
+ "LangLeakag":"Aizsardzība pret ūdens noplūdi",
 
  "_comment": "---page.htm?chart---",
  "LangTemperature":"Temperatūra",
@@ -192,5 +195,6 @@
  "LangConfRfTransmitter":"Bezvadu raidītājs MHz frekvencēs. (PIN / frekvence nav obligāta)",
  "LangConfIrReceived":"Bezvadu IR uztvērējs",
  "LangConfIrTransmitter":"Bezvadu IR frekvences raidītājs",
+ "LangConfFurnace":"Elektriskā plīts (PIN / PIN)",
  "LangConfSerial":"Ieslegt UART portu"
 }
