@@ -21,8 +21,7 @@ void initCMD() {
   sCmd.addCommand("IR-RECEIVED",       irReceived);
   sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
   sCmd.addCommand("RF-LIVOLO",     rfLivolo);
-   // sCmd.addCommand("MOVEMENT",       initMotion);
-  //sCmd.addCommand("BUZER",       initBuzer);
+  sCmd.addCommand("BUZZER",       initBuzzer);
   //sCmd.addCommand("beep",       buzerBeep);
   sCmd.addCommand("print",       printTest);
   sCmd.addCommand("FURNACE",       initFurnace);

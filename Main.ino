@@ -19,6 +19,10 @@ void start_init() {
   sendOptions("flashChip", String(ESP.getFlashChipId(), HEX));
   sendOptions("ideFlashSize", ESP.getFlashChipSize());
   sendOptions("realFlashSize", ESP.getFlashChipRealSize());
+  sendOptions("flashChipSpeed", ESP.getFlashChipSpeed()/1000000);
+  sendOptions("cpuFreqMHz", ESP.getCpuFreqMHz());
+  FlashMode_t ideMode = ESP.getFlashChipMode();
+  sendOptions("flashChipMode",(ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
   initWIFI();
   initHTTP();
   initUpgrade();
@@ -32,6 +36,7 @@ void start_init() {
   test = "";
   jsonWrite(configSetup, macS, WiFi.macAddress().c_str());
   jsonWrite(configSetup, ipS, WiFi.localIP().toString());
+  sendOptions(macS, WiFi.macAddress().c_str());
    testJson = configJson;
   Serial.println("");
 }

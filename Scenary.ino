@@ -33,6 +33,7 @@ void loadTimer() {
 void idNot() {}
 
 void handleScenary() {
+  yield();
   if (flag) {
     //Serial.println(goCommands(Scenary));
     goCommands(Scenary);

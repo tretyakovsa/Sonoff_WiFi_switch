@@ -83,7 +83,11 @@ bool loadnWidgets() {
 
 // --------------------- Включаем DDNS
 void initDDNS() {
-  HTTPWAN = ESP8266WebServer (jsonReadtoInt(configSetup, ddnsPortS));
+  //HTTPWAN = ESP8266WebServer (jsonReadtoInt(configSetup, ddnsPortS));
+  //HTTPWAN = ESP8266WebServer (8080);
+  HTTPWAN.begin();
+  Serial.println(jsonReadtoInt(configSetup, ddnsPortS));
+  Serial.println("TEST DDNS");
   HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
   // ------------------Выполнение команды из запроса
   HTTPWAN.on("/cmd", HTTP_GET, []() {
@@ -93,7 +97,11 @@ void initDDNS() {
     sCmd.readStr(com);
     HTTPWAN.send(200, "text/plain", com);
   });
-  HTTPWAN.begin();
+   HTTPWAN.onNotFound([]() {
+   Serial.println("TEST DDNS");
+      HTTPWAN.send(404, "text/plain", "FileNotFound");
+  });
+
     // задача синхронизайия с сервером ddns каждые 10 минут
  ts.add(8, 600000, [&](void*) {
     ip_wan();

@@ -80,3 +80,6 @@ String GetWeekday() {
   String weekday = Data.substring(i - 3, i); // Выделяем время и пробел
   return weekday;
 }
+
+
+

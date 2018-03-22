@@ -158,3 +158,7 @@ const String stateFurnaceS   = "stateFurnace";
 const String furnacePin1S   = "furnacePin1-";
 const String furnacePin2S   = "furnacePin2-";
 
+const String stateBuzzerS   = "stateBuzzer";
+const String buzzerPinS   = "buzzerPin";
+const String BuzzerNotS   = "BuzzerNot";
+

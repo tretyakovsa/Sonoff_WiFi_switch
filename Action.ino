@@ -132,4 +132,19 @@ void handleRfLivolo() {
     gLivolo->sendButton(cod, len);
 }
 
+// ------------------- Инициализация Buzera
+void initBuzzer() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  sendOptions(buzzerPinS, pin);
+  sCmd.addCommand("tone", buzzerTone);
+  commandsReg("tone");
+  modulesReg("tone");
+}
+
+void buzzerTone(){
+ int freq = readArgsInt();
+ int duration = readArgsInt();
+ uint8_t pin = getOptionsInt(buzzerPinS);
+ tone(pin, freq, duration);
+  }
 

@@ -5,7 +5,7 @@ TickerScheduler ts(10);
 DNSServer dnsServer;
 ESP8266WebServer HTTP(80);
 ESP8266HTTPUpdateServer httpUpdater;
-ESP8266WebServer HTTPWAN;
+ESP8266WebServer HTTPWAN(8080);
 
 Ticker motion;
 Ticker furnace[8];

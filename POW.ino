@@ -67,22 +67,43 @@ void furnaceGo() {
   uint8_t state = getStatusInt(stateFurnaceS + num);
   if (com == "up") {
     ++ state;
-    if (state == 4) state =0;
+    if (state == 4) state = 0;
+
     sendStatus(stateFurnaceS + num, state);
     jsonWrite(statusS, "title", getStatus(stateFurnaceS + num));
+    furnaceOn(num.toInt(), state);
   }
   if (com == "down") {
     -- state;
-    if (state == 255) state =3;
+    if (state == 255) state = 3;
+
     sendStatus(stateFurnaceS + num, state);
     jsonWrite(statusS, "title", getStatus(stateFurnaceS + num));
+    furnaceOn(num.toInt(), state);
   }
 }
 
 void furnaceOn(uint8_t num, uint8_t state) {
   uint8_t pin1 = getOptionsInt(furnacePin1S + num);
   uint8_t pin2 = getOptionsInt(furnacePin2S + num);
-  digitalWrite(pin1, LOW);
-  digitalWrite(pin2, LOW);
+  if (state = 0) {
+    furnace[num].detach();
+    furnace[num + 4].detach();
+    digitalWrite(pin1, LOW);
+    digitalWrite(pin2, LOW);
+  }
+  else {
+    digitalWrite(pin1, HIGH);
+    furnace[num].attach(1000 * state, setPin, num);
+    furnace[num + 4].attach(500 * state, setPin, num);
+  }
+  //Serial.println(state);
+}
 
+void setPin(uint8_t num) {
+  uint8_t state = getStatusInt("statusFurnace" + (String)(num));
+  uint8_t pin2 = getOptionsInt(furnacePin2S + (String)(num));
+  Serial.println(state);
+  sendStatus("statusFurnace" + (String)(num), !state);
+  digitalWrite(pin2, !state);
 }
