@@ -332,7 +332,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
      }
      if (type_val == 'dev') {
-      var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?degub" class="btn btn-primary">Debugr<\/a> ';
+      var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?degub" class="btn btn-primary">Debug<\/a> ';
       if (searchModule(jsonResponse.module,"upgrade")){
        dev_html += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
