@@ -1,5 +1,5 @@
 {
- "_comment": "---INDEX.HTM---",
+ "_comment":"---INDEX.HTM---",
  "LangDevices":"Головна",
  "LangOptions1":"Сторінка керування",
  "LangSetting3":"Конфігурація",
@@ -35,7 +35,7 @@
  "LangSelect":"Виберіть",
  "LangSensors":"Сенсоры",
 
- "_comment": "---page.htm?setup---",
+ "_comment":"---page.htm?setup---",
  "LangDevice":"Ім’я пристрою",
  "LangSpace":"Простір",
  "LangSetting":"<b><a onclick=\"toggle('dev-update');return false\" href=\"#\">Відкрити настройки розробника</a></b><br>Обережно, непродумані дії можуть пошкодити пристрій.",
@@ -59,7 +59,7 @@
  "LangHiddenWifi":"Підключитися до прихованої WiFi мережі",
  "LangType":"Тип пристрою",
 
- "_comment": "---page.htm?timer---",
+ "_comment":"---page.htm?timer---",
  "LangTime3":"Встановити час",
  "LangTime4":"Час",
  "LangList":"Список",
@@ -79,12 +79,12 @@
  "LangSwitch":"Перемк.",
  "LangTime6":"Налаштовуючи час перед одиночними цифрами пишіть 0. Комірку \"Тривал. роботи\" заповнювати не обов’язково.",
 
- "_comment": "---page.htm?relay---",
+ "_comment":"---page.htm?relay---",
  "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"ddns-url1\"></span><br>Глобальне посилання: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"Увімкнути",
  "LangOff":"Вимкнути",
 
- "_comment": "---RGB.HTM---",
+ "_comment":"---RGB.HTM---",
  "LangTime5":"Час роботи сигналу",
  "LangTime8":"На скільки хвилин увімкнути?",
  "LangTime9":"хвилин",
@@ -94,12 +94,12 @@
  "LangSpeed":"Швидкість",
  "LengBrightness":"Яскравість",
 
- "_comment": "---page.htm?jalousie---",
+ "_comment":"---page.htm?jalousie---",
  "LangClose":"Закрити",
  "LangOpen":"Відкрити",
  "LangTurn":"Оберти двигуна",
 
- "_comment": "---page.htm?scenary---",
+ "_comment":"---page.htm?scenary---",
  "LangScenary":"Сценарії",
  "LangAction":"Действие",
  "LangIf":"Якщо",
@@ -169,14 +169,14 @@
  "LangJalousie":"Жалюзи на моторе",
  "LangLeakag":"Защита от протечки воды",
 
- "_comment": "---page.htm?chart---",
+ "_comment":"---page.htm?chart---",
  "LangTemperature":"Температура",
  "LangHumidity":"Вологість",
  "LangChart":"Графік",
  "LangAnalog":"Analog (ADC/A0)",
  "LangMovement":"Сенсор движения",
 
- "_comment": "---page.htm?configs---",
+ "_comment":"---page.htm?configs---",
  "LangConfNTP":"Вмикаємо час з мережі",
  "LangConfDDNS":"Доступ по DDNS",
  "LangConfMQTT":"Для керування IoT Manager",

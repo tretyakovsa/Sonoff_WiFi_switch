@@ -2,11 +2,11 @@
  "nWidgets": [
   {
    "id": 0,
-   "page": "buttons",
-   "descr": "Toggle",
-   "widget": "toggle",
-   "color": "green",
-   "topic": "/RELE_1_not"
+   "page":"buttons",
+   "descr":"Toggle",
+   "widget":"toggle",
+   "color":"green",
+   "topic":"/RELE_1_not"
   }
  ]
 }

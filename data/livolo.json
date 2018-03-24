@@ -15,8 +15,8 @@
   },
 
   {
-   "type": "loadJson",
-   "state": "header.json"
+   "type":"loadJson",
+   "state":"header.json"
   },
 
   {
@@ -32,7 +32,7 @@
    "title":"1",
    "module":"rfLivolo",
    "action":"lvsend 6400 0",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -40,7 +40,7 @@
    "title":"2",
    "module":"rfLivolo",
    "action":"lvsend 6400 96",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -48,7 +48,7 @@
    "title":"3",
    "module":"rfLivolo",
    "action":"lvsend 6400 120",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -56,7 +56,7 @@
    "title":"4",
    "module":"rfLivolo",
    "action":"lvsend 6400 24",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -64,7 +64,7 @@
    "title":"5",
    "module":"rfLivolo",
    "action":"lvsend 6400 80",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -72,7 +72,7 @@
    "title":"6",
    "module":"rfLivolo",
    "action":"lvsend 6400 48",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -80,7 +80,7 @@
    "title":"7",
    "module":"rfLivolo",
    "action":"lvsend 6400 108",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -88,7 +88,7 @@
    "title":"8",
    "module":"rfLivolo",
    "action":"lvsend 6400 12",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -96,7 +96,7 @@
    "title":"9",
    "module":"rfLivolo",
    "action":"lvsend 6400 72",
-   "style": "width:33.33333%;display:inline",
+   "style":"width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {
@@ -104,7 +104,7 @@
    "title":"0",
    "module":"rfLivolo",
    "action":"lvsend 6400 40",
-   "style": "margin-left:33.33333%;width:33.33333%;display:inline",
+   "style":"margin-left:33.33333%;width:33.33333%;display:inline",
    "class":"btn btn-lg btn-primary"
   },
   {

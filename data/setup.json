@@ -4,371 +4,371 @@
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "title": "{{LangSetting3}}",
+ "title":"{{LangSetting3}}",
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
   {
-   "type": "h5",
-   "title": "{{SSDP}}",
+   "type":"h5",
+   "title":"{{SSDP}}",
    "class":"alert-warning"
   },
 
   {
-   "type": "loadJson",
-   "state": "header.json"
+   "type":"loadJson",
+   "state":"header.json"
   },
 
   {
-   "type": "h2",
-   "title": "{{LangType}} {{configs}}"
+   "type":"h2",
+   "title":"{{LangType}} {{configs}}"
   },
 
   {
-   "type": "dev",
-   "title": "{{LangSetting}}",
-   "class": "alert alert-dismissible alert-info"
+   "type":"dev",
+   "title":"{{LangSetting}}",
+   "class":"alert alert-dismissible alert-info"
   },
 
   {
-   "type": "h2",
-   "title": "{{LangDevice}}"
+   "type":"h2",
+   "title":"{{LangDevice}}"
   },
   {
-   "type": "input",
-   "title": "{{LangDevice}}",
+   "type":"input",
+   "title":"{{LangDevice}}",
    "name":"ssdp",
-   "state": "{{SSDP}}",
-   "style": "width:50%;display:inline",
+   "state":"{{SSDP}}",
+   "style":"width:50%;display:inline",
    "pattern":"[0-9a-zA-Z\\-]{1,15}|[0-9а-яА-Я\\-]{1,7}"
   },
   {
-   "type": "input",
-   "title": "{{LangSpace}}",
+   "type":"input",
+   "title":"{{LangSpace}}",
    "name":"space",
-   "state": "{{space}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9a-zA-Zа-яА-Я\\-]{1,20}"
+   "state":"{{space}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9a-zA-Zа-яА-Я\\-]{1,20}"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "action": "device?ssdp=[[ssdp]]&space=[[space]]",
-   "class": "btn btn-block btn-success"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "action":"device?ssdp=[[ssdp]]&space=[[space]]",
+   "class":"btn btn-block btn-success"
   },
 
 
   {
-   "type": "h2",
-   "title": "{{LangWiFi2}}"
+   "type":"hr"
+  },
+
+
+  {
+   "type":"h2",
+   "title":"{{LangWiFi2}}"
   },
   {
-   "type": "wifi",
+   "type":"wifi",
    "title":"{{LangWiFi1}}",
    "name":"ssid",
-   "state": "{{ssid}}",
-   "pattern": ".{1,20}"
+   "state":"{{ssid}}",
+   "pattern":".{1,20}"
   },
   {
-   "type": "password",
-   "title": "{{LangDevice}}",
+   "type":"password",
+   "title":"{{LangDevice}}",
    "name":"ssidPass",
-   "state": "{{ssidPass}}",
-   "pattern": ".{8,}"
+   "state":"{{ssidPass}}",
+   "pattern":".{8,}"
   },
 
   {
-   "type": "select",
-   "state": "{{wifiConnect}}",
+   "type":"select",
+   "state":"{{wifiConnect}}",
    "name":"wifi-connect",
-   "action": "wifi?connect=[[wifi-connect]]&led=[[wifi-blink]]",
-   "style": "width:65%;display:inline;height:auto;font-weight:normal;",
+   "action":"wifi?connect=[[wifi-connect]]&led=[[wifi-blink]]",
+   "style":"width:65%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
    "title": {"10":"{{LangWiFi2}} 10 {{LangSecM}}","15":"{{LangWiFi2}} 15 {{LangSecM}}","30":"{{LangWiFi2}} 30 {{LangSecM}}","60":"{{LangWiFi2}} 1 {{LangMin}}","120":"{{LangWiFi2}} 2 {{LangMin}}","240":"{{LangWiFi2}} 4 {{LangMin}}"}
   },
   {
-   "type": "select",
-   "state": "{{wifiBlink}}",
+   "type":"select",
+   "state":"{{wifiBlink}}",
    "name":"wifi-blink",
-   "action": "wifi?connect=[[wifi-connect]]&blink=[[wifi-blink]]",
-   "style": "width:35%;display:inline;height:auto;font-weight:normal;",
+   "action":"wifi?connect=[[wifi-connect]]&blink=[[wifi-blink]]",
+   "style":"width:35%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
    "title": {"":"Blink {{LangOff}}","12":"Blink GPIO 12","13":"Blink GPIO 13","14":"Blink GPIO 14","15":"Blink GPIO 15","16":"Blink GPIO 16"}
   },
 
   {
-   "type": "checkbox",
-   "title": "Задать статический IP",
+   "type":"checkbox",
+   "title":"Задать статический IP",
    "name":"checkboxIP",
-   "state": "{{checkboxIP}}",
-   "style": "display:block"
+   "state":"{{checkboxIP}}",
+   "style":"display:block"
   },
   {
-   "type": "input",
-   "title": "IP Adress",
+   "type":"input",
+   "title":"IP Adress",
    "name":"ip",
-   "state": "{{ip}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9.]{1,15}"
+   "state":"{{ip}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9.]{1,15}"
   },
   {
-   "type": "input",
-   "title": "Subnet Mask",
+   "type":"input",
+   "title":"Subnet Mask",
    "name":"subnet",
-   "state": "{{subnet}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9.]{1,15}"
+   "state":"{{subnet}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9.]{1,15}"
   },
   {
-   "type": "input",
-   "title": "Default Getway",
+   "type":"input",
+   "title":"Default Getway",
    "name":"getway",
-   "state": "{{getway}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9.]{1,15}"
+   "state":"{{getway}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9.]{1,15}"
   },
   {
-   "type": "input",
-   "title": "DNS Server (Optional)",
+   "type":"input",
+   "title":"DNS Server (Optional)",
    "name":"dns",
-   "state": "{{dns}}",
-   "style": "width:50%;display:inline",
-   "pattern": "[0-9.]{1,15}"
+   "state":"{{dns}}",
+   "style":"width:50%;display:inline",
+   "pattern":"[0-9.]{1,15}"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "class": "btn btn-block btn-success",
-   "action": "ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&ip=[[ip]]&subnet=[[subnet]]&getway=[[getway]]&dns=[[dns]]&checkboxIP=[[checkboxIP]]"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "class":"btn btn-block btn-success",
+   "action":"ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&ip=[[ip]]&subnet=[[subnet]]&getway=[[getway]]&dns=[[dns]]&checkboxIP=[[checkboxIP]]"
   },
 
 
   {
-   "type": "h2",
-   "module": "ntp",
-   "title": "{{LangGMT1}}"
+   "type":"hr"
   },
+
+
   {
-   "type": "input",
-   "title": "{{LangSpace}}",
-   "name":"timeZone",
-   "module": "ntp",
-   "state": "{{timeZone}}",
-   "pattern": "[0-9-]{1,3}"
-  },
-  {
-   "type": "button",
-   "module":"",
-   "title": "{{LangSave}}",
-   "class": "btn btn-block btn-success",
-   "action": "timeZone?timeZone=[[timeZone]]"
-  },
-  {
-   "type": "link",
+   "type":"h2",
    "module":"ntp",
-   "title": "{{LangGMT2}}",
-   "action": "javascript:set_time_zone(this);",
-   "class": "btn btn-block btn-primary"
+   "title":"{{LangGMT1}}"
+  },
+  {
+   "type":"input",
+   "title":"{{LangSpace}}",
+   "name":"timeZone",
+   "module":"ntp",
+   "state":"{{timeZone}}",
+   "pattern":"[0-9-]{1,3}"
+  },
+  {
+   "type":"button",
+   "module":"",
+   "title":"{{LangSave}}",
+   "class":"btn btn-block btn-success",
+   "action":"timeZone?timeZone=[[timeZone]]"
+  },
+  {
+   "type":"link",
+   "module":"ntp",
+   "title":"{{LangGMT2}}",
+   "action":"javascript:set_time_zone(this);",
+   "class":"btn btn-block btn-primary"
   },
 
 
   {
-   "type": "hr",
+   "type":"hr",
    "module":"ntp"
   },
 
 
   {
-   "type": "time",
+   "type":"time",
    "module":"ntp",
    "name":"times1",
-   "title": "{{LangTime1}}",
+   "title":"{{LangTime1}}",
    "state":"{{time}}"
   },
   {
-   "type": "button",
+   "type":"button",
    "module":"",
    "response":"[[&#116imes1]]",
-   "title": "{{LangTime2}}",
-   "class": "btn btn-block btn-primary",
-   "action": "Time"
+   "title":"{{LangTime2}}",
+   "class":"btn btn-block btn-primary",
+   "action":"Time"
   },
 
 
   {
-   "type": "hr"
+   "type":"hr"
   },
 
 
   {
-   "type": "h2",
-   "title": "{{LangAP}}"
+   "type":"h2",
+   "title":"{{LangAP}}"
   },
   {
-   "type": "text",
-   "title": "{{LangWiFi4}}",
-   "class": "alert alert-warning",
-   "style": "width:45%;float:right;"
+   "type":"text",
+   "title":"{{LangWiFi4}}",
+   "class":"alert alert-warning",
+   "style":"width:45%;float:right;"
   },
   {
-   "type": "input",
-   "title": "{{LangWiFi1}}",
+   "type":"input",
+   "title":"{{LangWiFi1}}",
    "name":"ssidap",
-   "state": "{{ssidAP}}",
-   "style": "width:50%;display:inline",
-   "pattern": ".{1,20}"
+   "state":"{{ssidAP}}",
+   "style":"width:50%;display:inline",
+   "pattern":".{1,20}"
   },
   {
-   "type": "password",
-   "title": "{{LangPass}}",
+   "type":"password",
+   "title":"{{LangPass}}",
    "name":"ssidApPass",
-   "state": "{{ssidApPass}}",
-   "style": "width:50%;display:inline",
-   "pattern": ".{8,}"
+   "state":"{{ssidApPass}}",
+   "style":"width:50%;display:inline",
+   "pattern":".{8,}"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "action": "ssidap?ssidAP=[[ssidap]]&ssidApPass=[[ssidApPass]]",
-   "class": "btn btn-block btn-success",
-   "style": "width:50%;display:inline"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "action":"ssidap?ssidAP=[[ssidap]]&ssidApPass=[[ssidApPass]]",
+   "class":"btn btn-block btn-success",
+   "style":"width:50%;display:inline"
   },
 
 
   {
-   "type": "h2",
-   "module": "ddns",
-   "title": "{{LangDdns1}}"
+   "type":"hr"
+  },
+
+
+  {
+   "type":"h2",
+   "module":"ddns",
+   "title":"{{LangDdns1}}"
   },
   {
-   "type": "text",
-   "module": "ddns",
+   "type":"text",
+   "module":"ddns",
    "name":"alert-ddns",
-   "title": "<button class=\"close\" onclick=\"hide('alert-ddns',this)\" type=\"button\">×</button>{{LangDdns2}}",
-   "class": "alert alert-info {{alert-ddns}}"
+   "title":"<button class=\"close\" onclick=\"hide('alert-ddns',this)\" type=\"button\">×</button>{{LangDdns2}}",
+   "class":"alert alert-info {{alert-ddns}}"
   },
   {
-   "type": "input",
-   "title": "Host name",
+   "type":"input",
+   "title":"Host name",
    "name":"ddns-name",
-   "module": "ddns",
-   "state": "{{ddnsName}}",
-   "style": "width:80%;display:inline",
+   "module":"ddns",
+   "state":"{{ddnsName}}",
+   "style":"width:80%;display:inline",
    "pattern":"^((?!http:)(?!https:).)+\\..+$"
   },
   {
-   "type": "input",
-   "title": "Host port",
+   "type":"input",
+   "title":"Host port",
    "name":"ddns-port",
-   "module": "ddns",
-   "state": "{{ddnsPort}}",
-   "style": "width:20%;display:inline",
-   "pattern": "[0-9]{1,5}"
+   "module":"ddns",
+   "state":"{{ddnsPort}}",
+   "style":"width:20%;display:inline",
+   "pattern":"[0-9]{1,5}"
   },
   {
-   "type": "input",
-   "title": "Service URL",
+   "type":"input",
+   "title":"Service URL",
    "name":"ddns-server",
-   "module": "ddns",
-   "state": "{{ddns}}",
-   "pattern": "http://.+"
+   "module":"ddns",
+   "state":"{{ddns}}",
+   "pattern":"http://.+"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "module": "",
-   "class": "btn btn-block btn-success",
-   "action": "ddns?ddnsName=[[ddns-name]]&ddnsPort=[[ddns-port]]&ddns=[[ddns-server]]"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "module":"",
+   "class":"btn btn-block btn-success",
+   "action":"ddns?ddnsName=[[ddns-name]]&ddnsPort=[[ddns-port]]&ddns=[[ddns-server]]"
   },
   {
-   "type": "hr"
+   "type":"hr"
   },
 
 
   {
-   "type": "h2",
-   "module": "mqtt",
-   "title": "MQTT"
+   "type":"h2",
+   "module":"mqtt",
+   "title":"MQTT"
   },
   {
-   "type": "text",
-   "module": "mqtt",
-   "title": "Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a>. Try it now. :)",
-   "class": "alert alert-info"
+   "type":"text",
+   "module":"mqtt",
+   "title":"Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a>. Try it now. :)",
+   "class":"alert alert-info"
   },
   {
-   "type": "input",
-   "title": "MQTT Server, example: cloudmqtt.com",
+   "type":"input",
+   "title":"MQTT Server, example: cloudmqtt.com",
    "name":"mqtt-server",
-   "module": "mqtt",
-   "state": "{{mqttServer}}",
-   "style": "width:80%;display:inline",
+   "module":"mqtt",
+   "state":"{{mqttServer}}",
+   "style":"width:80%;display:inline",
    "pattern":"^((?!http:)(?!https:).)+\\..+$"
   },
   {
-   "type": "input",
-   "title": "MQTT port",
+   "type":"input",
+   "title":"MQTT port",
    "name":"mqtt-port",
-   "module": "mqtt",
-   "state": "{{mqttPort}}",
-   "style": "width:20%;display:inline",
-   "pattern": "[0-9]{1,5}"
+   "module":"mqtt",
+   "state":"{{mqttPort}}",
+   "style":"width:20%;display:inline",
+   "pattern":"[0-9]{1,5}"
   },
   {
-   "type": "input",
-   "title": "User Name",
+   "type":"input",
+   "title":"User Name",
    "name":"mqtt-user",
-   "module": "mqtt",
-   "state": "{{mqttUser}}",
-   "style": "width:50%;display:inline"
+   "module":"mqtt",
+   "state":"{{mqttUser}}",
+   "style":"width:50%;display:inline"
   },
   {
-   "type": "password",
-   "title": "Pass",
+   "type":"password",
+   "title":"Pass",
    "name":"mqtt-pass",
-   "module": "mqtt",
-   "state": "{{mqttPass}}",
-   "style": "width:50%;display:inline"
+   "module":"mqtt",
+   "state":"{{mqttPass}}",
+   "style":"width:50%;display:inline"
   },
   {
-   "type": "button",
-   "title": "{{LangSave}}",
-   "module": "",
-   "class": "btn btn-block btn-success",
-   "action": "mqtt?port=[[mqtt-port]]&server=[[mqtt-server]]&user=[[mqtt-user]]&pass=[[mqtt-pass]]"
-  },
-
-
-  {
-   "type": "hr"
+   "type":"button",
+   "title":"{{LangSave}}",
+   "module":"",
+   "class":"btn btn-block btn-success",
+   "action":"mqtt?port=[[mqtt-port]]&server=[[mqtt-server]]&user=[[mqtt-user]]&pass=[[mqtt-pass]]"
   },
 
 
   {
-   "type": "link",
-   "title": "{{LangCookie}}",
-   "action": "javascript:delAllCookies();location.reload();",
-   "class": "btn btn-block btn-default"
+   "type":"hr"
+  },
+
+
+  {
+   "type":"link",
+   "title":"{{LangCookie}}",
+   "action":"javascript:delAllCookies();location.reload();",
+   "class":"btn btn-block btn-default"
   },
   {
-   "type": "link",
-   "title": "{{LangReset1}}",
-   "action": "javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');}",
-   "class": "btn btn-block btn-warning"
+   "type":"link",
+   "title":"{{LangReset1}}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');}",
+   "class":"btn btn-block btn-warning"
   }
  ]
 }

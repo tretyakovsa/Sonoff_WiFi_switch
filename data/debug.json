@@ -13,48 +13,79 @@
    "class":"alert-danger"
   },
   {
-   "type": "loadJson",
-   "state": "header.json"
+   "type":"loadJson",
+   "state":"header.json"
   },
   {
-   "type": "text",
-   "class": "alert alert-dismissible alert-info",
-   "title": "Chip ID<br>* 00 - always 00 (Chip ID use only 3 byte)<br>* 17 - ? looks like 2^xx is size in Byte ? //todo: find docu to this<br>* 40 - ? may be Speed ? //todo: find docu to this<br>* C8 - manufacturer ID"
+   "type":"text",
+   "class":"alert alert-dismissible alert-info",
+   "title":"Chip ID<br>* 00 - always 00 (Chip ID use only 3 byte)<br>* 17 - ? looks like 2^xx is size in Byte ? //todo: find docu to this<br>* 40 - ? may be Speed ? //todo: find docu to this<br>* C8 - manufacturer ID"
   },
   {
-   "type": "h3",
-   "title": "Flash Chip: <b>{{flashChip}}</b>",
-   "style":"text-align: left;"
+   "type":"h3",
+   "title":"Flash Chip: <b>{{flashChip}}</b>",
+   "style":"text-align:left"
   },
   {
-   "type": "h3",
-   "title": "Flash Size: <b>{{ideFlashSize}}</b> bytes",
-   "style":"text-align: left;"
+   "type":"h3",
+   "title":"Flash Size: <b>{{ideFlashSize}}</b> bytes",
+   "style":"text-align:left"
   },
   {
-   "type": "h3",
-   "title": "Real Flash Size: <b>{{realFlashSize}}</b> bytes",
-   "style":"text-align: left;"
+   "type":"h3",
+   "title":"Real Flash Size: <b>{{realFlashSize}}</b> bytes",
+   "style":"text-align:left"
   },
   {
-   "type": "h3",
-   "title": "Flash Chip Speed: <b>{{flashChipSpeed}}</b> Hz",
-   "style":"text-align: left;"
+   "type":"h3",
+   "title":"Flash Chip Speed: <b>{{flashChipSpeed}}</b> MHz",
+   "style":"text-align:left"
   },
   {
-   "type": "h3",
-   "title": "Flash Chip Mode: <b>{{flashChipMode}}</b>",
-   "style":"text-align: left;"
+   "type":"h3",
+   "title":"Flash Chip Mode: <b>{{flashChipMode}}</b>",
+   "style":"text-align:left"
   },
   {
-   "type": "hr"
+   "type":"h3",
+   "title":"CPU Freq: <b>{{cpuFreqMHz}}</b> MHz",
+   "style":"text-align:left"
   },
   {
-   "type":"link",
-   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
-   "action":"/page.htm?setup",
-   "class":"btn btn-block btn-default"
+   "type":"hr"
+  },
+  {
+   "type":"h3",
+   "title":"MAC: <b>{{mac}}</b>",
+   "style":"text-align:left"
+  },
+  {
+   "type":"h3",
+   "title":"Spiffs: <b>{{spiffsData}}</b>",
+   "style":"text-align:left"
+  },
+  {
+   "type":"h3",
+   "title":"Build: <b>{{buildData}}</b>",
+   "style":"text-align:left"
+  },
+  {
+  "type":"hr"
+  },
+  {
+  "type":"link",
+  "title":"<i class=\"help-img\"></i> wiki API Help",
+  "action":"/help.htm",
+  "class":"btn btn-block btn-default"
+  },
+  {
+  "type":"hr"
+  },
+  {
+  "type":"link",
+  "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+  "action":"/page.htm?setup",
+  "class":"btn btn-block btn-default"
   }
-
  ]
 }

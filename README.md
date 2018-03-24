@@ -36,8 +36,8 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 - TIMERS
 - DHT11, DHT22, AM2302, RHT03, DS18B20
 - A0
-- Tachе
-- RELAY (4)
+- TACH 7 max
+- RELAY 4 max
 - JALOUSIE
 - WS2811/WS2812/NeoPixel LEDs
 - RGB 5050/3528/2835

@@ -15,8 +15,8 @@
   },
 
   {
-   "type": "loadJson",
-   "state": "header.json"
+   "type":"loadJson",
+   "state":"header.json"
   },
 
   {
@@ -26,7 +26,7 @@
    "response":"[[furnace0-state]]",
    "action":"furnace 0 up",
    "class":"'btn btn-block btn-lg btn-primary",
-   "style": "width:50%;display:inline-block"
+   "style":"width:50%;display:inline-block"
   },
   {
    "type":"button",
@@ -35,7 +35,7 @@
    "response":"[[furnace1-state]]",
    "action":"furnace 1 up",
    "class":"'btn btn-block btn-lg btn-primary",
-   "style": "width:50%;display:inline-block"
+   "style":"width:50%;display:inline-block"
   },
 
   {
@@ -43,14 +43,14 @@
    "name":"furnace0-state",
 "module":"furnace0",
    "title":"{{stateFurnace0}}",
-   "style": "text-align: center;width:50%;display:inline-block"
+   "style":"text-align: center;width:50%;display:inline-block"
   },
   {
    "type":"h4",
    "name":"furnace1-state",
 "module":"furnace1",
    "title":"{{stateFurnace1}}",
-   "style": "text-align: center;width:50%;display:inline-block"
+   "style":"text-align: center;width:50%;display:inline-block"
   },
   {
    "type":"button",
@@ -59,7 +59,7 @@
    "response":"[[furnace0-state]]",
    "action":"furnace 0 down",
    "class":"'btn btn-block btn-lg btn-primary",
-   "style": "width:50%;display:inline-block"
+   "style":"width:50%;display:inline-block"
   },
   {
    "type":"button",
@@ -68,7 +68,7 @@
    "response":"[[furnace1-state]]",
    "action":"furnace 1 down",
    "class":"'btn btn-block btn-lg btn-primary",
-   "style": "width:50%;display:inline-block"
+   "style":"width:50%;display:inline-block"
   },
   {
    "type":"hr"

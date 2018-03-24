@@ -72,7 +72,7 @@ From: Latvia, Valmiera
     <div class="btn-group btn-block">
      <input class="btn btn-success" style="width:40%" id="edit-butt" onclick="setContent('edit');this.value='Loading...';html('url-content', ' ');" value="View" type="button">
      <input class="btn btn-danger" style="width:40%" onclick="var urlPages=window.location.search.substring(1).split('&')[0];send_request_edit(this, val('edit-json'),(urlPages?urlPages:'index')+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
-     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download><i class="download-img"></i></a>
+     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download=""><i class="download-img"></i></a>
     </div>
    </div>
 

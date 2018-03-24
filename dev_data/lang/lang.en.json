@@ -1,5 +1,5 @@
 {
- "_comment": "---INDEX.HTM---",
+ "_comment":"---INDEX.HTM---",
  "LangDevices":"Home",
  "LangOptions1":"Options page",
  "LangSetting3":"Settings page",
@@ -35,7 +35,7 @@
  "LangSelect":"Select",
  "LangSensors":"Sensors",
 
- "_comment": "---page.htm?setup---",
+ "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",
  "LangSpace":"Space",
  "LangSetting":"<b><a onclick=\"toggle('dev-update');return false\" href=\"#\">Open Developer settings</a></b><br>Carefully, ill-considered actions could damage the device.",
@@ -59,7 +59,7 @@
  "LangHiddenWifi":"Connect to hidden WiFi network",
  "LangType":"Type device",
 
- "_comment": "---page.htm?timer---",
+ "_comment":"---page.htm?timer---",
  "LangTime3":"Set time",
  "LangTime4":"Time",
  "LangList":"List",
@@ -79,12 +79,12 @@
  "LangSwitch":"Switch",
  "LangTime6":"Attention. By adjusting the time write \"0\" before a single digit. \"Work time\" is optional.",
 
- "_comment": "---page.htm?relay---",
+ "_comment":"---page.htm?relay---",
  "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"ddns-url1\"></span><br>Global link: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"On",
  "LangOff":"Off",
 
- "_comment": "---page.htm?rgb---",
+ "_comment":"---page.htm?rgb---",
  "LangTime5":"Alarm time work",
  "LangTime8":"How many minutes of play?",
  "LangTime9":"minutes",
@@ -94,12 +94,12 @@
  "LangSpeed":"Speed",
  "LengBrightness":"Brightness",
 
- "_comment": "---page.htm?jalousie---",
+ "_comment":"---page.htm?jalousie---",
  "LangClose":"Closen",
  "LangOpen":"Open",
  "LangTurn":"Turn of blinds",
 
- "_comment": "---page.htm?scenary---",
+ "_comment":"---page.htm?scenary---",
  "LangScenary":"Scenary",
  "LangAction":"Action",
  "LangIf":"If",
@@ -169,14 +169,14 @@
  "LangJalousie":"Jalousie",
  "LangLeakag":"Protection against water leakage",
 
- "_comment": "---page.htm?chart---",
+ "_comment":"---page.htm?chart---",
  "LangTemperature":"Temperature",
  "LangHumidity":"Humidity",
  "LangChart":"Chart",
  "LangAnalog":"Analog (ADC/A0)",
  "LangMovement":"Motion sensor",
 
- "_comment": "---page.htm?configs---",
+ "_comment":"---page.htm?configs---",
  "LangConfNTP":"Turn on the time from the network",
  "LangConfDDNS":"Access by DDNS",
  "LangConfMQTT":"To IoT Manager",
