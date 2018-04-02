@@ -70,7 +70,7 @@ void initHTTP(void) {
   });
 
   //Запускаем HTTP сервер
-  HTTP.begin();
+    HTTP.begin();
 }
 
 // Инициализация FFS

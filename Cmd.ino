@@ -41,4 +41,5 @@ void uart() {
   Serial.end();
   Serial.begin(readArgsInt());
   delay(100);
+   Serial.println();
 }

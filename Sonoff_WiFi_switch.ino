@@ -45,6 +45,8 @@ void loop() {
   ts.update();
   HTTP.handleClient();
   yield();
+  HTTPWAN.handleClient();
+  yield();
   handleSSDP();
   dnsServer.processNextRequest();
   handleScenary();
