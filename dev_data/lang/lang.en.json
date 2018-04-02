@@ -34,6 +34,8 @@
  "LangCloudPC":"Download for PC",
  "LangSelect":"Select",
  "LangSensors":"Sensors",
+ "LangIssues":"Issues",
+ "LangNewIssues":"Create new Issues",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",

@@ -34,6 +34,8 @@
  "LangCloudPC":"Сохранить на компьютер",
  "LangSelect":"Выбрать",
  "LangSensors":"Сенсоры",
+ "LangIssues":"Вопросы",
+ "LangNewIssues":"Задать новый вопрос",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Имя модуля",

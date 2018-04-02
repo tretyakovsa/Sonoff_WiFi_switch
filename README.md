@@ -56,7 +56,7 @@ You can change here:
 
 Or here:
 
-![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/pins-edit.png)
+![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/pins-edit.gif)
 
 ### Schematic
 

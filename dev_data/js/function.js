@@ -332,7 +332,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
      }
      if (type_val == 'dev') {
-      var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?degub" class="btn btn-primary">Debug<\/a> ';
+      var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
       if (searchModule(jsonResponse.module,"upgrade")){
        dev_html += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
@@ -397,9 +397,8 @@ function loadNewThen(where) {
  document.getElementById("hidden-val-then").value = number;
  option += '<h3>'+jsonResponse.LangThen+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
  option += '<select class="form-control" id="ssdp-list'+number+'" onchange="loadCommand(this.value,\'command.json\',\'scenary-then'+number+'\');toggle(\'scenary-then'+number+'\',\'hidden\');"><\/select>';
- option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help'+number+'\',\'scenary-othe'+number+'\'); toggle(\'scenary-othe'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
- option += '<div id="command-help'+number+'" class="alert alert-warning hidden"></div><input class="form-control hidden" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" />';
- //document.getElementById(where).innerHTML +=option;
+ option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help'+number+'\',\'scenary-othe'+number+'\');toggle(\'if-then'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
+ option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list'+number+'\').options[document.getElementById(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then'+number+'\').options[document.getElementById(\'scenary-then'+number+'\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe'+number+'\').value,\'\');return false"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var options = '';
@@ -445,9 +444,9 @@ function loadCommandHelp(jsonParam,files,where,to) {
   for (var i in ipDevice[jsonParam]) {
    option+='<li><a href="#" onclick="val(\''+to+'\',\''+ipDevice[jsonParam][i].command+'\');return false">'+ipDevice[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ipDevice[jsonParam][i].title)+'</i></sup>';
   }
-  html(where, ipDevice.title+'<ul>'+option+'</ul>');
+  html(where, ipDevice.title+'<ul>'+option+'</ul>'+ipDevice.titleEnd);
  },true);
- toggle(''+where+'','hidden');
+ //toggle(''+where+'','hidden');
 }
 
 function loadLive(ip,file,where) {
@@ -975,6 +974,7 @@ function loadIssues(repos,viewIssues){
     document.getElementById('issues-list').innerHTML += '<p><span class="label label-default">&#8987; '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
    }
   }
+  document.getElementById('issues-list').innerHTML += '<p><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" class="label label-success">'+jsonResponse.LangNewIssues+'</a></p>';
  },true);
 }
 

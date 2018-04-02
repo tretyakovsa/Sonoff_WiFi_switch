@@ -4,6 +4,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 button.close{padding:0;cursor:pointer;background:transparent;border:0;-webkit-appearance:none;}
 .alert-dismissable .close,.alert-dismissible .close {position:relative;top:-5px;right:-25px;}
 .alert a{color:#fff;text-decoration:underline;}
+.alert a.btn {text-decoration:none;}
 .alert ul.dropdown-menu li a{color:#158cba;text-decoration:none;}
 display: block;}
 .dropdown-toggle:focus { outline: 0 none;}

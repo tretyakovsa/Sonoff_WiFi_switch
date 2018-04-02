@@ -53,6 +53,9 @@ From: Latvia, Valmiera
       break;
      }
     },true);
+    if (stage == 'first') {
+     html("space-button", ' ');
+    }
    }
 
    function loadModule(ipval,stage,sorting,ipDevice) {
@@ -100,9 +103,9 @@ From: Latvia, Valmiera
       if (searchModule(modules,"rgb")){
        loadBlock2('rgb','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-     // if (searchModule(modules,"rfLivolo")){
-     //  loadBlock2('livolo','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
-     // }
+      // if (searchModule(modules,"rfLivolo")){
+      //  loadBlock2('livolo','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      // }
       if (searchModule(modules,"jalousie")){
        loadBlock2('jalousie','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
@@ -242,7 +245,7 @@ From: Latvia, Valmiera
      </div>
      <hr>
      <div class="block" id="issues">
-      <h5 class="alert-default">Issues</h5>
+      <h5 class="alert-default">{{LangIssues}}</h5>
       <div id="issues-list">{{LangLoading}}</div>
      </div>
      <hr>

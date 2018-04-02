@@ -34,6 +34,8 @@
  "LangCloudPC":"Saglabat uz datoru",
  "LangSelect":"Izvēlieties",
  "LangSensors":"Sensors",
+ "LangIssues":"Вопросы",
+ "LangNewIssues":"Задать новый вопрос",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Ierīces nosaukums",

@@ -201,7 +201,7 @@ ul#history {
  z-index:999;
 }
 
-.opt-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img, .clock-img {
+.opt-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img, .clock-img, .eye-img {
  display:inline-block;
  width:16px;
  height:16px;
@@ -224,6 +224,7 @@ ul#history {
 .del-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAaElEQVQ4jWNgGGjAiMz5//+/BQMDgwwDAwMfAwNDP5RmYGBg+MTAwFAIpZ8wMjKewGra////1/wnDNbgdAHUkBC8TmZkJGjAfwIGoOhhwqeYGDBqAI0M+I1HPYYcNgN6cBjyGyo3yAAAXoc8SmsJeyQAAAAASUVORK5CYII=)}
 .fav-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAsElEQVQ4jc3SMWoCURSF4a+zUowgNqJlcAmpXJWFi7ByCRYiIkLqkBUI6UQUC3UBCqKtFuPAYxjNOCB44DSX+//FfY93ShNjHHHCFJ9o4Rvn23yCRhKuYIdLonscUuZbfISCbsrSf+2EgmEOwSAU9HMIeqGgnUPwlTzk9Al4lISJXmKZAZ6jnCYg+gubB/Aa9XtwKFmlwIsscJwa/gJ4hmpWOE4Jv/hB8Vk4TuHW1+UKPWRu1kOqOawAAAAASUVORK5CYII=)}
 .clock-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBElEQVQ4jbXSMUpDURAF0JMFqAlWErFUIkoW4AaEgCBYug+1SdpUFm7AKImgGLCJC3ADFoJ1MJhlGIt5xePzf4iFA7/4d+be+96dxz9VGz2MMEQXB6sQNzHGAlO8pG+asEfUl5E/0/BxSb+DL3xUiYwTeSvDjrCd/Tcxw0OR3E5HLDo/46yAneAHrRzsJfdilQnU8I2rHByJsFYRgAkGOTCsELjBG/YL+Ctuc6Cr/ApwLoK7xpq4whyX+dChCLFTIbKBPho4FSHuFYeexJ6bFSKwk9zvy5oN8UhmYlW1rFdLznO8Y73KoS4eyUKsaiICm6dj3y0j59USex6ItC+wuwrxz/ULFzE5LwzohzsAAAAASUVORK5CYII=)}
+.eye-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA20lEQVQ4jd3RTUqCYRAH8N+i7AJFropaRuJJQjxUBBEEfR4kRJM2uegKRl1A3apRhtqieWF4Cfc5MJv/1zwzD2tZddzjHbPoN9yhtsq4hVsssMQEbbQwDmyBK1TK5gqeQrTEM7YTv4Ne4tvYyAEXiZyEuYkhRmhgF9OkOyvMh/gupQtzgQ0De0zYDPtwUApohXiUsEFg3YR9Ya94xXkixrFzIyYPcIIqPpLuNN9gE51E9mLnoqp4SfxD+Yj8/sQ15iGaxs7dNHmOy7/MuY5xg1d8Rvcj/GiV8Z/WD41wU6L80ckAAAAAAElFTkSuQmCC)}
 
 .wifi-0-60 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAn0lEQVQ4jc3QTQpBYRgF4McUmxBhLEtQlJ0YGCkptiMpc2ITyhoY+Rka3Bujr9CNe5k49Q6f09vh31LHGGvscUWEAzaYoJYEm1jhlvKWaATcR5wBh4vRgyouXxScUA5fdDN+EaP9usM4Q8EwacgcFinwLAmHFLF7g7fIvyuACs4J+IjSJxzS8TxqhFZaHDJ6KBhkxSFzTL/FUJBitJ9yB0PAZo1JMnGDAAAAAElFTkSuQmCC)}
 .wifi-60-70 {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAyElEQVQ4jc3QPU4CURTF8Z+tHxALbbWAioQSNmAkjonRhMKlUNBgY+MapCf0JFrIRoxrGKhVCt5LJmScGaDxJCd5ybv/e08O/03HaKCLK9wgCe8umjjKA+vo4LaiO4EBl+FKVTg6wYUQqZf5eMAIE3xgjimecJ+Zu8ZhTHGOO4yR4vcPp3gNs2ebPQwLwE0P8oo8CJHL4Lc8OOoUXwXwJ2pFC6CNZQ68QKsMjnrETwb+Rr8qHPWSWfC8LRz1jtmuMOvCTvZZUKoVlb9FjouX7uMAAAAASUVORK5CYII=)}
