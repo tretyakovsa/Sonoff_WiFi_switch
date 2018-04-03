@@ -51,7 +51,7 @@
  "LangGMT2":"Automātiska laika joslas izvēle un saglabāšana",
  "LangAP":"Piekļuves punkts",
  "LangDdns1":"Dinamisks DNS",
- "LangDdns2":"Katras stundas 15., 30., 45., 00 minūtē iekārta iet uz linku. Jūs varat izmantot <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> vai <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> un tādējādi izveidot sev domēnu ar dinamisko IP adresi. Tas ļaus ērti izmantot <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Paskaties video</a>",
+ "LangDdns2":"Katras 6 minūtēm ierīce darbojas pēc atsauces. Jūs varat izmantot <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> vai <a target=\"_blank\" href=\"http://dyndns.dk\">dyndns.dk</a> un tādējādi izveidot sev domēnu ar dinamisko IP adresi. Tas ļaus ērti izmantot <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Paskaties video</a>",
  "LangTime1":"Plkst. uz ierīces tagad",
  "LangTime2":"Sinhronizēt laiku",
  "LangReset1":"Pārlādēt šo ierīci",

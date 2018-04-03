@@ -23,8 +23,8 @@
   },
   {
    "type":"h3",
-   "title":"Flash Chip: <b>{{flashChip}}</b>",
-   "style":"text-align:left"
+   "title":"('{{flashChip}}'.slice(4)=='85'?'Flash Chip: <b style=\"color:red\">{{flashChip}} ERROR</b>':'Flash Chip: <b>{{flashChip}}</b>')",
+   "style":"text-align:left;"
   },
   {
    "type":"h3",

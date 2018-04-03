@@ -51,7 +51,7 @@
  "LangGMT2":"Auto search and save GMT zone",
  "LangAP":"Access point",
  "LangDdns1":"Dynamic DNS",
- "LangDdns2":"At 15, 30, 45, 00 minutes every hour the device switched to the link. You can use <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> or <a target=\"_blank\" href=\"http://dyndns.dk\"> dyndns.dk </a> and this make a domain on a dynamic IP. That will allow comfortable use <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Video option DDNS and ifttt.com</a>",
+ "LangDdns2":"Every 6 min. the device get you link. You can use <a target=\"_blank\" href=\"http://freemyip.com\">freemyip.com</a> or <a target=\"_blank\" href=\"http://dyndns.dk\"> dyndns.dk </a> and this make a domain on a dynamic IP. That will allow comfortable use <a target=\"_blank\" href=\"https://ifttt.com\">ifttt.com</a>. <a target=\"_blank\" href=\"https://www.youtube.com/watch?v=v2VO3d31JRE&list=PL6NJTNxbvy-IPTDQk8XjTV41oRrFafrRi\">Video option DDNS and ifttt.com</a>",
  "LangTime1":"Device time",
  "LangTime2":"Synchronize time",
  "LangReset1":"Reload this device",

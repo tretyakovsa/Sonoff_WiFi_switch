@@ -89,6 +89,16 @@
    "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=lvsend 6400 24</i>"
   }
  ],
+ "get":[
+  {
+   "command":"htpp://google.com",
+   "title":""
+  },
+  {
+   "command":"",
+   "title":"ПРИМЕЧАНИЕ: Устройсво может отправлять GET запросы только на HTTP сервера. Если вы хотите сделать GET на HTTPS используйте дополнительно http://bit.do или http://adf.ly"
+  }
+ ],
  "irsend":[
   {
    "command":"20dfc03f",
