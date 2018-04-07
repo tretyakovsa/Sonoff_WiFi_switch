@@ -89,14 +89,18 @@
    "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=lvsend 6400 24</i>"
   }
  ],
- "get":[
+ "GET":[
   {
-   "command":"htpp://google.com",
-   "title":""
+   "command":"http://www.notifymyandroid.com/publicapi/verify",
+   "title":"API - https://www.notifymyandroid.com/api.jsp"
+  },
+  {
+   "command":"http://maker.ifttt.com/trigger/*/with/key/*",
+   "title":"API - https://ifttt.com/maker_webhooks"
   },
   {
    "command":"",
-   "title":"ПРИМЕЧАНИЕ: Устройсво может отправлять GET запросы только на HTTP сервера. Если вы хотите сделать GET на HTTPS используйте дополнительно http://bit.do или http://adf.ly"
+   "title":"ПРИМЕЧАНИЕ: УСТРОЙСТВО МОЖЕТ ОТПРВЛЯТЬ GET ЗАПРОСЫ ТОЛЬКО НА HTTP CЕРВЕРА. HTTPS НЕ ПОДДЕРЖИВАЕТСЯ."
   }
  ],
  "irsend":[

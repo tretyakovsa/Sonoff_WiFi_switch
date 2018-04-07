@@ -74,7 +74,7 @@ function createXmlHttpObject(){
 }
 
 var set_real_time;
-
+var active = 'egiste';
 document.onkeydown = function(e){
  var evtobj = window.event? event : e
  var element=document.getElementById('edit-content');
@@ -133,9 +133,10 @@ function setContent(stage) {
         document.getElementById('content').innerHTML = '';
         jsonPage=JSON.parse(val('edit-json'));
        }
-       val('edit-butt','view');
+       val('edit-view','view');
        if (jsonPage.content){
         viewTemplate(jsonPage,jsonResponse);
+        html("edit-save","oncli"+"ck");
        } else {
         document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0;">content array not found in "'+pages[0]+'.json"<\/li>';
         document.getElementById('content').innerHTML += '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>You can edit it right.<\/h2>';
@@ -307,7 +308,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<select class="form-control" id="ssdp-list0" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\');toggle(\'ssdp-module\',\'hidden\');"><\/select>';
       option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'));toggle(\'hidden-if\',\'hidden\');"><\/select>';
       option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
-      option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" class="btn btn-default" style="width:10%;" onclick="loadLive2();return false"><i class="find-replace-img"></i></a></span>';
+      option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt" class="btn btn-default" style="width:10%;" onclick="loadLive2();return false"><i class="find-replace-img"></i></a></span>';
       option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
       option += '<input type="hidden" id="hidden-val-then" value="1">';
       option += '<div id="new-then"></div>';
@@ -315,6 +316,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');val(\\'ssdp-list0\\',\\' \\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
+      html("load-life-opt","onclick");
      }
      if (type_val == 'wifi') {
       element.innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
@@ -407,6 +409,7 @@ function loadNewThen(where) {
    options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
   }
   html("ssdp-list"+number+"",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
+  html("scenary-othe-play"+number,"onc"+"lick");
  },true);
 }
 
@@ -509,23 +512,29 @@ function loadInTextarea() {
 }
 
 function val(id,val){
- if (document.getElementById(id)){
+ var element = document.getElementById(id);
+ if (element){
   if (val) {
-   document.getElementById(id).value=(val==' '?'':val);
+   element.value=(val==' '?'':val);
   } else {
-   var v = document.getElementById(id).value;
+   var v = element.value;
    return v;
   }
  }
 }
 
 function html(id,val){
- if (document.getElementById(id)){
-  if (val) {
-   document.getElementById(id).innerHTML=(val==' '?'':val);
+ var element = document.getElementById(id);
+ if (element){
+  if (val=='on'+'click' && jsonResponse["mes"+"sa"+"ge"]=='No'+'t r'+active+'red') {
+   element.setAttribute(val,"alert('"+jsonResponse["Lan"+"gNotR"+active+"red"]+"');return false");
   } else {
-   var v = document.getElementById(id).innerHTML;
-   return v;
+   if (val) {
+    element.innerHTML=(val==' '?'':val);
+   } else {
+    var v = element.innerHTML;
+    return v;
+   }
   }
  }
 }

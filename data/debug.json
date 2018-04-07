@@ -70,22 +70,30 @@
    "style":"text-align:left"
   },
   {
-  "type":"hr"
+   "type":"hr"
   },
   {
-  "type":"link",
-  "title":"<i class=\"help-img\"></i> wiki API Help",
-  "action":"/help.htm",
-  "class":"btn btn-block btn-default"
+   "type":"h3",
+   "title":"('{{message}}'=='Registered'?'Device: <b style=\"color:green\">Full version. Thanks!</b>':'Device: <b style=\"color:red\">Not full version</b>')",
+   "style":"text-align:left"
   },
   {
-  "type":"hr"
+   "type":"hr"
   },
   {
-  "type":"link",
-  "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
-  "action":"/page.htm?setup",
-  "class":"btn btn-block btn-default"
+   "type":"link",
+   "title":"<i class=\"help-img\"></i> wiki API Help",
+   "action":"/help.htm",
+   "class":"btn btn-block btn-default"
+  },
+  {
+   "type":"hr"
+  },
+  {
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
   }
  ]
 }

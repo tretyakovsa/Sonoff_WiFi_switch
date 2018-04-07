@@ -95,19 +95,6 @@
    }
   },
   {
-   "type":"h4",
-   "title":"{{LangTime5}} {{LangSoon}}"
-  },
-  {
-   "type":"input",
-   "title":"",
-   "name":"sound",
-   "module":"rgb",
-   "state":"{{timeBUZ}}",
-   "pattern":"[-+]?[0-9]*[.]?[0-9]+"
-  },
-
-  {
    "type":"range",
    "title":"{{LangSpeed}}",
    "name":"speed",

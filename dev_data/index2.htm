@@ -20,10 +20,10 @@ From: Latvia, Valmiera
    gtag('config', 'UA-26015587-7');
   </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v07.03.2018">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v07.04.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v07.03.2018"></script>
+  <script type="text/javascript" src="js/function.js?v07.04.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Device Page</title>
   <script type="text/javascript">
@@ -269,7 +269,7 @@ From: Latvia, Valmiera
    <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
    <div id="error-json"></div>
    <div class="btn-group btn-block">
-    <input class="btn btn-danger" style="width:80%" onclick="send_request_edit(this, val('edit-json'),'index.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+    <input class="btn btn-danger" style="width:80%" id="edit-save" onclick="send_request_edit(this, val('edit-json'),'index.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download=""><i class="download-img"></i></a>
    </div>
   </div>
