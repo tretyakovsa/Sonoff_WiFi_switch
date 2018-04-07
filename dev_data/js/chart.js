@@ -1,4 +1,4 @@
-function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
+function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints,chartChartist){
  var time_refresh_chart;
  function viewTime() {
   var now = new Date();
@@ -67,7 +67,9 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints){
    time_refresh_chart=setInterval(function(){adddata();}, strUser);
   }
  }
- var LineChart = Chartist.Line("#"+chartId, {
+
+ if (chartChartist=="undefined") {chartChartist = 'Line';}
+ var LineChart = Chartist[''+chartChartist+'']("#"+chartId, {
   labels: [],
   series: [[],[],[]]
   //}, {fullWidth:true});

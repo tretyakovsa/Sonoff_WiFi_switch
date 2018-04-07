@@ -292,7 +292,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'chart') {
       element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)" type="button">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
       if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
-       setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+")", 1500);
+       setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+",'"+obj.chartist+"')", 1500);
       }
      }
      if (type_val == 'loadJson') {
@@ -526,9 +526,9 @@ function val(id,val){
 function html(id,val){
  var element = document.getElementById(id);
  if (element){
-  if (val=='on'+'click' && jsonResponse["mes"+"sa"+"ge"]=='No'+'t r'+active+'red') {
+  if (val=='on'+'click') {if (jsonResponse["mes"+"sa"+"ge"]=='No'+'t r'+active+'red') {
    element.setAttribute(val,"alert('"+jsonResponse["Lan"+"gNotR"+active+"red"]+"');return false");
-  } else {
+  }} else {
    if (val) {
     element.innerHTML=(val==' '?'':val);
    } else {
