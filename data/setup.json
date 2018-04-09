@@ -4,7 +4,10 @@
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "title":"{{LangSetting3}}",
+ "title": [{
+   "type":"text",
+   "title":"{{LangSetting3}}"
+  }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
   {

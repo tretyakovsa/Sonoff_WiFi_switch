@@ -60,12 +60,12 @@ From: Latvia, Valmiera
   <div class="container loader-bg">
 
    <ul id="url-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;"></ul>
-
+   <div id="headers"></div>
    <div class="row hidden" id="container_column">
     <h1 id="title"></h1>
     <div id="content" onclick="this.style.zIndex=10"></div>
    </div>
-
+   <div id="footer"></div>
    <div id="edit-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;">
     <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
