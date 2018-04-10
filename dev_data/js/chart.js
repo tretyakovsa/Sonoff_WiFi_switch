@@ -68,7 +68,7 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints,chartChar
   }
  }
 
- if (typeof(chartChartist) == "undefined") {chartChartist = 'Line';}
+ if (typeof(chartChartist) == "undefined" || chartChartist == "undefined") {chartChartist = 'Line';}
  var LineChart = Chartist[''+chartChartist+'']("#"+chartId, {
   labels: [],
   series: [[],[],[]]

@@ -147,6 +147,14 @@ From: Latvia, Valmiera
        if (searchModule(modules,"temperature")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
        }
+     // if(/temperature/.test(modules)) {
+     //  var relayNumber = '';
+     //  for (var i = 0; i < 10; i++) {
+     //   if (searchModule(modules,"temperature"+i)){
+     //    loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+i);
+     //   }
+     //  }
+     // }
        if (searchModule(modules,"humidity")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"humidity");
        }
