@@ -119,6 +119,7 @@ boolean sendStatus(String Name, int volume) {
   jsonWrite(configJson, Name, volume);
   return true;
 }
+
 // Читаем любой стстус /config.live.json configJson
 // Вернет String
 String getStatus(String Name) {

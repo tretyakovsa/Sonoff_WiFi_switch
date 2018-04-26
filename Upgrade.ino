@@ -1,12 +1,12 @@
 void initUpgrade() {
   // Добавляем функцию Update для перезаписи прошивки по Wi-Fi при 1М(256K SPIFFS) и выше
   httpUpdater.setup(&HTTP);
-  HTTP.on("/upgrade", webUpgrade);                // запустить обнавление
+  HTTP.on("/upgrade", webUpgrade);                // запустить обновление
   modulesReg("upgrade");
 }
 // ----------------------- Обновление с сайта
 void webUpgrade() {
-  String refresh = "<html><head><meta http-equiv=\"refresh\" content=\"40;/\">Update module...</head></html>";
+  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"60;\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module...</h1></center></body></html>";
   //httpOkText(refresh);
     HTTP.send(200, "text/html", refresh);
   String spiffsData = HTTP.arg(spiffsS);

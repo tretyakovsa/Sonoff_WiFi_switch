@@ -37,14 +37,21 @@ void initHLW8012() {
     sendStatus("PowerFactor", (int) (100 * hlw8012.getPowerFactor()) );
     sendStatus("AggEnergyWs", hlw8012.getEnergy());
   }, nullptr, true);
-  sCmd.addCommand("powset",     powSet); //
-  commandsReg("powset");
+  HTTP.on("/activepower.json", HTTP_GET, []() {
+    String data = graf3(getStatusFloat("ActivePowerW"), getStatusFloat(highalarmpowS), getStatusFloat(lowalarmpowS), 10, t, "low:0");
+    httpOkJson(data);
+  });
+  String configSensor = readFile("config.sensor.json", 4096);
+  if (configSensor == "") configSensor = "{}";
+  sendStatus(highalarmpowS, jsonReadtoFloat(configSensor,highalarmpowS));
+  sendStatus(lowalarmpowS, jsonReadtoFloat(configSensor,lowalarmpowS));
+  sCmd.addCommand("powset",     powSet); //;
 }
 
 void powSet() {
   String com = readArgsString();
   String powS = readArgsString();
-  String configSensor = readFile("configsensor.json", 4096);
+  String configSensor = readFile("config.sensor.json", 4096);
   if (configSensor == "") configSensor = "{}";
   if (com == "up") {
     jsonWrite(configSensor, highalarmpowS, powS);
@@ -55,7 +62,7 @@ void powSet() {
     sendStatus(lowalarmpowS, jsonRead(configSensor, lowalarmpowS));
   }
   //Serial.println(configSensor);
-  writeFile("configsensor.json",configSensor);
+  writeFile("config.sensor.json",configSensor);
 }
 
 
