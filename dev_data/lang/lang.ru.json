@@ -200,5 +200,6 @@
  "LangConfIrReceived":"Беспроводной приемник IR частот",
  "LangConfIrTransmitter":"Беспроводной передатчик IR частот",
  "LangConfFurnace":"Электрическая плита (PIN / PIN)",
+ "LangConfPOW":"Электрическая плита (PIN / PIN)",
  "LangConfSerial":"Включить порт UART"
 }

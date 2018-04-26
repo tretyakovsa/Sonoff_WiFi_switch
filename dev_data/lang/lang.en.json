@@ -200,5 +200,6 @@
  "LangConfIrReceived":"Wireless IR receiver",
  "LangConfIrTransmitter":"Wireless transmitter IR frequencies",
  "LangConfFurnace":"Furnace (PIN / PIN)",
+ "LangConfPOW":"Реле с счетчиком энергии (Через каждых 2сек. снимаем показания/PIN - измерения мощьности/PIN - измерение тока напряжение/PIN - переключение измерения тока или напраяжения)",
  "LangConfSerial":"Enable UART port"
 }

@@ -49,6 +49,7 @@
    "action":"/configs?set=[[build]]",
    "title":{
     "sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
+    "sonoff-pow":"Sonoff-Pow",
     "rgb":"RGB (WS2811/WS2812/NeoPixel LEDs)",
     "jalousie":"{{LangJalousie}}",
     "leakag":"{{LangLeakag}}",
