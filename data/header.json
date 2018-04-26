@@ -58,6 +58,14 @@
   },
   {
    "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} POW",
+   "module":"POW",
+   "action":"/page.htm?livolo",
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='POW'?'display:none':'')"
+  },
+  {
+   "type":"link",
    "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action":"/page.htm?setup",
    "class":"btn btn-block btn-default",
