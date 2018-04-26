@@ -91,7 +91,7 @@
 
   {
    "type":"text",
-   "title":"Ниже вы можете указать минимальное и максильное значение сработку по уровню.",
+   "title":"Ниже вы можете указать минимальное и максильное значение для реакций по уровню.",
    "class":"alert alert-info"
   },
   {
@@ -122,7 +122,7 @@
   {
    "type": "input",
    "state": "{{highalarmpow}}",
-   "highalarmpow":"highalarmpow",
+   "name":"highalarmpow",
    "style":"width:30%;display:inline",
    "pattern": "[0-9.]{1,20}"
   },

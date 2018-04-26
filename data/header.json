@@ -60,7 +60,7 @@
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} POW",
    "module":"POW",
-   "action":"/page.htm?livolo",
+   "action":"/page.htm?pow",
    "class":"btn btn-block btn-default",
    "style":"('{{urlArray0}}'=='POW'?'display:none':'')"
   },
