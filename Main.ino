@@ -81,6 +81,12 @@ int jsonReadtoInt(String &json, String name) {
   JsonObject& root = jsonBuffer.parseObject(json);
   return root[name];
 }
+// ------------- Чтение значения json
+float jsonReadtoFloat(String &json, String name) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(json);
+  return root[name].as<float>();
+}
 
 // ------------- Запись значения json String
 String jsonWrite(String &json, String name, String volume) {
@@ -122,6 +128,12 @@ String getStatus(String Name) {
 int getStatusInt(String Name) {
   return jsonReadtoInt(configJson, Name);
 }
+// Вернет float
+float getStatusFloat(String Name) {
+  return jsonReadtoFloat(configJson, Name);
+}
+
+
 // ----------------- Процедуры Параметров
 // Меняем любой статус в /config.live.json configJson
 // Если нужновызвать проверку скрипта то присвоить ответ переенной flag
@@ -141,6 +153,10 @@ String getOptions(String Name) {
 // Вернет из json строки в configOptionsint значение ключа Name как int
 int getOptionsInt(String Name) {
   return jsonReadtoInt(configOptions, Name);
+}
+// Вернет из json строки в configOptionsint значение ключа Name как float
+float getOptionsFloat(String Name) {
+  return jsonReadtoFloat(configOptions, Name);
 }
 
 void saveConfigSetup () {
@@ -185,7 +201,8 @@ void statistics() {
   urls += ESP.getResetReason();
   urls += "&";
   urls += jsonRead(configSetup, spiffsDataS);
-  getURL(urls);
+  String stat = getURL(urls);
+  sendOptions("message", jsonRead(stat, "message"));
 }
 
 
@@ -277,4 +294,15 @@ void commandsReg(String comName) {
   regCommands = "";
   json.printTo(regCommands);
   }
+}
+
+String addressToString(DeviceAddress deviceAddress)
+{
+  String addr ="";
+  for (uint8_t i = 0; i < 8; i++)
+  {
+    if (deviceAddress[i] < 16) addr += "0";
+    addr += String(deviceAddress[i],HEX);
+  }
+  return addr;
 }

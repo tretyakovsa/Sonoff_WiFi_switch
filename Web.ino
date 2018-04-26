@@ -49,16 +49,11 @@ void initHTTP(void) {
     //Serial.println(statusS);
   });
   // ------------------Выполнение голосовой команды
-    HTTP.on("/dusi", HTTP_GET, []() {
+    HTTP.on("/voice", HTTP_GET, []() {
     String com = HTTP.arg("command");
     com.replace(" ", "_");
-    //com.toLowerCase();
-    //Serial.println(com);
     flag = sendStatus("voice", com);
-    //handleScenary();
-    //sCmd.readStr(com);
-    httpOkText(statusS);
-    //Serial.println(statusS);
+     httpOkText(statusS);
   });
 
   HTTP.on("/lang", HTTP_GET, []() {

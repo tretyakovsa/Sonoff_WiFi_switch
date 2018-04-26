@@ -8,7 +8,7 @@ void initCMD() {
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
   sCmd.addCommand("DHT",       initDHT);
-  //sCmd.addCommand("DS18B20",       initOneWire);
+  sCmd.addCommand("DS18B20",       initOneWire);
   //sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
   sCmd.addCommand("POW",       initHLW8012);
@@ -22,15 +22,30 @@ void initCMD() {
   sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
   sCmd.addCommand("RF-LIVOLO",     rfLivolo);
   sCmd.addCommand("BUZZER",       initBuzzer);
-  //sCmd.addCommand("beep",       buzerBeep);
   sCmd.addCommand("print",       printTest);
   sCmd.addCommand("FURNACE",       initFurnace);
+  sCmd.addCommand("GET",       initGet);
+  commandsReg("GET");
   sCmd.setDefaultHandler(unrecognized);
 }
 
 void unrecognized(const char *command) {
   //Serial.println("What?");
 }
+
+void initGet() {
+  String urls = readArgsString();
+  //Serial.println(urls);
+  String answer = "";
+  HTTPClient http;
+  http.begin(urls); //HTTP
+  int httpCode = http.GET();
+  if (httpCode == HTTP_CODE_OK) {
+    answer = http.getString();
+  }
+  http.end();
+}
+
 // По комманде print печатает аргумент для тастов
 void printTest() {
   Serial.println("Test " + readArgsString());
@@ -41,5 +56,5 @@ void uart() {
   Serial.end();
   Serial.begin(readArgsInt());
   delay(100);
-   Serial.println();
+  Serial.println();
 }

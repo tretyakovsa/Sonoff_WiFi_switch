@@ -21,8 +21,9 @@ void initMQTT() {
 
 void MQTT_Pablush() {
   String mqtt_server = jsonRead(configSetup, mqttServerS);
+
   if ((mqtt_server != "")) {
-    Serial.println("MQTT");
+
     client.set_server(mqtt_server, jsonReadtoInt(configSetup, mqttPortS));
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
@@ -33,6 +34,7 @@ void MQTT_Pablush() {
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           //client.subscribe( prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
+          sendMQTT("test","work");
         } else {
         }
       }
@@ -74,12 +76,17 @@ bool loadnWidgets() {
       String thing_config = Widgets["nWidgets"][i].as<String>();
       thing_config = jsonWrite(thing_config, "topic",  prex+ jsonRead(thing_config, "topic"));
       thing_config = jsonWrite(thing_config, "page", jsonRead(configSetup, spaceS));
-      Serial.println(thing_config);
+      //Serial.println(thing_config);
       client.publish(MQTT::Publish(prex + "/config", thing_config).set_qos(1));
     }
   }
   return true;
 }
+ void sendMQTT(String topik, String data){
+  topik = prefix + "/" + chipID + "/"+topik;
+  //topik = prex+topik
+   client.publish(MQTT::Publish(topik, data).set_qos(1));
+  }
 
 // --------------------- Включаем DDNS
 void initDDNS() {
@@ -97,7 +104,7 @@ void initDDNS() {
     HTTPWAN.send(200, "text/plain", str);
   });
    HTTPWAN.onNotFound([]() {
-   Serial.println("TEST DDNS");
+   //Serial.println("TEST DDNS");
       HTTPWAN.send(404, "text/plain", "FileNotFound");
   });
 

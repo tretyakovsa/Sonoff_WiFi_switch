@@ -1,33 +1,67 @@
-/*
-  // ----------------- OneWire
-  void initOneWire() {
+
+// ----------------- OneWire
+void initOneWire() {
   uint8_t pin = readArgsInt();
   static uint16_t t = readArgsInt();
-  Serial.println(t);
   static uint8_t averageFactor = readArgsInt();
-  if (t < 500) t = 2000;
-  //OneWire = new ow(pin);
-  //DallasTemperature = new DS18B20(&OneWire);
-  //DS18B20->begin();
-  //DS18B20.requestTemperatures();
-  //float ok = DS18B20.getTempCByIndex(0);
-  //DS18B20.setResolution(12);
-  //sendStatus(temperatureS, ok);
+  if (t < 750) t = 1000;
+  Serial.println(t);
+  oneWire =  new OneWire(pin);
+  sensors.setOneWire(oneWire);
+  sensors.begin();
+  byte num = sensors.getDS18Count();
+  Serial.println(num);
+  String configSensor = readFile("configsensor.json", 4096);
+  if (configSensor == "") configSensor = "{}";
+  for (byte i = 0; i < num; i++) {
+    sendStatus(temperatureS + (String)(i + 1), (String)sensors.getTempCByIndex(i));
+    modulesReg(temperatureS + (String)(i + 1));
+    sendStatus(highalarmtempS + (String)(i + 1), jsonRead(configSensor, highalarmtempS + (String)(i + 1)));
+    sendStatus(lowalarmtempS + (String)(i + 1), jsonRead(configSensor, lowalarmtempS + (String)(i + 1)));
+  }
+  sendOptions(temperatureS + "num", num);
 
   ts.add(4, t, [&](void*) {
-    //DS18B20.requestTemperatures();
-    //flag = sendStatus("temperature", DS18B20.getTempCByIndex(0));
-  }, nullptr, true);
-  HTTP.on("/temperature.json", HTTP_GET, []() {
-    //DS18B20.requestTemperatures();
+    static float oldTemp = 0;
+    float temp = 0;
+    sensors.requestTemperatures();
+    for (byte i = 0; i < sensors.getDS18Count(); i++) {
+      temp = sensors.getTempCByIndex(i);
+      String num = "";
+      num = (String)(i + 1);
+      sendStatus(temperatureS + num, (String)temp);
+    }
 
-    //String data = graf(DS18B20.getTempCByIndex(0), 10, t, "low:0");
-    String data = graf(getStatusInt(temperatureS), 10, t, "low:0");
+  }, nullptr, true);
+
+  HTTP.on("/temperature.json", HTTP_GET, []() {
+    String num = HTTP.arg("n");
+    Serial.println(temperatureS + num);
+    String data = graf3(getStatusFloat(temperatureS + num), getStatusFloat(highalarmtempS + num), getStatusFloat(lowalarmtempS + num), 10, t, "low:0");
     httpOkJson(data);
   });
-  modulesReg(temperatureS);
+  sCmd.addCommand("tempset",     tempSet); //
+  commandsReg("tempset");
+}
+
+void tempSet() {
+  String com = readArgsString();
+  String num = readArgsString();
+  String temp = readArgsString();
+  String configSensor = readFile("configsensor.json", 4096);
+  if (configSensor == "") configSensor = "{}";
+  if (com == "up") {
+    jsonWrite(configSensor, highalarmtempS + num, temp);
+    sendStatus(highalarmtempS + num, jsonRead(configSensor, highalarmtempS + num));
   }
-*/
+  if (com == "down") {
+    jsonWrite(configSensor, lowalarmtempS + num, temp);
+    sendStatus(lowalarmtempS + num, jsonRead(configSensor, lowalarmtempS + num));
+  }
+  //Serial.println(configSensor);
+  writeFile("configsensor.json",configSensor);
+}
+
 // -----------------  DHT
 void initDHT() {
   uint8_t pin = readArgsInt();
@@ -145,7 +179,7 @@ void initA0() {
 }
 
 // ------------- Создание данных для графика
-String graf(int datas, int points, int refresh, String options) {
+String graf(float datas, int points, int refresh, String options) {
   String root = "{}";  // Формировать строку для отправки в браузер json формат
   // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
   // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
@@ -155,6 +189,31 @@ String graf(int datas, int points, int refresh, String options) {
   // Заполняем поля json
   JsonArray& data = json.createNestedArray("data");
   data.add(datas);
+  json["points"] = points;
+  json["refresh"] = refresh;
+  json["options"] = options;
+  //"options":"low:0,showLine: false,showArea:true,showPoint:false",
+  // Помещаем созданный json в переменную root
+  root = "";
+  json.printTo(root);
+  return root;
+}
+
+// ------------- Создание данных для графика
+String graf3(float datas, float datas1, float datas2, int points, int refresh, String options) {
+  String root = "{}";  // Формировать строку для отправки в браузер json формат
+  // {"data":[1],"points":"10","refresh":"1","title":"Analog"}
+  // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+  DynamicJsonBuffer jsonBuffer;
+  // вызовите парсер JSON через экземпляр jsonBuffer
+  JsonObject& json = jsonBuffer.parseObject(root);
+  // Заполняем поля json
+  JsonArray& data = json.createNestedArray("data");
+  data.add(datas);
+  JsonArray& data1 = json.createNestedArray("data1");
+  data1.add(datas1);
+  JsonArray& data2 = json.createNestedArray("data2");
+  data2.add(datas2);
   json["points"] = points;
   json["refresh"] = refresh;
   json["options"] = options;

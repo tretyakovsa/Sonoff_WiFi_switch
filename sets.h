@@ -16,7 +16,7 @@
 //#include <ESP8266NetBIOS.h>
 // Библиотеки устройств
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
-//#include <OneWire.h>                 //Ставим через менеджер библиотек
+#include <OneWire.h>                 //Ставим через менеджер библиотек
 #include <DallasTemperature.h>       //Ставим через менеджер библиотек
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/renat2985/WS2812FX
@@ -37,7 +37,7 @@ boolean but[NUM_BUTTONS];
 #define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
 #define VOLTAGE_RESISTOR_DOWNSTREAM     ( 1000 ) // Real 1.009k
 
-
+byte dev[8][8];
 boolean secTest = true;
 boolean flag = false;
 boolean flagT = false;
@@ -56,6 +56,7 @@ String jsonTimer = "{}";             // список таймеров /jsontimer
 String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев
 String Timerset = "";                // Таймеры на сегодня
+String Timersetold = "";                // Таймеры на сегодня
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
@@ -148,6 +149,12 @@ const String turnSensorS   = "turnSensor";
 
 const String irsendS   = "irsend";
 const String temperatureS   = "temperature";
+const String highalarmtempS   = "highalarmtemp";
+const String lowalarmtempS   = "lowalarmtemp";
+const String hightempS   = "hightemp";
+const String lowtempS   = "lowtemp";
+const String highalarmpowS   = "highalarmpow";
+const String lowalarmpowS   = "lowalarmpow";
 const String humidityS   = "humidity";
 const String movementS   = "movement";
 const String stateA0S   = "stateA0";

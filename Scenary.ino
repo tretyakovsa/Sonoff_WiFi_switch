@@ -115,7 +115,6 @@ void thenCommand() {
       urls += "/cmd?command=" + comm;
       urls.replace(" ", "%20");
       if (ip != "") {
-        //Serial.println(urls);
         sendStatus("test", comm);
         getURL(urls);
       }

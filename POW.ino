@@ -9,6 +9,8 @@ void ICACHE_RAM_ATTR hlw8012_cf_interrupt() {
 
 // ---------------------- Измеритель мощьности POW
 void initHLW8012() {
+  static uint16_t t = readArgsInt();
+  if (t == 0) t = 3000;
   String temp = readArgsString();
   byte pinCF;
   if (temp == "") pinCF = pinTest(14);
@@ -26,15 +28,46 @@ void initHLW8012() {
   modulesReg("POW");
   attachInterrupt(pinCF1, hlw8012_cf1_interrupt, CHANGE);
   attachInterrupt(pinCF, hlw8012_cf_interrupt, CHANGE);
-  calibrate();
+  //calibrate();
+  ts.add(9, t, [&](void*) {
+    sendStatus("ActivePowerW", hlw8012.getActivePower());
+    sendStatus("VoltageV", hlw8012.getVoltage());
+    sendStatus("CurrentA", hlw8012.getCurrent());
+    sendStatus("ApparentPowerVA", hlw8012.getApparentPower());
+    sendStatus("PowerFactor", (int) (100 * hlw8012.getPowerFactor()) );
+    sendStatus("AggEnergyWs", hlw8012.getEnergy());
+  }, nullptr, true);
+  sCmd.addCommand("powset",     powSet); //
+  commandsReg("powset");
 }
 
+void powSet() {
+  String com = readArgsString();
+  String powS = readArgsString();
+  String configSensor = readFile("configsensor.json", 4096);
+  if (configSensor == "") configSensor = "{}";
+  if (com == "up") {
+    jsonWrite(configSensor, highalarmpowS, powS);
+    sendStatus(highalarmpowS, jsonRead(configSensor, highalarmpowS));
+  }
+  if (com == "down") {
+    jsonWrite(configSensor, lowalarmpowS, powS);
+    sendStatus(lowalarmpowS, jsonRead(configSensor, lowalarmpowS));
+  }
+  //Serial.println(configSensor);
+  writeFile("configsensor.json",configSensor);
+}
+
+
+
 void calibrate() {
+  Serial.println("POW start");
   // Let some time to register values
   unsigned long timeout = millis();
   while ((millis() - timeout) < 10000) {
     delay(1);
   }
+  Serial.println("POW stop");
   // Calibrate using a 60W bulb (pure resistive) on a 230V line
   hlw8012.expectedActivePower(60.0);
   hlw8012.expectedVoltage(220.0);
@@ -103,7 +136,7 @@ void furnaceOn(uint8_t num, uint8_t state) {
 void setPin(uint8_t num) {
   uint8_t state = getStatusInt("statusFurnace" + (String)(num));
   uint8_t pin2 = getOptionsInt(furnacePin2S + (String)(num));
-  Serial.println(state);
+  //Serial.println(state);
   sendStatus("statusFurnace" + (String)(num), !state);
   digitalWrite(pin2, !state);
 }

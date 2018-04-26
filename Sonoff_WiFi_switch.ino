@@ -15,10 +15,8 @@ WiFiClient wclient;
 StringCommand sCmd;     // Обьект для работы с командами
 PubSubClient client(wclient);
 
-#define DS18B20PIN 14
-//OneWire oneWire(DS18B20PIN);
-//OneWire ow();
-//DallasTemperature DS18B20(&oneWire);
+OneWire *oneWire;
+DallasTemperature sensors;
 DHT dht;
 
 RCSwitch mySwitch = RCSwitch();
