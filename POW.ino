@@ -25,7 +25,7 @@ void initHLW8012() {
   else pinSEL = pinTest(temp.toInt());
   hlw8012.begin(pinCF, pinCF1, pinSEL, HIGH, true);
   hlw8012.setResistors(CURRENT_RESISTOR, VOLTAGE_RESISTOR_UPSTREAM, VOLTAGE_RESISTOR_DOWNSTREAM);
-  modulesReg("POW");
+  modulesReg("pow");
   attachInterrupt(pinCF1, hlw8012_cf1_interrupt, CHANGE);
   attachInterrupt(pinCF, hlw8012_cf_interrupt, CHANGE);
   //calibrate();
