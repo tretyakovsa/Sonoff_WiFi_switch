@@ -111,7 +111,7 @@
    "title": "{{LangSave}}",
    "class":"btn btn-block btn-success",
    "style":"width:40%;display:inline",
-   "module":"POW",
+   "module":"pow",
    "action": "powset down [[lowalarmpow]]"
   },
   {
@@ -131,7 +131,7 @@
    "title": "{{LangSave}}",
    "class":"btn btn-block btn-success",
    "style":"width:40%;display:inline",
-   "module":"POW",
+   "module":"pow",
    "action": "powset up [[highalarmpow]]"
   },
 

@@ -59,7 +59,7 @@
   {
    "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} POW",
-   "module":"POW",
+   "module":"pow",
    "action":"/page.htm?pow",
    "class":"btn btn-block btn-default",
    "style":"('{{urlArray0}}'=='POW'?'display:none':'')"
