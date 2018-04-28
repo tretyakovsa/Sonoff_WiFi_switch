@@ -16,8 +16,7 @@ void initOneWire() {
   for (byte i = 0; i < num; i++) {
     sendStatus(temperatureS + (String)(i + 1), (String)sensors.getTempCByIndex(i));
     modulesReg(temperatureS + (String)(i + 1));
-    sendStatus(highalarmtempS + (String)(i + 1), jsonRead(configSensor, highalarmtempS + (String)(i + 1)));
-    sendStatus(lowalarmtempS + (String)(i + 1), jsonRead(configSensor, lowalarmtempS + (String)(i + 1)));
+    alarmLoad(highalarmtempS + (String)(i + 1), lowalarmtempS + (String)(i + 1));
   }
   sendOptions(temperatureS + "num", num);
 
@@ -36,30 +35,32 @@ void initOneWire() {
 
   HTTP.on("/temperature.json", HTTP_GET, []() {
     String num = HTTP.arg("n");
-    Serial.println(temperatureS + num);
     String data = graf3(getStatusFloat(temperatureS + num), getStatusFloat(highalarmtempS + num), getStatusFloat(lowalarmtempS + num), 10, t, "low:0");
     httpOkJson(data);
   });
   sCmd.addCommand("tempset",     tempSet); //
-  commandsReg("tempset");
+
 }
 
 void tempSet() {
   String com = readArgsString();
   String num = readArgsString();
   String temp = readArgsString();
-  String configSensor = readFile("configsensor.json", 4096);
+  alarmSet(com, temp, highalarmtempS, lowalarmtempS, num);
+}
+void alarmSet(String com, String temp, String high, String low,  String num) {
+  String configSensor = readFile("config.sensor.json", 4096);
   if (configSensor == "") configSensor = "{}";
+  Serial.println(configSensor);
   if (com == "up") {
-    jsonWrite(configSensor, highalarmtempS + num, temp);
-    sendStatus(highalarmtempS + num, jsonRead(configSensor, highalarmtempS + num));
+    jsonWrite(configSensor, high + num, temp);
+    sendStatus(high + num, jsonRead(configSensor, high + num));
   }
   if (com == "down") {
-    jsonWrite(configSensor, lowalarmtempS + num, temp);
-    sendStatus(lowalarmtempS + num, jsonRead(configSensor, lowalarmtempS + num));
+    jsonWrite(configSensor, low + num, temp);
+    sendStatus(low + num, jsonRead(configSensor, low + num));
   }
-  //Serial.println(configSensor);
-  writeFile("configsensor.json",configSensor);
+  writeFile("config.sensor.json", configSensor);
 }
 
 // -----------------  DHT
@@ -92,6 +93,7 @@ void initDHT() {
     modulesReg(humidityS);
   }
 }
+
 
 // -----------------  Кнопка
 void initTach() {
@@ -168,14 +170,42 @@ void initA0() {
     }
     a = a / 10;
     flag = sendStatus(stateA0S, a);
-    //flag = sendStatus(stateA0S, map(a, 0, 1023, 0, averageFactor));
-    //flag = sendStatus(stateA0S, map(analogRead(A0),0,1023,0,averageFactor));
+    alarmTest(a, highalarmA0S, lowalarmA0S, highA0S, lowA0S);
   }, nullptr, true);
   HTTP.on("/analog.json", HTTP_GET, []() {
-    String data = graf(getStatusInt(stateA0S), 10, t, "low:0");
+    String data = graf3(getStatusFloat(stateA0S), getStatusFloat(highalarmA0S), getStatusFloat(lowalarmA0S), 10, t, "low:0");
     httpOkJson(data);
   });
   modulesReg("analog");
+  alarmLoad(highalarmA0S, lowalarmA0S);
+  sCmd.addCommand("analogset",     a0Set); //;
+}
+
+void a0Set() {
+  String com = readArgsString();
+  String temp = readArgsString();
+  String num = "";
+  alarmSet(com, temp, highalarmA0S, lowalarmA0S, num);
+}
+
+// Загрузка данных уровней сработки
+void alarmLoad(String high, String low) {
+  String configSensor = readFile("config.sensor.json", 4096);
+  if (configSensor == "") configSensor = "{}";
+  sendStatus(high, jsonReadtoFloat(configSensor, high));
+  sendStatus(low, jsonReadtoFloat(configSensor, low));
+  //return configSensor;
+}
+
+void alarmTest(int value, String high, String low, String up, String down ) {
+  if (value > getStatusFloat(high) && getStatusFloat(up) == LOW) {
+    flag = sendStatus(up, HIGH);
+    sendStatus(down, LOW);
+  }
+  if (value < getStatusFloat(low) && getStatusFloat(down) == LOW) {
+    flag = sendStatus(down, HIGH);
+    sendStatus(up, LOW);
+  }
 }
 
 // ------------- Создание данных для графика

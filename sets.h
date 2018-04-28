@@ -153,8 +153,20 @@ const String highalarmtempS   = "highalarmtemp";
 const String lowalarmtempS   = "lowalarmtemp";
 const String hightempS   = "hightemp";
 const String lowtempS   = "lowtemp";
+
+const String ActivePowerWS   = "ActivePowerW";
 const String highalarmpowS   = "highalarmpow";
 const String lowalarmpowS   = "lowalarmpow";
+const String highpowS   = "highpow";
+const String lowpowS   = "lowpow";
+
+const String highalarmA0S   = "highalarmA0";
+const String lowalarmA0S   = "lowalarmA0";
+const String highA0S   = "highA0";
+const String lowA0S   = "lowA0";
+
+
+
 const String humidityS   = "humidity";
 const String movementS   = "movement";
 const String stateA0S   = "stateA0";
