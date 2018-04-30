@@ -114,6 +114,7 @@
  "LangMore":"more",
  "LangEqual":"equal",
  "LangNotEqual":"Not equal",
+ "LangAnd":"and",
  "LangOr":"or",
  "Langrgbon":"On RGB",
  "Langrgboff":"Off RGB",
