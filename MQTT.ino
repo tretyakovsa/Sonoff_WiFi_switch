@@ -6,10 +6,10 @@
 */
 void initMQTT() {
   HTTP.on("/mqtt", HTTP_GET, []() {
-  jsonWrite(configSetup, mqttServerS,  HTTP.arg("server"));
-  jsonWrite(configSetup, mqttPortS,  HTTP.arg("port").toInt());
-  jsonWrite(configSetup, mqttUserS,  HTTP.arg("user"));
-  jsonWrite(configSetup, mqttPassS,  HTTP.arg("pass"));
+  sendSetup(mqttServerS,  HTTP.arg("server"));
+  sendSetup(mqttPortS,  HTTP.arg("port").toInt());
+  sendSetup(mqttUserS,  HTTP.arg("user"));
+  sendSetup(mqttPassS,  HTTP.arg("pass"));
   saveConfigSetup ();
   client.disconnect();
   MQTT_Pablush();
@@ -20,16 +20,16 @@ void initMQTT() {
 }
 
 void MQTT_Pablush() {
-  String mqtt_server = jsonRead(configSetup, mqttServerS);
+  String mqtt_server = getSetup(mqttServerS);
 
   if ((mqtt_server != "")) {
 
-    client.set_server(mqtt_server, jsonReadtoInt(configSetup, mqttPortS));
+    client.set_server(mqtt_server, getSetupInt(mqttPortS));
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
       if (!client.connected()) {
         if (client.connect(MQTT::Connect(chipID)
-                           .set_auth(jsonRead(configSetup, mqttUserS), jsonRead(configSetup, mqttPassS)))) {
+                           .set_auth(getSetup(mqttUserS), getSetup(mqttPassS)))) {
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
@@ -44,12 +44,12 @@ void MQTT_Pablush() {
 
 void callback(const MQTT::Publish& pub)
 {
-  Serial.print(pub.topic()); // выводим в сериал порт название топика
-  Serial.print(" => ");
-  Serial.print(pub.payload_string()); // выводим в сериал порт значение полученных данных
-  Serial.println();
+  //Serial.print(pub.topic()); // выводим в сериал порт название топика
+  //Serial.print(" => ");
+  //Serial.print(pub.payload_string()); // выводим в сериал порт значение полученных данных
+  //Serial.println();
   String payload = pub.payload_string();
-  Serial.println(payload);
+  //Serial.println(payload);
   if ( pub.payload_string() == "HELLO" ) {
     loadnWidgets();
   }
@@ -74,8 +74,8 @@ bool loadnWidgets() {
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       String thing_config = Widgets["nWidgets"][i].as<String>();
-      thing_config = jsonWrite(thing_config, "topic",  prex+ jsonRead(thing_config, "topic"));
-      thing_config = jsonWrite(thing_config, "page", jsonRead(configSetup, spaceS));
+      jsonWrite(thing_config, "topic",  prex+ jsonRead(thing_config, "topic"));
+      jsonWrite(thing_config, "page", getSetup(spaceS));
       //Serial.println(thing_config);
       client.publish(MQTT::Publish(prex + "/config", thing_config).set_qos(1));
     }
@@ -90,18 +90,18 @@ bool loadnWidgets() {
 
 // --------------------- Включаем DDNS
 void initDDNS() {
-  HTTPWAN = ESP8266WebServer (jsonReadtoInt(configSetup, ddnsPortS));
+  HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
   HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
   // ------------------Выполнение команды из запроса
   HTTPWAN.on("/cmd", HTTP_GET, []() {
     String com = HTTPWAN.arg("command");
-    sendStatus("test", com);
+    //sendStatus("test", com);
     sCmd.readStr(com);
-    HTTPWAN.send(200, "text/plain", com);
+    httpwanOkText(com);
   });
   HTTPWAN.on("/", HTTP_GET, []() {
-    String str = jsonRead(configSetup, ddnsNameS);
-    HTTPWAN.send(200, "text/plain", str);
+    String str = getSetup(ddnsNameS);
+    httpwanOkText(str);
   });
    HTTPWAN.onNotFound([]() {
    //Serial.println("TEST DDNS");
@@ -117,11 +117,15 @@ void initDDNS() {
   modulesReg(ddnsS);
 }
 
+void httpwanOkText(String text) {
+  HTTPWAN.send(200, "text/plain", text);
+}
+
 // ------------------------------Установка параметров ddns
 void handle_ddns() {
-jsonWrite(configSetup, ddnsS,  HTTP.arg(ddnsS));
-jsonWrite(configSetup, ddnsNameS,  HTTP.arg(ddnsNameS));
-jsonWrite(configSetup, ddnsPortS,  HTTP.arg(ddnsPortS));
+sendSetupArg(ddnsS);
+sendSetupArg(ddnsNameS);
+sendSetupArg(ddnsPortS);
   ip_wan();
   saveConfigSetup ();
   httpOkText();
@@ -129,7 +133,7 @@ jsonWrite(configSetup, ddnsPortS,  HTTP.arg(ddnsPortS));
 
 // --------------------------------Запрос для синхронизации внешнего ip адреса с ddns
 int ip_wan() {
-  String ddns = jsonRead(configSetup, ddnsS);
+  String ddns = getSetup(ddnsS);
   if (ddns != "") {
     getURL(ddns);
   }

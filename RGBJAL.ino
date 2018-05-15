@@ -201,7 +201,8 @@ void initJalousie() {
   setMotor(HIGH, HIGH);
   sendStatus(stateJalousieS, 1);
   sendStatus(turnSensorS, 0);
-  sendOptions(turnS, jsonReadtoInt(configSetup, turnS));
+  setupToOptions(turnS);
+  //sendOptions(turnS, jsonReadToInt(configSetup, turnS));
   // open close not stop turn
   sCmd.addCommand("jalousie",     jalousie);
   commandsReg("jalousie");
@@ -214,10 +215,10 @@ void turn_0() {
   // Устроняем дребезг контакта
   if (millis() - 500 > millis_prev) {
     //Текущее состояние оборотов
-    int turnSensor = jsonReadtoInt(configJson, turnSensorS);
+    int turnSensor = jsonReadToInt(configJson, turnSensorS);
     turnSensor++; // счетчик количества оборотов
     flag = sendStatus(turnSensorS, turnSensor);
-    int turn = jsonReadtoInt(configSetup, turnS);
+    int turn = jsonReadToInt(configSetup, turnS);
     if (turnSensor == turn) {     //Останавливаем
       jsonWrite(configJson, turnSensorS, 0);
       setMotor(HIGH, HIGH);
@@ -256,7 +257,7 @@ void jalousie() {
   }
   if (com == "turn") {
     jsonWrite(configSetup, turnS, readArgsInt());
-    sendOptions(turnS, jsonReadtoInt(configSetup, turnS));
+    sendOptions(turnS, jsonReadToInt(configSetup, turnS));
     saveConfigSetup ();
   }
   statusS = jalousieStatus(configJson, stateJalousieS);
@@ -270,14 +271,13 @@ void setMotor(boolean a, boolean b) {
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки
 String jalousieStatus(String json, String state) {
   String out = "{}";
-  if (jsonReadtoInt(json, state)) {
-    out = jsonWrite(out, "title", "{{LangClose}}");
-    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
+  if (jsonReadToInt(json, state)) {
+    jsonWrite(out, "title", "{{LangClose}}");
+    jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
   }
   else {
-    out = jsonWrite(out, "title", "{{LangOpen}}");
-    out = jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
-
+    jsonWrite(out, "title", "{{LangOpen}}");
+    jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
   }
   return out;
 }

@@ -1,5 +1,5 @@
 // ---------------------Инициализация Web сервера и сервисных функций
-void initHTTP(void) {
+void initHTTP() {
   // Кэшировать файлы для быстрой работы
   HTTP.serveStatic("/css/", SPIFFS, "/css/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
@@ -8,6 +8,14 @@ void initHTTP(void) {
   sendStatus("voice", "go");
   // --------------------Выдаем данные configOptions
   HTTP.on("/config.options.json", HTTP_GET, []() {
+    //FSInfo fs_info;
+    //SPIFFS.info(fs_info);
+    //sendOptions("totalBytes",fs_info.totalBytes);
+    //sendOptions("usedBytes",fs_info.usedBytes);
+    //sendOptions("blockSize",fs_info.blockSize);
+    //sendOptions("pageSize",fs_info.pageSize);
+    //sendOptions("maxOpenFiles",fs_info.maxOpenFiles);
+    //sendOptions("maxPathLength",fs_info.maxPathLength);
     httpOkJson(configOptions);
   });
 
@@ -33,17 +41,24 @@ void initHTTP(void) {
   // -------------------Установка конфигурации
   HTTP.on("/configs", HTTP_GET, []() {
     String set = HTTP.arg("set");
-    jsonWrite(configSetup, configsS, set);
+    sendSetup(configsS, set);
     saveConfigSetup();
     String reqvest = "{\"action\": \"page.htm?configs&" + set + "\"}";
     httpOkText(reqvest);
   });
 
-  // ------------------Выполнение команды из запроса
+  HTTP.on("/lang", HTTP_GET, []() {
+    sendSetup(langS, HTTP.arg("set"));
+    setupToOptions(langS);
+    jsonWrite(modules, langS, getSetup(langS)); //???????????????????????????
+    saveConfigSetup();
+    httpOkText();
+  });
+   // ------------------Выполнение команды из запроса
   HTTP.on("/cmd", HTTP_GET, []() {
     String com = HTTP.arg("command");
     //Serial.println(com);
-    sendStatus("test", com);
+    sendOptions("test", com);
     sCmd.readStr(com);
     httpOkText(statusS);
     //Serial.println(statusS);
@@ -56,20 +71,26 @@ void initHTTP(void) {
      httpOkText(statusS);
   });
 
-  HTTP.on("/lang", HTTP_GET, []() {
-    jsonWrite(configSetup, langS, HTTP.arg("set"));
-    sendOptions(langS, jsonRead(configSetup, langS));
-    jsonWrite(modules, langS, jsonRead(configSetup, langS));
-    saveConfigSetup();
-    httpOkText();
-  });
-
-  //Запускаем HTTP сервер
-    HTTP.begin();
 }
 
+
+void httpOkText() {
+  HTTP.send(200, "text/plain", "Ok");
+}
+void httpOkText(String text) {
+  HTTP.send(200, "text/plain", text);
+}
+void httpOkJson(String text) {
+  HTTP.send(200, "application/json", text);
+}
+void http500send(String text){
+  HTTP.send(500, "text/plain", text);
+  }
+  void http404send(){
+  HTTP.send(404, "text/plain", "FileNotFound");
+  }
 // Инициализация FFS
-void initFS(void) {
+void initFS() {
   {
     Dir dir = SPIFFS.openDir("/");
     while (dir.next()) {
@@ -84,7 +105,7 @@ void initFS(void) {
   HTTP.on("/list", HTTP_GET, handleFileList);
   //загрузка редактора editor
   HTTP.on("/edit", HTTP_GET, []() {
-    if (!handleFileRead("/edit.htm")) HTTP.send(404, "text/plain", "FileNotFound");
+    if (!handleFileRead("/edit.htm")) http404send();//HTTP.send(404, "text/plain", "FileNotFound");
   });
   //Создание файла
   HTTP.on("/edit", HTTP_PUT, handleFileCreate);
@@ -93,13 +114,14 @@ void initFS(void) {
   //first callback is called after the request has ended with all parsed arguments
   //second callback handles file uploads at that location
   HTTP.on("/edit", HTTP_POST, []() {
-    HTTP.send(200, "text/plain", "");
+    //HTTP.send(200, "text/plain", "");
+    httpOkText("");
   }, handleFileUpload);
   //called when the url is not defined here
   //use it to load content from SPIFFS
   HTTP.onNotFound([]() {
     if (!handleFileRead(HTTP.uri()))
-      HTTP.send(404, "text/plain", "FileNotFound");
+      http404send();//HTTP.send(404, "text/plain", "FileNotFound");
   });
   HTTP.on("/skins", HTTP_GET, []() {
     String set=HTTP.arg("set");
@@ -114,8 +136,8 @@ void initFS(void) {
 // Здесь функции для работы с файловой системой
 String getContentType(String filename) {
   if (HTTP.hasArg("download")) return "application/octet-stream";
-  else if (filename.endsWith(".htm")) return "text/html";
-  else if (filename.endsWith(".html")) return "text/html";
+  else if (filename.endsWith(".htm")) return texthtmlS;
+  else if (filename.endsWith(".html")) return texthtmlS;
   else if (filename.endsWith(".json")) return "application/json";
   else if (filename.endsWith(".css")) return "text/css";
   else if (filename.endsWith(".js")) return "application/javascript";
@@ -166,42 +188,46 @@ void handleFileUpload() {
 }
 
 void handleFileDelete() {
-  if (HTTP.args() == 0) return HTTP.send(500, "text/plain", "BAD ARGS");
+  if (HTTP.args() == 0) return http500send("BAD ARGS");// HTTP.send(500, "text/plain", "BAD ARGS");
   String path = HTTP.arg(0);
   if (path == "/")
-    return HTTP.send(500, "text/plain", "BAD PATH");
+    return http500send("BAD PATH");// HTTP.send(500, "text/plain", "BAD PATH");
   if (!SPIFFS.exists(path))
-    return HTTP.send(404, "text/plain", "FileNotFound");
+    return http404send();//HTTP.send(404, "text/plain", "FileNotFound");
   SPIFFS.remove(path);
-  HTTP.send(200, "text/plain", "");
+  //HTTP.send(200, "text/plain", "");
+  httpOkText("");
   path = String();
 }
 
 void handleFileCreate() {
   if (HTTP.args() == 0)
-    return HTTP.send(500, "text/plain", "BAD ARGS");
+    return http500send("BAD ARGS");//  HTTP.send(500, "text/plain", "BAD ARGS");
   String path = HTTP.arg(0);
   if (path == "/")
-    return HTTP.send(500, "text/plain", "BAD PATH");
+    return http500send("BAD PATH");//  HTTP.send(500, "text/plain", "BAD PATH");
   if (SPIFFS.exists(path))
-    return HTTP.send(500, "text/plain", "FILE EXISTS");
+    return http500send("FILE EXISTS");//  HTTP.send(500, "text/plain", "FILE EXISTS");
   File file = SPIFFS.open(path, "w");
   if (file)
     file.close();
   else
-    return HTTP.send(500, "text/plain", "CREATE FAILED");
-  HTTP.send(200, "text/plain", "");
+    return http500send("CREATE FAILED");// HTTP.send(500, "text/plain", "CREATE FAILED");
+  //HTTP.send(200, "text/plain", "");
+  httpOkText("");
   path = String();
 
 }
 
 void handleFileList() {
   if (!HTTP.hasArg("dir")) {
-    HTTP.send(500, "text/plain", "BAD ARGS");
+    //HTTP.send(500, "text/plain", "BAD ARGS");
+    http500send("BAD ARGS");//
     return;
   }
   String path = HTTP.arg("dir");
-  HTTP.send(200, "application/json", FileList(path));
+  //HTTP.send(200, "application/json", FileList(path));
+  httpOkJson(FileList(path));
 }
 
 // Создаем список файлов каталога
@@ -223,3 +249,40 @@ String FileList(String path) {
   output += "]";
   return output;
 }
+
+
+
+// webSocket
+/*
+void initWebSocket(){
+ // start webSocket server
+    webSocket.begin();
+    webSocket.onEvent(webSocketEvent);
+}
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
+
+    switch(type) {
+        case WStype_DISCONNECTED:
+            sendOptions(webSocketS,getOptionsInt(webSocketS)-1);
+            break;
+        case WStype_CONNECTED: {
+            IPAddress ip = webSocket.remoteIP(num);
+            sendOptions(webSocketS,getOptionsInt(webSocketS)+1);
+            sendOptions(webSocketS, num);
+            //USE_SERIAL.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
+
+            // send message to client
+            webSocket.sendTXT(num, "Connected");
+        }
+            break;
+        case WStype_TEXT:
+            //USE_SERIAL.printf("[%u] get Text: %s\n", num, payload);
+      // send message to server
+      //webSocket.sendTXT(num,"message here");
+      //webSocket.broadcastTXT(configJson);
+
+            break;
+    }
+
+}
+*/

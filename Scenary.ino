@@ -1,95 +1,63 @@
 void initScenary() {
-  loadScenary();
-  sCmd.addCommand("if",       ifCommand);
-  sCmd.addCommand("or",       orCommand);
-  sCmd.addCommand("id",       idNot);
-  sCmd.addCommand("then",       thenCommand);
+  sCmd.addCommand("if",  ifCommand);
+  sCmd.addCommand("or",  orCommand);
+  sCmd.addCommand("id",  idNot);
+  sCmd.addCommand("then", thenCommand);
   HTTP.on("/setscenary", HTTP_GET, []() {
     loadScenary();
-    loadTimer();
     httpOkText();
   });
   loadScenary();
-  loadTimer();
 }
-
 void loadScenary() {
-  Scenary = readFile("scenary.save.txt", 4096);
+  Scenary = readFile(ScenaryS, 4096);
   Scenary.replace("\r\n", "\n");
   Scenary.replace("\n\n", "\n");
   Scenary += "\n";
-  //Serial.println(Scenary);
 }
-
-void loadTimer() {
-  Timerset = readFile("timer.save.txt", 4096);
-  Timerset.replace("\r\n", "\n");
-  Timerset.replace("\n\n", "\n");
-  Timerset += "\n";
-  //Serial.println(Timerset);
-}
-
 // Ничего не делать если комманда id
 void idNot() {}
-
 void handleScenary() {
   yield();
-  if (flag) {
-    //Serial.println(goCommands(Scenary));
-    goCommands(Scenary);
-    //Serial.println(flag);
+  //Serial.println();
+  if (flag) { // если произошло изменение в данных config.live.json
+    //webSocket.broadcastTXT(configJson);
+    //addFileString("events.txt",configJson+"\r\n");
+    goCommands(Scenary); // Делаем разбор сценариев
+//    Serial.println(flag);
     testJson = configJson;
     flag = false;
   }
-  if (flagT) {
-    goCommands(Timerset);
-    //Serial.println(goCommands(Timerset));
-    //Serial.println("timer");
-    flagT = false;
-  }
 }
-
 // Разбор команды if
 void ifCommand() {
-    //Serial.println(thenOk);
-    thenOk = false;
-    orCommand();
-  }
-
+  thenOk = false; // сброс признака
+  orCommand();
+}
 void orCommand() {
   String Name =  readArgsString();      // Какой параметр проверяем
   String Condition =  readArgsString(); // Операция
   String Volume =  readArgsString();    // Значение параметра
-  String test = getStatus(Name);
-  String testOld = jsonRead(testJson, Name);
-  if (test != testOld) {
-    //Serial.print("Name= ");
-    //Serial.println(Name);
-    //Serial.print("test= ");
-    //Serial.println(test);
-    //Serial.print("Volume= ");
-    //Serial.println(Volume);
-    //Serial.print("Condition= ");
-    //Serial.println(Condition);
-    if (Condition == "=") {
-      //Serial.println("test=");
-      if (Volume == test) thenOk = true;
-    }
-    if (Condition == "<") {
-      if (Volume > test) thenOk = true;
-    }
-    if (Condition == ">") {
-      if (Volume < test) thenOk = true;
-    }
-    if (Condition == "<=") {
-      if (Volume >= test) thenOk = true;
-    }
-    if (Condition == ">=") {
-      if (Volume <= test) thenOk = true;
-    }
-    if (Condition == "!=") {
-      if (Volume != test) thenOk = true;
-    }
+  String test = getStatus(Name);        // получить текущее значение параметра
+  // последовательно проверяем параметр на соответствие операции сравнения
+  // и поднимаем признак исполнения then
+  if (Condition == "=") {
+    if (Volume == test) thenOk = true;
+  }
+  if (Condition == ">") {
+    if (Volume.toFloat() < test.toFloat()) thenOk = true;
+  }
+  if (Condition == "<") {
+    if (Volume.toFloat() > test.toFloat()) thenOk = true;
+  }
+  if (Condition == "<=") {
+    if (Volume >= test) thenOk = true;
+  }
+  if (Condition == ">=") {
+    if (Volume <= test) thenOk = true;
+  }
+  if (Condition == "!=") {
+    if (Volume != test) thenOk = true;
   }
 }
 // Выполнение then
@@ -102,23 +70,22 @@ void thenCommand() {
     comm += " " + readArgsString();
     // Если это локальное устройство
     if (ssdp == test or test == "this") {
-      //Serial.println("comm= ");
-      //Serial.println(comm);
-      sendStatus("test", comm);
+//      Serial.println("comm= ");
+//      Serial.println(comm);
+      sendOptions("test", comm);
       sCmd.readStr(comm);
     }
     else {
-      //http://192.168.0.91/cmd?command=relay1
+      //http://192.168.0.91/cmd?command=relay on 1
       String urls = "http://";
       String ip = jsonRead(ssdpList, test);
       urls += ip;
       urls += "/cmd?command=" + comm;
       urls.replace(" ", "%20");
       if (ip != "") {
-        sendStatus("test", comm);
+        sendOptions("test", comm);
         getURL(urls);
       }
-
     }
   }
 }

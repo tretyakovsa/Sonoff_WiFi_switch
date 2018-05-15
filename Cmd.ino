@@ -3,15 +3,15 @@ void initCMD() {
   sCmd.addCommand("UART",       uart);
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
-  sCmd.addCommand("Upgrade",    initUpgrade);
+  //sCmd.addCommand("Upgrade",    initUpgrade);
   sCmd.addCommand("DDNS",       initDDNS);
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
   sCmd.addCommand("DHT",       initDHT);
   sCmd.addCommand("DS18B20",       initOneWire);
-  //sCmd.addCommand("TIMERS",       initTimers);
+  sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
-  sCmd.addCommand("POW",       initHLW8012);
+  //sCmd.addCommand("POW",       initHLW8012);
   sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
@@ -23,7 +23,7 @@ void initCMD() {
   sCmd.addCommand("RF-LIVOLO",     rfLivolo);
   sCmd.addCommand("BUZZER",       initBuzzer);
   sCmd.addCommand("print",       printTest);
-  sCmd.addCommand("FURNACE",       initFurnace);
+  //sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.addCommand("GET",       initGet);
   commandsReg("GET");
   sCmd.setDefaultHandler(unrecognized);

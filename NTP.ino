@@ -1,21 +1,21 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
   String ntpTemp = readArgsString();
-  if (ntpTemp == "") ntpTemp = "pool.ntp.org";
+  if (ntpTemp == emptyS) ntpTemp = "pool.ntp.org";
   sendOptions(ntp1S, ntpTemp);
   ntpTemp = readArgsString();
-  if (ntpTemp == "") ntpTemp = "ru.pool.ntp.org";
+  if (ntpTemp == emptyS) ntpTemp = "ru.pool.ntp.org";
   sendOptions(ntp2S, ntpTemp);
   HTTP.on("/Time", HTTP_GET, []() {
     timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
     String out = "{}";
-    out = jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
+    jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
     httpOkText(out);
   });
   // Установка времянной зоны
   HTTP.on("/timeZone", HTTP_GET, []() {
     uint8_t timezone = HTTP.arg("timeZone").toInt();
-    jsonWrite(configSetup, timeZoneS,  timezone);
+    sendSetup(timeZoneS,  timezone);
     sendOptions(timeZoneS, timezone);
     timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
     saveConfigSetup ();
@@ -25,10 +25,11 @@ void initNTP() {
     // задача проверять таймеры каждую секунду обновлять текущее время.
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
-    jsonWrite(configSetup, timeS,  timeNow);
+    //sendSetup(timeS,  timeNow);
     sendStatus(timeS, timeNow);
     sendOptions(timeS, timeNow);
-    flagT = true;
+    //flagT = true;
+    //Serial.println(timeNow);
   }, nullptr, true);
   modulesReg("ntp");
 }

@@ -12,10 +12,9 @@ void initRelay() {
   sCmd.addCommand("relay",     relay); //
   commandsReg(relayS);
   modulesReg(relayS+num);
-  //modulesReg(relayS); // для совместимости со старым кодом
 }
 
-// http://192.168.0.91/cmd?command=relay%20off%201
+// http://192.168.0.91/cmd?command=relay off 1
 void relay() {
   String com = readArgsString();
   String num = readArgsString();
@@ -55,13 +54,13 @@ void toggleRelay(bool relayState) {
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки
 String relayStatus(String json, String state) {
   String out = "{}";
-  if (jsonReadtoInt(json, state)) {
-    out = jsonWrite(out, titleS, "{{LangOff}}");
-    out = jsonWrite(out, classS, btnS+infoS);
+  if (jsonReadToInt(json, state)) {
+    jsonWrite(out, titleS, "{{LangOff}}");
+    jsonWrite(out, classS, btnS+infoS);
   }
   else {
-    out = jsonWrite(out, titleS, "{{LangOn}}");
-    out = jsonWrite(out, classS, btnS+primaryS);
+    jsonWrite(out, titleS, "{{LangOn}}");
+    jsonWrite(out, classS, btnS+primaryS);
 
   }
   return out;
@@ -101,14 +100,14 @@ void rfTransmitter() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableTransmit(pin);
-  Serial.println(pin);
+  //Serial.println(pin);
   sCmd.addCommand("rfsend",handleRfTransmit);
   commandsReg("rfsend");
   modulesReg("rfTransmitter");
 }
 
 void handleRfTransmit() {
-  Serial.println("rf");
+  //Serial.println("rf");
     int cod = readArgsInt();
     int len = readArgsInt();
     if (len==0) len = 24;

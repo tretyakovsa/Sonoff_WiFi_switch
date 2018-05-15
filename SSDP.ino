@@ -1,11 +1,11 @@
 void initSSDP() {
-  // Включаем определение имени для Windows
-  // Модуль будет доступен по запросу вида
-  String temp = jsonRead(configSetup, ssdpS);
-  if (temp == "" or temp == "Sonoff") {
+  String temp = getSetup(ssdpS);
+  if (temp == emptyS or temp == "Sonoff") {
     temp = "Sonoff";//+jsonRead(configSetup, macS);
-    jsonWrite(configSetup, ssdpS, temp);
+    sendSetup(ssdpS, temp);
+    //sendStatus(ssdpS, temp);
   }
+  // Включаем определение имени для Windows
   //LLMNR.begin(temp.c_str());
   //NBNS.begin(temp.c_str());
   unsigned int localPort = 1901;
@@ -17,11 +17,11 @@ void initSSDP() {
   SSDP.setDeviceType("upnp:rootdevice");
   SSDP.setSchemaURL("description.xml");
   SSDP.setHTTPPort(80);
-  SSDP.setName(jsonRead(configSetup, ssdpS));
+  SSDP.setName(getSetup(ssdpS));
   SSDP.setSerialNumber(chipID);
   SSDP.setURL("/");
-  SSDP.setModelName(jsonRead(configSetup, configsS));
-  SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, ssdpS));
+  SSDP.setModelName(getSetup(configsS));
+  SSDP.setModelNumber(chipID + "/" + getSetup(ssdpS));
   SSDP.setModelURL("https://github.com/tretyakovsa/Sonoff_WiFi_switch");
   SSDP.setManufacturer("Tretyakov Sergey, Kevrels Renats");
   SSDP.setManufacturerURL("http://www.esp8266-arduinoide.ru");
@@ -30,12 +30,12 @@ void initSSDP() {
   // Установить имя устройства
   HTTP.on("/device", HTTP_GET, []() {
     String  ssdpName = HTTP.arg("ssdp");
-    jsonWrite(configSetup, ssdpS, ssdpName);
+    sendSetup(ssdpS, ssdpName);
     sendOptions(ssdpS, ssdpName);
     SSDP.setName(ssdpName);
-    SSDP.setModelNumber(chipID + "/" + jsonRead(configSetup, ssdpS));
+    SSDP.setModelNumber(chipID + "/" + getSetup(ssdpS));
     String  space = HTTP.arg("space");
-    jsonWrite(configSetup, spaceS, space);
+    sendSetup(spaceS, space);
     sendOptions(spaceS, space);
     httpOkText();
     saveConfigSetup();
@@ -59,7 +59,7 @@ void initSSDP() {
 // ------------- SSDP запрос
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
-    jsonWrite(ssdpList, jsonRead(configSetup, ssdpS), WiFi.localIP().toString());
+    jsonWrite(ssdpList, getSetup(ssdpS), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;
     char  ReplyBuffer[] = "M-SEARCH * HTTP/1.1\r\nHost:239.255.255.250:1900\r\nST:upnp:rootdevice\r\nMan:\"ssdp:discover\"\r\nMX:3\r\n\r\n";
@@ -100,10 +100,3 @@ void ipChanges() {
     jsonWrite(configSetup, ipS, ip);
   }
 }
-
-
-
-
-
-
-

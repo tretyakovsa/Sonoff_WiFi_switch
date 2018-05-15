@@ -14,6 +14,7 @@
 #include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand
 //#include <ESP8266LLMNR.h>
 //#include <ESP8266NetBIOS.h>
+//#include <WebSocketsServer.h>    //https://github.com/Links2004/arduinoWebSockets
 // Библиотеки устройств
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 #include <OneWire.h>                 //Ставим через менеджер библиотек
@@ -27,7 +28,7 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
-#include "HLW8012.h"                 // https://bitbucket.org/xoseperez/hlw8012/src
+#include "HLW8012.h"                 // https://github.com/xoseperez/hlw8012
 
 #define NUM_BUTTONS 8
 boolean but[NUM_BUTTONS];
@@ -61,12 +62,19 @@ String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
 String statusS   = "{}";
-
+String minTime;
 /*
   ------------------------------------------------------------------------------------------------
   Здесь будут храниться все текстовые константы для сокращения кода
 */
 const String fileConfigS   = "config.save.json";
+const String ScenaryS   = "scenary.save.txt";
+const String configSensorS   = "config.sensor.json";
+const String configTimerS   = "timer.save.json";
+
+const String texthtmlS   = "text/html";
+const String emptyS   = "";
+
 const String langS   = "lang";
 const String setIndexS   = "setIndex";
 const String ssdpS   = "SSDP";
@@ -100,6 +108,7 @@ const String buildS   = "build";
 
 const String ntp1S   = "NTP1";
 const String ntp2S   = "NTP2";
+const String webSocketS   = "webSocket";
 const String weekdayS   = "weekday";
 const String relayPinS   = "relayPin";
 const String stateRelayS   = "stateRelay";
@@ -120,7 +129,6 @@ const String irTransmitterS   = "irTransmitter";
 const String rfReceivedS   = "rfReceived";
 const String rfBitS   = "rfBit";
 const String rfProtocolS   = "rfProtocol";
-
 
 const String stateMovementS   = "stateMovement";
 const String movementTimeS   = "movementTime";
@@ -151,8 +159,8 @@ const String irsendS   = "irsend";
 const String temperatureS   = "temperature";
 const String highalarmtempS   = "highalarmtemp";
 const String lowalarmtempS   = "lowalarmtemp";
-const String hightempS   = "hightemp";
-const String lowtempS   = "lowtemp";
+const String alarmtempS   = "alarmtemp";
+
 
 const String ActivePowerWS   = "ActivePowerW";
 const String highalarmpowS   = "highalarmpow";
@@ -162,12 +170,13 @@ const String lowpowS   = "lowpow";
 
 const String highalarmA0S   = "highalarmA0";
 const String lowalarmA0S   = "lowalarmA0";
-const String highA0S   = "highA0";
-const String lowA0S   = "lowA0";
-
-
+const String alarmA0S   = "alarmA0";
 
 const String humidityS   = "humidity";
+const String highalarmhumS   = "highalarmhum";
+const String lowalarmhumS   = "lowalarmhum";
+const String alarmhumS   = "alarmhum";
+
 const String movementS   = "movement";
 const String stateA0S   = "stateA0";
 const String rgbS   = "rgb";
