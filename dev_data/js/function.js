@@ -384,7 +384,7 @@ function loadJson(state_val, jsonResponse, refresh) {
 }
 
 function pattern(s,ssdp_command) {
- document.getElementById(ssdp_command).setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_ ')+"]{1,100}");
+ document.getElementById(ssdp_command).setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {

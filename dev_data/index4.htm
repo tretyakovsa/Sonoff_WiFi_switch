@@ -159,7 +159,7 @@ From: Latvia, Valmiera
       document.getElementById("content").innerHTML += '<h2 id="'+content+'-title">'+content+'<\/h2><hr><div class="row" id="'+content+'"><\/div>';
       document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
      }
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
     ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
      var data = response;

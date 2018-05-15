@@ -190,7 +190,7 @@ From: Latvia, Valmiera
 
    function loadBlock2(page, jsonPage, ipval, content, stage, jsonIndexResponse, idModule){
     if (stage == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
     }
     ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
      var data = response;
