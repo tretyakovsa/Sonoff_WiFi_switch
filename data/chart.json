@@ -25,7 +25,7 @@
   {
    "type":"chart",
    "title":"{{LangChart}}",
-   "state":"{{urlArray1}}.json",
+   "state":"{{urlArray1}}.json?n={{urlArray2}}",
    "style":"height:400px;margin-left:-20px",
    "options":"fullWidth:true"
   },
