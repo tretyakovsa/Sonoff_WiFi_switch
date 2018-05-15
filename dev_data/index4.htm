@@ -112,9 +112,18 @@ From: Latvia, Valmiera
       if (searchModule(modules,"leakag")){
        loadBlock2('leakag','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      if (searchModule(modules,"temperature")){
-       loadBlock2('temperature','temperature',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      if(/temperature/.test(modules)) {
+       var relayNumber = '';
+       for (var i = 0; i < 10; i++) {
+        if (searchModule(modules,"temperature"+i)){
+         loadBlock2('temperature','temperature',ipval, jsonIndexResponse.space, stage, jsonIndexResponse,i);
+        }
+       }
       }
+    //  if (searchModule(modules,"temperature")){
+    //   loadBlock2('temperature','temperature',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+    //  }
+
       if (searchModule(modules,"humidity")){
        loadBlock2('humidity','humidity',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
@@ -141,7 +150,7 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadBlock2(page, jsonPage, ipval, content, stage, jsonIndexResponse){
+   function loadBlock2(page, jsonPage, ipval, content, stage, jsonIndexResponse,idModule){
     if (stage == 'first'){
      var element = document.getElementById(content);
      if (typeof(element) != 'undefined' && element != null && element != ''){
@@ -192,7 +201,7 @@ From: Latvia, Valmiera
       }
       if (page == 'temperature') {
        jsonIndexResponse.sensorId = 'temperaturejson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/temperature.json')", 1500);
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/temperature.json?n="+idModule+"')", 1500);
       }
       if (page == 'humidity') {
        jsonIndexResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');

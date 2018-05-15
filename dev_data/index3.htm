@@ -144,17 +144,17 @@ From: Latvia, Valmiera
        if (searchModule(modules,"timers")){
         loadTimers(ipval,content,jsonIndexResponse);
        }
-       if (searchModule(modules,"temperature")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+      // if (searchModule(modules,"temperature")){
+      //  loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+      // }
+      if(/temperature/.test(modules)) {
+       var relayNumber = '';
+       for (var i = 0; i < 10; i++) {
+        if (searchModule(modules,"temperature"+i)){
+         loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+i);
+        }
        }
-     // if(/temperature/.test(modules)) {
-     //  var relayNumber = '';
-     //  for (var i = 0; i < 10; i++) {
-     //   if (searchModule(modules,"temperature"+i)){
-     //    loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+i);
-     //   }
-     //  }
-     // }
+      }
        if (searchModule(modules,"humidity")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"humidity");
        }
@@ -212,9 +212,9 @@ From: Latvia, Valmiera
    }
 
    function loadSensor(ipval, content, jsonIndexResponse, module) {
-    ajax.get('http://'+ipval+'/'+module+'.json',{},function(response) {
+    ajax.get('http://'+ipval+'/'+module.replace(/[^a-z]/g,'')+'.json?n='+module.replace(/[^0-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
+     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^a-z]/g,'')]+' '+module.replace(/[^0-9]/g,'')+'<\/a> <b>'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><br>';
     },true);
    }
 

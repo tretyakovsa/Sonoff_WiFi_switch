@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <!--
+Web Developer: Renats Kevrels (ex. Zozula)
+Site: http://www.onclick.lv
+Contact: info [at] onclick.lv
+Skype: renat2985
+Twitter: @Ramzies
+Facebook: http://www.facebook.com/renat2985
+GitHub: https://github.com/renat2985
+From: Latvia, Valmiera
+-->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26015587-7"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'UA-26015587-7');
+  </script>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <script defer src="js/build.chart.js?v07.04.2018" charset="utf-8"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
+<script src="js/chartist.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/chart.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="css/build.css?v07.04.2018">
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css"> -->
+  <script type="text/javascript" src="js/function.js?v07.04.2018"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script type="text/javascript">
+   var jsonResponse;
+
+   //function selectTextareaLine(tarea,lineNum) {
+   // lineNum--;
+   // var lines = tarea.value.split("\n");
+   // var startPos = 0, endPos = tarea.value.length;
+   // for(var x = 0; x < lines.length; x++) {
+   //  if(x == lineNum) {break;}
+   //  startPos += (lines[x].length+1);
+   // }
+   // var endPos = lines[lineNum].length+startPos;
+   // if(typeof(tarea.selectionStart) != "undefined") {
+   //  tarea.focus();
+   //  tarea.selectionStart = startPos;
+   //  tarea.selectionEnd = endPos;
+   //  return true;
+   // }
+   // return false;
+   //}
+
+
+   ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
+    var ipDevice=JSON.parse(response);
+    for (var i in ipDevice) {
+     if (ipDevice[i] == '0.0.0.0') {
+      location.href = "/page.htm?first-connect";
+     }
+    }
+   },true);
+
+   window.onload = function() {
+    setContent('first');
+   }
+  </script>
+ </head>
+ <body>
+  <div class="container loader-bg">
+
+   <ul id="url-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;"></ul>
+   <div id="headers"></div>
+   <div class="row hidden" id="container_column">
+    <h1 id="title"></h1>
+    <div id="content" onclick="this.style.zIndex=10"></div>
+   </div>
+   <div id="footer"></div>
+   <div id="edit-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;">
+    <a target="_blank" style="position:fixed;right:0;color:#000;" href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8-page.htm%3F*" title="Github wiki"><i class="help-img"></i>wiki</a>
+    <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
+    <div id="error-json"></div>
+    <div class="btn-group btn-block">
+     <input class="btn btn-success" style="width:40%" id="edit-view" onclick="setContent('edit');this.value='Loading...';html('url-content', ' ');" value="View" type="button">
+     <input class="btn btn-danger" style="width:40%" id="edit-save" onclick="var urlPages=window.location.search.substring(1).split('&')[0];send_request_edit(this, val('edit-json'),(urlPages?urlPages:'index')+'.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download="" title="Save to PC"><i class="download-img"></i></a>
+    </div>
+   </div>
+
+  </div>
+ </body>
+</html>

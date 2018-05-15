@@ -116,17 +116,17 @@ From: Latvia, Valmiera
        if (searchModule(modules,"movement")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"movement");
        }
-       if (searchModule(modules,"temperature")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+       //if (searchModule(modules,"temperature")){
+       // loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+       //}
+       if(/temperature/.test(modules)) {
+        var relayNumber = '';
+        for (var i = 0; i < 10; i++) {
+         if (searchModule(modules,"temperature"+i)){
+          loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+i);
+         }
+        }
        }
-     //  if(/temperature/.test(modules)) {
-     //   var relayNumber = '';
-     //   for (var i = 0; i < 10; i++) {
-     //    if (searchModule(modules,"temperature"+i)){
-     //     loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+i);
-     //    }
-     //   }
-     //  }
        if (searchModule(modules,"humidity")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"humidity");
        }
@@ -198,16 +198,16 @@ From: Latvia, Valmiera
    }
 
    function loadSensor(ipval, content, jsonIndexResponse, module) {
-    ajax.get('http://'+ipval+'/'+module+'.json',{},function(response) {
-    //ajax.get('http://'+ipval+'/'+module+'.json'+(module.replace(/[^\d;]/g,'')?'?n='+module.replace(/[^\d;]/g,''):''),{},function(response) {
+    ajax.get('http://'+ipval+'/'+module.replace(/[^a-z]/g,'')+'.json?n='+module.replace(/[^0-9]/g,''),{},function(response) {
+     //ajax.get('http://'+ipval+'/'+module+'.json'+(module.replace(/[^\d;]/g,'')?'?n='+module.replace(/[^\d;]/g,''):''),{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById(content).innerHTML+='<tr><td>'+(jsonIndexResponse.space?'<a class="label label-default" href="#'+jsonIndexResponse.space+'" onclick="deviceList(\'first\',\''+jsonIndexResponse.space+'\');">'+jsonIndexResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonIndexResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1)]+'<\/td><td><b id="sensor-'+ipval+'-'+module+'">'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
+     document.getElementById(content).innerHTML+='<tr><td>'+(jsonIndexResponse.space?'<a class="label label-default" href="#'+jsonIndexResponse.space+'" onclick="deviceList(\'first\',\''+jsonIndexResponse.space+'\');">'+jsonIndexResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+ipval+'/page.htm?chart&'+module+'">'+jsonIndexResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^a-z]/g,'')]+' '+module.replace(/[^0-9]/g,'')+'<\/td><td><b id="sensor-'+ipval+'-'+module+'">'+sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
      if (sensors.refresh) {setTimeout("reloadSensor('"+ipval+"','"+module+"')", sensors.refresh);}
     },false);
    }
 
    function reloadSensor(ipval, module) {
-    ajax.put('http://'+ipval+'/'+module+'.json',{},function(response) {
+    ajax.put('http://'+ipval+'/'+module.replace(/[^a-z]/g,'')+'.json?n='+module.replace(/[^0-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
      document.getElementById('sensor-'+ipval+'-'+module).innerHTML=sensors.data+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'');
      setTimeout("reloadSensor('"+ipval+"','"+module+"')", sensors.refresh);
