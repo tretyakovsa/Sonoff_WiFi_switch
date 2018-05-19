@@ -1099,3 +1099,32 @@ function mergeObject(target) {
  }
  return target;
 }
+
+function delCb(path){
+ return function(){
+  if (xmlHttp.readyState == 4){
+   if(xmlHttp.status != 200){
+    //alert("ERROR["+xmlHttp.status+"]: "+xmlHttp.responseText);
+   } else {
+    if(path.lastIndexOf('/') < 1){
+     path = '/';
+     treeRoot.removeChild(treeRoot.childNodes[0]);
+     httpGet(treeRoot, "/");
+    } else {
+     path = path.substring(0, path.lastIndexOf('/'));
+     var leaf = document.getElementById(path).parentNode;
+     if(leaf.childNodes.length == 3) leaf.removeChild(leaf.childNodes[2]);
+     httpGet(leaf, path);
+    }
+   }
+  }
+ }
+}
+function httpDelete(filename){
+ xmlHttp = new XMLHttpRequest();
+ xmlHttp.onreadystatechange = delCb(filename);
+ var formData = new FormData();
+ formData.append("path", filename);
+ xmlHttp.open("DELETE", "/edit");
+ xmlHttp.send(formData);
+}
