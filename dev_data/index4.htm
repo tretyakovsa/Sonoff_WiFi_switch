@@ -163,7 +163,7 @@ From: Latvia, Valmiera
     }
     ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
      var data = response;
-     ajax.get('http://'+ipval+'/'+jsonPage+'.json',{},function(response) {
+     ajax.get('http://'+ipval+'/'+jsonPage+'.json'+(idModule?'?n='+idModule:''),{},function(response) {
       var timers=JSON.parse(response);
       var timerList = '';
       if (timers.timer) {
@@ -212,7 +212,7 @@ From: Latvia, Valmiera
        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonIndexResponse[key]);
        data = new_string;
       }
-      document.getElementById("block-"+ipval+"-"+page).innerHTML=new_string;
+      document.getElementById("block-"+ipval+"-"+page+(idModule?idModule:'')).innerHTML=new_string;
      },true);
     },true);
    }
