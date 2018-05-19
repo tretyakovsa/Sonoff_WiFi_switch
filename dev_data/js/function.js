@@ -178,8 +178,8 @@ function setContent(stage) {
     var jsonFiles = JSON.parse(response);
     jsonFiles.sort(function(a,b){return (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
     for(var i = 0;i<jsonFiles.length;i++) {
-     if (jsonFiles[i].name.substr(-4) == 'json'){
-      document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.slice(0,-5)+'">'+jsonFiles[i].name+'<\/a><br>';
+     if (jsonFiles[i].name.substr(-4) == 'json' || jsonFiles[i].name.substr(-7) == 'json.gz'){
+      document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.split('.')[0]+'">'+jsonFiles[i].name+'<\/a><br>';
      }
     }
    },true);
