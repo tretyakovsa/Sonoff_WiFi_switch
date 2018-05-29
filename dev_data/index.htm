@@ -11,14 +11,6 @@ Facebook: http://www.facebook.com/renat2985
 GitHub: https://github.com/renat2985
 From: Latvia, Valmiera
 -->
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26015587-7"></script>
-  <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
-   gtag('config', 'UA-26015587-7');
-  </script>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <script defer src="js/build.chart.js?v07.04.2018" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
@@ -38,6 +30,15 @@ From: Latvia, Valmiera
      deviceList('first');
     }
     loadIssues('tretyakovsa/Sonoff_WiFi_switch',0);
+
+    //Global site tag (gtag.js) - Google Analytics
+    var scr = document.createElement('script');
+    scr.src = "https://www.googletagmanager.com/gtag/js?id=UA-26015587-7";
+    document.head.appendChild(scr);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-26015587-7');
    }
 
    function deviceList(stage,sorting) {
@@ -142,9 +143,9 @@ From: Latvia, Valmiera
       if (searchModule(modules,"rgb")){
        loadBlock2('rgb','timer.save',ipval, content, stage, jsonIndexResponse);
       }
-     // if (searchModule(modules,"rfLivolo")){
-     //  loadBlock2('livolo','timer.save',ipval, content, stage, jsonIndexResponse);
-     // }
+      // if (searchModule(modules,"rfLivolo")){
+      //  loadBlock2('livolo','timer.save',ipval, content, stage, jsonIndexResponse);
+      // }
       if (searchModule(modules,"jalousie")){
        loadBlock2('jalousie','timer.save',ipval, content, stage, jsonIndexResponse);
       }
