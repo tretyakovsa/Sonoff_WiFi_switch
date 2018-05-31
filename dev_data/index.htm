@@ -232,6 +232,10 @@ From: Latvia, Valmiera
        jsonIndexResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
        setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ipval+"/analog.json')", 1500);
       }
+      if (page == 'pow') {
+       jsonIndexResponse.sensorId = 'powjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/pow.json')", 1500);
+      }
       if (page == 'temperature') {
        jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ipval.replace(/[^a-z0-9]/gi,'');
        setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/temperature.json?n="+idModule+"')", 1500);

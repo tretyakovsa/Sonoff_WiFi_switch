@@ -312,6 +312,10 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
       loadJson(state_val, jsonResponse, obj.refresh);
      }
+     if (type_val == 'time-list') {
+      element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
+      loadTime(jsonResponse);
+     }
      if (type_val == 'scenary-list') {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
       loadScenary(jsonResponse,'loadList');
@@ -386,6 +390,33 @@ function loadJson(state_val, jsonResponse, refresh) {
 function pattern(s,ssdp_command) {
  document.getElementById(ssdp_command).setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
+
+
+function loadTime(jsonResponse) {
+ html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
+ ajax.get('/timer.save.json?'+Math.random(),{},function(response) {
+  var options = '';
+  var ipDevice=JSON.parse(response);
+  for (var i in ipDevice['timer']) {
+
+   day_view = ipDevice['timer'][i].day.split("");
+   day_view_add = '';
+
+   for (var y in day_view) {
+    if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
+    if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
+    if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangTue+'</span> '; }
+    if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangWed+'</span> '; }
+    if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangThu+'</span> '; }
+    if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
+    if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
+   }
+   options += '<tr><td>'+ipDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+ipDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+  }
+  html("time-list",options);
+ },true);
+}
+
 
 function loadScenaryList(jsonResponse,selectDevice,urlList) {
  ajax.get((urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {

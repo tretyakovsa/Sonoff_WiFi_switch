@@ -36,21 +36,9 @@
    "title":"{{LangList}}"
   },
   {
-   "type":"table",
-   "name":"timer-list",
-   "state":"timer.save.json",
-   "title":{
-    "module":"",
-    "trigger":"{{LangOnM}}/{{LangOffM}}",
-    "day":"{{LangDay}}",
-    "time":"{{LangTime4}}",
-    "work":"{{LangWorkTime}}{{LangSoon}}",
-    "id":"{{LangDel}}"
-   },
-   "class":"table",
-   "style":"width:100%;"
+   "type":"time-list",
+   "style":"width:100%"
   },
-
 
 
   {
@@ -74,7 +62,6 @@
    "action":"/trigger.[[module]].json",
    "title":{"rgb":"RGB","relay":"Relay","jalousie":"Jalousie"}
   },
-
 
 
   {

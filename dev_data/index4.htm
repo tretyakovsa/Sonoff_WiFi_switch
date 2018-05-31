@@ -131,6 +131,9 @@ From: Latvia, Valmiera
       if (searchModule(modules,"analog")){
        loadBlock2('analog','analog',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
+      if (searchModule(modules,"pow")){
+       loadBlock2('pow','pow',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      }
       if (!stage && jsonIndexResponse.space == "relay" || jsonIndexResponse.space == "rgb" || jsonIndexResponse.space == "jalousie" || jsonIndexResponse.space == "leakag"){
        loadBlock2(jsonIndexResponse.space,'timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }

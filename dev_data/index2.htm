@@ -134,6 +134,9 @@ From: Latvia, Valmiera
        if (searchModule(modules,"analog")){
         loadSensor(ipval,'table-sensors',jsonIndexResponse,"analog");
        }
+       if (searchModule(modules,"pow")){
+        loadSensor(ipval,'table-sensors',jsonIndexResponse,"pow");
+       }
       }
       if(/relay/.test(modules)) {
        var relayNumber = '';
