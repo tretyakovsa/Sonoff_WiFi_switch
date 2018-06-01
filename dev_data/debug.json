@@ -80,6 +80,14 @@
   },
   {
    "type":"h3",
+   "title":"{{totalBytes}} {{usedBytes}} {{blockSize}} {{pageSize}} {{maxOpenFiles}} {{maxPathLength}}",
+   "style":"text-align:left"
+  },
+  {
+   "type":"hr"
+  },
+  {
+   "type":"h3",
    "title":"('{{message}}'=='Registered'?'Device: <b style=\"color:green\">Full version. Thanks!</b>':'Device: <b style=\"color:red\">Not full version</b>')",
    "style":"text-align:left"
   },
