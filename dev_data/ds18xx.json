@@ -32,7 +32,7 @@
   },
   {
    "type":"text",
-"module":"temperature1",
+   "module":"temperature1",
    "title":"Ниже вы можете указать минимальное и максильное значение для реакций по уровню.",
    "class":"alert alert-info"
   },
@@ -40,14 +40,14 @@
    "type": "text",
    "title": "Макс. значение:",
    "module":"temperature1",
-"style":"width:30%;display:inline-block"
+   "style":"width:30%;display:inline-block"
   },
   {
    "type": "input",
    "state": "{{highalarmtemp1}}",
    "name":"highalarmtemp1",
    "module":"temperature1",
-"style":"width:30%;display:inline",
+   "style":"width:30%;display:inline",
    "pattern": "[0-9.]{1,20}"
   },
   {
@@ -61,14 +61,14 @@
   {
    "type": "text",
    "title": "Мин. значение:",
-"module":"temperature1",
+   "module":"temperature1",
    "style":"width:30%;display:inline-block"
   },
   {
    "type": "input",
    "state": "{{lowalarmtemp1}}",
    "name":"lowalarmtemp1",
-"module":"temperature1",
+   "module":"temperature1",
    "style":"width:30%;display:inline",
    "pattern": "[0-9.]{1,20}"
   },

@@ -420,7 +420,7 @@ function addTimer(id) {
   var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
   timerList.timer.push({"id":Math.random(),"day":daycheck,"time1":val('set-time'),"com1":command});
   //send_request_edit(submit,server,filename,geturl,gethost){
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
  },true);
 }
 

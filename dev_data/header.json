@@ -58,22 +58,6 @@
   },
   {
    "type":"link",
-   "title":"<i class=\"set-img\"></i>{{LangOptions1}} POW",
-   "module":"pow",
-   "action":"/page.htm?pow",
-   "class":"btn btn-block btn-default",
-   "style":"('{{urlArray0}}'=='POW'?'display:none':'')"
-  },
-  {
-   "type":"link",
-   "title":"<i class=\"set-img\"></i>{{LangOptions1}} A0",
-   "module":"analog",
-   "action":"/page.htm?a0",
-   "class":"btn btn-block btn-default",
-   "style":"('{{urlArray0}}'=='a0'?'display:none':'')"
-  },
-  {
-   "type":"link",
    "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
    "action":"/page.htm?setup",
    "class":"btn btn-block btn-default",
