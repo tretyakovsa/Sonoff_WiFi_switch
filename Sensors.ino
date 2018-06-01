@@ -30,11 +30,12 @@ void initOneWire() {
   static uint8_t averageFactor = readArgsInt();
   if (t < 750) t = 1000;
   //Serial.println(t);
+//  Serial.println(pin);
   oneWire =  new OneWire(pin);
   sensors.setOneWire(oneWire);
   sensors.begin();
   byte num = sensors.getDS18Count();
-
+//Serial.println(num);
   for (byte i = 0; i < num; i++) {
     sendStatus(temperatureS + (String)(i + 1), (String)sensors.getTempCByIndex(i));
     modulesReg(temperatureS + (String)(i + 1));
@@ -45,7 +46,7 @@ void initOneWire() {
   }
   sendOptions(temperatureS + "num", num);
   ts.add(4, t, [&](void*) {
-    static float oldTemp = 0;
+    //    static float oldTemp = 0;
     float temp = 0;
     sensors.requestTemperatures();
     for (byte i = 0; i < sensors.getDS18Count(); i++) {
@@ -130,19 +131,25 @@ void alarmLoad(String sName, String high, String low) {
 // ------------------------------- Проверка уровней ------------------------------------------------
 // Текущее значение сенсора уровни признак датчика
 void alarmTest(String value, String high, String low, String sAlarm ) {
-  if (getOptionsFloat(high) == 0 || getOptionsFloat(low) == 0){ // нужно добавить флаг остановки теста
+  if (getOptionsFloat(high) != 0 || getOptionsFloat(low) != 0) { // нужно добавить флаг остановки теста
+    //Serial.println("test");
     if (getStatusFloat(value) > getOptionsFloat(high) && getOptionsInt(sAlarm) == LOW) {
       sendOptions(sAlarm, HIGH);
+      //Serial.println(getStatusFloat(value));
+//      Serial.print("up<");
+//      Serial.println(getStatusFloat(value));
       flag = sendStatus(value, getStatusFloat(value));
     }
-  if (!flag) {
-    if (getStatusFloat(value) < getOptionsFloat(low) && getOptionsInt(sAlarm) == HIGH) {
-      sendOptions(sAlarm, LOW);
-      flag = sendStatus(value, getStatusFloat(value));
-    }
+      if (getStatusFloat(value) < getOptionsFloat(low) && getOptionsInt(sAlarm) == HIGH) {
+        sendOptions(sAlarm, LOW);
+//        Serial.print("down>");
+//        Serial.println(getStatusFloat(value));
+        flag = sendStatus(value, getStatusFloat(value));
+      }
   }
 }
-}
+
+
 // ----------------------Приемник ИK
 void irReceived() {
   byte pin = readArgsInt();
@@ -202,13 +209,14 @@ void rfReceived() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableReceive(pin);
+  pinMode(pin, INPUT);
   // задача опрашивать RC код
   ts.add(7, 5, [&](void*) {
     // handleRfReceiv();
   }, nullptr, true);
   sendStatus(rfReceivedS, 0);
-  sendStatus(rfBitS, 0);
-  sendStatus(rfProtocolS, 0);
+  sendOptions(rfBitS, 0);
+  sendOptions(rfProtocolS, 0);
   modulesReg(rfReceivedS);
 }
 void handleRfReceiv() {
@@ -216,15 +224,15 @@ void handleRfReceiv() {
     int value = mySwitch.getReceivedValue();
     if (value == 0) {
       sendStatus(rfReceivedS, 0);
-      sendStatus(rfBitS, 0);
-      sendStatus(rfProtocolS, 0);
+      sendOptions(rfBitS, 0);
+      sendOptions(rfProtocolS, 0);
     } else {
       uint32_t temp = mySwitch.getReceivedValue() ;
       flag = sendStatus(rfReceivedS, temp);
       temp = mySwitch.getReceivedBitlength();
-      sendStatus(rfBitS, temp);
+      sendOptions(rfBitS, temp);
       temp = mySwitch.getReceivedProtocol();
-      sendStatus(rfProtocolS, temp);
+      sendOptions(rfProtocolS, temp);
     }
     mySwitch.resetAvailable();
   }
@@ -284,3 +292,75 @@ void motionOff() {
     flag = sendStatus(stateMovementS, 0);
   }
 }
+
+
+#ifdef POW
+// Импульс 1 Гц на выводе CF1 означает 15 мА или 0,5 В RMS в зависимости от значения в выводе SEL
+void ICACHE_RAM_ATTR hlw8012_cf1_interrupt() {
+  hlw8012.cf1_interrupt();
+}
+// Импульс 1 Гц на выводе CF составляет около 12 Вт RMS
+void ICACHE_RAM_ATTR hlw8012_cf_interrupt() {
+  hlw8012.cf_interrupt();
+}
+
+// ---------------------- Измеритель мощьности POW
+void initHLW8012() {
+  static uint16_t t = readArgsInt();
+  String temp = readArgsString();
+  byte pinCF;
+  if (temp == "") pinCF = pinTest(14);
+  else pinCF = pinTest(temp.toInt());
+  temp = readArgsString();
+  byte pinCF1;
+  if (temp == "") pinCF1 = pinTest(13);
+  else pinCF1 = pinTest(temp.toInt());
+  temp = readArgsString();
+  byte pinSEL;
+  if (temp == "") pinSEL = pinTest(5);
+  else pinSEL = pinTest(temp.toInt());
+  hlw8012.begin(pinCF, pinCF1, pinSEL, HIGH, true);
+  hlw8012.setResistors(CURRENT_RESISTOR, VOLTAGE_RESISTOR_UPSTREAM, VOLTAGE_RESISTOR_DOWNSTREAM);
+  modulesReg("pow");
+  attachInterrupt(pinCF1, hlw8012_cf1_interrupt, CHANGE);
+  attachInterrupt(pinCF, hlw8012_cf_interrupt, CHANGE);
+  sendStatus(ActivePowerWS, hlw8012.getActivePower());
+  sendOptions(alarmpowS, 0);
+  alarmLoad(ActivePowerWS, highalarmpowS, lowalarmpowS);
+  ts.add(8, t, [&](void*) {
+  sendStatus(ActivePowerWS, hlw8012.getActivePower());
+  sendOptions(voltagevS, hlw8012.getVoltage());
+  sendOptions(currentaS, hlw8012.getCurrent());
+  sendOptions(apparentpowervaS, hlw8012.getApparentPower());
+  sendOptions(powerfactorS, hlw8012.getPowerFactor());
+  sendOptions(aggenergywsS, hlw8012.getEnergy());
+  alarmTest(ActivePowerWS, highalarmpowS, lowalarmpowS, alarmpowS);
+    }, nullptr, true);
+    HTTP.on("/pow.json", HTTP_GET, []() {
+      String data = graf3(getStatusFloat(ActivePowerWS), getOptionsFloat(highalarmpowS), getOptionsFloat(lowalarmpowS), 10, t, "low:0");
+      httpOkJson(data);
+    });
+  //calibrate();
+}
+
+void calibrate() {
+
+  // Let some time to register values
+  unsigned long timeout = millis();
+  while ((millis() - timeout) < 10000) {
+    delay(1);
+  }
+
+  // Calibrate using a 60W bulb (pure resistive) on a 230V line
+  hlw8012.expectedActivePower(60.0);
+  hlw8012.expectedVoltage(220.0);
+  hlw8012.expectedCurrent(60.0 / 220.0);
+
+  sendOptions("current", hlw8012.getCurrentMultiplier());
+  sendOptions("voltage", hlw8012.getVoltageMultiplier());
+  sendOptions("power", hlw8012.getPowerMultiplier());
+
+
+}
+#endif
+

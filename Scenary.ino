@@ -21,11 +21,14 @@ void handleScenary() {
   yield();
   //Serial.println();
   if (flag) { // если произошло изменение в данных config.live.json
-    //webSocket.broadcastTXT(configJson);
+
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
-//    Serial.println(flag);
-    testJson = configJson;
+    //Serial.print("flag=");
+    //Serial.println(flag);
+    //testJson = configJson;
+    //webSocket.broadcastTXT(configJson);
+    //sendStatus("voice", "");
     flag = false;
   }
 }

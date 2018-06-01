@@ -28,15 +28,20 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
+#ifdef POW
 #include "HLW8012.h"                 // https://github.com/xoseperez/hlw8012
-
-#define NUM_BUTTONS 8
-boolean but[NUM_BUTTONS];
 
 // These are the nominal values for the resistors in the circuit
 #define CURRENT_RESISTOR                0.001
 #define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
 #define VOLTAGE_RESISTOR_DOWNSTREAM     ( 1000 ) // Real 1.009k
+#endif
+
+
+#define NUM_BUTTONS 8
+boolean but[NUM_BUTTONS];
+
+
 
 byte dev[8][8];
 boolean secTest = true;
@@ -63,6 +68,7 @@ String sensorsList = "{}";
 String prefix   = "/IoTmanager";
 String statusS   = "{}";
 String minTime;
+String comTime;
 /*
   ------------------------------------------------------------------------------------------------
   Здесь будут храниться все текстовые константы для сокращения кода
@@ -161,12 +167,18 @@ const String highalarmtempS   = "highalarmtemp";
 const String lowalarmtempS   = "lowalarmtemp";
 const String alarmtempS   = "alarmtemp";
 
-
+#ifdef POW
 const String ActivePowerWS   = "ActivePowerW";
 const String highalarmpowS   = "highalarmpow";
 const String lowalarmpowS   = "lowalarmpow";
-const String highpowS   = "highpow";
-const String lowpowS   = "lowpow";
+const String alarmpowS   = "alarmpow";
+
+const String voltagevS   = "voltagev";
+const String currentaS   = "currenta";
+const String apparentpowervaS   = "apparentpowerva";
+const String powerfactorS   = "powerfactor";
+const String aggenergywsS   = "aggenergyws";
+#endif
 
 const String highalarmA0S   = "highalarmA0";
 const String lowalarmA0S   = "lowalarmA0";

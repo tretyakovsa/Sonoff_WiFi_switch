@@ -7,7 +7,7 @@ void initNTP() {
   if (ntpTemp == emptyS) ntpTemp = "ru.pool.ntp.org";
   sendOptions(ntp2S, ntpTemp);
   HTTP.on("/Time", HTTP_GET, []() {
-    timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
+    timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
     String out = "{}";
     jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
     httpOkText(out);
@@ -17,19 +17,23 @@ void initNTP() {
     uint8_t timezone = HTTP.arg("timeZone").toInt();
     sendSetup(timeZoneS,  timezone);
     sendOptions(timeZoneS, timezone);
-    timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
+    timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
     saveConfigSetup ();
     httpOkText();
   });
-  timeSynch(getOptionsInt(timeZoneS),getOptions(ntp1S),getOptions(ntp2S));
-    // задача проверять таймеры каждую секунду обновлять текущее время.
+  timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
+  // задача проверять таймеры каждую секунду обновлять текущее время.
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
     //sendSetup(timeS,  timeNow);
     sendStatus(timeS, timeNow);
     sendOptions(timeS, timeNow);
-    //flagT = true;
-    //Serial.println(timeNow);
+    if (timeNow == minTime) {
+      sCmd.readStr(comTime);
+      Serial.println(comTime);
+      loadTimer();
+    }
+
   }, nullptr, true);
   modulesReg("ntp");
 }

@@ -1,11 +1,5 @@
 void initTimers() {
-//  Serial.println();
   loadTimer();
-  Serial.println(Timerset);
-
-  //Serial.println(timeToLong("12:15:00"));
-  //handleTimer();
-
 }
 
 void loadTimer() {
@@ -13,6 +7,8 @@ void loadTimer() {
   jsonTimer = readFile(configTimerS, 4096);
   Timerset = "";
   String Weekday = GetWeekday();
+  comTime = "";
+  //  Получаем текущий день недели в виде числа
   uint8_t iDay = 7;
   if (Weekday == "Sun") iDay = 0;
   if (Weekday == "Mon") iDay = 1;
@@ -21,59 +17,45 @@ void loadTimer() {
   if (Weekday == "Thu") iDay = 4;
   if (Weekday == "Fri") iDay = 5;
   if (Weekday == "Sat") iDay = 6;
+  // Приготовились читать массив таймеров
   DynamicJsonBuffer jsonBuffer;
   JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
   JsonArray& nestedArray = Timers["timer"].asArray();
+  // Сколько тамеров в массиве
   int j = nestedArray.size();
+  // Если есть таймеры
   if (j != 0) {
+    // Перебор всех по порядку
     for (int i = 0; i <= j - 1; i++) {
-      String week = Timers["timer"][i]["day"].as<String>();
-      int ind = week.substring(iDay, iDay + 1).toInt();
-      if (ind != 7) {
-        String nextTime = Timers["timer"][i]["time1"].as<String>();
-        if (lminTime >= timeToLong(nextTime)) {
-          lminTime = timeToLong(nextTime);
-          //if (timeToLong(GetTime())<lminTime){
-          minTime = nextTime;
-
-        }
-        Timerset += nextTime + "-";
-        String temp = Timers["timer"][i]["time2"].as<String>();
-        Timerset += Timers["timer"][i]["com1"].as<String>();
-        if (temp != "") {
-          if (lminTime >= timeToLong(temp)) {
-            lminTime = timeToLong(temp);
-            minTime = temp;
+      // Возьмем только те которые соответствуют текущему дню недели
+      String week = Timers["timer"][i]["day"].as<String>(); // признак принодлежности к дню недели
+      int ind = week.substring(iDay, iDay + 1).toInt(); // Выделяем нужный день недели
+      if (ind) { // Если день недели совпадает
+        String nextTime1 = Timers["timer"][i]["time1"].as<String>();
+        String nextTime2 = Timers["timer"][i]["time2"].as<String>();
+        String nextcom1 = Timers["timer"][i]["com1"].as<String>();
+        String nextcom2 = Timers["timer"][i]["com2"].as<String>();
+        if (timeToLong(nextTime1) >= timeToLong(GetTime())) {
+          if (lminTime >= timeToLong(nextTime1)) {
+            lminTime = timeToLong(nextTime1);
+            minTime = nextTime1;
+            comTime = nextcom1;
           }
-          Timerset += "," + temp + "-";
-          Timerset += Timers["timer"][i]["com2"].as<String>() + ",";
         }
-        else Timerset += temp + ",";
+        if (nextTime2 != "") {
+          if (timeToLong(nextTime2) >= timeToLong(GetTime())) {
+            if (lminTime >= timeToLong(nextTime2)) {
+              lminTime = timeToLong(nextTime2);
+              minTime = nextTime2;
+              comTime = nextcom2;
+            }
+          }
+        }
       }
     }
   }
+  Serial.println(minTime);
 }
-
-void handleTimer() {
-
-  String timers = Timerset;
-  String nextTimer;
-  do {
-    nextTimer = selectToMarker(timers, ","); // выделяем таймер
-    //Serial.println(nextTimer);
-    if (nextTimer != "") {
-      String timeT = selectToMarker(nextTimer, "-");   // выделяем время
-      if (timeT == minTime) {
-        String com = deleteBeforeDelimiter(nextTimer, "-"); // выделяем комманду
-//        Serial.println(timeT);
-//        Serial.println(com);
-      }
-    }
-    timers = deleteBeforeDelimiter(timers, ",");
-  } while (nextTimer != "");
-}
-
-
 
 long  timeToLong(String Time) {
   //"00:00:00"  время в секунды

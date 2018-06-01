@@ -1,4 +1,7 @@
+#define POW
 #include "sets.h"             //Содержится в пакете
+
+
 DNSServer dnsServer;
 ESP8266WebServer HTTP(80);
 File fsUploadFile;
@@ -8,6 +11,7 @@ StringCommand sCmd;                   // Обьект для работы с к�
 ESP8266HTTPUpdateServer httpUpdater;
 WiFiClient wclient;
 PubSubClient client(wclient);
+//WebSocketsServer webSocket = WebSocketsServer(81);
 ESP8266WebServer HTTPWAN(8080);
 
 RCSwitch mySwitch = RCSwitch();
@@ -16,6 +20,10 @@ decode_results results;
 IRsend *irSender;
 LivoloTx *gLivolo;
 WS2812FX ws2812fx = WS2812FX();
+
+#ifdef POW
+HLW8012 hlw8012;
+#endif
 
 OneWire *oneWire;
 DallasTemperature sensors;
@@ -29,7 +37,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println();
   start_init();
-  Serial.println(configSetup);
+  //  Serial.println(configSetup);
 
 }
 
@@ -44,4 +52,5 @@ void loop() {
   ws2812fx.service();
   handleRfReceiv();
   handleButtons();
+  // webSocket.loop();
 }

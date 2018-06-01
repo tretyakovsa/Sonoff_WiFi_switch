@@ -1,6 +1,6 @@
 void start_init() {
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
-  Serial.println(chipID);
+//  Serial.println(chipID);
   TickerScheduler(1);
   SPIFFS.begin();
   HTTP.begin();
@@ -14,6 +14,7 @@ void start_init() {
   initScenary();
   setupToInit();
   //initNTP();
+  //initWebSocket();
 }
 // --------------------- Загрузка переменных -------------------------------------------------------
 void setupToInit(){
@@ -40,7 +41,7 @@ void setupToInit(){
   String test = readFile("configs/"+configs+".txt", 4096);
   test.replace("\r\n", "\n");
   test +="\n";
-  Serial.println(goCommands(test));
+  goCommands(test);
   test = "";
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions(ipS, WiFi.localIP().toString());
@@ -98,8 +99,9 @@ String getURL(String urls) {
   http.end();
   return answer;
 }
-//------------------Выполнить все команды по порядку из строки разделитель \r\n
+//------------------Выполнить все команды по порядку из строки разделитель \r\n  \n
 String goCommands(String inits) {
+  //Serial.println(inits);
   String temp = "";
   String rn = "\n";
   inits += rn;
@@ -175,7 +177,6 @@ void commandsReg(String comName) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(regCommands);
   JsonArray& data = json["command"].asArray();
-
   data.add(comName);
   regCommands = "";
   json.printTo(regCommands);

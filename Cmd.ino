@@ -11,7 +11,9 @@ void initCMD() {
   sCmd.addCommand("DS18B20",       initOneWire);
   sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
-  //sCmd.addCommand("POW",       initHLW8012);
+  #ifdef POW
+ sCmd.addCommand("POW",       initHLW8012);
+  #endif
   sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);

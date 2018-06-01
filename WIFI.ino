@@ -51,6 +51,7 @@ HTTP.on("/wifi.scan.json", HTTP_GET, []() {
     // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
     String ssid = getSetup(ssidS);
     String pass = getSetup(ssidPassS);
+    saveConfigSetup();
     WiFi.begin(ssid.c_str(), pass.c_str());
     wifiConnect();
     String state = "\{\"title\":\"<h3>\{\{LangConnect2\}\} <a href=http://" + WiFi.localIP().toString() + ">http://" + WiFi.localIP().toString() + "</a></h3>\"\}";

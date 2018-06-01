@@ -109,7 +109,7 @@ void initDDNS() {
   });
 
     // задача синхронизайия с сервером ddns каждые 6 минут
- ts.add(8, 600000, [&](void*) {
+ ts.add(9, 600000, [&](void*) {
     ip_wan();
   }, nullptr, true);
   ip_wan();
