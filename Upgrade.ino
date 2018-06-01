@@ -8,7 +8,7 @@ void initUpgrade() {
 void webUpgrade() {
   String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"60;\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module...</h1></center></body></html>";
   httpOkText(refresh);
-    httpOkJson(refresh);
+    //httpOkJson(refresh);
   String spiffsData = HTTP.arg(spiffsS);
   if (spiffsData != emptyS) {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
