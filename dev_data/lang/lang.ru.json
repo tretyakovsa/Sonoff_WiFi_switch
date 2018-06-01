@@ -72,7 +72,7 @@
  "LangWorkTime":"время работы",
  "LangMin":"мин.",
  "LangDel":"Удалить",
- "LangMon":"По",
+ "LangMon":"Пн",
  "LangTue":"Вт",
  "LangWed":"Ср",
  "LangThu":"Чт",
@@ -87,6 +87,7 @@
  "LangIfttt1":"С помощью сервиса <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Устройство может включатся по многим сценариев, например: новое сообщение в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">подробнее...</a><span id=\"ifttt-help\" class=\"hidden\"> задания в Google calendar, почта и многое другое. Подробней о том как это сделать вы можете посмотреть видео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">здесь</a>.<br>Локальная ссылка: <span id=\"ddns-url1\"></span><br>Глобальная ссылка: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"Включить",
  "LangOff":"Выключить",
+ "Langpow":"POW",
 
  "_comment":"---page.htm?rgb---",
  "LangTime5":"Время работы сигнала",

@@ -316,6 +316,26 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
       loadTime(jsonResponse);
      }
+     if (type_val == 'time-add') {
+      var option = '';
+      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
+      option += ' <label><input type="checkbox" name="day-sun" id="day-0">'+jsonResponse.LangSun+'</label>';
+      option += ' <label><input type="checkbox" name="day-mon" id="day-1">'+jsonResponse.LangMon+'</label>';
+      option += ' <label><input type="checkbox" name="day-tue" id="day-2">'+jsonResponse.LangTue+'</label>';
+      option += ' <label><input type="checkbox" name="day-wed" id="day-3">'+jsonResponse.LangWed+'</label>';
+      option += ' <label><input type="checkbox" name="day-thu" id="day-4">'+jsonResponse.LangThu+'</label>';
+      option += ' <label><input type="checkbox" name="day-fri" id="day-5">'+jsonResponse.LangFri+'</label>';
+      option += ' <label><input type="checkbox" name="day-sat" id="day-6">'+jsonResponse.LangSat+'</label>';
+      option += ' <label><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)">'+jsonResponse.LangAll+'</label><br>';
+      option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="">';
+      //option += '<div id="new-then2"></div>';
+      //option += '<input id="work" class="form-control"  pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangWorkTime+'. '+jsonResponse.LangExample+': 00:40:00" value=""><br>';
+      option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      element.innerHTML += option;
+      loadNewThen('new-then',' ');
+      //loadNewThen('new-then2','На время');
+      html("load-life-opt","onclick");
+     }
      if (type_val == 'scenary-list') {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
       loadScenary(jsonResponse,'loadList');
@@ -370,6 +390,40 @@ function viewTemplate(jsonPage,jsonResponse) {
  }
 }
 
+function toggleCheckbox(element) {
+ if (element.checked) {
+  for (i = 0; i < 7; i++) {
+   document.getElementById("day-"+i).checked = true;
+  }
+ } else {
+  for (i = 0; i < 7; i++) {
+   document.getElementById("day-"+i).checked = false;
+  }
+ }
+}
+
+function deleteTimer(id,ip) {
+ ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
+  var timerList=JSON.parse(response);
+  timerList.timer.splice(id,1);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+ },true);
+}
+
+function addTimer(id) {
+ ajax.get('/timer.save.json?'+Math.random(),{},function(response) {
+  var timerList=JSON.parse(response);
+  var daycheck = '';
+  for (i = 0; i < 7; i++) {
+   daycheck+=(document.getElementById("day-"+i).checked?'1':'0');
+  }
+  var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
+  timerList.timer.push({"id":Math.random(),"day":daycheck,"time1":val('set-time'),"com1":command});
+  //send_request_edit(submit,server,filename,geturl,gethost){
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+ },true);
+}
+
 function loadJson(state_val, jsonResponse, refresh) {
  function setLoad(){
   ajax.get(state_val+'?'+Math.random(),{},function(response) {
@@ -391,17 +445,14 @@ function pattern(s,ssdp_command) {
  document.getElementById(ssdp_command).setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
 
-
 function loadTime(jsonResponse) {
  html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
  ajax.get('/timer.save.json?'+Math.random(),{},function(response) {
   var options = '';
   var ipDevice=JSON.parse(response);
   for (var i in ipDevice['timer']) {
-
    day_view = ipDevice['timer'][i].day.split("");
    day_view_add = '';
-
    for (var y in day_view) {
     if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
     if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
@@ -411,9 +462,9 @@ function loadTime(jsonResponse) {
     if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
     if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
    }
-   options += '<tr><td>'+ipDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+ipDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td>'+ipDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+ipDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+location.hostname+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
-  html("time-list",options);
+  html("time-list",'<tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options);
  },true);
 }
 
@@ -439,11 +490,15 @@ function loadScenaryList(jsonResponse,selectDevice,urlList) {
  },true);
 }
 
-function loadNewThen(where) {
+function loadNewThen(where,titles) {
  var option = '';
  var number = parseInt(document.getElementById("hidden-val-then").value)+1;
  document.getElementById("hidden-val-then").value = number;
- option += '<h3>'+jsonResponse.LangThen+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
+ if (titles) {
+  option += '<h3>'+titles+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
+ } else {
+  option += '<h3>'+jsonResponse.LangThen+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
+ }
  option += '<select class="form-control" id="ssdp-list'+number+'" onchange="loadCommand(this.value,\'command.json\',\'scenary-then'+number+'\');toggle(\'scenary-then'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help'+number+'\',\'scenary-othe'+number+'\');toggle(\'if-then'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
  option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list'+number+'\').options[document.getElementById(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then'+number+'\').options[document.getElementById(\'scenary-then'+number+'\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe'+number+'\').value,\'\');return false"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';

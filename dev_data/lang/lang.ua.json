@@ -71,7 +71,7 @@
  "LangTimer":"Таймери",
  "LangWorkTime":"Тривал. роботи",
  "LangMin":"Хв.",
- "LangMon":"По",
+ "LangMon":"Пн",
  "LangTue":"Вт",
  "LangWed":"Ср",
  "LangThu":"Чт",
@@ -86,6 +86,7 @@
  "LangIfttt1":"За допомогою сервісу <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> Пристрій може вмикатися використовуючи багато сценаріїв, наприклад: нове повідомлення в facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">детальніше...</a><span id=\"ifttt-help\" class=\"hidden\"> завдання в Google calendar, пошчта та багато іншого. Детальніше про те як це зробити Ви можете переглянувши відео <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">тут</a>.<br>Локальне посилання: <span id=\"ddns-url1\"></span><br>Глобальне посилання: <span id=\"ddns-url2\"></span></span>",
  "LangOn":"Увімкнути",
  "LangOff":"Вимкнути",
+ "Langpow":"POW",
 
  "_comment":"---RGB.HTM---",
  "LangTime5":"Час роботи сигналу",
