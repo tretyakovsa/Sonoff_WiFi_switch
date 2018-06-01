@@ -8,14 +8,14 @@ void initHTTP() {
   sendStatus("voice", "go");
   // --------------------Выдаем данные configOptions
   HTTP.on("/config.options.json", HTTP_GET, []() {
-    //FSInfo fs_info;
-    //SPIFFS.info(fs_info);
-    //sendOptions("totalBytes",fs_info.totalBytes);
-    //sendOptions("usedBytes",fs_info.usedBytes);
-    //sendOptions("blockSize",fs_info.blockSize);
-    //sendOptions("pageSize",fs_info.pageSize);
-    //sendOptions("maxOpenFiles",fs_info.maxOpenFiles);
-    //sendOptions("maxPathLength",fs_info.maxPathLength);
+    FSInfo fs_info;
+    SPIFFS.info(fs_info);
+    sendOptions("totalBytes",fs_info.totalBytes);
+    sendOptions("usedBytes",fs_info.usedBytes);
+    sendOptions("blockSize",fs_info.blockSize);
+    sendOptions("pageSize",fs_info.pageSize);
+    sendOptions("maxOpenFiles",fs_info.maxOpenFiles);
+    sendOptions("maxPathLength",fs_info.maxPathLength);
     httpOkJson(configOptions);
   });
 

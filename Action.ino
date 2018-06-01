@@ -13,6 +13,21 @@ void initRelay() {
   commandsReg(relayS);
   modulesReg(relayS+num);
 }
+// ------------------- Инициализация Реле Uart
+void initRelayU() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  boolean state = readArgsInt(); // второй аргумент состояние на старте
+  String num = readArgsString(); // третьий аргумент прификс реле 0 1 2
+  boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
+  sendStatus(stateRelayS + num, state);
+  sendOptions(relayPinS + num, pin);
+  sendOptions(relayNotS + num, inv);
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, state^inv);
+  sCmd.addCommand("relay",     relay); //
+  commandsReg(relayS);
+  modulesReg(relayS+num);
+}
 
 // http://192.168.0.91/cmd?command=relay off 1
 void relay() {
@@ -50,6 +65,13 @@ void toggleRelay(bool relayState) {
     Serial.write(miBufferOFF, sizeof(miBufferOFF));
   }
 }
+
+void relayWrite(uint8_t pin, boolean state){
+  const byte miBufferON[] =  {0xA0, 0x01, 0x01, 0xA2};
+  const byte miBufferOFF[] = {0xA0, 0x01, 0x00, 0xA1};
+
+  }
+
 
 // читает данные из раздела state строки json и возвращает строку для смены класса кнопки
 String relayStatus(String json, String state) {
