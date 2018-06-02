@@ -402,11 +402,11 @@ function toggleCheckbox(element) {
  }
 }
 
-function deleteTimer(id,ip) {
- ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
+function deleteTimer(id,ipdev) {
+ ajax.get('http://'+ipdev+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   timerList.timer.splice(id,1);
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', ipdev);
  },true);
 }
 
@@ -447,12 +447,24 @@ function pattern(s,ssdp_command) {
 
 function loadTime(jsonResponse) {
  html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- ajax.get('/timer.save.json?'+Math.random(),{},function(response) {
-  var options = '';
+ ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
+  var option = '';
   var ipDevice=JSON.parse(response);
-  for (var i in ipDevice['timer']) {
-   day_view = ipDevice['timer'][i].day.split("");
-   day_view_add = '';
+   for (var i in ipDevice) {
+    loadDeviceTime(jsonResponse,i,ipDevice[i]);
+   }
+  html('time-list', ' ');
+ },true);
+}
+
+function loadDeviceTime(jsonResponse,ssdp,ipDevice) {
+ //html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
+ ajax.get('http://'+ipDevice+'/timer.save.json?'+Math.random(),{},function(response) {
+  var options = '';
+  var timeDevice=JSON.parse(response);
+  for (var i in timeDevice['timer']) {
+   var day_view = timeDevice['timer'][i].day.split("");
+   var day_view_add = '';
    for (var y in day_view) {
     if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
     if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
@@ -462,9 +474,9 @@ function loadTime(jsonResponse) {
     if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
     if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
    }
-   options += '<tr><td>'+ipDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+ipDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+location.hostname+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td>'+timeDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ipDevice+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
-  html("time-list",'<tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options);
+  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ipDevice+'">'+ssdp+'</a> <a href="http://'+ipDevice+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
 }
 

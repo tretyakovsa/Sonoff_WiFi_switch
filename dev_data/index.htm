@@ -203,17 +203,20 @@ From: Latvia, Valmiera
       var timers=JSON.parse(response);
       var timerList = '';
       if (timers.timer) {
-       timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
+       timers.timer.sort(function(a,b){return (a.time1 > b.time1) ? 1 : ((b.time1 > a.time1) ? -1 : 0);});
        for (var i = 0; i < timers.timer.length; i++) {
-        if(timers.timer[i].module == page) {
-         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
-         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangOffM"]+'<\/span>';}
-         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
-         if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOpen"]+'<\/span>';}
-         if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
-         timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
-         timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<\/li>';
+        var day_view = timers.timer[i].day.split("");
+        var day_view_add = '';
+        for (var y in day_view) {
+         if (y == 0 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSun+' '; }
+         if (y == 1 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangMon+' '; }
+         if (y == 2 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangTue+' '; }
+         if (y == 3 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangWed+' '; }
+         if (y == 4 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangThu+' '; }
+         if (y == 5 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangFri+' '; }
+         if (y == 6 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSat+' '; }
         }
+        timerList += '<li><b>'+timers.timer[i].time1+'</b> <span class="label label-default">'+day_view_add+'</span> '+timers.timer[i].com1+'</li>';
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
       }
