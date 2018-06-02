@@ -406,7 +406,7 @@ function deleteTimer(id,ip) {
  ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   timerList.timer.splice(id,1);
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
  },true);
 }
 

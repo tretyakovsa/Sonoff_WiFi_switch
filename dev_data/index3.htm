@@ -12,6 +12,7 @@ GitHub: https://github.com/renat2985
 From: Latvia, Valmiera
 -->
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" type="text/css" href="css/build.css?v07.04.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
@@ -142,9 +143,9 @@ From: Latvia, Valmiera
        document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
       }
       if (stage == 'first'){
-       if (searchModule(modules,"timers")){
-        loadTimers(ipval,content,jsonIndexResponse);
-       }
+     // if (searchModule(modules,"timers")){
+     //  loadTimers(ipval,content,jsonIndexResponse);
+     // }
        // if (searchModule(modules,"temperature")){
        //  loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
        // }

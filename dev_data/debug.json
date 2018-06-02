@@ -28,32 +28,32 @@
    "type":"hr"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"('{{flashChip}}'.slice(4)=='85'?'Flash Chip: <b style=\"color:red\">{{flashChip}} ERROR</b>':'Flash Chip: <b>{{flashChip}}</b>')",
    "style":"text-align:left;"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"Flash Size: <b>{{ideFlashSize}}</b> bytes",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"Real Flash Size: <b>{{realFlashSize}}</b> bytes",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"Flash Chip Speed: <b>{{flashChipSpeed}}</b> MHz",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"Flash Chip Mode: <b>{{flashChipMode}}</b>",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"CPU Freq: <b>{{cpuFreqMHz}}</b> MHz",
    "style":"text-align:left"
   },
@@ -61,26 +61,26 @@
    "type":"hr"
   },
   {
-   "type":"h3",
+   "type":"h4",
    "title":"MAC: <b>{{mac}}</b>",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
-   "title":"Spiffs: <b>{{spiffsData}}</b>",
+   "type":"h4",
+   "title":"Spiffs: <small>{{spiffsData}}</small>",
    "style":"text-align:left"
   },
   {
-   "type":"h3",
-   "title":"Build: <b>{{buildData}}</b>",
+   "type":"h4",
+   "title":"Build: <small>{{buildData}}</small>",
    "style":"text-align:left"
   },
   {
    "type":"hr"
   },
   {
-   "type":"h3",
-   "title":"{{totalBytes}} {{usedBytes}} {{blockSize}} {{pageSize}} {{maxOpenFiles}} {{maxPathLength}}",
+   "type":"h4",
+   "title":"File system:<br>Всего: <b>{{totalBytes}}</b> bytes<br>Использовано: <b>{{usedBytes}}</b> bytes<br>Размер страницы и блока: <b>{{blockSize}}</b><br>Размер страницы: <b>{{pageSize}}</b><br>Количество одновременно открытых файлов: <b>{{maxOpenFiles}}</b><br>Максимальная возможная длина имени файла: <b>{{maxPathLength}}</b>",
    "style":"text-align:left"
   },
   {
