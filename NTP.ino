@@ -25,13 +25,19 @@ void initNTP() {
   // задача проверять таймеры каждую секунду обновлять текущее время.
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
+    if (timeNow == "00:00:00") {
+      String timeNow = GetWeekday();
+      sendStatus(weekdayS, timeNow);
+      loadTimer();
+    }
     //sendSetup(timeS,  timeNow);
     sendStatus(timeS, timeNow);
     sendOptions(timeS, timeNow);
     if (timeNow == minTime) {
       sCmd.readStr(comTime);
-      Serial.println(comTime);
+      //Serial.println(comTime);
       loadTimer();
+      Serial.println(comTime);
     }
 
   }, nullptr, true);

@@ -5,6 +5,7 @@ void initScenary() {
   sCmd.addCommand("then", thenCommand);
   HTTP.on("/setscenary", HTTP_GET, []() {
     loadScenary();
+    loadTimer();
     httpOkText();
   });
   loadScenary();
@@ -25,10 +26,10 @@ void handleScenary() {
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
     //Serial.print("flag=");
-    //Serial.println(flag);
+    Serial.println(configJson);
     //testJson = configJson;
     //webSocket.broadcastTXT(configJson);
-    //sendStatus("voice", "");
+    sendStatus("voice", "");
     flag = false;
   }
 }

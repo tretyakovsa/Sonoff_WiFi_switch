@@ -80,6 +80,9 @@ void httpOkText() {
 void httpOkText(String text) {
   HTTP.send(200, "text/plain", text);
 }
+void httpOkHtml(String text) {
+  HTTP.send(200, "text/html", text);
+}
 void httpOkJson(String text) {
   HTTP.send(200, "application/json", text);
 }
