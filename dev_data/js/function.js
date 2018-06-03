@@ -118,10 +118,10 @@ function setContent(stage) {
        for (var y = 1 ; y <= theCookies.length; y++) {
         jsonResponse[theCookies[y-1].split("=")[0].replace(/^ /,'')] = theCookies[y-1].split("=")[1];
        }
-       if (jsonPage.title[0]['title']) {
-        document.title = renameBlock(jsonResponse, jsonPage.title[0]['title']);
-        // document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
-       }
+     //  if (jsonPage.title[0]['title']) {
+     //   document.title = renameBlock(jsonResponse, jsonPage.title[0]['title']);
+     //   // document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
+     //  }
        var element_title=document.getElementById('title');
        if(element_title){element_title.innerHTML = '';}
        if (jsonPage.class) {document.getElementById('content').className = jsonPage.class;}
