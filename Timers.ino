@@ -4,8 +4,7 @@ void initTimers() {
 
 void loadTimer() {
   long lminTime = 86400;
-  jsonTimer = readFile(configTimerS, 4096);
-  Timerset = "";
+  String jsonTimer = readFile(configTimerS, 4096);
   String Weekday = GetWeekday();
   comTime = "";
   //  Получаем текущий день недели в виде числа
@@ -54,7 +53,7 @@ void loadTimer() {
       }
     }
   }
-  Serial.println(minTime);
+  //Serial.println(minTime);
 }
 
 long  timeToLong(String Time) {

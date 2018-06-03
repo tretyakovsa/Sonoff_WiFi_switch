@@ -37,7 +37,7 @@ void initNTP() {
       sCmd.readStr(comTime);
       //Serial.println(comTime);
       loadTimer();
-      Serial.println(comTime);
+      //Serial.println(comTime);
     }
 
   }, nullptr, true);

@@ -6,13 +6,16 @@ void initUpgrade() {
 }
 // ----------------------- Обновление с сайта
 void webUpgrade() {
-  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"60;\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module...</h1></center></body></html>";
+  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"60; url=/\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module...</h1></center></body></html>";
   httpOkHtml(refresh);
     //httpOkJson(refresh);
+  String Timerset = readFile(configTimerS, 4096);
   String spiffsData = HTTP.arg(spiffsS);
   if (spiffsData != emptyS) {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     ESPhttpUpdate.rebootOnUpdate(false);
+    String buildPach = HTTP.arg("build");
+    writeFile("buildPach.txt", buildPach);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg(spiffsS));
 switch(ret) {
             case HTTP_UPDATE_FAILED:
@@ -28,8 +31,10 @@ switch(ret) {
             statistics();
                 break;
         }
-    writeFile("timer.save.json", jsonTimer);
+    writeFile(configTimerS, Timerset);
+  if (Scenary !=""){
     writeFile(ScenaryS, Scenary);
+    }
     sendSetup(spiffsDataS, spiffsData);
     saveConfigSetup ();
   }
@@ -39,6 +44,7 @@ switch(ret) {
     sendSetup(buildDataS, buildData);
     saveConfigSetup ();
     ESPhttpUpdate.rebootOnUpdate(true);
+    String updatePatch = "http://backup.privet.lv/esp/sonoff/Sonoff_Updater.ino.generic.bin";
     t_httpUpdate_return jet = ESPhttpUpdate.update(HTTP.arg("build"));
 
   }
