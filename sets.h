@@ -58,11 +58,8 @@ String configOptions = "{}";         // Здесь данные для всех 
 String configSetup = "{}";           // Здесь данные для setup /config.setup.json
 String ssdpList = "{}";              // SSDP имя ip всех модулей в сети /ssdp.list.json
 String regCommands = "{\"command\":[]}";           // список доступных комманд для различных модулей /command.json
-String jsonTimer = "{}";             // список таймеров /jsontimer.json
 String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев
-String Timerset = "";                // Таймеры на сегодня
-String Timersetold = "";                // Таймеры на сегодня
 String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";

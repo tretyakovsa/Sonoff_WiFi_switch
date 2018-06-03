@@ -26,7 +26,7 @@ void handleScenary() {
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
     //Serial.print("flag=");
-    Serial.println(configJson);
+    //Serial.println(configJson);
     //testJson = configJson;
     //webSocket.broadcastTXT(configJson);
     sendStatus("voice", "");
