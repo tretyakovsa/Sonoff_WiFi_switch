@@ -118,10 +118,10 @@ function setContent(stage) {
        for (var y = 1 ; y <= theCookies.length; y++) {
         jsonResponse[theCookies[y-1].split("=")[0].replace(/^ /,'')] = theCookies[y-1].split("=")[1];
        }
-       // if (jsonPage.title) {
-       //  document.title = renameBlock(jsonResponse, jsonPage.title);
-       //  document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
-       // }
+       if (jsonPage.title[0]['title']) {
+        document.title = renameBlock(jsonResponse, jsonPage.title[0]['title']);
+        // document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
+       }
        var element_title=document.getElementById('title');
        if(element_title){element_title.innerHTML = '';}
        if (jsonPage.class) {document.getElementById('content').className = jsonPage.class;}
@@ -406,21 +406,23 @@ function deleteTimer(id,ipdev) {
  ajax.get('http://'+ipdev+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   timerList.timer.splice(id,1);
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', ipdev);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ipdev+'/setscenary\');', ipdev);
  },true);
 }
 
 function addTimer(id) {
- ajax.get('/timer.save.json?'+Math.random(),{},function(response) {
+ var ipdev = document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value;
+ var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
+
+ ajax.get('http://'+ipdev+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   var daycheck = '';
   for (i = 0; i < 7; i++) {
    daycheck+=(document.getElementById("day-"+i).checked?'1':'0');
   }
-  var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
   timerList.timer.push({"id":Math.random(),"day":daycheck,"time1":val('set-time'),"com1":command});
   //send_request_edit(submit,server,filename,geturl,gethost){
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ipdev+'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
  },true);
 }
 
@@ -450,9 +452,9 @@ function loadTime(jsonResponse) {
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var option = '';
   var ipDevice=JSON.parse(response);
-   for (var i in ipDevice) {
-    loadDeviceTime(jsonResponse,i,ipDevice[i]);
-   }
+  for (var i in ipDevice) {
+   loadDeviceTime(jsonResponse,i,ipDevice[i]);
+  }
   html('time-list', ' ');
  },true);
 }
