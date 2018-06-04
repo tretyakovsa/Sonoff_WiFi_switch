@@ -50,8 +50,8 @@ void loadTimer() {
             }
           }
         }
-        sendStatus("timersT", minTime);
-        sendStatus("timersC", comTime);
+        sendOptions("timersT", minTime);
+        sendOptions("timersC", comTime);
       }
     }
   }

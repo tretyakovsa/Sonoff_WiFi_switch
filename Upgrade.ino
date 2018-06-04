@@ -14,7 +14,6 @@ void webUpgrade() {
   if (spiffsData != emptyS) {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     ESPhttpUpdate.rebootOnUpdate(false);
-    String buildPach = HTTP.arg("build");
     //Serial.println(buildPach);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg(spiffsS));
 switch(ret) {
@@ -31,8 +30,7 @@ switch(ret) {
             statistics();
                 break;
         }
-    writeFile("buildPach.txt", buildPach);
-    writeFile(configTimerS, Timerset);
+     writeFile(configTimerS, Timerset);
   if (Scenary !=""){
     writeFile(ScenaryS, Scenary);
     }
@@ -41,6 +39,7 @@ switch(ret) {
   }
   String buildData = HTTP.arg("build");
   if (buildData != emptyS) {
+    writeFile("buildPach.txt", buildData);
     buildData = buildData.substring(buildData.lastIndexOf("/") + 1); // выделяем имя файла
     sendSetup(buildDataS, buildData);
     saveConfigSetup ();

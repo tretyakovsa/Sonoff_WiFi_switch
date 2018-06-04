@@ -29,7 +29,7 @@ void handleScenary() {
     //Serial.println(configJson);
     //testJson = configJson;
     //webSocket.broadcastTXT(configJson);
-    //sendStatus("voice", "");
+    sendStatus("voice", "");
     flag = false;
   }
 }
