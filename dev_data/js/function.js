@@ -638,7 +638,7 @@ function loadLive2(ssdp_list,ssdp_module,ssdp_command) {
  val(ssdp_command,"Loading...");
  var ip = document.getElementById(ssdp_list).options[document.getElementById(ssdp_list).selectedIndex].value;
  var who = document.getElementById(ssdp_module).options[document.getElementById(ssdp_module).selectedIndex].value;
- ajax.get('http://'+ip+'/config.live.json',{},function(response) {
+ ajax.get('http://'+ip+'/'+(who=='voice'?'config.options.json':'config.live.json'),{},function(response) {
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    if (key == who) {
