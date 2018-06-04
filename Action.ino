@@ -85,11 +85,16 @@ String relayStatus(String json, String state) {
 }
 
 /*
-  Serial.write(0xA0);
-  Serial.write(0x04);
-  Serial.write(0xxx);
-  Serial.write(0xA1);
-  Serial.flush();
+XdrvSetPower(rpower);
+
+  if ((SONOFF_DUAL == Settings.module) || (CH4 == Settings.module)) {
+    Serial.write(0xA0);
+    Serial.write(0x04);
+    Serial.write(rpower &0xFF);
+    Serial.write(0xA1);
+    Serial.write('\n');
+    Serial.flush();
+  }
    где вместо "0xxx" - 0 (выключить оба реле), 1 (включить одно реле), 2 (включить второе реле), 3 (включить оба реле), то можно таким образом управлять релюшками.
 */
 

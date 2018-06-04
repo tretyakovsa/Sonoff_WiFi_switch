@@ -67,6 +67,7 @@ void initHTTP() {
     HTTP.on("/voice", HTTP_GET, []() {
     String com = HTTP.arg("command");
     com.replace(" ", "_");
+    sendOptions("voice", com);
     flag = sendStatus("voice", com);
     httpOkText(statusS);
   });
