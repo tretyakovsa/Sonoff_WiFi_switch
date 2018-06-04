@@ -1,5 +1,5 @@
 // {{LangConfRelay}}
-RELAYUART 20 1 1 0
+RELAY 20 1 1 0
 // {{LangConfNTP}}
 NTP pool.ntp.org ru.pool.ntp.org
 // {{LangConfDDNS}}
