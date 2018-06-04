@@ -46,6 +46,7 @@ void setupToInit(){
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions(ipS, WiFi.localIP().toString());
   sendOptions(macS, WiFi.macAddress().c_str());
+  sendOptions("voice", "");
    testJson = configJson;
   }
 
