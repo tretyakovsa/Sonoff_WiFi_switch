@@ -25,6 +25,7 @@ void initCMD() {
   sCmd.addCommand("RF-LIVOLO",     rfLivolo);
   sCmd.addCommand("BUZZER",       initBuzzer);
   sCmd.addCommand("print",       printTest);
+  sCmd.addCommand("ALARM",       alarmGet);
   //sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.addCommand("GET",       initGet);
   commandsReg("GET");
@@ -34,6 +35,13 @@ void initCMD() {
 void unrecognized(const char *command) {
   //Serial.println("What?");
 }
+void alarmGet() {
+  String volume = readArgsString();
+  String high = readArgsString();
+  String low = readArgsString();
+  alarmLoad(volume, high, low);
+  }
+
 
 void initGet() {
   String urls = readArgsString();

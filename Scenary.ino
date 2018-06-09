@@ -5,6 +5,10 @@ void initScenary() {
   sCmd.addCommand("then", thenCommand);
   HTTP.on("/setscenary", HTTP_GET, []() {
     loadScenary();
+    String alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+    sCmd.readStr(alarmSet);
+    alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+    alarmLoadModules();
     loadTimer();
     httpOkText();
   });
@@ -22,12 +26,8 @@ void handleScenary() {
   yield();
   //Serial.println();
   if (flag) { // если произошло изменение в данных config.live.json
-
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
-    //Serial.print("flag=");
-    //Serial.println(configJson);
-    //testJson = configJson;
     //webSocket.broadcastTXT(configJson);
     sendStatus("voice", "");
     flag = false;

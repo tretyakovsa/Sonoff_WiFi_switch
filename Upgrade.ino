@@ -6,7 +6,7 @@ void initUpgrade() {
 }
 // ----------------------- Обновление с сайта
 void webUpgrade() {
-  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"60; url=/\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module... <br><span id=\"countdownt\">60 </span> seconds...</h1></center>   <script>var timeleft=60;var downloadTimer=setInterval(function(){timeleft--;document.getElementById(\"countdownt\").textContent=timeleft;if(timeleft <= 0)clearInterval(downloadTimer);},1000);</script></body></html>";
+  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"90; url=/\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module... <br><span id=\"countdownt\">60 </span> seconds...</h1></center>   <script>var timeleft=60;var downloadTimer=setInterval(function(){timeleft--;document.getElementById(\"countdownt\").textContent=timeleft;if(timeleft <= 0)clearInterval(downloadTimer);},1000);</script></body></html>";
   httpOkHtml(refresh);
     //httpOkJson(refresh);
   String Timerset = readFile(configTimerS, 4096);
@@ -14,7 +14,7 @@ void webUpgrade() {
   if (spiffsData != emptyS) {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     ESPhttpUpdate.rebootOnUpdate(false);
-    //Serial.println(buildPach);
+    Serial.println(spiffsData);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg(spiffsS));
 switch(ret) {
             case HTTP_UPDATE_FAILED:

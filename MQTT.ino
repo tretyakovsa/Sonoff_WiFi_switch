@@ -21,19 +21,20 @@ void initMQTT() {
 
 void MQTT_Pablush() {
   String mqtt_server = getSetup(mqttServerS);
-
   if ((mqtt_server != "")) {
 
     client.set_server(mqtt_server, getSetupInt(mqttPortS));
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
       if (!client.connected()) {
+        //Serial.println(mqtt_server);
         if (client.connect(MQTT::Connect(chipID)
                            .set_auth(getSetup(mqttUserS), getSetup(mqttPassS)))) {
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           //client.subscribe( prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
+
           sendMQTT("test","work");
         } else {
         }
