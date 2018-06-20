@@ -7,7 +7,9 @@ void initA0() {
   analogRead(A0);
   sendStatus(stateA0S, analogRead(A0));
   sendOptions(alarmA0S, 0);
-  alarmLoad(stateA0S, highalarmA0S, lowalarmA0S);
+  String alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+  sCmd.readStr(alarmSet);
+  //alarmLoad(stateA0S, highalarmA0S, lowalarmA0S);
   ts.add(3, t, [&](void*) {
     uint32_t a = 0;
     for (uint8_t i = 1; i <= 10; i++) {
@@ -103,8 +105,32 @@ void initDHT() {
     modulesReg(humidityS);
   }
 }
+
+// -----------------------Данных уровней активных модулей --------------------------------------------
+void alarmLoadModules(){
+  String  modulesN = selectToMarker(modules, "]");
+  modulesN = deleteBeforeDelimiter(modulesN, "[");
+  modulesN +=",";
+  modulesN.replace("\"", "");
+  Serial.println(modulesN);
+  //"upgrade","relay1","ntp","ddns","mqtt","analog"
+  do{
+  String m = selectToMarker(modulesN, ",");
+  Serial.println(m);
+  String alarmSet="ALARM ";
+  if (m=="analog")  alarmSet +=stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+  if (m==temperatureS)  alarmSet +=temperatureS+" "+highalarmtempS+" "+lowalarmtempS;
+  if (m==humidityS)  alarmSet +=humidityS+" "+highalarmhumS+" "+lowalarmhumS;
+  if (m=="pow")  alarmSet +=ActivePowerWS+" "+highalarmpowS+" "+lowalarmpowS;
+
+  modulesN = deleteBeforeDelimiter(modulesN, ",");
+  } while (modulesN !="");
+  }
+
 // ----------------------- Загрузка данных уровней сработки ------------------------------------------
 void alarmLoad(String sName, String high, String low) {
+  sendOptionsF(high, 0);
+  sendOptionsF(low, 0);
   String configSensor = readFile(ScenaryS, 4096);
   configSensor.replace("\r\n", "\n");
   configSensor.replace("\n\n", "\n");

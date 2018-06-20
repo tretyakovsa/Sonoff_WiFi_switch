@@ -53,7 +53,6 @@ boolean pins[18];
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";
 String configJson = "{}";            // Здесь все статусы /config.live.json
-String testJson = "{}";
 String configOptions = "{}";         // Здесь данные для всех страниц /config.options.json
 String configSetup = "{}";           // Здесь данные для setup /config.setup.json
 String ssdpList = "{}";              // SSDP имя ip всех модулей в сети /ssdp.list.json

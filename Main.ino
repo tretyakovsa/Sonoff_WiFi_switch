@@ -47,7 +47,6 @@ void setupToInit(){
   sendOptions(ipS, WiFi.localIP().toString());
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions("voice", "");
-   testJson = configJson;
   }
 
 // --------------------Выделяем строку до маркера --------------------------------------------------

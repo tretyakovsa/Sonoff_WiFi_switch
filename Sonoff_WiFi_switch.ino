@@ -34,8 +34,8 @@ Ticker motion;
 
 
 void setup() {
-  //Serial.begin(115200);
-  //Serial.println();
+  Serial.begin(115200);
+  Serial.println();
   start_init();
   //  Serial.println(configSetup);
 
