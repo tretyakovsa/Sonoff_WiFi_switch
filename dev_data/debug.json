@@ -121,6 +121,12 @@
    "style":"text-align:left"
   },
   {
+   "type":"link",
+   "action":"/donate.htm",
+   "title":"{{LangPay}}",
+   "style":"text-align:left"
+  },
+  {
    "type":"hr"
   },
   {

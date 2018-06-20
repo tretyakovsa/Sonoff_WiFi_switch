@@ -46,3 +46,5 @@ RGB 5 15 1 ff0000 100 255 3
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 14
+// Магнитная кроватка
+# CRUB 12
