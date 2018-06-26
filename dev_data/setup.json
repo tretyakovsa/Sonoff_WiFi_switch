@@ -100,7 +100,7 @@
    "action":"wifi?connect=[[wifi-connect]]&blink=[[wifi-blink]]",
    "style":"width:35%;display:inline;height:auto;font-weight:normal;",
    "class":"btn btn-sm",
-   "title": {"":"Blink {{LangOff}}","12":"Blink GPIO 12","13":"Blink GPIO 13","14":"Blink GPIO 14","15":"Blink GPIO 15","16":"Blink GPIO 16"}
+   "title": {"17":"Blink {{LangOff}}","12":"Blink GPIO 12","13":"Blink GPIO 13","14":"Blink GPIO 14","15":"Blink GPIO 15","16":"Blink GPIO 16"}
   },
 
   {

@@ -29,6 +29,8 @@ TACH 0 0 20
 # TACH 0 5 20
 # TACH 0 6 20
 # TACH 0 7 20
+// {{LangConfMovement}}
+# TACH 2 1 20 1
 // {{LangConfBUZZER}}
 # BUZZER 16 0
 // {{LangConfRGB}}
