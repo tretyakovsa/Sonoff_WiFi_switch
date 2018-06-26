@@ -35,9 +35,10 @@ void initNTP() {
     sendOptions(timeS, timeNow);
     if (timeNow == minTime) {
       sCmd.readStr(comTime);
-      //Serial.println(comTime);
+
+      delTimer();
       loadTimer();
-      //Serial.println(comTime);
+
     }
 
   }, nullptr, true);

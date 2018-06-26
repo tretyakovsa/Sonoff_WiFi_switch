@@ -11,9 +11,12 @@ void initCMD() {
   sCmd.addCommand("DS18B20",       initOneWire);
   sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
-  #ifdef POW
- sCmd.addCommand("POW",       initHLW8012);
-  #endif
+#ifdef POW
+  sCmd.addCommand("POW",       initHLW8012);
+#endif
+#ifdef CRIB
+  sCmd.addCommand("CRIB",       initCrib);
+#endif
   sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);
   sCmd.addCommand("RGB",       initRGB);
@@ -40,7 +43,7 @@ void alarmGet() {
   String high = readArgsString();
   String low = readArgsString();
   alarmLoad(volume, high, low);
-  }
+}
 
 
 void initGet() {

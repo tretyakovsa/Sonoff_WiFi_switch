@@ -112,11 +112,11 @@ void alarmLoadModules(){
   modulesN = deleteBeforeDelimiter(modulesN, "[");
   modulesN +=",";
   modulesN.replace("\"", "");
-  Serial.println(modulesN);
+  //Serial.println(modulesN);
   //"upgrade","relay1","ntp","ddns","mqtt","analog"
   do{
   String m = selectToMarker(modulesN, ",");
-  Serial.println(m);
+  //Serial.println(m);
   String alarmSet="ALARM ";
   if (m=="analog")  alarmSet +=stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
   if (m==temperatureS)  alarmSet +=temperatureS+" "+highalarmtempS+" "+lowalarmtempS;
@@ -274,18 +274,6 @@ void initTach() {
   but[num.toInt()] = true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
   sendOptions("invTach" + num, inv);
-  String m = readArgsString(); // подключаем движение
-  if (m == "m") {
-    sendOptions(movementTimeS, readArgsInt()); // время тригера
-    sendStatus(stateMovementS, 0);
-    modulesReg("movement");
-    HTTP.on("/movement.json", HTTP_GET, []() {
-      String data = graf(getStatusInt(stateMovementS), 10, 1000, "low:0");
-      httpOkJson(data);
-    });
-    sCmd.addCommand("motion",     motionOn); //
-    commandsReg("motion");
-  }
 }
 void handleButtons() {
   static uint8_t num = 0;
@@ -304,21 +292,6 @@ void handleButtons() {
   num++;
   if (num == 8) num = 0;
 }
-// -----------------  Движение
-void motionOn() {
-  uint16_t t = getOptionsInt(movementTimeS);
-  motion.attach(t, motionOff);
-  if (!getStatusInt(stateMovementS)) {
-    flag = sendStatus(stateMovementS, 1);
-  }
-}
-void motionOff() {
-  motion.detach();
-  if (getStatusInt(stateMovementS)) {
-    flag = sendStatus(stateMovementS, 0);
-  }
-}
-
 
 #ifdef POW
 // Импульс 1 Гц на выводе CF1 означает 15 мА или 0,5 В RMS в зависимости от значения в выводе SEL

@@ -28,9 +28,11 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
+#ifdef CRIB
+#include <Ticker.h>
+#endif
 #ifdef POW
 #include "HLW8012.h"                 // https://github.com/xoseperez/hlw8012
-
 // These are the nominal values for the resistors in the circuit
 #define CURRENT_RESISTOR                0.001
 #define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
@@ -63,8 +65,10 @@ String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
 String statusS   = "{}";
+//String jsonTimer ="";
 String minTime;
 String comTime;
+String idTime;
 /*
   ------------------------------------------------------------------------------------------------
   Здесь будут храниться все текстовые константы для сокращения кода

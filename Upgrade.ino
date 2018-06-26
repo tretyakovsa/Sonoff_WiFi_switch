@@ -14,7 +14,7 @@ void webUpgrade() {
   if (spiffsData != emptyS) {
     spiffsData = spiffsData.substring(spiffsData.lastIndexOf("/") + 1); // выделяем имя файла
     ESPhttpUpdate.rebootOnUpdate(false);
-    Serial.println(spiffsData);
+    //Serial.println(spiffsData);
     t_httpUpdate_return ret = ESPhttpUpdate.updateSpiffs(HTTP.arg(spiffsS));
 switch(ret) {
             case HTTP_UPDATE_FAILED:

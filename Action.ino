@@ -7,6 +7,7 @@ void initRelay() {
   sendStatus(stateRelayS + num, state);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
+  // 19 pin это реле через UART
   if (pin > 19 ) {
   Serial.begin(9600);
   delay(100);
@@ -23,8 +24,9 @@ void initRelay() {
 
 // http://192.168.0.91/cmd?command=relay off 1
 void relay() {
-  String com = readArgsString();
-  String num = readArgsString();
+  String com = readArgsString(); // действие
+  String num = readArgsString(); // номер реле
+  uint32_t times = readArgsInt(); // время
   String kayPin = relayPinS + num;
   String kay = stateRelayS + num;
   uint8_t state = getStatusInt(kay);
@@ -50,6 +52,7 @@ void relay() {
       digitalWrite(pin, !state ^ getOptionsInt(relayNotS + num));
     flag = sendStatus(kay, !state);
   }
+  if (times!=0) impulsTime(times-1, "relay not "+num);
   statusS = relayStatus(configJson, kay);
 }
 
@@ -123,14 +126,12 @@ void rfTransmitter() {
   byte pin = readArgsInt();
   if (pin == 1 || pin == 3)  Serial.end();
   mySwitch.enableTransmit(pin);
-  //Serial.println(pin);
   sCmd.addCommand("rfsend", handleRfTransmit);
   commandsReg("rfsend");
   modulesReg("rfTransmitter");
 }
 
 void handleRfTransmit() {
-  //Serial.println("rf");
   int cod = readArgsInt();
   int len = readArgsInt();
   if (len == 0) len = 24;
@@ -170,3 +171,45 @@ void buzzerTone() {
   tone(pin, freq, duration);
 }
 
+
+#ifdef CRIB
+// ------------------- Инициализация кроватка
+void initCrib() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  uint8_t pin1 = readArgsInt(); // первый аргумент pin
+  pinMode(pin, OUTPUT);
+  pinMode(pin1, OUTPUT);
+  sendOptions("cribPin", pin);
+  sendOptions("cribPin1", pin1);
+  sCmd.addCommand("crib", startCrib);
+  commandsReg("crib");
+  modulesReg("crib");
+}
+
+void startCrib() {
+  int freq = readArgsInt();
+  int duration = readArgsInt();
+  flipper.attach_ms(freq, flip, duration);
+}
+
+
+void flip(int duration)
+{
+  static int count = 0;
+  uint8_t pin = getOptionsInt("cribPin");
+  uint8_t pin1 = getOptionsInt("cribPin1");
+  boolean state = digitalRead(pin);  // get the current state of GPIO1 pin
+
+  digitalWrite(pin, !state);     // set pin to the opposite state
+  digitalWrite(pin1, state);     // set pin to the opposite state
+
+  ++count;
+  // when the counter reaches a certain value, start blinking like crazy
+  if (count == duration)
+  {
+       flipper.detach();
+       count = 0;
+  }
+
+}
+#endif

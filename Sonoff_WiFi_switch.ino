@@ -1,4 +1,5 @@
 #define POW
+#define CRIB
 #include "sets.h"             //Содержится в пакете
 
 
@@ -20,7 +21,9 @@ decode_results results;
 IRsend *irSender;
 LivoloTx *gLivolo;
 WS2812FX ws2812fx = WS2812FX();
-
+#ifdef CRIB
+Ticker flipper;
+#endif
 #ifdef POW
 HLW8012 hlw8012;
 #endif
@@ -30,14 +33,10 @@ DallasTemperature sensors;
 DHT dht;
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
-Ticker motion;
-
-
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
+  //Serial.begin(115200);
+  //Serial.println();
   start_init();
-  //  Serial.println(configSetup);
 
 }
 

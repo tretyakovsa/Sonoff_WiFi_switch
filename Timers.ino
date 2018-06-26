@@ -1,6 +1,23 @@
 void initTimers() {
   loadTimer();
 }
+void delTimer() {
+  String jsonTimer = readFile(configTimerS, 4096);
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& Timers = jsonBuffer.parseObject(jsonTimer);
+  JsonArray& nestedArray = Timers["timer"].asArray();
+  uint8_t y=255;
+  for (int i = 0; i <= nestedArray.size() - 1; i++) {
+    if (Timers["timer"][i]["id"] == idTime) y = i;
+  }
+  if (y!=255){
+  nestedArray.removeAt(y);
+  jsonTimer = "";
+  Timers.printTo(jsonTimer);
+  writeFile(configTimerS, jsonTimer);
+  //Serial.println(jsonTimer);
+  }
+}
 
 void loadTimer() {
   long lminTime = 86400;
@@ -30,6 +47,8 @@ void loadTimer() {
       String week = Timers["timer"][i]["day"].as<String>(); // признак принодлежности к дню недели
       int ind = week.substring(iDay, iDay + 1).toInt(); // Выделяем нужный день недели
       if (ind) { // Если день недели совпадает
+        String idTimes = Timers["timer"][i]["id"].as<String>();
+        if (idTimes.indexOf(":")==-1) idTimes="";
         String nextTime1 = Timers["timer"][i]["time1"].as<String>();
         String nextTime2 = Timers["timer"][i]["time2"].as<String>();
         String nextcom1 = Timers["timer"][i]["com1"].as<String>();
@@ -39,6 +58,7 @@ void loadTimer() {
             lminTime = timeToLong(nextTime1);
             minTime = nextTime1;
             comTime = nextcom1;
+            idTime=idTimes;
           }
         }
         if (nextTime2 != "") {
@@ -47,6 +67,7 @@ void loadTimer() {
               lminTime = timeToLong(nextTime2);
               minTime = nextTime2;
               comTime = nextcom2;
+              idTime=idTimes;
             }
           }
         }
@@ -56,6 +77,24 @@ void loadTimer() {
     }
   }
   //Serial.println(minTime);
+}
+
+//{"id":0.7098387536989175,"day":"1111111","time1":"00:21:00","com1":"relay on 1"}
+void impulsTime(long Time, String command) {
+  String jsonTimer = readFile(configTimerS, 4096);
+  String timeRecord = "{}";
+  String t = GetTime();
+  jsonWrite(timeRecord, "id", t);
+  jsonWrite(timeRecord, "day", "1111111");
+  jsonWrite(timeRecord, "time1", timeToString(timeToLong(t) + Time));
+  jsonWrite(timeRecord, "com1", command);
+  jsonWrite(timeRecord, "t", 1);
+  jsonTimer = selectToMarker(jsonTimer, "]");
+  if (selectToMarkerLast(jsonTimer, ":") != "[") jsonTimer += ",";
+  jsonTimer += timeRecord;
+  jsonTimer += "]}";
+  writeFile(configTimerS, jsonTimer);
+  loadTimer();
 }
 
 long  timeToLong(String Time) {
@@ -70,12 +109,17 @@ long  timeToLong(String Time) {
 
 String timeToString(long Time) {
   String str = "";
-  str += String((Time / 3600)); // здесь часы
+  uint8_t temp = (Time / 3600);
+  if (temp < 10) str += "0";
+  str += temp; // здесь часы
   str += ":";
-  Time = (Time - (Time / 3600) * 3600); // отбросим часы
-  str += String((Time / 60)); // здесь минуты
+  Time = (Time - temp * 3600); // отбросим часы
+  temp = (Time / 60);
+  if (temp < 10) str += "0";
+  str += temp; // здесь минуты
   str += ":";
-  Time = (Time - (Time / 60) * 60); // отбросим минуты здесь секунды
-  str += String((Time - (Time / 60) * 60));
+  Time = (Time - temp * 60); // отбросим минуты здесь секунды
+  if (Time < 10) str += "0";
+  str += Time;
   return str;
 }

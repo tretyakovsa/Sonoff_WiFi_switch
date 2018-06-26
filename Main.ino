@@ -185,14 +185,14 @@ void commandsReg(String comName) {
 // Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
 String readArgsString() {
   String arg;
-  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  arg = sCmd.next();
   if (arg == "") arg = "";
   return arg;
 }
 // Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
 int readArgsInt() {
   char *arg;
-  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  arg = sCmd.next();
   if (arg != NULL) {
     return atoi(arg);
   }
