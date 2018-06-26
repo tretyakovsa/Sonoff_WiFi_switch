@@ -15,6 +15,14 @@
    "title":"{{Langrelaynot}} под номером 1"
   },
   {
+   "command":"on 1 60",
+   "title":"{{Langrelayon}} под номером 1 на 60 секунд"
+  },
+  {
+   "command":"off 1 60",
+   "title":"{{Langrelayoff}} под номером 1 на 60 секунд"
+  },
+  {
    "command":"",
    "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=relat on 1</i>"
   }
@@ -43,20 +51,24 @@
    "title":"{{Langrgbon}}"
   },
   {
-   "command":"on ff0000",
-   "title":"{{Langrgbon}}, цвет"
-  },
-  {
-   "command":"on ff0000 100 255 9",
-   "title":"{{Langrgbon}}, цвет, скорость, яркость, динамический режим"
-  },
-  {
    "command":"off",
-   "title":"{{Langrgboff}}"
+   "title":"{{Langrgbon}}"
+  },
+  {
+   "command":"on 60",
+   "title":"{{Langrelayon}} на 60 секунд"
+  },
+  {
+   "command":"off 60",
+   "title":"{{Langrgboff}} на 60 секунд"
   },
   {
    "command":"not",
    "title":"{{Langrgbnot}}"
+  },
+  {
+   "command":"set ff0000 100 255 9",
+   "title":"{{Langrgbon}}, цвет, скорость, яркость, динамический режим"
   },
   {
    "command":"",

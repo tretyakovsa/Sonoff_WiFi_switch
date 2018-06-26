@@ -37,7 +37,7 @@
    "module":"rgb",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "style":"cursor:pointer;width:100%"
   },
 
@@ -47,7 +47,7 @@
    "name":"colorR",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -56,7 +56,7 @@
    "name":"colorG",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -65,7 +65,7 @@
    "name":"colorB",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -83,7 +83,7 @@
    "name":"time",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgbs on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs on [[time]]",
    "title":{
     "60":"1",
     "300":"5",
@@ -104,7 +104,7 @@
    "module":"rgb",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -114,7 +114,7 @@
    "module":"rgb",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs on [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
