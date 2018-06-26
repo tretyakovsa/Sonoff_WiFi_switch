@@ -11,7 +11,6 @@
 void initRGB() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand("rgb",    rgb);
-
   commandsReg(rgbS);
 
   byte pin = readArgsInt();
@@ -54,36 +53,21 @@ void rgb() {
   String brightness = readArgsString(); //яркость
   String mode = readArgsString(); //режим
   uint8_t temp;
-  if (color != "") {
-    sendStatus(colorRGBS,  color);
-    setColorString(colorRGBS);
-  }
-  if (speed != "") {
-    temp = speed.toInt();
-    sendStatus(speedRGBS,  temp);
-    ws2812fx.setSpeed(temp);
-  }
-  if (brightness != "") {
-    temp = brightness.toInt();
-    sendStatus(brightnessRGBS,  temp);
-    ws2812fx.setBrightness(temp);
-  }
-  if (mode != "") {
-    temp = mode.toInt();
-    sendStatus(modeRGBS,  temp);
-    ws2812fx.setMode(temp);
-  }
   //String kay = stateRGBS;
   uint8_t state = getStatusInt(stateRGBS);
+  uint32_t times = color.toInt();
   if (com == "on") {
+    if (times != 0) impulsTime(times - 1, "rgb not");
     ws2812fx.start();
     flag = sendStatus(stateRGBS, 1);
   }
   if (com == "off") {
+    if (times != 0) impulsTime(times - 1, "rgb not");
     ws2812fx.stop();
     flag = sendStatus(stateRGBS, 0);
   }
   if (com == "not") {
+    if (times != 0) impulsTime(times - 1, "rgb not");
     flag = sendStatus(stateRGBS, !state);
     if (state) {
       ws2812fx.stop();
@@ -93,6 +77,32 @@ void rgb() {
       ws2812fx.start();
     }
   }
+
+  if (com == "set") {
+    if (color != "") {
+      sendStatus(colorRGBS,  color);
+      setColorString(colorRGBS);
+    }
+    if (speed != "") {
+      temp = speed.toInt();
+      sendStatus(speedRGBS,  temp);
+      ws2812fx.setSpeed(temp);
+    }
+    if (brightness != "") {
+      temp = brightness.toInt();
+      sendStatus(brightnessRGBS,  temp);
+      ws2812fx.setBrightness(temp);
+    }
+    if (mode != "") {
+      temp = mode.toInt();
+      sendStatus(modeRGBS,  temp);
+      ws2812fx.setMode(temp);
+    }
+
+    ws2812fx.start();
+    flag = sendStatus(stateRGBS, 1);
+  }
+
   statusS = relayStatus(configJson, stateRGBS);
 }
 
@@ -143,42 +153,51 @@ void rgbShim() {
   String brightness = readArgsString(); //яркость
   String mode = readArgsString(); //режим
   uint8_t temp;
-  if (color != "") {
-    sendStatus(colorSRGBS,  color);
-    setColorSString(color);
-  }
-  if (speed != "") {
-    temp = speed.toInt();
-    sendStatus(speedSRGBS,  temp);
-    //
-  }
-  if (brightness != "") {
-    temp = brightness.toInt();
-    sendStatus(brightnessSRGBS,  temp);
-    //
-  }
-  if (mode != "") {
-    temp = mode.toInt();
-    sendStatus(modeSRGBS,  temp);
-    //
-  }
-   uint8_t state = getStatusInt(stateSRGBS);
+  uint32_t times = color.toInt();
+  uint8_t state = getStatusInt(stateSRGBS);
   if (com == "on") {
+    if (times != 0) impulsTime(times - 1, "rgbs not");
     setColorSString(getStatus(colorSRGBS));
     flag = sendStatus(stateSRGBS, 1);
   }
   if (com == "off") {
+    if (times != 0) impulsTime(times - 1, "rgbs not");
     setColorSString("000000");
     flag = sendStatus(stateSRGBS, 0);
   }
   if (com == "not") {
+    if (times != 0) impulsTime(times - 1, "rgbs not");
     flag = sendStatus(stateSRGBS, !state);
     if (state) {
       setColorSString("000000");
     }
     else {
-     setColorSString(getStatus(colorSRGBS));
+      setColorSString(getStatus(colorSRGBS));
     }
+  }
+
+  if (com == "set") {
+    if (color != "") {
+      sendStatus(colorSRGBS,  color);
+      setColorSString(color);
+    }
+    if (speed != "") {
+      temp = speed.toInt();
+      sendStatus(speedSRGBS,  temp);
+      //
+    }
+    if (brightness != "") {
+      temp = brightness.toInt();
+      sendStatus(brightnessSRGBS,  temp);
+      //
+    }
+    if (mode != "") {
+      temp = mode.toInt();
+      sendStatus(modeSRGBS,  temp);
+      //
+    }
+    setColorSString(getStatus(colorSRGBS));
+    flag = sendStatus(stateSRGBS, 1);
   }
   statusS = relayStatus(configJson, stateSRGBS);
 }
@@ -251,7 +270,7 @@ void jalousie() {
       setMotor(HIGH, LOW);
     }
     else {
-       flag = sendStatus(stateJalousieS, 1);
+      flag = sendStatus(stateJalousieS, 1);
       setMotor(LOW, HIGH);
     }
   }
