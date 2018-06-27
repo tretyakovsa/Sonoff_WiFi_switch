@@ -1,20 +1,35 @@
-void initWIFI() {
-startWIFI();
-HTTP.on("/wifi.scan.json", HTTP_GET, []() {
-    uint8_t n = WiFi.scanNetworks();
+String scanWIFI(){
+   uint8_t n = WiFi.scanNetworks();
     DynamicJsonBuffer jsonBuffer;
     JsonObject& json = jsonBuffer.createObject();
     JsonArray& networks = json.createNestedArray("networks");
     for (uint8_t i = 0; i < n; i++) {
       JsonObject& data = networks.createNestedObject();
-      data["ssid"] = WiFi.SSID(i);
+      String ssidMy = WiFi.SSID(i);
+      data["ssid"] = ssidMy;
       data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
-      data["dbm"] = WiFi.RSSI(i);
+      uint8_t dbm = WiFi.RSSI(i);
+      data["dbm"] = dbm;
+      if (ssidMy == getSetup(ssidS)) {
+      sendStatus("dbm",dbm);
+      }
     }
     String root;
     json.printTo(root);
-    httpOkJson(root);
+    return root;
+  }
+
+void initWIFI() {
+  startWIFI();
+  HTTP.on("/wifi.scan.json", HTTP_GET, []() {
+    httpOkJson(scanWIFI());
   });
+   // задача проверять уровень сети каждые две минуты.
+  ts.add(9, 300000, [&](void*) {
+        scanWIFI();
+        //Serial.println(ssdpList);
+        //Serial.println("requestSSDP "+GetTime());
+  }, nullptr, true);
   HTTP.on("/ssid", HTTP_GET, []() {
     sendSetupArg(ssidS);
     sendSetupArg(ssidPassS);
@@ -26,7 +41,7 @@ HTTP.on("/wifi.scan.json", HTTP_GET, []() {
     httpOkText();
     saveConfigSetup();
   });
-   HTTP.on("/wifi", HTTP_GET, []() {
+  HTTP.on("/wifi", HTTP_GET, []() {
     sendSetup(wifiConnectS, HTTP.arg("connect"));
     sendSetup(wifiBlinkS, HTTP.arg("blink"));
     httpOkText();
@@ -46,7 +61,7 @@ HTTP.on("/wifi.scan.json", HTTP_GET, []() {
       httpOkText("No Reset"); // Oтправляем ответ No Reset
     }
   });
-   HTTP.on("/restartWiFi", HTTP_POST, []() {
+  HTTP.on("/restartWiFi", HTTP_POST, []() {
     WiFi.mode(WIFI_AP_STA);
     // Не отключаясь от точки доступа подключаемся к роутеру для получения будущего IP
     String ssid = getSetup(ssidS);
@@ -62,9 +77,9 @@ HTTP.on("/wifi.scan.json", HTTP_GET, []() {
   });
 }
 
-void sendSetupArg(String argS){
+void sendSetupArg(String argS) {
   sendSetup(argS, HTTP.arg(argS));
-  }
+}
 // ----------------- Запускаем WiFi
 void startWIFI() {
   if (startSTA()) {
@@ -110,9 +125,9 @@ boolean startSTA() {
   if ( wifiConnect()) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);
-    sendSetup(ipS,WiFi.localIP().toString());
-    sendSetup(getwayS,WiFi.gatewayIP().toString());
-    sendSetup(subnetS,WiFi.subnetMask().toString());
+    sendSetup(ipS, WiFi.localIP().toString());
+    sendSetup(getwayS, WiFi.gatewayIP().toString());
+    sendSetup(subnetS, WiFi.subnetMask().toString());
     statistics();
     return true;
   }
@@ -121,19 +136,19 @@ boolean startSTA() {
 boolean wifiConnect() {
   uint8_t tries = getSetupInt(wifiConnectS);
   if (tries == 0) tries = 11;
-    uint8_t pin = pinTest(getSetupInt(wifiBlinkS));
-    if (pin != 17)   pinMode(pin, OUTPUT);
-    while (--tries && WiFi.status() != WL_CONNECTED)
-      {
-        //Мигаем сетодиодом при попытке подключится к роутеру
-        if (pin != 0)   digitalWrite(pin, HIGH);
-        delay(500);
-        if (pin != 0)  digitalWrite(pin, LOW);
-        delay(500);
-      }
-  if (WiFi.status() == WL_CONNECTED)return true;
-    return false;
+  uint8_t pin = pinTest(getSetupInt(wifiBlinkS));
+  if (pin != 17)   pinMode(pin, OUTPUT);
+  while (--tries && WiFi.status() != WL_CONNECTED)
+  {
+    //Мигаем сетодиодом при попытке подключится к роутеру
+    if (pin != 0)   digitalWrite(pin, HIGH);
+    delay(500);
+    if (pin != 0)  digitalWrite(pin, LOW);
+    delay(500);
   }
+  if (WiFi.status() == WL_CONNECTED)return true;
+  return false;
+}
 
 //-------------Включение режима AP конфигурация в строке configSetup
 boolean startAP() {

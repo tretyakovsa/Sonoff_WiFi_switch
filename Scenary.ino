@@ -73,6 +73,7 @@ void thenCommand() {
     comm += " " + readArgsString();
     comm += " " + readArgsString();
     comm += " " + readArgsString();
+
     // Если это локальное устройство
     if (ssdp == test or test == "this") {
 //      Serial.println("comm= ");
@@ -81,6 +82,8 @@ void thenCommand() {
       sCmd.readStr(comm);
     }
     else {
+//       Serial.println("comm= ");
+//      Serial.println(comm);
       //http://192.168.0.91/cmd?command=relay on 1
       String urls = "http://";
       String ip = jsonRead(ssdpList, test);

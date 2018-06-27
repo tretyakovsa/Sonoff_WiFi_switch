@@ -1,6 +1,7 @@
 // ------------------- Инициализация Реле
 void initRelay() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
   boolean state = readArgsInt(); // второй аргумент состояние на старте
   String num = readArgsString(); // третьий аргумент прификс реле 0 1 2
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
@@ -106,7 +107,7 @@ XdrvSetPower(rpower);
 void irTransmitter() {
   String moduleName = "irTransmitter";
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
   irSender->begin();
   sCmd.addCommand("irsend", handleIrTransmit);
@@ -124,7 +125,7 @@ void handleIrTransmit() {
 // ----------------------Передатчик на 433мГ
 void rfTransmitter() {
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   mySwitch.enableTransmit(pin);
   sCmd.addCommand("rfsend", handleRfTransmit);
   commandsReg("rfsend");
@@ -141,7 +142,7 @@ void handleRfTransmit() {
 // ----------------------Передатчик Livolvo на 433мГ
 void rfLivolo() {
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   gLivolo = new LivoloTx(pin);
   sCmd.addCommand("lvsend", handleRfLivolo);
   commandsReg("lvsend");
@@ -158,6 +159,7 @@ void handleRfLivolo() {
 // ------------------- Инициализация Buzera
 void initBuzzer() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
   sendOptions(buzzerPinS, pin);
   sCmd.addCommand("tone", buzzerTone);
   commandsReg("tone");
@@ -176,7 +178,9 @@ void buzzerTone() {
 // ------------------- Инициализация кроватка
 void initCrib() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
   uint8_t pin1 = readArgsInt(); // первый аргумент pin
+  pin1 =  pinTest(pin1);
   pinMode(pin, OUTPUT);
   pinMode(pin1, OUTPUT);
   sendOptions("cribPin", pin);

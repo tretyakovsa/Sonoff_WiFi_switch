@@ -1,6 +1,6 @@
 void start_init() {
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
-//  Serial.println(chipID);
+  //  Serial.println(chipID);
   TickerScheduler(1);
   SPIFFS.begin();
   HTTP.begin();
@@ -15,9 +15,10 @@ void start_init() {
   setupToInit();
   //initNTP();
   //initWebSocket();
+  //testPin();
 }
 // --------------------- Загрузка переменных -------------------------------------------------------
-void setupToInit(){
+void setupToInit() {
   sendStatus(timeS, "00:00:00");
   setupToOptions(langS);
   setupToOptions(ssdpS);
@@ -32,22 +33,22 @@ void setupToInit(){
   sendOptions("flashChip", String(ESP.getFlashChipId(), HEX));
   sendOptions("ideFlashSize", ESP.getFlashChipSize());
   sendOptions("realFlashSize", ESP.getFlashChipRealSize());
-  sendOptions("flashChipSpeed", ESP.getFlashChipSpeed()/1000000);
+  sendOptions("flashChipSpeed", ESP.getFlashChipSpeed() / 1000000);
   sendOptions("cpuFreqMHz", ESP.getCpuFreqMHz());
   FlashMode_t ideMode = ESP.getFlashChipMode();
-  sendOptions("flashChipMode",(ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
+  sendOptions("flashChipMode", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
   String configs = getSetup(configsS);
   configs.toLowerCase();
-  String test = readFile("configs/"+configs+".txt", 4096);
+  String test = readFile("configs/" + configs + ".txt", 4096);
   test.replace("\r\n", "\n");
-  test +="\n";
+  test += "\n";
   goCommands(test);
   test = "";
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions(ipS, WiFi.localIP().toString());
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions("voice", "");
-  }
+}
 
 // --------------------Выделяем строку до маркера --------------------------------------------------
 String selectToMarker (String str, String found) {
@@ -144,21 +145,63 @@ void saveConfigSetup () {
 }
 
 // ------------- Проверка занятости пина --------------------------
+/*
+   Алгоритм
+   Провнряем свободен ли пин если нет вернем 17
+   Если свободен то займем pins[pin] = true;
+
+*/
 uint8_t pinTest(uint8_t pin) {
-  if (pins[pin]) pin = 17 ;
-  pins[pin] = true;
-  if (((pin > 5 && pin < 12) || pin > 16)) pin = 17 ;
-  if (pin == 1 || pin == 3)  Serial.end();
+    //Serial.print(pin);
+    //Serial.print("=");
+    if (pin > 20) {
+    pin = 17;
+  } else {
+    if (pins[pin]) {
+      pin = 17 ;
+    }
+    else {
+      pins[pin] = true;
+      if (getOptions("flashChipMode") != "DOUT") {
+        if (pin > 5 && pin < 12) pin = 17 ;
+            if (pin == 1 || pin == 3)  Serial.end();
+        } else {
+      if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
+      }
+    }
+  }
+  //Serial.println(pin);
   return pin;
 }
 uint8_t pinTest(uint8_t pin, boolean multi) {
-  pins[pin] = !multi;
-  if (pins[pin]) pin = 17 ;
-  pins[pin] = true;
-  if (((pin > 5 && pin < 12) || pin > 16)) pin = 17 ;
-  if (pin == 1 || pin == 3)  Serial.end();
+  if (pin > 20) {
+    pin = 17;
+  } else {
+    pins[pin] = !multi;
+    if (pins[pin]) {
+      pin = 17 ;
+    }
+    else {
+      pins[pin] = true;
+      if (getOptions("flashChipMode") != "DOUT") {
+        if (pin > 5 && pin < 12) pin = 17 ;
+            if (pin == 1 || pin == 3)  Serial.end();
+        } else {
+      if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
+      }
+    }
+  }
   return pin;
 }
+
+void testPin(){
+  for (int i =0; i<=20; i++){
+    Serial.print("pins");
+    Serial.print(i);
+    Serial.print("=");
+    Serial.println(pins[i]);
+    }
+  }
 
 // -------------- Регистрация модуля
 void modulesReg(String modName) {
@@ -173,13 +216,13 @@ void modulesReg(String modName) {
 }
 // -------------- Регистрация команд
 void commandsReg(String comName) {
-  if (regCommands.indexOf(comName)==-1){
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& json = jsonBuffer.parseObject(regCommands);
-  JsonArray& data = json["command"].asArray();
-  data.add(comName);
-  regCommands = "";
-  json.printTo(regCommands);
+  if (regCommands.indexOf(comName) == -1) {
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& json = jsonBuffer.parseObject(regCommands);
+    JsonArray& data = json["command"].asArray();
+    data.add(comName);
+    regCommands = "";
+    json.printTo(regCommands);
   }
 }
 // Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String

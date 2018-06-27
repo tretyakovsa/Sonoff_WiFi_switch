@@ -14,7 +14,7 @@ void initRGB() {
   commandsReg(rgbS);
 
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   ws2812fx.setPin(pin);
   ws2812fx.updateLength(readArgsInt());
   int state = readArgsInt(); //состояние
@@ -113,7 +113,7 @@ void initRGBSHIM() {
   commandsReg(rgbSS);
   for (uint8_t i = 0; i <= 2; i++) {
     byte pin = readArgsInt();
-    if (pin == 1 || pin == 3)  Serial.end();
+    pin =  pinTest(pin);
     sendOptions("rgbSPin" + String(i), pin);
     pinMode(pin, OUTPUT);
   }
@@ -209,10 +209,13 @@ void rgbShim() {
 void initJalousie() {
   // Сенсор будет работать по прерыванию
   int pinTurn = readArgsInt();
+  pinTurn =  pinTest(pinTurn);
   attachInterrupt(pinTurn, turn_0, FALLING );
   sendOptions(pinTurnS, pinTurn);
   int pinMotor1 = readArgsInt();
   int pinMotor2 = readArgsInt();
+  pinMotor1 =  pinTest(pinMotor1);
+  pinMotor2 =  pinTest(pinMotor2);
   sendOptions(pinMotorS + "1", pinMotor1);
   sendOptions(pinMotorS + "2", pinMotor2);
   pinMode(pinMotor1, OUTPUT);

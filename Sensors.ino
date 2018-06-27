@@ -28,6 +28,7 @@ void initA0() {
 // ----------------- OneWire -------------------------------------------------------------------------------
 void initOneWire() {
   uint8_t pin = readArgsInt();
+  pin =  pinTest(pin);
   static uint16_t t = readArgsInt();
   static uint8_t averageFactor = readArgsInt();
   if (t < 750) t = 1000;
@@ -69,6 +70,7 @@ void initOneWire() {
 // -----------------  DHT
 void initDHT() {
   uint8_t pin = readArgsInt();
+  pin =  pinTest(pin);
   dht.setup(pin);
   delay(1000);
   static uint16_t t = readArgsInt();
@@ -179,7 +181,7 @@ void alarmTest(String value, String high, String low, String sAlarm ) {
 // ----------------------Приемник ИK
 void irReceived() {
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   irReceiver = new IRrecv(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
   irReceiver->enableIRIn(); // Start the receiver
   // задача опрашивать RC код
@@ -233,7 +235,7 @@ void dump(decode_results *results) {
 // ----------------------Приемник на 433мГ
 void rfReceived() {
   byte pin = readArgsInt();
-  if (pin == 1 || pin == 3)  Serial.end();
+  pin =  pinTest(pin);
   mySwitch.enableReceive(pin);
   pinMode(pin, INPUT);
   // задача опрашивать RC код
@@ -266,6 +268,7 @@ void handleRfReceiv() {
 // -----------------  Кнопка
 void initTach() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
   uint16_t bDelay = readArgsInt(); // третий время нажатия
   sendStatus(stateTachS + num, 0);

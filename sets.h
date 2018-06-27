@@ -50,7 +50,7 @@ boolean secTest = true;
 boolean flag = false;
 boolean flagT = false;
 boolean thenOk;
-boolean pins[18];
+boolean pins[21];
 //String command = "";                 // В эту строку можно написать команду которая будет исполнена в основном цикле
 String Lang = "";                    // файлы языка web интерфейса
 String chipID = "";

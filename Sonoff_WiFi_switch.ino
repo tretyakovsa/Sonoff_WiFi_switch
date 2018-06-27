@@ -6,7 +6,7 @@
 DNSServer dnsServer;
 ESP8266WebServer HTTP(80);
 File fsUploadFile;
-TickerScheduler ts(10);
+TickerScheduler ts(15);
 WiFiUDP udp;
 StringCommand sCmd;                   // Обьект для работы с командами
 ESP8266HTTPUpdateServer httpUpdater;
