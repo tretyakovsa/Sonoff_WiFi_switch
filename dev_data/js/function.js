@@ -131,17 +131,17 @@ function setContent(stage) {
         document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0;"><i class="fav-img"></i> '+(jsonResponse.LangDonate?jsonResponse.LangDonate:'Donate')+'<\/a>';
         val('edit-json', jsonEdit);
         toggle('container_column','hide');
-        var connection = new WebSocket('ws://'+location.hostname+':81/', ['arduino']);
-        connection.onopen = function () {
-         connection.send('Connect ' + new Date());
-        };
-        connection.onerror = function (error) {
-         console.log('WebSocket Error ', error);
-        };
-        connection.onmessage = function (e) {
-         console.log('Server: ', e.data);
-         setContent();
-        };
+        //  var connection = new WebSocket('ws://'+location.hostname+':81/', ['arduino']);
+        //  connection.onopen = function () {
+        //   connection.send('Connect ' + new Date());
+        //  };
+        //  connection.onerror = function (error) {
+        //   console.log('WebSocket Error ', error);
+        //  };
+        //  connection.onmessage = function (e) {
+        //   console.log('Server: ', e.data);
+        //   setContent();
+        //  };
        } else {
         document.getElementById('content').innerHTML = '';
         jsonPage=JSON.parse(val('edit-json'));
@@ -159,7 +159,21 @@ function setContent(stage) {
       }
       if(fileNumber < jsonPage.configs.length) {
        jsonPage.configs[fileNumber] = renameBlock(jsonResponse, jsonPage.configs[fileNumber]);
-       foo();
+       if (jsonPage.configs[fileNumber].indexOf('ws://')  >= 0){
+        var connection = new WebSocket(jsonPage.configs[fileNumber], ['arduino']);
+        connection.onopen = function () {
+         connection.send('Connect ' + new Date());
+        };
+        connection.onerror = function (error) {
+         console.log('WebSocket Error ', error);
+        };
+        connection.onmessage = function (e) {
+         console.log('Server: ', e.data);
+         setContent();
+        }
+       } else {
+        foo();
+       }
       }
      },true);
     })()
