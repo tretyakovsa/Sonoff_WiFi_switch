@@ -44,7 +44,7 @@ void initSSDP() {
   HTTP.on("/ssdp.list.json", HTTP_GET, []() {
     httpOkJson(ssdpList);
   });
-  // задача проверять наличие устройств в сети каждые три минуты.
+  // Каждые 30 секунд проверяем не изиенился ли адрес ip
   ts.add(1, 180000, [&](void*) {
     ipChanges();
   }, nullptr, true);
@@ -59,6 +59,7 @@ void initSSDP() {
 // ------------- SSDP запрос
 void requestSSDP () {
   if (WiFi.status() == WL_CONNECTED) {
+    ssdpList="{}";
     jsonWrite(ssdpList, getSetup(ssdpS), WiFi.localIP().toString());
     IPAddress ssdpAdress(239, 255, 255, 250);
     unsigned int ssdpPort = 1900;

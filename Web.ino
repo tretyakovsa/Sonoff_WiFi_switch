@@ -49,15 +49,14 @@ void initHTTP() {
 
   // -------------------построение графика
   HTTP.on("/charts.json", HTTP_GET, []() {
-    String message = "{\"";
+    String message = "{";
     for (uint8_t i = 0; i < HTTP.args(); i++) {
       //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
-      message += HTTP.argName(i)+"\":[";
+      message += "\""+HTTP.argName(i)+"\":[";
       message += getStatus(HTTP.arg(i))+"],";
       //jsonWrite(message, HTTP.argName(i), getStatusFloat(HTTP.arg(i)));
     }
     message +="\"points\":\"10\",\"refresh\":\"1000\"}";
-    //String data = graf3(getStatusFloat(temperatureS), getOptionsFloat(highalarmtempS), getOptionsFloat(lowalarmtempS), 10, t, "low:0");
     httpOkText(message);
   });
 
