@@ -62,8 +62,8 @@ void relay() {
       String t = GetTime();
       pTime = timeToString(timeToLong(t) + (times-1));
     }
-    statusS = relayStatus(configJson, kay);
   }
+  statusS = relayStatus(configJson, kay);
 }
 
 // -------------- Для управления реле по UART
