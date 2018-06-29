@@ -30,17 +30,18 @@ void initNTP() {
       sendStatus(weekdayS, timeNow);
       loadTimer();
     }
-    //sendSetup(timeS,  timeNow);
     sendStatus(timeS, timeNow);
     sendOptions(timeS, timeNow);
     if (timeNow == minTime) {
       sCmd.readStr(comTime);
-
       delTimer();
       loadTimer();
-
     }
-
+    if (timeNow == pTime) {
+      sCmd.readStr(comTimeP);
+      comTimeP ="";
+      pTime ="";
+    }
   }, nullptr, true);
   modulesReg("ntp");
 }

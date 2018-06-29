@@ -10,16 +10,16 @@ void initHTTP() {
   HTTP.on("/config.options.json", HTTP_GET, []() {
     FSInfo fs_info;
     SPIFFS.info(fs_info);
-    sendOptions("totalBytes",fs_info.totalBytes);
-    sendOptions("usedBytes",fs_info.usedBytes);
-    sendOptions("blockSize",fs_info.blockSize);
-    sendOptions("pageSize",fs_info.pageSize);
-    sendOptions("maxOpenFiles",fs_info.maxOpenFiles);
-    sendOptions("maxPathLength",fs_info.maxPathLength);
+    sendOptions("totalBytes", fs_info.totalBytes);
+    sendOptions("usedBytes", fs_info.usedBytes);
+    sendOptions("blockSize", fs_info.blockSize);
+    sendOptions("pageSize", fs_info.pageSize);
+    sendOptions("maxOpenFiles", fs_info.maxOpenFiles);
+    sendOptions("maxPathLength", fs_info.maxPathLength);
     httpOkJson(configOptions);
   });
 
-    // --------------------Выдаем данные configJson
+  // --------------------Выдаем данные configJson
   HTTP.on("/config.live.json", HTTP_GET, []() {
     httpOkJson(configJson);
   });
@@ -47,6 +47,19 @@ void initHTTP() {
     httpOkText(reqvest);
   });
 
+  // -------------------построение графика
+  HTTP.on("/charts.json", HTTP_GET, []() {
+    String message = "{";
+    for (uint8_t i = 0; i < HTTP.args(); i++) {
+      //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
+      message += "\""+HTTP.argName(i)+"\":[";
+      message += getStatus(HTTP.arg(i))+"],";
+      //jsonWrite(message, HTTP.argName(i), getStatusFloat(HTTP.arg(i)));
+    }
+    message +="\"points\":\"10\",\"refresh\":\"1000\"}";
+    httpOkText(message);
+  });
+
   HTTP.on("/lang", HTTP_GET, []() {
     sendSetup(langS, HTTP.arg("set"));
     setupToOptions(langS);
@@ -54,7 +67,7 @@ void initHTTP() {
     saveConfigSetup();
     httpOkText();
   });
-   // ------------------Выполнение команды из запроса
+  // ------------------Выполнение команды из запроса
   HTTP.on("/cmd", HTTP_GET, []() {
     String com = HTTP.arg("command");
     //Serial.println(com);
@@ -64,7 +77,7 @@ void initHTTP() {
     //Serial.println(statusS);
   });
   // ------------------Выполнение голосовой команды
-    HTTP.on("/voice", HTTP_GET, []() {
+  HTTP.on("/voice", HTTP_GET, []() {
     String com = HTTP.arg("command");
     com.replace(" ", "_");
     sendOptions("voice", com);
@@ -87,12 +100,12 @@ void httpOkHtml(String text) {
 void httpOkJson(String text) {
   HTTP.send(200, "application/json", text);
 }
-void http500send(String text){
+void http500send(String text) {
   HTTP.send(500, "text/plain", text);
-  }
-  void http404send(){
+}
+void http404send() {
   HTTP.send(404, "text/plain", "FileNotFound");
-  }
+}
 // Инициализация FFS
 void initFS() {
   {
@@ -128,7 +141,7 @@ void initFS() {
       http404send();//HTTP.send(404, "text/plain", "FileNotFound");
   });
   HTTP.on("/skins", HTTP_GET, []() {
-    String set=HTTP.arg("set");
+    String set = HTTP.arg("set");
     //configJson = jsonWrite(configJson, "setIndex", set);
     jsonWrite(configSetup, "setIndex", set);
     saveConfigSetup();
@@ -256,14 +269,14 @@ String FileList(String path) {
 
 
 /*
-// webSocket
+  // webSocket
 
-void initWebSocket(){
- // start webSocket server
+  void initWebSocket(){
+  // start webSocket server
     webSocket.begin();
     webSocket.onEvent(webSocketEvent);
-}
-void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
+  }
+  void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
 
     switch(type) {
         case WStype_DISCONNECTED:
@@ -288,5 +301,5 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
             break;
     }
 
-}
+  }
 */

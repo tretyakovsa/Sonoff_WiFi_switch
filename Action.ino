@@ -10,9 +10,9 @@ void initRelay() {
   sendOptions(relayNotS + num, inv);
   // 19 pin это реле через UART
   if (pin > 19 ) {
-  Serial.begin(9600);
-  delay(100);
-  relayWrite(pin, state ^ inv);
+    Serial.begin(9600);
+    delay(100);
+    relayWrite(pin, state ^ inv);
   }
   else {
     pinMode(pin, OUTPUT);
@@ -28,10 +28,11 @@ void relay() {
   String com = readArgsString(); // действие
   String num = readArgsString(); // номер реле
   uint32_t times = readArgsInt(); // время
+  String del = readArgsString(); // это delay
   String kayPin = relayPinS + num;
   String kay = stateRelayS + num;
   uint8_t state = getStatusInt(kay);
- uint8_t pin = getOptionsInt(kayPin);
+  uint8_t pin = getOptionsInt(kayPin);
   if (com == "on") {
     if (pin  > 19) {
       relayWrite(pin, 1 ^ getOptionsInt(relayNotS + num));
@@ -53,7 +54,15 @@ void relay() {
       digitalWrite(pin, !state ^ getOptionsInt(relayNotS + num));
     flag = sendStatus(kay, !state);
   }
-  if (times!=0) impulsTime(times-1, "relay not "+num);
+  if (times != 0) {
+    if (del == "t") {
+      impulsTime(times - 1, "relay not " + num);
+    } else {
+      comTimeP = "relay not " + num;
+      String t = GetTime();
+      pTime = timeToString(timeToLong(t) + (times-1));
+    }
+  }
   statusS = relayStatus(configJson, kay);
 }
 
@@ -89,7 +98,7 @@ String relayStatus(String json, String state) {
 }
 
 /*
-XdrvSetPower(rpower);
+  XdrvSetPower(rpower);
 
   if ((SONOFF_DUAL == Settings.module) || (CH4 == Settings.module)) {
     Serial.write(0xA0);
@@ -211,8 +220,8 @@ void flip(int duration)
   // when the counter reaches a certain value, start blinking like crazy
   if (count == duration)
   {
-       flipper.detach();
-       count = 0;
+    flipper.detach();
+    count = 0;
   }
 
 }
