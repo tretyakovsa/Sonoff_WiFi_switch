@@ -21,8 +21,6 @@ TIMERS
 A0
 // {{LangConfTach}}
 TACH 0 0 20
-// {{LangConfMovement}}
-# TACH 2 1 20 1
 // {{LangConfBUZZER}}
 # BUZZER 16 0
 # TACH 2 1 20 1 m 120

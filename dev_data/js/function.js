@@ -357,12 +357,12 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'scenary-add') {
       var option = '';
       option += '<select class="form-control" id="ssdp-list0" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\');toggle(\'ssdp-module\',\'hidden\');"><\/select>';
-      option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command\');toggle(\'hidden-if\',\'hidden\');"><\/select>';
+      option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command\');toggle(\'hidden-if\',\'hidden\');toggle(\'or-and\',\'hidden\');"><\/select>';
       option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
       option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module\',\'ssdp-command\');return false"><i class="find-replace-img"></i></a></span>';
       option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
       option += '<input type="hidden" id="hidden-val-and" value="1"><input type="hidden" id="hidden-val-or" value="1"><div id="new-and-or"></div>';
-      option += '<div class="btn-group" style="width:100%;"><input onclick="loadNewAnd(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangAnd+'" type="button">';
+      option += '<div class="btn-group hidden" id="or-and" style="width:100%;"><input onclick="loadNewAnd(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangAnd+'" type="button">';
       option += '<input onclick="loadNewOr(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangOr+'" type="button"></div>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
       option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-sm btn-block btn-default" value="+ '+jsonResponse.LangThen+'" type="button">';
@@ -556,19 +556,21 @@ function loadNewAnd(where) {
  var number = parseInt(document.getElementById("hidden-val-and").value)+1;
  document.getElementById("hidden-val-and").value = number;
  option += '<h3>'+jsonResponse.LangAnd+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
- option += '<select class="form-control" id="ssdp-list-and'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-and'+number+'\');toggle(\'ssdp-module-and'+number+'\',\'hidden\');"><\/select>';
+ //option += '<select class="form-control" id="ssdp-list-and'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-and'+number+'\');toggle(\'ssdp-module-and'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="ssdp-module-and'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-and'+number+'\');toggle(\'hidden-if-and'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-and'+number+'"><select class="form-control" id="ssdp-condition-and'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
- option += '<input class="form-control" id="ssdp-command-and'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-and'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list-and'+number+'\',\'ssdp-module-and'+number+'\',\'ssdp-command-and'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
+ option += '<input class="form-control" id="ssdp-command-and'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-and'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-and'+number+'\',\'ssdp-command-and'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
- ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
-  var options = '';
-  var ipDevice=JSON.parse(response);
-  for (var i in ipDevice) {
-   options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
-  }
-  html("ssdp-list-and"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
- },true);
+ loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-and'+number+'');
+ toggle('ssdp-module-and'+number+'','hidden');
+ //ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
+ // var options = '';
+ // var ipDevice=JSON.parse(response);
+ // for (var i in ipDevice) {
+ //  options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+ // }
+ // html("ssdp-list-and"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
+ //},true);
 }
 
 function loadNewOr(where) {
@@ -576,19 +578,21 @@ function loadNewOr(where) {
  var number = parseInt(document.getElementById("hidden-val-or").value)+1;
  document.getElementById("hidden-val-or").value = number;
  option += '<h3>'+jsonResponse.LangOr+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
- option += '<select class="form-control" id="ssdp-list-or'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-or'+number+'\');toggle(\'ssdp-module-or'+number+'\',\'hidden\');"><\/select>';
+ //option += '<select class="form-control" id="ssdp-list-or'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-or'+number+'\');toggle(\'ssdp-module-or'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="ssdp-module-or'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-or'+number+'\');toggle(\'hidden-if-or'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-or'+number+'"><select class="form-control" id="ssdp-condition-or'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
- option += '<input class="form-control" id="ssdp-command-or'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-or'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list-or'+number+'\',\'ssdp-module-or'+number+'\',\'ssdp-command-or'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
+ option += '<input class="form-control" id="ssdp-command-or'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-or'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-or'+number+'\',\'ssdp-command-or'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
- ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
-  var options = '';
-  var ipDevice=JSON.parse(response);
-  for (var i in ipDevice) {
-   options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
-  }
-  html("ssdp-list-or"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
- },true);
+ loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-or'+number+'');
+ toggle('ssdp-module-or'+number+'','hidden');
+ // ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
+ //  var options = '';
+ //  var ipDevice=JSON.parse(response);
+ //  for (var i in ipDevice) {
+ //   options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+ //  }
+ //  html("ssdp-list-or"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
+ // },true);
 }
 
 function loadScenary(jsonResponse,loadList) {
@@ -681,14 +685,14 @@ function loadInTextarea() {
  var y = 1;
  while (y < val_and) {
   y++;
-  var scenary_list = document.getElementById("ssdp-list-and"+y).options[document.getElementById("ssdp-list-and"+y).selectedIndex].text;
-  element.innerHTML += '\r\nand '+(scenary_if==scenary_list?'this':scenary_list)+' '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value;
+  //var scenary_list = document.getElementById("ssdp-list-and"+y).options[document.getElementById("ssdp-list-and"+y).selectedIndex].text;
+  element.innerHTML += '\r\nand '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value;
  }
  var z = 1;
  while (z < val_or) {
   z++;
-  var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
-  element.innerHTML += '\r\nor '+(scenary_if==scenary_list?'this':scenary_list)+' '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value;
+ // var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
+  element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value;
  }
  var i = 1;
  while (i < val_then) {
@@ -705,6 +709,7 @@ function loadInTextarea() {
  val('hidden-val-and',1);
  val('hidden-val-or',1);
  val('hidden-val-then',1);
+ val('or-and',1);
  //document.getElementById('ssdp-module').options.length=0;
 }
 
