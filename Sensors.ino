@@ -1,13 +1,13 @@
 // -----------------  Аналоговый вход A0
 void initA0() {
-  static uint16_t t = readArgsInt();
+  static uint16_t t = readArgsInt(); //время опроса датчика
   static uint8_t averageFactor = readArgsInt();
   if (t < 500) t = 1000;
   if (averageFactor == 0) averageFactor = 1023;
   analogRead(A0);
   sendStatus(stateA0S, analogRead(A0));
   sendOptions(alarmA0S, 0);
-  String alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+  String alarmSet = "ALARM " + stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
   sCmd.readStr(alarmSet);
   //alarmLoad(stateA0S, highalarmA0S, lowalarmA0S);
   ts.add(3, t, [&](void*) {
@@ -33,12 +33,12 @@ void initOneWire() {
   static uint8_t averageFactor = readArgsInt();
   if (t < 750) t = 1000;
   //Serial.println(t);
-//  Serial.println(pin);
+  //  Serial.println(pin);
   oneWire =  new OneWire(pin);
   sensors.setOneWire(oneWire);
   sensors.begin();
   byte num = sensors.getDS18Count();
-//Serial.println(num);
+  //Serial.println(num);
   for (byte i = 0; i < num; i++) {
     sendStatus(temperatureS + (String)(i + 1), (String)sensors.getTempCByIndex(i));
     modulesReg(temperatureS + (String)(i + 1));
@@ -109,25 +109,26 @@ void initDHT() {
 }
 
 // -----------------------Данных уровней активных модулей --------------------------------------------
-void alarmLoadModules(){
+void alarmLoadModules() {
   String  modulesN = selectToMarker(modules, "]");
   modulesN = deleteBeforeDelimiter(modulesN, "[");
-  modulesN +=",";
+  modulesN += ",";
   modulesN.replace("\"", "");
   //Serial.println(modulesN);
   //"upgrade","relay1","ntp","ddns","mqtt","analog"
-  do{
-  String m = selectToMarker(modulesN, ",");
-  //Serial.println(m);
-  String alarmSet="ALARM ";
-  if (m=="analog")  alarmSet +=stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
-  if (m==temperatureS)  alarmSet +=temperatureS+" "+highalarmtempS+" "+lowalarmtempS;
-  if (m==humidityS)  alarmSet +=humidityS+" "+highalarmhumS+" "+lowalarmhumS;
-  if (m=="pow")  alarmSet +=ActivePowerWS+" "+highalarmpowS+" "+lowalarmpowS;
-
-  modulesN = deleteBeforeDelimiter(modulesN, ",");
-  } while (modulesN !="");
-  }
+  do {
+    String m = selectToMarker(modulesN, ",");
+    //Serial.println(m);
+    String alarmSet = "ALARM ";
+    if (m == "analog")  alarmSet += stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
+    if (m == temperatureS)  alarmSet += temperatureS + " " + highalarmtempS + " " + lowalarmtempS;
+    if (m == humidityS)  alarmSet += humidityS + " " + highalarmhumS + " " + lowalarmhumS;
+    #ifdef POW
+    if (m == "pow")  alarmSet += ActivePowerWS + " " + highalarmpowS + " " + lowalarmpowS;
+    #endif
+    modulesN = deleteBeforeDelimiter(modulesN, ",");
+  } while (modulesN != "");
+}
 
 // ----------------------- Загрузка данных уровней сработки ------------------------------------------
 void alarmLoad(String sName, String high, String low) {
@@ -164,16 +165,16 @@ void alarmTest(String value, String high, String low, String sAlarm ) {
     if (getStatusFloat(value) > getOptionsFloat(high) && getOptionsInt(sAlarm) == LOW) {
       sendOptions(sAlarm, HIGH);
       //Serial.println(getStatusFloat(value));
-//      Serial.print("up<");
-//      Serial.println(getStatusFloat(value));
+      //      Serial.print("up<");
+      //      Serial.println(getStatusFloat(value));
       flag = sendStatus(value, getStatusFloat(value));
     }
-      if (getStatusFloat(value) < getOptionsFloat(low) && getOptionsInt(sAlarm) == HIGH) {
-        sendOptions(sAlarm, LOW);
-//        Serial.print("down>");
-//        Serial.println(getStatusFloat(value));
-        flag = sendStatus(value, getStatusFloat(value));
-      }
+    if (getStatusFloat(value) < getOptionsFloat(low) && getOptionsInt(sAlarm) == HIGH) {
+      sendOptions(sAlarm, LOW);
+      //        Serial.print("down>");
+      //        Serial.println(getStatusFloat(value));
+      flag = sendStatus(value, getStatusFloat(value));
+    }
   }
 }
 
@@ -330,18 +331,18 @@ void initHLW8012() {
   sendOptions(alarmpowS, 0);
   alarmLoad(ActivePowerWS, highalarmpowS, lowalarmpowS);
   ts.add(8, t, [&](void*) {
-  sendStatus(ActivePowerWS, hlw8012.getActivePower());
-  sendOptions(voltagevS, hlw8012.getVoltage());
-  sendOptions(currentaS, hlw8012.getCurrent());
-  sendOptions(apparentpowervaS, hlw8012.getApparentPower());
-  sendOptions(powerfactorS, hlw8012.getPowerFactor());
-  sendOptions(aggenergywsS, hlw8012.getEnergy());
-  alarmTest(ActivePowerWS, highalarmpowS, lowalarmpowS, alarmpowS);
-    }, nullptr, true);
-    HTTP.on("/pow.json", HTTP_GET, []() {
-      String data = graf3(getStatusFloat(ActivePowerWS), getOptionsFloat(highalarmpowS), getOptionsFloat(lowalarmpowS), 10, t, "low:0");
-      httpOkJson(data);
-    });
+    sendStatus(ActivePowerWS, hlw8012.getActivePower());
+    sendOptions(voltagevS, hlw8012.getVoltage());
+    sendOptions(currentaS, hlw8012.getCurrent());
+    sendOptions(apparentpowervaS, hlw8012.getApparentPower());
+    sendOptions(powerfactorS, hlw8012.getPowerFactor());
+    sendOptions(aggenergywsS, hlw8012.getEnergy());
+    alarmTest(ActivePowerWS, highalarmpowS, lowalarmpowS, alarmpowS);
+  }, nullptr, true);
+  HTTP.on("/pow.json", HTTP_GET, []() {
+    String data = graf3(getStatusFloat(ActivePowerWS), getOptionsFloat(highalarmpowS), getOptionsFloat(lowalarmpowS), 10, t, "low:0");
+    httpOkJson(data);
+  });
   //calibrate();
 }
 

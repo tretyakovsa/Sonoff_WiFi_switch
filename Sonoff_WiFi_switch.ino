@@ -1,5 +1,5 @@
 #define POW
-#define CRIB
+//#define CRIB
 #include "sets.h"             //Содержится в пакете
 
 
@@ -34,8 +34,8 @@ DHT dht;
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
 void setup() {
-//  Serial.begin(115200);
-//  Serial.println();
+//Serial.begin(115200);
+//Serial.println();
   start_init();
 
 }

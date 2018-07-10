@@ -62,7 +62,10 @@ void relay() {
       String t = GetTime();
       pTime = timeToString(timeToLong(t) + (times-1));
     }
-  }
+  } else {
+      comTimeP ="";
+      pTime ="";
+      }
   statusS = relayStatus(configJson, kay);
 }
 
@@ -134,7 +137,7 @@ void handleIrTransmit() {
 // ----------------------Передатчик на 433мГ
 void rfTransmitter() {
   byte pin = readArgsInt();
-  pin =  pinTest(pin);
+  pin =  pinTest(pin,HIGH);
   mySwitch.enableTransmit(pin);
   sCmd.addCommand("rfsend", handleRfTransmit);
   commandsReg("rfsend");
@@ -151,7 +154,9 @@ void handleRfTransmit() {
 // ----------------------Передатчик Livolvo на 433мГ
 void rfLivolo() {
   byte pin = readArgsInt();
-  pin =  pinTest(pin);
+  pin =  pinTest(pin, HIGH);
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
   gLivolo = new LivoloTx(pin);
   sCmd.addCommand("lvsend", handleRfLivolo);
   commandsReg("lvsend");

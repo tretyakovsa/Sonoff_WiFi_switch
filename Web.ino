@@ -52,11 +52,21 @@ void initHTTP() {
     String message = "{";
     for (uint8_t i = 0; i < HTTP.args(); i++) {
       //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
-      message += "\""+HTTP.argName(i)+"\":[";
-      message += getStatus(HTTP.arg(i))+"],";
-      //jsonWrite(message, HTTP.argName(i), getStatusFloat(HTTP.arg(i)));
+      message += "\"" + HTTP.argName(i) + "\":[";
+      String key = getOptions(HTTP.arg(i));
+      if (key != "")  {
+        message += key;
+        key = "";
+      } else {
+        key = getStatus(HTTP.arg(i));
+        if (key != "")  {
+          message += key;
+          key = "";
+        }
+      }
+      message += "],";
     }
-    message +="\"points\":\"10\",\"refresh\":\"1000\"}";
+    message += "\"points\":\"10\",\"refresh\":\"1000\"}";
     httpOkText(message);
   });
 

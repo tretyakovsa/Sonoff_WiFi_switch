@@ -56,27 +56,6 @@ void rgb() {
   //String kay = stateRGBS;
   uint8_t state = getStatusInt(stateRGBS);
   uint32_t times = color.toInt();
-  if (com == "on") {
-    if (times != 0) impulsTime(times - 1, "rgb not");
-    ws2812fx.start();
-    flag = sendStatus(stateRGBS, 1);
-  }
-  if (com == "off") {
-    if (times != 0) impulsTime(times - 1, "rgb not");
-    ws2812fx.stop();
-    flag = sendStatus(stateRGBS, 0);
-  }
-  if (com == "not") {
-    if (times != 0) impulsTime(times - 1, "rgb not");
-    flag = sendStatus(stateRGBS, !state);
-    if (state) {
-      ws2812fx.stop();
-    }
-    else {
-      ws2812fx.stop();
-      ws2812fx.start();
-    }
-  }
 
   if (com == "set") {
     if (color != "") {
@@ -101,7 +80,38 @@ void rgb() {
 
     ws2812fx.start();
     flag = sendStatus(stateRGBS, 1);
+  }else{
+     if (com == "on") {
+    ws2812fx.start();
+    flag = sendStatus(stateRGBS, 1);
   }
+  if (com == "off") {
+    ws2812fx.stop();
+    flag = sendStatus(stateRGBS, 0);
+  }
+  if (com == "not") {
+    flag = sendStatus(stateRGBS, !state);
+    if (state) {
+      ws2812fx.stop();
+    }
+    else {
+      ws2812fx.stop();
+      ws2812fx.start();
+    }
+  }
+ if (times != 0) {
+    if (speed == "t") {
+      impulsTime(times - 1, "rgb not");
+    } else {
+      comTimeP = "rgb not";
+      String t = GetTime();
+      pTime = timeToString(timeToLong(t) + (times-1));
+    }
+  } else {
+      comTimeP ="";
+      pTime ="";
+      }
+    }
 
   statusS = relayStatus(configJson, stateRGBS);
 }

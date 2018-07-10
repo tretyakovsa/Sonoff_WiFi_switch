@@ -1,13 +1,14 @@
 void initScenary() {
   sCmd.addCommand("if",  ifCommand);
   sCmd.addCommand("or",  orCommand);
+  sCmd.addCommand("and",  andCommand);
   sCmd.addCommand("id",  idNot);
   sCmd.addCommand("then", thenCommand);
   HTTP.on("/setscenary", HTTP_GET, []() {
     loadScenary();
-    String alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
-    sCmd.readStr(alarmSet);
-    alarmSet="ALARM "+stateA0S+" "+highalarmA0S+" "+lowalarmA0S;
+    //String alarmSet = "ALARM " + stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
+    //sCmd.readStr(alarmSet);
+    //alarmSet = "ALARM " + stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
     alarmLoadModules();
     loadTimer();
     httpOkText();
@@ -24,11 +25,12 @@ void loadScenary() {
 void idNot() {}
 void handleScenary() {
   yield();
-  //Serial.println();
+  //Serial.println(flag);
   if (flag) { // если произошло изменение в данных config.live.json
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
     //webSocket.broadcastTXT(configJson);
+//    Serial.println("test");
     sendStatus("voice", "");
     flag = false;
   }
@@ -38,11 +40,36 @@ void ifCommand() {
   thenOk = false; // сброс признака
   orCommand();
 }
+void andCommand() {
+  String Name =  readArgsString();      // Какой параметр проверяем
+  String Condition =  readArgsString(); // Операция
+  String Volume =  readArgsString();    // Значение параметра
+  String test = getStatus(Name);        // получить текущее значение параметра
+
+//    Serial.print(Name);
+//    Serial.print("=");
+//    Serial.println("and");
+
+  if (thenOk) {
+    thenOk = false; // сброс признака
+    testCommand(Volume, Condition, test);
+  }
+}
+
 void orCommand() {
   String Name =  readArgsString();      // Какой параметр проверяем
   String Condition =  readArgsString(); // Операция
   String Volume =  readArgsString();    // Значение параметра
   String test = getStatus(Name);        // получить текущее значение параметра
+
+//    Serial.print(Name);
+//    Serial.print("=");
+//    Serial.println("or");
+
+  testCommand(Volume, Condition, test);
+}
+
+void testCommand(String Volume, String Condition, String test) {
   // последовательно проверяем параметр на соответствие операции сравнения
   // и поднимаем признак исполнения then
   if (Condition == "=") {
@@ -55,15 +82,17 @@ void orCommand() {
     if (Volume.toFloat() > test.toFloat()) thenOk = true;
   }
   if (Condition == "<=") {
-    if (Volume >= test) thenOk = true;
+    if (Volume.toFloat() >= test.toFloat()) thenOk = true;
   }
   if (Condition == ">=") {
-    if (Volume <= test) thenOk = true;
+    if (Volume.toFloat() <= test.toFloat()) thenOk = true;
   }
   if (Condition == "!=") {
     if (Volume != test) thenOk = true;
   }
 }
+
+
 // Выполнение then
 void thenCommand() {
   if (thenOk) {
@@ -77,14 +106,14 @@ void thenCommand() {
 
     // Если это локальное устройство
     if (ssdp == test or test == "this") {
-//      Serial.println("comm= ");
-//      Serial.println(comm);
+      //      Serial.println("comm= ");
+      //      Serial.println(comm);
       sendOptions("test", comm);
       sCmd.readStr(comm);
     }
     else {
-//       Serial.println("comm= ");
-//      Serial.println(comm);
+      //       Serial.println("comm= ");
+      //      Serial.println(comm);
       //http://192.168.0.91/cmd?command=relay on 1
       String urls = "http://";
       String ip = jsonRead(ssdpList, test);
