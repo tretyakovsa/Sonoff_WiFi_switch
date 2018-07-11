@@ -15,7 +15,7 @@ TIMERS
 // {{LangConfA0}}
 # A0
 // {{LangConfTach}}
-TACH 0 0 20
+TACH 0 0 20 0
 // {{LangConfBUZZER}}
 # BUZZER 16 0
 // {{LangConfRGB}}

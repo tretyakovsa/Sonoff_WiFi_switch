@@ -109,7 +109,7 @@ From: Latvia, Valmiera
        var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,"temperature"+i)){
-         loadBlock2('temperature','temperature',ipval, jsonIndexResponse.space, stage, jsonIndexResponse,i);
+         loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse,i);
         }
        }
       }
@@ -118,13 +118,13 @@ From: Latvia, Valmiera
       //  }
 
       if (searchModule(modules,"humidity")){
-       loadBlock2('humidity','humidity',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      if (searchModule(modules,"analog")){
-       loadBlock2('analog','analog',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      if (searchModule(modules,"A0")){
+       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"pow")){
-       loadBlock2('pow','pow',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (!stage && jsonIndexResponse.space == "relay" || jsonIndexResponse.space == "rgb" || jsonIndexResponse.space == "jalousie" || jsonIndexResponse.space == "leakag"){
        loadBlock2(jsonIndexResponse.space,'timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
@@ -194,17 +194,21 @@ From: Latvia, Valmiera
       jsonIndexResponse.stateRGB = (jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       jsonIndexResponse.stateJalousie = (jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
       jsonIndexResponse.stateLeakag = (jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
-      if (page == 'analog') {
-       jsonIndexResponse.analogId = 'analogjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ipval+"/analog.json')", 1500);
+      if (page == 'A0') {
+       jsonIndexResponse.analogId = 'A0json'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ipval+"/charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0')", 1500);
+      }
+      if (page == 'pow') {
+       jsonIndexResponse.powId = 'powjson'+ipval.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.powId+"','http://"+ipval+"/charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow')", 1500);
       }
       if (page == 'temperature') {
        jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/temperature.json?n="+idModule+"')", 1500);
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=temperature"+(idModule?idModule:'')+"&data1=highAlarmTemp"+(idModule?idModule:'')+"&data2=lowAlarmTemp"+(idModule?idModule:'')+"')", 1500);
       }
       if (page == 'humidity') {
        jsonIndexResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/humidity.json')", 1500);
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=humidity&data1=highAlаrmHum&data2=lowAlаrmHum')", 1500);
       }
       var new_string;
       for (var key in jsonIndexResponse) {

@@ -171,10 +171,10 @@
 
   {
    "type":"chart",
-   "title":"{{LangAnalog}}",
-   "state":"analog.json",
-   "module":"analog",
-   "action":"/page.htm?chart&analog",
+   "title":"{{LangA0}}",
+   "state":"charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0",
+   "module":"A0",
+   "action":"/page.htm?chart&A0&highAlarmA0&lowAlarmA0",
    "style":"height:200px;margin-left:-20px"
   },
   {

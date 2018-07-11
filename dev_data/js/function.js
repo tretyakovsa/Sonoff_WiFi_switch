@@ -625,6 +625,7 @@ function loadScenary(jsonResponse,loadList) {
 }
 
 function loadCommandHelp(jsonParam,files,where,to) {
+ html(where, 'Loading...');
  ajax.get('/'+files+'?'+Math.random(),{},function(response) {
   var ipDevice=JSON.parse(response);
   html(where, ' ');
