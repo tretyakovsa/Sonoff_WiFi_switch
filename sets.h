@@ -127,7 +127,8 @@ const String classS   = "class";
 const String btnS   = "btn btn-block btn-lg btn-";
 const String infoS   = "info";
 const String primaryS   = "primary";
-const String stateTachS   = "stateTach";
+const String stateTachS   = "Tach";
+const String tachS   = "tach";
 const String buttonNumS   = "buttonNum";
 
 const String irReceivedS   = "irReceived";
@@ -165,15 +166,15 @@ const String turnSensorS   = "turnSensor";
 
 const String irsendS   = "irsend";
 const String temperatureS   = "temperature";
-const String highalarmtempS   = "highalarmtemp";
-const String lowalarmtempS   = "lowalarmtemp";
-const String alarmtempS   = "alarmtemp";
+const String highalarmtempS   = "highAlarmTemp";
+const String lowalarmtempS   = "lowAlarmTemp";
+const String alarmtempS   = "alarmTemp";
 
 #ifdef POW
 const String ActivePowerWS   = "ActivePowerW";
-const String highalarmpowS   = "highalarmpow";
-const String lowalarmpowS   = "lowalarmpow";
-const String alarmpowS   = "alarmpow";
+const String highalarmpowS   = "highAlarmPow";
+const String lowalarmpowS   = "lowAlarmPow";
+const String alarmpowS   = "alarmPow";
 
 const String voltagevS   = "voltagev";
 const String currentaS   = "currenta";
@@ -182,17 +183,16 @@ const String powerfactorS   = "powerfactor";
 const String aggenergywsS   = "aggenergyws";
 #endif
 
-const String highalarmA0S   = "highalarmA0";
-const String lowalarmA0S   = "lowalarmA0";
+const String highalarmA0S   = "highAlarmA0";
+const String lowalarmA0S   = "lowAlarmA0";
 const String alarmA0S   = "alarmA0";
 
 const String humidityS   = "humidity";
-const String highalarmhumS   = "highalarmhum";
-const String lowalarmhumS   = "lowalarmhum";
-const String alarmhumS   = "alarmhum";
+const String highalarmhumS   = "highAlаrmHum";
+const String lowalarmhumS   = "lowAlаrmHum";
+const String alarmhumS   = "alarmHum";
 
-const String movementS   = "movement";
-const String stateA0S   = "stateA0";
+const String stateA0S   = "A0";
 const String rgbS   = "rgb";
 const String rgbSS   = "rgbs";
 

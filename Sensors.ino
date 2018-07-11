@@ -19,16 +19,18 @@ void initA0() {
     sendStatus(stateA0S, a);
     alarmTest(stateA0S, highalarmA0S, lowalarmA0S, alarmA0S);
   }, nullptr, true);
+/*
   HTTP.on("/analog.json", HTTP_GET, []() {
     String data = graf3(getStatusInt(stateA0S), getOptionsInt(highalarmA0S), getOptionsInt(lowalarmA0S), 10, t, "low:0");
     httpOkJson(data);
   });
-  modulesReg("analog");
+*/
+  modulesReg("A0");
 }
 // ----------------- OneWire -------------------------------------------------------------------------------
 void initOneWire() {
   uint8_t pin = readArgsInt();
-  pin =  pinTest(pin);
+  pin =  pinTest(pin, HIGH);
   static uint16_t t = readArgsInt();
   static uint8_t averageFactor = readArgsInt();
   if (t < 750) t = 1000;
@@ -46,6 +48,7 @@ void initOneWire() {
     sendOptions(highalarmtempS + (String)(i + 1), 0);
     sendOptions(lowalarmtempS + (String)(i + 1), 0);
     alarmLoad(temperatureS + (String)(i + 1), highalarmtempS + (String)(i + 1), lowalarmtempS + (String)(i + 1));
+    modulesReg(temperatureS + (String)(i + 1));
   }
   sendOptions(temperatureS + "num", num);
   ts.add(4, t, [&](void*) {
@@ -60,17 +63,18 @@ void initOneWire() {
       alarmTest(temperatureS + num, highalarmtempS + num, lowalarmtempS + num, alarmtempS + num);
     }
   }, nullptr, true);
-
+/*
   HTTP.on("/temperature.json", HTTP_GET, []() {
     String num = HTTP.arg("n");
     String data = graf3(getStatusFloat(temperatureS + num), getOptionsFloat(highalarmtempS + num), getOptionsFloat(lowalarmtempS + num), 10, t, "low:0");
     httpOkJson(data);
   });
+  */
 }
 // -----------------  DHT
 void initDHT() {
   uint8_t pin = readArgsInt();
-  pin =  pinTest(pin);
+  pin =  pinTest(pin, HIGH);
   dht.setup(pin);
   delay(1000);
   static uint16_t t = readArgsInt();
@@ -93,6 +97,7 @@ void initDHT() {
       alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
       alarmTest(humidityS, highalarmhumS, lowalarmhumS, alarmhumS);
     }, nullptr, true);
+    /*
     HTTP.on("/temperature.json", HTTP_GET, []() {
       //      String data = graf(getStatusInt(temperatureS), 10, t, "low:0");
       String data = graf3(getStatusFloat(temperatureS), getOptionsFloat(highalarmtempS), getOptionsFloat(lowalarmtempS), 10, t, "low:0");
@@ -103,6 +108,7 @@ void initDHT() {
       String data = graf3(getStatusFloat(humidityS), getOptionsFloat(highalarmhumS), getOptionsFloat(lowalarmhumS), 10, t, "low:0");
       httpOkJson(data);
     });
+    */
     modulesReg(temperatureS);
     modulesReg(humidityS);
   }
@@ -131,6 +137,7 @@ void alarmLoadModules() {
 }
 
 // ----------------------- Загрузка данных уровней сработки ------------------------------------------
+// Имя параметра теста и имена границ
 void alarmLoad(String sName, String high, String low) {
   sendOptionsF(high, 0);
   sendOptionsF(low, 0);
@@ -278,6 +285,7 @@ void initTach() {
   but[num.toInt()] = true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
   sendOptions("invTach" + num, inv);
+  modulesReg(tachS + num);
 }
 void handleButtons() {
   static uint8_t num = 0;
