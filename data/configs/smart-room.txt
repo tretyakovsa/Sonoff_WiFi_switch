@@ -20,10 +20,10 @@ TIMERS
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
-TACH 0 0 20
+TACH 0 0 20 0
+# TACH 2 1 20 0
 // {{LangConfBUZZER}}
 # BUZZER 16 0
-# TACH 2 1 20 1 m 120
 // {{LangConfRGB}}
 # RGB 5 15 1 ff0000 100 255 3
 // {{LangConfRGBS}}
