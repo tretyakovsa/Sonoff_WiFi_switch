@@ -188,8 +188,8 @@ const String lowalarmA0S   = "lowAlarmA0";
 const String alarmA0S   = "alarmA0";
 
 const String humidityS   = "humidity";
-const String highalarmhumS   = "highAlаrmHum";
-const String lowalarmhumS   = "lowAlаrmHum";
+const String highalarmhumS   = "highAlarmHum";
+const String lowalarmhumS   = "lowAlarmHum";
 const String alarmhumS   = "alarmHum";
 
 const String stateA0S   = "A0";
