@@ -42,13 +42,13 @@ void initOneWire() {
   byte num = sensors.getDS18Count();
   //Serial.println(num);
   for (byte i = 0; i < num; i++) {
-    sendStatus(temperatureS + (String)(i + 1), (String)sensors.getTempCByIndex(i));
-    modulesReg(temperatureS + (String)(i + 1));
-    sendOptions(alarmtempS + (String)(i + 1), 0);
-    sendOptions(highalarmtempS + (String)(i + 1), 0);
-    sendOptions(lowalarmtempS + (String)(i + 1), 0);
-    alarmLoad(temperatureS + (String)(i + 1), highalarmtempS + (String)(i + 1), lowalarmtempS + (String)(i + 1));
-    modulesReg(temperatureS + (String)(i + 1));
+    String numS = (String)(i + 1);
+    sendStatus(temperatureS + numS, (String)sensors.getTempCByIndex(i));
+    sendOptions(alarmtempS + numS, 0);
+    sendOptions(highalarmtempS + numS, 0);
+    sendOptions(lowalarmtempS + numS, 0);
+    alarmLoad(temperatureS + numS, highalarmtempS + numS, lowalarmtempS + numS);
+    modulesReg(temperatureS + numS);
   }
   sendOptions(temperatureS + "num", num);
   ts.add(4, t, [&](void*) {
@@ -289,17 +289,18 @@ void initTach() {
 }
 void handleButtons() {
   static uint8_t num = 0;
+  String numS = String(num, DEC);
   if (but[num]) {
     buttons[num].update();
-    //if (buttons[num].fell() != getStatusInt(stateTachS + String(num, DEC))) {
+
     if (buttons[num].fell()) {
-      flag = sendStatus(stateTachS + String(num, DEC), !getOptionsInt("invTach" + String(num)));
+      flag = sendStatus(stateTachS + numS, !getOptionsInt("invTach" + numS));
     }
-    //if (buttons[num].rose() != getStatusInt(stateTachS + String(num, DEC))) {
+
     if (buttons[num].rose()) {
-      flag = sendStatus(stateTachS + String(num, DEC), getOptionsInt("invTach" + String(num)));
+      flag = sendStatus(stateTachS + numS, getOptionsInt("invTach" + numS));
     }
-    //buttons[num].rose()
+
   }
   num++;
   if (num == 8) num = 0;
