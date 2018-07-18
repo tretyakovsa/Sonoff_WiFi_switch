@@ -474,7 +474,7 @@ function loadTime(jsonResponse) {
  html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var option = '';
-  var ipDevice=JSON.parse(response);
+  var ipDevice=sortObject(JSON.parse(response));
   for (var i in ipDevice) {
    loadDeviceTime(jsonResponse,i,ipDevice[i]);
   }
@@ -542,7 +542,7 @@ function loadNewThen(where,titles) {
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var options = '';
-  var ipDevice=JSON.parse(response);
+  var ipDevice=sortObject(JSON.parse(response));
   for (var i in ipDevice) {
    options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
   }
@@ -595,6 +595,13 @@ function loadNewOr(where) {
  // },true);
 }
 
+function sortObject(obj) {
+ return Object.keys(obj).sort().reduce(function (result, key) {
+  result[key] = obj[key];
+  return result;
+ }, {});
+}
+
 function loadScenary(jsonResponse,loadList) {
  html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
@@ -604,7 +611,7 @@ function loadScenary(jsonResponse,loadList) {
   html('new-and-or',' ');
   html('new-then',' ');
   var option = '';
-  var ipDevice=JSON.parse(response);
+  var ipDevice=sortObject(JSON.parse(response));
   if (loadList) {
    for (var i in ipDevice) {
     loadScenaryList(jsonResponse,i,ipDevice[i]);
@@ -692,7 +699,7 @@ function loadInTextarea() {
  var z = 1;
  while (z < val_or) {
   z++;
- // var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
+  // var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
   element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value;
  }
  var i = 1;

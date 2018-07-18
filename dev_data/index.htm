@@ -147,8 +147,8 @@ From: Latvia, Valmiera
       if(/temperature/.test(modules)) {
        var relayNumber = '';
        for (var i = 0; i < 10; i++) {
-        if (searchModule(modules,"temperature"+i)){
-         loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ipval, content, stage, jsonIndexResponse,i);
+        if (searchModule(modules,'temperature'+i)){
+         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ipval, content, stage, jsonIndexResponse,(i==0?'':i));
         }
        }
       }
