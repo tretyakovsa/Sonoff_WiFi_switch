@@ -114,26 +114,6 @@ String relayStatus(String json, String state) {
    где вместо "0xxx" - 0 (выключить оба реле), 1 (включить одно реле), 2 (включить второе реле), 3 (включить оба реле), то можно таким образом управлять релюшками.
 */
 
-
-// ----------------------Передатчик ИK
-void irTransmitter() {
-  String moduleName = "irTransmitter";
-  byte pin = readArgsInt();
-  pin =  pinTest(pin);
-  irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
-  irSender->begin();
-  sCmd.addCommand("irsend", handleIrTransmit);
-  commandsReg(irsendS);
-  modulesReg(moduleName);
-
-}
-
-void handleIrTransmit() {
-  uint32_t  tmp = strtol(("0x" + readArgsString()).c_str(), NULL, 0);
-  irSender->sendNEC(tmp, 32);
-}
-
-
 // ----------------------Передатчик на 433мГ
 void rfTransmitter() {
   byte pin = readArgsInt();

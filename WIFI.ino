@@ -117,6 +117,7 @@ boolean startSTA() {
   }
   WiFi.mode(WIFI_OFF);
   WiFi.mode(WIFI_STA);
+  scanWIFI();
   WiFi.hostname ( "sonoff-" + chipID );
   String ssid = getSetup(ssidS);
   String pass = getSetup(ssidPassS);
