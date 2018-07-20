@@ -63,6 +63,7 @@
  "LangHiddenWifi":"Savienojumu ar slēpto WiFi tīklam",
  "LangType":"Ierīce tips",
  "LangPay":"Sazinieties ar mums, lai pirktu",
+ "LangSSDPAlert":"Lūdzu, mainiet ierīces nosaukumu uz kaut ko citu. Tam jābūt unikālam!",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Uzstadinal laiks",
@@ -151,6 +152,7 @@
  "LangstateRelay9":"Nosacījums rele 9",
  "LangturnSensor":"Apgrozījumi sensors",
  "Langtime":"Laiks",
+ "Langdbm":"WiFi signal",
  "Langweekday":"Nedēļas diena",
  "LangcolorRGB":"Krāsa RGB",
  "LangspeedRGB":"Ātrums RGB",

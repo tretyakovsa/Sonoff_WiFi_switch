@@ -63,6 +63,7 @@
  "LangHiddenWifi":"Connect to hidden WiFi network",
  "LangType":"Type device",
  "LangPay":"Contact us for pay",
+ "LangSSDPAlert":"Please change the device name to something else. It must be unique!",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Set time",
@@ -151,6 +152,7 @@
  "LangstateRelay9":"State relay 9",
  "LangturnSensor":"Tern sensor",
  "Langtime":"Time",
+ "Langdbm":"WiFi signal",
  "Langweekday":"Weekday",
  "LangcolorRGB":"color RGB",
  "LangspeedRGB":"Speed RGB",

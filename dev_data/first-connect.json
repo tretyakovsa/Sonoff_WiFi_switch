@@ -69,6 +69,10 @@
    "title":"{{LangDevice}}"
   },
   {
+   "type":"text",
+   "title":"('{{SSDP}}'=='Sonoff'?'<div class=\"alert alert-danger\">{{LangSSDPAlert}}</div>':'')"
+  },
+  {
    "type":"input",
    "title":"{{LangDevice}}",
    "name":"ssdp",

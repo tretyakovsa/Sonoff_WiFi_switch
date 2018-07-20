@@ -63,6 +63,7 @@
  "LangHiddenWifi":"Подключится к скрытой WiFi сети",
  "LangType":"Тип модуля",
  "LangPay":"Свяжитесь с нами для покупки",
+ "LangSSDPAlert":"Пожалуйста смените имя устройства на какое-то другое. Оно должно быть уникальным!",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Добавить таймер",
@@ -151,6 +152,7 @@
  "LangstateRelay9":"Состояние реле 9",
  "LangturnSensor":"Сенсор оборотов",
  "Langtime":"Время",
+ "Langdbm":"Уровень сигнала WiFi",
  "Langweekday":"День недели",
  "LangcolorRGB":"Цвет RGB",
  "LangspeedRGB":"Скорость RGB",
@@ -199,8 +201,8 @@
  "LangConfMovement":"Сенсор движения (PIN/Время работы в секундах, 120 = 2мин.)",
  "LangConfRfReceived":"Беспроводной приемник MHz частот. (PIN/Частота - не обязательно)",
  "LangConfRfTransmitter":"Беспроводной передатчик MHz частот. (PIN/Частота - не обязательно)",
- "LangConfIrReceived":"Беспроводной приемник IR частот",
- "LangConfIrTransmitter":"Беспроводной передатчик IR частот",
+ "LangConfIrReceived":"Беспроводной приемник IR (инфокрасного сигнала)",
+ "LangConfIrTransmitter":"Беспроводной передатчик IR (инфокрасного сигнала)",
  "LangConfFurnace":"Электрическая плита (PIN / PIN)",
  "LangConfPOW":"Реле с счетчиком энергии (Через каждых 2сек. снимаем показания/PIN - измерения мощьности/PIN - измерение тока напряжение/PIN - переключение измерения тока или напраяжения)",
  "LangConfSerial":"Включить порт UART"
