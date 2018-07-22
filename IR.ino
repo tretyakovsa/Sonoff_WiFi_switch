@@ -14,10 +14,10 @@ void irTransmitter() {
 
 // команда irsend
 void handleIrTransmit() {
-  uint8_t ir_type = readArgsInt();
-  String code_str = readArgsString();
-  uint16_t repeat = readArgsInt();
-  uint8_t bits = readArgsInt();
+  uint8_t ir_type = readArgsInt(); // Тип сигнала
+  String code_str = readArgsString(); // Код
+  uint16_t repeat = readArgsInt();    // Повтор
+  uint8_t bits = readArgsInt();       // Длинна кода
 
   uint32_t  code = strtol(("0x" + code_str).c_str(), NULL, 0);
   //irSender->sendNEC(tmp, 32);
