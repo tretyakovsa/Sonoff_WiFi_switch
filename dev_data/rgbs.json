@@ -37,7 +37,7 @@
    "module":"rgb",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs set [[color]] [[brightness]]",
    "style":"cursor:pointer;width:100%"
   },
 
@@ -99,22 +99,12 @@
   },
   {
    "type":"range",
-   "title":"{{LangSpeed}}",
-   "name":"speed",
-   "module":"rgb",
-   "state":"{{speedRGB}}",
-   "response":"[[rgb]]",
-   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
-   "pattern":"min=0 max=255 step=1"
-  },
-  {
-   "type":"range",
    "title":"{{LengBrightness}}",
    "name":"brightness",
    "module":"rgb",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgbs set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgbs set [[color]] [[brightness]]",
    "pattern":"min=0 max=255 step=1"
   },
 

@@ -12,6 +12,8 @@ TIMERS
 # DHT 14
 // {{LangConfDS18B20}}
 # DS18B20 14
+// Подключается только на 4 и 5 GPIO, совместно с DHT не работает.
+# SI7021
 // {{LangConfA0}}
 # A0
 // {{LangConfTach}}
