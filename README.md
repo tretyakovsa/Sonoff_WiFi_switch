@@ -14,7 +14,7 @@
   -  CPU Frequency: 80Mhz
   -  Flash Mode: dio
   -  Flash Frequency: 40Mhz
-  -  Upload Speed: 115200
+  -  Upload Speed: 921600
 
 ## Download [Build & Spiffs (flash 1Mb 256Kb) 2017.10.11.zip](https://github.com/tretyakovsa/Sonoff_WiFi_switch/files/1378146/Build.Spiffs.flash.1Mb.256Kb.2017.10.11.zip)
 

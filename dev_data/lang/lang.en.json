@@ -38,6 +38,7 @@
  "LangIssues":"Issues",
  "LangCommits":"Commits",
  "LangNewIssues":"Create new Issues",
+ "LangAuthorization":"Authorization",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",
@@ -196,7 +197,7 @@
  "LangConfTach":"Button. (PIN / Button number / Time in ms.)",
  "LangConfRelay":"Relay. (Relay PIN / Relay Status at Startup / Relay Number / Ignoring)",
  "LangConfJalousie":"Jalousie. (PIN speed counter / Second and Third PIN - motor control)",
- "LangConfRGB":"WS2811 / WS2812 / NeoPixel LEDs. (PIN / Number of ice / Condition after Startup / Color / Speed / Brightness / Dynamic mode)",
+ "LangConfRGB":"WS2812/WS2811(Red/Yellow problem)/NeoPixel LEDs. (PIN / Number of ice / Condition after Startup / Color / Speed / Brightness / Dynamic mode)",
  "LangConfRGBS":"RGB 5050/3528/2835. It does not work yet. (PIN R / PIN G / PIN B / Condition after Startup / Color / Brightness )",
  "LangConfMovement":"Motion sensor (PIN / operating time in seconds, 120 = 2min.)",
  "LangConfRfReceived":"Wireless MHz frequency receiver",

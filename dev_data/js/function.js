@@ -380,6 +380,13 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<h4>Module:</h4> '+option;
       setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
      }
+     if (type_val == 'login') {
+      var option = '';
+      option += '<h2>'+jsonResponse.LangAuthorization+'</h2><div class="alert alert-warning" style="width:45%;float:right;">'+renameBlock(jsonResponse, obj.title)+'</div>';
+      option += '<input id="passLogin" class="form-control " style="width:50%;display:inline" placeholder="'+jsonResponse.LangPass+'" value="" onfocus="this.type=\'text\'" type="password">';
+      option += '<a class="btn btn-block btn-success" style="width:50%;display:block" href="#" onclick="if(\''+state_val+'\'==val(\'passLogin\')){setCookie(\'loginForm\', \'hidden\', 0);toggle(\'loginForm\');}else{alert(\'The password is incorrect\')}">'+jsonResponse.LangSave+'</a>';
+      element.innerHTML += '<div id="loginForm" class="'+jsonResponse.loginForm+'" style="background-color:#fff;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;padding:10% 30%;">'+option+'</div>';
+     }
      if (type_val == 'wifi') {
       element.innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
       element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">';
@@ -931,7 +938,7 @@ function real_time(hours,min,sec) {
  set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
 
-function setCookie(name, value, days, submit) {
+function setCookie(name, value, days) {
  if (days) {
   var date = new Date();
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));

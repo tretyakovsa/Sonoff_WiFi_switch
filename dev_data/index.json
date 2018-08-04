@@ -1,6 +1,6 @@
 {
  "configs":[
-  "/config.options.json",
+  "/config.setup.json",
   "/lang/lang.{{lang}}.json"
  ],
  "content":[],
