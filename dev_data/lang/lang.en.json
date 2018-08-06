@@ -186,7 +186,7 @@
  "LangMovement":"Motion sensor",
 
  "_comment":"---page.htm?configs---",
- "LangConfNTP":"Turn on the time from the network",
+ "LangConfNTP":"Turn on the time from the network - (It is updated once a day and at start ESP)",
  "LangConfDDNS":"Access by DDNS",
  "LangConfMQTT":"To IoT Manager",
  "LangConfTIMERS":"If need timers",

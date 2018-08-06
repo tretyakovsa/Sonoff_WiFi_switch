@@ -186,7 +186,7 @@
  "LangMovement":"Kustības sensors",
 
  "_comment":"---page.htm?configs---",
- "LangConfNTP":"Ieslegt laiku no Interneta",
+ "LangConfNTP":"Ieslegt laiku no Interneta - (Atjauninas reizi dienā un ar starta ESP)",
  "LangConfDDNS":"Ieslegt DDNS",
  "LangConfMQTT":"Ieslegt MQTT",
  "LangConfTIMERS":"Ja ir nepieciešami taimeri",

@@ -185,7 +185,7 @@
  "LangMovement":"Сенсор движения",
 
  "_comment":"---page.htm?configs---",
- "LangConfNTP":"Вмикаємо час з мережі",
+ "LangConfNTP":"Вмикаємо час з мережі - (Обновляется 1 раз в сутки и при каждом включение ESP)",
  "LangConfDDNS":"Доступ по DDNS",
  "LangConfMQTT":"Для керування IoT Manager",
  "LangConfTIMERS":"Якщо потрібні таймери",

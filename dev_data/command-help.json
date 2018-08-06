@@ -1,6 +1,6 @@
 {
- "title":"Напишите ниже действие, например:",
- "titleEnd":"Вы можете попробовать как будет работать комманда нажав на <i class=\"eye-img\"></i>",
+ "title":"<b>Напишите ниже действие, например:</b>",
+ "titleEnd":"Вы можете попробовать как будет работать комманда нажав на <i class=\"eye-img\"></i><br>Примечание: Управлять можно так же <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/GET-управление\">GET запросами</a>.",
  "relay":[
   {
    "command":"on 1",
@@ -21,10 +21,6 @@
   {
    "command":"off 1 60",
    "title":"{{Langrelayoff}} под номером 1 на 60 секунд"
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=relat on 1</i>"
   }
  ],
  "jalousie":[
@@ -39,10 +35,6 @@
   {
    "command":"not",
    "title":"{{Langjalousienot}}"
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=jalousie open</i>"
   }
  ],
  "rgb":[
@@ -72,10 +64,6 @@
   },  {
    "command":"set - - 100 -",
    "title":"В таком случае вы измените только яркость на 100. Те параметры которые вы не хотите менять необходимо ставить \"-\" крайние параметры могут быть упущены."
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=rgb on ff0000</i>"
   }
  ],
  "lvsend":[
@@ -98,10 +86,6 @@
   {
    "command":"6400 106",
    "title":"All off"
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=lvsend 6400 24</i>"
   }
  ],
  "GET":[
@@ -114,8 +98,8 @@
    "title":"API - https://ifttt.com/maker_webhooks"
   },
   {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: УСТРОЙСТВО МОЖЕТ ОТПРВЛЯТЬ GET ЗАПРОСЫ ТОЛЬКО НА HTTP CЕРВЕРА. HTTPS НЕ ПОДДЕРЖИВАЕТСЯ."
+   "command":"http://domain/?val={{Tach0}}&text={{stateRGB}}",
+   "title":"В двойных скобках вы можете вставлять переменный из файла <a href=\"/config.live.json\">config.live.json</a>"
   }
  ],
  "irsend":[
@@ -126,10 +110,6 @@
   {
    "command":"20df40bf",
    "title":""
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=irsend 20dfc03f</i>"
   }
  ],
  "rfsend":[
@@ -140,10 +120,6 @@
   {
    "command":"6244622",
    "title":""
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=rfsend 423441</i>"
   }
  ],
  "tone":[
@@ -154,10 +130,6 @@
   {
    "command":"4000 2000",
    "title":"Тон, время звучания в мс."
-  },
-  {
-   "command":"",
-   "title":"ПРИМЕЧАНИЕ: Упровлять можно GET запросом, пример: <i>http://ip/cmd?command=tone 35000 1000</i>"
   }
  ]
 }
