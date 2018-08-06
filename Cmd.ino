@@ -8,6 +8,9 @@ void initCMD() {
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
   sCmd.addCommand("DHT",       initDHT);
+#ifdef Si7021
+  sCmd.addCommand("SI7021",       initSi7021);
+#endif
   sCmd.addCommand("DS18B20",       initOneWire);
   sCmd.addCommand("TIMERS",       initTimers);
   sCmd.addCommand("RELAY",       initRelay);
@@ -48,6 +51,15 @@ void alarmGet() {
 
 void initGet() {
   String urls = readArgsString();
+  if (urls.indexOf("{{")!=-1) {
+    String param = urls;
+    do {
+      param = deleteBeforeDelimiter(param, "{{");
+      String test = selectToMarker(param, "}}");
+      param = deleteBeforeDelimiter(param, "}}");
+      urls.replace("{{" + test + "}}", getStatus(test));
+    } while (param.length() != 0);
+  }
   //Serial.println(urls);
   String answer = "";
   HTTPClient http;
@@ -70,4 +82,24 @@ void uart() {
   Serial.begin(readArgsInt());
   delay(100);
   Serial.println();
+}
+
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
+String readArgsString() {
+  String arg;
+  arg = sCmd.next();
+  //Serial.println(arg);
+  if (arg == "") arg = "";
+  return arg;
+}
+// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
+int readArgsInt() {
+  char *arg;
+  arg = sCmd.next();
+  if (arg != NULL) {
+    return atoi(arg);
+  }
+  else {
+    return 0;
+  }
 }

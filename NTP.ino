@@ -26,6 +26,7 @@ void initNTP() {
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
     if (timeNow == "00:00:00") {
+      timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
       String timeNow = GetWeekday();
       sendStatus(weekdayS, timeNow);
       loadTimer();

@@ -1,4 +1,5 @@
-#define POW
+#define Si7021
+//#define POW
 //#define CRIB
 #include "sets.h"             //Содержится в пакете
 
@@ -31,13 +32,17 @@ HLW8012 hlw8012;
 OneWire *oneWire;
 DallasTemperature sensors;
 DHT dht;
+
+#ifdef Si7021
+Adafruit_Si7021 sensor_Si7021 = Adafruit_Si7021();
+#endif
+
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
 void setup() {
 //Serial.begin(115200);
 //Serial.println();
   start_init();
-
 }
 
 void loop() {

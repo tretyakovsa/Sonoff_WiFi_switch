@@ -19,12 +19,6 @@ void initA0() {
     sendStatus(stateA0S, a);
     alarmTest(stateA0S, highalarmA0S, lowalarmA0S, alarmA0S);
   }, nullptr, true);
-/*
-  HTTP.on("/analog.json", HTTP_GET, []() {
-    String data = graf3(getStatusInt(stateA0S), getOptionsInt(highalarmA0S), getOptionsInt(lowalarmA0S), 10, t, "low:0");
-    httpOkJson(data);
-  });
-*/
   modulesReg("A0");
 }
 // ----------------- OneWire -------------------------------------------------------------------------------
@@ -63,13 +57,6 @@ void initOneWire() {
       alarmTest(temperatureS + num, highalarmtempS + num, lowalarmtempS + num, alarmtempS + num);
     }
   }, nullptr, true);
-/*
-  HTTP.on("/temperature.json", HTTP_GET, []() {
-    String num = HTTP.arg("n");
-    String data = graf3(getStatusFloat(temperatureS + num), getOptionsFloat(highalarmtempS + num), getOptionsFloat(lowalarmtempS + num), 10, t, "low:0");
-    httpOkJson(data);
-  });
-  */
 }
 // -----------------  DHT
 void initDHT() {
@@ -97,23 +84,32 @@ void initDHT() {
       alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
       alarmTest(humidityS, highalarmhumS, lowalarmhumS, alarmhumS);
     }, nullptr, true);
-    /*
-    HTTP.on("/temperature.json", HTTP_GET, []() {
-      //      String data = graf(getStatusInt(temperatureS), 10, t, "low:0");
-      String data = graf3(getStatusFloat(temperatureS), getOptionsFloat(highalarmtempS), getOptionsFloat(lowalarmtempS), 10, t, "low:0");
-      httpOkJson(data);
-    });
-    HTTP.on("/humidity.json", HTTP_GET, []() {
-      //      String data = graf(getStatusInt(humidityS), 10, t, "low:0");
-      String data = graf3(getStatusFloat(humidityS), getOptionsFloat(highalarmhumS), getOptionsFloat(lowalarmhumS), 10, t, "low:0");
-      httpOkJson(data);
-    });
-    */
     modulesReg(temperatureS);
     modulesReg(humidityS);
   }
 }
 
+// -----------------  Si7021 --------------------------------------------------------------------
+#ifdef Si7021
+void initSi7021() {
+  if (sensor_Si7021.begin()) {
+      sendStatus(temperatureS, sensor_Si7021.readTemperature());
+      sendOptions(alarmtempS, 0);
+      alarmLoad(temperatureS, highalarmtempS, lowalarmtempS);
+      sendStatus(humidityS, sensor_Si7021.readHumidity());
+      sendOptions(alarmhumS, 0);
+      alarmLoad(humidityS, highalarmhumS, lowalarmhumS);
+      ts.add(11, 1000, [&](void*) {
+        sendStatus(temperatureS, sensor_Si7021.readTemperature());
+        sendStatus(humidityS, sensor_Si7021.readHumidity());
+        alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
+        alarmTest(humidityS, highalarmhumS, lowalarmhumS, alarmhumS);
+      }, nullptr, true);
+      modulesReg(temperatureS);
+      modulesReg(humidityS);
+  }
+}
+#endif
 // -----------------------Данных уровней активных модулей --------------------------------------------
 void alarmLoadModules() {
   String  modulesN = selectToMarker(modules, "]");
@@ -129,9 +125,9 @@ void alarmLoadModules() {
     if (m == "analog")  alarmSet += stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
     if (m == temperatureS)  alarmSet += temperatureS + " " + highalarmtempS + " " + lowalarmtempS;
     if (m == humidityS)  alarmSet += humidityS + " " + highalarmhumS + " " + lowalarmhumS;
-    #ifdef POW
+#ifdef POW
     if (m == "pow")  alarmSet += ActivePowerWS + " " + highalarmpowS + " " + lowalarmpowS;
-    #endif
+#endif
     modulesN = deleteBeforeDelimiter(modulesN, ",");
   } while (modulesN != "");
 }

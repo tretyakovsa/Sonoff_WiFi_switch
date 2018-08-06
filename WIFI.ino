@@ -122,7 +122,12 @@ boolean startSTA() {
   String ssid = getSetup(ssidS);
   String pass = getSetup(ssidPassS);
   WiFi.persistent(false);
-  WiFi.begin(ssid.c_str(), pass.c_str());
+   if (ssid == "" && pass == "") {
+    WiFi.begin();
+  }
+  else {
+    WiFi.begin(ssid.c_str(), pass.c_str());
+  }
   if ( wifiConnect()) {
     WiFi.setAutoConnect(true);
     WiFi.setAutoReconnect(true);

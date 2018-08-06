@@ -13,7 +13,7 @@ void start_init() {
   initSSDP();
   initScenary();
   setupToInit();
-  //initNTP();
+  initNTP();
   //initWebSocket();
   //testPin();
 }
@@ -225,21 +225,4 @@ void commandsReg(String comName) {
     json.printTo(regCommands);
   }
 }
-// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает String
-String readArgsString() {
-  String arg;
-  arg = sCmd.next();
-  if (arg == "") arg = "";
-  return arg;
-}
-// Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int
-int readArgsInt() {
-  char *arg;
-  arg = sCmd.next();
-  if (arg != NULL) {
-    return atoi(arg);
-  }
-  else {
-    return 0;
-  }
-}
+

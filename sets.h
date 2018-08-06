@@ -28,6 +28,9 @@
 #include <IRsend.h>
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #include <LivoloTx.h>                //https://github.com/bitlinker/LivoloTx
+#ifdef Si7021
+#include "Adafruit_Si7021.h"         //https://github.com/adafruit/Adafruit_Si7021
+#endif
 #ifdef CRIB
 #include <Ticker.h>
 #endif
