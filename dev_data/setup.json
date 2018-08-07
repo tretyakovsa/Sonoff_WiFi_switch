@@ -356,7 +356,7 @@
    "title":"{{LangSave}}",
    "module":"mqtt",
    "class":"btn btn-block btn-success",
-   "action":"mqtt [[mqtt-port]] [[mqtt-server]] [[mqtt-user]] [[mqtt-pass]]"
+   "action":"mqtt [[mqtt-server]] [[mqtt-port]] [[mqtt-user]] [[mqtt-pass]]"
   },
 
 

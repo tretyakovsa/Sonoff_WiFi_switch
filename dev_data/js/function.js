@@ -378,9 +378,9 @@ function viewTemplate(jsonPage,jsonResponse) {
       var option = '';
       option += '<select class="form-control" id="ssdp-list2" style="display:none"><option value="'+location.host+'">-</option></select>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += '<select class="form-control hidden" id="scenary-then2" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
+      option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
       option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list2\').options[document.getElementById(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then2\').options[document.getElementById(\'scenary-then2\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
-      element.innerHTML += '<h4>Module:</h4> '+option;
+      element.innerHTML += '<h4 style="float:left;">Module:</h4> '+option;
       setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
      }
      if (type_val == 'login') {
