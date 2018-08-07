@@ -104,12 +104,16 @@
  ],
  "irsend":[
   {
-   "command":"20dfc03f",
+   "command":"3 20dfc03f",
    "title":""
   },
   {
-   "command":"20df40bf",
+   "command":"2 20df40bf",
    "title":""
+  },
+  {
+   "command":"",
+   "title":"ОБРАТИТЕ ВНИМАНИЕ, ПЕРЕД КОМАНДОЙ НУЖНО ОТПРАВИТЬ НОМЕР ПРОТОКОЛА: <br>RC5: 1<br>RC6: 2<br>NEC: 3<br>SONY: 4<br>PANASONIC: 5<br>JVC: 6<br>SAMSUNG: 7<br>WHYNTER: 8<br>AIWA_RC_T501: 9<br>LG: 10<br>MITSUBISHI: 12"
   }
  ],
  "rfsend":[

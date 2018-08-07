@@ -297,9 +297,9 @@
   {
    "type":"button",
    "title":"{{LangSave}}",
-   "module":"",
+   "module":"ddns",
    "class":"btn btn-block btn-success",
-   "action":"ddns?ddnsName=[[ddns-name]]&ddnsPort=[[ddns-port]]&ddns=[[ddns-server]]"
+   "action":"ddns [[ddns-name]] [[ddns-port]] [[ddns-server]]"
   },
   {
    "type":"hr"
@@ -354,9 +354,9 @@
   {
    "type":"button",
    "title":"{{LangSave}}",
-   "module":"",
+   "module":"mqtt",
    "class":"btn btn-block btn-success",
-   "action":"mqtt?port=[[mqtt-port]]&server=[[mqtt-server]]&user=[[mqtt-user]]&pass=[[mqtt-pass]]"
+   "action":"mqtt [[mqtt-port]] [[mqtt-server]] [[mqtt-user]] [[mqtt-pass]]"
   },
 
 
