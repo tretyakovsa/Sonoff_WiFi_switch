@@ -75,6 +75,9 @@ function createXmlHttpObject(){
 
 var set_real_time;
 var active = 'egiste';
+var jsonPage;
+var jsonResponse;
+
 document.onkeydown = function(e){
  var evtobj = window.event? event : e
  var element=document.getElementById('edit-content');
@@ -95,7 +98,10 @@ function run_socket(url) {
  };
  connection.onmessage = function (e) {
   console.log('Server: ', e.data);
-  setContent();
+  var socket_data=JSON.parse(e.data);
+  jsonResponse_news = mergeObject(jsonResponse, socket_data);
+  document.getElementById('content').innerHTML = '';
+  viewTemplate(jsonPage,jsonResponse_news);
  }
 }
 
@@ -105,7 +111,7 @@ function setContent(stage) {
  pages[0] = (pages[0]?pages[0]:'index');
  ajax.get(pages[0]+'.json',{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
-  var jsonPage;
+  // var jsonPage;
   if (response!='FileNotFound'){
    jsonPage=JSON.parse(response);
    var jsonEdit=response;
@@ -121,7 +127,9 @@ function setContent(stage) {
        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
       } else {
        if (jsonPage.configs[fileNumber].indexOf('socket ')  >= 0){
-        run_socket(jsonPage.configs[fileNumber]);
+        if (stage == 'first') {
+         run_socket(jsonPage.configs[fileNumber]);
+        }
         document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>';
        } else {
         document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
