@@ -1185,8 +1185,11 @@ function loadCommits(repos,viewCommits){
 }
 
 function loadIssues(repos,viewIssues){
+
+var issues_list = document.getElementById('issues-list');
+
  ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
-  html('issues-list', ' ');
+   html('issues-list', ' ');
   var jsonIssues=JSON.parse(response);
   jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
   for(var key in jsonIssues) {
@@ -1199,11 +1202,14 @@ function loadIssues(repos,viewIssues){
      }
     }
    }
-   if (key < viewIssues) {
-    document.getElementById('issues-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
+   if (issues_list && key < viewIssues) {
+    issues_list.innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
    }
   }
-  document.getElementById('issues-list').innerHTML += '<p><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" class="label label-success">'+jsonResponse.LangNewIssues+'</a></p>';
+
+  if (issues_list) {
+   issues_list.innerHTML += '<p><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" class="label label-success">Create new issues</a></p>';
+  }
  },true);
 }
 
@@ -1213,7 +1219,7 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
    var jsonBuild=JSON.parse(response);
    jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
    if (jsonBuild[0].name != spiffs) {
-    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.split('_')[4]?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
+    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
    }
   },true);
  }, LoadDelay);
