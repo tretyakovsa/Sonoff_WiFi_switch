@@ -85,6 +85,20 @@ document.onkeydown = function(e){
  }
 }
 
+function run_socket(url) {
+ var connection = new WebSocket(url.replace('socket ','ws://'), ['arduino']);
+ connection.onopen = function () {
+  connection.send('Connect ' + new Date());
+ };
+ connection.onerror = function (error) {
+  console.log('WebSocket Error ', error);
+ };
+ connection.onmessage = function (e) {
+  console.log('Server: ', e.data);
+  setContent();
+ }
+}
+
 function setContent(stage) {
  jsonResponse = '';
  var pages = window.location.search.substring(1).split("&");
@@ -106,7 +120,12 @@ function setContent(stage) {
        //jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
       } else {
-       document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
+       if (jsonPage.configs[fileNumber].indexOf('socket ')  >= 0){
+        run_socket(jsonPage.configs[fileNumber]);
+        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>';
+       } else {
+        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
+       }
       }
       fileNumber++;
       if(fileNumber == jsonPage.configs.length) {
@@ -162,21 +181,21 @@ function setContent(stage) {
       }
       if(fileNumber < jsonPage.configs.length) {
        jsonPage.configs[fileNumber] = renameBlock(jsonResponse, jsonPage.configs[fileNumber]);
-       if (jsonPage.configs[fileNumber].indexOf('ws://')  >= 0){
-        var connection = new WebSocket(jsonPage.configs[fileNumber], ['arduino']);
-        connection.onopen = function () {
-         connection.send('Connect ' + new Date());
-        };
-        connection.onerror = function (error) {
-         console.log('WebSocket Error ', error);
-        };
-        connection.onmessage = function (e) {
-         console.log('Server: ', e.data);
-         setContent();
-        }
-       } else {
-        foo();
-       }
+       // if (jsonPage.configs[fileNumber].indexOf('ws://')  >= 0){
+       //  var connection = new WebSocket(jsonPage.configs[fileNumber]+":81", ['arduino']);
+       //  connection.onopen = function () {
+       //   connection.send('Connect ' + new Date());
+       //  };
+       //  connection.onerror = function (error) {
+       //   console.log('WebSocket Error ', error);
+       //  };
+       //  connection.onmessage = function (e) {
+       //   console.log('Server: ', e.data);
+       //   setContent();
+       //  }
+       // } else {
+       foo();
+       // }
       }
      },true);
     })()
@@ -1186,10 +1205,10 @@ function loadCommits(repos,viewCommits){
 
 function loadIssues(repos,viewIssues){
 
-var issues_list = document.getElementById('issues-list');
+ var issues_list = document.getElementById('issues-list');
 
  ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
-   html('issues-list', ' ');
+  html('issues-list', ' ');
   var jsonIssues=JSON.parse(response);
   jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
   for(var key in jsonIssues) {
