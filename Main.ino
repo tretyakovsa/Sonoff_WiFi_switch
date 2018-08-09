@@ -13,7 +13,6 @@ void start_init() {
   initSSDP();
   initScenary();
   setupToInit();
-  initNTP();
   //initWebSocket();
   //testPin();
 }

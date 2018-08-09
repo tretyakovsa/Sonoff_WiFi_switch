@@ -1,4 +1,4 @@
-#define Si7021
+//#define Si7021
 //#define POW
 //#define CRIB
 #include "sets.h"             //Содержится в пакете

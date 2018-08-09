@@ -5,19 +5,36 @@
   PubSubClient client(wclient);
 */
 void initMQTT() {
-  HTTP.on("/mqtt", HTTP_GET, []() {
-  sendSetup(mqttServerS,  HTTP.arg("server"));
-  sendSetup(mqttPortS,  HTTP.arg("port").toInt());
-  sendSetup(mqttUserS,  HTTP.arg("user"));
-  sendSetup(mqttPassS,  HTTP.arg("pass"));
-  saveConfigSetup ();
-  client.disconnect();
-  MQTT_Pablush();
-    httpOkText();
-  });
-  modulesReg("mqtt");
-  MQTT_Pablush();
+
+    HTTP.on("/mqtt", HTTP_GET, []() {
+      sendSetup(mqttServerS,  HTTP.arg("server"));
+      sendSetup(mqttPortS,  HTTP.arg("port").toInt());
+      sendSetup(mqttUserS,  HTTP.arg("user"));
+      sendSetup(mqttPassS,  HTTP.arg("pass"));
+      saveConfigSetup ();
+      client.disconnect();
+      MQTT_Pablush();
+      httpOkText();
+    });
+    sCmd.addCommand("mqtt", handle_mqtt);
+    modulesReg("mqtt");
+    MQTT_Pablush();
+
 }
+
+// ------------------------------Установка параметров mqtt
+void handle_mqtt() {
+  String mqttServer = readArgsString();
+  int mqttPort = readArgsInt();
+  String mqttUser = readArgsString();
+  String mqttPass = readArgsString();
+  sendSetup(mqttServerS, mqttServer);
+  sendSetup(mqttPortS, mqttPort);
+  sendSetup(mqttUserS, mqttUser);
+  sendSetup(mqttPassS, mqttPass);
+  saveConfigSetup ();
+}
+
 
 void MQTT_Pablush() {
   String mqtt_server = getSetup(mqttServerS);
@@ -35,7 +52,7 @@ void MQTT_Pablush() {
           client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           //client.subscribe( prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
 
-          sendMQTT("test","work");
+          sendMQTT("test", "work");
         } else {
         }
       }
@@ -57,11 +74,13 @@ void callback(const MQTT::Publish& pub)
 }
 
 void  handleMQTT() {
-  if (client.connected()) client.loop();
-  else {
-    MQTT_Pablush();
-    //Serial.println("MQTT");
+
+    if (client.connected()) client.loop();
+    else {
+      MQTT_Pablush();
+      //Serial.println("MQTT");
     }
+
 }
 
 // Читаем и отправляем виджеты на сервер
@@ -75,7 +94,7 @@ bool loadnWidgets() {
   if (j != 0) {
     for (int i = 0; i <= j - 1; i++) {
       String thing_config = Widgets["nWidgets"][i].as<String>();
-      jsonWrite(thing_config, "topic",  prex+ jsonRead(thing_config, "topic"));
+      jsonWrite(thing_config, "topic",  prex + jsonRead(thing_config, "topic"));
       jsonWrite(thing_config, "page", getSetup(spaceS));
       //Serial.println(thing_config);
       client.publish(MQTT::Publish(prex + "/config", thing_config).set_qos(1));
@@ -83,39 +102,42 @@ bool loadnWidgets() {
   }
   return true;
 }
- void sendMQTT(String topik, String data){
-  topik = prefix + "/" + chipID + "/"+topik;
+void sendMQTT(String topik, String data) {
+  topik = prefix + "/" + chipID + "/" + topik;
   //topik = prex+topik
-   client.publish(MQTT::Publish(topik, data).set_qos(1));
-  }
+  client.publish(MQTT::Publish(topik, data).set_qos(1));
+}
 
 // --------------------- Включаем DDNS
 void initDDNS() {
-  HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
-  HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
-  // ------------------Выполнение команды из запроса
-  HTTPWAN.on("/cmd", HTTP_GET, []() {
-    String com = HTTPWAN.arg("command");
-    //sendStatus("test", com);
-    sCmd.readStr(com);
-    httpwanOkText(com);
-  });
-  HTTPWAN.on("/", HTTP_GET, []() {
-    String str = getSetup(ddnsNameS);
-    httpwanOkText(str);
-  });
-   HTTPWAN.onNotFound([]() {
-   //Serial.println("TEST DDNS");
+
+    HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
+    HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
+    // ------------------Выполнение команды из запроса
+    HTTPWAN.on("/cmd", HTTP_GET, []() {
+      String com = HTTPWAN.arg("command");
+      //sendStatus("test", com);
+      sCmd.readStr(com);
+      httpwanOkText(com);
+    });
+    HTTPWAN.on("/", HTTP_GET, []() {
+      String str = getSetup(ddnsNameS);
+      httpwanOkText(str);
+    });
+    HTTPWAN.onNotFound([]() {
+      //Serial.println("TEST DDNS");
       HTTPWAN.send(404, "text/plain", "FileNotFound");
-  });
+    });
 
     // задача синхронизайия с сервером ddns каждые 6 минут
- ts.add(10, 600000, [&](void*) {
+    ts.add(10, 600000, [&](void*) {
+      ip_wan();
+    }, nullptr, true);
     ip_wan();
-  }, nullptr, true);
-  ip_wan();
-  HTTPWAN.begin();
-  modulesReg(ddnsS);
+    HTTPWAN.begin();
+    sCmd.addCommand("ddns", handle_ddns);
+    modulesReg(ddnsS);
+
 }
 
 void httpwanOkText(String text) {
@@ -124,12 +146,15 @@ void httpwanOkText(String text) {
 
 // ------------------------------Установка параметров ddns
 void handle_ddns() {
-sendSetupArg(ddnsS);
-sendSetupArg(ddnsNameS);
-sendSetupArg(ddnsPortS);
+  String ddnsName = readArgsString();
+  int ddnsPort = readArgsInt();
+  String ddns = readArgsString();
+  sendSetup(ddnsS, ddns);
+  sendSetup(ddnsPortS, ddnsPort);
+  sendSetup(ddnsNameS, ddnsName);
+
   ip_wan();
   saveConfigSetup ();
-  httpOkText();
 }
 
 // --------------------------------Запрос для синхронизации внешнего ip адреса с ddns

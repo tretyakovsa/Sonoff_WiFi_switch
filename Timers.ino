@@ -20,6 +20,7 @@ void delTimer() {
 }
 
 void loadTimer() {
+  //Serial.println("Load");
   long lminTime = 86400;
   String jsonTimer = readFile(configTimerS, 4096);
   String Weekday = GetWeekday();
