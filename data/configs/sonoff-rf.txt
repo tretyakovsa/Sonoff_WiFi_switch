@@ -1,5 +1,5 @@
 // {{LangConfRelay}}
-RELAY 12 1 1 1
+RELAY 12 1 1 0
 // {{LangConfSerial}}
 # UART 115200
 # print print
