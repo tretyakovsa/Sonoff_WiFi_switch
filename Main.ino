@@ -105,9 +105,11 @@ String goCommands(String inits) {
   String temp = "";
   String rn = "\n";
   inits += rn;
+//  Serial.println(writeFile("inits.txt", inits));
   do {
     temp = selectToMarker (inits, rn);
-    //Serial.println(temp);
+
+    Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
   } while (inits.indexOf(rn) != 0);
@@ -132,7 +134,7 @@ String readFile(String fileName, size_t len ) {
 String writeFile(String fileName, String strings ) {
   File configFile = SPIFFS.open("/" + fileName, "w");
   if (!configFile) {
-    return "Failed to open config file";
+    return "Failed to open file";
   }
   configFile.print(strings);
   configFile.close();

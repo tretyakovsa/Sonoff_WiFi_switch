@@ -5,21 +5,9 @@
   PubSubClient client(wclient);
 */
 void initMQTT() {
-
-    HTTP.on("/mqtt", HTTP_GET, []() {
-      sendSetup(mqttServerS,  HTTP.arg("server"));
-      sendSetup(mqttPortS,  HTTP.arg("port").toInt());
-      sendSetup(mqttUserS,  HTTP.arg("user"));
-      sendSetup(mqttPassS,  HTTP.arg("pass"));
-      saveConfigSetup ();
-      client.disconnect();
-      MQTT_Pablush();
-      httpOkText();
-    });
     sCmd.addCommand("mqtt", handle_mqtt);
     modulesReg("mqtt");
     MQTT_Pablush();
-
 }
 
 // ------------------------------Установка параметров mqtt
@@ -112,7 +100,6 @@ void sendMQTT(String topik, String data) {
 void initDDNS() {
 
     HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
-    HTTP.on("/ddns", handle_ddns);               // Установка параметров ddns
     // ------------------Выполнение команды из запроса
     HTTPWAN.on("/cmd", HTTP_GET, []() {
       String com = HTTPWAN.arg("command");
@@ -137,7 +124,6 @@ void initDDNS() {
     HTTPWAN.begin();
     sCmd.addCommand("ddns", handle_ddns);
     modulesReg(ddnsS);
-
 }
 
 void httpwanOkText(String text) {

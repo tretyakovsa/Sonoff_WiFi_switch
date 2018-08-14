@@ -40,8 +40,8 @@ Adafruit_Si7021 sensor_Si7021 = Adafruit_Si7021();
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
 void setup() {
-//Serial.begin(115200);
-//Serial.println();
+Serial.begin(115200);
+Serial.println();
   start_init();
 }
 

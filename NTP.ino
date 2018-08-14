@@ -1,34 +1,20 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
   String ntpTemp = readArgsString();
-  if (ntpTemp == emptyS) ntpTemp = "pool.ntp.org";
   sendOptions(ntp1S, ntpTemp);
   ntpTemp = readArgsString();
-  if (ntpTemp == emptyS) ntpTemp = "ru.pool.ntp.org";
   sendOptions(ntp2S, ntpTemp);
-  HTTP.on("/Time", HTTP_GET, []() {
-    timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
-    String out = "{}";
-    jsonWrite(out, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
-    httpOkText(out);
-  });
-  // Установка времянной зоны
-  HTTP.on("/timeZone", HTTP_GET, []() {
-    uint8_t timezone = HTTP.arg("timeZone").toInt();
-    sendSetup(timeZoneS,  timezone);
-    sendOptions(timeZoneS, timezone);
-    timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
-    saveConfigSetup ();
-    httpOkText();
-  });
-  timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
+  sCmd.addCommand("time", handle_time);
+  timeSynch();
+  //Serial.println(GetTime());
+  if (GetTime()!="00:00:00"){
   // задача проверять таймеры каждую секунду обновлять текущее время.
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
     if (timeNow == "00:00:00") {
-      //timeSynch(getOptionsInt(timeZoneS), getOptions(ntp1S), getOptions(ntp2S));
       String timeNow = GetWeekday();
       sendStatus(weekdayS, timeNow);
+      timeSynch();
       loadTimer();
     }
     sendStatus(timeS, timeNow);
@@ -44,10 +30,33 @@ void initNTP() {
       pTime ="";
     }
   }, nullptr, true);
+  sCmd.addCommand("zone", handle_timeZone);
   modulesReg("ntp");
+  }
 }
 
-void timeSynch(uint8_t zone, String ntp1, String ntp2) {
+// ------------------------------ Установка времянной зоны
+void handle_timeZone() {
+  int timezone = readArgsInt();
+  sendSetup(timeZoneS,  timezone);
+  sendOptions(timeZoneS, timezone);
+  timeSynch();
+  saveConfigSetup ();
+}
+
+// ------------------------------ Комманда синхронизации времени
+void handle_time() {
+     timeSynch();
+     statusS = "{}";
+    jsonWrite(statusS, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
+}
+
+void timeSynch() {
+  uint8_t zone = getOptionsInt(timeZoneS);
+  String ntp1 = getOptions(ntp1S);
+  String ntp2 = getOptions(ntp2S);
+   if (ntp1 == emptyS) ntp1 = "pool.ntp.org";
+   if (ntp2 == emptyS) ntp2 = "ru.pool.ntp.org";
   if (WiFi.status() == WL_CONNECTED) {
     // Инициализация UDP соединения с NTP сервером
     configTime(zone * 3600, 0, ntp1.c_str(), ntp2.c_str());
@@ -59,11 +68,8 @@ void timeSynch(uint8_t zone, String ntp1, String ntp2) {
     String timeNow = GetTime();
     jsonWrite(configSetup, timeS,  timeNow);
     sendStatus(timeS, timeNow);
-    //sendOptions(timeS, timeNow);
     timeNow = GetWeekday();
-    //configSetup = jsonWrite(configSetup, weekdayS,  timeNow);
     sendStatus(weekdayS, timeNow);
-    //sendOptions(timeS, timeNow);
   }
 }
 // Получение текущего времени

@@ -32,8 +32,8 @@ void initCMD() {
   sCmd.addCommand("BUZZER",       initBuzzer);
   sCmd.addCommand("print",       printTest);
   sCmd.addCommand("ALARM",       alarmGet);
-  //sCmd.addCommand("//",       alarmComm);
-  //sCmd.addCommand("#",       alarmOff);
+  sCmd.addCommand("//",       alarmComm);
+  sCmd.addCommand("#",       alarmOff);
   //sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.addCommand("GET",       initGet);
   commandsReg("GET");
@@ -41,15 +41,15 @@ void initCMD() {
 }
 
 void unrecognized(const char *command) {
-  Serial.println("What?");
+  //Serial.println("What?");
 }
 
 void alarmComm() {
-Serial.println("Comment?");
+//Serial.println("Comment?");
 }
 
 void alarmOff() {
-Serial.println("CommandOff?");
+//Serial.println("CommandOff?");
 }
 
 void alarmGet() {

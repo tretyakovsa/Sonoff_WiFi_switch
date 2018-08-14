@@ -20,6 +20,8 @@ void loadScenary() {
   Scenary.replace("\r\n", "\n");
   Scenary.replace("\n\n", "\n");
   Scenary += "\n";
+  //writeFile("test.text",Scenary);
+
 }
 // Ничего не делать если комманда id
 void idNot() {}
