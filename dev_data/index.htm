@@ -50,23 +50,23 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadModule(ipval,stage,sorting,ipDevice) {
-    ajax.get('http://'+ipval+'/modules.json',{},function(response) {
+   function loadModule(ip,stage,sorting,ipDevice) {
+    ajax.get('http://'+ip+'/modules.json',{},function(response) {
      var ipModule=JSON.parse(response);
      var allModules = [];
      var allSpace = [];
      // for(var key in ipModule) {
      if (stage == 'search') {
-      loadBlock(ipval,'content','first',ipModule.module);
+      loadBlock(ip,'content','first',ipModule.module);
      }
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
 
 
-      if (window.location.hostname == ipval) {
-       ajax.get('http://'+ipval+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
+      if (window.location.hostname == ip) {
+       ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
-        loadBlock(ipval,'content','first',ipModule.module);
+        loadBlock(ip,'content','first',ipModule.module);
         setContent('first');
 
         for (var i in ipDevice) {
@@ -77,7 +77,7 @@ From: Latvia, Valmiera
 
        },true);
       } else {
-       loadBlock(ipval,'content','first',ipModule.module);
+       loadBlock(ip,'content','first',ipModule.module);
       }
 
 
@@ -117,10 +117,10 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadBlock(ipval, content, stage, modules) {
-    ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
+   function loadBlock(ip, content, stage, modules) {
+    ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
      var jsonIndexResponse0 = JSON.parse(response);
-     ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
+     ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
@@ -130,44 +130,44 @@ From: Latvia, Valmiera
          jsonIndexResponse["relay"+i] = 'hidden';
         }
        }
-       loadBlock2('relay','timer.save',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('relay','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"rgb")){
-       loadBlock2('rgb','timer.save',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('rgb','timer.save',ip, content, stage, jsonIndexResponse);
       }
       // if (searchModule(modules,"rfLivolo")){
-      //  loadBlock2('livolo','timer.save',ipval, content, stage, jsonIndexResponse);
+      //  loadBlock2('livolo','timer.save',ip, content, stage, jsonIndexResponse);
       // }
       if (searchModule(modules,"jalousie")){
-       loadBlock2('jalousie','timer.save',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('jalousie','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"leakag")){
-       loadBlock2('leakag','timer.save',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('leakag','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if(/temperature/.test(modules)) {
        var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,'temperature'+i)){
-         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ipval, content, stage, jsonIndexResponse,(i==0?'':i));
+         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));
         }
        }
       }
       //if (searchModule(modules,"temperature")){
-      // loadBlock2('temperature','temperature',ipval, content, stage, jsonIndexResponse);
+      // loadBlock2('temperature','temperature',ip, content, stage, jsonIndexResponse);
       //}
       if (searchModule(modules,"humidity")){
-       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"pow")){
-       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"A0")){
-       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ipval, content, stage, jsonIndexResponse);
+       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ip, content, stage, jsonIndexResponse);
       }
       if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
-       loadBlock2(content,'timer.save',ipval, content, stage, jsonIndexResponse);
+       loadBlock2(content,'timer.save',ip, content, stage, jsonIndexResponse);
       }
-      if (window.location.hostname == ipval && stage == 'first') {
+      if (window.location.hostname == ip && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
        for (var key in jsonIndexResponse) {
@@ -184,13 +184,13 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadBlock2(page, jsonPage, ipval, content, stage, jsonIndexResponse, idModule){
+   function loadBlock2(page, jsonPage, ip, content, stage, jsonIndexResponse, idModule){
     if (stage == 'first'){
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
     }
-    ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
+    ajax.get('http://'+ip+'/block-'+page+'.htm',{},function(response) {
      var data = response;
-     ajax.get('http://'+ipval+'/'+jsonPage+'.json'+(idModule?'?n='+idModule:''),{},function(response) {
+     ajax.get('http://'+ip+'/'+jsonPage+'.json'+(idModule?'?n='+idModule:''),{},function(response) {
       var timers=JSON.parse(response);
       var timerList = '';
       if (timers.timer) {
@@ -218,7 +218,7 @@ From: Latvia, Valmiera
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
-      jsonIndexResponse.ip = ipval;
+      jsonIndexResponse.ip = ip;
       //jsonIndexResponse.stateRelay = (jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       for (var i = 0; i < 10; i++) {
        jsonIndexResponse["stateRelay"+i] = (jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
@@ -227,27 +227,27 @@ From: Latvia, Valmiera
       jsonIndexResponse.stateJalousie = (jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
       jsonIndexResponse.stateLeakag = (jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       if (page == 'A0') {
-       jsonIndexResponse.analogId = 'A0json'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ipval+"/charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0')", 1500);
+       jsonIndexResponse.analogId = 'A0json'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ip+"/charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0')", 1500);
       }
       if (page == 'pow') {
-       jsonIndexResponse.powId = 'powjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.powId+"','http://"+ipval+"/charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow')", 1500);
+       jsonIndexResponse.powId = 'powjson'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.powId+"','http://"+ip+"/charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow')", 1500);
       }
       if (page == 'temperature') {
-       jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=temperature"+(idModule?idModule:'')+"&data1=highAlarmTemp"+(idModule?idModule:'')+"&data2=lowAlarmTemp"+(idModule?idModule:'')+"')", 1500);
+       jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ip+"/charts.json?data=temperature"+(idModule?idModule:'')+"&data1=highAlarmTemp"+(idModule?idModule:'')+"&data2=lowAlarmTemp"+(idModule?idModule:'')+"')", 1500);
       }
       if (page == 'humidity') {
-       jsonIndexResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=humidity&data1=highAlаrmHum&data2=lowAlаrmHum')", 1500);
+       jsonIndexResponse.sensorId = 'humidityjson'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ip+"/charts.json?data=humidity&data1=highAlаrmHum&data2=lowAlаrmHum')", 1500);
       }
       var new_string;
       for (var key in jsonIndexResponse) {
        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonIndexResponse[key]);
        data = new_string;
       }
-      document.getElementById("block-"+ipval+"-"+page+(idModule?idModule:'')).innerHTML=new_string;
+      document.getElementById("block-"+ip+"-"+page+(idModule?idModule:'')).innerHTML=new_string;
      },true);
     },true);
    }

@@ -51,16 +51,16 @@ From: Latvia, Valmiera
     }
    }
 
-   function loadModule(ipval,stage,sorting,ipDevice) {
-    ajax.get('http://'+ipval+'/modules.json',{},function(response) {
+   function loadModule(ip,stage,sorting,ipDevice) {
+    ajax.get('http://'+ip+'/modules.json',{},function(response) {
      var ipModule=JSON.parse(response);
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting)) {
 
-      if (window.location.hostname == ipval) {
-       ajax.get('http://'+ipval+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
+      if (window.location.hostname == ip) {
+       ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
-        loadBlock(ipval,'first',ipModule.module);
+        loadBlock(ip,'first',ipModule.module);
         setContent('first');
 
         for (var i in ipDevice) {
@@ -71,17 +71,17 @@ From: Latvia, Valmiera
 
        },true);
       } else {
-       loadBlock(ipval,'first',ipModule.module);
+       loadBlock(ip,'first',ipModule.module);
       }
 
      }
     },true);
    }
 
-   function loadBlock(ipval, stage, modules) {
-    ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
+   function loadBlock(ip, stage, modules) {
+    ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
      var jsonIndexResponse0 = JSON.parse(response);
-     ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
+     ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
@@ -91,45 +91,45 @@ From: Latvia, Valmiera
          jsonIndexResponse["relay"+i] = 'hidden';
         }
        }
-       loadBlock2('relay','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('relay','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"rgb")){
-       loadBlock2('rgb','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('rgb','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       // if (searchModule(modules,"rfLivolo")){
-      //  loadBlock2('livolo','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      //  loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       // }
       if (searchModule(modules,"jalousie")){
-       loadBlock2('jalousie','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('jalousie','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"leakag")){
-       loadBlock2('leakag','timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('leakag','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if(/temperature/.test(modules)) {
        var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,'temperature'+i)){
-         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ipval, content, stage, jsonIndexResponse,(i==0?'':i));
+         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));
         }
        }
       }
       //  if (searchModule(modules,"temperature")){
-      //   loadBlock2('temperature','temperature',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+      //   loadBlock2('temperature','temperature',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       //  }
 
       if (searchModule(modules,"humidity")){
-       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"A0")){
-       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"pow")){
-       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if (!stage && jsonIndexResponse.space == "relay" || jsonIndexResponse.space == "rgb" || jsonIndexResponse.space == "jalousie" || jsonIndexResponse.space == "leakag"){
-       loadBlock2(jsonIndexResponse.space,'timer.save',ipval, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2(jsonIndexResponse.space,'timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      if (window.location.hostname == ipval && stage == 'first') {
+      if (window.location.hostname == ip && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
        for (var key in jsonIndexResponse) {
@@ -146,20 +146,20 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadBlock2(page, jsonPage, ipval, content, stage, jsonIndexResponse,idModule){
+   function loadBlock2(page, jsonPage, ip, content, stage, jsonIndexResponse,idModule){
     if (stage == 'first'){
      var element = document.getElementById(content);
      if (typeof(element) != 'undefined' && element != null && element != ''){
-      //  document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+      //  document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
      } else {
       document.getElementById("content").innerHTML += '<h2 id="'+content+'-title">'+content+'<\/h2><hr><div class="row" id="'+content+'"><\/div>';
       document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
      }
-     document.getElementById(content).innerHTML+='<div id="block-'+ipval+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ipval+'">http://'+ipval+'<\/a><\/center><\/div><\/div><\/div>';
+     document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
     }
-    ajax.get('http://'+ipval+'/block-'+page+'.htm',{},function(response) {
+    ajax.get('http://'+ip+'/block-'+page+'.htm',{},function(response) {
      var data = response;
-     ajax.get('http://'+ipval+'/'+jsonPage+'.json'+(idModule?'?n='+idModule:''),{},function(response) {
+     ajax.get('http://'+ip+'/'+jsonPage+'.json'+(idModule?'?n='+idModule:''),{},function(response) {
       var timers=JSON.parse(response);
       var timerList = '';
       if (timers.timer) {
@@ -186,7 +186,7 @@ From: Latvia, Valmiera
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
-      jsonIndexResponse.ip = ipval;
+      jsonIndexResponse.ip = ip;
       //jsonIndexResponse.stateRelay = (jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       for (var i = 0; i < 10; i++) {
        jsonIndexResponse["stateRelay"+i] = (jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
@@ -195,27 +195,27 @@ From: Latvia, Valmiera
       jsonIndexResponse.stateJalousie = (jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
       jsonIndexResponse.stateLeakag = (jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       if (page == 'A0') {
-       jsonIndexResponse.analogId = 'A0json'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ipval+"/charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0')", 1500);
+       jsonIndexResponse.analogId = 'A0json'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.analogId+"','http://"+ip+"/charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0')", 1500);
       }
       if (page == 'pow') {
-       jsonIndexResponse.powId = 'powjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.powId+"','http://"+ipval+"/charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow')", 1500);
+       jsonIndexResponse.powId = 'powjson'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.powId+"','http://"+ip+"/charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow')", 1500);
       }
       if (page == 'temperature') {
-       jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=temperature"+(idModule?idModule:'')+"&data1=highAlarmTemp"+(idModule?idModule:'')+"&data2=lowAlarmTemp"+(idModule?idModule:'')+"')", 1500);
+       jsonIndexResponse.sensorId = 'temperaturejson'+idModule+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ip+"/charts.json?data=temperature"+(idModule?idModule:'')+"&data1=highAlarmTemp"+(idModule?idModule:'')+"&data2=lowAlarmTemp"+(idModule?idModule:'')+"')", 1500);
       }
       if (page == 'humidity') {
-       jsonIndexResponse.sensorId = 'humidityjson'+ipval.replace(/[^a-z0-9]/gi,'');
-       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ipval+"/charts.json?data=humidity&data1=highAlаrmHum&data2=lowAlаrmHum')", 1500);
+       jsonIndexResponse.sensorId = 'humidityjson'+ip.replace(/[^a-z0-9]/gi,'');
+       setTimeout("loadChart('"+jsonIndexResponse.sensorId+"','http://"+ip+"/charts.json?data=humidity&data1=highAlаrmHum&data2=lowAlаrmHum')", 1500);
       }
       var new_string;
       for (var key in jsonIndexResponse) {
        new_string = data.replace(new RegExp('{{'+key+'}}', 'g'), jsonIndexResponse[key]);
        data = new_string;
       }
-      document.getElementById("block-"+ipval+"-"+page+(idModule?idModule:'')).innerHTML=new_string;
+      document.getElementById("block-"+ip+"-"+page+(idModule?idModule:'')).innerHTML=new_string;
      },true);
     },true);
    }

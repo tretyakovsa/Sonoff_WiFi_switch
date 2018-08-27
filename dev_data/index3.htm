@@ -50,16 +50,16 @@ From: Latvia, Valmiera
     },true);
    }
 
-   function loadModule(ipval,stage,sorting,ipDevice) {
-    ajax.get('http://'+ipval+'/modules.json',{},function(response) {
+   function loadModule(ip,stage,sorting,ipDevice) {
+    ajax.get('http://'+ip+'/modules.json',{},function(response) {
      var ipModule=JSON.parse(response);
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
 
-      if (window.location.hostname == ipval) {
-       ajax.get('http://'+ipval+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
+      if (window.location.hostname == ip) {
+       ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
-        loadBlock(ipval,ipModule.space,'first',ipModule.module);
+        loadBlock(ip,ipModule.space,'first',ipModule.module);
         setContent('first');
 
 
@@ -71,8 +71,8 @@ From: Latvia, Valmiera
 
        },true);
       } else {
-       //var testd = setTimeout(function() {loadBlock(ipval,ipModule.space,'first',ipModule.module);}, 3000);
-       loadBlock(ipval,ipModule.space,'first',ipModule.module);
+       //var testd = setTimeout(function() {loadBlock(ip,ipModule.space,'first',ipModule.module);}, 3000);
+       loadBlock(ip,ipModule.space,'first',ipModule.module);
 
       }
 
@@ -81,21 +81,21 @@ From: Latvia, Valmiera
    }
 
 
-   function loadBlock(ipval, content, stage, modules) {
+   function loadBlock(ip, content, stage, modules) {
     if (!modules) {
-     ajax.get('http://'+ipval+'/modules.json',{},function(response) {
+     ajax.get('http://'+ip+'/modules.json',{},function(response) {
       var jsonIndexResponse3=JSON.parse(response);
-      loadBlock2(jsonIndexResponse3.module,stage,ipval);
+      loadBlock2(jsonIndexResponse3.module,stage,ip);
      },true);
     } else {
-     loadBlock2(modules,stage,ipval);
+     loadBlock2(modules,stage,ip);
     }
    }
 
-   function loadBlock2(modules,stage,ipval){
-    ajax.get('http://'+ipval+'/config.live.json?'+Math.random(),{},function(response) {
+   function loadBlock2(modules,stage,ip){
+    ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
      var jsonIndexResponse0 = JSON.parse(response);
-     ajax.get('http://'+ipval+'/config.options.json?'+Math.random(),{},function(response) {
+     ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
@@ -104,64 +104,64 @@ From: Latvia, Valmiera
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       if(/relay/.test(modules)) {
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
-       // document.getElementById("button-"+ipval+"-relay").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'relay\',this);" value="'+(jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRelay?'info':'primary')+'" type="button">';
-       html("button-"+ipval+"-relay",' ');
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
+       // document.getElementById("button-"+ip+"-relay").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'relay\',this);" value="'+(jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRelay?'info':'primary')+'" type="button">';
+       html("button-"+ip+"-relay",' ');
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,"relay"+i) == '1'){
-         document.getElementById("button-"+ipval+"-relay").innerHTML += '<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
+         document.getElementById("button-"+ip+"-relay").innerHTML += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
         }
        }
       }
       if (searchModule(modules,"rgb")){
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info');}
-       document.getElementById("button-"+ipval+"-rgb").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info');}
+       document.getElementById("button-"+ip+"-rgb").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"rfLivolo")){
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','info');}
-       document.getElementById("button-"+ipval+"-livolo").innerHTML='';
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','info');}
+       document.getElementById("button-"+ip+"-livolo").innerHTML='';
       }
       if (searchModule(modules,"rgbs")){
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info');}
-       document.getElementById("button-"+ipval+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info');}
+       document.getElementById("button-"+ip+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"jalousie")){
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success');}
-       document.getElementById("button-"+ipval+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.stateJalousie?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success');}
+       document.getElementById("button-"+ip+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.stateJalousie?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"leakag")){
-       if (stage == 'first'){loadElement(ipval,jsonIndexResponse.SSDP,jsonIndexResponse.space,'leakag','success');}
-       document.getElementById("button-"+ipval+"-leakag").innerHTML='<input onclick="ajaxm(\''+ipval+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'leakag','success');}
+       document.getElementById("button-"+ip+"-leakag").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
       }
       if (stage == 'first'){
        // if (searchModule(modules,"timers")){
-       //  loadTimers(ipval,content,jsonIndexResponse);
+       //  loadTimers(ip,content,jsonIndexResponse);
        // }
        // if (searchModule(modules,"temperature")){
-       //  loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature");
+       //  loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature");
        // }
        if(/temperature/.test(modules)) {
         var relayNumber = '';
         for (var i = 0; i < 10; i++) {
          if (searchModule(modules,'temperature'+(i==0?'':i))){
-          loadSensor(ipval,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
+          loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
          }
         }
        }
        if (searchModule(modules,"humidity")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"humidity");
+        loadSensor(ip,'table-sensors',jsonIndexResponse,"humidity");
        }
        if (searchModule(modules,"A0")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"A0");
+        loadSensor(ip,'table-sensors',jsonIndexResponse,"A0");
        }
        if (searchModule(modules,"pow")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"pow");
+        loadSensor(ip,'table-sensors',jsonIndexResponse,"pow");
        }
        if (searchModule(modules,"movement")){
-        loadSensor(ipval,'table-sensors',jsonIndexResponse,"movement");
+        loadSensor(ip,'table-sensors',jsonIndexResponse,"movement");
        }
       }
-      if (window.location.hostname == ipval && stage == 'first') {
+      if (window.location.hostname == ip && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
        for (var key in jsonIndexResponse) {
@@ -179,9 +179,9 @@ From: Latvia, Valmiera
    }
 
 
-   function loadElement(ipVal, ssdpVal, spaceVal, moduleVal, classVal) {
+   function loadElement(ip, ssdpVal, spaceVal, moduleVal, classVal) {
     var element = document.getElementById(spaceVal);
-    var blockButton = '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ipVal+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ipVal+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ipVal+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ipVal+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ipVal+'" colspan="2"><\/td><\/tr>';
+    var blockButton = '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ip+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ip+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ip+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ip+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ip+'" colspan="2"><\/td><\/tr>';
     if (typeof(element) != 'undefined' && element != null && element != ''){
      element.innerHTML += blockButton;
     } else {
@@ -189,8 +189,8 @@ From: Latvia, Valmiera
     }
    }
 
-   function loadTimers(ipval, content, jsonIndexResponse) {
-    ajax.get('http://'+ipval+'/timer.save.json',{},function(response) {
+   function loadTimers(ip, content, jsonIndexResponse) {
+    ajax.get('http://'+ip+'/timer.save.json',{},function(response) {
      var timers=JSON.parse(response);
      timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var timerList = '';
@@ -201,9 +201,9 @@ From: Latvia, Valmiera
       if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
       if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
       timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
-      timerList += '<a class="label label-default" href="http://'+ipval+'/page.htm?timer">'+jsonIndexResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
+      timerList += '<a class="label label-default" href="http://'+ip+'/page.htm?timer">'+jsonIndexResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
      }
-     document.getElementById("timers-"+ipval).innerHTML+=''+(timerList?timerList:'')+'';
+     document.getElementById("timers-"+ip).innerHTML+=''+(timerList?timerList:'')+'';
     },true);
    }
 
@@ -211,10 +211,10 @@ From: Latvia, Valmiera
     return string.charAt(0).toUpperCase() + string.slice(1);
    }
 
-   function loadSensor(ipval, content, jsonIndexResponse, module) {
-    ajax.get('http://'+ipval+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,''),{},function(response) {
+   function loadSensor(ip, content, jsonIndexResponse, module) {
+    ajax.get('http://'+ip+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById("timers-"+ipval).innerHTML+='<a class="label label-default" href="http://'+ipval+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
+     document.getElementById("timers-"+ip).innerHTML+='<a class="label label-default" href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
     },true);
    }
 

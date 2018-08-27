@@ -14,7 +14,21 @@
    "type":"link",
    "title":"{{LangDevices}}",
    "action":"/",
-   "class":"btn btn-block btn-danger"
+   "class":"btn btn-danger",
+   "style":"width:70%;"
+  },
+  {
+   "type":"link",
+   "title":"{{LangScenary}}",
+   "action":"/page.htm?scenary",
+   "class":"btn btn-info",
+   "style":"width:30%;"
+  },
+  {
+   "type":"link",
+   "title":"br",
+   "class":"btn btn-block",
+   "style":"display:none"
   },
   {
    "type":"link",

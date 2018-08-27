@@ -82,6 +82,7 @@ document.onkeydown = function(e){
  var evtobj = window.event? event : e
  var element=document.getElementById('edit-content');
  var charCode = String.fromCharCode(evtobj.which).toLowerCase();
+ if (charCode === 'e' && evtobj.ctrlKey && element) {window.open('/edit','_blank');}
  if (charCode === 'm' && evtobj.ctrlKey && element) {toggle('edit-content');toggle('url-content');}
  if (charCode === 's' && evtobj.ctrlKey && element) {
   evtobj.preventDefault();send_request_edit(this, val('edit-json'), window.location.search.substring(1).split("&")[0]+'.json');toggle('edit-content');toggle('url-content');
@@ -161,17 +162,6 @@ function setContent(stage) {
         document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0;"><i class="fav-img"></i> '+(jsonResponse.LangDonate?jsonResponse.LangDonate:'Donate')+'<\/a>';
         val('edit-json', jsonEdit);
         toggle('container_column','hide');
-        //  var connection = new WebSocket('ws://'+location.hostname+':81/', ['arduino']);
-        //  connection.onopen = function () {
-        //   connection.send('Connect ' + new Date());
-        //  };
-        //  connection.onerror = function (error) {
-        //   console.log('WebSocket Error ', error);
-        //  };
-        //  connection.onmessage = function (e) {
-        //   console.log('Server: ', e.data);
-        //   setContent();
-        //  };
        } else {
         document.getElementById('content').innerHTML = '';
         jsonPage=JSON.parse(val('edit-json'));
@@ -242,8 +232,6 @@ function searchModule(modules,find) {
 }
 
 function viewTemplate(jsonPage,jsonResponse) {
- // var element = document.getElementById(idName);
- //for(var i = 0;i<jsonPage.content.length;i++) {
  var i = 0;
  for(var key in jsonPage) {
   var element=document.getElementById(key);
@@ -302,8 +290,6 @@ function viewTemplate(jsonPage,jsonResponse) {
       if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
       var option = '';
       jsonSelect = obj.title;
-      //jsonSelect = JSON.parse(renameBlock(jsonResponse, obj.title));
-      //jsonSelect = renameBlock(jsonResponse, obj.title).slice(1, -1);
       for(var key in jsonSelect) {
        option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
       }
@@ -372,12 +358,9 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += ' <label><input type="checkbox" name="day-sat" id="day-6" checked>'+jsonResponse.LangSat+'</label>';
       option += ' <label><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br>';
       option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\''+jsonResponse.time+'\');return false"><i class="clock-img"></i></a>';
-      //option += '<div id="new-then2"></div>';
-      //option += '<input id="work" class="form-control"  pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangWorkTime+'. '+jsonResponse.LangExample+': 00:40:00" value=""><br>';
       option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += option;
       loadNewThen('new-then',' ');
-      //loadNewThen('new-then2','На время');
       html("load-life-opt","onclick");
      }
      if (type_val == 'scenary-list') {
@@ -433,15 +416,15 @@ function viewTemplate(jsonPage,jsonResponse) {
       setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
      }
      if (type_val == 'dev') {
-      var dev_html = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
+      var option = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
       if (searchModule(jsonResponse.module,"upgrade")){
-       dev_html += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+       option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
-      dev_html += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangOtheSetting+'<\/a><\/b><span id="repos-bin" class="hidden">';
-      dev_html += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
-      dev_html += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="5v-wifi-relay">5v WiFi Relay<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
-      dev_html += '<\/span><\/span><\/div>';
-      element.innerHTML += dev_html;
+      option += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangOtheSetting+'<\/a><\/b><span id="repos-bin" class="hidden">';
+      option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
+      option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="5v-wifi-relay">5v WiFi Relay<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
+      option += '<\/span><\/span><\/div>';
+      element.innerHTML += option;
      }
     }
    }
@@ -462,49 +445,47 @@ function toggleCheckbox(element) {
  }
 }
 
-function deleteTimer(id,ipdev) {
- ajax.get('http://'+ipdev+'/timer.save.json?'+Math.random(),{},function(response) {
+function deleteTimer(id,ip) {
+ ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   timerList.timer.splice(id,1);
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ipdev+'/setscenary\');', ipdev);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', ip);
  },true);
 }
 
-function addTimer(id) {
- var ipdev = document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value;
+function addTimer() {
+ var ip = document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value;
  var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
-
- ajax.get('http://'+ipdev+'/timer.save.json?'+Math.random(),{},function(response) {
+ ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   var daycheck = '';
   for (i = 0; i < 7; i++) {
    daycheck+=(document.getElementById("day-"+i).checked?'1':'0');
   }
   timerList.timer.push({"id":Math.random(),"day":daycheck,"time1":val('set-time'),"com1":command});
-  //send_request_edit(submit,server,filename,geturl,gethost){
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ipdev+'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
  },true);
 }
 
-function loadJson(state_val, refresh, jsonResponse) {
+function loadJson(file, setDelay, jsonResponse) {
  function setLoad(){
-  ajax.get(state_val+'?'+Math.random(),{},function(response) {
-   html('json-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
+  ajax.get(file+'?'+Math.random(),{},function(response) {
+   html('json-'+file.replace(/[^a-z0-9]/gi,'-'), ' ');
    jsonPage=JSON.parse(response);
    viewTemplate(jsonPage,jsonResponse);
   },true);
  };
- if (!isNaN(refresh)) {
+ if (!isNaN(setDelay)) {
   var valTime;
   clearInterval(valTime);
-  valTime=setInterval(function(){setLoad();}, refresh);
+  valTime=setInterval(function(){setLoad();}, setDelay);
  } else {
   setLoad();
  }
 }
 
-function pattern(s,ssdp_command) {
- document.getElementById(ssdp_command).setAttribute("pattern","["+(s=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
+function pattern(str,id) {
+ document.getElementById(id).setAttribute("pattern","["+(str=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
 
 function loadTime(jsonResponse) {
@@ -519,9 +500,9 @@ function loadTime(jsonResponse) {
  },true);
 }
 
-function loadDeviceTime(jsonResponse,ssdp,ipDevice) {
+function loadDeviceTime(jsonResponse,ssdp,ip) {
  //html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- ajax.get('http://'+ipDevice+'/timer.save.json?'+Math.random(),{},function(response) {
+ ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var options = '';
   var timeDevice=JSON.parse(response);
   for (var i in timeDevice['timer']) {
@@ -536,30 +517,30 @@ function loadDeviceTime(jsonResponse,ssdp,ipDevice) {
     if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
     if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
    }
-   options += '<tr><td>'+timeDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ipDevice+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td>'+timeDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
-  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ipDevice+'">'+ssdp+'</a> <a href="http://'+ipDevice+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
+  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
 }
 
 
-function loadScenaryList(jsonResponse,selectDevice,urlList) {
- ajax.get((urlList?'http://'+urlList:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
+function loadScenaryList(jsonResponse,selectDevice,ip) {
+ ajax.get((ip?'http://'+ip:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
   if (selectDevice == 'loadInTextarea') {
    //html("scenary-list-edit",response);
    document.getElementById("scenary-list-edit").innerHTML = response;
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
-   send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+urlList+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',urlList);
+   send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
   } else {
-   //  alert(selectDevice+' '+urlList);
+   //  alert(selectDevice+' '+ip);
    var createText = '';
    var block = response.split(/\n|\r| /);
    //var block = response.split(/\n\r|\r\n|\n|\r| /g);
    for (var i = 0 ; i < block.length; i++) {
     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
    }
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+urlList+'">'+selectDevice+'</a> <a href="http://'+urlList+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<hr><\/td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+urlList+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg, '<hr><\/td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
  },true);
 }
@@ -622,14 +603,6 @@ function loadNewOr(where) {
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-or'+number+'');
  toggle('ssdp-module-or'+number+'','hidden');
- // ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
- //  var options = '';
- //  var ipDevice=JSON.parse(response);
- //  for (var i in ipDevice) {
- //   options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
- //  }
- //  html("ssdp-list-or"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
- // },true);
 }
 
 function sortObject(obj) {
@@ -668,9 +641,9 @@ function loadScenary(jsonResponse,loadList) {
  },true);
 }
 
-function loadCommandHelp(jsonParam,files,where,to) {
+function loadCommandHelp(jsonParam,file,where,to) {
  html(where, 'Loading...');
- ajax.get('/'+files+'?'+Math.random(),{},function(response) {
+ ajax.get('/'+file+'?'+Math.random(),{},function(response) {
   var ipDevice=JSON.parse(response);
   html(where, ' ');
   var option = '';
@@ -679,7 +652,6 @@ function loadCommandHelp(jsonParam,files,where,to) {
   }
   html(where, ipDevice.title+'<ul>'+option+'</ul>'+ipDevice.titleEnd);
  },true);
- //toggle(''+where+'','hidden');
 }
 
 function loadLive(ip,file,where) {
@@ -896,16 +868,16 @@ function submit_disabled(request){
  }
 }
 
-function toggle(target,status) {
- if (document.getElementById(target)){
-  var element = document.getElementById(target).classList;
+function toggle(id,toggle) {
+ if (document.getElementById(id)){
+  var element = document.getElementById(id).classList;
   if (element.contains('hidden')) {
-   if (status != 'show') {
+   if (toggle != 'show') {
     element.remove('hidden');
     element.add('show');
    }
   } else {
-   if (status != 'hidden') {
+   if (toggle != 'hidden') {
     element.remove('show');
     element.add('hidden');
    }
@@ -913,8 +885,8 @@ function toggle(target,status) {
  }
 }
 
-function loadWifi(ssids,hiddenIds){
- html(ssids, '<li><a href="#">Loading...</a></li>');
+function loadWifi(id,hiddenIds){
+ html(id, '<li><a href="#">Loading...</a></li>');
  ajax.get('/wifi.scan.json',{},function(response) {
   var jsonWifi=JSON.parse(response);
   jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
@@ -928,7 +900,7 @@ function loadWifi(ssids,hiddenIds){
    if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '90-100';}
    html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' <i class="wifi wifi-'+wifiSignal+'"></i> <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
-  document.getElementById(ssids).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
+  document.getElementById(id).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  },true);
 }
 
@@ -949,10 +921,10 @@ function loadBuild(buildids,typeFile){
  },true);
 }
 
-function set_time_zone(submit){
+function set_time_zone(ip){
  var gmtHours = new Date().getTimezoneOffset()/60*-1;
  val('timeZone', gmtHours);
- send_request(submit,'/timeZone?timeZone='+gmtHours);
+ send_request(ip,'/timeZone?timeZone='+gmtHours);
 }
 
 function real_time(hours,min,sec) {
@@ -968,7 +940,7 @@ function real_time(hours,min,sec) {
  set_real_time = setTimeout("real_time("+hours+","+min+","+sec+");", 1000);
 }
 
-function setCookie(name, value, days) {
+function setCookie(name,value,days) {
  if (days) {
   var date = new Date();
   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -999,17 +971,17 @@ function delAllCookies() {
  }
 }
 
-function hide(name, submit) {
+function hide(name,submit) {
  if (confirm(jsonResponse.LangHedden)) {
   submit.parentNode.classList.add('hidden');
   setCookie(name,'hidden',365,submit);
  }
 }
 
-function loadConfigs(state_val) {
- var element = document.getElementById(state_val.replace(/[^a-z0-9]/gi,'-'));
+function loadConfigs(file_module) {
+ var element = document.getElementById(file_module.replace(/[^a-z0-9]/gi,'-'));
  element.innerHTML = '';
- ajax.get("/configs/"+state_val,{},function(response) {
+ ajax.get("/configs/"+file_module,{},function(response) {
   var configsLinePin;
   var configsLine = response.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
@@ -1029,9 +1001,9 @@ function loadConfigs(state_val) {
     element.innerHTML += '</br>';
    }
   }
-  //changeTextarea(state_val.replace(/[^a-z0-9]/gi,'-'));
+  //changeTextarea(file_module.replace(/[^a-z0-9]/gi,'-'));
  },true);
- element.innerHTML += '<textarea id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
+ element.innerHTML += '<textarea id="'+file_module.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
 }
 
 function changeTextarea(state_val) {
@@ -1066,17 +1038,17 @@ function cloudDownload(mac,file) {
 }
 
 
-function loadTable(state_val, jsonTable) {
- ajax.get(state_val+"?"+Math.random(),{},function(response) {
+function loadTable(file, jsonTable) {
+ ajax.get(file+"?"+Math.random(),{},function(response) {
   var timers=JSON.parse(response);
   var setTable = Object.keys(timers);
-  html('thead-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
-  html('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-'), ' ');
+  html('thead-'+file.replace(/[^a-z0-9]/gi,'-'), ' ');
+  html('tbody-'+file.replace(/[^a-z0-9]/gi,'-'), ' ');
   var thead = '';
   for(var key in jsonTable) {
    thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
   }
-  document.getElementById('thead-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += thead;
+  document.getElementById('thead-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += thead;
   for (var i = 0; i < timers[setTable].length; i++) {
    var tbody = '';
    for(var keys in jsonTable) {
@@ -1092,7 +1064,7 @@ function loadTable(state_val, jsonTable) {
     if (jsonTable[keys] == '{{LangDel}}') {timers[setTable][i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers[setTable][i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
     tbody += '<td>'+timers[setTable][i][keys]+'<\/td>';
    }
-   document.getElementById('tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
+   document.getElementById('tbody-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
   }
  },true);
 }
@@ -1198,23 +1170,21 @@ function findPos(obj) {
  return undefined;
 }
 
-function loadCommits(repos,viewCommits){
+function loadCommits(repos,commitCount){
  ajax.get('https://api.github.com/repos/'+repos+'/commits',{},function(response) {
   html('commits-list', ' ');
   var jsonCommits=JSON.parse(response);
   //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
   for(var key in jsonCommits) {
-   if (key < viewCommits) {
+   if (key < commitCount) {
     document.getElementById('commits-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
    }
   }
  },true);
 }
 
-function loadIssues(repos,viewIssues){
-
+function loadIssues(repos,issuesCount){
  var issues_list = document.getElementById('issues-list');
-
  ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
   html('issues-list', ' ');
   var jsonIssues=JSON.parse(response);
@@ -1229,11 +1199,10 @@ function loadIssues(repos,viewIssues){
      }
     }
    }
-   if (issues_list && key < viewIssues) {
+   if (issues_list && key < issuesCount) {
     issues_list.innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
    }
   }
-
   if (issues_list) {
    issues_list.innerHTML += '<p><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" class="label label-success">Create new issues</a></p>';
   }
@@ -1252,15 +1221,15 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
  }, LoadDelay);
 }
 
-function isValidJson(str,idMess) {
+function isValidJson(str,id) {
  try {
   JSON.parse(str);
-  document.getElementById(idMess).style.border = "";
-  html(idMess,' ');
+  document.getElementById(id).style.border = "";
+  html(id,' ');
   submit_disabled(false);
  } catch (e) {
-  document.getElementById(idMess).style.border = "2px solid red";
-  html(idMess,'<div class="alert alert-danger">'+e.message+'<\/div><br><br><br>');
+  document.getElementById(id).style.border = "2px solid red";
+  html(id,'<div class="alert alert-danger">'+e.message+'<\/div><br><br><br>');
   submit_disabled(true);
   return false;
  }
@@ -1299,11 +1268,11 @@ function delCb(path){
   }
  }
 }
-function httpDelete(filename){
+function httpDelete(file){
  xmlHttp = new XMLHttpRequest();
- xmlHttp.onreadystatechange = delCb(filename);
+ xmlHttp.onreadystatechange = delCb(file);
  var formData = new FormData();
- formData.append("path", filename);
+ formData.append("path", file);
  xmlHttp.open("DELETE", "/edit");
  xmlHttp.send(formData);
 }
