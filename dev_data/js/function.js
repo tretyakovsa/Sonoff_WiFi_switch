@@ -924,7 +924,7 @@ function loadBuild(buildids,typeFile){
 function set_time_zone(ip){
  var gmtHours = new Date().getTimezoneOffset()/60*-1;
  val('timeZone', gmtHours);
- send_request(ip,'/timeZone?timeZone='+gmtHours);
+ send_request(ip,'/cmd?command=zone '+gmtHours);
 }
 
 function real_time(hours,min,sec) {

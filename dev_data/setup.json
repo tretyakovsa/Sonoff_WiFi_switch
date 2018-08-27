@@ -174,10 +174,10 @@
   },
   {
    "type":"button",
-   "module":"",
+   "module":"ntp",
    "title":"{{LangSave}}",
    "class":"btn btn-block btn-success",
-   "action":"timeZone?timeZone=[[timeZone]]"
+   "action":"zone [[timeZone]]"
   },
   {
    "type":"link",
