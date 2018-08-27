@@ -203,11 +203,11 @@
   },
   {
    "type":"button",
-   "module":"",
+   "module":"ntp",
    "response":"[[&#116imes1]]",
    "title":"{{LangTime2}}",
    "class":"btn btn-block btn-primary",
-   "action":"Time"
+   "action":"time"
   },
 
 
