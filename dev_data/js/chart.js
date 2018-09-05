@@ -61,8 +61,11 @@ function loadChart(chartId,chartUrl,charOptions,charRefresh,charPoints,chartChar
    charOptions = (charOptions=!'{}'?charOptions:'{'+module.options+'}');
    //LineChart.update(,,charOptions);
 
-   var strUser = module.refresh;
+   //var strUser = module.refresh;
    var strUser = (charRefresh?charRefresh:module.refresh);
+   if (typeof(strUser) == "undefined" || strUser == "undefined") {
+    strUser = 100000000000;
+   }
    clearInterval(time_refresh_chart);
    time_refresh_chart=setInterval(function(){adddata();}, strUser);
   }
