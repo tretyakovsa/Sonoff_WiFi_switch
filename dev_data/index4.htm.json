@@ -5,6 +5,29 @@
  ],
  "content":[],
  "top-content":[],
+ "right-content":[
+  {
+   "type":"h5",
+   "title":"{{LangIssues}}.",
+   "style":"margin-top:0;float:left;margin-left:40px;"
+  },
+  {
+   "type":"issues",
+   "state":"10",
+   "class":"block"
+  },
+  {
+   "type":"h5",
+   "title":"{{LangCommits}}.",
+   "style":"margin-top:-15px;float:left;margin-left:40px;"
+  },
+  {
+   "type":"commits",
+   "state":"10",
+   "class":"block"
+  }
+ ],
+
  "header-left":[
   {
    "type":"h1",

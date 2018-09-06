@@ -5,6 +5,18 @@
  ],
  "content":[],
  "top-content":[],
+ "left-content":[
+  {
+   "type":"h5",
+   "title":"{{LangIssues}}.",
+   "style":"margin-top:-17px;float:left;margin-left:40px;"
+  },
+  {
+   "type":"issues",
+   "state":"10",
+   "class":"block"
+  }
+ ],
  "header-left":[
   {
    "type":"h1",

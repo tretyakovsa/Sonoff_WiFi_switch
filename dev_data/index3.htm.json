@@ -5,6 +5,21 @@
  ],
  "content":[],
  "top-content":[],
+ "bottom-content":[
+  {
+   "type":"issues",
+   "state":"5",
+   "class":"block",
+   "style":"width:45%;float:left;"
+  },
+  {
+   "type":"commits",
+   "state":"5",
+   "class":"block",
+   "style":"width:45%;float:left;"
+  }
+ ],
+
  "header-left":[
   {
    "type":"h1",

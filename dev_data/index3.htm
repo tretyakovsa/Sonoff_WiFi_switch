@@ -23,14 +23,14 @@ From: Latvia, Valmiera
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
-    if (readCookie("issues-hidden") != "hidden") {
-     loadIssues('tretyakovsa/Sonoff_WiFi_switch',5);
-    } else {
-     document.getElementById('issues-list').parentNode.classList.add('hidden');}
-    if (readCookie("commits-hidden") != "hidden") {
-     loadCommits('tretyakovsa/Sonoff_WiFi_switch',5);
-    } else {
-     document.getElementById('commits-list').parentNode.classList.add('hidden');}
+ //  if (readCookie("issues-hidden") != "hidden") {
+ //   loadIssues('tretyakovsa/Sonoff_WiFi_switch',5);
+ //  } else {
+ //   document.getElementById('issues-list').parentNode.classList.add('hidden');}
+ //  if (readCookie("commits-hidden") != "hidden") {
+ //   loadCommits('tretyakovsa/Sonoff_WiFi_switch',5);
+ //  } else {
+ //   document.getElementById('commits-list').parentNode.classList.add('hidden');}
    }
 
    function deviceList(stage,sorting) {
@@ -248,20 +248,7 @@ From: Latvia, Valmiera
    </div>
    <div class="col-sm-12" id="top-content"></div>
    <div class="col-md-12" id="content">{{LangLoading}}</div>
-   <div class="col-md-6" id="bottom-content">
-    <div class="block" id="issues">
-     <button class="close" onclick="hide('issues-hidden',this)" type="button">×</button>
-     <h5 class="alert-default">{{LangIssues}}</h5>
-     <div id="issues-list">{{LangLoading}}</div>
-    </div>
-   </div>
-   <div class="col-md-6">
-    <div class="block" id="commits">
-     <button class="close" onclick="hide('commits-hidden',this)" type="button">×</button>
-     <h5 class="alert-default">{{LangCommits}}</h5>
-     <div id="commits-list">{{LangLoading}}</div>
-    </div>
-   </div>
+   <div class="col-md-12" id="bottom-content"></div>
    <div class="col-md-6">
     <div class="block">
      <h5 class="alert-default">{{LangHistory}}</h5>

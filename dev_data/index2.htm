@@ -23,10 +23,10 @@ From: Latvia, Valmiera
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
-    if (readCookie("issues-hidden") != "hidden") {
-     loadIssues('tretyakovsa/Sonoff_WiFi_switch',10);
-    } else {
-     document.getElementById('issues-list').parentNode.classList.add('hidden');}
+  //  if (readCookie("issues-hidden") != "hidden") {
+  //   loadIssues('tretyakovsa/Sonoff_WiFi_switch',10);
+  //  } else {
+  //   document.getElementById('issues-list').parentNode.classList.add('hidden');}
    }
 
    function deviceList(stage,sorting) {
@@ -277,19 +277,7 @@ From: Latvia, Valmiera
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history" class="hidden-xs"></ul>
     <hr>
-    <div class="col-md-12">
-     <div class="block">
-      <h5 class="alert-warning">{{LangScenary}}</h5>
-      <div class="alert alert-dismissible alert-info {{g94244}}"><button class="close" onclick="hide('g94244',this)" type="button">×</button>{{LangScenery1}}</div>
-      <a class="btn btn-block btn-default" href="/page.htm?scenary">{{LangAddScenery}}</a>
-     </div>
-     <hr>
-     <div class="block" id="issues">
-      <button class="close" onclick="hide('issues-hidden',this)" type="button">×</button>
-      <h5 class="alert-default">{{LangIssues}}</h5>
-      <div id="issues-list">{{LangLoading}}</div>
-     </div>
-    </div>
+    <div class="col-sm-12" id="right-content"></div>
     <div class="row"></div>
    </div>
   </div>
@@ -297,7 +285,7 @@ From: Latvia, Valmiera
    <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
    <div id="error-json"></div>
    <div class="btn-group btn-block">
-    <input class="btn btn-danger" style="width:80%" id="edit-save" onclick="httpDelete('/index.json.gz');send_request_edit(this, val('edit-json'),'index.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+    <input class="btn btn-danger" style="width:80%" id="edit-save" onclick="httpDelete('/index3.htm.json.gz');send_request_edit(this, val('edit-json'),'index2.htm.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download=""><i class="download-img"></i></a>
    </div>
   </div>
