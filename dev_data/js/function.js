@@ -106,10 +106,11 @@ function run_socket(url) {
  }
 }
 
-function setContent(stage) {
+function setContent(stage,load_page) {
  jsonResponse = '';
  var pages = window.location.search.substring(1).split("&");
- pages[0] = (pages[0]?pages[0]:'index');
+ if (load_page) {pages[0] = load_page; }
+ pages[0] = (pages[0]?pages[0]:window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1));
  ajax.get(pages[0]+'.json',{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
   // var jsonPage;

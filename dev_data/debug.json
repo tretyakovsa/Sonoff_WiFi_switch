@@ -115,7 +115,7 @@
   },
   {
    "type":"h4",
-   "title":"File system:<br>Всего: <b>{{totalBytes}}</b> bytes<br>Использовано: <b>{{usedBytes}}</b> bytes<br>Размер страницы и блока: <b>{{blockSize}}</b><br>Размер страницы: <b>{{pageSize}}</b><br>Количество одновременно открытых файлов: <b>{{maxOpenFiles}}</b><br>Максимальная возможная длина имени файла: <b>{{maxPathLength}}</b>",
+   "title":"File system:<br>Свободное место для скетча: <b>{{FreeSketchSpace}}</b><br>Всего: <b>{{totalBytes}}</b> bytes<br>Использовано: <b>{{usedBytes}}</b> bytes<br>Размер страницы и блока: <b>{{blockSize}}</b><br>Размер страницы: <b>{{pageSize}}</b><br>Количество одновременно открытых файлов: <b>{{maxOpenFiles}}</b><br>Максимальная возможная длина имени файла: <b>{{maxPathLength}}</b>",
    "style":"text-align:left"
   },
   {

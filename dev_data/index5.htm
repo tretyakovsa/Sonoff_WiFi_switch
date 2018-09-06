@@ -94,7 +94,7 @@ From: Latvia, Valmiera
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
         loadBlock(ip,'first',ipModule.module);
-        setContent('first');
+        setContent('first','index5.htm');
 
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {

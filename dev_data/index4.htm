@@ -61,7 +61,7 @@ From: Latvia, Valmiera
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
         loadBlock(ip,'first',ipModule.module);
-        setContent('first');
+        setContent('first','index4.htm');
 
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
@@ -152,7 +152,7 @@ From: Latvia, Valmiera
      if (typeof(element) != 'undefined' && element != null && element != ''){
       //  document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
      } else {
-      document.getElementById("content").innerHTML += '<h2 id="'+content+'-title">'+content+'<\/h2><hr><div class="row" id="'+content+'"><\/div>';
+      document.getElementById("content").innerHTML += '<div class="row" id="'+content+'"><h2 id="'+content+'-title">'+content+'<\/h2><hr id="'+content+'-title"><\/div>';
       document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
      }
      document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
