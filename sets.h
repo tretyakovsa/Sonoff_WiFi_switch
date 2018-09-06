@@ -45,6 +45,7 @@
 
 #define NUM_BUTTONS 8
 boolean but[NUM_BUTTONS];
+boolean mot[NUM_BUTTONS];
 
 
 
@@ -64,7 +65,7 @@ String ssdpList = "{}";              // SSDP имя ip всех модулей �
 String regCommands = "{\"command\":[]}";           // список доступных комманд для различных модулей /command.json
 String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев
-String modules = "{\"ip\":\"\",\"SSDP\":\"\",\"space\":\"\",\"module\":[]}";
+String modules = "{\"module\":[]}";
 String sensorsList = "{}";
 String prefix   = "/IoTmanager";
 String statusS   = "{}";
@@ -133,6 +134,10 @@ const String primaryS   = "primary";
 const String stateTachS   = "Tach";
 const String tachS   = "tach";
 const String buttonNumS   = "buttonNum";
+
+const String stateMotS   = "Motions";
+const String motS   = "motions";
+const String motNumS   = "motionsNum";
 
 const String irReceivedS   = "irReceived";
 const String irDecodeTypeS   = "irDecodeType";

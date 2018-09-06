@@ -18,7 +18,90 @@ void initHTTP() {
     sendOptions("maxPathLength", fs_info.maxPathLength);
     httpOkJson(configOptions);
   });
+  // --------------------Выдаем данные configOptions
+  HTTP.on("/test.json", HTTP_GET, []() {
+    String tmpJson = "{}";
+    String par = stateA0S;
+    String prifexFile = "";
+    // Сделаем имя файла
+    String fileName = GetDate();
+    fileName = deleteBeforeDelimiter(fileName, " "); // удалим день недели
+    fileName.replace(" ", ".");
+    fileName.replace("..", "."); // Заменяем пробелы точками
+    fileName = par + "/" + fileName + ".txt"; // Имя файла параметр в виде директории и дата
+    fileName.toLowerCase(); //fileName = "san aug 31 2018"; Имя файла строчными буквами
 
+
+    File configFile = SPIFFS.open("/" + fileName, "r"); // Открываем файл Для чтения
+    // {"data":[],"points":"10","refresh":"1000"}
+    String testJ ="{\"data\":[";
+    if (configFile) {
+      Serial.println(fileName);
+      // Читаем префикс
+      String sim;
+      do {
+        sim = char(configFile.read());
+        prifexFile += sim;
+      } while (sim != ":");
+      int inter = selectToMarker(prifexFile, ",").toInt();
+      prifexFile = deleteBeforeDelimiter(prifexFile, ",");
+      String par = selectToMarker(prifexFile, ",");
+      prifexFile = deleteBeforeDelimiter(prifexFile, ",");
+      int dataSize = selectToMarker(prifexFile, ":").toInt();
+      Serial.println(dataSize);
+      /*/ Здесь код хак
+        //first create a fixed buffer
+        const int bufferSize = 6000;
+        uint8_t _buffer[6000];
+
+        //a little counter to know at which position we are in our buffer
+        int bufferCounter = 0;
+
+        int fileSize = 80000;
+
+        //now send an empty string but with the header field Content-Length to let the browser know how much data it should expect
+        server.sendHeader("Content-Length", (String)fileSize);
+        server.send(200, "text/html", "");
+
+        for(int i=0;i<fileSize;i++){
+        _buffer[bufferCounter] = random(256); //write some random bytes into our buffer
+        bufferCounter++;
+
+        if(bufferCounter >= bufferSize){ //when the buffer is full...
+          server.sendContent_P(_buffer, bufferCounter); //send the current buffer
+          bufferCounter = 0; //reset the counter
+        }
+
+        }
+
+        //send the rest bytes if there are some
+        if(bufferCounter > 0){
+        server.sendContent_P(_buffer, bufferCounter);
+        bufferCounter = 0;
+        }
+
+        // -------------
+      */
+      int test=0;
+      while (configFile.available()) {
+        int date;
+        for (int d = 0; d < dataSize; d++) {
+          date = configFile.read();
+          date = (date << 8) + configFile.read();
+        }
+        testJ +=date;
+        testJ +=",";
+        test++;
+        //Serial.print(test);
+        //Serial.print("=");
+        //Serial.println(date);
+      }
+      testJ +="0]}";
+    }
+    configFile.close();
+
+    httpOkText(testJ);
+  });
   // --------------------Выдаем данные configJson
   HTTP.on("/config.live.json", HTTP_GET, []() {
     httpOkJson(configJson);
@@ -49,22 +132,25 @@ void initHTTP() {
 
   // -------------------построение графика
   HTTP.on("/charts.json", HTTP_GET, []() {
+    String pFile = HTTP.arg("data");
     String message = "{";
-    for (uint8_t i = 0; i < HTTP.args(); i++) {
-      //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
-      message += "\"" + HTTP.argName(i) + "\":[";
-      String key = getOptions(HTTP.arg(i));
-      if (key != "")  {
-        message += key;
-        key = "";
-      } else {
-        key = getStatus(HTTP.arg(i));
+    if (pFile.indexOf(".") == -1) {
+      for (uint8_t i = 0; i < HTTP.args(); i++) {
+        //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
+        message += "\"" + HTTP.argName(i) + "\":[";
+        String key = getOptions(HTTP.arg(i));
         if (key != "")  {
           message += key;
           key = "";
+        } else {
+          key = getStatus(HTTP.arg(i));
+          if (key != "")  {
+            message += key;
+            key = "";
+          }
         }
+        message += "],";
       }
-      message += "],";
     }
     message += "\"points\":\"10\",\"refresh\":\"1000\"}";
     httpOkText(message);

@@ -108,6 +108,14 @@ long  timeToLong(String Time) {
   return second;
 }
 
+int  timeToMin(String Time) {
+  //"00:00:00"  время в секунды
+  long  min = selectToMarker(Time, ":").toInt() * 60; //общее количество секунд в полных часах
+  Time = deleteBeforeDelimiter (Time, ":"); // Теперь здесь минуты секунды
+  min += selectToMarker(Time, ":").toInt(); // Добавим секунды из полных минут
+  return min;
+}
+
 String timeToString(long Time) {
   String str = "";
   uint8_t temp = (Time / 3600);

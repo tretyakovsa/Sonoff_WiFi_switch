@@ -28,7 +28,6 @@ void setupToInit() {
   setupToOptions(spiffsDataS);
   setupToOptions(buildDataS);
   setupToOptions(langS);
-  jsonWrite(modules, langS, getSetup(langS));
   sendOptions("flashChip", String(ESP.getFlashChipId(), HEX));
   sendOptions("ideFlashSize", ESP.getFlashChipSize());
   sendOptions("realFlashSize", ESP.getFlashChipRealSize());
@@ -47,6 +46,11 @@ void setupToInit() {
   sendOptions(ipS, WiFi.localIP().toString());
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions("voice", "");
+  jsonWrite(modules, ipS, getOptions(ipS));
+  jsonWrite(modules,spaceS, getSetup(spaceS));
+  jsonWrite(modules, langS, getSetup(langS));
+  jsonWrite(modules, ssdpS, getSetup(ssdpS));
+
 }
 
 // --------------------Выделяем строку до маркера --------------------------------------------------
@@ -105,11 +109,11 @@ String goCommands(String inits) {
   String temp = "";
   String rn = "\n";
   inits += rn;
-//  Serial.println(writeFile("inits.txt", inits));
+  //  Serial.println(writeFile("inits.txt", inits));
   do {
     temp = selectToMarker (inits, rn);
 
-    Serial.println(temp);
+    //    Serial.println(temp);
     sCmd.readStr(temp);
     inits = deleteBeforeDelimiter(inits, rn);
   } while (inits.indexOf(rn) != 0);
@@ -153,9 +157,9 @@ void saveConfigSetup () {
 
 */
 uint8_t pinTest(uint8_t pin) {
-    //Serial.print(pin);
-    //Serial.print("=");
-    if (pin > 20) {
+  //Serial.print(pin);
+  //Serial.print("=");
+  if (pin > 20) {
     pin = 17;
   } else {
     if (pins[pin]) {
@@ -165,9 +169,9 @@ uint8_t pinTest(uint8_t pin) {
       pins[pin] = true;
       if (getOptions("flashChipMode") != "DOUT") {
         if (pin > 5 && pin < 12) pin = 17 ;
-            if (pin == 1 || pin == 3)  Serial.end();
-        } else {
-      if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
+        if (pin == 1 || pin == 3)  Serial.end();
+      } else {
+        if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
       }
     }
   }
@@ -186,23 +190,23 @@ uint8_t pinTest(uint8_t pin, boolean multi) {
       pins[pin] = true;
       if (getOptions("flashChipMode") != "DOUT") {
         if (pin > 5 && pin < 12) pin = 17 ;
-            if (pin == 1 || pin == 3)  Serial.end();
-        } else {
-      if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
+        if (pin == 1 || pin == 3)  Serial.end();
+      } else {
+        if ( (pin > 5 && pin < 9) ||  pin == 11) pin = 17 ;
       }
     }
   }
   return pin;
 }
 
-void testPin(){
-  for (int i =0; i<=20; i++){
+void testPin() {
+  for (int i = 0; i <= 20; i++) {
     Serial.print("pins");
     Serial.print(i);
     Serial.print("=");
     Serial.println(pins[i]);
-    }
   }
+}
 
 // -------------- Регистрация модуля
 void modulesReg(String modName) {
@@ -226,4 +230,53 @@ void commandsReg(String comName) {
     json.printTo(regCommands);
   }
 }
+
+void safeDataToFile(int inter, String par, uint16_t data) {
+  yield();
+  // Формируем зоголовок Интервал, Параметр, размер_параметра
+  uint16_t dataSize = sizeof(data);
+  String prifexFile = "";
+  prifexFile += inter;
+  prifexFile += "," + par;
+  prifexFile += ",";
+  prifexFile += dataSize;
+  prifexFile += ":";
+  uint16_t prifexLen = prifexFile.length(); //Размер префикса
+
+  // Сделаем имя файла
+  String fileName = GetDate();
+  fileName = deleteBeforeDelimiter(fileName, " "); // удалим день недели
+  fileName.replace(" ", ".");
+  fileName.replace("..", "."); // Заменяем пробелы точками
+  fileName = par + "/" + fileName + ".txt"; // Имя файла параметр в виде директории и дата
+  fileName.toLowerCase(); //fileName = "san aug 31 2018"; Имя файла строчными буквами
+  File configFile = SPIFFS.open("/" + fileName, "a"); // Открываем файл на добавление
+  size_t size = configFile.size();
+  yield();
+  if (size == 0) {
+    configFile.print(prifexFile);
+  }
+  size = configFile.size();
+  // Получим время и определим позицию в файле
+  String time = GetTime();
+  //time = "00:15:00";
+  int timeM = timeToMin(time); // Здесь количество минут с начала суток
+  timeM = timeM / inter;
+  int poz = timeM * dataSize + prifexLen + 1; // позиция в которую нужно записать.
+  int endF = (size - prifexLen) * dataSize + prifexLen + 1; // позиция конца файла
+  if (poz >= endF) {
+    int i = (poz - endF) / dataSize;
+    for (int j = 0; j < i; j++) {
+      for (int d = 0; d < dataSize; d++) {
+        yield();
+        configFile.write(0);
+      }
+    }
+  }
+  yield();
+  configFile.write(data >> 8);
+  configFile.write(data);
+  configFile.close();
+}
+
 
