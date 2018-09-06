@@ -110,7 +110,8 @@ function setContent(stage,load_page) {
  jsonResponse = '';
  var pages = window.location.search.substring(1).split("&");
  if (load_page) {pages[0] = load_page; }
- pages[0] = (pages[0]?pages[0]:window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1));
+ //pages[0] = (pages[0]?pages[0]:window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1));
+ pages[0] = (pages[0]?pages[0]:'index');
  ajax.get(pages[0]+'.json',{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
   // var jsonPage;
@@ -415,6 +416,14 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<div class="'+name_val+'-thumb '+class_val+'"><div class="'+name_val+'-preview"><\/div><img alt="" '+style_val+' src="'+renameBlock(jsonResponse, obj.title)+'"><\/div><canvas id="'+name_val+'-cs" style="display:none"><\/canvas>';
       element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden">';
       setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
+     }
+     if (type_val == 'issues') {
+      element.innerHTML += '<div id="issues-list" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
+      setTimeout("loadIssues('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
+     }
+     if (type_val == 'commits') {
+      element.innerHTML += '<div id="commits-list" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
+      setTimeout("loadCommits('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
      }
      if (type_val == 'dev') {
       var option = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
@@ -1204,7 +1213,7 @@ function loadIssues(repos,issuesCount){
     issues_list.innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonIssues[key].updated_at.substring(0,10)+'<\/span> <a href="'+jsonIssues[key].html_url+'" target="_blank">'+jsonIssues[key].title+'<\/a> <i>('+jsonIssues[key].comments+')<\/i><\/p>';
    }
   }
-  if (issues_list) {
+  if (issues_list && issuesCount) {
    issues_list.innerHTML += '<p><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues/new" class="label label-success">Create new issues</a></p>';
   }
  },true);

@@ -62,7 +62,7 @@ From: Latvia, Valmiera
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
         loadBlock(ip,'content','first',ipModule.module);
-        setContent('first');
+        setContent('first','index2.htm');
 
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
@@ -273,7 +273,7 @@ From: Latvia, Valmiera
    </div>
    <div class="col-sm-12 col-md-9" id="top-content"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
-   <div class="col-sm-12 col-md-3">
+   <div class="col-sm-12 col-md-3" id="right-content">
     <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
     <ul id="history" class="hidden-xs"></ul>
     <hr>
