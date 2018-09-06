@@ -1,7 +1,7 @@
 // ----------------------Передатчик ИK
 void irTransmitter() {
   String moduleName = "irTransmitter";
-  Serial.println(moduleName);
+//  Serial.println(moduleName);
   byte pin = readArgsInt();
   pin =  pinTest(pin);
   irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.

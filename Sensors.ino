@@ -302,6 +302,39 @@ void handleButtons() {
   if (num == 8) num = 0;
 }
 
+// -----------------  Датчик движения
+void initMot() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
+  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+  uint16_t bDelay = readArgsInt(); // третий время нажатия
+  sendStatus(stateTachS + num, 0);
+  motions[num.toInt()].attach(pin);
+  motions[num.toInt()].interval(bDelay);
+  mot[num.toInt()] = true;
+  boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
+  sendOptions("invMot" + num, inv);
+  modulesReg(motS + num);
+}
+void handleMotions() {
+  static uint8_t num = 0;
+  String numS = String(num, DEC);
+  if (mot[num]) {
+    motions[num].update();
+
+    if (motions[num].fell()) {
+      flag = sendStatus(stateMotS + numS, !getOptionsInt("invMot" + numS));
+    }
+
+    if (buttons[num].rose()) {
+      flag = sendStatus(stateMotS + numS, getOptionsInt("invMot" + numS));
+    }
+
+  }
+  num++;
+  if (num == 8) num = 0;
+}
+
 #ifdef POW
 // Импульс 1 Гц на выводе CF1 означает 15 мА или 0,5 В RMS в зависимости от значения в выводе SEL
 void ICACHE_RAM_ATTR hlw8012_cf1_interrupt() {
