@@ -37,6 +37,7 @@ void initSSDP() {
     String  space = HTTP.arg("space");
     sendSetup(spaceS, space);
     sendOptions(spaceS, space);
+    jsonWrite(modules, ssdpS, getSetup(ssdpS));
     jsonWrite(modules,spaceS, space);
     httpOkText();
     saveConfigSetup();
@@ -49,7 +50,7 @@ void initSSDP() {
   ts.add(1, 60000, [&](void*) {
     ipChanges();
 //    Serial.println("SSDP");
-    safeDataToFile(1, stateA0S, getStatusInt(stateA0S));
+    //safeDataToFile(1, stateA0S, getStatusInt(stateA0S));
   }, nullptr, true);
   // задача проверять наличие устройств в сети каждые две минуты.
   ts.add(2, 120000, [&](void*) {
@@ -102,5 +103,6 @@ void ipChanges() {
   if (jsonRead(configSetup, ipS) != ip) {
     sendStatus(ipS, ip);
     jsonWrite(configSetup, ipS, ip);
+    jsonWrite(modules, ipS, getOptions(ipS));
   }
 }

@@ -41,8 +41,8 @@ Bounce * buttons = new Bounce[NUM_BUTTONS];
 Bounce * motions = new Bounce[NUM_BUTTONS];
 
 void setup() {
-Serial.begin(115200);
-Serial.println();
+//Serial.begin(115200);
+//Serial.println();
   start_init();
 }
 

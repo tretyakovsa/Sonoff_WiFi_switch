@@ -34,6 +34,7 @@ void setupToInit() {
   sendOptions("flashChipSpeed", ESP.getFlashChipSpeed() / 1000000);
   sendOptions("cpuFreqMHz", ESP.getCpuFreqMHz());
   FlashMode_t ideMode = ESP.getFlashChipMode();
+  sendOptions("FreeSketchSpace", ESP.getFreeSketchSpace());
   sendOptions("flashChipMode", (ideMode == FM_QIO ? "QIO" : ideMode == FM_QOUT ? "QOUT" : ideMode == FM_DIO ? "DIO" : ideMode == FM_DOUT ? "DOUT" : "UNKNOWN"));
   String configs = getSetup(configsS);
   configs.toLowerCase();

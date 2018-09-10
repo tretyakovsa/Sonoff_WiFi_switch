@@ -18,6 +18,8 @@ void initHTTP() {
     sendOptions("maxPathLength", fs_info.maxPathLength);
     httpOkJson(configOptions);
   });
+
+  /*
   // --------------------Выдаем данные configOptions
   HTTP.on("/test.json", HTTP_GET, []() {
     String tmpJson = "{}";
@@ -49,7 +51,7 @@ void initHTTP() {
       prifexFile = deleteBeforeDelimiter(prifexFile, ",");
       int dataSize = selectToMarker(prifexFile, ":").toInt();
       Serial.println(dataSize);
-      /*/ Здесь код хак
+       Здесь код хак
         //first create a fixed buffer
         const int bufferSize = 6000;
         uint8_t _buffer[6000];
@@ -81,7 +83,7 @@ void initHTTP() {
         }
 
         // -------------
-      */
+
       int test=0;
       while (configFile.available()) {
         int date;
@@ -102,6 +104,8 @@ void initHTTP() {
 
     httpOkText(testJ);
   });
+*/
+
   // --------------------Выдаем данные configJson
   HTTP.on("/config.live.json", HTTP_GET, []() {
     httpOkJson(configJson);
@@ -159,7 +163,7 @@ void initHTTP() {
   HTTP.on("/lang", HTTP_GET, []() {
     sendSetup(langS, HTTP.arg("set"));
     setupToOptions(langS);
-    jsonWrite(modules, langS, getSetup(langS)); //???????????????????????????
+    jsonWrite(modules, langS, getSetup(langS));
     saveConfigSetup();
     httpOkText();
   });
