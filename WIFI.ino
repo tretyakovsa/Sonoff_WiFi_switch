@@ -8,7 +8,7 @@ String scanWIFI(){
       String ssidMy = WiFi.SSID(i);
       data["ssid"] = ssidMy;
       data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
-      uint8_t dbm = WiFi.RSSI(i);
+      int8_t dbm = WiFi.RSSI(i);
       data["dbm"] = dbm;
       if (ssidMy == getSetup(ssidS)) {
       sendStatus("dbm",dbm);

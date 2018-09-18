@@ -7,7 +7,6 @@ void initCMD() {
   sCmd.addCommand("DDNS",       initDDNS);
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
-  sCmd.addCommand("MOTIONS",       initMot);
   sCmd.addCommand("DHT",       initDHT);
 #ifdef Si7021
   sCmd.addCommand("SI7021",       initSi7021);
