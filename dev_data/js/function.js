@@ -351,14 +351,14 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'time-add') {
       var option = '';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += ' <label><input type="checkbox" name="day-sun" id="day-0" checked>'+jsonResponse.LangSun+'</label>';
-      option += ' <label><input type="checkbox" name="day-mon" id="day-1" checked>'+jsonResponse.LangMon+'</label>';
-      option += ' <label><input type="checkbox" name="day-tue" id="day-2" checked>'+jsonResponse.LangTue+'</label>';
-      option += ' <label><input type="checkbox" name="day-wed" id="day-3" checked>'+jsonResponse.LangWed+'</label>';
-      option += ' <label><input type="checkbox" name="day-thu" id="day-4" checked>'+jsonResponse.LangThu+'</label>';
-      option += ' <label><input type="checkbox" name="day-fri" id="day-5" checked>'+jsonResponse.LangFri+'</label>';
-      option += ' <label><input type="checkbox" name="day-sat" id="day-6" checked>'+jsonResponse.LangSat+'</label>';
-      option += ' <label><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br>';
+      option += ' <label class="label label-danger"><input type="checkbox" name="day-sun" id="day-0" checked>'+jsonResponse.LangSun+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-mon" id="day-1" checked>'+jsonResponse.LangMon+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-tue" id="day-2" checked>'+jsonResponse.LangTue+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-wed" id="day-3" checked>'+jsonResponse.LangWed+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-thu" id="day-4" checked>'+jsonResponse.LangThu+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-fri" id="day-5" checked>'+jsonResponse.LangFri+'</label>';
+      option += ' <label class="label label-danger"><input type="checkbox" name="day-sat" id="day-6" checked>'+jsonResponse.LangSat+'</label>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br><br>';
       option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\''+jsonResponse.time+'\');return false"><i class="clock-img"></i></a>';
       option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += option;
@@ -527,7 +527,7 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
     if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
     if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
    }
-   options += '<tr><td>'+timeDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
   document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
