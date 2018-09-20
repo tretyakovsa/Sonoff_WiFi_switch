@@ -15,6 +15,12 @@
    "name":"update",
    "title":"{{SSDP}}",
    "style":"color:#999;margin-top:-10px"
+  },
+  {
+   "type":"link",
+   "class":"btn btn-default top",
+   "action":"#",
+   "title":"TOP"
   }
  ],
  "header-right":[
@@ -29,12 +35,6 @@
    "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?timer",
    "title":"<i class=\"clock-img\"></i> <span class=\"hidden-xs\">{{LangTimer}}</span>"
-  },
-  {
-   "type":"link",
-   "class":"btn btn-default",
-   "action":"javascript:deviceList('first');",
-   "title":"<i class=\"refresh-img\"></i>"
   },
   {
    "type":"dropdown",

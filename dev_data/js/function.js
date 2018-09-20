@@ -112,7 +112,7 @@ function setContent(stage,load_page) {
  if (load_page) {pages[0] = load_page; }
  //pages[0] = (pages[0]?pages[0]:window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1));
  pages[0] = (pages[0]?pages[0]:'index');
- ajax.get(pages[0]+'.json',{},function(response) {
+ ajax.get(pages[0]+'.json?'+Math.random(),{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
   // var jsonPage;
   if (response!='FileNotFound'){
@@ -264,6 +264,10 @@ function viewTemplate(jsonPage,jsonResponse) {
       if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
       element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'">';
      }
+     if (type_val == 'textarea') {
+      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+      element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'"</textarea>';
+     }
      if (type_val == 'password') {
       if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
       element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
@@ -351,14 +355,14 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'time-add') {
       var option = '';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += ' <label class="label label-danger"><input type="checkbox" name="day-sun" id="day-0" checked>'+jsonResponse.LangSun+'</label>';
+      option += ' <h4><label class="label label-danger"><input type="checkbox" name="day-sun" id="day-0" checked>'+jsonResponse.LangSun+'</label>';
       option += ' <label class="label label-info"><input type="checkbox" name="day-mon" id="day-1" checked>'+jsonResponse.LangMon+'</label>';
       option += ' <label class="label label-info"><input type="checkbox" name="day-tue" id="day-2" checked>'+jsonResponse.LangTue+'</label>';
       option += ' <label class="label label-info"><input type="checkbox" name="day-wed" id="day-3" checked>'+jsonResponse.LangWed+'</label>';
       option += ' <label class="label label-info"><input type="checkbox" name="day-thu" id="day-4" checked>'+jsonResponse.LangThu+'</label>';
       option += ' <label class="label label-info"><input type="checkbox" name="day-fri" id="day-5" checked>'+jsonResponse.LangFri+'</label>';
       option += ' <label class="label label-danger"><input type="checkbox" name="day-sat" id="day-6" checked>'+jsonResponse.LangSat+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br><br>';
+      option += ' <label class="label label-info"><input type="checkbox" name="day-sat" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label></h4>';
       option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\''+jsonResponse.time+'\');return false"><i class="clock-img"></i></a>';
       option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += option;

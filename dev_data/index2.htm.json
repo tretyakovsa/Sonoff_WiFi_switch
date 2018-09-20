@@ -15,6 +15,12 @@
    "type":"issues",
    "state":"10",
    "class":"block"
+  },
+  {
+   "type":"link",
+   "class":"btn btn-default top",
+   "action":"#",
+   "title":"TOP"
   }
  ],
 
@@ -42,12 +48,6 @@
    "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?timer",
    "title":"<i class=\"clock-img\"></i> <span class=\"hidden-xs\">{{LangTimer}}</span>"
-  },
-  {
-   "type":"link",
-   "class":"btn btn-default",
-   "action":"javascript:deviceList('first');",
-   "title":"<i class=\"refresh-img\"></i>"
   },
   {
    "type":"dropdown",
