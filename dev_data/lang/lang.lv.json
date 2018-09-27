@@ -195,7 +195,7 @@
  "LangConfA0":"Analogā ieeja",
  "LangConfBUZZER":"Aktivizējiet zummer",
  "LangConfTach":"Poga (PIN / pogas numurs / laiks ms.)",
- "LangConfRelay":"Relejs. (Releja PIN / releja statuss pēc starta ESP / releju skaita / ignorēšanas)",
+ "LangConfRelay":"Relejs. (Releja PIN / releju skaita / releja statuss pēc starta ESP / ignorēšanas)",
  "LangConfJalousie":"Žalūzijas. (PIN ātruma skaitītājs / otrais un trešais PIN - motora vadība)",
  "LangConfRGB":"WS2812/WS2811(Red/Yellow problem)/NeoPixel LED. (PIN / ledus / stāvokļis pēc starta ESP / krāsa / ātrums / spilgtums / dinamiskais režīms)",
  "LangConfRGBS":"RGB 5050/3528/2835. Tas vēl nedarbojas. (PIN R / PIN G / PIN B / stāvokļis pēc starta ESP / Krāsa / Spilgtums )",

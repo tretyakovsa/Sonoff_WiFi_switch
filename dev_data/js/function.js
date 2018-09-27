@@ -1010,7 +1010,13 @@ function loadConfigs(file_module) {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
     element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
     for (var i = 1; i < configsLinePin.length; i++) {
-     element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+     if (configsLinePin[0]=='RELAY') {
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+     } else if (configsLinePin[0]=='TACH') {
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+     } else {
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+     }
     }
     element.innerHTML += '</br>';
    }
@@ -1018,6 +1024,22 @@ function loadConfigs(file_module) {
   //changeTextarea(file_module.replace(/[^a-z0-9]/gi,'-'));
  },true);
  element.innerHTML += '<textarea id="'+file_module.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
+}
+
+function findError(className,valueName) {
+ var id = document.getElementsByClassName(className);
+ var dubleId=0;
+ for (var i = 0; i < id.length; i++) {
+  id[i].classList.remove('btn-danger');
+  //id[i].setAttribute("style", "");
+  if (valueName == id[i].value) {
+   dubleId++;
+   if (dubleId>=2) {
+    id[i].classList.add('btn-danger');
+    //id[i].setAttribute("style", "border: 2px solid red !important;");
+   }
+  }
+ }
 }
 
 function changeTextarea(state_val) {
