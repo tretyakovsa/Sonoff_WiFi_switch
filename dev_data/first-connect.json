@@ -128,7 +128,7 @@
    "title":"{{LangWiFi1}}",
    "name":"ssid",
    "state":"{{ssid}}",
-   "pattern":".{1,20}"
+   "pattern":".{1,}"
   },
   {
    "type":"password",

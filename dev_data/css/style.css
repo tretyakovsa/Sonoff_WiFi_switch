@@ -201,6 +201,33 @@ ul#history {
  z-index:999;
 }
 
+.toggle-button-cover{position:relative;height:70px;box-sizing:border-box}
+.toggle-button-cover label{padding-top:23px}
+.button-cover:before{position:absolute;right:0;bottom:0;color:#e7efef;font-size:12px;line-height:1;padding:5px}
+.button-cover,.knobs,.layer{position:absolute;top:0;right:0;bottom:0;left:0}
+.button{position:relative;top:50%;width:74px;height:36px;margin:-20px auto 0;overflow:hidden}
+.button.r,.button.r .layer{border-radius:100px}
+.button.b2{border-radius:2px}
+.checkbox{position:relative;width:100%;height:100%;padding:0;margin:0;opacity:0;cursor:pointer;z-index:3}
+.knobs{z-index:2}
+.layer{width:100%;background-color:#ebf7fc;transition:.3s ease all;z-index:1}
+.knobs:before{position:absolute;top:4px;left:4px;width:27px;height:27px;color:#fff;font-size:10px;font-weight:700;text-align:center;line-height:1;padding:9px 4px;background-color:#03A9F4;border-radius:50%}
+/* "design":"one" */
+.one .knobs:before{content:'ON';transition:.3s cubic-bezier(0.18,0.89,0.35,1.15) all}
+.one .checkbox:checked + .knobs:before{content:'OFF';left:42px;background-color:#f44336}
+.one .checkbox:checked ~ .layer{background-color:#fcebeb}
+.one .knobs,.one .knobs:before,.one .layer{transition:.3s ease all}
+/* "design":"two" */
+.two{overflow:visible}
+.two .knobs:before{content:'YES'}
+.two .layer,.two .knobs,.two .knobs:before{transform:rotateZ(0);transition:.4s cubic-bezier(0.18,0.89,0.35,1.15) all}
+.two .checkbox:checked + .knobs{transform:rotateZ(-180deg)}
+.two .checkbox:checked + .knobs:before{content:'NO';background-color:#f44336;transform:rotateZ(180deg)}
+.two .checkbox:checked ~ .layer{background-color:#fcebeb;transform:rotateZ(180deg)}
+/* "design":"one big-size" */
+.big-size .knobs::before{width:56%;height:55%;font-size:15px;line-height:0.1;padding:28% 4px;}
+.big-size {width:104px;height:66px;}
+
 .opt-img, .clock-new-img, .hourglass-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img, .clock-img, .eye-img {
  display:inline-block;
  width:16px;

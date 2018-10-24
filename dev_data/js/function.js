@@ -278,9 +278,15 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'checkbox') {
       var checked = '';
-      if (state_val == 1){ checked = 'checked'; }
-      if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
-      element.innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, obj.title)+'<\/label>';
+      if (!obj.design) {
+       if (state_val == 1){ checked = 'checked'; }
+       if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+       element.innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, obj.title)+'<\/label>';
+      } else {
+       if (state_val == 0){ checked = 'checked=""'; }
+       if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));"'; }
+       element.innerHTML += '<div class="toggle-button-cover" '+style_val+'><div class="button-cover"><div class="button r '+obj.design+'"><input type="checkbox" id="'+name_val+'" '+action_val+' class="checkbox" '+checked+'><div class="knobs"></div><div class="layer"></div></div></div><label for="'+name_val+'">'+renameBlock(jsonResponse, obj.title)+'<\/label></div>';
+      }
      }
      if (type_val == 'range') {
       if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
@@ -1031,12 +1037,12 @@ function findError(className,valueName) {
  var dubleId=0;
  for (var i = 0; i < id.length; i++) {
   id[i].classList.remove('btn-danger');
-  //id[i].setAttribute("style", "");
+  //id[i].style.border = "0px";
   if (valueName == id[i].value) {
    dubleId++;
    if (dubleId>=2) {
     id[i].classList.add('btn-danger');
-    //id[i].setAttribute("style", "border: 2px solid red !important;");
+    //id[i].style.border = "2px solid red !important;";
    }
   }
  }

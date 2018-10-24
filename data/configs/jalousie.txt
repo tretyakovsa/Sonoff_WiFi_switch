@@ -7,7 +7,7 @@
 # UART 115200
 # print print
 // {{LangConfNTP}}
-NTP pool.ntp.org ru.pool.ntp.org
+NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
 DDNS
 // {{LangConfMQTT}}

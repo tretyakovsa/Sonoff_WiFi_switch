@@ -7,7 +7,7 @@ RELAY 12 1 1 0
 UART 115200
 print print
 // {{LangConfNTP}}
-NTP pool.ntp.org ru.pool.ntp.org
+NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
 # DDNS
 // {{LangConfMQTT}}
@@ -48,5 +48,5 @@ RGB 5 15 1 ff0000 100 255 3
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 14
-// Магнитная кроватка
+// Магнитная кроватка (PIN)
 # CRIB 12
