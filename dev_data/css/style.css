@@ -202,7 +202,7 @@ ul#history {
 }
 
 .toggle-button-cover{position:relative;height:70px;box-sizing:border-box}
-.toggle-button-cover label{padding-top:23px}
+.toggle-button-cover label{padding-top:23px;width:40%}
 .button-cover:before{position:absolute;right:0;bottom:0;color:#e7efef;font-size:12px;line-height:1;padding:5px}
 .button-cover,.knobs,.layer{position:absolute;top:0;right:0;bottom:0;left:0}
 .button{position:relative;top:50%;width:74px;height:36px;margin:-20px auto 0;overflow:hidden}

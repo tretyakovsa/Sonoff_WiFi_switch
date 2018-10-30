@@ -53,7 +53,7 @@
     "rgb":"RGB (WS2811/WS2812/NeoPixel LEDs)",
     "jalousie":"{{LangJalousie}}",
     "smart-room":"Smart-Room",
-    "5v-wifi-relay":"5v WiFi Relay",
+    "wifi-relay-5v":"WiFi Relay 5v",
     "manually":"Manually"
    }
   },

@@ -302,7 +302,8 @@
    "action":"ddns [[ddns-name]] [[ddns-port]] [[ddns-server]]"
   },
   {
-   "type":"hr"
+   "type":"hr",
+   "module":"ddns"
   },
 
 
@@ -361,7 +362,8 @@
 
 
   {
-   "type":"hr"
+   "type":"hr",
+   "module":"mqtt"
   },
 
 
