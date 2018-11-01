@@ -18,6 +18,8 @@ TIMERS
 # A0
 // {{LangConfTach}}
 TACH 0 0 20 0
+# TACH 0 1 20 0
+# TACH 0 2 20 0
 // {{LangConfBUZZER}}
 # BUZZER 16 0
 // {{LangConfRGB}}

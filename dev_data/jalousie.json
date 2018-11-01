@@ -33,12 +33,12 @@
 
   {
    "type":"button",
-   "title":"('{{stateJalousie}}'==1?'{{LangClose}}':'{{LangOpen}}')",
+   "title":"('{{jalousie}}'==1?'{{LangClose}}':'{{LangOpen}}')",
    "name":"motor",
    "module":"jalousie",
    "response":"[[motor]]",
    "action":"jalousie not",
-   "class":"'btn btn-block btn-lg btn-'+({{stateJalousie}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{jalousie}}?'info':'primary')"
   },
 
 

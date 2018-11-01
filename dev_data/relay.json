@@ -32,102 +32,102 @@
 
   {
    "type":"button",
-   "title":"({{stateRelay0}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay0}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay0",
    "module":"relay0",
    "response":"[[relay0]]",
    "action":"relay not 0",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay0}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay0}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay1}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay1}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay1",
    "module":"relay1",
    "response":"[[relay1]]",
    "action":"relay not 1",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay1}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay1}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay2}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay2}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay2",
    "module":"relay2",
    "response":"[[relay2]]",
    "action":"relay not 2",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay2}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay2}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay3}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay3}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay3",
    "module":"relay3",
    "response":"[[relay3]]",
    "action":"relay not 3",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay3}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay3}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay4}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay4}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay4",
    "module":"relay4",
    "response":"[[relay4]]",
    "action":"relay not 4",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay4}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay4}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay5}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay5}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay5",
    "module":"relay5",
    "response":"[[relay5]]",
    "action":"relay not 5",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay5}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay5}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay6}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay6}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay6",
    "module":"relay6",
    "response":"[[relay6]]",
    "action":"relay not 6",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay6}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay6}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay7}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay7}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay7",
    "module":"relay7",
    "response":"[[relay7]]",
    "action":"relay not 7",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay7}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay7}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay8}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay8}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay8",
    "module":"relay8",
    "response":"[[relay8]]",
    "action":"relay not 8",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay8}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay8}}?'info':'primary')"
   },
 
   {
    "type":"button",
-   "title":"({{stateRelay9}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{relay9}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"relay9",
    "module":"relay9",
    "response":"[[relay9]]",
    "action":"relay not 9",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRelay9}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{relay9}}?'info':'primary')"
   },
 
   {

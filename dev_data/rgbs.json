@@ -114,11 +114,11 @@
 
   {
    "type":"button",
-   "title":"({{stateRGB}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{rgb}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
    "response":"[[rgb]]",
    "action":"rgbs not",
-   "class":"'btn btn-block btn-lg btn-'+({{stateRGB}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{rgb}}?'info':'primary')"
   },
   {
    "type":"hr",

@@ -134,22 +134,25 @@ From: Latvia, Valmiera
        var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,"relay"+i)){
-         relayNumber += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["stateRelay"+i]?'info':'primary')+'" type="button">';
+         relayNumber += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["relay"+i]?'info':'primary')+'" type="button">';
         }
        }
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger', relayNumber);
       }
       if (searchModule(modules,"rgb")){
-       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info', '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGB?'info':'primary')+'" type="button">');
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info', '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgb?'info':'primary')+'" type="button">');
       }
       if (searchModule(modules,"rfLivolo")){
-       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','info', '');
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','default', '');
+      }
+      if (searchModule(modules,"crib")){
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'crib','default', '');
       }
       if (searchModule(modules,"rgbs")){
-       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.stateRGBS?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateRGBS?'info':'primary')+'" type="button">');
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.rgbS?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgbS?'info':'primary')+'" type="button">');
       }
       if (searchModule(modules,"jalousie")){
-       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.stateJalousie?'info':'primary')+'" type="button">');
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.jalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.jalousie?'info':'primary')+'" type="button">');
       }
       if (searchModule(modules,"leakag")){
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'leakag','success','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">');

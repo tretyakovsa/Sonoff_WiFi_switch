@@ -98,7 +98,7 @@
    "title":"API - https://ifttt.com/maker_webhooks"
   },
   {
-   "command":"http://domain/?val={{Tach0}}&text={{stateRGB}}",
+   "command":"http://domain/?val={{Tach0}}&text={{rgb}}",
    "title":"В двойных скобках вы можете вставлять переменный из файла <a href=\"/config.live.json\">config.live.json</a>"
   }
  ],

@@ -88,7 +88,7 @@ From: Latvia, Valmiera
       if(/relay/.test(modules)) {
        for (var i = 0; i < 10; i++) {
         if (!searchModule(modules,"relay"+i)){
-         jsonIndexResponse["relay"+i] = 'hidden';
+         jsonIndexResponse["hiddenRelay"+i] = 'hidden';
         }
        }
        loadBlock2('relay','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
@@ -187,12 +187,12 @@ From: Latvia, Valmiera
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       jsonIndexResponse.ip = ip;
-      //jsonIndexResponse.stateRelay = (jsonIndexResponse.stateRelay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
+      //jsonIndexResponse.relay = (jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       for (var i = 0; i < 10; i++) {
-       jsonIndexResponse["stateRelay"+i] = (jsonIndexResponse["stateRelay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
+       jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }
-      jsonIndexResponse.stateRGB = (jsonIndexResponse.stateRGB?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
-      jsonIndexResponse.stateJalousie = (jsonIndexResponse.stateJalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
+      jsonIndexResponse.rgb = (jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
+      jsonIndexResponse.jalousie = (jsonIndexResponse.jalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
       jsonIndexResponse.stateLeakag = (jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       if (page == 'A0') {
        jsonIndexResponse.analogId = 'A0json'+ip.replace(/[^a-z0-9]/gi,'');
