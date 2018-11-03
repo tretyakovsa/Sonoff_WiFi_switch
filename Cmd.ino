@@ -72,7 +72,7 @@ void initGet() {
     } while (param.length() != 0);
   }
   //Serial.println(urls);
-  String answer = "";
+  String answer = emptyS;
   HTTPClient http;
   http.begin(urls); //HTTP
   int httpCode = http.GET();
@@ -100,7 +100,7 @@ String readArgsString() {
   String arg;
   arg = sCmd.next();
   //Serial.println(arg);
-  if (arg == "") arg = "";
+  if (arg == emptyS) arg = emptyS;
   return arg;
 }
 // Читает аргументы из команд каждый слежующий вызов читает следующий аргумент возвращает Int

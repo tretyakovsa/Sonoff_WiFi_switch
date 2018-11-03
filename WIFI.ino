@@ -1,3 +1,42 @@
+// Сообщает статус wifi соединения
+void WiFiEvent(WiFiEvent_t event) {
+  flag = sendStatus(wifiS, event);
+    Serial.printf("[WiFi-event] event: %d\n", event);
+
+    switch(event) {
+        case WIFI_EVENT_STAMODE_GOT_IP:
+            sendSetup(ipS, WiFi.localIP().toString());
+            sendSetup(getwayS, WiFi.gatewayIP().toString());
+            sendSetup(subnetS, WiFi.subnetMask().toString());
+            Serial.println("WiFi connected");
+            Serial.println("IP address: ");
+            Serial.println(WiFi.localIP());
+            break;
+        case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
+            sendSetup(ipS, WiFi.softAPIP().toString());
+            Serial.println("WiFi AP");
+            Serial.println("IP address: ");
+            Serial.println(WiFi.softAPIP());
+            break;
+        case WIFI_EVENT_STAMODE_DISCONNECTED:
+            Serial.println("WiFi lost connection");
+            break;
+
+    }
+    // 0 WIFI_EVENT_STAMODE_CONNECTED    подключение к роутеру получение ip
+    // 1 WIFI_EVENT_STAMODE_DISCONNECTED попытка переподключения к роутеру
+    // 2 WIFI_EVENT_STAMODE_AUTHMODE_CHANGE
+    // 3 WIFI_EVENT_STAMODE_GOT_IP подключен к роутеру
+    // 4 WIFI_EVENT_STAMODE_DHCP_TIMEOUT Не получен адрес DHCP
+    // 5 WIFI_EVENT_SOFTAPMODE_STACONNECTED подключен клент
+    // 6 WIFI_EVENT_SOFTAPMODE_STADISCONNECTED отключен клент
+    // 7 WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED Режим точки доступа
+    // 8 WIFI_EVENT_MAX,
+    // 9 WIFI_EVENT_ANY = WIFI_EVENT_MAX,
+    // 10 WIFI_EVENT_MODE_CHANGE
+
+}
+
 String scanWIFI(){
    uint8_t n = WiFi.scanNetworks();
     DynamicJsonBuffer jsonBuffer;
@@ -7,7 +46,7 @@ String scanWIFI(){
       JsonObject& data = networks.createNestedObject();
       String ssidMy = WiFi.SSID(i);
       data["ssid"] = ssidMy;
-      data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? "" : "*";
+      data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? emptyS : "*";
       int8_t dbm = WiFi.RSSI(i);
       data["dbm"] = dbm;
       if (ssidMy == getSetup(ssidS)) {
@@ -116,13 +155,14 @@ boolean startSTA() {
     }
   }
   WiFi.mode(WIFI_OFF);
+  WiFi.onEvent(WiFiEvent);
   WiFi.mode(WIFI_STA);
   scanWIFI();
   WiFi.hostname ( "sonoff-" + chipID );
   String ssid = getSetup(ssidS);
   String pass = getSetup(ssidPassS);
   WiFi.persistent(false);
-   if (ssid == "" && pass == "") {
+   if (ssid == emptyS && pass == emptyS) {
     WiFi.begin();
   }
   else {
@@ -167,5 +207,6 @@ boolean startAP() {
   dnsServer.start(53, "*", apIP);
   digitalWrite(getSetupInt(wifiBlinkS), HIGH);                 //Зажигаем светодиод если находимся в режиме AP
   jsonWrite(ssdpList, getSetup(ssdpS), "0.0.0.0");
+  //statistics();
   return true;
 }

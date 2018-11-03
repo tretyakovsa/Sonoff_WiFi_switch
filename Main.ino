@@ -1,21 +1,3 @@
-void start_init() {
-  chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
-  //  Serial.println(chipID);
-  TickerScheduler(1);
-  SPIFFS.begin();
-  HTTP.begin();
-  configSetup = readFile(fileConfigS, 4096 );
-  initCMD();
-  initWIFI();
-  initHTTP();
-  initUpgrade();
-  initFS();
-  initSSDP();
-  initScenary();
-  setupToInit();
-  //initWebSocket();
-  //testPin();
-}
 // --------------------- Загрузка переменных -------------------------------------------------------
 void setupToInit() {
   sendStatus(timeS, "00:00:00");
@@ -42,11 +24,11 @@ void setupToInit() {
   test.replace("\r\n", "\n");
   test += "\n";
   goCommands(test);
-  test = "";
+  test = emptyS;
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions(ipS, WiFi.localIP().toString());
   sendOptions(macS, WiFi.macAddress().c_str());
-  sendOptions("voice", "");
+  sendOptions("voice", emptyS);
   jsonWrite(modules, ipS, getOptions(ipS));
   jsonWrite(modules,spaceS, getSetup(spaceS));
   jsonWrite(modules, langS, getSetup(langS));
@@ -76,6 +58,11 @@ String deleteBeforeDelimiterTo(String str, String found) {
   int p = str.indexOf(found);
   return str.substring(p);
 }
+// -------------------Удаляем строку от конца строки до маркера ---------------------
+String deleteToMarkerLast (String str, String found) {
+int p = str.lastIndexOf(found);
+return str.substring(0, p);
+}
 
 // ------------- Данные статистики -----------------------------------------------------------
 void statistics() {
@@ -88,13 +75,13 @@ void statistics() {
   urls += "&";
   urls += getSetup(spiffsDataS);
   String stat = getURL(urls);
-  sendOptions("message", jsonRead(stat, "message"));
+  sendOptions(messageS, jsonRead(stat, messageS));
 }
 
 
 // ------------- Запрос на удаленный URL -----------------------------------------
 String getURL(String urls) {
-  String answer = "";
+  String answer = emptyS;
   HTTPClient http;
   http.begin(urls); //HTTP
   int httpCode = http.GET();
@@ -107,7 +94,7 @@ String getURL(String urls) {
 //------------------Выполнить все команды по порядку из строки разделитель \r\n  \n
 String goCommands(String inits) {
   //Serial.println(inits);
-  String temp = "";
+  String temp = emptyS;
   String rn = "\n";
   inits += rn;
   //  Serial.println(writeFile("inits.txt", inits));
@@ -217,7 +204,7 @@ void modulesReg(String modName) {
   json[spaceS] = jsonRead(configJson, spaceS);
   JsonArray& data = json["module"].asArray();
   data.add(modName);
-  modules = "";
+  modules = emptyS;
   json.printTo(modules);
 }
 // -------------- Регистрация команд
@@ -227,16 +214,16 @@ void commandsReg(String comName) {
     JsonObject& json = jsonBuffer.parseObject(regCommands);
     JsonArray& data = json["command"].asArray();
     data.add(comName);
-    regCommands = "";
+    regCommands = emptyS;
     json.printTo(regCommands);
   }
 }
-
+// Запись данных в файл с частотой 1 секунда и более. Максимальное количество данных в суточном файле 1440 значений
 void safeDataToFile(int inter, String par, uint16_t data) {
   yield();
-  // Формируем зоголовок Интервал, Параметр, размер_параметра
+  // Формируем зоголовок (префикс) Интервал, Параметр, размер_параметра
   uint16_t dataSize = sizeof(data);
-  String prifexFile = "";
+  String prifexFile = emptyS;
   prifexFile += inter;
   prifexFile += "," + par;
   prifexFile += ",";
@@ -265,19 +252,18 @@ void safeDataToFile(int inter, String par, uint16_t data) {
   timeM = timeM / inter;
   int poz = timeM * dataSize + prifexLen + 1; // позиция в которую нужно записать.
   int endF = (size - prifexLen) * dataSize + prifexLen + 1; // позиция конца файла
-  if (poz >= endF) {
+  if (poz >= endF) { // если файл имел пропуски в записи данных
     int i = (poz - endF) / dataSize;
-    for (int j = 0; j < i; j++) {
+    for (int j = 0; j < i; j++) { // Заполним недостающие данные
       for (int d = 0; d < dataSize; d++) {
         yield();
-        configFile.write(0);
+        configFile.write(0);    // нулями
       }
     }
   }
   yield();
-  configFile.write(data >> 8);
-  configFile.write(data);
+  configFile.write(data >> 8); // добавим текущие
+  configFile.write(data);      // данные
   configFile.close();
 }
-
 

@@ -33,7 +33,7 @@ void handleScenary() {
     goCommands(Scenary); // Делаем разбор сценариев
     //webSocket.broadcastTXT(configJson);
 //    Serial.println("test");
-    sendStatus("voice", "");
+    sendStatus("voice", emptyS);
     flag = false;
   }
 }
@@ -122,7 +122,7 @@ void thenCommand() {
       urls += ip;
       urls += "/cmd?command=" + comm;
       urls.replace(" ", "%20");
-      if (ip != "") {
+      if (ip != emptyS) {
         sendOptions("test", comm);
         getURL(urls);
       }

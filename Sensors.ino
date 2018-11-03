@@ -51,7 +51,7 @@ void initOneWire() {
     sensors.requestTemperatures();
     for (byte i = 0; i < sensors.getDS18Count(); i++) {
       temp = sensors.getTempCByIndex(i);
-      String num = "";
+      String num = emptyS;
       num = (String)(i + 1);
       sendStatus(temperatureS + num, (String)temp);
       alarmTest(temperatureS + num, highalarmtempS + num, lowalarmtempS + num, alarmtempS + num);
@@ -68,7 +68,7 @@ void initDHT() {
   static uint16_t test = dht.getMinimumSamplingPeriod();
   if (t < test) t = test;
   //Serial.println(t);
-  String temp = "";
+  String temp = emptyS;
   temp += dht.getTemperature();
   //  Serial.println(temp);
   if (temp != "nan") {
@@ -115,7 +115,7 @@ void alarmLoadModules() {
   String  modulesN = selectToMarker(modules, "]");
   modulesN = deleteBeforeDelimiter(modulesN, "[");
   modulesN += ",";
-  modulesN.replace("\"", "");
+  modulesN.replace("\"", emptyS);
   //Serial.println(modulesN);
   //"upgrade","relay1","ntp","ddns","mqtt","analog"
   do {
@@ -129,7 +129,7 @@ void alarmLoadModules() {
     if (m == "pow")  alarmSet += ActivePowerWS + " " + highalarmpowS + " " + lowalarmpowS;
 #endif
     modulesN = deleteBeforeDelimiter(modulesN, ",");
-  } while (modulesN != "");
+  } while (modulesN != emptyS);
 }
 
 // ----------------------- Загрузка данных уровней сработки ------------------------------------------
@@ -147,13 +147,13 @@ void alarmLoad(String sName, String high, String low) {
     String del = "if " + sName + " >";
     if (test.indexOf(del) != -1) {
       //      Serial.println(test);
-      test.replace(del, "");
+      test.replace(del, emptyS);
       sendOptionsF(high, test.toFloat());
     }
     del = "if " + sName + " <";
     if (test.indexOf(del) != -1) {
       //      Serial.println(test);
-      test.replace(del, "");
+      test.replace(del, emptyS);
       sendOptionsF(low, test.toFloat());
     }
     configSensor = deleteBeforeDelimiter(configSensor, "\n"); //Откидываем обработанную строку
@@ -198,43 +198,15 @@ void irReceived() {
 void handleIrReceiv() {
   if (irReceiver->decode(&results)) {
     //serialPrintUint64(results.value, HEX);
-    //Serial.println("");
+    //Serial.println(emptyS);
     dump(&results);
     flag = sendStatus(irReceivedS, String((uint32_t) results.value, HEX));
     irReceiver->resume();  // Continue looking for IR codes after your finished dealing with the data.
   }
 }
 void dump(decode_results *results) {
-  // Dumps out the decode_results structure.
-  // Call this after IRrecv::decode()
   uint16_t count = results->rawlen;
-  if (results->decode_type == UNKNOWN) {
-    sendOptions(irDecodeTypeS, "UNKNOWN");
-  } else if (results->decode_type == NEC) {
-    sendOptions(irDecodeTypeS, "NEC");
-  } else if (results->decode_type == SONY) {
-    sendOptions(irDecodeTypeS, "SONY");
-  } else if (results->decode_type == RC5) {
-    sendOptions(irDecodeTypeS, "RC5");
-  } else if (results->decode_type == RC5X) {
-    sendOptions(irDecodeTypeS, "RC5X");
-  } else if (results->decode_type == RC6) {
-    sendOptions(irDecodeTypeS, "RC6");
-  } else if (results->decode_type == RCMM) {
-    sendOptions(irDecodeTypeS, "RCMM");
-  } else if (results->decode_type == PANASONIC) {
-    sendOptions(irDecodeTypeS, "PANASONIC");
-  } else if (results->decode_type == LG) {
-    sendOptions(irDecodeTypeS, "LG");
-  } else if (results->decode_type == JVC) {
-    sendOptions(irDecodeTypeS, "JVC");
-  } else if (results->decode_type == AIWA_RC_T501) {
-    sendOptions(irDecodeTypeS, "AIWA_RC_T501");
-  } else if (results->decode_type == WHYNTER) {
-    sendOptions(irDecodeTypeS, "WHYNTER");
-  } else if (results->decode_type == NIKAI) {
-    sendOptions(irDecodeTypeS, "NIKAI");
-  }
+    sendOptions(irDecodeTypeS, results->decode_type);
 }
 // ----------------------Приемник на 433мГ
 void rfReceived() {
@@ -260,10 +232,13 @@ void handleRfReceiv() {
       sendOptions(rfProtocolS, 0);
     } else {
       uint32_t temp = mySwitch.getReceivedValue() ;
+      Serial.println(temp);
       flag = sendStatus(rfReceivedS, temp);
       temp = mySwitch.getReceivedBitlength();
+      Serial.println(temp);
       sendOptions(rfBitS, temp);
       temp = mySwitch.getReceivedProtocol();
+      Serial.println(temp);
       sendOptions(rfProtocolS, temp);
     }
     mySwitch.resetAvailable();
@@ -272,7 +247,7 @@ void handleRfReceiv() {
 // -----------------  Кнопка
 void initTach() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
-  pin =  pinTest(pin);
+  pin =  pinTest(pin, true);
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
   uint16_t bDelay = readArgsInt(); // третий время нажатия
   sendStatus(stateTachS + num, 0);
@@ -299,7 +274,7 @@ void handleButtons() {
 
   }
   num++;
-  if (num == 8) num = 0;
+  if (num == NUM_BUTTONS) num = 0;
 }
 
 
@@ -318,15 +293,15 @@ void initHLW8012() {
   static uint16_t t = readArgsInt();
   String temp = readArgsString();
   byte pinCF;
-  if (temp == "") pinCF = pinTest(14);
+  if (temp == emptyS) pinCF = pinTest(14);
   else pinCF = pinTest(temp.toInt());
   temp = readArgsString();
   byte pinCF1;
-  if (temp == "") pinCF1 = pinTest(13);
+  if (temp == emptyS) pinCF1 = pinTest(13);
   else pinCF1 = pinTest(temp.toInt());
   temp = readArgsString();
   byte pinSEL;
-  if (temp == "") pinSEL = pinTest(5);
+  if (temp == emptyS) pinSEL = pinTest(5);
   else pinSEL = pinTest(temp.toInt());
   hlw8012.begin(pinCF, pinCF1, pinSEL, HIGH, true);
   hlw8012.setResistors(CURRENT_RESISTOR, VOLTAGE_RESISTOR_UPSTREAM, VOLTAGE_RESISTOR_DOWNSTREAM);

@@ -111,6 +111,11 @@ void initHTTP() {
     httpOkJson(configJson);
   });
 
+   // --------------------Выдаем данные configwidgets
+  HTTP.on("/config.widgets.json", HTTP_GET, []() {
+    httpOkJson(configwidgets);
+  });
+
   // -------------------Выдаем данные configSetup
   HTTP.on("/config.setup.json", HTTP_GET, []() {
     httpOkJson(configSetup);
@@ -134,7 +139,7 @@ void initHTTP() {
     httpOkText(reqvest);
   });
 
-  // -------------------построение графика
+ // -------------------построение графика
   HTTP.on("/charts.json", HTTP_GET, []() {
     String pFile = HTTP.arg("data");
     String message = "{";
@@ -143,14 +148,14 @@ void initHTTP() {
         //message += " " + HTTP.argName(i) + ": " + HTTP.arg(i) + "\n";
         message += "\"" + HTTP.argName(i) + "\":[";
         String key = getOptions(HTTP.arg(i));
-        if (key != "")  {
+        if (key != emptyS)  {
           message += key;
-          key = "";
+          key = emptyS;
         } else {
           key = getStatus(HTTP.arg(i));
-          if (key != "")  {
+          if (key != emptyS)  {
             message += key;
-            key = "";
+            key = emptyS;
           }
         }
         message += "],";
@@ -159,6 +164,7 @@ void initHTTP() {
     message += "\"points\":\"10\",\"refresh\":\"1000\"}";
     httpOkText(message);
   });
+
 
   HTTP.on("/lang", HTTP_GET, []() {
     sendSetup(langS, HTTP.arg("set"));
@@ -231,8 +237,8 @@ void initFS() {
   //first callback is called after the request has ended with all parsed arguments
   //second callback handles file uploads at that location
   HTTP.on("/edit", HTTP_POST, []() {
-    //HTTP.send(200, "text/plain", "");
-    httpOkText("");
+    //HTTP.send(200, "text/plain", emptyS);
+    httpOkText(emptyS);
   }, handleFileUpload);
   //called when the url is not defined here
   //use it to load content from SPIFFS
@@ -245,7 +251,7 @@ void initFS() {
     //configJson = jsonWrite(configJson, "setIndex", set);
     jsonWrite(configSetup, "setIndex", set);
     saveConfigSetup();
-    HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", "");
+    HTTP.send(307, "Temporary Redirect\r\nLocation: /\r\nConnection: Close\r\n", emptyS);
   });
 
 }
@@ -271,7 +277,7 @@ String getContentType(String filename) {
 
 bool handleFileRead(String path) {
   String setIndex =  jsonRead(configSetup, setIndexS);
-  if (setIndex == "") setIndex = "index.htm";
+  if (setIndex == emptyS) setIndex = "index.htm";
   if (path.endsWith("/")) path += setIndex;
   String contentType = getContentType(path);
   String pathWithGz = path + ".gz";
@@ -312,8 +318,8 @@ void handleFileDelete() {
   if (!SPIFFS.exists(path))
     return http404send();//HTTP.send(404, "text/plain", "FileNotFound");
   SPIFFS.remove(path);
-  //HTTP.send(200, "text/plain", "");
-  httpOkText("");
+  //HTTP.send(200, "text/plain", emptyS);
+  httpOkText(emptyS);
   path = String();
 }
 
@@ -330,8 +336,8 @@ void handleFileCreate() {
     file.close();
   else
     return http500send("CREATE FAILED");// HTTP.send(500, "text/plain", "CREATE FAILED");
-  //HTTP.send(200, "text/plain", "");
-  httpOkText("");
+  //HTTP.send(200, "text/plain", emptyS);
+  httpOkText(emptyS);
   path = String();
 
 }

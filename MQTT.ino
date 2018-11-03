@@ -5,9 +5,18 @@
   PubSubClient client(wclient);
 */
 void initMQTT() {
-    sCmd.addCommand("mqtt", handle_mqtt);
-    modulesReg("mqtt");
-    MQTT_Pablush();
+  if ( getStatus(messageS)!=emptyS){ // Если нет связи с интернет не запускать
+  MQTT_Connecting();
+  ts.add(2, 60000, [&](void*) {
+    if (!client.connected()) MQTT_Connecting();
+  }, nullptr, true);
+   sCmd.addCommand("mqtt", handle_mqtt);
+   modulesReg("mqtt");
+  }
+}
+
+void  handleMQTT() {
+  if (client.connected()) client.loop();
 }
 
 // ------------------------------Установка параметров mqtt
@@ -23,25 +32,26 @@ void handle_mqtt() {
   saveConfigSetup ();
 }
 
-
-void MQTT_Pablush() {
+void MQTT_Connecting() {
   String mqtt_server = getSetup(mqttServerS);
-  if ((mqtt_server != "")) {
-
+  if ((mqtt_server != emptyS)) {
     client.set_server(mqtt_server, getSetupInt(mqttPortS));
     // подключаемся к MQTT серверу
     if (WiFi.status() == WL_CONNECTED) {
       if (!client.connected()) {
-        //Serial.println(mqtt_server);
         if (client.connect(MQTT::Connect(chipID)
                            .set_auth(getSetup(mqttUserS), getSetup(mqttPassS)))) {
+          Serial.println("Connected to MQTT server");
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
-          client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
-          //client.subscribe( prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
-
+          client.subscribe(prefix + "/"+chipID+"/+/control"); // Подписываемся на топики control
+          client.subscribe(prefix + "/ids"); // Подписываемся на топики ids
           sendMQTT("test", "work");
+          loadnWidgets();
+          //sendWidget("toggle","stateRelay1");
+          //sendWidget("toggle","stateRelay2");
         } else {
+          Serial.println("Could not connect to MQTT server");
         }
       }
     }
@@ -50,55 +60,113 @@ void MQTT_Pablush() {
 
 void callback(const MQTT::Publish& pub)
 {
-  //Serial.print(pub.topic()); // выводим в сериал порт название топика
-  //Serial.print(" => ");
-  //Serial.print(pub.payload_string()); // выводим в сериал порт значение полученных данных
-  //Serial.println();
+  Serial.print(pub.topic());
+  Serial.print(" => ");
+  Serial.print(pub.payload_string());
+  Serial.println();
   String payload = pub.payload_string();
-  //Serial.println(payload);
-  if ( pub.payload_string() == "HELLO" ) {
-    loadnWidgets();
+  //---------все что происходит при обновлении страницы iot manager на телефоне------
+  if (pub.payload_string() == "HELLO" ) {
+
+loadnWidgets();
+
+    sendSTATUS("voice", "speech", "привет, в вашем доме ничего опасного не обнаружено, температура в комнате плюс 28 градусов, на улице плюс 25");
   }
-}
 
-void  handleMQTT() {
+  if (String(pub.topic()) == prefix + "/ids") ids = pub.payload_string();
 
-    if (client.connected()) client.loop();
-    else {
-      MQTT_Pablush();
-      //Serial.println("MQTT");
-    }
 
+  String topic_ = String(pub.topic());
+  if (topic_.indexOf("control") > 0)
+  {
+    topic_ = deleteToMarkerLast(topic_, "/control");
+    topic_ = selectToMarkerLast(topic_, "/");
+
+    String t = topic_.substring(3);
+    topic_.replace(t, " " + t);
+    topic_ += " " + pub.payload_string();
+    order += topic_ + ",";
+    Serial.println(order);
+  }
 }
 
 // Читаем и отправляем виджеты на сервер
 bool loadnWidgets() {
-
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& Widgets = jsonBuffer.parseObject(readFile("config.widgets.json", 4096));
-  JsonArray& WidgetsArray = Widgets["nWidgets"].asArray();
-  int j = WidgetsArray.size();
-  String prex = prefix + "/" + chipID;
-  if (j != 0) {
-    for (int i = 0; i <= j - 1; i++) {
-      String thing_config = Widgets["nWidgets"][i].as<String>();
-      jsonWrite(thing_config, "topic",  prex + jsonRead(thing_config, "topic"));
-      jsonWrite(thing_config, "page", getSetup(spaceS));
-      //Serial.println(thing_config);
-      client.publish(MQTT::Publish(prex + "/config", thing_config).set_qos(1));
-    }
-  }
-  return true;
+  uint8_t num =0;
+  String setW = configwidgets;
+  while(setW.length()!=0){
+ String temp = selectToMarker (setW, ",");
+ setW=deleteBeforeDelimiter(setW, ",");
+ Serial.println(temp);
+ sendWidget(selectToMarker(temp, ":"),selectToMarkerLast(temp, ":"),num);
+ num++;
 }
-void sendMQTT(String topik, String data) {
-  topik = prefix + "/" + chipID + "/" + topik;
-  //topik = prex+topik
-  client.publish(MQTT::Publish(topik, data).set_qos(1));
+}
+
+
+void widgetReg(String nameW, String topicN){
+  configwidgets +=nameW+":";
+   configwidgets +=topicN+",";
+  }
+
+
+void sendWidget(String nameW, String topicN, uint8_t num) {
+
+  String prex = prefix + "/" + chipID;
+  String thing_config = readFile("widgets/widgets."+nameW+".json", 6096);
+  jsonWrite(thing_config, "page", getSetup(spaceS));
+  jsonWrite(thing_config, "topic", prex + "/"+topicN);
+  jsonWrite(thing_config, "id", num);
+  sendMQTT("config", thing_config);
+
+  }
+
+void sendMQTT(String topicN, String data) {
+  topicN = prefix + "/" + chipID + "/" + topicN;
+
+  client.publish(MQTT::Publish(topicN, data).set_qos(1));
+}
+
+//=======================================УПРАВЛЕНИЕ ВИДЖЕТАМИ======================================================================
+
+void sendSTATUS(String topicN, String key1, String date1) {
+  yield();
+  topicN = prefix + "/" + chipID + "/" + topicN + "/status";
+  String t = "{}";
+  jsonWrite(t, key1, date1);
+  client.publish(MQTT::Publish(topicN, t).set_qos(1));
+  yield();
+}
+
+void sendSTATUS(String topicN, String key1, String date1, String key2, String date2) {
+  yield();
+  topicN = prefix + "/" + chipID + "/" + topicN + "/status";
+  String t = "{}";
+  jsonWrite(t, key1, date1);
+  jsonWrite(t, key2, date2);
+  client.publish(MQTT::Publish(topicN, t).set_qos(1));
+  yield();
+}
+
+void sendCONFIG(String topik, String widgetConfig, String key, String date) {
+  yield();
+  topik = prefix + "/" + chipID + "/" + topik + "/status";
+  String outer = "{\"widgetConfig\":";
+  String inner = "{\"";
+  inner = inner + key;
+  inner = inner + "\":\"";
+  inner = inner + date;
+  inner = inner + "\"";
+  inner = inner + "}}";
+  String t = outer + inner;
+  //Serial.println(t);
+  client.publish(MQTT::Publish(topik, t).set_qos(1));
+  yield();
 }
 
 // --------------------- Включаем DDNS
 void initDDNS() {
-
+    if ( getStatus(messageS)!=emptyS){ // Если нет связи с интернет не запускать
     HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
     // ------------------Выполнение команды из запроса
     HTTPWAN.on("/cmd", HTTP_GET, []() {
@@ -124,6 +192,7 @@ void initDDNS() {
     HTTPWAN.begin();
     sCmd.addCommand("ddns", handle_ddns);
     modulesReg(ddnsS);
+    }
 }
 
 void httpwanOkText(String text) {
@@ -146,7 +215,7 @@ void handle_ddns() {
 // --------------------------------Запрос для синхронизации внешнего ip адреса с ddns
 int ip_wan() {
   String ddns = getSetup(ddnsS);
-  if (ddns != "") {
+  if (ddns != emptyS) {
     getURL(ddns);
   }
 }

@@ -6,7 +6,7 @@ void initUpgrade() {
 }
 // ----------------------- Обновление с сайта
 void webUpgrade() {
-  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"><meta http-equiv=\"refresh\" content=\"90;/\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module... <br><span id=\"countdownt\">90 </span> seconds...</h1></center>   <script>var timeleft=90;var downloadTimer=setInterval(function(){timeleft--;document.getElementById(\"countdownt\").textContent=timeleft;if(timeleft <= 0)clearInterval(downloadTimer);},1000);</script></body></html>";
+  String refresh = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"./css/build.css\"></head><body><br><br><center><div class=\"loader\"></div><h1>Update module... <br><span id=\"countdownt\">90 </span> seconds...</h1></center>   <script>var timeleft=90;var downloadTimer=setInterval(function(){timeleft--;document.getElementById(\"countdownt\").textContent=timeleft;if(timeleft <= 0){clearInterval(downloadTimer);window.location.href=\"/\"}},1000);</script></body></html>";
   httpOkHtml(refresh);
     //httpOkJson(refresh);
   String Timerset = readFile(configTimerS, 4096);
@@ -31,7 +31,7 @@ switch(ret) {
                 break;
         }
      writeFile(configTimerS, Timerset);
-  if (Scenary !=""){
+  if (Scenary !=emptyS){
     writeFile(ScenaryS, Scenary);
     }
     sendSetup(spiffsDataS, spiffsData);

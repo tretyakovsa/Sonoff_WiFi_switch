@@ -1,0 +1,10 @@
+     {
+      "id": "4",
+      "page": "ВЫВОД",
+      "widget": "chart",
+      "topic": "/value1",
+      "widgetConfig": {
+        "type": "line",
+        "maxCount": 20
+      }
+      }

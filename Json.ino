@@ -46,7 +46,7 @@ void jsonWrite(String &json, String name, String volume) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   root[name] = volume;
-  json = "";
+  json = emptyS;
   root.printTo(json);
 }
 // ------------- Запись значения json int ----------------
@@ -54,7 +54,7 @@ void jsonWrite(String &json, String name, int volume) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   root[name] = volume;
-  json = "";
+  json = emptyS;
   root.printTo(json);
 }
 // ------------- Запись значения json float ----------------
@@ -62,7 +62,7 @@ void jsonWrite(String &json, String name, float volume) {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(json);
   root[name] = volume;
-  json = "";
+  json = emptyS;
   root.printTo(json);
 }
 // ------------- Отправить данные в Setup String ------------------------------
@@ -129,7 +129,7 @@ String graf(float datas, int points, int refresh, String options) {
   json["options"] = options;
   //"options":"low:0,showLine: false,showArea:true,showPoint:false",
   // Помещаем созданный json в переменную root
-  root = "";
+  root = emptyS;
   json.printTo(root);
   return root;
 }
@@ -154,7 +154,7 @@ String graf3(float datas, float datas1, float datas2, int points, int refresh, S
   json["options"] = options;
   //"options":"low:0,showLine: false,showArea:true,showPoint:false",
   // Помещаем созданный json в переменную root
-  root = "";
+  root = emptyS;
   json.printTo(root);
   return root;
 }
@@ -179,7 +179,7 @@ String graf3(int datas, int datas1, int datas2, int points, int refresh, String 
   json["options"] = options;
   //"options":"low:0,showLine: false,showArea:true,showPoint:false",
   // Помещаем созданный json в переменную root
-  root = "";
+  root = emptyS;
   json.printTo(root);
   return root;
 }

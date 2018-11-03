@@ -1,37 +1,43 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
+  if (getStatusInt(wifiS)==3){ //Если есть подключение к роутеру
   String ntpTemp = readArgsString();
   sendOptions(ntp1S, ntpTemp);
   ntpTemp = readArgsString();
   sendOptions(ntp2S, ntpTemp);
+  if ( getStatus(messageS)==emptyS){ // Если нет связи с интернет пробуем получить время с роутера
+    sendOptions(ntp1S, WiFi.gatewayIP().toString()); // Для этого заменяем адрес NTP сервера на адрес роутера
+    }
   sCmd.addCommand("time", handle_time);
   timeSynch();
   //Serial.println(GetTime());
-  if (GetTime()!="00:00:00"){
+  if (GetTime()!="00:00:00"){ // Проверка на получение времени
   // задача проверять таймеры каждую секунду обновлять текущее время.
   ts.add(0, 1000, [&](void*) {
     String timeNow = GetTime();
-    if (timeNow == "00:00:00") {
-      String timeNow = GetWeekday();
+    if (timeNow == "00:00:00") { // в это время синхронизируем с внешним сервером
+      String timeNow = GetWeekday(); // Новая дата
       sendStatus(weekdayS, timeNow);
       timeSynch();
       loadTimer();
     }
     sendStatus(timeS, timeNow);
     sendOptions(timeS, timeNow);
-    if (timeNow == minTime) {
+    jsonWrite(configSetup, timeS,  timeNow);
+    if (timeNow == minTime) { // Временный таймер с записью в таймеры
       sCmd.readStr(comTime);
       delTimer();
       loadTimer();
     }
-    if (timeNow == pTime) {
+    if (timeNow == pTime) { //
       sCmd.readStr(comTimeP);
-      comTimeP ="";
-      pTime ="";
+      comTimeP =emptyS;
+      pTime =emptyS;
     }
   }, nullptr, true);
   sCmd.addCommand("zone", handle_timeZone);
   modulesReg("ntp");
+  }
   }
 }
 
@@ -55,7 +61,7 @@ void timeSynch() {
   uint8_t zone = getOptionsInt(timeZoneS);
   String ntp1 = getOptions(ntp1S);
   String ntp2 = getOptions(ntp2S);
-   if (ntp1 == emptyS) ntp1 = "pool.ntp.org";
+   if (ntp1 == emptyS) ntp1 = "ntp1.vniiftri.ru";
    if (ntp2 == emptyS) ntp2 = "ru.pool.ntp.org";
   if (WiFi.status() == WL_CONNECTED) {
     // Инициализация UDP соединения с NTP сервером
@@ -75,7 +81,7 @@ void timeSynch() {
 // Получение текущего времени
 String GetTime() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
-  String Time = ""; // Строка для результатов времени
+  String Time = emptyS; // Строка для результатов времени
   Time += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   uint8_t i = Time.indexOf(":"); //Ишем позицию первого символа :
   Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
@@ -85,12 +91,12 @@ String GetTime() {
 // Получение даты
 String GetDate() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
-  String Data = ""; // Строка для результатов времени
+  String Data = emptyS; // Строка для результатов времени
   Data += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
-  Data.replace("\n", "");
+  Data.replace("\n", emptyS);
   uint8_t i = Data.lastIndexOf(" "); //Ишем позицию последнего символа пробел
   String Time = Data.substring(i - 8, i + 1); // Выделяем время и пробел
-  Data.replace(Time, ""); // Удаляем из строки 8 символов времени и пробел
+  Data.replace(Time, emptyS); // Удаляем из строки 8 символов времени и пробел
   return Data; // Возврашаем полученную дату
 }
 // Получение дня недели

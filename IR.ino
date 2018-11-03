@@ -9,7 +9,6 @@ void irTransmitter() {
   sCmd.addCommand("irsend", handleIrTransmit);
   commandsReg(irsendS);
   modulesReg(moduleName);
-
 }
 
 // команда irsend
@@ -18,7 +17,6 @@ void handleIrTransmit() {
   String code_str = readArgsString(); // Код
   uint16_t repeat = readArgsInt();    // Повтор
   uint8_t bits = readArgsInt();       // Длинна кода
-
   uint32_t  code = strtol(("0x" + code_str).c_str(), NULL, 0);
   //irSender->sendNEC(tmp, 32);
 

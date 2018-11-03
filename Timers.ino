@@ -12,7 +12,7 @@ void delTimer() {
   }
   if (y!=255){
   nestedArray.removeAt(y);
-  jsonTimer = "";
+  jsonTimer = emptyS;
   Timers.printTo(jsonTimer);
   writeFile(configTimerS, jsonTimer);
   //Serial.println(jsonTimer);
@@ -24,7 +24,7 @@ void loadTimer() {
   long lminTime = 86400;
   String jsonTimer = readFile(configTimerS, 4096);
   String Weekday = GetWeekday();
-  comTime = "";
+  comTime = emptyS;
   //  Получаем текущий день недели в виде числа
   uint8_t iDay = 7;
   if (Weekday == "Sun") iDay = 0;
@@ -49,7 +49,7 @@ void loadTimer() {
       int ind = week.substring(iDay, iDay + 1).toInt(); // Выделяем нужный день недели
       if (ind) { // Если день недели совпадает
         String idTimes = Timers["timer"][i]["id"].as<String>();
-        if (idTimes.indexOf(":")==-1) idTimes="";
+        if (idTimes.indexOf(":")==-1) idTimes=emptyS;
         String nextTime1 = Timers["timer"][i]["time1"].as<String>();
         String nextTime2 = Timers["timer"][i]["time2"].as<String>();
         String nextcom1 = Timers["timer"][i]["com1"].as<String>();
@@ -62,7 +62,7 @@ void loadTimer() {
             idTime=idTimes;
           }
         }
-        if (nextTime2 != "") {
+        if (nextTime2 != emptyS) {
           if (timeToLong(nextTime2) >= timeToLong(GetTime())) {
             if (lminTime >= timeToLong(nextTime2)) {
               lminTime = timeToLong(nextTime2);
@@ -117,7 +117,7 @@ int  timeToMin(String Time) {
 }
 
 String timeToString(long Time) {
-  String str = "";
+  String str = emptyS;
   uint8_t temp = (Time / 3600);
   if (temp < 10) str += "0";
   str += temp; // здесь часы

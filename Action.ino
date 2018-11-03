@@ -2,10 +2,11 @@
 void initRelay() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
   pin =  pinTest(pin);
-  boolean state = readArgsInt(); // второй аргумент состояние на старте
-  String num = readArgsString(); // третьий аргумент прификс реле 0 1 2
+  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+  boolean state = readArgsInt(); // третий  аргумент состояние на старте
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
-  sendStatus(stateRelayS + num, state);
+  sendStatus(relayS + num, state);
+  widgetReg("toggle", relayS + num);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
   // 19 pin это реле через UART
@@ -18,9 +19,10 @@ void initRelay() {
     pinMode(pin, OUTPUT);
     digitalWrite(pin, state ^ inv);
   }
-  sCmd.addCommand("relay",     relay); //
+  sCmd.addCommand(relayS.c_str(),     relay); //
   commandsReg(relayS);
   modulesReg(relayS + num);
+  //Serial.println(modules);
 }
 
 // http://192.168.0.91/cmd?command=relay off 1
@@ -29,44 +31,40 @@ void relay() {
   String num = readArgsString(); // номер реле
   uint32_t times = readArgsInt(); // время
   String del = readArgsString(); // это delay
-  String kayPin = relayPinS + num;
-  String kay = stateRelayS + num;
-  uint8_t state = getStatusInt(kay);
-  uint8_t pin = getOptionsInt(kayPin);
-  if (com == "on") {
-    if (pin  > 19) {
-      relayWrite(pin, 1 ^ getOptionsInt(relayNotS + num));
-    } else
-      digitalWrite(pin, 1 ^ getOptionsInt(relayNotS + num));
-    flag = sendStatus(kay, 1);
-  }
-  if (com == "off") {
-    if (pin  > 19) {
-      relayWrite(pin, 0 ^ getOptionsInt(relayNotS + num));
-    } else
-      digitalWrite(pin, 0 ^ getOptionsInt(relayNotS + num));
-    flag = sendStatus(kay, 0);
-  }
-  if (com == "not") {
-    if (pin > 19) {
-      relayWrite(pin, !state ^ getOptionsInt(relayNotS + num));
-    } else
-      digitalWrite(pin, !state ^ getOptionsInt(relayNotS + num));
-    flag = sendStatus(kay, !state);
-  }
+  relaySet(num, com);
   if (times != 0) {
     if (del == "t") {
-      impulsTime(times - 1, "relay not " + num);
+      impulsTime(times - 1, relayS + " not " + num);
     } else {
-      comTimeP = "relay not " + num;
+      comTimeP = relayS + " not " + num;
       String t = GetTime();
-      pTime = timeToString(timeToLong(t) + (times-1));
+      pTime = timeToString(timeToLong(t) + (times - 1));
     }
   } else {
-      comTimeP ="";
-      pTime ="";
-      }
-  statusS = relayStatus(configJson, kay);
+    comTimeP = emptyS;
+    pTime = emptyS;
+  }
+}
+
+void relaySet(String num, String com) {
+  String kayPin = relayPinS + num; // Получим имя ячейки пин по номеру
+  String kay = relayS + num; // Имя реле
+  uint8_t pin = getOptionsInt(kayPin); // Получим пин по Имени реле
+  uint8_t inv = getOptionsInt(relayNotS + num); // Получим признак инверсии по Имени реле
+  uint8_t state = getStatusInt(kay); // Получим статус реле по Имени
+  // Проверим команду приготовим новый state
+  if (com == onS) state = 1;
+  if (com == offS) state = 0;
+  if (com == notS) state = !(state);
+  if (pin  > 19) {
+    relayWrite(pin, state ^ inv);
+  } else {
+    digitalWrite(pin, state ^ inv);
+  }
+  Serial.println(kay);
+  flag = sendStatus(kay, state);
+  //statusS = relayStatus(configJson, kay);
+  statusS = htmlStatus(configJson, kay, langOnS, langOffS);
 }
 
 // -------------- Для управления реле по UART
@@ -81,21 +79,17 @@ void relayWrite(uint8_t vpin, boolean state) {
     const byte miBufferOFF[] = {0xA0, 0x01, 0x00, 0xA1};
     Serial.write(miBufferOFF, sizeof(miBufferOFF));
   }
-
 }
 
-
-// читает данные из раздела state строки json и возвращает строку для смены класса кнопки
-String relayStatus(String json, String state) {
+String htmlStatus(String json, String state, String sOn, String sOff) {
   String out = "{}";
   if (jsonReadToInt(json, state)) {
-    jsonWrite(out, titleS, "{{LangOff}}");
+    jsonWrite(out, titleS, sOff);
     jsonWrite(out, classS, btnS + infoS);
   }
   else {
-    jsonWrite(out, titleS, "{{LangOn}}");
+    jsonWrite(out, titleS, sOn);
     jsonWrite(out, classS, btnS + primaryS);
-
   }
   return out;
 }
@@ -113,11 +107,26 @@ String relayStatus(String json, String state) {
   }
    где вместо "0xxx" - 0 (выключить оба реле), 1 (включить одно реле), 2 (включить второе реле), 3 (включить оба реле), то можно таким образом управлять релюшками.
 */
+// ------------------- Инициализация Buzera
+void initBuzzer() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
+  sendOptions(buzzerPinS, pin);
+  sCmd.addCommand(toneS.c_str(), buzzerTone);
+  commandsReg(toneS);
+  modulesReg(toneS);
+}
 
+void buzzerTone() {
+  int freq = readArgsInt();
+  int duration = readArgsInt();
+  uint8_t pin = getOptionsInt(buzzerPinS);
+  tone(pin, freq, duration);
+}
 // ----------------------Передатчик на 433мГ
 void rfTransmitter() {
   byte pin = readArgsInt();
-  pin =  pinTest(pin,HIGH);
+  pin =  pinTest(pin, HIGH);
   mySwitch.enableTransmit(pin);
   sCmd.addCommand("rfsend", handleRfTransmit);
   commandsReg("rfsend");
@@ -143,71 +152,34 @@ void rfLivolo() {
   modulesReg("rfLivolo");
 }
 
-
 void handleRfLivolo() {
   int cod = readArgsInt();
   int len = readArgsInt();
   gLivolo->sendButton(cod, len);
 }
 
-// ------------------- Инициализация Buzera
-void initBuzzer() {
-  uint8_t pin = readArgsInt(); // первый аргумент pin
-  pin =  pinTest(pin);
-  sendOptions(buzzerPinS, pin);
-  sCmd.addCommand("tone", buzzerTone);
-  commandsReg("tone");
-  modulesReg("tone");
-}
-
-void buzzerTone() {
-  int freq = readArgsInt();
-  int duration = readArgsInt();
-  uint8_t pin = getOptionsInt(buzzerPinS);
-  tone(pin, freq, duration);
-}
-
-
 #ifdef CRIB
 // ------------------- Инициализация кроватка
 void initCrib() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
   pin =  pinTest(pin);
-  uint8_t pin1 = readArgsInt(); // первый аргумент pin
-  pin1 =  pinTest(pin1);
   pinMode(pin, OUTPUT);
-  pinMode(pin1, OUTPUT);
-  sendOptions("cribPin", pin);
-  sendOptions("cribPin1", pin1);
-  sCmd.addCommand("crib", startCrib);
-  commandsReg("crib");
-  modulesReg("crib");
+  sendOptions(cribPinS, pin);
+  sCmd.addCommand(cribS.c_str(), startCrib);
+  commandsReg(cribS);
+  modulesReg(cribS);
 }
 
 void startCrib() {
-  int freq = readArgsInt();
-  int duration = readArgsInt();
-  flipper.attach_ms(freq, flip, duration);
-}
-
-
-void flip(int duration)
-{
-  static int count = 0;
-  uint8_t pin = getOptionsInt("cribPin");
-  uint8_t pin1 = getOptionsInt("cribPin1");
+  int freq = readArgsInt(); // Как долго включен
+  int freq1 = readArgsInt(); // Как долго выключен
+  int duration = readArgsInt(); // Количество повторов
+  uint8_t pin = getOptionsInt(cribPinS);
   boolean state = digitalRead(pin);  // get the current state of GPIO1 pin
+  ts.add(12, freq, [&](void*) {
+    digitalWrite(pin, !state);     // set pin to the opposite state
 
-  digitalWrite(pin, !state);     // set pin to the opposite state
-  digitalWrite(pin1, state);     // set pin to the opposite state
-
-  ++count;
-  // when the counter reaches a certain value, start blinking like crazy
-  if (count == duration)
-  {
-    flipper.detach();
-    count = 0;
-  }
-
+  }, nullptr, true);
 }
+
 #endif

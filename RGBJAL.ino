@@ -10,7 +10,7 @@
 
 void initRGB() {
   // Реагирует на комманду rgbnot
-  sCmd.addCommand("rgb",    rgb);
+  sCmd.addCommand(rgbS.c_str(),    rgb);
   commandsReg(rgbS);
 
   byte pin = readArgsInt();
@@ -23,8 +23,6 @@ void initRGB() {
   sendStatus(speedRGBS, readArgsInt()); //скорость
   sendStatus(brightnessRGBS, readArgsInt()); //яркость
   sendStatus(modeRGBS, readArgsInt()); //режим
-  sendStatus("timeRGB", 0);
-  sendStatus("timeBUZ", 0);
   ws2812fx.init();
   ws2812fx.setMode(getStatusInt(modeRGBS)); // Режим
   setColorString(colorRGBS);   // Начальный цвет
@@ -58,7 +56,7 @@ void rgb() {
   uint32_t times = color.toInt();
 
   if (com == "set") {
-    if (color != "") {
+    if (color != emptyS) {
       if (color == "-") {
       } else {
         sendStatus(colorRGBS,  color);
@@ -66,7 +64,7 @@ void rgb() {
       }
 
     }
-    if (speed != "") {
+    if (speed != emptyS) {
       if (speed == "-") {}
       else {
         temp = speed.toInt();
@@ -74,7 +72,7 @@ void rgb() {
         ws2812fx.setSpeed(temp);
       }
     }
-    if (brightness != "") {
+    if (brightness != emptyS) {
       if (brightness == "-") {}
       else {
         temp = brightness.toInt();
@@ -82,7 +80,7 @@ void rgb() {
         ws2812fx.setBrightness(temp);
       }
     }
-    if (mode != "") {
+    if (mode != emptyS) {
       if (mode == "-") {}
       else {
         temp = mode.toInt();
@@ -120,18 +118,19 @@ void rgb() {
         pTime = timeToString(timeToLong(t) + (times - 1));
       }
     } else {
-      comTimeP = "";
-      pTime = "";
+      comTimeP = emptyS;
+      pTime = emptyS;
     }
   }
 
-  statusS = relayStatus(configJson, stateRGBS);
+  //statusS = relayStatus(configJson, stateRGBS);
+  statusS = htmlStatus(configJson, stateRGBS, langOnS, langOffS);
 }
 
 // Шим RGB лента
 void initRGBSHIM() {
   // Реагирует на комманду rgbnot
-  sCmd.addCommand("rgbs",    rgbShim);
+  sCmd.addCommand(rgbSS.c_str(),    rgbShim);
   commandsReg(rgbSS);
   for (uint8_t i = 0; i <= 2; i++) {
     byte pin = readArgsInt();
@@ -199,21 +198,21 @@ void rgbShim() {
   }
 
   if (com == "set") {
-    if (color != "") {
+    if (color != emptyS) {
       sendStatus(colorSRGBS,  color);
       setColorSString(color);
     }
-    if (speed != "") {
+    if (speed != emptyS) {
       temp = speed.toInt();
       sendStatus(speedSRGBS,  temp);
       //
     }
-    if (brightness != "") {
+    if (brightness != emptyS) {
       temp = brightness.toInt();
       sendStatus(brightnessSRGBS,  temp);
       //
     }
-    if (mode != "") {
+    if (mode != emptyS) {
       temp = mode.toInt();
       sendStatus(modeSRGBS,  temp);
       //
@@ -221,7 +220,8 @@ void rgbShim() {
     setColorSString(getStatus(colorSRGBS));
     flag = sendStatus(stateSRGBS, 1);
   }
-  statusS = relayStatus(configJson, stateSRGBS);
+  //statusS = relayStatus(configJson, stateSRGBS);
+  statusS = htmlStatus(configJson, stateSRGBS, langOnS, langOffS);
 }
 
 
