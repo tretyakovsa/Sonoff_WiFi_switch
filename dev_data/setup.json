@@ -22,6 +22,11 @@
   },
 
   {
+   "type":"text",
+   "title":"('{{message}}'=='Registered'?'<div class=\"alert alert-warning\"><b>Not full version</b><br><a href=\"/donate.htm\">{{LangPay}}</a></div>':'')"
+  },
+
+  {
    "type":"h2",
    "title":"{{LangType}} {{configs}}"
   },

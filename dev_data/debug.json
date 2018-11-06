@@ -64,7 +64,7 @@
   },
   {
    "type":"h4",
-   "title":"('{{flashChip}}'.slice(4)=='85'?'Flash Chip: <b style=\"color:red\">{{flashChip}} ERROR</b>':'Flash Chip: <b>{{flashChip}}</b>')",
+   "title":"('{{flashChip}}'.slice(4)=='85'?'Flash Chip: <b style=\"color:red\">{{flashChip}} Bad chip</b>':'Flash Chip: <b>{{flashChip}}</b>')",
    "style":"text-align:left;"
   },
   {
@@ -122,15 +122,12 @@
    "type":"hr"
   },
   {
-   "type":"h3",
-   "title":"('{{message}}'=='Registered'?'Device: <b style=\"color:green\">Full version. Thanks!</b>':'Device: <b style=\"color:red\">Not full version</b>')",
-   "style":"text-align:left"
+   "type":"text",
+   "title":"('{{message}}'=='Registered'?'<div class=\"alert alert-warning\"><b>Not full version</b><br><a href=\"/donate.htm\">{{LangPay}}</a></div>':'')"
   },
   {
-   "type":"link",
-   "action":"/donate.htm",
-   "title":"{{LangPay}}",
-   "style":"text-align:left"
+   "type":"h4",
+   "title":"('{{message}}'!='Registered'?'<div class=\"alert alert-success\">Full version! Thanks!</div>':'')"
   },
   {
    "type":"hr"

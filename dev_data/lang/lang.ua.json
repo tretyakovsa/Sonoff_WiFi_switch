@@ -89,6 +89,7 @@
  "LangOn":"Увімкнути",
  "LangOff":"Вимкнути",
  "Langpow":"POW",
+ "LangrelayName":"Имя кнопки реле",
 
  "_comment":"---RGB.HTM---",
  "LangTime5":"Час роботи сигналу",
@@ -99,6 +100,7 @@
  "LangColor3":"Синій",
  "LangSpeed":"Швидкість",
  "LengBrightness":"Яскравість",
+ "LangrgbName":"Имя кнопки rgb",
 
  "_comment":"---page.htm?jalousie---",
  "LangClose":"Закрити",
@@ -153,6 +155,7 @@
  "LangturnSensor":"Сенсор обертів",
  "Langtime":"Час",
  "Langdbm":"Уровень сигнала WiFi",
+ "Langwifi":"Cостояние WiFi",
  "Langweekday":"День тижня",
  "LangcolorRGB":"Колір RGB",
  "LangspeedRGB":"Швидкість RGB",

@@ -90,6 +90,7 @@
  "LangOn":"On",
  "LangOff":"Off",
  "Langpow":"POW",
+ "LangrelayName":"Name button relay",
 
  "_comment":"---page.htm?rgb---",
  "LangTime5":"Alarm time work",
@@ -100,6 +101,7 @@
  "LangColor3":"Blue",
  "LangSpeed":"Speed",
  "LengBrightness":"Brightness",
+ "LangrgbName":"Name button rgb",
 
  "_comment":"---page.htm?jalousie---",
  "LangClose":"Closen",
@@ -154,6 +156,7 @@
  "LangturnSensor":"Tern sensor",
  "Langtime":"Time",
  "Langdbm":"WiFi signal",
+ "Langwifi":"WiFi status",
  "Langweekday":"Weekday",
  "LangcolorRGB":"color RGB",
  "LangspeedRGB":"Speed RGB",

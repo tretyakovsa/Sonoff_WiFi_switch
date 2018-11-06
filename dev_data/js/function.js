@@ -330,7 +330,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');alert(\''+jsonResponse.LangReset2+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');alert(\''+jsonResponse.LangReset2+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
       htmlopt += '</div>';
       element.innerHTML += htmlopt;
-      setTimeout("loadConfigs('"+state_val+"')", 500);
+      setTimeout("loadConfigs('"+state_val+"',jsonResponse)", 500);
      }
      if (type_val == 'link') {
       element.innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+renameGet(obj.action)+'">'+renameBlock(jsonResponse, obj.title)+'<\/a>';
@@ -998,10 +998,11 @@ function hide(name,submit) {
  }
 }
 
-function loadConfigs(file_module) {
+function loadConfigs(file_module,jsonResponse) {
  var element = document.getElementById(file_module.replace(/[^a-z0-9]/gi,'-'));
  element.innerHTML = '';
  ajax.get("/configs/"+file_module,{},function(response) {
+  response = renameBlock(jsonResponse, response);
   var configsLinePin;
   var configsLine = response.match(/^.*((\r\n|\n|\r)|$)/gm);
   for(var key in configsLine) {
@@ -1009,7 +1010,7 @@ function loadConfigs(file_module) {
     var configsLine2 = configsLine[key].split(" ");
     var configsLine3 = '';
     for (var i = 1; i < configsLine2.length; i++) {
-     configsLine3 = configsLine3+' '+renameBlock(jsonResponse, configsLine2[i]);
+     configsLine3 = configsLine3+' '+configsLine2[i];
     }
     element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly><small>// '+configsLine3+'</small><\/label></br>';
    } else {
@@ -1017,11 +1018,11 @@ function loadConfigs(file_module) {
     element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
     for (var i = 1; i < configsLinePin.length; i++) {
      if (configsLinePin[0]=='RELAY') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else if (configsLinePin[0]=='TACH') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,20}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      }
     }
     element.innerHTML += '</br>';

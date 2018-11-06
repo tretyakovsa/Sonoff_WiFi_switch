@@ -90,6 +90,7 @@
  "LangOn":"Ieslēgt",
  "LangOff":"Izslēgt",
  "Langpow":"POW",
+ "LangrelayName":"Atslēgas pogas nosaukums",
 
  "_comment":"---page.htm?rgb---",
  "LangTime5":"Signāla darba laiks",
@@ -100,6 +101,7 @@
  "LangColor3":"Zils",
  "LangSpeed":"Atrums",
  "LengBrightness":"Spilgtums",
+ "LangrgbName":"Atslēgas pogas nosaukums",
 
  "_comment":"---page.htm?jalousie---",
  "LangClose":"Aizvert",
@@ -154,6 +156,7 @@
  "LangturnSensor":"Apgrozījumi sensors",
  "Langtime":"Laiks",
  "Langdbm":"WiFi signal",
+ "Langwifi":"WiFi statuss",
  "Langweekday":"Nedēļas diena",
  "LangcolorRGB":"Krāsa RGB",
  "LangspeedRGB":"Ātrums RGB",

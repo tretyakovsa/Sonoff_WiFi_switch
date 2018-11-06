@@ -1,5 +1,5 @@
 // {{LangConfRelay}}
-RELAY 12 1 1 0
+RELAY 12 1 1 0 {{LangrelayName}}_1
 // {{LangConfSerial}}
 # UART 115200
 # print print
@@ -13,6 +13,8 @@ MQTT
 TIMERS
 // {{LangConfTach}}
 TACH 0 0 20 0
+# TACH 0 1 20 0
+# TACH 0 2 20 0
 // {{LangConfPOW}}
 POW 2000
 # POW 2000 14 13 5

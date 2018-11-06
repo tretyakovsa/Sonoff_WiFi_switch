@@ -1,5 +1,5 @@
 // {{LangConfRelay}}
-RELAY 20 1 1 0
+RELAY 20 1 1 0 {{LangrelayName}}_1
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}

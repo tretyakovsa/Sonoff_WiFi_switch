@@ -1,8 +1,8 @@
 // {{LangConfRelay}}
-# RELAY 12 1 1 0
-# RELAY 15 2 0 0
-# RELAY 13 3 0 0
-# RELAY 14 4 1 0
+# RELAY 12 1 1 0 {{LangrelayName}}_1
+# RELAY 15 2 0 0 {{LangrelayName}}_2
+# RELAY 13 3 0 0 {{LangrelayName}}_3
+# RELAY 14 4 1 0 {{LangrelayName}}_4
 // {{LangConfSerial}}
 # UART 115200
 # print print

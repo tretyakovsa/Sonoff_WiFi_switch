@@ -90,6 +90,7 @@
  "LangOn":"Включить",
  "LangOff":"Выключить",
  "Langpow":"POW",
+ "LangrelayName":"Имя кнопки реле",
 
  "_comment":"---page.htm?rgb---",
  "LangTime5":"Время работы сигнала",
@@ -100,6 +101,7 @@
  "LangColor3":"Синий",
  "LangSpeed":"Скорость",
  "LengBrightness":"Яркость",
+ "LangrgbName":"Имя кнопки rgb",
 
  "_comment":"---page.htm?jalousie---",
  "LangClose":"Закрыть",
@@ -154,6 +156,7 @@
  "LangturnSensor":"Сенсор оборотов",
  "Langtime":"Время",
  "Langdbm":"Уровень сигнала WiFi",
+ "Langwifi":"Cостояние WiFi",
  "Langweekday":"День недели",
  "LangcolorRGB":"Цвет RGB",
  "LangspeedRGB":"Скорость RGB",
