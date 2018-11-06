@@ -1,5 +1,7 @@
 // ---------------Инициализация модулей
 void initCMD() {
+   sCmd.addCommand("wReg", widgetReg);
+   sCmd.addCommand("sWidget", sendWidget);
   sCmd.addCommand("UART",       uart);
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
@@ -41,7 +43,7 @@ void initCMD() {
 }
 
 void unrecognized(const char *command) {
-  //Serial.println("What?");
+  Serial.println("What?");
 }
 
 void alarmComm() {

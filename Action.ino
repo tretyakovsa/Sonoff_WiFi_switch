@@ -5,8 +5,11 @@ void initRelay() {
   String num = readArgsString(); // второй аргумент прификс реле 0 1 2
   boolean state = readArgsInt(); // третий  аргумент состояние на старте
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
-  sendStatus(relayS + num, state);
-  widgetReg("toggle", relayS + num);
+  String title = readArgsString(); // Пятый аргумент подпись
+  String nameR = relayS + num;
+  if (title=="" ) title = nameR;
+  sendStatus(nameR, state);
+  sCmd.readStr("wReg toggle "+nameR+" "+title);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
   // 19 pin это реле через UART

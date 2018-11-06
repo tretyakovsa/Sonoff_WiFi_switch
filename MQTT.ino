@@ -5,13 +5,13 @@
   PubSubClient client(wclient);
 */
 void initMQTT() {
-  if ( getStatus(messageS)!=emptyS){ // Если нет связи с интернет не запускать
-  MQTT_Connecting();
-  ts.add(2, 60000, [&](void*) {
-    if (!client.connected()) MQTT_Connecting();
-  }, nullptr, true);
-   sCmd.addCommand("mqtt", handle_mqtt);
-   modulesReg("mqtt");
+  if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
+    MQTT_Connecting();
+    ts.add(2, 60000, [&](void*) {
+      if (!client.connected()) MQTT_Connecting();
+    }, nullptr, true);
+    sCmd.addCommand("mqtt", handle_mqtt);
+    modulesReg("mqtt");
   }
 }
 
@@ -44,7 +44,8 @@ void MQTT_Connecting() {
           Serial.println("Connected to MQTT server");
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
-          client.subscribe(prefix + "/"+chipID+"/+/control"); // Подписываемся на топики control
+          client.subscribe(prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
+          //client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           client.subscribe(prefix + "/ids"); // Подписываемся на топики ids
           sendMQTT("test", "work");
           loadnWidgets();
@@ -67,21 +68,15 @@ void callback(const MQTT::Publish& pub)
   String payload = pub.payload_string();
   //---------все что происходит при обновлении страницы iot manager на телефоне------
   if (pub.payload_string() == "HELLO" ) {
-
-loadnWidgets();
-
-    sendSTATUS("voice", "speech", "привет, в вашем доме ничего опасного не обнаружено, температура в комнате плюс 28 градусов, на улице плюс 25");
+    loadnWidgets();
+    //sendSTATUS("voice", "speech", "привет, в вашем доме ничего опасного не обнаружено, температура в комнате плюс 28 градусов, на улице плюс 25");
   }
-
   if (String(pub.topic()) == prefix + "/ids") ids = pub.payload_string();
-
-
   String topic_ = String(pub.topic());
   if (topic_.indexOf("control") > 0)
   {
     topic_ = deleteToMarkerLast(topic_, "/control");
     topic_ = selectToMarkerLast(topic_, "/");
-
     String t = topic_.substring(3);
     topic_.replace(t, " " + t);
     topic_ += " " + pub.payload_string();
@@ -92,35 +87,49 @@ loadnWidgets();
 
 // Читаем и отправляем виджеты на сервер
 bool loadnWidgets() {
-  uint8_t num =0;
+  Serial.println("loadnWidgets");
+  Serial.println(configwidgets);
+  uint8_t num = 0;
   String setW = configwidgets;
-  while(setW.length()!=0){
- String temp = selectToMarker (setW, ",");
- setW=deleteBeforeDelimiter(setW, ",");
- Serial.println(temp);
- sendWidget(selectToMarker(temp, ":"),selectToMarkerLast(temp, ":"),num);
- num++;
-}
-}
-
-
-void widgetReg(String nameW, String topicN){
-  configwidgets +=nameW+":";
-   configwidgets +=topicN+",";
+  while (setW.length() != 0) {
+    String temp = selectToMarker (setW, ",");
+    setW = deleteBeforeDelimiter(setW, ",");
+    temp += " ";
+    temp += num;
+    Serial.println(temp);
+    //sendWidget(selectToMarker(temp, ":"),selectToMarkerLast(temp, ":"),num);
+    sCmd.readStr("sWidget " + temp);
+    num++;
   }
+}
 
+// Регистрируем список виджетов в configwidgets командой wReg
+void widgetReg() {
+  String nameW = readArgsString(); // Имя виджета
+  String topicN = readArgsString(); // Топик
+  String descrN = readArgsString(); // подпись
+  Serial.println(topicN);
+  configwidgets += nameW + " ";
+  configwidgets += topicN + " ";
+  configwidgets += descrN + ",";
+}
 
-void sendWidget(String nameW, String topicN, uint8_t num) {
-
+// Отправляем виджет на сервер командой sWidget
+void sendWidget() {
+  String nameW = readArgsString(); // Имя виджета
+  String topicN = readArgsString(); // Топик
+  String descrN = readArgsString(); // подпись
+  int num = readArgsInt();
   String prex = prefix + "/" + chipID;
-  String thing_config = readFile("widgets/widgets."+nameW+".json", 6096);
+  String thing_config = readFile("widgets/" + nameW + ".json", 6096);
   jsonWrite(thing_config, "page", getSetup(spaceS));
-  jsonWrite(thing_config, "topic", prex + "/"+topicN);
+  jsonWrite(thing_config, "topic", prex + "/" + topicN);
   jsonWrite(thing_config, "id", num);
+  jsonWrite(thing_config, "descr", descrN);
   sendMQTT("config", thing_config);
 
-  }
-
+}
+// Отправляем данные на сервер
 void sendMQTT(String topicN, String data) {
   topicN = prefix + "/" + chipID + "/" + topicN;
 
@@ -148,25 +157,10 @@ void sendSTATUS(String topicN, String key1, String date1, String key2, String da
   yield();
 }
 
-void sendCONFIG(String topik, String widgetConfig, String key, String date) {
-  yield();
-  topik = prefix + "/" + chipID + "/" + topik + "/status";
-  String outer = "{\"widgetConfig\":";
-  String inner = "{\"";
-  inner = inner + key;
-  inner = inner + "\":\"";
-  inner = inner + date;
-  inner = inner + "\"";
-  inner = inner + "}}";
-  String t = outer + inner;
-  //Serial.println(t);
-  client.publish(MQTT::Publish(topik, t).set_qos(1));
-  yield();
-}
 
 // --------------------- Включаем DDNS
 void initDDNS() {
-    if ( getStatus(messageS)!=emptyS){ // Если нет связи с интернет не запускать
+  if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
     HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
     // ------------------Выполнение команды из запроса
     HTTPWAN.on("/cmd", HTTP_GET, []() {
@@ -192,7 +186,7 @@ void initDDNS() {
     HTTPWAN.begin();
     sCmd.addCommand("ddns", handle_ddns);
     modulesReg(ddnsS);
-    }
+  }
 }
 
 void httpwanOkText(String text) {

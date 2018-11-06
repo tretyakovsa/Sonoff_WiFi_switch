@@ -1,27 +1,16 @@
 // Сообщает статус wifi соединения
 void WiFiEvent(WiFiEvent_t event) {
   flag = sendStatus(wifiS, event);
-    Serial.printf("[WiFi-event] event: %d\n", event);
 
     switch(event) {
         case WIFI_EVENT_STAMODE_GOT_IP:
             sendSetup(ipS, WiFi.localIP().toString());
             sendSetup(getwayS, WiFi.gatewayIP().toString());
             sendSetup(subnetS, WiFi.subnetMask().toString());
-            Serial.println("WiFi connected");
-            Serial.println("IP address: ");
-            Serial.println(WiFi.localIP());
             break;
         case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
             sendSetup(ipS, WiFi.softAPIP().toString());
-            Serial.println("WiFi AP");
-            Serial.println("IP address: ");
-            Serial.println(WiFi.softAPIP());
             break;
-        case WIFI_EVENT_STAMODE_DISCONNECTED:
-            Serial.println("WiFi lost connection");
-            break;
-
     }
     // 0 WIFI_EVENT_STAMODE_CONNECTED    подключение к роутеру получение ip
     // 1 WIFI_EVENT_STAMODE_DISCONNECTED попытка переподключения к роутеру

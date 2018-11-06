@@ -5,7 +5,8 @@ void initNTP() {
   sendOptions(ntp1S, ntpTemp);
   ntpTemp = readArgsString();
   sendOptions(ntp2S, ntpTemp);
-  if ( getStatus(messageS)==emptyS){ // Если нет связи с интернет пробуем получить время с роутера
+  //Serial.println(getOptions(messageS));
+  if ( getOptions(messageS)==emptyS){ // Если нет связи с интернет пробуем получить время с роутера
     sendOptions(ntp1S, WiFi.gatewayIP().toString()); // Для этого заменяем адрес NTP сервера на адрес роутера
     }
   sCmd.addCommand("time", handle_time);
