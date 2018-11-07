@@ -1018,11 +1018,11 @@ function loadConfigs(file_module,jsonResponse) {
     element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
     for (var i = 1; i < configsLinePin.length; i++) {
      if (configsLinePin[0]=='RELAY') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._а-яА-Я]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else if (configsLinePin[0]=='TACH') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      }
     }
     element.innerHTML += '</br>';
