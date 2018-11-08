@@ -18,11 +18,14 @@ void initRGB() {
   ws2812fx.setPin(pin);
   ws2812fx.updateLength(readArgsInt());
   int state = readArgsInt(); //состояние
-  sendStatus(stateRGBS, state);
   sendStatus(colorRGBS,  readArgsString()); //цвет
   sendStatus(speedRGBS, readArgsInt()); //скорость
   sendStatus(brightnessRGBS, readArgsInt()); //яркость
   sendStatus(modeRGBS, readArgsInt()); //режим
+  String title = readArgsString(); // Пятый аргумент подпись
+  if (title=="" ) title = rgbS;
+  sendStatus(stateRGBS, state);
+  sCmd.readStr("wReg toggle "+rgbS+" "+title);
   ws2812fx.init();
   ws2812fx.setMode(getStatusInt(modeRGBS)); // Режим
   setColorString(colorRGBS);   // Начальный цвет
@@ -91,11 +94,11 @@ void rgb() {
     ws2812fx.start();
     flag = sendStatus(stateRGBS, 1);
   } else {
-    if (com == "on") {
+    if (com == "on" || com == "1") {
       ws2812fx.start();
       flag = sendStatus(stateRGBS, 1);
     }
-    if (com == "off") {
+    if (com == "off" || com == "0") {
       ws2812fx.stop();
       flag = sendStatus(stateRGBS, 0);
     }
@@ -144,8 +147,10 @@ void initRGBSHIM() {
   sendStatus(colorSRGBS,  color); //цвет
   sendStatus(speedSRGBS, readArgsInt()); //скорость
   sendStatus(brightnessSRGBS, readArgsInt()); //яркость
-  sendStatus(modeSRGBS, readArgsInt()); //режим
-
+  //sendStatus(modeSRGBS, readArgsInt()); //режим
+String title = readArgsString(); // Пятый аргумент подпись
+  if (title=="" ) title = rgbSS;
+  sCmd.readStr("wReg toggle "+rgbSS+" "+title);
 
   //регистрируем модуль
 
@@ -176,12 +181,12 @@ void rgbShim() {
   uint8_t temp;
   uint32_t times = color.toInt();
   uint8_t state = getStatusInt(stateSRGBS);
-  if (com == "on") {
+  if (com == "on" || com == "1") {
     if (times != 0) impulsTime(times - 1, "rgbs not");
     setColorSString(getStatus(colorSRGBS));
     flag = sendStatus(stateSRGBS, 1);
   }
-  if (com == "off") {
+  if (com == "off" || com == "0") {
     if (times != 0) impulsTime(times - 1, "rgbs not");
     setColorSString("000000");
     flag = sendStatus(stateSRGBS, 0);

@@ -73,11 +73,8 @@ Ticker flipper;
 boolean but[NUM_BUTTONS];
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
-
-byte dev[8][8];
-boolean secTest = true;
+String mqttCom;
 boolean flag = false;
-boolean flagT = false;
 boolean thenOk;
 boolean pins[21];
 String ids;
@@ -94,10 +91,8 @@ String regCommands = "{\"command\":[]}";           // список доступ�
 String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев
 String modules = "{\"module\":[]}";
-String sensorsList = "{}";
 String prefix   = "/IoTmanager";
 String statusS   = "{}";
-//String jsonTimer =emptyS;
 String minTime;
 String comTime;
 String idTime;
@@ -148,6 +143,7 @@ const String configsS   = "configs";
 const String ddnsS   = "ddns";
 const String ddnsNameS   = "ddnsName";
 const String ddnsPortS   = "ddnsPort";
+const String mqttS   = "mqtt";
 const String mqttServerS   = "mqttServer";
 const String mqttPortS   = "mqttPort";
 const String mqttUserS   = "mqttUser";
@@ -193,7 +189,7 @@ const String pinMotorS   = "pinMotor";
 const String turnSensorS   = "turnSensor";
 
 // Звуковой сигнал
-const String stateBuzzerS   = "stateBuzzer";
+//const String stateBuzzerS   = "stateBuzzer";
 const String buzzerPinS   = "buzzerPin";
 const String BuzzerNotS   = "BuzzerNot";
 const String toneS   = "tone";

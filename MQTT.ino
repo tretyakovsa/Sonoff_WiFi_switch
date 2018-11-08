@@ -6,17 +6,28 @@
 */
 void initMQTT() {
   if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
-    MQTT_Connecting();
-    ts.add(2, 60000, [&](void*) {
+    //MQTT_Connecting();
+    ts.add(11, 60000, [&](void*) {
+      //Serial.println(",MQTT_Connecting");
       if (!client.connected()) MQTT_Connecting();
     }, nullptr, true);
-    sCmd.addCommand("mqtt", handle_mqtt);
-    modulesReg("mqtt");
+    sCmd.addCommand(mqttS.c_str(), handle_mqtt);
+    modulesReg(mqttS);
   }
 }
 
 void  handleMQTT() {
-  if (client.connected()) client.loop();
+  if (client.connected()) {
+    if (order != "") {
+      //Serial.println(order);
+      String tmp = selectToMarker(order, ",");
+      sCmd.readStr(tmp);
+      order = deleteBeforeDelimiter(order, ",");
+    }
+    client.loop();
+
+  }
+  //else Serial.println("NOT mqtt");
 }
 
 // ------------------------------Установка параметров mqtt
@@ -31,7 +42,6 @@ void handle_mqtt() {
   sendSetup(mqttPassS, mqttPass);
   saveConfigSetup ();
 }
-
 void MQTT_Connecting() {
   String mqtt_server = getSetup(mqttServerS);
   if ((mqtt_server != emptyS)) {
@@ -41,54 +51,59 @@ void MQTT_Connecting() {
       if (!client.connected()) {
         if (client.connect(MQTT::Connect(chipID)
                            .set_auth(getSetup(mqttUserS), getSetup(mqttPassS)))) {
-          Serial.println("Connected to MQTT server");
           client.set_callback(callback);
           client.subscribe(prefix);  // Для приема получения HELLOW и подтверждения связи
           client.subscribe(prefix + "/" + chipID + "/+/control"); // Подписываемся на топики control
-          //client.subscribe(prefix + "/+/+/control"); // Подписываемся на топики control
           client.subscribe(prefix + "/ids"); // Подписываемся на топики ids
-          sendMQTT("test", "work");
+          //unsigned long timeSa = millis();
           loadnWidgets();
-          //sendWidget("toggle","stateRelay1");
-          //sendWidget("toggle","stateRelay2");
-        } else {
-          Serial.println("Could not connect to MQTT server");
+          //timeSa = millis() - timeSa;
+          //Serial.println(timeSa);
         }
       }
     }
   }
 }
-
-void callback(const MQTT::Publish& pub)
-{
-  Serial.print(pub.topic());
-  Serial.print(" => ");
-  Serial.print(pub.payload_string());
-  Serial.println();
+void callback(const MQTT::Publish& pub) {
   String payload = pub.payload_string();
   //---------все что происходит при обновлении страницы iot manager на телефоне------
   if (pub.payload_string() == "HELLO" ) {
+    //Serial.println("HELLO");
     loadnWidgets();
-    //sendSTATUS("voice", "speech", "привет, в вашем доме ничего опасного не обнаружено, температура в комнате плюс 28 градусов, на улице плюс 25");
   }
   if (String(pub.topic()) == prefix + "/ids") ids = pub.payload_string();
   String topic_ = String(pub.topic());
-  if (topic_.indexOf("control") > 0)
-  {
+  if (topic_.indexOf("control") > 0) {
     topic_ = deleteToMarkerLast(topic_, "/control");
     topic_ = selectToMarkerLast(topic_, "/");
-    String t = topic_.substring(3);
-    topic_.replace(t, " " + t);
-    topic_ += " " + pub.payload_string();
+    topic_ = topicToCom(topic_);
+    topic_.replace(" ", " " + pub.payload_string() + " ");
     order += topic_ + ",";
-    Serial.println(order);
+    //Serial.println(order);
   }
+}
+
+String topicToCom (String topicS) {
+  uint8_t   p = 0;
+  boolean f = true;
+  uint8_t   u = topicS.length();
+  while (p != u) {
+    if  (isDigit(topicS.charAt(p))) {
+      String kay = topicS.substring(0, p);
+      //Serial.println(topicS.charAt(p));
+      //Serial.println(kay);
+      topicS.replace(kay, kay + " ");
+      yield();
+      f = false;
+    }
+    p++;
+  }
+  if (f) topicS += " ";
+  return topicS;
 }
 
 // Читаем и отправляем виджеты на сервер
 bool loadnWidgets() {
-  Serial.println("loadnWidgets");
-  Serial.println(configwidgets);
   uint8_t num = 0;
   String setW = configwidgets;
   while (setW.length() != 0) {
@@ -96,8 +111,6 @@ bool loadnWidgets() {
     setW = deleteBeforeDelimiter(setW, ",");
     temp += " ";
     temp += num;
-    Serial.println(temp);
-    //sendWidget(selectToMarker(temp, ":"),selectToMarkerLast(temp, ":"),num);
     sCmd.readStr("sWidget " + temp);
     num++;
   }
@@ -108,7 +121,7 @@ void widgetReg() {
   String nameW = readArgsString(); // Имя виджета
   String topicN = readArgsString(); // Топик
   String descrN = readArgsString(); // подпись
-  Serial.println(topicN);
+  //Serial.println(topicN);
   configwidgets += nameW + " ";
   configwidgets += topicN + " ";
   configwidgets += descrN + ",";
@@ -116,19 +129,32 @@ void widgetReg() {
 
 // Отправляем виджет на сервер командой sWidget
 void sendWidget() {
+  static String nameWp;
   String nameW = readArgsString(); // Имя виджета
   String topicN = readArgsString(); // Топик
   String descrN = readArgsString(); // подпись
   int num = readArgsInt();
   String prex = prefix + "/" + chipID;
-  String thing_config = readFile("widgets/" + nameW + ".json", 6096);
+
+  static String thing_config;
+  if (nameWp != nameW) {
+    //Serial.println(nameWp);
+    thing_config = readFile("widgets/" + nameW + ".json", 6096);
+    nameWp = nameW;
+  }
+
+
   jsonWrite(thing_config, "page", getSetup(spaceS));
   jsonWrite(thing_config, "topic", prex + "/" + topicN);
   jsonWrite(thing_config, "id", num);
   jsonWrite(thing_config, "descr", descrN);
+  //unsigned long timeSa = millis();
   sendMQTT("config", thing_config);
-
+  //timeSa = millis() - timeSa;
+  //Serial.println(timeSa);
+  sendMQTTstatus(topicN, "status", getStatusInt(topicN));
 }
+
 // Отправляем данные на сервер
 void sendMQTT(String topicN, String data) {
   topicN = prefix + "/" + chipID + "/" + topicN;
@@ -138,23 +164,22 @@ void sendMQTT(String topicN, String data) {
 
 //=======================================УПРАВЛЕНИЕ ВИДЖЕТАМИ======================================================================
 
-void sendSTATUS(String topicN, String key1, String date1) {
-  yield();
+void sendMQTTstatus(String topicN, String key1, String date1) {
+
   topicN = prefix + "/" + chipID + "/" + topicN + "/status";
   String t = "{}";
   jsonWrite(t, key1, date1);
   client.publish(MQTT::Publish(topicN, t).set_qos(1));
-  yield();
+
 }
 
-void sendSTATUS(String topicN, String key1, String date1, String key2, String date2) {
-  yield();
+void sendMQTTstatus(String topicN, String key1, int date1) {
+
   topicN = prefix + "/" + chipID + "/" + topicN + "/status";
   String t = "{}";
   jsonWrite(t, key1, date1);
-  jsonWrite(t, key2, date2);
   client.publish(MQTT::Publish(topicN, t).set_qos(1));
-  yield();
+
 }
 
 
@@ -179,7 +204,7 @@ void initDDNS() {
     });
 
     // задача синхронизайия с сервером ddns каждые 6 минут
-    ts.add(10, 600000, [&](void*) {
+    ts.add(12, 600000, [&](void*) {
       ip_wan();
     }, nullptr, true);
     ip_wan();

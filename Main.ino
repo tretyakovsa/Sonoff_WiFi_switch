@@ -30,7 +30,7 @@ void setupToInit() {
   sendOptions(macS, WiFi.macAddress().c_str());
   sendOptions("voice", emptyS);
   jsonWrite(modules, ipS, getOptions(ipS));
-  jsonWrite(modules,spaceS, getSetup(spaceS));
+  jsonWrite(modules, spaceS, getSetup(spaceS));
   jsonWrite(modules, langS, getSetup(langS));
   jsonWrite(modules, ssdpS, getSetup(ssdpS));
 
@@ -60,8 +60,8 @@ String deleteBeforeDelimiterTo(String str, String found) {
 }
 // -------------------Удаляем строку от конца строки до маркера ---------------------
 String deleteToMarkerLast (String str, String found) {
-int p = str.lastIndexOf(found);
-return str.substring(0, p);
+  int p = str.lastIndexOf(found);
+  return str.substring(0, p);
 }
 
 // ------------- Данные статистики -----------------------------------------------------------
@@ -81,7 +81,7 @@ void statistics() {
 
 // ------------- Запрос на удаленный URL -----------------------------------------
 String getURL(String urls) {
-  String answer = emptyS;
+  String answer;
   HTTPClient http;
   http.begin(urls); //HTTP
   int httpCode = http.GET();
@@ -94,7 +94,7 @@ String getURL(String urls) {
 //------------------Выполнить все команды по порядку из строки разделитель \r\n  \n
 String goCommands(String inits) {
   //Serial.println(inits);
-  String temp = emptyS;
+  String temp;
   String rn = "\n";
   inits += rn;
   //  Serial.println(writeFile("inits.txt", inits));
@@ -223,7 +223,7 @@ void safeDataToFile(int inter, String par, uint16_t data) {
   yield();
   // Формируем зоголовок (префикс) Интервал, Параметр, размер_параметра
   uint16_t dataSize = sizeof(data);
-  String prifexFile = emptyS;
+  String prifexFile;
   prifexFile += inter;
   prifexFile += "," + par;
   prifexFile += ",";

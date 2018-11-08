@@ -51,7 +51,7 @@ void initOneWire() {
     sensors.requestTemperatures();
     for (byte i = 0; i < sensors.getDS18Count(); i++) {
       temp = sensors.getTempCByIndex(i);
-      String num = emptyS;
+      String num;
       num = (String)(i + 1);
       sendStatus(temperatureS + num, (String)temp);
       alarmTest(temperatureS + num, highalarmtempS + num, lowalarmtempS + num, alarmtempS + num);
@@ -68,7 +68,7 @@ void initDHT() {
   static uint16_t test = dht.getMinimumSamplingPeriod();
   if (t < test) t = test;
   //Serial.println(t);
-  String temp = emptyS;
+  String temp;
   temp += dht.getTemperature();
   //  Serial.println(temp);
   if (temp != "nan") {
@@ -99,7 +99,7 @@ void initSi7021() {
       sendStatus(humidityS, sensor_Si7021.readHumidity());
       sendOptions(alarmhumS, 0);
       alarmLoad(humidityS, highalarmhumS, lowalarmhumS);
-      ts.add(11, 1000, [&](void*) {
+      ts.add(6, 1000, [&](void*) {
         sendStatus(temperatureS, sensor_Si7021.readTemperature());
         sendStatus(humidityS, sensor_Si7021.readHumidity());
         alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
@@ -189,7 +189,7 @@ void irReceived() {
   irReceiver = new IRrecv(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
   irReceiver->enableIRIn(); // Start the receiver
   // задача опрашивать RC код
-  ts.add(6, 100, [&](void*) {
+  ts.add(7, 100, [&](void*) {
     handleIrReceiv();
   }, nullptr, true);
   sendStatus(irReceivedS, "ffffffff");
@@ -215,9 +215,9 @@ void rfReceived() {
   mySwitch.enableReceive(pin);
   pinMode(pin, INPUT);
   // задача опрашивать RC код
-  ts.add(7, 5, [&](void*) {
+  //ts.add(7, 5, [&](void*) {
     // handleRfReceiv();
-  }, nullptr, true);
+  //}, nullptr, true);
   sendStatus(rfReceivedS, 0);
   sendOptions(rfBitS, 0);
   sendOptions(rfProtocolS, 0);
@@ -232,13 +232,13 @@ void handleRfReceiv() {
       sendOptions(rfProtocolS, 0);
     } else {
       uint32_t temp = mySwitch.getReceivedValue() ;
-      Serial.println(temp);
+      //Serial.println(temp);
       flag = sendStatus(rfReceivedS, temp);
       temp = mySwitch.getReceivedBitlength();
-      Serial.println(temp);
+      //Serial.println(temp);
       sendOptions(rfBitS, temp);
       temp = mySwitch.getReceivedProtocol();
-      Serial.println(temp);
+      //Serial.println(temp);
       sendOptions(rfProtocolS, temp);
     }
     mySwitch.resetAvailable();
