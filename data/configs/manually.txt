@@ -10,8 +10,6 @@ print print
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
 # DDNS
-// {{LangConfMQTT}}
-# MQTT
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
@@ -50,3 +48,5 @@ RGB 5 15 1 ff0000 100 255 3
 # IR-TRANSMITTER 14
 // Магнитная кроватка (PIN)
 # CRIB 12
+// {{LangConfMQTT}}
+# MQTT

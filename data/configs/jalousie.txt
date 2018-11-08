@@ -10,8 +10,6 @@
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
 DDNS
-// {{LangConfMQTT}}
-MQTT
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
@@ -48,3 +46,5 @@ JALOUSIE 4 12 13
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 14
+// {{LangConfMQTT}}
+# MQTT

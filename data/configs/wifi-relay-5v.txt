@@ -4,8 +4,6 @@ RELAY 20 1 1 0 {{LangrelayName}}_1
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
 DDNS
-// {{LangConfMQTT}}
-MQTT
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
@@ -37,3 +35,5 @@ TACH 0 0 20 0
 # IR-RECEIVED 0
 // {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 14
+// {{LangConfMQTT}}
+MQTT
