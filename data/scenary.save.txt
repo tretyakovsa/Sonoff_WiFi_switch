@@ -1,11 +1,9 @@
 if Tach0 = 1
 then this relay not 1
 id 3345
-
 if Tach0 = 1
 then this rgb not
 id 2334
-
 if Tach0 = 1
 then this jalousie not
 id 1967
