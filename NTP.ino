@@ -82,7 +82,7 @@ void timeSynch() {
 // Получение текущего времени
 String GetTime() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
-  String Time = emptyS; // Строка для результатов времени
+  String Time; // Строка для результатов времени
   Time += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   uint8_t i = Time.indexOf(":"); //Ишем позицию первого символа :
   Time = Time.substring(i - 2, i + 6); // Выделяем из строки 2 символа перед символом : и 6 символов после
@@ -92,7 +92,7 @@ String GetTime() {
 // Получение даты
 String GetDate() {
   time_t now = time(nullptr); // получаем время с помощью библиотеки time.h
-  String Data = emptyS; // Строка для результатов времени
+  String Data; // Строка для результатов времени
   Data += ctime(&now); // Преобразуем время в строку формата Thu Jan 19 00:55:35 2017
   Data.replace("\n", emptyS);
   uint8_t i = Data.lastIndexOf(" "); //Ишем позицию последнего символа пробел

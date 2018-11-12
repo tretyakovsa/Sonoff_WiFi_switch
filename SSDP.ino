@@ -1,5 +1,4 @@
 void initSSDP() {
-
   String temp = getSetup(ssdpS);
   if (temp == emptyS or temp == "Sonoff") {
     temp = "Sonoff";//+jsonRead(configSetup, macS);
@@ -79,9 +78,9 @@ void requestSSDP () {
 // ------------- Чтение ответа от устройств SSDP слушаем порт все время
 void handleSSDP() {
   if (getStatusInt(wifiS) == 3) { //Если есть подключение к роутеру
-    String input_string = emptyS;
-    String chipIDremote = emptyS;
-    String ssdpName = emptyS;
+    String input_string;
+    String chipIDremote;
+    String ssdpName;
     char packetBuffer[512];
     int packetSize = udp.parsePacket();
     if (packetSize) {

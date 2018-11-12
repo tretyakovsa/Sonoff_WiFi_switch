@@ -117,7 +117,7 @@ int  timeToMin(String Time) {
 }
 
 String timeToString(long Time) {
-  String str = emptyS;
+  String str;
   uint8_t temp = (Time / 3600);
   if (temp < 10) str += "0";
   str += temp; // здесь часы

@@ -22,10 +22,9 @@ void initRelay() {
     pinMode(pin, OUTPUT);
     digitalWrite(pin, state ^ inv);
   }
-  sCmd.addCommand(relayS.c_str(),     relay); //
+  sCmd.addCommand(relayS.c_str(),relay); //
   commandsReg(relayS);
   modulesReg(relayS + num);
-  //Serial.println(modules);
 }
 
 // http://192.168.0.91/cmd?command=relay off 1
@@ -56,17 +55,16 @@ void relaySet(String num, String com) {
   uint8_t inv = getOptionsInt(relayNotS + num); // Получим признак инверсии по Имени реле
   uint8_t state = getStatusInt(kay); // Получим статус реле по Имени
   // Проверим команду приготовим новый state
-  if (com == onS) state = 1;
-  if (com == offS) state = 0;
+  if (com == onS || com == "1" ) state = 1;
+  if (com == offS || com == "0") state = 0;
   if (com == notS) state = !(state);
   if (pin  > 19) {
     relayWrite(pin, state ^ inv);
   } else {
     digitalWrite(pin, state ^ inv);
   }
-  Serial.println(kay);
   flag = sendStatus(kay, state);
-  //statusS = relayStatus(configJson, kay);
+  //sendMQTTstatus(kay, "status", state);
   statusS = htmlStatus(configJson, kay, langOnS, langOffS);
 }
 
@@ -179,7 +177,7 @@ void startCrib() {
   int duration = readArgsInt(); // Количество повторов
   uint8_t pin = getOptionsInt(cribPinS);
   boolean state = digitalRead(pin);  // get the current state of GPIO1 pin
-  ts.add(12, freq, [&](void*) {
+  ts.add(10, freq, [&](void*) {
     digitalWrite(pin, !state);     // set pin to the opposite state
 
   }, nullptr, true);
