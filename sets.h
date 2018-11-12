@@ -20,6 +20,7 @@ DNSServer dnsServer;
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
 PubSubClient client(wclient);
 #include <TickerScheduler.h>         //https://github.com/Toshik/TickerScheduler
+enum { tNTP, tSSDP, tIP, tA0, tDS, tDHT, tSI, tIR, tRC, tPOW, tRSSI, tMQTT, tDDNS, tCRIB };
 TickerScheduler ts(15);
 #include <StringCommand.h>           //https://github.com/tretyakovsa/ESP8266-StringCommand
 StringCommand sCmd;                   // Обьект для работы с командами
@@ -52,9 +53,6 @@ LivoloTx *gLivolo;
 #include "Adafruit_Si7021.h"         //https://github.com/adafruit/Adafruit_Si7021
 Adafruit_Si7021 sensor_Si7021 = Adafruit_Si7021();
 #endif
-#ifdef CRIB
-#include <Ticker.h>
-#endif
 #ifdef POW
 #include "HLW8012.h"                 // https://github.com/xoseperez/hlw8012
 HLW8012 hlw8012;
@@ -65,7 +63,7 @@ HLW8012 hlw8012;
 #endif
 #ifdef CRIB
 #include <Ticker.h>
-Ticker flipper;
+Ticker flipper[8];
 #endif
 
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
@@ -241,7 +239,7 @@ const String aggenergywsS   = "aggenergyws";
 // Кроватка
 #ifdef CRIB
 const String cribPinS   = "cribPin";
-const String cribS   = "crib";
+const String cribS   = "pulse";
 #endif
 
 // Печка

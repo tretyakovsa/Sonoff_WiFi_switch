@@ -7,9 +7,9 @@ void initRelay() {
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
   String title = readArgsString(); // Пятый аргумент подпись
   String nameR = relayS + num;
-  if (title=="" ) title = nameR;
+  if (title =="") title = nameR;
   sendStatus(nameR, state);
-  sCmd.readStr("wReg toggle "+nameR+" "+title);
+  sCmd.readStr("wReg toggle " + nameR + " " + title);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
   // 19 pin это реле через UART
@@ -22,7 +22,7 @@ void initRelay() {
     pinMode(pin, OUTPUT);
     digitalWrite(pin, state ^ inv);
   }
-  sCmd.addCommand(relayS.c_str(),relay); //
+  sCmd.addCommand(relayS.c_str(), relay); //
   commandsReg(relayS);
   modulesReg(relayS + num);
 }
@@ -161,26 +161,66 @@ void handleRfLivolo() {
 
 #ifdef CRIB
 // ------------------- Инициализация кроватка
-void initCrib() {
-  uint8_t pin = readArgsInt(); // первый аргумент pin
-  pin =  pinTest(pin);
-  pinMode(pin, OUTPUT);
-  sendOptions(cribPinS, pin);
-  sCmd.addCommand(cribS.c_str(), startCrib);
+void initPuls() {
+  sCmd.addCommand(cribS.c_str(), startPuls);
   commandsReg(cribS);
   modulesReg(cribS);
 }
 
-void startCrib() {
-  int freq = readArgsInt(); // Как долго включен
-  int freq1 = readArgsInt(); // Как долго выключен
-  int duration = readArgsInt(); // Количество повторов
-  uint8_t pin = getOptionsInt(cribPinS);
-  boolean state = digitalRead(pin);  // get the current state of GPIO1 pin
-  ts.add(10, freq, [&](void*) {
-    digitalWrite(pin, !state);     // set pin to the opposite state
-
-  }, nullptr, true);
+void startPuls() {
+  String com = readArgsString(); // on off
+  if (com != "") { // если комманда есть
+    String pulseCom = readArgsString(); // Команда relay_3 или rgb
+    sendOptions("pulseCom", pulseCom);
+    String pulseComT = pulseCom;
+    //pulseComT.replace("_", " off ");
+    if (com == "on" || com == "1") {
+      int freq = readArgsInt(); // Как долго включен
+      Serial.println(freq);
+      if (freq == 0)freq = 1000;
+      sendOptions("pulse0", freq);
+      String temp = readArgsString(); // Как долго выключен
+      Serial.println(temp);
+      int freq1 = temp.toInt();
+      if (temp == "" || temp == "-")freq1 = freq;
+      sendOptions("pulse1", freq1);
+      String pulseTime = readArgsString(); // Время работы
+      sendOptions("pulseTime", pulseTime);
+      //Serial.println(pulseComT);
+      //sCmd.readStr(pulseComT);
+      imPuls();
+    }
+    if (com == "off" || com == "0") {
+      pulseComT.replace("_", " off ");
+      sCmd.readStr(pulseComT);
+      flipper[0].detach();
+    }
+  }
 }
+void imPuls() {
+  static boolean low;
 
+  String s = "pulse" + (String)low;           // Откуда брать время итерации
+  int temp = getOptionsInt(s);                // Время итерации
+  String pulseCom = getOptions("pulseCom");   // Получить команду
+  pulseCom.replace("_", " not ");             // Добавить в комманду операцию not
+    sCmd.readStr(pulseCom);                   // Выполнить команду
+  flipper[0].attach_ms(temp, imPuls);         // Задать время через которое процедура будет вывана повторно
+    low = !low;
+  String pulseTime = getOptions("pulseTime"); // Получим текстовое значние времени работы
+  if (pulseTime != "null") {                  // Если время работы определено
+    int tempT = getOptionsInt("pulseTime");   // Получить время в формате int
+    tempT -= temp;                            // Отнять время предыдущей итерации от обшего времени работы
+    sendOptions("pulseTime", (String)tempT);  //  Сохранить время работы
+    //Serial.println(tempT);
+    if (tempT <= 0) {                         // Если Время работы закончилось
+      pulseCom.replace("not", "off");         // Модифицируем команду в команду отключения
+      sCmd.readStr(pulseCom);                 // Выключим
+      flipper[0].detach();                    // Остановим таймер
+    }
+      //Serial.print("pulseCom ");
+      //Serial.println(pulseCom);
+  }
+
+}
 #endif

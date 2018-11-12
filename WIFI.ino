@@ -3,6 +3,8 @@ void WiFiEvent(WiFiEvent_t event) {
   flag = sendStatus(wifiS, event);
 
     switch(event) {
+        case WIFI_EVENT_STAMODE_DISCONNECTED:
+             WiFi.reconnect();
         case WIFI_EVENT_STAMODE_GOT_IP:
             sendSetup(ipS, WiFi.localIP().toString());
             sendSetup(getwayS, WiFi.gatewayIP().toString());
@@ -53,7 +55,7 @@ void initWIFI() {
     httpOkJson(scanWIFI());
   });
    // задача проверять уровень сети каждые две минуты.
-  ts.add(9, 300000, [&](void*) {
+  ts.add(tRSSI, 300000, [&](void*) {
         scanWIFI();
         //Serial.println(ssdpList);
         //Serial.println("requestSSDP "+GetTime());
@@ -143,8 +145,8 @@ boolean startSTA() {
       WiFi.config (staticIP, staticGateway, staticSubnet);
     }
   }
-  WiFi.mode(WIFI_OFF);
   WiFi.onEvent(WiFiEvent);
+  WiFi.mode(WIFI_OFF);
   WiFi.mode(WIFI_STA);
   scanWIFI();
   WiFi.hostname ( "sonoff-" + chipID );

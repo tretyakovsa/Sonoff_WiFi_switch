@@ -14,7 +14,7 @@ void initNTP() {
   //Serial.println(GetTime());
   if (GetTime()!="00:00:00"){ // Проверка на получение времени
   // задача проверять таймеры каждую секунду обновлять текущее время.
-  ts.add(0, 1000, [&](void*) {
+  ts.add(tNTP, 1000, [&](void*) {
     String timeNow = GetTime();
     if (timeNow == "00:00:00") { // в это время синхронизируем с внешним сервером
       String timeNow = GetWeekday(); // Новая дата

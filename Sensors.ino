@@ -10,7 +10,7 @@ void initA0() {
   String alarmSet = "ALARM " + stateA0S + " " + highalarmA0S + " " + lowalarmA0S;
   sCmd.readStr(alarmSet);
   //alarmLoad(stateA0S, highalarmA0S, lowalarmA0S);
-  ts.add(3, t, [&](void*) {
+  ts.add(tA0, t, [&](void*) {
     uint32_t a = 0;
     for (uint8_t i = 1; i <= 10; i++) {
       a += analogRead(A0);
@@ -45,7 +45,7 @@ void initOneWire() {
     modulesReg(temperatureS + numS);
   }
   sendOptions(temperatureS + "num", num);
-  ts.add(4, t, [&](void*) {
+  ts.add(tDS, t, [&](void*) {
     //    static float oldTemp = 0;
     float temp = 0;
     sensors.requestTemperatures();
@@ -78,7 +78,7 @@ void initDHT() {
     sendStatus(humidityS, dht.getHumidity());
     sendOptions(alarmhumS, 0);
     alarmLoad(humidityS, highalarmhumS, lowalarmhumS);
-    ts.add(5, test, [&](void*) {
+    ts.add(tDHT, test, [&](void*) {
       sendStatus(temperatureS, dht.getTemperature());
       sendStatus(humidityS, dht.getHumidity());
       alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
@@ -99,7 +99,7 @@ void initSi7021() {
       sendStatus(humidityS, sensor_Si7021.readHumidity());
       sendOptions(alarmhumS, 0);
       alarmLoad(humidityS, highalarmhumS, lowalarmhumS);
-      ts.add(6, 1000, [&](void*) {
+      ts.add(tSI, 1000, [&](void*) {
         sendStatus(temperatureS, sensor_Si7021.readTemperature());
         sendStatus(humidityS, sensor_Si7021.readHumidity());
         alarmTest(temperatureS, highalarmtempS, lowalarmtempS, alarmtempS);
@@ -188,8 +188,8 @@ void irReceived() {
   pin =  pinTest(pin);
   irReceiver = new IRrecv(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
   irReceiver->enableIRIn(); // Start the receiver
-  // задача опрашивать RC код
-  ts.add(7, 100, [&](void*) {
+  // задача опрашивать IR код
+  ts.add(tIR, 100, [&](void*) {
     handleIrReceiv();
   }, nullptr, true);
   sendStatus(irReceivedS, "ffffffff");
@@ -215,7 +215,7 @@ void rfReceived() {
   mySwitch.enableReceive(pin);
   pinMode(pin, INPUT);
   // задача опрашивать RC код
-  //ts.add(7, 5, [&](void*) {
+  //ts.add(tRC, 5, [&](void*) {
     // handleRfReceiv();
   //}, nullptr, true);
   sendStatus(rfReceivedS, 0);
@@ -311,7 +311,7 @@ void initHLW8012() {
   sendStatus(ActivePowerWS, hlw8012.getActivePower());
   sendOptions(alarmpowS, 0);
   alarmLoad(ActivePowerWS, highalarmpowS, lowalarmpowS);
-  ts.add(8, t, [&](void*) {
+  ts.add(tPOW, t, [&](void*) {
     sendStatus(ActivePowerWS, hlw8012.getActivePower());
     sendOptions(voltagevS, hlw8012.getVoltage());
     sendOptions(currentaS, hlw8012.getCurrent());
