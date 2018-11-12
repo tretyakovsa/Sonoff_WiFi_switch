@@ -30,7 +30,7 @@ TACH 0 0 20 0
 # TACH 0 6 20 0
 # TACH 0 7 20 0
 // {{LangConfBUZZER}}
-# BUZZER 16 0
+# BUZZER 16
 // {{LangConfRGB}}
 # RGB 5 15 1 ff0000 100 255 3
 // {{LangConfRGBS}}

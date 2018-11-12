@@ -100,9 +100,9 @@ function run_socket(url) {
  connection.onmessage = function (e) {
   console.log('Server: ', e.data);
   var socket_data=JSON.parse(e.data);
-  jsonResponse_news = mergeObject(jsonResponse, socket_data);
+  jsonResponse_new = mergeObject(jsonResponse, socket_data);
   document.getElementById('content').innerHTML = '';
-  viewTemplate(jsonPage,jsonResponse_news);
+  viewTemplate(jsonPage,jsonResponse_new);
  }
 }
 

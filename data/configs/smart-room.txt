@@ -23,7 +23,7 @@ A0
 TACH 0 0 20 0
 # TACH 2 1 20 0
 // {{LangConfBUZZER}}
-# BUZZER 16 0
+# BUZZER 16
 # tone 2400 200
 // {{LangConfRGB}}
 # RGB 5 15 1 ff0000 100 255 3

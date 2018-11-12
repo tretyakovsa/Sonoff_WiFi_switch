@@ -196,7 +196,7 @@
  "LangConfDHT":"Temperatūras un mitruma sensori DHT11, DHT22, AM2302, RHT03, Si7021",
  "LangConfDS18B20":"Tikai GPIO14, jūs to nevarat mainīt",
  "LangConfA0":"Analogā ieeja",
- "LangConfBUZZER":"Aktivizējiet zummer",
+ "LangConfBUZZER":"Aktivizējiet zummer (PIN)",
  "LangConfTach":"Poga (PIN / pogas numurs / laiks ms.)",
  "LangConfRelay":"Relejs. (Releja PIN / releju skaita / releja statuss pēc starta ESP / ignorēšanas)",
  "LangConfJalousie":"Žalūzijas. (PIN ātruma skaitītājs / otrais un trešais PIN - motora vadība)",

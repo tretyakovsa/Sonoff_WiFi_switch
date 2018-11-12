@@ -196,7 +196,7 @@
  "LangConfDHT":"Temperature and humidity sensors DHT11, DHT22, AM2302, RHT03, Si7021",
  "LangConfDS18B20":"While only on GPIO14, you can not change it",
  "LangConfA0":"Analog input",
- "LangConfBUZZER":"Turn on buzzer",
+ "LangConfBUZZER":"Turn on buzzer (PIN)",
  "LangConfTach":"Button. (PIN / Button number / Time in ms.)",
  "LangConfRelay":"Relay. (Relay PIN / Relay Number / Relay Status at Startup / Ignoring)",
  "LangConfJalousie":"Jalousie. (PIN speed counter / Second and Third PIN - motor control)",
