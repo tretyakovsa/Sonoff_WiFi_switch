@@ -105,11 +105,13 @@ void thenCommand() {
     comm += " " + readArgsString();
     comm += " " + readArgsString();
     comm += " " + readArgsString();
+    comm += " " + readArgsString();
+    comm += " " + readArgsString();
 
     // Если это локальное устройство
     if (ssdp == test or test == "this") {
-      //      Serial.println("comm= ");
-      //      Serial.println(comm);
+//            Serial.println("comm= ");
+//            Serial.println(comm);
       sendOptions("test", comm);
       sCmd.readStr(comm);
     }

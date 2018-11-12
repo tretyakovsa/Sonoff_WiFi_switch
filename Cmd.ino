@@ -20,7 +20,7 @@ void initCMD() {
   sCmd.addCommand("POW",       initHLW8012);
 #endif
 #ifdef CRIB
-  sCmd.addCommand("CRIB",       initCrib);
+  //sCmd.addCommand("CRIB",       initCrib);
 #endif
   sCmd.addCommand("JALOUSIE",       initJalousie);
   sCmd.addCommand("MQTT",       initMQTT);

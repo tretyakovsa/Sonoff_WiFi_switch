@@ -33,6 +33,7 @@ void setupToInit() {
   jsonWrite(modules, spaceS, getSetup(spaceS));
   jsonWrite(modules, langS, getSetup(langS));
   jsonWrite(modules, ssdpS, getSetup(ssdpS));
+  initPuls();
 
 }
 

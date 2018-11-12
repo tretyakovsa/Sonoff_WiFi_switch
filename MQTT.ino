@@ -7,7 +7,7 @@
 void initMQTT() {
   if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
     //MQTT_Connecting();
-    ts.add(11, 60000, [&](void*) {
+    ts.add(tMQTT, 60000, [&](void*) {
       //Serial.println(",MQTT_Connecting");
       if (!client.connected()) MQTT_Connecting();
     }, nullptr, true);
@@ -40,6 +40,7 @@ void handle_mqtt() {
   sendSetup(mqttPortS, mqttPort);
   sendSetup(mqttUserS, mqttUser);
   sendSetup(mqttPassS, mqttPass);
+  if (!client.connected()) MQTT_Connecting();
   saveConfigSetup ();
 }
 void MQTT_Connecting() {
@@ -204,7 +205,7 @@ void initDDNS() {
     });
 
     // задача синхронизайия с сервером ddns каждые 6 минут
-    ts.add(12, 600000, [&](void*) {
+    ts.add(tDDNS, 600000, [&](void*) {
       ip_wan();
     }, nullptr, true);
     ip_wan();
