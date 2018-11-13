@@ -25,73 +25,99 @@ From: Latvia, Valmiera
     filter: grayscale(100%);
     float: right;
    }
+   #title {
+    margin: 40px auto;
+    width: 50%;
+   }
   </style>
   <div class="container loader-bg">
    <div class="row" id="content">
-    <h1 id="title">Спасибо! / Thanks! / Paldies!</h1>
+    <h1 id="title">Здесь вы можете сделать Donate и получить полную версию</h1>
     <div id="content" class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
-     <h3>Web Developer <br> Веб разработчик</h3>
-     <h2>Ренат К.</h2>
+     <h3>Полная версия стоит 3$ (3&euro;, 202RUB). Если необходимо зарегистрировать больше 1 ESP цена за каждую 2$ (2&euro;, 135RUB):
 
-     <table style="width:100%;">
-      <tr>
-       <th style="text-align:left;">
-        <b><a href="https://advcash.com/" target="_blank">AdvCash</a></b>
-        <ul>
-         <li>U 0586 7862 1354</li>
-         <li>E 8788 6352 1126</li>
-         <li>R 7705 0208 6566</li>
-        </ul>
-        <b><a href="https://www.paypal.me/renat2985/3" target="_blank">PayPal</a></b>
-        <ul>
-         <li><a href="https://www.paypal.me/renat2985/3" target="_blank">Нажми<br>что бы отправить</a></li>
-        </ul>
-        <b><a href="https://www.webmoney.ru/" target="_blank">WebMoney</a></b>
-        <ul>
-         <li>Z242847016348</li>
-         <li>R466173026928</li>
-         <li>E555861976545</li>
-        </ul>
-       </th>
-       <th>
-        <img src="https://avatars2.githubusercontent.com/u/1230815?v=4&amp;s=150">
-        <br>
-        <div class="g-ytsubscribe" data-channelid="UCcrUW4TaW-QeZagj3c9Z8oQ" data-layout="default" data-count="hidden"></div>
-        <br>
-        <a href="skype:renat2985?chat">Skype: renat2985</a>
-       </th>
-      </tr>
-     </table>
+      <!--
+<p id="esp">Сколько ESP модулей хотите зарегестрировать<br>
+<select onchange="toggle('val','hidden');return false">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select></p>
+<p id="val" class="hidden">Пожалуйста выберите валюту<br>
+<select onchange="toggle('money','hidden');return false">
+<option value="eur">EUR</option>
+<option value="usd">USD</option>
+<option value="rub">RUB</option>
+</select>
+</p>
+<p id="money" class="hidden">
+Сумма к оплате
+<span id="money-fin">200 RUB</span>
+</p>
+-->
 
-     <h3>Arduino Developer <br> Ардуино разработчик</h3>
-     <h2>Сергей Т.</h2>
-     <table style="width:100%;">
-      <tr>
-       <th style="text-align:left;">
-        <b><a href="https://money.yandex.ru" target="_blank">YandexMoney</a></b>
-        <ul>
-         <li>410011740665305</li>
-        </ul>
-        <b><a href="https://www.webmoney.ru/" target="_blank">WebMoney</a></b>
-        <ul>
-         <li>Z343206590467</li>
-         <li>R124424038680</li>
-         <li>U883416626152</li>
-         <li>E211342115147</li>
-        </ul>
-        <b><a href="http://esp8266-arduinoide.ru/thank/" target="_blank">Нажми<br>что бы отправить</a></b>
-       </th>
-       <th>
-        <img src="https://avatars3.githubusercontent.com/u/7124559?v=4&amp;s=150">
-        <br>
-        <div class="g-ytsubscribe" data-channelid="UC5ObcnxkVBgvb5-Mx7Eh31w" data-layout="default" data-count="hidden"></div>
-        <br>
-        <a href="skype:vtplus?chat">Skype: vtplus</a>
-       </th>
-      </tr>
-     </table>
+      <table style="width:100%;font-size:150%;margin-top:20px;">
+       <tr>
+        <th>
+         <b><a href="https://money.yandex.ru/" onclick="toggle('yandex');return false" target="_blank">YandexMoney</a></b>
+         <ul id="yandex" class="hidden">
+          <li>410011740665305</li>
+          <li><a href="https://money.yandex.ru/" target="_blank">Оплатить</a></li>
+         </ul>
+         <br> <b><a href="https://www.webmoney.ru/" onclick="toggle('webmoney');return false" target="_blank">WebMoney</a></b>
+         <ul id="webmoney" class="hidden">
+          <li>Z343206590467</li>
+          <li>R124424038680</li>
+          <li>U883416626152</li>
+          <li>E211342115147</li>
+          <li><a href="https://www.webmoney.ru/" target="_blank">Оплатить</a></li>
+         </ul>
+         <br> <b><a href="https://advcash.com/" onclick="toggle('advcache');return false" target="_blank">AdvCash</a></b>
+         <ul id="advcache" class="hidden">
+          <li>U 0586 7862 1354</li>
+          <li>E 8788 6352 1126</li>
+          <li>R 7705 0208 6566</li>
+          <li><a href="https://advcash.com/" target="_blank">Оплатить</a></li>
+         </ul>
+         <br> <b><a href="https://www.paypal.me/renat2985/3" target="_blank">PayPal</a></b>
+        </th>
+       </tr>
+      </table>
+     </h3>
+
+     <hr>
+     <h4>Обязательно в платиже укажите свой Skype login или e-mail по которому можно будит с вами связаться.</h4>
+
+     <p>По всем вопросам, пожалуйста, обращайся в: Skype: <a href="skype:renat2985?chat">renat2985</a>, <a href="skype:vtplus?chat">vtplus</a>
+      или E-mail: <a href="mailto:renat2985@gmail.com">renat2985@gmail.com</a>
+      <br> <i> *После оплаты, в течении 24 часов с вами свяжется администратор.</i></p>
 
      <script type="text/javascript">
+      function toggle(id,toggle) {
+       if (document.getElementById(id)){
+        var element = document.getElementById(id).classList;
+        if (element.contains('hidden')) {
+         if (toggle != 'show') {
+          element.remove('hidden');
+          element.add('show');
+         }
+        } else {
+         if (toggle != 'hidden') {
+          element.remove('show');
+          element.add('hidden');
+         }
+        }
+       }
+      }
+
       (function() { var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = '//api.at.getsocial.io/widget/v1/gs_async.js?id=13d7ca'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s); })();
      </script>
 
