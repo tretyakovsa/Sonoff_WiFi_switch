@@ -33,8 +33,9 @@ void setupToInit() {
   jsonWrite(modules, spaceS, getSetup(spaceS));
   jsonWrite(modules, langS, getSetup(langS));
   jsonWrite(modules, ssdpS, getSetup(ssdpS));
+  #ifdef CRIB
   initPuls();
-
+  #endif
 }
 
 // --------------------Выделяем строку до маркера --------------------------------------------------
@@ -219,6 +220,7 @@ void commandsReg(String comName) {
     json.printTo(regCommands);
   }
 }
+#ifdef safeData
 // Запись данных в файл с частотой 1 секунда и более. Максимальное количество данных в суточном файле 1440 значений
 void safeDataToFile(int inter, String par, uint16_t data) {
   yield();
@@ -267,4 +269,4 @@ void safeDataToFile(int inter, String par, uint16_t data) {
   configFile.write(data);      // данные
   configFile.close();
 }
-
+#endif

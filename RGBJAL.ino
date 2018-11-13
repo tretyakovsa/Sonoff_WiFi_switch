@@ -112,18 +112,6 @@ void rgb() {
         ws2812fx.start();
       }
     }
-    if (times != 0) {
-      if (speed == "t") {
-        impulsTime(times - 1, "rgb not");
-      } else {
-        comTimeP = "rgb not";
-        String t = GetTime();
-        pTime = timeToString(timeToLong(t) + (times - 1));
-      }
-    } else {
-      comTimeP = emptyS;
-      pTime = emptyS;
-    }
   }
 
   //statusS = relayStatus(configJson, stateRGBS);
@@ -182,17 +170,17 @@ void rgbShim() {
   uint32_t times = color.toInt();
   uint8_t state = getStatusInt(stateSRGBS);
   if (com == "on" || com == "1") {
-    if (times != 0) impulsTime(times - 1, "rgbs not");
+
     setColorSString(getStatus(colorSRGBS));
     flag = sendStatus(stateSRGBS, 1);
   }
   if (com == "off" || com == "0") {
-    if (times != 0) impulsTime(times - 1, "rgbs not");
+
     setColorSString("000000");
     flag = sendStatus(stateSRGBS, 0);
   }
   if (com == "not") {
-    if (times != 0) impulsTime(times - 1, "rgbs not");
+
     flag = sendStatus(stateSRGBS, !state);
     if (state) {
       setColorSString("000000");
@@ -309,7 +297,8 @@ void jalousie() {
     sendOptions(turnS, jsonReadToInt(configSetup, turnS));
     saveConfigSetup ();
   }
-  statusS = jalousieStatus(configJson, stateJalousieS);
+  //statusS = jalousieStatus(configJson, stateJalousieS);
+  statusS = htmlStatus(configJson, stateJalousieS, LangOpenS, LangCloseS);
 }
 
 void setMotor(boolean a, boolean b) {
@@ -317,16 +306,4 @@ void setMotor(boolean a, boolean b) {
   digitalWrite(getOptionsInt(pinMotorS + "2"),  b);
 }
 
-// читает данные из раздела state строки json и возвращает строку для смены класса кнопки
-String jalousieStatus(String json, String state) {
-  String out = "{}";
-  if (jsonReadToInt(json, state)) {
-    jsonWrite(out, "title", "{{LangClose}}");
-    jsonWrite(out, "class", "btn btn-block btn-lg btn-info");
-  }
-  else {
-    jsonWrite(out, "title", "{{LangOpen}}");
-    jsonWrite(out, "class", "btn btn-block btn-lg btn-primary");
-  }
-  return out;
-}
+

@@ -156,7 +156,10 @@ const String ntp1S   = "NTP1";
 const String ntp2S   = "NTP2";
 const String weekdayS   = "weekday";
 const String webSocketS   = "webSocket";
-
+// пульс
+const String pulseS   = "pulse";
+const String pulseComS ="pulseCom";
+const String pulseTimeS ="pulseTime";
 // Реле
 const String relayS   = "relay"; //"stateRelay"; // Состояние реле
 const String relayPinS   = "relayPin"; // Для хранения ножек реле
@@ -185,6 +188,8 @@ const String turnS   = "turn";
 const String pinTurnS   = "pinTurn";
 const String pinMotorS   = "pinMotor";
 const String turnSensorS   = "turnSensor";
+const String LangOpenS   = "LangOpen";
+const String LangCloseS   = "LangClose";
 
 // Звуковой сигнал
 //const String stateBuzzerS   = "stateBuzzer";

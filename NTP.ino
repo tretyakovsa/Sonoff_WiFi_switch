@@ -1,44 +1,34 @@
 #include <time.h>               //Содержится в пакете
 void initNTP() {
-  if (getStatusInt(wifiS)==3){ //Если есть подключение к роутеру
-  String ntpTemp = readArgsString();
-  sendOptions(ntp1S, ntpTemp);
-  ntpTemp = readArgsString();
-  sendOptions(ntp2S, ntpTemp);
-  //Serial.println(getOptions(messageS));
-  if ( getOptions(messageS)==emptyS){ // Если нет связи с интернет пробуем получить время с роутера
-    sendOptions(ntp1S, WiFi.gatewayIP().toString()); // Для этого заменяем адрес NTP сервера на адрес роутера
+  if (getStatusInt(wifiS) == 3) { //Если есть подключение к роутеру
+    String ntpTemp = readArgsString();
+    sendOptions(ntp1S, ntpTemp);
+    ntpTemp = readArgsString();
+    sendOptions(ntp2S, ntpTemp);
+    //Serial.println(getOptions(messageS));
+    if ( getOptions(messageS) == emptyS) { // Если нет связи с интернет пробуем получить время с роутера
+      sendOptions(ntp1S, WiFi.gatewayIP().toString()); // Для этого заменяем адрес NTP сервера на адрес роутера
     }
-  sCmd.addCommand("time", handle_time);
-  timeSynch();
-  //Serial.println(GetTime());
-  if (GetTime()!="00:00:00"){ // Проверка на получение времени
-  // задача проверять таймеры каждую секунду обновлять текущее время.
-  ts.add(tNTP, 1000, [&](void*) {
-    String timeNow = GetTime();
-    if (timeNow == "00:00:00") { // в это время синхронизируем с внешним сервером
-      String timeNow = GetWeekday(); // Новая дата
-      sendStatus(weekdayS, timeNow);
-      timeSynch();
-      loadTimer();
+    sCmd.addCommand("time", handle_time);
+    timeSynch();
+    //Serial.println(GetTime());
+    if (GetTime() != "00:00:00") { // Проверка на получение времени
+      // задача проверять таймеры каждую секунду обновлять текущее время.
+      ts.add(tNTP, 1000, [&](void*) {
+        String timeNow = GetTime();
+        if (timeNow == "00:00:00") { // в это время синхронизируем с внешним сервером
+          String timeNow = GetWeekday(); // Новая дата
+          sendStatus(weekdayS, timeNow);
+          timeSynch();
+          loadTimer();
+        }
+        sendStatus(timeS, timeNow);
+        sendOptions(timeS, timeNow);
+        jsonWrite(configSetup, timeS,  timeNow);
+      }, nullptr, true);
+      sCmd.addCommand("zone", handle_timeZone);
+      modulesReg("ntp");
     }
-    sendStatus(timeS, timeNow);
-    sendOptions(timeS, timeNow);
-    jsonWrite(configSetup, timeS,  timeNow);
-    if (timeNow == minTime) { // Временный таймер с записью в таймеры
-      sCmd.readStr(comTime);
-      delTimer();
-      loadTimer();
-    }
-    if (timeNow == pTime) { //
-      sCmd.readStr(comTimeP);
-      comTimeP =emptyS;
-      pTime =emptyS;
-    }
-  }, nullptr, true);
-  sCmd.addCommand("zone", handle_timeZone);
-  modulesReg("ntp");
-  }
   }
 }
 
@@ -53,17 +43,17 @@ void handle_timeZone() {
 
 // ------------------------------ Комманда синхронизации времени
 void handle_time() {
-     timeSynch();
-     statusS = "{}";
-    jsonWrite(statusS, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
+  timeSynch();
+  statusS = "{}";
+  jsonWrite(statusS, "title",   "{{LangTime1}} <strong id=time>" + GetTime() + "</strong>");
 }
 
 void timeSynch() {
   uint8_t zone = getOptionsInt(timeZoneS);
   String ntp1 = getOptions(ntp1S);
   String ntp2 = getOptions(ntp2S);
-   if (ntp1 == emptyS) ntp1 = "ntp1.vniiftri.ru";
-   if (ntp2 == emptyS) ntp2 = "ru.pool.ntp.org";
+  if (ntp1 == emptyS) ntp1 = "ntp1.vniiftri.ru";
+  if (ntp2 == emptyS) ntp2 = "ru.pool.ntp.org";
   if (WiFi.status() == WL_CONNECTED) {
     // Инициализация UDP соединения с NTP сервером
     configTime(zone * 3600, 0, ntp1.c_str(), ntp2.c_str());

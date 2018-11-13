@@ -7,7 +7,7 @@ void initRelay() {
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
   String title = readArgsString(); // Пятый аргумент подпись
   String nameR = relayS + num;
-  if (title =="") title = nameR;
+  if (title == "") title = nameR;
   sendStatus(nameR, state);
   sCmd.readStr("wReg toggle " + nameR + " " + title);
   sendOptions(relayPinS + num, pin);
@@ -32,20 +32,7 @@ void relay() {
   String com = readArgsString(); // действие
   String num = readArgsString(); // номер реле
   uint32_t times = readArgsInt(); // время
-  String del = readArgsString(); // это delay
   relaySet(num, com);
-  if (times != 0) {
-    if (del == "t") {
-      impulsTime(times - 1, relayS + " not " + num);
-    } else {
-      comTimeP = relayS + " not " + num;
-      String t = GetTime();
-      pTime = timeToString(timeToLong(t) + (times - 1));
-    }
-  } else {
-    comTimeP = emptyS;
-    pTime = emptyS;
-  }
 }
 
 void relaySet(String num, String com) {
@@ -168,59 +155,81 @@ void initPuls() {
 }
 
 void startPuls() {
+  sendOptions(pulseS, 0);
   String com = readArgsString(); // on off
   if (com != "") { // если комманда есть
     String pulseCom = readArgsString(); // Команда relay_3 или rgb
-    sendOptions("pulseCom", pulseCom);
+    pulseCom.replace("_", " not ");
+    sendOptions(pulseComS, pulseCom);
     String pulseComT = pulseCom;
-    //pulseComT.replace("_", " off ");
-    if (com == "on" || com == "1") {
+    pulseComT.replace(notS, offS);
+    if (com == onS || com == "1") {
       int freq = readArgsInt(); // Как долго включен
-      Serial.println(freq);
-      if (freq == 0)freq = 1000;
       sendOptions("pulse0", freq);
-      String temp = readArgsString(); // Как долго выключен
-      Serial.println(temp);
-      int freq1 = temp.toInt();
-      if (temp == "" || temp == "-")freq1 = freq;
-      sendOptions("pulse1", freq1);
-      String pulseTime = readArgsString(); // Время работы
-      sendOptions("pulseTime", pulseTime);
-      //Serial.println(pulseComT);
-      //sCmd.readStr(pulseComT);
-      imPuls();
+      if (freq != 0) {
+        String temp = readArgsString(); // Как долго выключен
+        int freq1 = temp.toInt();
+        if (temp == "" || temp == "-")freq1 = freq;
+        if (temp == 0)freq1 = 0;
+        sendOptions("pulse1", freq1);
+        int period = freq + freq1;
+        String pulseTime = readArgsString(); // Время работы
+        if (pulseTime.lastIndexOf("s") > -1) {
+          pulseTime.replace("s", "000");
+        }
+        if (pulseTime.lastIndexOf("i") > -1) {
+          int temp1 = pulseTime.toInt();
+          pulseTime.replace("i", "");
+          pulseTime = "";
+          pulseTime += (period) * temp1;
+        }
+        int pulseTimeInt = pulseTime.toInt();
+        int remainder = pulseTimeInt % (period);
+        if (remainder > period / 2) {
+          pulseTimeInt += period-remainder;
+        } else  pulseTimeInt -= remainder;
+        sCmd.readStr(pulseComT);
+        sendOptions(pulseTimeS, pulseTimeInt);
+        imPuls();
+      }
     }
     if (com == "off" || com == "0") {
-      pulseComT.replace("_", " off ");
-      sCmd.readStr(pulseComT);
+      pulseCom.replace(notS, offS);
+      sCmd.readStr(pulseCom);
       flipper[0].detach();
     }
   }
 }
-void imPuls() {
-  static boolean low;
 
-  String s = "pulse" + (String)low;           // Откуда брать время итерации
-  int temp = getOptionsInt(s);                // Время итерации
-  String pulseCom = getOptions("pulseCom");   // Получить команду
-  pulseCom.replace("_", " not ");             // Добавить в комманду операцию not
-    sCmd.readStr(pulseCom);                   // Выполнить команду
-  flipper[0].attach_ms(temp, imPuls);         // Задать время через которое процедура будет вывана повторно
-    low = !low;
-  String pulseTime = getOptions("pulseTime"); // Получим текстовое значние времени работы
-  if (pulseTime != "null") {                  // Если время работы определено
-    int tempT = getOptionsInt("pulseTime");   // Получить время в формате int
-    tempT -= temp;                            // Отнять время предыдущей итерации от обшего времени работы
-    sendOptions("pulseTime", (String)tempT);  //  Сохранить время работы
-    //Serial.println(tempT);
-    if (tempT <= 0) {                         // Если Время работы закончилось
-      pulseCom.replace("not", "off");         // Модифицируем команду в команду отключения
-      sCmd.readStr(pulseCom);                 // Выключим
-      flipper[0].detach();                    // Остановим таймер
+void imPuls() {
+  static boolean low = false;
+  boolean stopF = true;
+  String pulseCom = getOptions(pulseComS);             // Получить каким устройством управляем
+  pulseCom.replace("_", " not ");                       // Добавить в комманду операцию not
+  String pulseTime = getOptions(pulseTimeS);           // Получим текстовое значние времени работы
+  int pulseTimeInt = pulseTime.toInt();                 // Получим int значние времени работы
+  int timeOn = getOptionsInt(pulseS + (String)low);     // Время включено
+  int timeOff = getOptionsInt(pulseS + (String)!low);   // Время выключено
+  if (timeOn > 0) {                                     // Если время включено >0 сразу закончить
+    sCmd.readStr(pulseCom);                             // Выполнить команду
+    if (pulseTime != "null" && pulseTimeInt != 0 ) {
+      sendOptions(pulseTimeS, (String)(pulseTimeInt - timeOn));
+      if (getOptionsInt(pulseTimeS) <= 0) {
+        flipper[0].detach();
+        stopF = false;
+      }
     }
-      //Serial.print("pulseCom ");
-      //Serial.println(pulseCom);
+
+    low = !low;
+    if (stopF) {
+      flipper[0].attach_ms(timeOn, imPuls);               // Задать время через которое процедура будет вывана повторно
+    }
+  } else {
+    sCmd.readStr(pulseCom);                            // Выключить
+    flipper[0].detach();                               // Остановим таймер
+    low = false;                                      // Сбросить флаг ???
   }
 
 }
+
 #endif

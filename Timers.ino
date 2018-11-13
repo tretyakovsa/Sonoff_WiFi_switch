@@ -80,23 +80,7 @@ void loadTimer() {
   //Serial.println(minTime);
 }
 
-//{"id":0.7098387536989175,"day":"1111111","time1":"00:21:00","com1":"relay on 1"}
-void impulsTime(long Time, String command) {
-  String jsonTimer = readFile(configTimerS, 4096);
-  String timeRecord = "{}";
-  String t = GetTime();
-  jsonWrite(timeRecord, "id", t);
-  jsonWrite(timeRecord, "day", "1111111");
-  jsonWrite(timeRecord, "time1", timeToString(timeToLong(t) + Time));
-  jsonWrite(timeRecord, "com1", command);
-  jsonWrite(timeRecord, "t", 1);
-  jsonTimer = selectToMarker(jsonTimer, "]");
-  if (selectToMarkerLast(jsonTimer, ":") != "[") jsonTimer += ",";
-  jsonTimer += timeRecord;
-  jsonTimer += "]}";
-  writeFile(configTimerS, jsonTimer);
-  loadTimer();
-}
+
 
 long  timeToLong(String Time) {
   //"00:00:00"  время в секунды

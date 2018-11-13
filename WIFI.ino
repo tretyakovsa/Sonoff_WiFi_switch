@@ -4,7 +4,7 @@ void WiFiEvent(WiFiEvent_t event) {
 
     switch(event) {
         case WIFI_EVENT_STAMODE_DISCONNECTED:
-             WiFi.reconnect();
+             //WiFi.reconnect();
         case WIFI_EVENT_STAMODE_GOT_IP:
             sendSetup(ipS, WiFi.localIP().toString());
             sendSetup(getwayS, WiFi.gatewayIP().toString());

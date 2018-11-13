@@ -1,6 +1,7 @@
 //#define Si7021
 //#define POW
 #define CRIB
+#define safeData
 #include "sets.h"             //Содержится в пакете
 
 void setup() {
