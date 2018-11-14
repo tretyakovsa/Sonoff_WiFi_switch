@@ -51,25 +51,15 @@ void loadTimer() {
         String idTimes = Timers["timer"][i]["id"].as<String>();
         if (idTimes.indexOf(":")==-1) idTimes=emptyS;
         String nextTime1 = Timers["timer"][i]["time1"].as<String>();
-        String nextTime2 = Timers["timer"][i]["time2"].as<String>();
+
         String nextcom1 = Timers["timer"][i]["com1"].as<String>();
-        String nextcom2 = Timers["timer"][i]["com2"].as<String>();
+
         if (timeToLong(nextTime1) >= timeToLong(GetTime())) {
           if (lminTime >= timeToLong(nextTime1)) {
             lminTime = timeToLong(nextTime1);
             minTime = nextTime1;
             comTime = nextcom1;
             idTime=idTimes;
-          }
-        }
-        if (nextTime2 != emptyS) {
-          if (timeToLong(nextTime2) >= timeToLong(GetTime())) {
-            if (lminTime >= timeToLong(nextTime2)) {
-              lminTime = timeToLong(nextTime2);
-              minTime = nextTime2;
-              comTime = nextcom2;
-              idTime=idTimes;
-            }
           }
         }
         sendOptions("timersT", minTime);

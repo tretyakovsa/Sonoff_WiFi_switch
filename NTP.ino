@@ -21,7 +21,15 @@ void initNTP() {
           sendStatus(weekdayS, timeNow);
           timeSynch();
           loadTimer();
+
         }
+
+      if (timeNow == getOptions("timersT")) {
+      sCmd.readStr(getOptions("timersC"));
+        sendOptions("timersT", emptyS);
+        sendOptions("timersC", emptyS);
+        loadTimer();
+    }
         sendStatus(timeS, timeNow);
         sendOptions(timeS, timeNow);
         jsonWrite(configSetup, timeS,  timeNow);
