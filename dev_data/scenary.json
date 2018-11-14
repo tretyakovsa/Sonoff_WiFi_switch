@@ -5,9 +5,9 @@
   "/modules.json"
  ],
  "title": [{
-   "type":"text",
-   "title":"{{LangScenary}}"
-  }],
+  "type":"text",
+  "title":"{{LangScenary}}"
+ }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content":[
   {
@@ -20,8 +20,12 @@
    "type":"loadJson",
    "state":"header.json"
   },
-
-
+  {
+   "type":"link",
+   "title":"{{LangAddScenery}}",
+   "action":"#add-new-scenary",
+   "class":"btn btn-block btn-default"
+  },
   {
    "type":"h2",
    "title":"{{LangScenary}}"
@@ -38,12 +42,12 @@
    "type":"hr"
   },
 
-
   {
    "type":"h2",
+   "name":"add-new-scenary",
    "title":"{{LangAddScenery}}"
   },
- {
+  {
    "type":"text",
    "name":"alert-scenary",
    "title":"<button class=\"close\" onclick=\"hide('alert-scenary',this)\" type=\"button\">×</button>{{LangScenery1}}",
