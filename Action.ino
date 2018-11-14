@@ -161,7 +161,7 @@ void startPuls() {
   if (com != "") { // если комманда есть
     String pulseCom = readArgsString(); // Команда relay3 или rgb
     String tacks = jsonRead(pulsList, pulseCom);  //Получим нимер задачи для устройства
-    sendOptions(pulseS+"State"+tacks, true);
+    sendOptions(pulseS+"State"+tacks, false);
     pulseCom = topicToCom(pulseCom);   // Пробел между командой и номером
     pulseCom.replace(" ", " not ");    // Модефицируем командув not
     sendOptions(pulseComS+tacks, pulseCom); // Сохраним команду
