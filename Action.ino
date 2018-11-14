@@ -8,7 +8,7 @@ void initRelay() {
   String title = readArgsString(); // Пятый аргумент подпись
   String nameR = relayS + num;
   if (title == "") title = nameR;
-  sendStatus(nameR, state);
+  //sendStatus(nameR, state);
   sCmd.readStr("wReg toggle " + nameR + " " + title);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
@@ -24,6 +24,7 @@ void initRelay() {
   }
   sCmd.addCommand(relayS.c_str(), relay); //
   commandsReg(relayS);
+  actionsReg(relayS + num);
   modulesReg(relayS + num);
 }
 
@@ -116,8 +117,9 @@ void rfTransmitter() {
   byte pin = readArgsInt();
   pin =  pinTest(pin, HIGH);
   mySwitch.enableTransmit(pin);
-  sCmd.addCommand("rfsend", handleRfTransmit);
-  commandsReg("rfsend");
+  sCmd.addCommand(rfsendS.c_str(), handleRfTransmit);
+  commandsReg(rfsendS);
+  actionsReg(rfsendS);
   modulesReg("rfTransmitter");
 }
 
@@ -135,8 +137,8 @@ void rfLivolo() {
   pinMode(pin, OUTPUT);
   digitalWrite(pin, LOW);
   gLivolo = new LivoloTx(pin);
-  sCmd.addCommand("lvsend", handleRfLivolo);
-  commandsReg("lvsend");
+  sCmd.addCommand(lvsendS.c_str(), handleRfLivolo);
+  commandsReg(lvsendS);
   modulesReg("rfLivolo");
 }
 
@@ -155,23 +157,25 @@ void initPuls() {
 }
 
 void startPuls() {
-  sendOptions(pulseS, 0);
   String com = readArgsString(); // on off
   if (com != "") { // если комманда есть
-    String pulseCom = readArgsString(); // Команда relay_3 или rgb
-    pulseCom.replace("_", " not ");
-    sendOptions(pulseComS, pulseCom);
-    String pulseComT = pulseCom;
-    pulseComT.replace(notS, offS);
-    if (com == onS || com == "1") {
+    String pulseCom = readArgsString(); // Команда relay3 или rgb
+    String tacks = jsonRead(pulsList, pulseCom);  //Получим нимер задачи для устройства
+    sendOptions(pulseS+"State"+tacks, true);
+    pulseCom = topicToCom(pulseCom);   // Пробел между командой и номером
+    pulseCom.replace(" ", " not ");    // Модефицируем командув not
+    sendOptions(pulseComS+tacks, pulseCom); // Сохраним команду
+    String pulseComT = pulseCom;            // Здесь будет комманда off
+    pulseComT.replace(notS, offS);          // Модефицируем командув off
+    if (com == onS || com == "1") {         // Если комманда есть
       int freq = readArgsInt(); // Как долго включен
-      sendOptions("pulse0", freq);
+      sendOptions(pulseS+tacks+"0", freq);
       if (freq != 0) {
         String temp = readArgsString(); // Как долго выключен
         int freq1 = temp.toInt();
         if (temp == "" || temp == "-")freq1 = freq;
         if (temp == 0)freq1 = 0;
-        sendOptions("pulse1", freq1);
+        sendOptions(pulseS+tacks+"1", freq1);
         int period = freq + freq1;
         String pulseTime = readArgsString(); // Время работы
         if (pulseTime.lastIndexOf("s") > -1) {
@@ -189,47 +193,47 @@ void startPuls() {
           pulseTimeInt += period-remainder;
         } else  pulseTimeInt -= remainder;
         sCmd.readStr(pulseComT);
-        sendOptions(pulseTimeS, pulseTimeInt);
-        imPuls();
+        sendOptions(pulseTimeS+tacks, pulseTimeInt);
+        imPuls(tacks.toInt());
       }
     }
     if (com == "off" || com == "0") {
       pulseCom.replace(notS, offS);
       sCmd.readStr(pulseCom);
-      flipper[0].detach();
+      flipper[tacks.toInt()].detach();
     }
   }
 }
 
-void imPuls() {
-  static boolean low = false;
+void imPuls(int tacks) {
+  String pulseStateN= "pulseState"+(String)tacks;
   boolean stopF = true;
-  String pulseCom = getOptions(pulseComS);             // Получить каким устройством управляем
-  pulseCom.replace("_", " not ");                       // Добавить в комманду операцию not
-  String pulseTime = getOptions(pulseTimeS);           // Получим текстовое значние времени работы
+  String pulseCom = getOptions(pulseComS+tacks);             // Получить каким устройством управляем
+  String pulseTime = getOptions(pulseTimeS+tacks);           // Получим текстовое значние времени работы
   int pulseTimeInt = pulseTime.toInt();                 // Получим int значние времени работы
-  int timeOn = getOptionsInt(pulseS + (String)low);     // Время включено
-  int timeOff = getOptionsInt(pulseS + (String)!low);   // Время выключено
+  uint8_t low = getOptionsInt(pulseStateN);
+  int timeOn = getOptionsInt(pulseS+tacks+low);     // Время включено
+  int timeOff = getOptionsInt(pulseS+tacks+!low);   // Время выключено
   if (timeOn > 0) {                                     // Если время включено >0 сразу закончить
     sCmd.readStr(pulseCom);                             // Выполнить команду
     if (pulseTime != "null" && pulseTimeInt != 0 ) {
-      sendOptions(pulseTimeS, (String)(pulseTimeInt - timeOn));
-      if (getOptionsInt(pulseTimeS) <= 0) {
-        flipper[0].detach();
+      sendOptions(pulseTimeS+tacks, (String)(pulseTimeInt - timeOn));
+      if (getOptionsInt(pulseTimeS+tacks) <= 0) {
+        flipper[tacks].detach();
         stopF = false;
       }
     }
-
     low = !low;
+    sendOptions(pulseStateN, low);
     if (stopF) {
-      flipper[0].attach_ms(timeOn, imPuls);               // Задать время через которое процедура будет вывана повторно
+      flipper[tacks].attach_ms(timeOn, imPuls, tacks);               // Задать время через которое процедура будет вывана повторно
     }
   } else {
     sCmd.readStr(pulseCom);                            // Выключить
-    flipper[0].detach();                               // Остановим таймер
-    low = false;                                      // Сбросить флаг ???
+    flipper[tacks].detach();                               // Остановим таймер
+    //low = false;                                      // Сбросить флаг ???
+    sendOptions(pulseStateN, false);
   }
-
 }
 
 #endif

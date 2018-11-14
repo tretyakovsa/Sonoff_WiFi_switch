@@ -11,6 +11,7 @@
 void initRGB() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand(rgbS.c_str(),    rgb);
+  actionsReg(rgbS);
   commandsReg(rgbS);
 
   byte pin = readArgsInt();
@@ -122,6 +123,7 @@ void rgb() {
 void initRGBSHIM() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand(rgbSS.c_str(),    rgbShim);
+  actionsReg(rgbSS);
   commandsReg(rgbSS);
   for (uint8_t i = 0; i <= 2; i++) {
     byte pin = readArgsInt();
@@ -241,9 +243,10 @@ void initJalousie() {
   setupToOptions(turnS);
   //sendOptions(turnS, jsonReadToInt(configSetup, turnS));
   // open close not stop turn
-  sCmd.addCommand("jalousie",     jalousie);
-  commandsReg("jalousie");
-  modulesReg("jalousie");
+  sCmd.addCommand(stateJalousieS.c_str(),     jalousie);
+  commandsReg(stateJalousieS);
+  actionsReg(stateJalousieS);
+  modulesReg(stateJalousieS);
 }
 
 // Выполняется при вращение сенсора

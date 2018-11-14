@@ -129,6 +129,10 @@ void initHTTP() {
   HTTP.on("/modules.json", HTTP_GET, []() {
     httpOkJson(modules);
   });
+  // --------------------Узнать какие модули есть в устройстве
+  HTTP.on("/pulse.json", HTTP_GET, []() {
+    httpOkJson(pulsList);
+  });
 
   // -------------------Установка конфигурации
   HTTP.on("/configs", HTTP_GET, []() {

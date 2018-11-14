@@ -80,6 +80,8 @@ String order;
 //String command = emptyS;                 // В эту строку можно написать команду которая будет исполнена в основном цикле
 String Lang;                    // файлы языка web интерфейса
 String chipID;
+String pulsList = "{}";
+uint8_t pulsNum =1;
 String configJson = "{}";            // Здесь все статусы /config.live.json
 String configOptions = "{}";         // Здесь данные для всех страниц /config.options.json
 String configSetup = "{}";           // Здесь данные для setup /config.setup.json
@@ -209,7 +211,10 @@ const String rfReceivedS   = "rfReceived";
 const String rfBitS   = "rfBit";
 const String rfProtocolS   = "rfProtocol";
 const String irsendS   = "irsend";
-
+// RF передатчик
+const String rfsendS   = "rfsend";
+// RF передатчик Livolo
+const String lvsendS   = "lvsend";
 // Температура
 const String temperatureS   = "temperature";
 const String highalarmtempS   = "highAlarmTemp";

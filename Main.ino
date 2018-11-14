@@ -209,6 +209,7 @@ void modulesReg(String modName) {
   modules = emptyS;
   json.printTo(modules);
 }
+
 // -------------- Регистрация команд
 void commandsReg(String comName) {
   if (regCommands.indexOf(comName) == -1) {
@@ -219,6 +220,11 @@ void commandsReg(String comName) {
     regCommands = emptyS;
     json.printTo(regCommands);
   }
+  }
+// -------------- Регистрация actions
+void actionsReg(String actionsName) {
+   jsonWrite(pulsList, actionsName, pulsNum);
+  pulsNum++;
 }
 #ifdef safeData
 // Запись данных в файл с частотой 1 секунда и более. Максимальное количество данных в суточном файле 1440 значений

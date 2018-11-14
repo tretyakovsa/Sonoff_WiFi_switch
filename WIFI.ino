@@ -4,7 +4,9 @@ void WiFiEvent(WiFiEvent_t event) {
 
     switch(event) {
         case WIFI_EVENT_STAMODE_DISCONNECTED:
-             //WiFi.reconnect();
+        //Serial.println("Recconnect start");
+             WiFi.reconnect();
+             wifiConnect();
         case WIFI_EVENT_STAMODE_GOT_IP:
             sendSetup(ipS, WiFi.localIP().toString());
             sendSetup(getwayS, WiFi.gatewayIP().toString());
@@ -180,6 +182,7 @@ boolean wifiConnect() {
     //Мигаем сетодиодом при попытке подключится к роутеру
     if (pin != 0)   digitalWrite(pin, HIGH);
     delay(500);
+    //Serial.println("Recconnect");
     if (pin != 0)  digitalWrite(pin, LOW);
     delay(500);
   }
