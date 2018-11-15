@@ -84,6 +84,7 @@
  "LangSun":"Sun",
  "LangAll":"Always",
  "LangSwitch":"Switch",
+ "LangRun1":"Run 1 (not reload)",
 
  "_comment":"---page.htm?relay---",
  "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"ddns-url1\"></span><br>Global link: <span id=\"ddns-url2\"></span></span>",

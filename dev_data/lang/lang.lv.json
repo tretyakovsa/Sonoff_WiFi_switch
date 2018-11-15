@@ -84,6 +84,7 @@
  "LangSun":"Svetdiena",
  "LangAll":"Visas",
  "LangSwitch":"Pārs.",
+ "LangRun1":"Ieslegt 1 reizi",
 
  "_comment":"---page.htm?relay---",
  "LangIfttt1":"Ar pakalpojumu <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\">ifttt.com</a> ierīcei var pieslēgt vairākus scenārijus, piemēram: jauna vēstule facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">vairāk...</a><span id=\"ifttt-help\" class=\"hidden\"> pasākums Google kalendārā, e-pasts un daudz ko citu. Vairāk informācijas par to, kā to izdarīt, jūs varat redzēt video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">šeit</a>.<br>Local saite: <span id=\"ddns-url1\"></span><br>Global saite: <span id=\"ddns-url2\"></span></span>",
