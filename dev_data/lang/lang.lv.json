@@ -65,6 +65,7 @@
  "LangType":"Ierīce tips",
  "LangPay":"Sazinieties ar mums, lai pirktu",
  "LangSSDPAlert":"Lūdzu, mainiet ierīces nosaukumu uz kaut ko citu. Tam jābūt unikālam!",
+ "LangConfMQTT2":"Работает на <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">скачать</a> с нашего сервера). Работает на любом MQTT Broker, нам нравится: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Uzstadinal laiks",
@@ -171,7 +172,7 @@
  "Langrfsend":"Nosutit RF signals",
  "Langlvsend":"Nosutit LIVOLO signals",
  "LangstateA0":"Analogā ieeja",
- "Langvoice":"Balss vadība",
+ "Langvoice":"Balss vadība / Macros",
  "LangstateMovement":"Kustības sensors",
  "LangtimeRGB":"RGB darbības laiks",
  "LangtimeBUZ":"Zvana laiks",

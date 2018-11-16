@@ -65,6 +65,7 @@
  "LangType":"Type device",
  "LangPay":"Contact us for pay",
  "LangSSDPAlert":"Please change the device name to something else. It must be unique!",
+ "LangConfMQTT2":"Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">download</a> from my server). Work on any MQTT Broker, example: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Set time",
@@ -171,7 +172,7 @@
  "Langrfsend":"Send RF",
  "Langlvsend":"Send LIVOLO",
  "LangstateA0":"Analog input",
- "Langvoice":"Voice control",
+ "Langvoice":"Voice control / macros",
  "LangstateMovement":"State motion sensor",
  "LangtimeRGB":"Work time RGB",
  "LangtimeBUZ":"Work time Buzzer",

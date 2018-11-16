@@ -245,6 +245,7 @@ function viewTemplate(jsonPage,jsonResponse) {
 
     if (!obj.module || searchModule(jsonResponse.module,obj.module)) {
      var action_val = renameGet(obj.action);
+     var actiondown_val = renameGet(obj.actiondown);
      var name_val = (obj.name?obj.name:'');
      //    var title_val = renameBlock(jsonResponse, obj.title);
      var class_val = (obj.class?renameBlock(jsonResponse, obj.class):'');
@@ -274,7 +275,8 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'button') {
       if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<input id="'+name_val+'" '+action_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
+      if (actiondown_val) actiondown_val = 'onmouseup="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+      element.innerHTML += '<input id="'+name_val+'" '+action_val+' '+actiondown_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
      }
      if (type_val == 'checkbox') {
       var checked = '';
@@ -514,9 +516,9 @@ function loadTime(jsonResponse) {
  html('time-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var option = '';
-  var ipDevice=sortObject(JSON.parse(response));
-  for (var i in ipDevice) {
-   loadDeviceTime(jsonResponse,i,ipDevice[i]);
+  var ip=sortObject(JSON.parse(response));
+  for (var i in ip) {
+   loadDeviceTime(jsonResponse,i,ip[i]);
   }
   html('time-list', ' ');
  },true);
@@ -565,7 +567,7 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
    for (var i = 0 ; i < block.length; i++) {
     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
    }
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.2;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.1;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
  },true);
 }
@@ -585,9 +587,9 @@ function loadNewThen(where,titles) {
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var options = '';
-  var ipDevice=sortObject(JSON.parse(response));
-  for (var i in ipDevice) {
-   options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+  var ip=sortObject(JSON.parse(response));
+  for (var i in ip) {
+   options += '<option value="'+ip[i]+'">'+i+'<\/option>';
   }
   html("ssdp-list"+number+"",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
   html("scenary-othe-play"+number,"onc"+"lick");
@@ -608,9 +610,9 @@ function loadNewAnd(where) {
  toggle('ssdp-module-and'+number+'','hidden');
  //ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
  // var options = '';
- // var ipDevice=JSON.parse(response);
- // for (var i in ipDevice) {
- //  options += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+ // var ip=JSON.parse(response);
+ // for (var i in ip) {
+ //  options += '<option value="'+ip[i]+'">'+i+'<\/option>';
  // }
  // html("ssdp-list-and"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
  //},true);
@@ -646,16 +648,16 @@ function loadScenary(jsonResponse,loadList) {
   html('new-and-or',' ');
   html('new-then',' ');
   var option = '';
-  var ipDevice=sortObject(JSON.parse(response));
+  var ip=sortObject(JSON.parse(response));
   if (loadList) {
-   for (var i in ipDevice) {
-    loadScenaryList(jsonResponse,i,ipDevice[i]);
+   for (var i in ip) {
+    loadScenaryList(jsonResponse,i,ip[i]);
    }
    val('hidden-val-then',1);
    loadNewThen('new-then');
   } else {
-   for (var i in ipDevice) {
-    option += '<option value="'+ipDevice[i]+'">'+i+'<\/option>';
+   for (var i in ip) {
+    option += '<option value="'+ip[i]+'">'+i+'<\/option>';
    }
    html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
    val('hidden-val-and',1);
@@ -669,13 +671,13 @@ function loadScenary(jsonResponse,loadList) {
 function loadCommandHelp(jsonParam,file,where,to) {
  html(where, 'Loading...');
  ajax.get('/'+file+'?'+Math.random(),{},function(response) {
-  var ipDevice=JSON.parse(response);
+  var ip=JSON.parse(response);
   html(where, ' ');
   var option = '';
-  for (var i in ipDevice[jsonParam]) {
-   option+='<li><a href="#" onclick="val(\''+to+'\',\''+ipDevice[jsonParam][i].command+'\');return false">'+ipDevice[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ipDevice[jsonParam][i].title)+'</i></sup>';
+  for (var i in ip[jsonParam]) {
+   option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</i></sup>';
   }
-  html(where, ipDevice.title+'<ul>'+option+'</ul>'+ipDevice.titleEnd);
+  html(where, ip.title+'<ul>'+option+'</ul>'+ip.titleEnd);
  },true);
 }
 
@@ -1316,6 +1318,7 @@ function delCb(path){
   }
  }
 }
+
 function httpDelete(file){
  xmlHttp = new XMLHttpRequest();
  xmlHttp.onreadystatechange = delCb(file);

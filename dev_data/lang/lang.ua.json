@@ -65,6 +65,7 @@
  "LangType":"Тип пристрою",
  "LangPay":"Свяжитесь с нами для покупки",
  "LangSSDPAlert":"Пожалуйста смените имя устройства на какое-то другое. Оно должно быть уникальным!",
+ "LangConfMQTT2":"Работает на <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">скачать</a> с нашего сервера). Работает на любом MQTT Broker, нам нравится: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Встановити час",
@@ -170,7 +171,7 @@
  "Langrfsend":"Отправить RF сигнал",
  "Langlvsend":"Отправить LIVOLO сигнал",
  "LangstateA0":"Аналоговый вход",
- "Langvoice":"Голосовое сообщение",
+ "Langvoice":"Голосовое сообщение / Макрос",
  "LangstateMovement":"Сенсор движения",
  "LangtimeRGB":"Время работы RGB",
  "LangtimeBUZ":"Время работы зуммера",
