@@ -95,9 +95,10 @@ String prefix   = "/IoTmanager";
 String statusS   = "{}";
 String minTime;
 String comTime;
+String runTime;
 String idTime;
-String pTime;
-String comTimeP;
+//String pTime;
+//String comTimeP;
 /*
   ------------------------------------------------------------------------------------------------
   Здесь будут храниться все текстовые константы для сокращения кода
@@ -190,8 +191,8 @@ const String turnS   = "turn";
 const String pinTurnS   = "pinTurn";
 const String pinMotorS   = "pinMotor";
 const String turnSensorS   = "turnSensor";
-const String LangOpenS   = "LangOpen";
-const String LangCloseS   = "LangClose";
+const String LangOpenS   = "{{LangOpen}}";
+const String LangCloseS   = "{{LangClose}}";
 
 // Звуковой сигнал
 //const String stateBuzzerS   = "stateBuzzer";

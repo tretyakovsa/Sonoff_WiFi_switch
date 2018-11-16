@@ -19,6 +19,7 @@ void initRGB() {
   ws2812fx.setPin(pin);
   ws2812fx.updateLength(readArgsInt());
   int state = readArgsInt(); //состояние
+  sendStatus(rgbS, state);
   sendStatus(colorRGBS,  readArgsString()); //цвет
   sendStatus(speedRGBS, readArgsInt()); //скорость
   sendStatus(brightnessRGBS, readArgsInt()); //яркость
@@ -218,10 +219,6 @@ void rgbShim() {
   //statusS = relayStatus(configJson, stateSRGBS);
   statusS = htmlStatus(configJson, stateSRGBS, langOnS, langOffS);
 }
-
-
-
-
 // ---------------- Управление двигателем жалюзи
 void initJalousie() {
   // Сенсор будет работать по прерыванию

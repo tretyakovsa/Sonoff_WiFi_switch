@@ -8,7 +8,7 @@ void initRelay() {
   String title = readArgsString(); // Пятый аргумент подпись
   String nameR = relayS + num;
   if (title == "") title = nameR;
-  //sendStatus(nameR, state);
+  sendStatus(nameR, state);
   sCmd.readStr("wReg toggle " + nameR + " " + title);
   sendOptions(relayPinS + num, pin);
   sendOptions(relayNotS + num, inv);
@@ -160,40 +160,32 @@ void startPuls() {
   String com = readArgsString(); // on off
   if (com != "") { // если комманда есть
     String pulseCom = readArgsString(); // Команда relay3 или rgb
-    String tacks = jsonRead(pulsList, pulseCom);  //Получим нимер задачи для устройства
-    sendOptions(pulseS+"State"+tacks, false);
+    String tacks = jsonRead(pulsList, pulseCom);  //Получим номер задачи для устройства
+    sendOptions(pulseS + "State" + tacks, false);
     pulseCom = topicToCom(pulseCom);   // Пробел между командой и номером
     pulseCom.replace(" ", " not ");    // Модефицируем командув not
-    sendOptions(pulseComS+tacks, pulseCom); // Сохраним команду
-    String pulseComT = pulseCom;            // Здесь будет комманда off
-    pulseComT.replace(notS, offS);          // Модефицируем командув off
+    sendOptions(pulseComS + tacks, pulseCom); // Сохраним команду
     if (com == onS || com == "1") {         // Если комманда есть
-      int freq = readArgsInt(); // Как долго включен
-      sendOptions(pulseS+tacks+"0", freq);
+      int freq = stringToMilis (readArgsString(), 1); // Как долго включен
+      sendOptions(pulseS + tacks + "0", freq);
       if (freq != 0) {
         String temp = readArgsString(); // Как долго выключен
         int freq1 = temp.toInt();
-        if (temp == "" || temp == "-")freq1 = freq;
-        if (temp == 0)freq1 = 0;
-        sendOptions(pulseS+tacks+"1", freq1);
+        if (temp == "-")freq1 = freq;
+        if (temp == "")freq1 = 0;
+        sendOptions(pulseS + tacks + "1", freq1);
         int period = freq + freq1;
         String pulseTime = readArgsString(); // Время работы
-        if (pulseTime.lastIndexOf("s") > -1) {
-          pulseTime.replace("s", "000");
-        }
-        if (pulseTime.lastIndexOf("i") > -1) {
-          int temp1 = pulseTime.toInt();
-          pulseTime.replace("i", "");
-          pulseTime = "";
-          pulseTime += (period) * temp1;
-        }
-        int pulseTimeInt = pulseTime.toInt();
+        int pulseTimeInt = stringToMilis(pulseTime, period);
         int remainder = pulseTimeInt % (period);
         if (remainder > period / 2) {
-          pulseTimeInt += period-remainder;
+          pulseTimeInt += period - remainder;
         } else  pulseTimeInt -= remainder;
-        sCmd.readStr(pulseComT);
-        sendOptions(pulseTimeS+tacks, pulseTimeInt);
+        if (getStatusInt(pulseCom)) {
+        pulseCom.replace(notS, offS);          // Модефицируем командув off
+        sCmd.readStr(pulseCom);
+        }
+        sendOptions(pulseTimeS + tacks, pulseTimeInt);
         imPuls(tacks.toInt());
       }
     }
@@ -204,21 +196,40 @@ void startPuls() {
     }
   }
 }
-
+int stringToMilis(String times, int period) {
+  int p = times.length();
+  String unit = times.substring(p - 1, p);
+  int timei = times.toInt();
+  if (unit == "s") timei *= 1000;
+  if (unit == "m") timei *= 60000;
+  if (unit == "h") timei *= 3600000;
+  if (unit == "i") timei *= period;
+  return timei;
+}
 void imPuls(int tacks) {
-  String pulseStateN= "pulseState"+(String)tacks;
+  String pulseStateN = "pulseState" + (String)tacks;
   boolean stopF = true;
-  String pulseCom = getOptions(pulseComS+tacks);             // Получить каким устройством управляем
-  String pulseTime = getOptions(pulseTimeS+tacks);           // Получим текстовое значние времени работы
+  String pulseCom = getOptions(pulseComS + tacks);           // Получить каким устройством управляем
+  String pulseTime = getOptions(pulseTimeS + tacks);         // Получим текстовое значние времени работы
   int pulseTimeInt = pulseTime.toInt();                 // Получим int значние времени работы
   uint8_t low = getOptionsInt(pulseStateN);
-  int timeOn = getOptionsInt(pulseS+tacks+low);     // Время включено
-  int timeOff = getOptionsInt(pulseS+tacks+!low);   // Время выключено
+  int timeOn = getOptionsInt(pulseS + tacks + low); // Время включено
+  int timeOff = getOptionsInt(pulseS + tacks + !low); // Время выключено
   if (timeOn > 0) {                                     // Если время включено >0 сразу закончить
+
+    if (!low) {
+      pulseCom.replace(notS, onS);
+      //Serial.println(pulseCom);
+    }
+    else {
+      pulseCom.replace(notS, offS);
+      //Serial.println(pulseCom);
+    }
+
     sCmd.readStr(pulseCom);                             // Выполнить команду
     if (pulseTime != "null" && pulseTimeInt != 0 ) {
-      sendOptions(pulseTimeS+tacks, (String)(pulseTimeInt - timeOn));
-      if (getOptionsInt(pulseTimeS+tacks) <= 0) {
+      sendOptions(pulseTimeS + tacks, (String)(pulseTimeInt - timeOn));
+      if (getOptionsInt(pulseTimeS + tacks) <= 0) {
         flipper[tacks].detach();
         stopF = false;
       }
