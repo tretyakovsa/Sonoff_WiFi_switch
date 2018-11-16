@@ -26,8 +26,9 @@ void initNTP() {
 
       if (timeNow == getOptions("timersT")) {
       sCmd.readStr(getOptions("timersC"));
-        sendOptions("timersT", emptyS);
-        sendOptions("timersC", emptyS);
+      delTimer();
+        sendOptions("timersT", " ");
+        sendOptions("timersC", " ");
         loadTimer();
     }
         sendStatus(timeS, timeNow);

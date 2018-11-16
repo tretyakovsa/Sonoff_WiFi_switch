@@ -48,14 +48,14 @@ void initSSDP() {
       requestSSDP();
     });
 
-    // Каждые 30 секунд проверяем не изиенился ли адрес ip
+    // Каждые 60 секунд проверяем не изиенился ли адрес ip
     ts.add(tIP, 60000, [&](void*) {
       ipChanges();
       //    Serial.println("SSDP");
       //safeDataToFile(1, stateA0S, getStatusInt(stateA0S));
     }, nullptr, true);
-    // задача проверять наличие устройств в сети каждые две минуты.
-    ts.add(tSSDP, 120000, [&](void*) {
+    // задача проверять наличие устройств в сети каждые 60 секунд.
+    ts.add(tSSDP, 60000, [&](void*) {
       requestSSDP();
       //Serial.println(ssdpList);
       //Serial.println("requestSSDP "+GetTime());
