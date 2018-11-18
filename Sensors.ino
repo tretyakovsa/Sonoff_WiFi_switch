@@ -265,11 +265,16 @@ void handleButtons() {
     buttons[num].update();
 
     if (buttons[num].fell()) {
+      //Serial.print("Tach on ");
+      //Serial.println(getStatusInt(stateTachS + numS));
       flag = sendStatus(stateTachS + numS, !getOptionsInt("invTach" + numS));
     }
 
     if (buttons[num].rose()) {
+      //Serial.print("Tach off ");
+      //Serial.println(getStatusInt(stateTachS + numS));
       flag = sendStatus(stateTachS + numS, getOptionsInt("invTach" + numS));
+
     }
 
   }
