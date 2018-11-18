@@ -19,3 +19,5 @@ TACH 0 0 20 0
 # TACH 0 2 20 0
 // {{LangConfMQTT}}
 MQTT
+// {{LangConfAdmin}}
+# ADMIN

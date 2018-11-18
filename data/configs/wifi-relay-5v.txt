@@ -37,3 +37,5 @@ TACH 0 0 20 0
 # IR-TRANSMITTER 14
 // {{LangConfMQTT}}
 MQTT
+// {{LangConfAdmin}}
+# ADMIN

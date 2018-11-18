@@ -18,3 +18,5 @@ POW 2000
 # POW 2000 14 13 5
 // {{LangConfMQTT}}
 MQTT
+// {{LangConfAdmin}}
+# ADMIN
