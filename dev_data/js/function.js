@@ -327,7 +327,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'configs') {
       var htmlopt = '';
       htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
-      htmlopt += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      htmlopt += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');toggle(\\'restart-esp\\');setTimeout(function(){toggle(\\'restart-esp\\');},20000);};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       htmlopt += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
       htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
       htmlopt += '</div>';
@@ -443,10 +443,11 @@ function viewTemplate(jsonPage,jsonResponse) {
       if (searchModule(jsonResponse.module,"upgrade")){
        option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
-      option += '<br><b><a href="#" onclick="toggle(\'repos-bin\');return false">'+jsonResponse.LangOtheSetting+'<\/a><\/b><span id="repos-bin" class="hidden">';
-      option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form><hr>';
-      option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary">Edit<\/a><\/div>';
-      option += '<\/span><\/span><\/div>';
+      option += '<br><br>';
+     option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
+      option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form>';
+
+      option += '<\/span><\/div>';
       element.innerHTML += option;
      }
     }
@@ -834,12 +835,6 @@ function send_request_post(submit,server,state){
 }
 
 function send_request(submit,server,state){
- if (server == '/restart?device=ok') {
-  document.body.innerHTML += '<div id="restart-device" class="pop-up" style="position:fixed;top:40%;left:35%;width:400px;text-align:center;"><div class="loader"></div><h3>Перезагрузка модуля</h3></div>';
-  setTimeout(function() {
-   toggle('restart-device');
-  }, 20000);
- }
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
  ajax.get(server,{},function(responses) {
@@ -1088,14 +1083,14 @@ function changeTextarea(state_val) {
 function cloudUpload(mac,file) {
  changeTextarea(file+'-txt');
  ajax.post("http://backup.privet.lv/configs/?file="+mac+"-"+file,{data:val(file+'-txt-edit')},function(response) {
-  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt','if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');};');
+  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt','if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');toggle(\'restart-esp\');setTimeout(function(){toggle(\'restart-esp\');},20000);};');
  },true);
 }
 
 
 function cloudDownload(mac,file) {
  ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.random(),{},function(response) {
-  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');};');
+  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');toggle(\'restart-esp\');setTimeout(function(){toggle(\'restart-esp\');},20000);};');
  },true);
 }
 

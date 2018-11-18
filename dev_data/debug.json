@@ -156,7 +156,7 @@
   {
    "type":"link",
    "title":"{{LangReset1}}",
-   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');setTimeout(function(){toggle('restart-esp');},20000);}",
    "class":"btn btn-block btn-warning"
   }
  ]

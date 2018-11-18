@@ -15,21 +15,21 @@
    "title":"{{LangDevices}}",
    "action":"/",
    "class":"btn btn-danger",
-   "style":"width:60%;"
+   "style":"width:70%;"
   },
   {
    "type":"link",
    "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?timer",
    "title":"<i class=\"clock-img\"></i>",
-   "style":"width:20%;"
+   "style":"width:10%;"
   },
   {
    "type":"link",
    "title":"{{LangScenary}}",
    "action":"/page.htm?scenary",
    "class":"btn btn-info",
-   "style":"width:30%;"
+   "style":"width:20%;"
   },
   {
    "type":"link",
@@ -86,7 +86,38 @@
   },
 
   {
+   "type":"link",
+   "module":"admin",
+   "title":"File manager",
+   "action":"/edit",
+   "class":"btn btn-sm btn-primary",
+   "style":"width:30%;"
+  },
+  {
+   "type":"link",
+   "module":"admin",
+   "title":"Debug",
+   "action":"/page.htm?debug",
+   "class":"btn btn-sm btn-primary",
+   "style":"width:30%;"
+  },
+  {
+   "type":"link",
+   "module":"admin",
+   "title":"{{LangReset1}}",
+   "style":"width:40%;",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');setTimeout(function(){toggle('restart-esp');},20000);}",
+   "class":"btn btn-sm btn-warning"
+  },
+  {
    "type":"hr"
+  },
+  {
+   "type":"text",
+   "name":"restart-esp",
+   "title":"<div class=\"loader\"></div><h3>{{LangReset1}}</h3>",
+   "style":"position:fixed;top:30%;left:35%;width:400px;text-align:center;",
+   "class":"pop-up hidden"
   }
  ]
 }
