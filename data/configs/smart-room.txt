@@ -42,3 +42,5 @@ IR-RECEIVED 0
 IR-TRANSMITTER 14
 // {{LangConfMQTT}}
 MQTT
+// {{LangConfAdmin}}
+# ADMIN

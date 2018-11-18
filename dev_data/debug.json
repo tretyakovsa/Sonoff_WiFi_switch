@@ -27,6 +27,21 @@
   {
    "type":"hr"
   },
+
+  {
+   "type":"input",
+   "name":"config-button",
+   "state":"{{configs}}",
+   "style":"display:none"
+  },
+  {
+   "type":"link",
+   "title":"{{LangOptions1}} {{configs}} PIN",
+   "module":"admin",
+   "action":"/page.htm?configs&[[config-button]]",
+   "class":"btn btn-block btn-primary"
+  },
+
   {
    "type":"text",
    "title":"<b>Upgrade (beta):</b> ",

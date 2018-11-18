@@ -48,3 +48,5 @@ JALOUSIE 4 12 13
 # IR-TRANSMITTER 14
 // {{LangConfMQTT}}
 # MQTT
+// {{LangConfAdmin}}
+# ADMIN

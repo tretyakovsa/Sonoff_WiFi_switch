@@ -48,3 +48,5 @@ SRGB 2 4 5 0 ffffff 100 255 {{LangrgbName}}
 # IR-TRANSMITTER 14
 // {{LangConfMQTT}}
 # MQTT
+// {{LangConfAdmin}}
+# ADMIN

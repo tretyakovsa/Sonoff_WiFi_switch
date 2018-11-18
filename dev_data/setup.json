@@ -5,9 +5,9 @@
   "/modules.json"
  ],
  "title": [{
-   "type":"text",
-   "title":"{{LangSetting3}}"
-  }],
+  "type":"text",
+  "title":"{{LangSetting3}}"
+ }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
   {
@@ -29,6 +29,20 @@
   {
    "type":"h2",
    "title":"{{LangType}} {{configs}}"
+  },
+
+  {
+   "type":"input",
+   "name":"config-button",
+   "state":"{{configs}}",
+   "style":"display:none"
+  },
+  {
+   "type":"link",
+   "title":"{{LangOptions1}} {{configs}} PIN",
+   "module":"admin",
+   "action":"/page.htm?configs&[[config-button]]",
+   "class":"btn btn-block btn-primary"
   },
 
   {
