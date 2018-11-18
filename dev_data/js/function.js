@@ -690,7 +690,7 @@ function loadLive(ip,file,where) {
 
    if ((file == 'config.live.json' && key == 'time') || (file == 'config.live.json' && key == 'weekday')) {
    } else {
-       option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+    option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
 
    }
 
@@ -834,6 +834,12 @@ function send_request_post(submit,server,state){
 }
 
 function send_request(submit,server,state){
+ if (server == '/restart?device=ok') {
+  document.body.innerHTML += '<div id="restart-device" class="pop-up" style="position:fixed;top:40%;left:35%;width:400px;text-align:center;"><div class="loader"></div><h3>Перезагрузка модуля</h3></div>';
+  setTimeout(function() {
+   toggle('restart-device');
+  }, 20000);
+ }
  var old_submit = submit.value;
  submit.value = jsonResponse.LangLoading;
  ajax.get(server,{},function(responses) {

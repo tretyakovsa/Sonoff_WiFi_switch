@@ -15,7 +15,14 @@
    "title":"{{LangDevices}}",
    "action":"/",
    "class":"btn btn-danger",
-   "style":"width:70%;"
+   "style":"width:60%;"
+  },
+  {
+   "type":"link",
+   "class":"btn btn-default dropdown-toggle",
+   "action":"/page.htm?timer",
+   "title":"<i class=\"clock-img\"></i>",
+   "style":"width:20%;"
   },
   {
    "type":"link",
