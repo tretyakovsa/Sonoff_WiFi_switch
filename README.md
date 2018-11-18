@@ -66,7 +66,7 @@ Or here:
 ## Мобильное приложение
 
 Репозиторий: [https://github.com/tutaf/iot-room-finder](https://github.com/tutaf/iot-room-finder)
-Скачать можно в Google Play: [https://play.google.com/store/apps/details?id=com.tutaf.iotroomfinder](https://play.google.com/store/apps/details?id=com.tutaf.iotroomfinder)
+Скачать можно в [Google Play](https://play.google.com/store/apps/details?id=com.tutaf.iotroomfinder)
 Запуская приложение, в локальную сеть оно отправляет UPnP пакет. Та ESP которая первая ответит откроется в вашем браузере. Таким образом вам не нужно запоминать IP адреса устройств.
 Большое спасибо Андрею.
 

@@ -83,7 +83,7 @@
    "name":"time",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgbs on [[time]]",
+   "action":"pulse on rgbs [[time]]s",
    "title":{
     "60":"1",
     "300":"5",

@@ -327,9 +327,9 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'configs') {
       var htmlopt = '';
       htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
-      htmlopt += '<div class="btn-group btn-block"><input  style="width:85%" onclick="changeTextarea(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\''+state_val.replace(/[^a-z0-9]/gi,'-')+'-edit\'),\'configs/'+state_val+'\');alert(\''+jsonResponse.LangReset2+'\')" class="btn btn-block btn-success" value="'+jsonResponse.LangSave+'" type="button">';
+      htmlopt += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       htmlopt += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
-      htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');alert(\''+jsonResponse.LangReset2+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');alert(\''+jsonResponse.LangReset2+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
+      htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
       htmlopt += '</div>';
       element.innerHTML += htmlopt;
       setTimeout("loadConfigs('"+state_val+"',jsonResponse)", 500);
@@ -687,7 +687,13 @@ function loadLive(ip,file,where) {
   var option = '';
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
-   option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+
+   if ((file == 'config.live.json' && key == 'time') || (file == 'config.live.json' && key == 'weekday')) {
+   } else {
+       option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
+
+   }
+
   }
   html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
  },true);
@@ -1076,14 +1082,14 @@ function changeTextarea(state_val) {
 function cloudUpload(mac,file) {
  changeTextarea(file+'-txt');
  ajax.post("http://backup.privet.lv/configs/?file="+mac+"-"+file,{data:val(file+'-txt-edit')},function(response) {
-  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt');
+  send_request_edit(this, val(file+'-txt-edit'),'configs/'+file+'.txt','if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');};');
  },true);
 }
 
 
 function cloudDownload(mac,file) {
  ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.random(),{},function(response) {
-  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");');
+  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');};');
  },true);
 }
 

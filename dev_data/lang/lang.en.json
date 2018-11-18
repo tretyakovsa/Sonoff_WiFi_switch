@@ -65,7 +65,7 @@
  "LangType":"Type device",
  "LangPay":"Contact us for pay",
  "LangSSDPAlert":"Please change the device name to something else. It must be unique!",
- "LangConfMQTT2":"Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">download</a> from my server). Work on any MQTT Broker, example: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>",
+ "LangConfMQTT2":"Work on <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">download</a> from my server). Work on any MQTT Broker, example: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>. Help <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/MQTT-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5\" target=\"_blank\">here</a>.",
 
  "_comment":"---page.htm?timer---",
  "LangTime3":"Set time",
@@ -193,7 +193,7 @@
  "_comment":"---page.htm?configs---",
  "LangConfNTP":"Turn on the time from the network - (It is updated once a day and at start ESP)",
  "LangConfDDNS":"Access by DDNS",
- "LangConfMQTT":"To IoT Manager",
+ "LangConfMQTT":"Recommended used from IoT Manager",
  "LangConfTIMERS":"If need timers",
  "LangConfDHT":"Temperature and humidity sensors DHT11, DHT22, AM2302, RHT03, Si7021",
  "LangConfDS18B20":"While only on GPIO14, you can not change it",

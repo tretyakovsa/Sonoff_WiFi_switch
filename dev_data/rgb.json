@@ -117,7 +117,7 @@
    "name":"time",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb on [[time]]",
+   "action":"pulse on rgb [[time]]s",
    "title":{
     "60":"1",
     "300":"5",
