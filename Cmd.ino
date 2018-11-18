@@ -38,6 +38,7 @@ void initCMD() {
   sCmd.addCommand("#",       alarmOff);
   //sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.addCommand("GET",       initGet);
+  sCmd.addCommand("ADMIN",       initAdmin);
   commandsReg("GET");
   sCmd.setDefaultHandler(unrecognized);
 }
@@ -48,6 +49,9 @@ void unrecognized(const char *command) {
 
 void alarmComm() {
 //Serial.println("Comment?");
+}
+void initAdmin() {
+modulesReg("admin");
 }
 
 void alarmOff() {
