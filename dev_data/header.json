@@ -88,10 +88,18 @@
   {
    "type":"link",
    "module":"admin",
+   "title":"Ctrl+M",
+   "style":"width:20%;",
+   "action":"javascript:toggle('edit-content');toggle('url-content');",
+   "class":"btn btn-sm btn-primary"
+  },
+  {
+   "type":"link",
+   "module":"admin",
    "title":"File manager",
    "action":"/edit",
    "class":"btn btn-sm btn-primary",
-   "style":"width:30%;"
+   "style":"width:20%;"
   },
   {
    "type":"link",
@@ -99,7 +107,7 @@
    "title":"Debug",
    "action":"/page.htm?debug",
    "class":"btn btn-sm btn-primary",
-   "style":"width:30%;"
+   "style":"width:20%;"
   },
   {
    "type":"link",
