@@ -114,7 +114,7 @@
    "module":"admin",
    "title":"{{LangReset1}}",
    "style":"width:40%;",
-   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');setTimeout(function(){toggle('restart-esp');},20000);}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');timeout('toggle(\\'restart-esp\\')',20000);}",
    "class":"btn btn-sm btn-warning"
   },
   {

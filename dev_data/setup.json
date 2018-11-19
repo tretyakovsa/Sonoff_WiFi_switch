@@ -101,7 +101,7 @@
   },
   {
    "type":"password",
-   "title":"{{LangDevice}}",
+   "title":"{{LangPass}}",
    "name":"ssidPass",
    "state":"{{ssidPass}}",
    "pattern":".{8,}"
@@ -159,7 +159,7 @@
   },
   {
    "type":"input",
-   "title":"DNS Server (Optional)",
+   "title":"DNS Server ({{LangOptional}})",
    "name":"dns",
    "state":"{{dns}}",
    "style":"width:50%;display:inline",
@@ -395,7 +395,7 @@
   {
    "type":"link",
    "title":"{{LangReset1}}",
-   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');setTimeout(function(){toggle('restart-esp');},20000);}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');timeout('toggle(\\'restart-esp\\')',20000);}",
    "class":"btn btn-block btn-warning"
   }
  ]

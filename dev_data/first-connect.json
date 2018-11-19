@@ -132,7 +132,7 @@
   },
   {
    "type":"password",
-   "title":"{{LangDevice}}",
+   "title":"{{LangPass}}",
    "name":"ssidPass",
    "state":"{{ssidPass}}",
    "pattern":".{8,}"

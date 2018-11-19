@@ -444,7 +444,7 @@ function viewTemplate(jsonPage,jsonResponse) {
        option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
       option += '<br><br>';
-     option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
+      option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff / Wi-Fi Smart socket<\/option><option value="sonoff-pow">Sonoff-Pow<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
       option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form>';
 
       option += '<\/span><\/div>';
@@ -568,7 +568,7 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
    for (var i = 0 ; i < block.length; i++) {
     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
    }
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.1;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.1;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
  },true);
 }
@@ -1026,7 +1026,7 @@ function loadConfigs(file_module,jsonResponse) {
     for (var i = 1; i < configsLine2.length; i++) {
      configsLine3 = configsLine3+' '+configsLine2[i];
     }
-    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly><small>// '+configsLine3+'</small><\/label></br>';
+    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly>// '+configsLine3.replace(/</gi,"<span class=\"label label-default\">").replace(/>/gi,"</span>")+'<\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
     element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
@@ -1333,4 +1333,8 @@ function httpDelete(file){
  formData.append("path", file);
  xmlHttp.open("DELETE", "/edit");
  xmlHttp.send(formData);
+}
+
+function timeout(command,times){
+ setTimeout(command,times)
 }

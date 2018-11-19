@@ -34,13 +34,6 @@
    "state":"{{configs}}",
    "style":"display:none"
   },
-  {
-   "type":"link",
-   "title":"{{LangOptions1}} {{configs}} PIN",
-   "module":"admin",
-   "action":"/page.htm?configs&[[config-button]]",
-   "class":"btn btn-block btn-primary"
-  },
 
   {
    "type":"text",
@@ -156,7 +149,7 @@
   {
    "type":"link",
    "title":"{{LangReset1}}",
-   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');setTimeout(function(){toggle('restart-esp');},20000);}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');timeout('toggle(\\'restart-esp\\')',20000);}",
    "class":"btn btn-block btn-warning"
   }
  ]
