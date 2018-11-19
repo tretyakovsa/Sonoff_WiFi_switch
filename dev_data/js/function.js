@@ -1026,10 +1026,10 @@ function loadConfigs(file_module,jsonResponse) {
     for (var i = 1; i < configsLine2.length; i++) {
      configsLine3 = configsLine3+' '+configsLine2[i];
     }
-    element.innerHTML += '<label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly>// '+configsLine3.replace(/</gi,"<span class=\"label label-default\">").replace(/>/gi,"</span>")+'<\/label></br>';
+    element.innerHTML += '<hr style="margin:10px;"><label title="'+configsLine[key]+'"><input checked="" type="checkbox" style="display:none" disabled readonly>// '+configsLine3.replace(/</gi,"<span class=\"label label-default\">").replace(/>/gi,"</span>").replace(/\/n/gi,"<br>")+'<\/label></br>';
    } else {
     configsLinePin = configsLine[key].replace(/# /,'').split(' ');
-    element.innerHTML += '<label style="margin-bottom:25px;"><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
+    element.innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
     for (var i = 1; i < configsLinePin.length; i++) {
      if (configsLinePin[0]=='RELAY') {
       element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._а-яА-Я]{1,25}" value="'+configsLinePin[i]+'"> ':'');

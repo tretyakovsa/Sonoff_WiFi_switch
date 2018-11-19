@@ -106,7 +106,6 @@ From: Latvia, Valmiera
        loadBlock2('leakag','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       if(/temperature/.test(modules)) {
-       var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,'temperature'+i)){
          loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));

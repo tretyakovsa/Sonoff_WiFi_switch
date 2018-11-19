@@ -104,15 +104,15 @@ From: Latvia, Valmiera
       for(var key in spaceArray) {
        if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
       }
-      var moduleArray = [];
-      var lookup  = {};
-      for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
-      for (i in lookup) {moduleArray.push(lookup[i]);}
-      if (ipModule.length == 1) {toggle('sorting-module','show');}
-      html('sorting-module','<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>');
-      for(var key in moduleArray) {
-       if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
-      }
+   //   var moduleArray = [];
+   //   var lookup  = {};
+   //   for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
+   //   for (i in lookup) {moduleArray.push(lookup[i]);}
+   //   if (ipModule.length == 1) {toggle('sorting-module','show');}
+   //   html('sorting-module','<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>');
+   //   for(var key in moduleArray) {
+   //    if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
+   //   }
      }
     },true);
    }
@@ -144,8 +144,10 @@ From: Latvia, Valmiera
       if (searchModule(modules,"leakag")){
        loadBlock2('leakag','timer.save',ip, content, stage, jsonIndexResponse);
       }
+      if (searchModule(modules,"temperature")){
+       loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ip, content, stage, jsonIndexResponse);
+      }
       if(/temperature/.test(modules)) {
-       var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,'temperature'+i)){
          loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));
