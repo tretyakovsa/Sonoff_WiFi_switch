@@ -144,13 +144,13 @@ From: Latvia, Valmiera
        // if (searchModule(modules,"temperature")){
        //  loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature");
        // }
-       if(/temperature/.test(modules)) {
+      // if(/temperature/.test(modules)) {
         for (var i = 0; i < 10; i++) {
-         if (searchModule(modules,'temperature'+(i==0?'':i))){
+         if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
           loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
          }
         }
-       }
+      // }
        if (searchModule(modules,"humidity")){
         loadSensor(ip,'table-sensors',jsonIndexResponse,"humidity");
        }
@@ -217,7 +217,7 @@ From: Latvia, Valmiera
    function loadSensor(ip, content, jsonIndexResponse, module) {
     ajax.get('http://'+ip+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById("timers-"+ip).innerHTML+='<a class="label label-default" href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
+     document.getElementById("timers-"+ip).innerHTML+='<a class="label label-default" href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
     },true);
    }
 

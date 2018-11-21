@@ -144,16 +144,16 @@ From: Latvia, Valmiera
       if (searchModule(modules,"leakag")){
        loadBlock2('leakag','timer.save',ip, content, stage, jsonIndexResponse);
       }
-      if (searchModule(modules,"temperature")){
-       loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ip, content, stage, jsonIndexResponse);
-      }
-      if(/temperature/.test(modules)) {
+      //if (searchModule(modules,"temperature")){
+      // loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ip, content, stage, jsonIndexResponse);
+      //}
+     // if(/temperature/.test(modules)) {
        for (var i = 0; i < 10; i++) {
-        if (searchModule(modules,'temperature'+i)){
+        if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
          loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));
         }
        }
-      }
+    //  }
       //if (searchModule(modules,"temperature")){
       // loadBlock2('temperature','temperature',ip, content, stage, jsonIndexResponse);
       //}

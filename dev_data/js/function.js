@@ -233,6 +233,16 @@ function searchModule(modules,find) {
  return findModules;
 }
 
+function searchModuleOld(modules,find) {
+ var findModules = '';
+ for(var key in modules) {
+  if (modules[key] == find) {
+   findModules = 1;
+  }
+ }
+ return findModules;
+}
+
 function viewTemplate(jsonPage,jsonResponse) {
  var i = 0;
  for(var key in jsonPage) {
