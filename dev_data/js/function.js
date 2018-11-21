@@ -672,13 +672,16 @@ function loadScenary(jsonResponse,loadList) {
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
  var file = 'command-help.json';
- if (jsonParam == 'voice') { file = 'macros.json'}
+ if (jsonParam == 'voice') {
+  file = 'macros.json';
+  document.getElementById(to).disabled = true;
+ }
  ajax.get('/'+file+'?'+Math.random(),{},function(response) {
   var ip=JSON.parse(response);
   html(where, ' ');
   var option = '';
   for (var i in ip[jsonParam]) {
-   option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</i></sup>';
+   option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command.replace(/_/g,' ')+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</i></sup>';
   }
   html(where, ip.title+'<ul>'+option+'</ul>'+ip.titleEnd);
  },true);
@@ -745,7 +748,7 @@ function loadInTextarea() {
  while (z < val_or) {
   z++;
   // var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
-  element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value;
+  element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value.replace(/ /g,'_');
  }
  var i = 1;
  while (i < val_then) {
