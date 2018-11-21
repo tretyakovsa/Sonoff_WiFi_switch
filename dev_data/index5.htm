@@ -119,7 +119,7 @@ From: Latvia, Valmiera
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       if(/relay/.test(modules)) {
-       for (var i = 0; i < 10; i++) {
+       for (var i = 0; i < 5; i++) {
         if (!searchModule(modules,"relay"+i)){
          jsonIndexResponse["relay"+i] = 'hidden';
         }
@@ -143,7 +143,6 @@ From: Latvia, Valmiera
       // }
 
       if(/temperature/.test(modules)) {
-       var relayNumber = '';
        for (var i = 0; i < 10; i++) {
         if (searchModule(modules,"temperature"+i)){
          loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,i);
@@ -222,7 +221,7 @@ From: Latvia, Valmiera
       }
       jsonIndexResponse.ip = ip;
       //jsonIndexResponse.relay = (jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 5; i++) {
        jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }
       jsonIndexResponse.rgb = (jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);

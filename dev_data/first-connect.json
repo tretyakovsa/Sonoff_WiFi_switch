@@ -91,7 +91,6 @@
   {
    "type":"button",
    "title":"{{LangSave}}",
-   "module":"",
    "action":"device?ssdp=[[ssdp]]&space=[[space]]",
    "class":"btn btn-block btn-success"
   },
@@ -106,7 +105,8 @@
    "type":"text",
    "name":"ip-adress",
    "title":"<div class=\"loader\"></div><h3>{{LangConnect1}}</h3>",
-   "class":"col-sm-offset-2 col-sm-8 pop-up hidden"
+   "style":"position:fixed;top:30%;left:50%;width:400px;margin-left:-200px;text-align:center;",
+   "class":"pop-up hidden"
   },
 
 
@@ -139,8 +139,6 @@
   },
   {
    "type":"button",
-   "module":"",
-   "name":"savsff",
    "title":"{{LangSave}}",
    "class":"btn btn-block btn-success",
    "action":"ssid?ssid=[[ssid]]&ssidPass=[[ssidPass]]&checkboxIP=0"

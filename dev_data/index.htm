@@ -125,7 +125,7 @@ From: Latvia, Valmiera
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       if(searchModule(modules,"relay")) {
-       for (var i = 0; i < 10; i++) {
+       for (var i = 0; i < 5; i++) {
         if (!searchModule(modules,"relay"+i)){
          jsonIndexResponse["hiddenRelay"+i] = 'hidden';
         }
@@ -222,7 +222,7 @@ From: Latvia, Valmiera
       }
       jsonIndexResponse.ip = ip;
       //jsonIndexResponse.relay = (jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 5; i++) {
        jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }
       jsonIndexResponse.rgb = (jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);

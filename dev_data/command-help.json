@@ -1,6 +1,6 @@
 {
  "title":"<b>Напишите ниже действие, например:</b>",
- "titleEnd":"Вы можете попробовать как будет работать комманда нажав на <i class=\"eye-img\"></i><br>Примечание: Управлять можно так же <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/GET-управление\">GET запросами</a>.",
+ "titleEnd":"Вы можете попробовать как будет работать комманда нажав на <i class=\"eye-img\"></i>",
  "relay":[
   {
    "command":"on 1",

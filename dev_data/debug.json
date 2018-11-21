@@ -37,7 +37,7 @@
 
   {
    "type":"text",
-   "title":"<b>Upgrade (beta):</b> ",
+   "title":"<b>{{LangUpgradeBeta}}</b><br><br>",
    "style":"width:50%;display:inline"
   },
   {

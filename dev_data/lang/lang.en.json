@@ -39,6 +39,7 @@
  "LangCommits":"Commits",
  "LangNewIssues":"Create new Issues",
  "LangAuthorization":"Authorization",
+ "LangUpgradeBeta":"By clicking here you can update and try new bata (test) versions of our firmware",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",
@@ -86,6 +87,7 @@
  "LangAll":"Always",
  "LangSwitch":"Switch",
  "LangRun1":"Run 1 (not reload)",
+ "LangRun":"Run the command",
 
  "_comment":"---page.htm?relay---",
  "LangIfttt1":"With service <a target=\"_blank\" href=\"https://ifttt.com/myrecipes/personal\"> ifttt.com </a> device can be switched in many scenarios, such as: new message on facebook, twitter, <a onclick=\"toggle('ifttt-help');return false\" href=\"#\">more...</a><span id=\"ifttt-help\" class=\"hidden\"> setting in Google calendar, mail, etc. More information how to do this, you can see in the video <a target=\"_blank\" href=\"https://youtu.be/3PVQYLQ-XDQ\">here</a>.<br>Local link: <span id=\"ddns-url1\"></span><br>Global link: <span id=\"ddns-url2\"></span></span>",
@@ -204,7 +206,7 @@
  "LangConfA0":"Analog input",
  "LangConfBUZZER":"Turn on buzzer",
  "LangConfTach":"Button /n <PIN> <Button number> <Time in ms.>",
- "LangConfRelay":"Relay /n <PIN> <Relay Number> <Relay Status at Startup> <Ignoring>",
+ "LangConfRelay":"Relay /n <PIN> <Relay Number> <Relay Status at Startup> <Ignoring> <Relay button name>",
  "LangConfJalousie":"Jalousie /n <PIN speed counter> <Second and Third PIN - motor control>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LEDs. /n  WS2811 - Red/Yellow problem /n <PIN> <Number of ice> <Condition after Startup> <Color> <Speed> <Brightness> <Dynamic mode>",
  "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <Condition after Startup> <Color> <Brightness>",
@@ -216,5 +218,5 @@
  "LangConfFurnace":"Furnace /n <PIN> <PIN>",
  "LangConfPOW":"Реле с счетчиком энергии /n <Через каждых 2сек. снимаем показания> <PIN - измерения мощьности> <PIN - измерение тока напряжение> <PIN - переключение измерения тока или напраяжения>",
  "LangConfSerial":"Enable UART port",
- "LangConfAdmin":"Показывает допонительные кнопки для удобства разработки"
+ "LangConfAdmin":"Shows extra buttons for easy development"
 }

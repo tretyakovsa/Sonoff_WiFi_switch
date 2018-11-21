@@ -36,27 +36,16 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 - TIMERS
 - DHT11, DHT22, AM2302, RHT03, DS18B20
 - A0
-- TACH 7 max
+- TACH 8 max (button, movement, gercon, othe)
 - RELAY 4 max
 - JALOUSIE
 - WS2811/WS2812/NeoPixel LEDs
 - RGB 5050/3528/2835
-- MOVEMENT
 - RF-RECEIVED
 - RF-TRANSMITTER
+- RF-LIVOLO
 - IR-RECEIVED
 - IR-TRANSMITTER
-
-## [Construction PIN and Modules](https://github.com/tretyakovsa/Sonoff_WiFi_switch/blob/master/data/configs)
-
-You can change here:
-```
-/data/configs/*.txt
-```
-
-Or here:
-
-![alt](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/pins-edit.gif)
 
 ### Schematic
 

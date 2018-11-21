@@ -147,11 +147,9 @@
    "module":"timers",
    "state":"timer.save.json",
    "title":{
-    "module":"",
-    "trigger":"{{LangOnM}}/{{LangOffM}}",
-    "day":"{{LangDay}}",
-    "time":"{{LangTime4}}",
-    "work":"{{LangWorkTime}}"
+    "day":" {{LangDay}} ",
+    "time1":" {{LangTime4}} ",
+    "com1":""
    },
    "class":"table alert alert-dismissible alert-warning",
    "style":"width:100%;"

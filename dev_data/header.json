@@ -124,8 +124,14 @@
    "type":"text",
    "name":"restart-esp",
    "title":"<div class=\"loader\"></div><h3>{{LangReset1}}</h3>",
-   "style":"position:fixed;top:30%;left:35%;width:400px;text-align:center;",
+   "style":"position:fixed;top:30%;left:50%;width:400px;margin-left:-200px;text-align:center;",
    "class":"pop-up hidden"
+  },
+  {
+   "type":"link",
+   "class":"btn btn-default top",
+   "action":"#",
+   "title":"TOP"
   }
  ]
 }

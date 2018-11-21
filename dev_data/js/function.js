@@ -403,8 +403,8 @@ function viewTemplate(jsonPage,jsonResponse) {
       var option = '';
       option += '<select class="form-control" id="ssdp-list2" style="display:none"><option value="'+location.host+'">-</option></select>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
-      option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list2\').options[document.getElementById(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then2\').options[document.getElementById(\'scenary-then2\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
+      option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
+      option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list2\').options[document.getElementById(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then2\').options[document.getElementById(\'scenary-then2\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
       element.innerHTML += '<h4 style="float:left;">Module:</h4> '+option;
       setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
      }
@@ -510,7 +510,7 @@ function loadJson(file, setDelay, jsonResponse) {
 }
 
 function pattern(str,id) {
- document.getElementById(id).setAttribute("pattern","["+(str=='number'?'0-9':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
+ document.getElementById(id).setAttribute("pattern","["+(str=='number'?'0-9-':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
 
 function loadTime(jsonResponse) {
@@ -545,7 +545,7 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
    if (timeDevice['timer'][i]['run1'] == 1) {
     day_view_add += '<span class="label label-warning">'+jsonResponse.LangRun1+'</span>';
    }
-   options += '<tr><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
   document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
@@ -568,7 +568,7 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
    for (var i = 0 ; i < block.length; i++) {
     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
    }
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.1;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><sup style="float:right;opacity:0.1;">ID: $2</sup><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
  },true);
 }
@@ -583,8 +583,8 @@ function loadNewThen(where,titles) {
   option += '<h3>'+jsonResponse.LangThen+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
  }
  option += '<select class="form-control" id="ssdp-list'+number+'" onchange="loadCommand(this.value,\'command.json\',\'scenary-then'+number+'\');toggle(\'scenary-then'+number+'\',\'hidden\');"><\/select>';
- option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help.json\',\'command-help'+number+'\',\'scenary-othe'+number+'\');toggle(\'if-then'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
- option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list'+number+'\').options[document.getElementById(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then'+number+'\').options[document.getElementById(\'scenary-then'+number+'\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe'+number+'\').value.replace(/&/g,\'%26\'),\'\');return false"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';
+ option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help'+number+'\',\'scenary-othe'+number+'\');toggle(\'if-then'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
+ option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list'+number+'\').options[document.getElementById(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then'+number+'\').options[document.getElementById(\'scenary-then'+number+'\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe'+number+'\').value.replace(/&/g,\'%26\'),\'\');return false"  title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var options = '';
@@ -669,8 +669,10 @@ function loadScenary(jsonResponse,loadList) {
  },true);
 }
 
-function loadCommandHelp(jsonParam,file,where,to) {
+function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
+ var file = 'command-help.json';
+ if (jsonParam == 'voice') { file = 'macros.json'}
  ajax.get('/'+file+'?'+Math.random(),{},function(response) {
   var ip=JSON.parse(response);
   html(where, ' ');
@@ -732,12 +734,12 @@ function loadInTextarea() {
  var val_or = document.getElementById("hidden-val-or").value;
  var val_then = document.getElementById("hidden-val-then").value;
  var element = document.getElementById("scenary-list-edit");
- element.innerHTML += '\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value;
+ element.innerHTML += '\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value.replace(/ /g,'_');
  var y = 1;
  while (y < val_and) {
   y++;
   //var scenary_list = document.getElementById("ssdp-list-and"+y).options[document.getElementById("ssdp-list-and"+y).selectedIndex].text;
-  element.innerHTML += '\r\nand '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value;
+  element.innerHTML += '\r\nand '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value.replace(/ /g,'_');
  }
  var z = 1;
  while (z < val_or) {
