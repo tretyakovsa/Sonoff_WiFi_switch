@@ -672,19 +672,29 @@ function loadScenary(jsonResponse,loadList) {
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
  var file = 'command-help.json';
- //document.getElementById(to).readOnly = false;
- //if (jsonParam == 'voice') {
- // file = 'macros.json';
- // document.getElementById(to).readOnly = true;
- //}
+ document.getElementById(to).readOnly = false;
+ if (jsonParam == 'voice') {
+  file = 'scenary.save.txt';
+  document.getElementById(to).readOnly = true;
+ }
  ajax.get('/'+file+'?'+Math.random(),{},function(response) {
-  var ip=JSON.parse(response);
   html(where, ' ');
   var option = '';
-  for (var i in ip[jsonParam]) {
-   option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command.replace(/_/g,' ')+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</i></sup>';
+  if (jsonParam == 'voice') {
+   var ip=response.split("if voice = ");
+   for (var i in ip) {
+    var command = ip[i].substr(0,ip[i].indexOf("\n"));
+    if (command) {
+     option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
+    }
+   }
+  } else {
+   var ip=JSON.parse(response);
+   for (var i in ip[jsonParam]) {
+    option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</sup>';
+   }
   }
-  html(where, ip.title+'<ul>'+option+'</ul>'+ip.titleEnd);
+  html(where, (ip.title?ip.title:'')+'<ul>'+option+'</ul>'+(ip.titleEnd?ip.titleEnd:''));
  },true);
 }
 
