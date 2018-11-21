@@ -248,3 +248,34 @@ void imPuls(int tacks) {
 }
 
 #endif
+#ifdef pinOut
+// ------------------- Инициализация pinOut
+void initPinOut() {
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
+  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+  boolean state = readArgsInt(); // третий  аргумент состояние на старте
+  boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
+  String title = readArgsString(); // Пятый аргумент подпись
+  String nameP = pinOutS + num;
+  if (title == "") title = nameR;
+  sendStatus(nameP, state);
+  sCmd.readStr("wReg toggle " + nameP + " " + title);
+  sendOptions(pinOutPinS + num, pin);
+  sendOptions(pinOutNotS + num, inv);
+  // 19 pin это реле через UART
+  if (pin > 19 ) {
+    Serial.begin(9600);
+    delay(100);
+    relayWrite(pin, state ^ inv);
+  }
+  else {
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, state ^ inv);
+  }
+  sCmd.addCommand(pinOutS.c_str(), relay); //
+  commandsReg(pinOutS);
+  actionsReg(nameP);
+  modulesReg(nameP);
+}
+#endif

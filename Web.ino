@@ -5,7 +5,7 @@ void initHTTP() {
   HTTP.serveStatic("/js/", SPIFFS, "/js/", "max-age=31536000"); // кеширование на 1 год
   HTTP.serveStatic("/img/", SPIFFS, "/img/", "max-age=31536000"); // кеширование на 1 год
   //HTTP.serveStatic("/lang/", SPIFFS, "/lang/", "max-age=31536000"); // кеширование на 1 год
-  sendStatus("voice", "go");
+
   // --------------------Выдаем данные configOptions
   HTTP.on("/config.options.json", HTTP_GET, []() {
     FSInfo fs_info;
@@ -190,12 +190,18 @@ void initHTTP() {
   HTTP.on("/voice", HTTP_GET, []() {
     String com = HTTP.arg("command");
     com.replace(" ", "_");
-    sendOptions("voice", com);
-    flag = sendStatus("voice", com);
+    sendOptions(voiceS, com);
+    flag = sendStatus(voiceS, com);
     httpOkText(statusS);
   });
-
+  sCmd.addCommand(voiceS.c_str(), macros); //
+  sendStatus(voiceS, "");
+  commandsReg(voiceS);
 }
+
+void macros(){
+  flag = sendStatus(voiceS, readArgsString());
+  }
 
 
 void httpOkText() {

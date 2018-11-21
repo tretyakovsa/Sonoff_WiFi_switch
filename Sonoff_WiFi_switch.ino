@@ -1,5 +1,6 @@
 //#define Si7021
 //#define POW
+//#define pinOut
 #define CRIB
 #define safeData
 #include "sets.h"             //Содержится в пакете
