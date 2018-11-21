@@ -131,7 +131,7 @@ From: Latvia, Valmiera
       }
       if(/relay/.test(modules)) {
        var relayNumber = '';
-       for (var i = 0; i < 5; i++) {
+       for (var i = 0; i < 6; i++) {
         if (searchModule(modules,"relay"+i)){
          relayNumber += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["relay"+i]?'info':'primary')+'" type="button">';
         }

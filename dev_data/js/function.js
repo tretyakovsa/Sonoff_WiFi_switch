@@ -672,10 +672,11 @@ function loadScenary(jsonResponse,loadList) {
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
  var file = 'command-help.json';
- if (jsonParam == 'voice') {
-  file = 'macros.json';
-  document.getElementById(to).disabled = true;
- }
+ //document.getElementById(to).readOnly = false;
+ //if (jsonParam == 'voice') {
+ // file = 'macros.json';
+ // document.getElementById(to).readOnly = true;
+ //}
  ajax.get('/'+file+'?'+Math.random(),{},function(response) {
   var ip=JSON.parse(response);
   html(where, ' ');

@@ -107,7 +107,7 @@ From: Latvia, Valmiera
        if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
        // document.getElementById("button-"+ip+"-relay").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'relay\',this);" value="'+(jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.relay?'info':'primary')+'" type="button">';
        html("button-"+ip+"-relay",' ');
-       for (var i = 0; i < 5; i++) {
+       for (var i = 0; i < 6; i++) {
         if (searchModule(modules,"relay"+i) == '1'){
          document.getElementById("button-"+ip+"-relay").innerHTML += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["relay"+i]?'info':'primary')+'" type="button">';
         }
