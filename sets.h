@@ -122,6 +122,7 @@ const String langOffS = "{{LangOff}}";
 const String langOnS = "{{LangOn}}";
 const String wifiS   = "wifi";
 const String messageS   = "message";
+const String voiceS   = "voice";
 
 // конфигурация
 const String langS   = "lang";
@@ -167,6 +168,10 @@ const String pulseTimeS ="pulseTime";
 const String relayS   = "relay"; //"stateRelay"; // Состояние реле
 const String relayPinS   = "relayPin"; // Для хранения ножек реле
 const String relayNotS   = "relayNot"; // Для хранения признака инверсии
+// PinOut
+const String pinOutS   = "pinOut"; //"stateRelay"; // Состояние реле
+const String pinOutPinS   = "pinOutPin"; // Для хранения ножек реле
+const String pinOutNotS   = "pinOutNot"; // Для хранения признака инверсии
 
 
 // RGB WS

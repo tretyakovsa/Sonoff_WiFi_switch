@@ -1,5 +1,6 @@
 void initTimers() {
   loadTimer();
+  modulesReg("timers");
 }
 void delTimer() {
   String jsonTimer = readFile(configTimerS, 4096);
