@@ -2,7 +2,8 @@
 //#define POW
 //#define pinOut
 #define CRIB
-#define safeData
+//#define safeData
+//#define macros
 #include "sets.h"             //Содержится в пакете
 
 void setup() {

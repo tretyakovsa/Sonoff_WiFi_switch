@@ -20,8 +20,8 @@ void initHTTP() {
   });
 
   /*
-  // --------------------Выдаем данные configOptions
-  HTTP.on("/test.json", HTTP_GET, []() {
+    // --------------------Выдаем данные configOptions
+    HTTP.on("/test.json", HTTP_GET, []() {
     String tmpJson = "{}";
     String par = stateA0S;
     String prifexFile = "";
@@ -103,15 +103,15 @@ void initHTTP() {
     configFile.close();
 
     httpOkText(testJ);
-  });
-*/
+    });
+  */
 
   // --------------------Выдаем данные configJson
   HTTP.on("/config.live.json", HTTP_GET, []() {
     httpOkJson(configJson);
   });
 
-   // --------------------Выдаем данные configwidgets
+  // --------------------Выдаем данные configwidgets
   HTTP.on("/config.widgets.json", HTTP_GET, []() {
     httpOkJson(configwidgets);
   });
@@ -143,7 +143,7 @@ void initHTTP() {
     httpOkText(reqvest);
   });
 
- // -------------------построение графика
+  // -------------------построение графика
   HTTP.on("/charts.json", HTTP_GET, []() {
     String pFile = HTTP.arg("data");
     String message = "{";
@@ -194,14 +194,37 @@ void initHTTP() {
     flag = sendStatus(voiceS, com);
     httpOkText(statusS);
   });
+#ifdef macros
+  // ------------------Список макросов
+  HTTP.on("/macros.json", HTTP_GET, []() {
+    String rn = "\n";
+    String found = "if voice =";
+    String temp  = Scenary;
+    String macrosJson ="{\"macros\":[";
+    do {
+      String comm = selectToMarker (temp, rn);
+      if (comm.indexOf(found) != -1)   {
+       comm = deleteBeforeDelimiter(comm, found+" ");
+       String out = "{}";
+       jsonWrite(out,"command",comm);
+       macrosJson += out+",";
+      }
+      temp = deleteBeforeDelimiter(temp, rn);
+      //yield();
+    } while (temp.indexOf(rn) != -1);
+    macrosJson=deleteToMarkerLast(macrosJson,",");
+    macrosJson +="]}";
+    httpOkJson(macrosJson);
+  });
+#endif
   sCmd.addCommand(voiceS.c_str(), macros); //
   sendStatus(voiceS, "");
   commandsReg(voiceS);
 }
 
-void macros(){
+void macros() {
   flag = sendStatus(voiceS, readArgsString());
-  }
+}
 
 
 void httpOkText() {
