@@ -687,7 +687,9 @@ function loadCommandHelp(jsonParam,where,to) {
   file = 'scenary.save.txt';
   document.getElementById(to).readOnly = true;
  }
- ajax.get('/'+file+'?'+Math.random(),{},function(response) {
+
+var domain = document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
+ ajax.get('http://'+domain+'/'+file+'?'+Math.random(),{},function(response) {
   html(where, ' ');
   var option = '';
   if (jsonParam == 'voice') {
