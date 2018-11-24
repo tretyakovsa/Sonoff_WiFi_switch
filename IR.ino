@@ -1,7 +1,8 @@
+#ifdef irTransmitterM
 // ----------------------Передатчик ИK
 void irTransmitter() {
   String moduleName = "irTransmitter";
-//  Serial.println(moduleName);
+  //  Serial.println(moduleName);
   byte pin = readArgsInt();
   pin =  pinTest(pin);
   irSender = new IRsend(pin);  // Create a new IRrecv object. Change to what ever pin you need etc.
@@ -257,7 +258,7 @@ void parseStringAndSendAirCon(const uint16_t irType, const String str) {
   // Calculate how many hexadecimal characters there are.
   uint16_t inputLength = str.length() - strOffset;
   if (inputLength == 0) {
-//    debug("Zero length AirCon code encountered. Ignored.");
+    //    debug("Zero length AirCon code encountered. Ignored.");
     return;  // No input. Abort.
   }
 
@@ -313,11 +314,11 @@ void parseStringAndSendAirCon(const uint16_t irType, const String str) {
       stateSize = HITACHI_AC2_STATE_LENGTH;
       break;
     default:  // Not a protocol we expected. Abort.
-//      debug("Unexpected AirCon protocol detected. Ignoring.");
+      //      debug("Unexpected AirCon protocol detected. Ignoring.");
       return;
   }
   if (inputLength > stateSize * 2) {
-//    debug("AirCon code to large for the given protocol.");
+    //    debug("AirCon code to large for the given protocol.");
     return;
   }
 
@@ -334,7 +335,7 @@ void parseStringAndSendAirCon(const uint16_t irType, const String str) {
       else
         c = c - 'a' + 10;
     } else {
-//      debug("Aborting! Non-hexadecimal char found in AirCon state: " + str);
+      //      debug("Aborting! Non-hexadecimal char found in AirCon state: " + str);
       return;
     }
     if (i % 2 == 1) {  // Odd: Upper half of the byte.
@@ -409,3 +410,4 @@ void parseStringAndSendAirCon(const uint16_t irType, const String str) {
 #endif
   }
 }
+#endif

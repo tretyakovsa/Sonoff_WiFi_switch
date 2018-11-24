@@ -407,10 +407,11 @@ String FileList(String path) {
 }
 
 
-/*
+#ifdef webSocket
   // webSocket
 
   void initWebSocket(){
+
   // start webSocket server
     webSocket.begin();
     webSocket.onEvent(webSocketEvent);
@@ -441,4 +442,4 @@ String FileList(String path) {
     }
 
   }
-*/
+#endif

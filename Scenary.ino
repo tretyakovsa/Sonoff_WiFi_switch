@@ -25,10 +25,12 @@ void loadScenary() {
 }
 // Ничего не делать если комманда id
 void idNot() {}
+
 void handleScenary() {
   yield();
   //Serial.println(flag);
   if (flag) { // если произошло изменение в данных config.live.json
+
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
     //webSocket.broadcastTXT(configJson);

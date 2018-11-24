@@ -1,15 +1,19 @@
 //#define Si7021
 //#define POW
 //#define pinOut
-#define CRIB
+#define rgbM // 1824
+#define rgbShimM //2480
+#define irTransmitterM //9312
+#define JalousieM //1408
 //#define safeData
 //#define macros
+//#define webSocket
 #include "sets.h"             //Содержится в пакете
 
 void setup() {
-//Serial.begin(115200);
-//Serial.println();
- chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
+  //Serial.begin(115200);
+  //Serial.println();
+  chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   TickerScheduler(1);
   SPIFFS.begin();
   HTTP.begin();
@@ -22,7 +26,9 @@ void setup() {
   initSSDP();
   initScenary();
   setupToInit();
-  //initWebSocket();
+#ifdef webSocket
+  initWebSocket();
+#endif
   //testPin();
 }
 
@@ -37,5 +43,7 @@ void loop() {
   ws2812fx.service();
   handleRfReceiv();
   handleButtons();
-  // webSocket.loop();
+#ifdef webSocket
+  webSocket.loop();
+#endif
 }

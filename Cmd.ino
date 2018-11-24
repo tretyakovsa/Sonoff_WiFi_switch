@@ -1,7 +1,7 @@
 // ---------------Инициализация модулей
 void initCMD() {
-   sCmd.addCommand("wReg", widgetReg);
-   sCmd.addCommand("sWidget", sendWidget);
+  sCmd.addCommand("wReg", widgetReg);
+  sCmd.addCommand("sWidget", sendWidget);
   sCmd.addCommand("UART",       uart);
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
@@ -19,24 +19,28 @@ void initCMD() {
 #ifdef POW
   sCmd.addCommand("POW",       initHLW8012);
 #endif
-#ifdef CRIB
-  //sCmd.addCommand("CRIB",       initCrib);
-#endif
+#ifdef JalousieM
   sCmd.addCommand("JALOUSIE",       initJalousie);
+#endif
   sCmd.addCommand("MQTT",       initMQTT);
+#ifdef rgbM
   sCmd.addCommand("RGB",       initRGB);
+#endif
+#ifdef  rgbShimM
   sCmd.addCommand("SRGB",       initRGBSHIM);
+#endif
   sCmd.addCommand("RF-RECEIVED",       rfReceived);
   sCmd.addCommand("RF-TRANSMITTER",     rfTransmitter);
   sCmd.addCommand("IR-RECEIVED",       irReceived);
+#ifdef  irTransmitterM
   sCmd.addCommand("IR-TRANSMITTER",     irTransmitter);
+#endif
   sCmd.addCommand("RF-LIVOLO",     rfLivolo);
   sCmd.addCommand("BUZZER",       initBuzzer);
   sCmd.addCommand("print",       printTest);
   sCmd.addCommand("ALARM",       alarmGet);
   sCmd.addCommand("//",       alarmComm);
   sCmd.addCommand("#",       alarmOff);
-  //sCmd.addCommand("FURNACE",       initFurnace);
   sCmd.addCommand("GET",       initGet);
   sCmd.addCommand("ADMIN",       initAdmin);
   commandsReg("GET");
@@ -48,14 +52,14 @@ void unrecognized(const char *command) {
 }
 
 void alarmComm() {
-//Serial.println("Comment?");
+  //Serial.println("Comment?");
 }
 void initAdmin() {
-modulesReg("admin");
+  modulesReg("admin");
 }
 
 void alarmOff() {
-//Serial.println("CommandOff?");
+  //Serial.println("CommandOff?");
 }
 
 void alarmGet() {
@@ -68,7 +72,7 @@ void alarmGet() {
 
 void initGet() {
   String urls = readArgsString();
-  if (urls.indexOf("{{")!=-1) {
+  if (urls.indexOf("{{") != -1) {
     String param = urls;
     do {
       param = deleteBeforeDelimiter(param, "{{");

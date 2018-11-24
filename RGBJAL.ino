@@ -7,7 +7,7 @@
      В Loop обработчик
      ws2812fx.service();
 */
-
+#ifdef rgbM
 void initRGB() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand(rgbS.c_str(),    rgb);
@@ -119,8 +119,9 @@ void rgb() {
   //statusS = relayStatus(configJson, stateRGBS);
   statusS = htmlStatus(configJson, stateRGBS, langOnS, langOffS);
 }
-
+#endif
 // Шим RGB лента
+#ifdef rgbShimM
 void initRGBSHIM() {
   // Реагирует на комманду rgbnot
   sCmd.addCommand(rgbSS.c_str(),    rgbShim);
@@ -219,6 +220,8 @@ void rgbShim() {
   //statusS = relayStatus(configJson, stateSRGBS);
   statusS = htmlStatus(configJson, stateSRGBS, langOnS, langOffS);
 }
+#endif
+#ifdef JalousieM
 // ---------------- Управление двигателем жалюзи
 void initJalousie() {
   // Сенсор будет работать по прерыванию
@@ -305,5 +308,5 @@ void setMotor(boolean a, boolean b) {
   digitalWrite(getOptionsInt(pinMotorS + "1"), a);
   digitalWrite(getOptionsInt(pinMotorS + "2"),  b);
 }
-
+#endif
 

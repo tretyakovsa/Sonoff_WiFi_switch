@@ -26,8 +26,10 @@ TickerScheduler ts(15);
 StringCommand sCmd;                   // Обьект для работы с командами
 //#include <ESP8266LLMNR.h>
 //#include <ESP8266NetBIOS.h>
-//#include <WebSocketsServer.h>    //https://github.com/Links2004/arduinoWebSockets
-//WebSocketsServer webSocket = WebSocketsServer(81);
+#ifdef webSocket
+#include <WebSocketsServer.h>    //https://github.com/Links2004/arduinoWebSockets
+WebSocketsServer webSocket = WebSocketsServer(81);
+#endif
 // Библиотеки устройств
 #include <DHT.h>                     //https://github.com/markruys/arduino-DHT
 DHT dht;
@@ -61,15 +63,16 @@ HLW8012 hlw8012;
 #define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
 #define VOLTAGE_RESISTOR_DOWNSTREAM     ( 1000 ) // Real 1.009k
 #endif
-#ifdef CRIB
+
 #include <Ticker.h>
 Ticker flipper[8];
-#endif
+
 
 #include <Bounce2.h>                 // https://github.com/thomasfredericks/Bounce2
 #define NUM_BUTTONS 8
 boolean but[NUM_BUTTONS];
 Bounce * buttons = new Bounce[NUM_BUTTONS];
+
 
 String mqttCom;
 boolean flag = false;
@@ -191,6 +194,7 @@ const String speedSRGBS   = "speedSRGB";
 const String rgbSS   = "rgbs";
 
 // Жалюзи
+#ifdef JalousieM
 const String stateJalousieS   = "jalousie";
 const String turnS   = "turn";
 const String pinTurnS   = "pinTurn";
@@ -198,7 +202,7 @@ const String pinMotorS   = "pinMotor";
 const String turnSensorS   = "turnSensor";
 const String LangOpenS   = "{{LangOpen}}";
 const String LangCloseS   = "{{LangClose}}";
-
+#endif
 // Звуковой сигнал
 //const String stateBuzzerS   = "stateBuzzer";
 const String buzzerPinS   = "buzzerPin";
@@ -252,16 +256,9 @@ const String powerfactorS   = "powerfactor";
 const String aggenergywsS   = "aggenergyws";
 #endif
 
-// Кроватка
-#ifdef CRIB
-const String cribPinS   = "cribPin";
-const String cribS   = "pulse";
-#endif
 
-// Печка
-const String stateFurnaceS   = "stateFurnace";
-const String furnacePin1S   = "furnacePin1-";
-const String furnacePin2S   = "furnacePin2-";
+
+
 
 
 
