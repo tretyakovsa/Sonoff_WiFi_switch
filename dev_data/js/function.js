@@ -688,16 +688,16 @@ function loadCommandHelp(jsonParam,where,to) {
   document.getElementById(to).readOnly = true;
  }
 
-var domain = document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
+ var domain = document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
  ajax.get('http://'+domain+'/'+file+'?'+Math.random(),{},function(response) {
   html(where, ' ');
   var option = '';
   if (jsonParam == 'voice') {
    var ip=response.split("if voice = ");
    for (var i in ip) {
-    var command = ip[i].substr(0,ip[i].indexOf("\n"));
-    if (command) {
-     option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
+     var command = ip[i].substr(0,ip[i].indexOf("\n"));
+    if (command && command.indexOf(" = ") == -1 ) {
+      option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
     }
    }
   } else {
