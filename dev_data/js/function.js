@@ -418,6 +418,10 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<h4 style="float:left;">Module:</h4> '+option;
       setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
      }
+     if (type_val == 'macros') {
+      element.innerHTML += '<div class="'+class_val+'" '+style_val+' id="'+(name_val?name_val:'loadMacros')+'"><\/div>';
+      loadMacros(jsonResponse,(name_val?name_val:'loadMacros'));
+     }
      if (type_val == 'login') {
       var option = '';
       option += '<h2>'+jsonResponse.LangAuthorization+'</h2><div class="alert alert-warning" style="width:45%;float:right;">'+renameBlock(jsonResponse, obj.title)+'</div>';
@@ -679,6 +683,24 @@ function loadScenary(jsonResponse,loadList) {
  },true);
 }
 
+function loadMacros(jsonResponse,where,domain,class_val) {
+ html(where, 'Loading...');
+ file = 'scenary.save.txt';
+ if (!domain) {domain=window.location.hostname}
+ ajax.get('http://'+domain+'/'+file+'?'+Math.random(),{},function(response) {
+  html(where, ' ');
+  var option = '';
+  var ip=response.split("if voice = ");
+  for (var i in ip) {
+   var command = ip[i].substr(0,ip[i].indexOf("\n"));
+   if (command && command.indexOf(" = ") == -1 ) {
+    option+='<input onclick="send_request(this, \'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+   }
+  }
+  html(where, (option?option+'<hr>':''));
+ },true);
+}
+
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
  var file = 'command-help.json';
@@ -695,9 +717,9 @@ function loadCommandHelp(jsonParam,where,to) {
   if (jsonParam == 'voice') {
    var ip=response.split("if voice = ");
    for (var i in ip) {
-     var command = ip[i].substr(0,ip[i].indexOf("\n"));
+    var command = ip[i].substr(0,ip[i].indexOf("\n"));
     if (command && command.indexOf(" = ") == -1 ) {
-      option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
+     option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
     }
    }
   } else {

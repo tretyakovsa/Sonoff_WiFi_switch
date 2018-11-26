@@ -202,7 +202,7 @@
  "LangConfMQTT":"Ieslegt MQTT",
  "LangConfTIMERS":"Ja ir nepieciešami taimeri",
  "LangConfDHT":"Temperatūras un mitruma sensori DHT11, DHT22, AM2302, RHT03, Si7021",
- "LangConfDS18B20":"Tikai GPIO14, jūs to nevarat mainīt",
+ "LangConfDS18B20":"Temperatūras sensor. Sensori var būt jebkurš skaitlis. Savienojiet paralēli.",
  "LangConfA0":"Analogā ieeja",
  "LangConfBUZZER":"Aktivizējiet zummer",
  "LangConfTach":"Poga /n <PIN> <pogas numurs> <laiks ms.>",

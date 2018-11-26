@@ -126,6 +126,9 @@
    "type":"hr"
   },
 
+  {
+   "type":"macros"
+  },
 
   {
    "type":"chart",

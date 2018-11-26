@@ -66,6 +66,9 @@
    "action":"jalousie turn [[turn]]"
   },
 
+  {
+   "type":"macros"
+  },
 
   {
    "type":"hr",

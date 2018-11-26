@@ -202,7 +202,7 @@
  "LangConfMQTT":"Recommended used from IoT Manager",
  "LangConfTIMERS":"If need timers",
  "LangConfDHT":"Temperature and humidity sensors DHT11, DHT22, AM2302, RHT03, Si7021",
- "LangConfDS18B20":"While only on GPIO14, you can not change it",
+ "LangConfDS18B20":"Temperature sensors. Sensors can be any more. Connect in parallel",
  "LangConfA0":"Analog input",
  "LangConfBUZZER":"Turn on buzzer",
  "LangConfTach":"Button /n <PIN> <Button number> <Time in ms.>",
