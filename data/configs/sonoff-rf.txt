@@ -6,13 +6,13 @@ RELAY 12 1 1 0 {{LangrelayName}}_1
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
-DDNS
+# DDNS
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
 # DHT 4
 // {{LangConfDS18B20}}
-# DS18B20 5
+# DS18B20 14
 // {{LangConfTach}}
 TACH 0 0 20 0
 # TACH 0 1 20 0

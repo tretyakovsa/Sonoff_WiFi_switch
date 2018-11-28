@@ -302,7 +302,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'range') {
       if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<label '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, obj.title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label>';
+      element.innerHTML += '<label id="'+(name_val?'label-'+name_val:'')+'" '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, obj.title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label>';
      }
      if (type_val == 'table') {
       var thead = '';
@@ -1276,6 +1276,17 @@ function findPos(obj) {
  }
  return undefined;
 }
+
+function hexToRgb(hex) {
+ var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+ return result ? {
+  r: parseInt(result[1], 16),
+  g: parseInt(result[2], 16),
+  b: parseInt(result[3], 16)
+ } : null;
+}
+//alert( hexToRgb("#0033ff").g ); // "51";
+
 
 function loadCommits(repos,commitCount){
  ajax.get('https://api.github.com/repos/'+repos+'/commits',{},function(response) {

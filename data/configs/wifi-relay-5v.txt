@@ -3,7 +3,7 @@ RELAY 20 1 1 0 {{LangrelayName}}_1
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
-DDNS
+# DDNS
 // {{LangConfTIMERS}}
 TIMERS
 // {{LangConfDHT}}
@@ -23,7 +23,7 @@ TACH 0 0 20 0
 // {{LangConfRGB}}
 # RGB 5 15 0 ff0000 100 255 3 {{LangrgbName}}
 // {{LangConfRGBS}}
-# SRGB 2 4 5 0 ffffff 100 255 {{LangrgbName}}
+# SRGB 12 4 5 0 ffffff 100 255 {{LangrgbName}}
 // {{LangConfJalousie}}
 # JALOUSIE 4 12 13
 // {{LangConfRfReceived}}

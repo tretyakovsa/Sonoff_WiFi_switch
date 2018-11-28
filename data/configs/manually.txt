@@ -4,8 +4,8 @@ RELAY 12 1 1 0 {{LangrelayName}}_1
 # RELAY 13 3 0 0 {{LangrelayName}}_3
 # RELAY 14 4 0 0 {{LangrelayName}}_4
 // {{LangConfSerial}}
-UART 115200
-print print
+# UART 115200
+# print print
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfDDNS}}
@@ -34,7 +34,7 @@ TACH 0 0 20 0
 // {{LangConfRGB}}
 RGB 5 15 0 ff0000 100 255 3 {{LangrgbName}}
 // {{LangConfRGBS}}
-# SRGB 2 4 5 0 ffffff 100 255 {{LangrgbName}}
+# SRGB 12 4 5 0 ffffff 100 255 {{LangrgbName}}
 // {{LangConfJalousie}}
 # JALOUSIE 4 12 13
 // {{LangConfRfReceived}}
@@ -49,4 +49,4 @@ RGB 5 15 0 ff0000 100 255 3 {{LangrgbName}}
 // {{LangConfMQTT}}
 # MQTT
 // {{LangConfAdmin}}
-# ADMIN
+ADMIN

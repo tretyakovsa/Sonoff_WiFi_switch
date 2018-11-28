@@ -138,17 +138,17 @@ From: Latvia, Valmiera
        }
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger', relayNumber,jsonIndexResponse);
       }
-      if (searchModule(modules,"rgb")){
+      if (searchModuleOld(modules,"rgb")){
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info', '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgb?'info':'primary')+'" type="button">',jsonIndexResponse);
+      }
+      if (searchModule(modules,"rgbs")){
+       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info', '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.rgbs?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgbs?'info':'primary')+'" type="button">',jsonIndexResponse);
       }
       if (searchModule(modules,"rfLivolo")){
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','default', '',jsonIndexResponse);
       }
       if (searchModule(modules,"crib")){
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'crib','default', '',jsonIndexResponse);
-      }
-      if (searchModule(modules,"rgbs")){
-       loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.rgbS?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgbS?'info':'primary')+'" type="button">',jsonIndexResponse);
       }
       if (searchModule(modules,"jalousie")){
        loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success','<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.jalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.jalousie?'info':'primary')+'" type="button">',jsonIndexResponse);
@@ -242,7 +242,7 @@ From: Latvia, Valmiera
     if (jsonIndexResponse.dbm <= -70) { wifiSignal = '70-80';}
     if (jsonIndexResponse.dbm <= -80) { wifiSignal = '80-90';}
     if (jsonIndexResponse.dbm <= -90) { wifiSignal = '90-100';}
-    var blockButton = '<table style="width:100%;"><tr><td style="width:30%;"><i style="opacity:0.2;" class="wifi wifi-'+wifiSignal+'" title="'+jsonIndexResponse.dbm+'"></i> <span class="label label-'+classVal+'">'+moduleVal+'<\/span> <b><a href="http://'+ip+'">'+ssdpVal+'<\/a><\/b><\/td><td>'+buttonVal+'<\/td><td style="text-align:right;"><div class="btn-group pull-right"><a href="http://'+ip+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonLang.LangOptions1+'"><i class="set-img"><\/i><span class="hidden-xs">'+jsonLang.LangOptions1+'<\/span><\/a><a href="http://'+ip+'/page.htm?setup" class="btn btn-default" title="'+jsonLang.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/td><\/table>';
+    var blockButton = '<table style="width:100%;"><tr><td style="width:30%;"><i style="opacity:0.2;" class="wifi wifi-'+wifiSignal+'" title="'+jsonIndexResponse.dbm+' dBm"></i> <span class="label label-'+classVal+'">'+moduleVal+'<\/span> <b><a href="http://'+ip+'">'+ssdpVal+'<\/a><\/b><\/td><td>'+buttonVal+'<\/td><td style="text-align:right;"><div class="btn-group pull-right"><a href="http://'+ip+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonLang.LangOptions1+'"><i class="set-img"><\/i><span class="hidden-xs hidden-sm hidden-md">'+jsonLang.LangOptions1+'<\/span><\/a><a href="http://'+ip+'/page.htm?setup" class="btn btn-default" title="'+jsonLang.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/td><\/table>';
     if (typeof(element) != 'undefined' && element != null && element != ''){
      element.innerHTML += blockButton;
     } else {

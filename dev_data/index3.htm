@@ -113,7 +113,7 @@ From: Latvia, Valmiera
         }
        }
       }
-      if (searchModule(modules,"rgb")){
+      if (searchModuleOld(modules,"rgb")){
        if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info');}
        document.getElementById("button-"+ip+"-rgb").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgb?'info':'primary')+'" type="button">';
       }

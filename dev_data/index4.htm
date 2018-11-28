@@ -93,8 +93,11 @@ From: Latvia, Valmiera
        }
        loadBlock2('relay','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      if (searchModule(modules,"rgb")){
+      if (searchModuleOld(modules,"rgb")){
        loadBlock2('rgb','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+      }
+      if (searchModule(modules,"rgbs")){
+       loadBlock2('rgbs','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       // if (searchModule(modules,"rfLivolo")){
       //  loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
@@ -191,6 +194,7 @@ From: Latvia, Valmiera
        jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }
       jsonIndexResponse.rgb = (jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
+      jsonIndexResponse.rgbs = (jsonIndexResponse.rgbs?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       jsonIndexResponse.jalousie = (jsonIndexResponse.jalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen);
       jsonIndexResponse.stateLeakag = (jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       if (page == 'A0') {

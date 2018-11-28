@@ -209,7 +209,7 @@
  "LangConfRelay":"Relejs /n <Releja PIN> <releju skaita> <releja statuss pēc starta ESP> <ignorēšanas> <Relejs paga vards>",
  "LangConfJalousie":"Žalūzijas. <PIN ātruma skaitītājs> <otrais un trešais PIN - motora vadība>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LED /n  WS2811 - Red/Yellow problem /n <PIN> <ledus> <stāvokļis pēc starta ESP> <krāsa> <ātrums> <spilgtums> <dinamiskais režīms>",
- "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <stāvokļis pēc starta ESP> <Krāsa> <Spilgtums>",
+ "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <stāvokļis pēc starta ESP> <Krāsa> <Soon...> <Soon...>",
  "LangConfMovement":"Kustības sensors /n <PIN> <darbības laiks sekundēs, 120 = 2 min.>",
  "LangConfRfReceived":"Bezvadu uztvērēja MHz frekvences. /n <PIN> <frekvence nav obligāta>",
  "LangConfRfTransmitter":"Bezvadu raidītājs MHz frekvencēs. /n <PIN> <frekvence nav obligāta>",

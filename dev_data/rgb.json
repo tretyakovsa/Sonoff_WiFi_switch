@@ -6,9 +6,9 @@
   "/modules.json"
  ],
  "title": [{
-   "type":"text",
-   "title":"{{LangOptions1}}"
-  }],
+  "type":"text",
+  "title":"{{LangOptions1}}"
+ }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content":[
   {
@@ -39,6 +39,41 @@
    "response":"[[rgb]]",
    "action":"rgb set [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "style":"cursor:pointer;width:100%"
+  },
+
+  {
+   "type":"range",
+   "title":"R",
+   "name":"colorR",
+   "state":"parseInt(val('color').substr(0,2),12)",
+   "module":"rgb",
+   "response":"[[rgb]]",
+   "action":"rgb set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "pattern":"min=0 max=255 step=1"
+  },
+  {
+   "type":"range",
+   "title":"G",
+   "name":"colorG",
+   "state":"parseInt(val('color').substr(2,2),12)",
+   "module":"rgb",
+   "response":"[[rgb]]",
+   "action":"rgb set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "pattern":"min=0 max=255 step=1"
+  },
+  {
+   "type":"range",
+   "title":"B",
+   "name":"colorB",
+   "state":"parseInt(val('color').substr(4,2),12)",
+   "module":"rgb",
+   "response":"[[rgb]]",
+   "action":"rgb set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "pattern":"min=0 max=255 step=1"
+  },
+
+  {
+   "type":"hr"
   },
 
   {

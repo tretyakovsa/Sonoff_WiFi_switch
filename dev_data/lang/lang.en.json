@@ -209,7 +209,7 @@
  "LangConfRelay":"Relay /n <PIN> <Relay Number> <Relay Status at Startup> <Ignoring> <Relay button name>",
  "LangConfJalousie":"Jalousie /n <PIN speed counter> <Second and Third PIN - motor control>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LEDs. /n  WS2811 - Red/Yellow problem /n <PIN> <Number of ice> <Condition after Startup> <Color> <Speed> <Brightness> <Dynamic mode>",
- "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <Condition after Startup> <Color> <Brightness>",
+ "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <Condition after Startup> <Color> <Soon...> <Soon...>",
  "LangConfMovement":"Motion sensor /n <PIN> <operating time in seconds, 120 = 2min.>",
  "LangConfRfReceived":"Wireless MHz frequency receiver",
  "LangConfRfTransmitter":"Wireless frequency MHz transmitter",

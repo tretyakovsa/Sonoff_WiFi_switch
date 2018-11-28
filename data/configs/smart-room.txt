@@ -43,4 +43,4 @@ IR-TRANSMITTER 14
 // {{LangConfMQTT}}
 MQTT
 // {{LangConfAdmin}}
-# ADMIN
+ADMIN

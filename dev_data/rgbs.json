@@ -34,10 +34,10 @@
    "type":"rgb",
    "title":"/img/swatches.png",
    "name":"color",
-   "module":"rgb",
-   "state":"{{colorRGB}}",
+   "module":"rgbs",
+   "state":"{{colorRGBS}}",
    "response":"[[rgb]]",
-   "action":"rgbs set [[color]] [[brightness]]",
+   "action":"rgbs set [[color]]",
    "style":"cursor:pointer;width:100%"
   },
 
@@ -45,27 +45,30 @@
    "type":"range",
    "title":"R",
    "name":"colorR",
-   "state":"{{brightnessRGB}}",
+   "module":"rgbs",
+   "state":"parseInt(val('color').substr(0,2),12)",
    "response":"[[rgb]]",
-   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+'",
    "pattern":"min=0 max=255 step=1"
   },
   {
    "type":"range",
    "title":"G",
    "name":"colorG",
-   "state":"{{brightnessRGB}}",
+   "module":"rgbs",
+   "state":"parseInt(val('color').substr(2,2),12)",
    "response":"[[rgb]]",
-   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+'",
    "pattern":"min=0 max=255 step=1"
   },
   {
    "type":"range",
    "title":"B",
    "name":"colorB",
-   "state":"{{brightnessRGB}}",
+   "module":"rgbs",
+   "state":"parseInt(val('color').substr(4,2),12)",
    "response":"[[rgb]]",
-   "action":"rgbs set [[colorR]] [[colorG]] [[colorB]] [[brightness]]",
+   "action":"rgbs set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+'",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -81,7 +84,7 @@
    "type":"select",
    "state":"{{timeRGB}}",
    "name":"time",
-   "module":"rgb",
+   "module":"rgbs",
    "response":"[[rgb]]",
    "action":"pulse on rgbs [[time]]s",
    "title":{
@@ -97,16 +100,6 @@
     "0":"&#8734;"
    }
   },
-  {
-   "type":"range",
-   "title":"{{LengBrightness}}",
-   "name":"brightness",
-   "module":"rgb",
-   "state":"{{brightnessRGB}}",
-   "response":"[[rgb]]",
-   "action":"rgbs set [[color]] [[brightness]]",
-   "pattern":"min=0 max=255 step=1"
-  },
 
   {
    "type":"hr"
@@ -114,11 +107,12 @@
 
   {
    "type":"button",
-   "title":"({{rgb}}?'{{LangOff}}':'{{LangOn}}')",
+   "title":"({{rgbs}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
+   "module":"rgbs",
    "response":"[[rgb]]",
    "action":"rgbs not",
-   "class":"'btn btn-block btn-lg btn-'+({{rgb}}?'info':'primary')"
+   "class":"'btn btn-block btn-lg btn-'+({{rgbs}}?'info':'primary')"
   },
 
 
