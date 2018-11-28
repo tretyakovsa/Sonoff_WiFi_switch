@@ -8,7 +8,7 @@
 //#define safeData
 //#define macros
 //#define webSocket
-#include "sets.h"             //Содержится в пакете
+#include "sets.h"
 
 void setup() {
   //Serial.begin(115200);

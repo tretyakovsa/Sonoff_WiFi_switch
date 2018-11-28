@@ -134,7 +134,7 @@ void initRGBSHIM() {
     pinMode(pin, OUTPUT);
   }
   int state = readArgsInt(); //состояние
-  sendStatus(stateSRGBS, state);
+  sendStatus(rgbSS, state);
   String color = readArgsString();
   sendStatus(colorSRGBS,  color); //цвет
   sendStatus(speedSRGBS, readArgsInt()); //скорость
@@ -172,20 +172,20 @@ void rgbShim() {
   String mode = readArgsString(); //режим
   uint8_t temp;
   uint32_t times = color.toInt();
-  uint8_t state = getStatusInt(stateSRGBS);
+  uint8_t state = getStatusInt(rgbSS);
   if (com == "on" || com == "1") {
 
     setColorSString(getStatus(colorSRGBS));
-    flag = sendStatus(stateSRGBS, 1);
+    flag = sendStatus(rgbSS, 1);
   }
   if (com == "off" || com == "0") {
 
     setColorSString("000000");
-    flag = sendStatus(stateSRGBS, 0);
+    flag = sendStatus(rgbSS, 0);
   }
   if (com == "not") {
 
-    flag = sendStatus(stateSRGBS, !state);
+    flag = sendStatus(rgbSS, !state);
     if (state) {
       setColorSString("000000");
     }
@@ -215,10 +215,10 @@ void rgbShim() {
       //
     }
     setColorSString(getStatus(colorSRGBS));
-    flag = sendStatus(stateSRGBS, 1);
+    flag = sendStatus(rgbSS, 1);
   }
-  //statusS = relayStatus(configJson, stateSRGBS);
-  statusS = htmlStatus(configJson, stateSRGBS, langOnS, langOffS);
+  //statusS = relayStatus(configJson, rgbSS);
+  statusS = htmlStatus(configJson, rgbSS, langOnS, langOffS);
 }
 #endif
 #ifdef JalousieM

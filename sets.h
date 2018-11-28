@@ -186,12 +186,12 @@ const String speedRGBS   = "speedRGB";
 const String rgbS   = "rgb";
 
 // RGB шим
-const String stateSRGBS   = "rgbs"; // "stateSRGB"; Состояние RGB шим
+//const String stateSRGBS   = "rgbs"; // "stateSRGB"; Состояние RGB шим
 const String colorSRGBS   = "colorSRGB";
 const String brightnessSRGBS   = "brightnessSRGB";
 const String modeSRGBS   = "modeSRGB";
 const String speedSRGBS   = "speedSRGB";
-const String rgbSS   = "rgbs";
+const String rgbSS   = "rgbs"; //Состояние RGB шим
 
 // Жалюзи
 #ifdef JalousieM
