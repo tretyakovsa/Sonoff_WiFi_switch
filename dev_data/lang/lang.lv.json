@@ -39,7 +39,7 @@
  "LangCommits":"Commits",
  "LangNewIssues":"Uzdod jaunu jautājumu",
  "LangAuthorization":"Authorization",
- "LangUpgradeBeta":"Noklikšķinot šeit jūs varat atjaunināt un izmēģināt jaunās mūsu firmware bata (testa) versijas",
+ "LangUpgradeBeta":"Noklikšķinot šeit jūs varat atjaunināt un izmēģināt jaunās mūsu firmware beta (testa) versijas",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Ierīces nosaukums",
@@ -186,6 +186,7 @@
  "LangJalousie":"Žalūzijas (motors)",
  "LangLeakag":"Aizsardzība pret ūdens noplūdi",
  "Langpulse":"Pulsēšana",
+ "Langpunout":"Izvades kontrole",
 
  "_comment":"---page.htm?chart---",
  "LangTemperature":"Temperatūra",
@@ -208,6 +209,7 @@
  "LangConfBUZZER":"Aktivizējiet zummer",
  "LangConfTach":"Poga /n <PIN> <pogas numurs> <laiks ms.>",
  "LangConfRelay":"Relejs /n <Releja PIN> <releju skaita> <releja statuss pēc starta ESP> <ignorēšanas> <Relejs paga vards>",
+ "LangConfPinout":"Управление выводом (Тоже что и Реле, но без кнопки в веб интерфейсе) /n <PIN> <Номер реле> <Состояние реле после включения ESP> <Инверсия> <Имя кнопки реле>",
  "LangConfJalousie":"Žalūzijas. <PIN ātruma skaitītājs> <otrais un trešais PIN - motora vadība>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LED /n  WS2811 - Red/Yellow problem /n <PIN> <ledus> <stāvokļis pēc starta ESP> <krāsa> <ātrums> <spilgtums> <dinamiskais režīms>",
  "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <stāvokļis pēc starta ESP> <Krāsa> <Soon...> <Soon...>",

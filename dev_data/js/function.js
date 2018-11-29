@@ -253,7 +253,7 @@ function viewTemplate(jsonPage,jsonResponse) {
    for (var j = 0; j<arr.length; j++) {
     var obj = arr[j];
 
-    if (!obj.module || searchModule(jsonResponse.module,obj.module)) {
+    if (!obj.module || searchModuleOld(jsonResponse.module,obj.module)) {
      var action_val = renameGet(obj.action);
      var actiondown_val = renameGet(obj.actiondown);
      var name_val = (obj.name?obj.name:'');

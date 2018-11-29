@@ -1,3 +1,5 @@
+// Вывод на пин (Тоже что и реле, но без кнопки).
+PINOUT 13 1 1 0 Светодид_подключене_WiFi
 // {{LangConfRelay}}
 RELAY 12 1 1 0 {{LangrelayName}}_1
 // {{LangConfSerial}}

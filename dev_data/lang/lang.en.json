@@ -39,7 +39,7 @@
  "LangCommits":"Commits",
  "LangNewIssues":"Create new Issues",
  "LangAuthorization":"Authorization",
- "LangUpgradeBeta":"By clicking here you can update and try new bata (test) versions of our firmware",
+ "LangUpgradeBeta":"By clicking here you can update and try new beta (test) versions of our firmware",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",
@@ -186,6 +186,7 @@
  "LangJalousie":"Jalousie",
  "LangLeakag":"Protection against water leakage",
  "Langpulse":"Pulse",
+ "Langpunout":"Output control",
 
  "_comment":"---page.htm?chart---",
  "LangTemperature":"Temperature",
@@ -208,6 +209,7 @@
  "LangConfBUZZER":"Turn on buzzer",
  "LangConfTach":"Button /n <PIN> <Button number> <Time in ms.>",
  "LangConfRelay":"Relay /n <PIN> <Relay Number> <Relay Status at Startup> <Ignoring> <Relay button name>",
+ "LangConfPinout":"Управление выводом (Тоже что и Реле, но без кнопки в веб интерфейсе) /n <PIN> <Номер реле> <Состояние реле после включения ESP> <Инверсия> <Имя кнопки реле>",
  "LangConfJalousie":"Jalousie /n <PIN speed counter> <Second and Third PIN - motor control>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LEDs. /n  WS2811 - Red/Yellow problem /n <PIN> <Number of ice> <Condition after Startup> <Color> <Speed> <Brightness> <Dynamic mode>",
  "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <Condition after Startup> <Color> <Soon...> <Soon...>",

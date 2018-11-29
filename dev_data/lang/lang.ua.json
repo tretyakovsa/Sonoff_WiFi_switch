@@ -39,7 +39,7 @@
  "LangCommits":"Фиксы в коде",
  "LangNewIssues":"Задать новый вопрос",
  "LangAuthorization":"Авторизация",
- "LangUpgradeBeta":"Нажав сюда вы сможете обновить и попробовать новые bata (тестовые) версии наших прошивок",
+ "LangUpgradeBeta":"Нажав сюда вы сможете обновить и попробовать новые beta (тестовые) версии наших прошивок",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Ім’я пристрою",
@@ -186,6 +186,7 @@
  "LangJalousie":"Жалюзи на моторе",
  "LangLeakag":"Защита от протечки воды",
  "Langpulse":"Пульсация",
+ "Langpunout":"Управление выводом",
 
  "_comment":"---page.htm?chart---",
  "LangTemperature":"Температура",
