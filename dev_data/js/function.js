@@ -719,8 +719,11 @@ function loadCommandHelp(jsonParam,where,to) {
    for (var i in ip) {
     var command = ip[i].substr(0,ip[i].indexOf("\n"));
     if (command && command.indexOf(" = ") == -1 ) {
-     option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a>';
+     option+='<li><a href="#" onclick="val(\''+to+'\',\''+command+'\');return false">'+command.replace(/_/g,' ')+'</a></li>';
     }
+   }
+   if (option=='') {
+    option+='<li>Пожалуйста сначало создайте Макрос в сценариях</li>';
    }
   } else {
    var ip=JSON.parse(response);

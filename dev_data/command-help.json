@@ -50,6 +50,24 @@
    "title":"В таком случае вы измените только яркость на 100. Те параметры которые вы не хотите менять необходимо ставить \"-\" крайние параметры могут быть упущены."
   }
  ],
+ "rgbs":[
+  {
+   "command":"on",
+   "title":"{{Langrgbon}}"
+  },
+  {
+   "command":"off",
+   "title":"{{Langrgbon}}"
+  },
+  {
+   "command":"not",
+   "title":"{{Langrgbnot}}"
+  },
+  {
+   "command":"set ff0000",
+   "title":"{{Langrgbon}}, цвет, "
+  }
+ ],
  "lvsend":[
   {
    "command":"6400 0",
