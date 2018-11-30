@@ -18,15 +18,15 @@
  "pinout":[
   {
    "command":"on 1",
-   "title":"{{LangOn}} {{Langpunout}} под номером 1"
+   "title":"{{LangOn}} {{Langpinout}} под номером 1"
   },
   {
    "command":"off 1",
-   "title":"{{LangOff}} {{Langpunout}} под номером 1"
+   "title":"{{LangOff}} {{Langpinout}} под номером 1"
   },
   {
    "command":"not 1",
-   "title":"Переключить {{Langpunout}} под номером 1"
+   "title":"Переключить {{Langpinout}} под номером 1"
   }
  ],
  "jalousie":[
