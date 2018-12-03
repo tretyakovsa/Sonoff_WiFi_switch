@@ -29,8 +29,9 @@ void initOneWire() {
   static uint8_t averageFactor = readArgsInt();
   if (t < 750) t = 1000;
   //Serial.println(t);
-  //  Serial.println(pin);
+  //Serial.println(pin);
   oneWire =  new OneWire(pin);
+
   sensors.setOneWire(oneWire);
   sensors.begin();
   byte num = sensors.getDS18Count();
@@ -38,6 +39,7 @@ void initOneWire() {
   for (byte i = 0; i < num; i++) {
     String numS = (String)(i + 1);
     sendStatus(temperatureS + numS, (String)sensors.getTempCByIndex(i));
+    //Serial.println();
     sendOptions(alarmtempS + numS, 0);
     sendOptions(highalarmtempS + numS, 0);
     sendOptions(lowalarmtempS + numS, 0);
@@ -255,7 +257,7 @@ void initTach() {
   buttons[num.toInt()].interval(bDelay);
   but[num.toInt()] = true;
   boolean inv = readArgsInt(); // четвертый аргумент инверсия входа
-  sendOptions("invTach" + num, inv);
+  sendOptions(invTachS + num, inv);
   modulesReg(tachS + num);
 }
 void handleButtons() {
@@ -267,13 +269,13 @@ void handleButtons() {
     if (buttons[num].fell()) {
       //Serial.print("Tach on ");
       //Serial.println(getStatusInt(stateTachS + numS));
-      flag = sendStatus(stateTachS + numS, !getOptionsInt("invTach" + numS));
+      flag = sendStatus(stateTachS + numS, !getOptionsInt(invTachS + numS));
     }
 
     if (buttons[num].rose()) {
       //Serial.print("Tach off ");
       //Serial.println(getStatusInt(stateTachS + numS));
-      flag = sendStatus(stateTachS + numS, getOptionsInt("invTach" + numS));
+      flag = sendStatus(stateTachS + numS, getOptionsInt(invTachS + numS));
 
     }
 

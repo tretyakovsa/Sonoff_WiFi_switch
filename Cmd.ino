@@ -1,7 +1,6 @@
 // ---------------Инициализация модулей
 void initCMD() {
-  sCmd.addCommand("wReg", widgetReg);
-  sCmd.addCommand("sWidget", sendWidget);
+
   sCmd.addCommand("UART",       uart);
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
@@ -15,14 +14,19 @@ void initCMD() {
 #endif
   sCmd.addCommand("DS18B20",       initOneWire);
   sCmd.addCommand("TIMERS",       initTimers);
+#ifdef pinOutM
+  sCmd.addCommand("PINOUT",       initPinOut);
   sCmd.addCommand("RELAY",       initRelay);
+#endif
 #ifdef POW
   sCmd.addCommand("POW",       initHLW8012);
 #endif
 #ifdef JalousieM
   sCmd.addCommand("JALOUSIE",       initJalousie);
 #endif
+#ifdef mqttM
   sCmd.addCommand("MQTT",       initMQTT);
+#endif
 #ifdef rgbM
   sCmd.addCommand("RGB",       initRGB);
 #endif

@@ -1,9 +1,10 @@
 //#define Si7021
 //#define POW
-//#define pinOut
+//#define mqttM //9496
 #define rgbM // 1824
 #define rgbShimM //2480
 #define irTransmitterM //9312
+#define pinOutM // 1608
 #define JalousieM //1408
 //#define safeData
 //#define macros
@@ -39,7 +40,9 @@ void loop() {
   handleSSDP();
   handleScenary();
   HTTPWAN.handleClient();
+  #ifdef mqttM
   handleMQTT();
+  #endif
   ws2812fx.service();
   handleRfReceiv();
   handleButtons();

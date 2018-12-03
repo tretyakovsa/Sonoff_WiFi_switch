@@ -91,7 +91,7 @@ String configSetup = "{}";           // Здесь данные для setup /co
 String configwidgets;            // Здесь список виджетов для загрузки
 String ssdpList = "{}";              // SSDP имя ip всех модулей в сети /ssdp.list.json
 String regCommands = "{\"command\":[]}";           // список доступных комманд для различных модулей /command.json
-String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
+//String previousSetup;                // !!! Предыдущий Setup временная мера будет удалена.
 String Scenary;                      // Строка обработки сценариев
 String modules = "{\"module\":[]}";
 String prefix   = "/IoTmanager";
@@ -169,12 +169,11 @@ const String pulseComS ="pulseCom";
 const String pulseTimeS ="pulseTime";
 // Реле
 const String relayS   = "relay"; //"stateRelay"; // Состояние реле
-const String relayPinS   = "relayPin"; // Для хранения ножек реле
-const String relayNotS   = "relayNot"; // Для хранения признака инверсии
+const String PinS   = "Pin"; // Для хранения ножек реле
+const String NotS   = "Not"; // Для хранения признака инверсии
 // PinOut
-const String pinOutS   = "pinOut"; //"stateRelay"; // Состояние реле
-const String pinOutPinS   = "pinOutPin"; // Для хранения ножек реле
-const String pinOutNotS   = "pinOutNot"; // Для хранения признака инверсии
+const String pinOutS   = "pinout"; //"stateRelay"; // Состояние реле
+
 
 
 // RGB WS
@@ -206,12 +205,12 @@ const String LangCloseS   = "{{LangClose}}";
 // Звуковой сигнал
 //const String stateBuzzerS   = "stateBuzzer";
 const String buzzerPinS   = "buzzerPin";
-const String BuzzerNotS   = "BuzzerNot";
 const String toneS   = "tone";
 
 // Кнопки
 const String stateTachS   = "Tach"; // Состояние кнопки
 const String tachS   = "tach";
+const String invTachS   = "invTach";
 
 // ИК передатчик приемник
 const String irReceivedS   = "irReceived";
