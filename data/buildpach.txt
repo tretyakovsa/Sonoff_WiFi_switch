@@ -1,1 +1,1 @@
-http://backup.privet.lv/esp/sonoff/web.update.for.new.version,bin
+http://backup.privet.lv/esp/sonoff/web.update.for.new.version.bin
