@@ -39,7 +39,7 @@ switch(ret) {
   }
   String buildData = HTTP.arg("build");
   if (buildData != emptyS) {
-    Serial.println(buildData);
+    //Serial.println(buildData);
     writeFile("buildPach.txt", buildData);
     buildData = buildData.substring(buildData.lastIndexOf("/") + 1); // выделяем имя файла
     sendSetup(buildDataS, buildData);

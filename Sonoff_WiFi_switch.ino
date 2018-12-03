@@ -12,8 +12,8 @@
 #include "sets.h"
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
+  //Serial.begin(115200);
+  //Serial.println();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   TickerScheduler(1);
   SPIFFS.begin();
