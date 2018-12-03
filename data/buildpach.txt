@@ -1,1 +1,1 @@
-http://backup.privet.lv/esp/sonoff/update.0x00000_flash_size_1Mb.256Kb_2018.12.03.bin
+http://backup.privet.lv/esp/sonoff/update.0x00000_flash_size_1Mb.256Kb.bin
