@@ -73,26 +73,6 @@ Download Release: [Win32](https://github.com/nodemcu/nodemcu-flasher/blob/master
 
 If you like this project, you can give me a cup of coffee :)
 
-
-### Web Developer (Ренат К.)
-#### AdvCash
-
-- U 0586 7862 1354
-- E 8788 6352 1126
-- R 7705 0208 6566
-
-#### PayPal
-
-- [wul@inbox.lv](https://www.paypal.me/renat2985/5)
-
-#### WebMoney
-
-- Z242847016348
-- R466173026928
-- E555861976545
-
-### Arduino Developer (Сергей Т.)
-
 #### YandexMoney
 
 - 410011740665305
@@ -103,3 +83,14 @@ If you like this project, you can give me a cup of coffee :)
 - R124424038680
 - U883416626152
 - E211342115147
+
+#### AdvCash
+
+- U 0586 7862 1354
+- E 8788 6352 1126
+- R 7705 0208 6566
+
+#### PayPal
+
+- [wul@inbox.lv](https://www.paypal.me/renat2985/5)
+
