@@ -1,17 +1,43 @@
+#ifdef pinOutM
 // ------------------- Инициализация Реле
 void initRelay() {
+ uint8_t pin = readArgsInt(); // первый аргумент pin
+ pin =  pinTest(pin);
+ String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+ boolean state = readArgsInt(); // третий  аргумент состояние на старте
+ boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
+ String title = readArgsString(); // Пятый аргумент подпись
+ initPin(pin, num, state, inv, relayS, title);
+  sCmd.addCommand(relayS.c_str(), relay); //
+  commandsReg(relayS);
+  actionsReg(relayS + num);
+  modulesReg(relayS + num);
+}
+
+// ------------------- Инициализация PinOut
+void initPinOut() {
   uint8_t pin = readArgsInt(); // первый аргумент pin
   pin =  pinTest(pin);
-  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+  String num = readArgsString(); // второй аргумент прификс pina 0 1 2
   boolean state = readArgsInt(); // третий  аргумент состояние на старте
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
   String title = readArgsString(); // Пятый аргумент подпись
-  String nameR = relayS + num;
+  //String name = pinOutS;
+ //initPin(pin, num, state, inv, name, title);
+  initPin(pin, num, state, inv, pinOutS, title);
+  sCmd.addCommand(pinOutS.c_str(), pinOut); //
+  commandsReg(pinOutS);
+  actionsReg(pinOutS + num);
+  modulesReg(pinOutS + num);
+}
+
+ void initPin(uint8_t pin, String num, boolean state, boolean inv, String name, String title) {
+  String nameR = name + num;
   if (title == "") title = nameR;
   sendStatus(nameR, state);
   sCmd.readStr("wReg toggle " + nameR + " " + title);
-  sendOptions(relayPinS + num, pin);
-  sendOptions(relayNotS + num, inv);
+  sendOptions(name+PinS + num, pin);
+  sendOptions(name+NotS + num, inv);
   // 19 pin это реле через UART
   if (pin > 19 ) {
     Serial.begin(9600);
@@ -22,25 +48,27 @@ void initRelay() {
     pinMode(pin, OUTPUT);
     digitalWrite(pin, state ^ inv);
   }
-  sCmd.addCommand(relayS.c_str(), relay); //
-  commandsReg(relayS);
-  actionsReg(relayS + num);
-  modulesReg(relayS + num);
 }
 
 // http://192.168.0.91/cmd?command=relay off 1
 void relay() {
   String com = readArgsString(); // действие
   String num = readArgsString(); // номер реле
-  uint32_t times = readArgsInt(); // время
-  relaySet(num, com);
+  pinSet(num, com, relayS);
 }
 
-void relaySet(String num, String com) {
-  String kayPin = relayPinS + num; // Получим имя ячейки пин по номеру
-  String kay = relayS + num; // Имя реле
+// http://192.168.0.91/cmd?command=relay off 1
+void pinOut() {
+  String com = readArgsString(); // действие
+  String num = readArgsString(); // номер реле
+  pinSet(num, com, pinOutS);
+}
+
+void pinSet(String num, String com, String name) {
+  String kayPin = name+PinS + num; // Получим имя ячейки пин по номеру
+  String kay = name + num; // Имя реле
   uint8_t pin = getOptionsInt(kayPin); // Получим пин по Имени реле
-  uint8_t inv = getOptionsInt(relayNotS + num); // Получим признак инверсии по Имени реле
+  uint8_t inv = getOptionsInt(name+NotS + num); // Получим признак инверсии по Имени реле
   uint8_t state = getStatusInt(kay); // Получим статус реле по Имени
   // Проверим команду приготовим новый state
   if (com == onS || com == "1" ) state = 1;
@@ -69,7 +97,7 @@ void relayWrite(uint8_t vpin, boolean state) {
     Serial.write(miBufferOFF, sizeof(miBufferOFF));
   }
 }
-
+#endif
 String htmlStatus(String json, String state, String sOn, String sOff) {
   String out = "{}";
   if (jsonReadToInt(json, state)) {
@@ -148,35 +176,3 @@ void handleRfLivolo() {
   gLivolo->sendButton(cod, len);
 }
 
-
-#ifdef pinOut
-// ------------------- Инициализация pinOut
-void initPinOut() {
-  uint8_t pin = readArgsInt(); // первый аргумент pin
-  pin =  pinTest(pin);
-  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
-  boolean state = readArgsInt(); // третий  аргумент состояние на старте
-  boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
-  String title = readArgsString(); // Пятый аргумент подпись
-  String nameP = pinOutS + num;
-  if (title == "") title = nameR;
-  sendStatus(nameP, state);
-  sCmd.readStr("wReg toggle " + nameP + " " + title);
-  sendOptions(pinOutPinS + num, pin);
-  sendOptions(pinOutNotS + num, inv);
-  // 19 pin это реле через UART
-  if (pin > 19 ) {
-    Serial.begin(9600);
-    delay(100);
-    relayWrite(pin, state ^ inv);
-  }
-  else {
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, state ^ inv);
-  }
-  sCmd.addCommand(pinOutS.c_str(), relay); //
-  commandsReg(pinOutS);
-  actionsReg(nameP);
-  modulesReg(nameP);
-}
-#endif

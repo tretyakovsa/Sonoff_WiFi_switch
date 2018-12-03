@@ -1,3 +1,4 @@
+#ifdef mqttM
 /*
     Для использования вкладки требуется добавить в заголовке скетча следуюший код
   #include <PubSubClient.h>
@@ -5,6 +6,7 @@
   PubSubClient client(wclient);
 */
 void initMQTT() {
+
   if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
     //MQTT_Connecting();
     ts.add(tMQTT, 60000, [&](void*) {
@@ -13,6 +15,8 @@ void initMQTT() {
     }, nullptr, true);
     sCmd.addCommand(mqttS.c_str(), handle_mqtt);
     modulesReg(mqttS);
+    sCmd.addCommand("wReg", widgetReg);
+    sCmd.addCommand("sWidget", sendWidget);
   }
 }
 
@@ -84,24 +88,7 @@ void callback(const MQTT::Publish& pub) {
   }
 }
 
-String topicToCom (String topicS) {
-  uint8_t   p = 0;
-  boolean f = true;
-  uint8_t   u = topicS.length();
-  while (p != u) {
-    if  (isDigit(topicS.charAt(p))) {
-      String kay = topicS.substring(0, p);
-      //Serial.println(topicS.charAt(p));
-      //Serial.println(kay);
-      topicS.replace(kay, kay + " ");
-      yield();
-      f = false;
-    }
-    p++;
-  }
-  if (f) topicS += " ";
-  return topicS;
-}
+
 
 // Читаем и отправляем виджеты на сервер
 bool loadnWidgets() {
@@ -182,7 +169,7 @@ void sendMQTTstatus(String topicN, String key1, int date1) {
   client.publish(MQTT::Publish(topicN, t).set_qos(1));
 
 }
-
+#endif
 
 // --------------------- Включаем DDNS
 void initDDNS() {

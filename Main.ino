@@ -147,8 +147,8 @@ void saveConfigSetup () {
 
 */
 uint8_t pinTest(uint8_t pin) {
-  //Serial.print(pin);
-  //Serial.print("=");
+  Serial.print("pin");
+  Serial.print("=");
   if (pin > 20) {
     pin = 17;
   } else {
@@ -165,10 +165,12 @@ uint8_t pinTest(uint8_t pin) {
       }
     }
   }
-  //Serial.println(pin);
+  Serial.println(pin);
   return pin;
 }
 uint8_t pinTest(uint8_t pin, boolean multi) {
+  //Serial.print("multiPin");
+  //Serial.print("=");
   if (pin > 20) {
     pin = 17;
   } else {
@@ -186,16 +188,8 @@ uint8_t pinTest(uint8_t pin, boolean multi) {
       }
     }
   }
+  //Serial.println(pin);
   return pin;
-}
-
-void testPin() {
-  for (int i = 0; i <= 20; i++) {
-    Serial.print("pins");
-    Serial.print(i);
-    Serial.print("=");
-    Serial.println(pins[i]);
-  }
 }
 
 // -------------- Регистрация модуля
@@ -324,6 +318,25 @@ void imPuls(int tacks) {
     //low = false;                                      // Сбросить флаг ???
     sendOptions(pulseStateN, false);
   }
+}
+
+String topicToCom (String topicS) {
+  uint8_t   p = 0;
+  boolean f = true;
+  uint8_t   u = topicS.length();
+  while (p != u) {
+    if  (isDigit(topicS.charAt(p))) {
+      String kay = topicS.substring(0, p);
+      //Serial.println(topicS.charAt(p));
+      //Serial.println(kay);
+      topicS.replace(kay, kay + " ");
+      yield();
+      f = false;
+    }
+    p++;
+  }
+  if (f) topicS += " ";
+  return topicS;
 }
 
 #ifdef safeData
