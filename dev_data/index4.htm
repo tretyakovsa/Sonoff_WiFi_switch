@@ -108,13 +108,13 @@ From: Latvia, Valmiera
       if (searchModule(modules,"leakag")){
        loadBlock2('leakag','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-     // if(/temperature/.test(modules)) {
-       for (var i = 0; i < 10; i++) {
-        if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
-         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,(i==0?'':i));
-        }
+      // if(/temperature/.test(modules)) {
+      for (var i = 0; i < 10; i++) {
+       if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
+        loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,(i==0?'':i));
        }
-     // }
+      }
+      // }
       //  if (searchModule(modules,"temperature")){
       //   loadBlock2('temperature','temperature',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       //  }
@@ -181,6 +181,7 @@ From: Latvia, Valmiera
         timerList += '<li><b>'+timers.timer[i].time1+'</b> <span class="label label-default">'+day_view_add+'</span> '+timers.timer[i].com1+'</li>';
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
+       jsonIndexResponse.timerListHidden = 'hidden';
       }
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
       //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
