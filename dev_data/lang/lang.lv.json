@@ -65,7 +65,7 @@
  "LangHiddenWifi":"Savienojumu ar slēpto WiFi tīklam",
  "LangType":"Ierīce tips",
  "LangPay":"Sazinieties ar mums, lai pirktu",
- "LangSSDPAlert":"Lūdzu, mainiet ierīces nosaukumu uz kaut ko citu. Tam jābūt unikālam!",
+ "LangSSDPAlert":"Lūdzu, mainiet ierīces nosaukumu \"Sonoff\" uz kaut ko citu. Tam jābūt unikālam!",
  "LangConfMQTT2":"Работает на <a href=\"https://play.google.com/store/apps/details?id=ru.esp8266.iotmanager\">IoT Manager</a> (<a href=\"http://backup.privet.lv/esp/ru.esp8266.iotmanager.apk\">скачать</a> с нашего сервера). Работает на любом MQTT Broker, нам нравится: <a href=\"https://www.cloudmqtt.com\" target=\"_blank\">www.cloudmqtt.com</a>. Подробней о настройке <a href=\"https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/MQTT-%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5\" target=\"_blank\">здесь</a>.",
 
  "_comment":"---page.htm?timer---",
@@ -213,7 +213,7 @@
  "LangConfBUZZER":"Aktivizējiet zummer",
  "LangConfTach":"Poga /n <PIN> <pogas numurs> <laiks ms.>",
  "LangConfRelay":"Relejs /n <Releja PIN> <releju skaita> <releja statuss pēc starta ESP> <ignorēšanas> <Relejs paga vards>",
- "LangConfPinout":"Управление выводом (Тоже что и Реле, но без кнопки в веб интерфейсе) /n <PIN> <Номер реле> <Состояние реле после включения ESP> <Инверсия> <Имя кнопки реле>",
+ "LangConfPinout":"Izvades kontrole (tāpat kā RELAY, bet bez tīmekļa interfeisa pogas) /n <Releja PIN> <releju skaita> <releja statuss pēc starta ESP> <ignorēšanas> <Relejs paga vards>",
  "LangConfJalousie":"Žalūzijas. <PIN ātruma skaitītājs> <otrais un trešais PIN - motora vadība>",
  "LangConfRGB":"WS2812 / WS2811 / NeoPixel LED /n  WS2811 - Red/Yellow problem /n <PIN> <ledus> <stāvokļis pēc starta ESP> <krāsa> <ātrums> <spilgtums> <dinamiskais režīms>",
  "LangConfRGBS":"RGB 5050 / 3528 / 2835. /n <PIN R> <PIN G> <PIN B> <stāvokļis pēc starta ESP> <Krāsa> <Soon...> <Soon...>",

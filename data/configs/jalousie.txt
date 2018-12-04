@@ -1,4 +1,4 @@
-// Управление выводом (Тоже что и Реле, но без кнопки в веб интерфейсе).
+// {{LangConfPinout}}
 # PINOUT 13 1 1 0 Светодид_подключене_WiFi
 // {{LangConfRelay}}
 # RELAY 12 1 0 0 {{LangrelayName}}_1
