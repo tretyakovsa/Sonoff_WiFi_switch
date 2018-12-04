@@ -15,7 +15,7 @@
   -  Flash Frequency: 40Mhz
   -  Upload Speed: 921600
 
-# Download [Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip](https://github.com/tretyakovsa/Sonoff_WiFi_switch/releases/download/untagged-6d91206a6fb93cc153d3/Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip)
+# Download [Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip](https://github.com/tretyakovsa/Sonoff_WiFi_switch/releases/download/3.0/Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip)
 
 ![nodemcu-flasher](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/nodemcu-flasher.png)
 ### NodeMCU Flasher
