@@ -25,9 +25,9 @@ void initRGB() {
   sendStatus(brightnessRGBS, readArgsInt()); //яркость
   sendStatus(modeRGBS, readArgsInt()); //режим
   String title = readArgsString(); // Пятый аргумент подпись
-  if (title=="" ) title = rgbS;
+  if (title == "" ) title = rgbS;
   sendStatus(stateRGBS, state);
-  sCmd.readStr("wReg toggle "+rgbS+" "+title);
+  sCmd.readStr("wReg toggle " + rgbS + " " + title);
   ws2812fx.init();
   ws2812fx.setMode(getStatusInt(modeRGBS)); // Режим
   setColorString(colorRGBS);   // Начальный цвет
@@ -140,9 +140,9 @@ void initRGBSHIM() {
   sendStatus(speedSRGBS, readArgsInt()); //скорость
   sendStatus(brightnessSRGBS, readArgsInt()); //яркость
   //sendStatus(modeSRGBS, readArgsInt()); //режим
-String title = readArgsString(); // Пятый аргумент подпись
-  if (title=="" ) title = rgbSS;
-  sCmd.readStr("wReg toggle "+rgbSS+" "+title);
+  String title = readArgsString(); // Пятый аргумент подпись
+  if (title == "" ) title = rgbSS;
+  sCmd.readStr("wReg toggle " + rgbSS + " " + title);
 
   //регистрируем модуль
 
@@ -153,9 +153,9 @@ String title = readArgsString(); // Пятый аргумент подпись
 }
 void setColorSString(String color) {
   if (color.length() == 6) {
-    analogWrite(getOptionsInt("rgbSPin0"), hexToUint32(color.substring(0, 2)));
-    analogWrite(getOptionsInt("rgbSPin1"), hexToUint32(color.substring(2, 4)));
-    analogWrite(getOptionsInt("rgbSPin2"), hexToUint32(color.substring(4, 6)));
+    analogWrite(getOptionsInt("rgbSPin0"), map(hexToUint32(color.substring(0, 2)), 0, 255, 0, 1023));
+    analogWrite(getOptionsInt("rgbSPin1"), map(hexToUint32(color.substring(2, 4)), 0, 255, 0, 1023));
+    analogWrite(getOptionsInt("rgbSPin2"), map(hexToUint32(color.substring(4, 6)), 0, 255, 0, 1023));
   }
 }
 
