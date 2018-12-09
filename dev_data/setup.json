@@ -23,7 +23,7 @@
 
   {
    "type":"text",
-   "title":"('{{message}}'=='Registered'?'<div class=\"alert alert-warning\"><b>Not full version</b><br><a href=\"/donate.htm\">{{LangPay}}</a></div>':'')"
+   "title":"('{{message}}'=='Registered'?'<div class=\"alert alert-warning\"><b>Not full version</b><a href=\"/donate.htm\" style=\"float:right\">{{LangPay}}</a></div>':'')"
   },
 
   {

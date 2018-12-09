@@ -1,6 +1,6 @@
 {
  "configs":[
-  "/config.live.json",
+  "/config.options.json",
   "/config.setup.json",
   "/lang/lang.{{lang}}.json",
   "/modules.json"
@@ -36,6 +36,11 @@
   },
 
   {
+   "type":"text",
+   "title":"('{{flashChip}}'.slice(4)=='85'?'<div class=\"alert alert-danger\">YOU ESP8266 BED FLASH CHIP: {{flashChip}}</div>':'')"
+  },
+
+  {
    "type":"h2",
    "title":"{{LangType}}"
   },
@@ -48,9 +53,10 @@
    "state":"{{configs}}",
    "action":"/configs?set=[[build]]",
    "title":{
-    "sonoff-rf":"Sonoff-rf / Sonoff / Wi-Fi Smart socket",
-    "sonoff-pow":"Sonoff-Pow",
+    "sonoff-rf":"Sonoff-rf / Sonoff TH16 / Wi-Fi Smart Socket",
+    "sonoff-pow":"Sonoff-Pow ({{LangSoon}})",
     "rgb":"RGB (WS2811/WS2812/NeoPixel LEDs)",
+    "rgb-shim":"RGB SHIM (5050/3528/2835)",
     "jalousie":"{{LangJalousie}}",
     "smart-room":"Smart-Room",
     "wifi-relay-5v":"WiFi Relay 5v",
