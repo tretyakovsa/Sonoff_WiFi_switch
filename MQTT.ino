@@ -170,7 +170,7 @@ void sendMQTTstatus(String topicN, String key1, int date1) {
 
 }
 #endif
-
+#ifdef ddnsM
 // --------------------- Включаем DDNS
 void initDDNS() {
   if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
@@ -226,3 +226,4 @@ int ip_wan() {
     getURL(ddns);
   }
 }
+#endif

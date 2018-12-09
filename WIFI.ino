@@ -5,7 +5,7 @@ void WiFiEvent(WiFiEvent_t event) {
     switch(event) {
         case WIFI_EVENT_STAMODE_DISCONNECTED:
         //Serial.println("Recconnect start");
-             WiFi.reconnect();
+             //WiFi.reconnect();
              //wifiConnect();
         case WIFI_EVENT_STAMODE_GOT_IP:
             sendSetup(ipS, WiFi.localIP().toString());

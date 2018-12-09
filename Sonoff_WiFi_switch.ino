@@ -1,6 +1,8 @@
+// 400 249
 //#define Si7021
 //#define POW
 //#define mqttM //9496
+#define ddnsM //1384
 #define rgbM // 1824
 #define rgbShimM //2480
 #define irTransmitterM //9312
