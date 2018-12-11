@@ -1,5 +1,5 @@
 // {{LangConfPinout}}
-# PINOUT 13 1 1 0 Светодид_подключене_WiFi
+# PINOUT 13 1 1 0 LedConnectedWiFi
 # PINOUT 12 1 1 0 {{LangrelayName}}_2
 # PINOUT 14 1 1 0 {{LangrelayName}}_3
 // {{LangConfRelay}}

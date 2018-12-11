@@ -8,7 +8,7 @@
  "right-content":[
   {
    "type":"h5",
-   "title":"{{LangIssues}}.",
+   "title":"{{LangIssues}}",
    "style":"margin-top:0;float:left;margin-left:40px;"
   },
   {
@@ -18,7 +18,7 @@
   },
   {
    "type":"h5",
-   "title":"{{LangCommits}}.",
+   "title":"{{LangCommits}}",
    "style":"margin-top:-15px;float:left;margin-left:40px;"
   },
   {

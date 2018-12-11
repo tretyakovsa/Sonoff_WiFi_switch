@@ -59,8 +59,6 @@ From: Latvia, Valmiera
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
-    loadIssues('tretyakovsa/Sonoff_WiFi_switch',10);
-    loadCommits('tretyakovsa/Sonoff_WiFi_switch',10);
    }
 
    function deviceList(stage,sorting) {
@@ -121,12 +119,12 @@ From: Latvia, Valmiera
       if(/relay/.test(modules)) {
        for (var i = 0; i < 6; i++) {
         if (!searchModule(modules,"relay"+i)){
-         jsonIndexResponse["relay"+i] = 'hidden';
+         jsonIndexResponse["hiddenRelay"+i] = 'hidden';
         }
        }
        loadBlock2('relay','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      if (searchModule(modules,"rgb")){
+      if (searchModuleOld(modules,"rgb")){
        loadBlock2('rgb','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       // if (searchModule(modules,"rfLivolo")){
@@ -144,7 +142,7 @@ From: Latvia, Valmiera
 
       if(/temperature/.test(modules)) {
        for (var i = 0; i < 10; i++) {
-        if (searchModule(modules,"temperature"+i)){
+       if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
          loadBlock2('temperature','charts.json?data=temperature&data1=highAlarmTemp&data2=lowAlarmTemp&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,i);
         }
        }
@@ -211,6 +209,7 @@ From: Latvia, Valmiera
         }
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
+       jsonIndexResponse.timerListHidden = 'hidden';
       }
 
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
@@ -277,29 +276,12 @@ From: Latvia, Valmiera
    <div id="header">
     <div id="header-left" class="col-sm-12 col-md-2"></div>
     <div id="space-button" class="col-md-6"></div>
-    <div id="header-right" class="col-md-4"></div>
+    <div id="header-right" class="col-md-4" style="text-align:right;"></div>
    </div>
    <div class="col-sm-12 col-md-9" id="top-content"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
    <div class="col-sm-12 col-md-3 right-block">
-    <div class="col-md-12" id="content-right">
-     <div class="block">
-      <h5 class="alert-warning">{{LangScenary}}</h5>
-      <div class="alert alert-dismissible alert-info {{g94244}}"><button class="close" onclick="hide('g94244',this)" type="button">×</button>{{LangScenery1}}</div>
-      <a class="btn btn-block btn-default" href="/page.htm?scenary">{{LangAddScenery}}</a>
-     </div>
-     <hr>
-     <div class="block" id="issues">
-      <h5 class="alert-default">{{LangIssues}}</h5>
-      <div id="issues-list">{{LangLoading}}</div>
-     </div>
-     <hr>
-     <div class="block" id="commits">
-      <h5 class="alert-default">{{LangCommits}}</h5>
-      <div id="commits-list">{{LangLoading}}</div>
-     </div>
-    </div>
-    <div class="row"></div>
+    <div class="col-md-12" id="content-right"></div>
    </div>
   </div>
   <div id="edit-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;">

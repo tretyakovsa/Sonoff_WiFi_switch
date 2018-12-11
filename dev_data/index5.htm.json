@@ -26,7 +26,7 @@
  "header-right":[
   {
    "type":"link",
-   "class":"btn btn-info dropdown-toggle",
+   "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?scenary",
    "title":"{{LangScenary}}"
   },
@@ -34,23 +34,12 @@
    "type":"link",
    "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?timer",
-   "title":"<i class=\"clock-img\"></i> <span class=\"hidden-xs\">{{LangTimer}}</span>"
-  },
-  {
-   "type":"dropdown",
-   "name":"help-url",
-   "class":"btn btn-default",
-   "title":{
-    "#":"<i class=\"help-img\"></i> <span class=\"hidden-xs\">{{LangHelp}}</span> <span class=\"caret\"></span>",
-    "https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues":"<b>Sonoff</b> (Relay)",
-    "https://github.com/renat2985/rgb/issues":"<b>RGB</b> (WS2811-12/NeoPixel)",
-    "https://github.com/tretyakovsa/jaluzi/issues":"<b>Jalousie</b> (Motor)"
-   }
+   "title":"<i class=\"clock-img\"></i>"
   },
   {
    "type":"dropdown",
    "name":"design",
-   "class":"btn btn-warning",
+   "class":"btn btn-default",
    "title":{
     "#":"<span class=\"hidden-xs\">{{LangDesign}}</span> <span class=\"caret\"></span>",
     "/skins?set=index.htm":"<b>Default</b>",
@@ -58,16 +47,34 @@
     "/skins?set=index3.htm":"<b>Block</b>",
     "/skins?set=index4.htm":"<b>Life</b>"
    }
+  }
+ ],
+ "content-right":[
+{
+   "type":"h3",
+   "title":"{{LangIssues}}",
+   "style":"margin-left:40px;color:#fff;"
   },
   {
-   "type":"select",
-   "state":"{{lang}}",
-   "name":"languages",
-   "action":"/lang?set=[[languages]]",
-   "response":"/",
-   "style":"width:70px",
-   "class":"hidden-xs",
-   "title":{"ru":"RU","en":"EN","lv":"LV","ua":"UA"}
+   "type":"issues",
+   "state":"10",
+   "style":"margin:20px;color:#fff;"
+  },
+{
+   "type":"h3",
+   "title":"{{LangCommits}}",
+   "style":"margin-left:40px;color:#fff;"
+  },
+  {
+   "type":"commits",
+   "state":"5",
+   "style":"margin:20px;color:#fff;"
+  },
+  {
+   "type":"link",
+   "class":"btn btn-default top",
+   "action":"#",
+   "title":"TOP"
   }
  ]
 }
