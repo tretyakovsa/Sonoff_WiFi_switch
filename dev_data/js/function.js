@@ -491,6 +491,18 @@ function deleteTimer(id,ip) {
  },true);
 }
 
+function activeTimer(ids,ip,active) {
+ ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
+  var timerList=JSON.parse(response);
+  for (var i = 0; i < timerList['timer'].length; i++) {
+   if (timerList['timer'][i]['id'] == ids) {
+    timerList['timer'][i]['active'] = active;
+   }
+  }
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', ip);
+ },true);
+}
+
 function addTimer() {
  var ip = document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value;
  var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
@@ -501,7 +513,7 @@ function addTimer() {
    daycheck+=(document.getElementById("day-"+i).checked?'1':'0');
   }
   var run1=(document.getElementById("run-1").checked?'1':'0');
-  timerList.timer.push({"id":Math.random(),"day":daycheck,"time1":val('set-time'),"com1":command,"run1":run1});
+  timerList.timer.push({"id":Math.floor(Math.random()*10000),"day":daycheck,"time1":val('set-time'),"com1":command,"run1":run1,"active":1});
   send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
  },true);
 }
@@ -559,9 +571,9 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
    if (timeDevice['timer'][i]['run1'] == 1) {
     day_view_add += '<span class="label label-warning">'+jsonResponse.LangRun1+'</span>';
    }
-   options += '<tr><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
+   options += '<tr><td><input id="active" type="checkbox" onchange="activeTimer(\''+timeDevice['timer'][i]['id']+'\',\''+ip+'\',(this.checked?\'1\':\'0\'))" '+(timeDevice['timer'][i]['active']==1?'checked':'')+'></td><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
-  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
+  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td></td><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
 }
 
