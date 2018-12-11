@@ -75,10 +75,26 @@ From: Latvia, Valmiera
       }
 
      }
+
+     ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
+      var options = '';
+      var macros_ip=response.split("if voice = ");
+      for (var i in macros_ip) {
+       var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
+       if (command && command.indexOf(" = ") == -1 ) {
+        options+='<input onclick="send_request(this, \'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+       }
+      }
+      if (options){
+       loadBlock(ip,'first','macros',options);
+      }
+     },true);
+
+
     },true);
    }
 
-   function loadBlock(ip, stage, modules) {
+   function loadBlock(ip, stage, modules, macrosList) {
     ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
      var jsonIndexResponse0 = JSON.parse(response);
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
@@ -98,6 +114,10 @@ From: Latvia, Valmiera
       }
       if (searchModule(modules,"rgbs")){
        loadBlock2('rgbs','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+      }
+      if (modules == 'macros'){
+       jsonIndexResponse.macrosList = macrosList;
+       loadBlock2('macros','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
       // if (searchModule(modules,"rfLivolo")){
       //  loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);

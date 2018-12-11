@@ -1,7 +1,7 @@
 // {{LangConfPinout}}
 # PINOUT 13 1 1 0 LedConnectedWiFi
-# PINOUT 12 1 1 0 {{LangrelayName}}_2
-# PINOUT 14 1 1 0 {{LangrelayName}}_3
+# PINOUT 12 2 0 0 PinOutName2
+# PINOUT 14 3 0 0 PinOutName3
 // {{LangConfRelay}}
 RELAY 12 1 1 0 {{LangrelayName}}_1
 # RELAY 15 2 0 0 {{LangrelayName}}_2
