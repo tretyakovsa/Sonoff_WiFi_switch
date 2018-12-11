@@ -119,9 +119,9 @@ From: Latvia, Valmiera
        jsonIndexResponse.macrosList = macrosList;
        loadBlock2('macros','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      // if (searchModule(modules,"rfLivolo")){
-      //  loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
-      // }
+      if (searchModule(modules,"rfLivolo")){
+       loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+      }
       if (searchModule(modules,"jalousie")){
        loadBlock2('jalousie','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }

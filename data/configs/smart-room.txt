@@ -22,7 +22,7 @@ TIMERS
 // {{LangConfA0}}
 A0
 // {{LangConfTach}}
-TACH 0 0 20 0
+# TACH 0 0 20 0
 # TACH 2 1 20 0
 // {{LangConfBUZZER}}
 # BUZZER 16
