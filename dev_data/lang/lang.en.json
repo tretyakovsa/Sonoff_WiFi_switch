@@ -27,6 +27,7 @@
  "LangNoTimers":"No timers",
  "LangQuestion":"Are you sure?",
  "LangUpgrade":"Install new version?",
+ "LangUpgrade1":"Notify about new versions",
  "LangDonate":"Donate",
  "LangSoon":"<label class=\"label label-danger\">Soon...</label>",
  "LangCloud":"After updating the settings are lost, so we suggest clicking on <i class=\"cloud-img\"></i> and saving them in the cloud, after updating you can download them to your device.",

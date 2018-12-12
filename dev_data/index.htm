@@ -151,9 +151,9 @@ From: Latvia, Valmiera
        jsonIndexResponse.macrosList = macrosList;
        loadBlock2('macros','timer.save',ip, content, stage, jsonIndexResponse);
       }
-       if (searchModule(modules,"rfLivolo")){
-        loadBlock2('livolo','timer.save',ip, content, stage, jsonIndexResponse);
-       }
+      if (searchModule(modules,"rfLivolo")){
+       loadBlock2('livolo','timer.save',ip, content, stage, jsonIndexResponse);
+      }
       if (searchModule(modules,"jalousie")){
        loadBlock2('jalousie','timer.save',ip, content, stage, jsonIndexResponse);
       }
@@ -217,15 +217,15 @@ From: Latvia, Valmiera
         var day_view = timers.timer[i].day.split("");
         var day_view_add = '';
         for (var y in day_view) {
-         if (y == 0 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSun+' '; }
-         if (y == 1 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangMon+' '; }
-         if (y == 2 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangTue+' '; }
-         if (y == 3 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangWed+' '; }
-         if (y == 4 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangThu+' '; }
-         if (y == 5 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangFri+' '; }
-         if (y == 6 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSat+' '; }
+         if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonIndexResponse.LangSun+'</span> '; }
+         if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangMon+'</span> '; }
+         if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangTue+'</span> '; }
+         if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangWed+'</span> '; }
+         if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangThu+'</span> '; }
+         if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangFri+'</span> '; }
+         if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonIndexResponse.LangSat+'</span> '; }
         }
-        timerList += '<li><b>'+timers.timer[i].time1+'</b> <span class="label label-default">'+day_view_add+'</span> '+timers.timer[i].com1+'</li>';
+        timerList += '<li><span class="label label-warning">'+(timers.timer[i].active==1 || typeof timers.timer[i].active=='undefined'?'on':'off')+'</span> <span class="label label-default"><i class="clock-new-img"></i> '+timers.timer[i].time1+'</span> '+timers.timer[i].com1+'<br>'+day_view_add+'</li>';
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
       }
