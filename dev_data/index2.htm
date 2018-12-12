@@ -211,7 +211,7 @@ From: Latvia, Valmiera
        if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangFri+'</span> '; }
        if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonIndexResponse.LangSat+'</span> '; }
       }
-      timerList += '<tr><td>'+timeDevice['timer'][i].time1+'</td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+'</td><tr>';
+      timerList += '<tr><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonIndexResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><tr>';
      }
      // for (var i = 0; i < timers.timer.length; i++) {
      //  if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
