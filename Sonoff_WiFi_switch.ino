@@ -24,7 +24,7 @@ void setup() {
   initCMD();
   initWIFI();
   initHTTP();
-  initUpgrade();
+  //initUpgrade();
   initFS();
   initSSDP();
   initScenary();

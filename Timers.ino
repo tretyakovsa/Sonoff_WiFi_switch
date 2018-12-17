@@ -56,7 +56,7 @@ void loadTimer() {
         String nextRun1 = Timers["timer"][i]["run1"].as<String>();
         String nextId = Timers["timer"][i]["id"].as<String>();
         int active = Timers["timer"][i]["active"];
-        if (timeToLong(nextTime1) >= timeToLong(GetTime()) && active) {
+        if (timeToLong(nextTime1) >= timeToLong(GetTime()) && !active) {
           if (lminTime >= timeToLong(nextTime1)) {
             lminTime = timeToLong(nextTime1);
             minTime = nextTime1;

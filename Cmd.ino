@@ -4,7 +4,7 @@ void initCMD() {
   sCmd.addCommand("UART",       uart);
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
-  //sCmd.addCommand("Upgrade",    initUpgrade);
+  sCmd.addCommand("UPGRADE",    initUpgrade);
   #ifdef ddnsM
   sCmd.addCommand("DDNS",       initDDNS);
   #endif
