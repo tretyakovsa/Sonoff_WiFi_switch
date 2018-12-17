@@ -147,8 +147,8 @@ void saveConfigSetup () {
 
 */
 uint8_t pinTest(uint8_t pin) {
-  Serial.print("pin");
-  Serial.print("=");
+  //Serial.print("pin");
+  //Serial.print("=");
   if (pin > 20) {
     pin = 17;
   } else {
@@ -165,7 +165,7 @@ uint8_t pinTest(uint8_t pin) {
       }
     }
   }
-  Serial.println(pin);
+  //Serial.println(pin);
   return pin;
 }
 uint8_t pinTest(uint8_t pin, boolean multi) {

@@ -200,14 +200,16 @@ void irReceived() {
 void handleIrReceiv() {
   if (irReceiver->decode(&results)) {
     //serialPrintUint64(results.value, HEX);
+    //uint64ToString(input, base)
     //Serial.println(emptyS);
     dump(&results);
-    flag = sendStatus(irReceivedS, String((uint32_t) results.value, HEX));
+    flag = sendStatus(irReceivedS, uint64ToString(results.value,HEX));
     irReceiver->resume();  // Continue looking for IR codes after your finished dealing with the data.
   }
 }
 void dump(decode_results *results) {
   uint16_t count = results->rawlen;
+  //Serial.println(count);
     sendOptions(irDecodeTypeS, results->decode_type);
 }
 // ----------------------Приемник на 433мГ
