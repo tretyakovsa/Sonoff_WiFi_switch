@@ -6,10 +6,10 @@ UPGRADE
 RELAY 20 1 1 0 {{LangrelayName}}_1
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
-// {{LangConfDDNS}}
-# DDNS
 // {{LangConfTIMERS}}
 TIMERS
+// {{LangConfDDNS}}
+# DDNS
 // {{LangConfDHT}}
 # DHT 14
 // {{LangConfDS18B20}}
@@ -40,6 +40,6 @@ TACH 0 0 20 0
 // {{LangConfIrTransmitter}}
 # IR-TRANSMITTER 14
 // {{LangConfMQTT}}
-MQTT
+# MQTT
 // {{LangConfAdmin}}
 # ADMIN

@@ -82,7 +82,7 @@ From: Latvia, Valmiera
        for (var i in macros_ip) {
         var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
         if (command && command.indexOf(" = ") == -1 ) {
-         options+='<input onclick="send_request(this, \'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+         options+='<input onclick="send_request(this, \'http://'+ip+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
         }
        }
        if (options){
@@ -271,7 +271,7 @@ From: Latvia, Valmiera
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = '';
     var parent = submit.parentNode.parentNode.children[0].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"<i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"<i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="show" id="hide-'+datetext+'"><br><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;

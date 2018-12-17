@@ -82,7 +82,7 @@ From: Latvia, Valmiera
       for (var i in macros_ip) {
        var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
        if (command && command.indexOf(" = ") == -1 ) {
-        options+='<input onclick="send_request(this, \'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+        options+='<input onclick="send_request(this, \'http://'+ip+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
        }
       }
       if (options){

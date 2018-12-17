@@ -14,10 +14,10 @@ RELAY 12 1 1 0 {{LangrelayName}}_1
 # print print
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
-// {{LangConfDDNS}}
-# DDNS
 // {{LangConfTIMERS}}
 TIMERS
+// {{LangConfDDNS}}
+# DDNS
 // {{LangConfDHT}}
 # DHT 14
 // {{LangConfDS18B20}}
@@ -25,7 +25,7 @@ TIMERS
 // Подключается только на 4 и 5 GPIO, совместно с DHT не работает.
 # SI7021
 // {{LangConfA0}}
-A0
+# A0
 // {{LangConfTach}}
 TACH 0 0 20 0
 # TACH 0 1 20 0

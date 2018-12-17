@@ -52,15 +52,10 @@
    "title":"<i class=\"clock-img\"></i> <span class=\"hidden-xs\">{{LangTimer}}</span>"
   },
   {
-   "type":"dropdown",
-   "name":"help-url",
-   "class":"btn btn-default",
-   "title":{
-    "#":"<i class=\"help-img\"></i> <span class=\"hidden-xs\">{{LangHelp}}</span> <span class=\"caret\"></span>",
-    "https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues":"<b>Sonoff</b> (Relay)",
-    "https://github.com/renat2985/rgb/issues":"<b>RGB</b> (WS2811-12/NeoPixel)",
-    "https://github.com/tretyakovsa/jaluzi/issues":"<b>Jalousie</b> (Motor)"
-   }
+   "type":"link",
+   "class":"btn btn-default dropdown-toggle",
+   "action":"https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues",
+   "title":"<i class=\"help-img\"></i> <span class=\"hidden-xs\">{{LangHelp}}</span>"
   },
   {
    "type":"dropdown",

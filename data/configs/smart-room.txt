@@ -11,10 +11,10 @@ RELAY 13 3 1 1 {{LangrelayName}}_3
 # print print
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
-// {{LangConfDDNS}}
-DDNS
 // {{LangConfTIMERS}}
 TIMERS
+// {{LangConfDDNS}}
+DDNS
 // {{LangConfDHT}}
 # DHT 4
 // {{LangConfDS18B20}}

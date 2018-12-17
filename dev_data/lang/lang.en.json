@@ -40,7 +40,7 @@
  "LangCommits":"Commits",
  "LangNewIssues":"Create new Issues",
  "LangAuthorization":"Authorization",
- "LangUpgradeBeta":"By clicking here you can update and try new beta (test) versions of our firmware",
+ "LangUpgradeBeta":"Below you can update and try new beta (test) versions of firmware",
 
  "_comment":"---page.htm?setup---",
  "LangDevice":"Device Name",
