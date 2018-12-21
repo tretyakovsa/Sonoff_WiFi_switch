@@ -1,4 +1,4 @@
-# Sonoff (Arduino)
+# ESP8266 (Arduino)
 
 <a href="https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen1.png"><img src="https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen1.png" align="left" height="220" width="400" ></a>
 <a href="https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen2.png"><img src="https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/screen2.png" align="left" height="220" width="400" ></a>
