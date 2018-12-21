@@ -9,11 +9,8 @@
 # Upload instruction
 
 ## Specification .bin files
-  -  Module: Generic ESP8266 Module
-  -  Flash Size: 1MByte
-  -  Flash Mode: dio
-  -  Flash Frequency: 40Mhz
-  -  Upload Speed: 921600
+![download](https://raw.githubusercontent.com/tretyakovsa/Sonoff_WiFi_switch/master/tutorial/download.png)
+
 
 # Download [Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip](https://github.com/tretyakovsa/Sonoff_WiFi_switch/releases/download/3.0/Build.Spiffs.flash.1Mb.256Kb.2018.12.03.zip)
 
