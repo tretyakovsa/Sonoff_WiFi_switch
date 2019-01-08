@@ -13,35 +13,18 @@ From: Latvia, Valmiera
 -->
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  <script defer src="js/build.chart.js?v18.11.2018" charset="utf-8"></script>
+  <script defer src="js/build.chart.js?v17.12.2018" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/chart.js"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v18.11.2018">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v17.12.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script defer type="text/javascript" src="/js/function.js?v18.11.2018"></script>
+  <script defer type="text/javascript" src="/js/function.js?v17.12.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
+  <title id="h-title"></title>
   <script type="text/javascript">
    var jsonIndexResponse, jsonLang;
-   //function selectTextareaLine(tarea,lineNum) {
-   // lineNum--;
-   // var lines = tarea.value.split("\n");
-   // var startPos = 0, endPos = tarea.value.length;
-   // for(var x = 0; x < lines.length; x++) {
-   //  if(x == lineNum) {break;}
-   //  startPos += (lines[x].length+1);
-   // }
-   // var endPos = lines[lineNum].length+startPos;
-   // if(typeof(tarea.selectionStart) != "undefined") {
-   //  tarea.focus();
-   //  tarea.selectionStart = startPos;
-   //  tarea.selectionEnd = endPos;
-   //  return true;
-   // }
-   // return false;
-   //}
    window.onload = function() {
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);

@@ -28,7 +28,7 @@
    "type":"link",
    "class":"btn btn-default dropdown-toggle",
    "action":"/page.htm?scenary",
-   "title":"{{LangScenary}}"
+   "title":"<i class=\"dashboard-img\"></i> <span class=\"hidden-xs\">{{LangScenary}}</span>"
   },
   {
    "type":"link",

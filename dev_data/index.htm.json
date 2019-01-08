@@ -40,7 +40,7 @@
    "type":"link",
    "class":"btn btn-info dropdown-toggle",
    "action":"/page.htm?scenary",
-   "title":"{{LangScenary}}"
+   "title":"<i class=\"dashboard-img\"></i> <span class=\"hidden-xs\">{{LangScenary}}</span>"
   },
   {
    "type":"link",
@@ -51,7 +51,7 @@
   {
    "type":"link",
    "class":"btn btn-default dropdown-toggle",
-   "action":"https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues",
+   "action":"https://github.com/tretyakovsa/Sonoff_WiFi_switch/issues\" target=\"_blank",
    "title":"<i class=\"help-img\"></i> <span class=\"hidden-xs\">{{LangHelp}}</span>"
   },
   {

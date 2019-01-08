@@ -6,9 +6,9 @@
   "/modules.json"
  ],
  "title": [{
-   "type":"text",
-   "title":"{{LangOptions1}}"
-  }],
+  "type":"text",
+  "title":"{{LangOptions1}}"
+ }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content":[
   {
@@ -25,7 +25,7 @@
   {
    "type":"button",
    "title":"&#8657; 0",
-"module":"furnace0",
+   "module":"furnace0",
    "response":"[[furnace0-state]]",
    "action":"furnace 0 up",
    "class":"'btn btn-block btn-lg btn-primary",
@@ -44,21 +44,21 @@
   {
    "type":"h4",
    "name":"furnace0-state",
-"module":"furnace0",
+   "module":"furnace0",
    "title":"{{stateFurnace0}}",
    "style":"text-align: center;width:50%;display:inline-block"
   },
   {
    "type":"h4",
    "name":"furnace1-state",
-"module":"furnace1",
+   "module":"furnace1",
    "title":"{{stateFurnace1}}",
    "style":"text-align: center;width:50%;display:inline-block"
   },
   {
    "type":"button",
    "title":"&#8659; 1",
-  "module":"furnace0",
+   "module":"furnace0",
    "response":"[[furnace0-state]]",
    "action":"furnace 0 down",
    "class":"'btn btn-block btn-lg btn-primary",
@@ -67,7 +67,7 @@
   {
    "type":"button",
    "title":"&#8659; 3",
-     "module":"furnace1",
+   "module":"furnace1",
    "response":"[[furnace1-state]]",
    "action":"furnace 1 down",
    "class":"'btn btn-block btn-lg btn-primary",

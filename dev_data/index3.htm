@@ -13,12 +13,12 @@ From: Latvia, Valmiera
 -->
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v18.11.2018">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v17.12.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v18.11.2018"></script>
+  <script type="text/javascript" src="js/function.js?v17.12.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Device Page</title>
+  <title id="h-title">Device Page</title>
   <script type="text/javascript">
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
@@ -55,27 +55,21 @@ From: Latvia, Valmiera
      var ipModule=JSON.parse(response);
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
-
       if (window.location.hostname == ip) {
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
         loadBlock(ip,ipModule.space,'first',ipModule.module);
         setContent('first','index3.htm');
-
-
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
-
        },true);
       } else {
        //var testd = setTimeout(function() {loadBlock(ip,ipModule.space,'first',ipModule.module);}, 3000);
        loadBlock(ip,ipModule.space,'first',ipModule.module);
-
       }
-
      }
     },true);
    }
@@ -98,7 +92,6 @@ From: Latvia, Valmiera
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -138,19 +131,11 @@ From: Latvia, Valmiera
        document.getElementById("button-"+ip+"-leakag").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
       }
       if (stage == 'first'){
-       // if (searchModule(modules,"timers")){
-       //  loadTimers(ip,content,jsonIndexResponse);
-       // }
-       // if (searchModule(modules,"temperature")){
-       //  loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature");
-       // }
-      // if(/temperature/.test(modules)) {
         for (var i = 0; i < 10; i++) {
          if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
           loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
          }
         }
-      // }
        if (searchModule(modules,"humidity")){
         loadSensor(ip,'table-sensors',jsonIndexResponse,"humidity");
        }
@@ -180,7 +165,6 @@ From: Latvia, Valmiera
      },true);
     },true);
    }
-
 
    function loadElement(ip, ssdpVal, spaceVal, moduleVal, classVal) {
     var element = document.getElementById(spaceVal);

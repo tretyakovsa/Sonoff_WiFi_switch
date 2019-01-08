@@ -492,8 +492,6 @@
      xmlHttp.onreadystatechange = httpGetProcessRequest;
      if (theUrl.indexOf("/") == 0)
       theUrl = urlXXX + theUrl;//bolt
-     //alert(theUrl);
-     //Для отключения кэша random() иначе будут старые данные
      xmlHttp.open("GET", theUrl+"?rand="+Math.random(), true);
      xmlHttp.send(null);
     }
@@ -544,15 +542,8 @@
     //        var s = "http://192.168.211.180/edit/index.htm";
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
     //        var parts = s.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) { vars[key] = value; });
-
-    //alert(vars.file);
-    //alert(JSON.stringify(parts));
-    //alert(JSON.stringify(vars));
-    //alert(urlXXX);
     if (typeof vars.url !== "undefined" && vars.url != "")
      urlXXX = "http://" + vars.url;/**/
-    //alert(urlXXX);
-    //vars.file = urlXXX;
     var editor = createEditor("editor", vars.file, vars.lang, vars.theme);
     var tree = createTree("tree", editor);
     createFileUploader("uploader", tree, editor);
@@ -572,7 +563,6 @@
       window.ace[key] = a[key];
     });
    })();
-
   </script>
  </head>
  <body onload="onBodyLoad();">

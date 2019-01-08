@@ -15,7 +15,14 @@
    "title":"{{LangDevices}}",
    "action":"/",
    "class":"btn btn-danger",
-   "style":"width:70%;"
+   "style":"width:80%;"
+  },
+  {
+   "type":"link",
+   "title":"<i class=\"dashboard-img\"></i>",
+   "action":"/page.htm?scenary",
+   "class":"btn btn-info",
+   "style":"width:10%;"
   },
   {
    "type":"link",
@@ -23,13 +30,6 @@
    "action":"/page.htm?timer",
    "title":"<i class=\"clock-img\"></i>",
    "style":"width:10%;"
-  },
-  {
-   "type":"link",
-   "title":"{{LangScenary}}",
-   "action":"/page.htm?scenary",
-   "class":"btn btn-info",
-   "style":"width:20%;"
   },
   {
    "type":"link",

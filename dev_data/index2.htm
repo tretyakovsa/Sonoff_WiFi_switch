@@ -13,20 +13,16 @@ From: Latvia, Valmiera
 -->
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" type="text/css" href="css/build.css?v18.11.2018">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v17.12.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script type="text/javascript" src="js/function.js?v18.11.2018"></script>
+  <script type="text/javascript" src="js/function.js?v17.12.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Device Page</title>
+  <title id="h-title">Device Page</title>
   <script type="text/javascript">
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
-    //  if (readCookie("issues-hidden") != "hidden") {
-    //   loadIssues('tretyakovsa/Sonoff_WiFi_switch',10);
-    //  } else {
-    //   document.getElementById('issues-list').parentNode.classList.add('hidden');}
    }
 
    function deviceList(stage,sorting) {
@@ -63,33 +59,22 @@ From: Latvia, Valmiera
         jsonLang=JSON.parse(response);
         loadBlock(ip,'content','first',ipModule.module);
         setContent('first','index2.htm');
-
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
-
        },true);
       } else {
        loadBlock(ip,'content','first',ipModule.module);
       }
 
-
       ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
-       var options = '';
-       var macros_ip=response.split("if voice = ");
-       for (var i in macros_ip) {
-        var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
-        if (command && command.indexOf(" = ") == -1 ) {
-         options+='<input onclick="send_request(this, \'http://'+ip+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
-        }
-       }
+       var options = macrosTemplate(response,ip);
        if (options){
         loadBlock2('macros',stage,ip,options);
        }
       },true);
-
 
      }
 
@@ -113,7 +98,6 @@ From: Latvia, Valmiera
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       var jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
-      //var jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -123,15 +107,11 @@ From: Latvia, Valmiera
         loadTimers(ip,'table-timers',jsonIndexResponse);
        }
        if (modules == "macros"){
-        document.getElementById('right-macros-list').innerHTML+='<hr><a class="label label-default" href="#'+jsonIndexResponse.space+'">'+jsonIndexResponse.space+'<\/a>'+macrosList;
+        document.getElementById('right-macros-list').innerHTML+='<hr><a class="label label-default" href="#'+jsonIndexResponse.space+'">'+jsonIndexResponse.space+'<\/a> <b><a href="http://'+ip+'/page.htm?scenary">'+jsonIndexResponse.SSDP+'<\/a><\/b> '+macrosList;
        }
        if (searchModule(modules,"movement")){
         loadSensor(ip,'table-sensors',jsonIndexResponse,"movement");
        }
-       //if (searchModule(modules,"temperature")){
-       // loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature");
-       //}
-       // if(/temperature/.test(modules)) {
        for (var i = 0; i < 10; i++) {
         if (searchModuleOld(modules,"temperature"+(i==0?'':i))){
          loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
@@ -201,30 +181,9 @@ From: Latvia, Valmiera
      var timeDevice=JSON.parse(response);
      for (var i in timeDevice['timer']) {
       var day_view = timeDevice['timer'][i].day.split("");
-      var day_view_add = '';
-      for (var y in day_view) {
-       if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonIndexResponse.LangSun+'</span> '; }
-       if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangMon+'</span> '; }
-       if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangTue+'</span> '; }
-       if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangWed+'</span> '; }
-       if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangThu+'</span> '; }
-       if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonIndexResponse.LangFri+'</span> '; }
-       if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonIndexResponse.LangSat+'</span> '; }
-      }
+      var day_view_add = dayTemplate(day_view,jsonIndexResponse);
       timerList += '<tr><td><input id="active" type="checkbox" onchange="activeTimer(\''+timeDevice['timer'][i]['id']+'\',\''+ip+'\',(this.checked?\'1\':\'0\'))" '+(timeDevice['timer'][i]['active']==1 || typeof timeDevice['timer'][i]['active']=='undefined'?'checked':'')+'><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonIndexResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><tr>';
      }
-     // for (var i = 0; i < timers.timer.length; i++) {
-     //  if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
-     //  if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangOffM"]+'<\/span>';}
-     //  if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOpen"]+'<\/span>';}
-     //  if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
-     //  if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
-     //  if (timers.timer[i].module == "relay") {timers.timer[i].module = '<a class="label label-danger" href="#relay" onclick="deviceList(\'first\',\'relay\');">relay<\/a>';}
-     //  if (timers.timer[i].module == "rgb") {timers.timer[i].module = '<a class="label label-info" href="#rgb" onclick="deviceList(\'first\',\'rgb\');">rgb<\/a>';}
-     //  if (timers.timer[i].module == "jalousie") {timers.timer[i].module = '<a class="label label-success" href="#jalousie" onclick="deviceList(\'first\',\'jalousie\');">jalousie<\/a>';}
-     //  timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
-     //  timerList += '<tr><td>'+timers.timer[i].module+'<\/td><td>'+timers.timer[i].trigger+'<\/td><td>'+timers.timer[i].day.substring(0,7)+'.<\/td><td>'+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<\/<td><\/tr>';
-     // }
      document.getElementById(content).innerHTML+='<tr><td>'+(jsonIndexResponse.space?'<a class="label label-default" href="#'+jsonIndexResponse.space+'">'+jsonIndexResponse.space+'<\/a>':'')+' <\/td><td colspan="3"><b><a href="http://'+ip+'/page.htm?timer">'+jsonIndexResponse.SSDP+'<\/a><\/b><\/td><\/tr>'+(timerList?timerList:'<tr><td colspan="4">'+jsonIndexResponse.LangNoTimers+'<\/td><\/tr>');
     },true);
    }
@@ -235,7 +194,6 @@ From: Latvia, Valmiera
 
    function loadSensor(ip, content, jsonIndexResponse, module) {
     ajax.get('http://'+ip+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,''),{},function(response) {
-     //ajax.get('http://'+ip+'/'+module+'.json'+(module.replace(/[^\d;]/g,'')?'?n='+module.replace(/[^\d;]/g,''):''),{},function(response) {
      var sensors=JSON.parse(response);
      document.getElementById(content).innerHTML+='<tr><td>'+(jsonIndexResponse.space?'<a class="label label-default" href="#'+jsonIndexResponse.space+'" onclick="deviceList(\'first\',\''+jsonIndexResponse.space+'\');">'+jsonIndexResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'">'+jsonIndexResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^a-zA-Z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/td><td><b id="sensor-'+ip+'-'+module+'">'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
      //  if (sensors.refresh) {setTimeout("reloadSensor('"+ip+"','"+module+"')", sensors.refresh);}

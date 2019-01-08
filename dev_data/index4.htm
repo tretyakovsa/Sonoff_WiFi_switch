@@ -13,21 +13,19 @@ From: Latvia, Valmiera
 -->
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  <script defer src="js/build.chart.js?v18.11.2018" charset="utf-8"></script>
+  <script defer src="js/build.chart.js?v17.12.2018" charset="utf-8"></script>
   <!-- <link rel="stylesheet" type="text/css" href="css/chartist.min.css">
 <script src="js/chartist.min.js" charset="utf-8"></script> -->
-  <link rel="stylesheet" type="text/css" href="css/build.css?v18.11.2018">
+  <link rel="stylesheet" type="text/css" href="css/build.css?v17.12.2018">
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-  <script defer type="text/javascript" src="js/function.js?v18.11.2018"></script>
+  <script defer type="text/javascript" src="js/function.js?v17.12.2018"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Device Page</title>
+  <title id="h-title">Device Page</title>
   <script type="text/javascript">
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
-    //loadIssues('tretyakovsa/Sonoff_WiFi_switch',10);
-    //loadCommits('tretyakovsa/Sonoff_WiFi_switch',10);
    }
 
    function deviceList(stage,sorting) {
@@ -56,41 +54,27 @@ From: Latvia, Valmiera
      var ipModule=JSON.parse(response);
      // Сортировка
      if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting)) {
-
       if (window.location.hostname == ip) {
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
         loadBlock(ip,'first',ipModule.module);
         setContent('first','index4.htm');
-
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
-
        },true);
       } else {
        loadBlock(ip,'first',ipModule.module);
       }
-
      }
-
      ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
-      var options = '';
-      var macros_ip=response.split("if voice = ");
-      for (var i in macros_ip) {
-       var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
-       if (command && command.indexOf(" = ") == -1 ) {
-        options+='<input onclick="send_request(this, \'http://'+ip+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
-       }
-      }
+      var options = macrosTemplate(response,ip);
       if (options){
        loadBlock(ip,'first','macros',options);
       }
      },true);
-
-
     },true);
    }
 
@@ -100,7 +84,6 @@ From: Latvia, Valmiera
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       if(/relay/.test(modules)) {
        for (var i = 0; i < 6; i++) {
         if (!searchModule(modules,"relay"+i)){
@@ -128,17 +111,11 @@ From: Latvia, Valmiera
       if (searchModule(modules,"leakag")){
        loadBlock2('leakag','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
-      // if(/temperature/.test(modules)) {
       for (var i = 0; i < 10; i++) {
        if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
         loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,(i==0?'':i));
        }
       }
-      // }
-      //  if (searchModule(modules,"temperature")){
-      //   loadBlock2('temperature','temperature',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
-      //  }
-
       if (searchModule(modules,"humidity")){
        loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
       }
@@ -188,29 +165,18 @@ From: Latvia, Valmiera
        timers.timer.sort(function(a,b){return (a.time1 > b.time1) ? 1 : ((b.time1 > a.time1) ? -1 : 0);});
        for (var i = 0; i < timers.timer.length; i++) {
         var day_view = timers.timer[i].day.split("");
-        var day_view_add = '';
-        for (var y in day_view) {
-         if (y == 0 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSun+' '; }
-         if (y == 1 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangMon+' '; }
-         if (y == 2 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangTue+' '; }
-         if (y == 3 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangWed+' '; }
-         if (y == 4 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangThu+' '; }
-         if (y == 5 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangFri+' '; }
-         if (y == 6 && day_view[y] == 1){  day_view_add+=' '+jsonIndexResponse.LangSat+' '; }
-        }
+        var day_view_add = dayTemplate(day_view,jsonIndexResponse);
         timerList += '<li><b>'+timers.timer[i].time1+'</b> <span class="label label-default">'+day_view_add+'</span> '+timers.timer[i].com1+'</li>';
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
        jsonIndexResponse.timerListHidden = 'hidden';
       }
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       jsonIndexResponse.ip = ip;
-      //jsonIndexResponse.relay = (jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       for (var i = 0; i < 6; i++) {
        jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }

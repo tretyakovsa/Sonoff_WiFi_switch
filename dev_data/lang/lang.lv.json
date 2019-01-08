@@ -225,7 +225,7 @@
  "LangConfIrReceived":"Bezvadu IR uztvērējs",
  "LangConfIrTransmitter":"Bezvadu IR frekvences raidītājs",
  "LangConfFurnace":"Elektriskā plīts /n <PIN> <PIN>",
- "LangConfPOW":"Реле с счетчиком энергии /n <Через каждых 2сек. снимаем показания> <PIN - измерения мощьности> <PIN - измерение тока напряжение> <PIN - переключение измерения тока или напраяжения>",
+ "LangConfPOW":"Relejs ar enerģijas skaitītāju /n <Ik pēc 2 sekundēm. rādījumu nolasīšana> <PIN - jaudas mērījums> <PIN - strāvas mērīšanas spriegums> <PIN - pārslēgšanas strāvas mērīšana vai spriegums>",
  "LangConfSerial":"Ieslegt UART portu",
  "LangConfAdmin":"Parādās papildu pogas, lai viegli attīstītu"
 }

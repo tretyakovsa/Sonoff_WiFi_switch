@@ -20,13 +20,13 @@ ajax.x = function () {
  return xhr;
 };
 
-ajax.send = function (url, callback, method, data, async) {
+ajax.send = function (url,callback,method,data,async) {
  if (method != 'PUT') {submit_disabled(true);}
  if (async === undefined) {
   async = true;
  }
  var x = ajax.x();
- x.open((method=='PUT'?'GET':''+method+''), url, async);
+ x.open((method=='PUT'?'GET':''+method+''),url,async);
  x.onreadystatechange = function () {
   if (x.readyState == 4) {
    if (method != 'PUT') {submit_disabled(false);}
@@ -39,28 +39,28 @@ ajax.send = function (url, callback, method, data, async) {
  x.send(data)
 };
 
-ajax.get = function (url, data, callback, async) {
+ajax.get = function (url,data,callback,async) {
  var query = [];
  for (var key in data) {
-  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+  query.push(encodeURIComponent(key)+'='+encodeURIComponent(data[key]));
  }
- ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
+ ajax.send(url+(query.length?'?'+query.join('&'):''),callback,'GET',null,async)
 };
 
-ajax.put = function (url, data, callback, async) {
+ajax.put = function (url,data,callback,async) {
  var query = [];
  for (var key in data) {
-  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+  query.push(encodeURIComponent(key)+'='+encodeURIComponent(data[key]));
  }
- ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'PUT', null, async)
+ ajax.send(url+(query.length?'?'+query.join('&'):''),callback,'PUT',null,async)
 };
 
-ajax.post = function (url, data, callback, async) {
+ajax.post = function (url,data,callback,async) {
  var query = [];
  for (var key in data) {
-  query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+  query.push(encodeURIComponent(key)+'='+encodeURIComponent(data[key]));
  }
- ajax.send(url, callback, 'POST', query.join('&'), async)
+ ajax.send(url,callback,'POST',query.join('&'),async)
 };
 
 var xmlHttp=createXmlHttpObject();
@@ -79,7 +79,7 @@ var jsonPage;
 var jsonResponse;
 
 document.onkeydown = function(e){
- var evtobj = window.event? event : e
+ var evtobj = window.event?event:e
  var element=document.getElementById('edit-content');
  var charCode = String.fromCharCode(evtobj.which).toLowerCase();
  if (charCode === 'e' && evtobj.ctrlKey && element) {window.open('/edit','_blank');}
@@ -92,7 +92,7 @@ document.onkeydown = function(e){
 function run_socket(url) {
  var connection = new WebSocket(url.replace('socket ','ws://'), ['arduino']);
  connection.onopen = function () {
-  connection.send('Connect ' + new Date());
+  connection.send('Connect '+new Date());
  };
  connection.onerror = function (error) {
   console.log('WebSocket Error ', error);
@@ -110,7 +110,6 @@ function setContent(stage,load_page) {
  jsonResponse = '';
  var pages = window.location.search.substring(1).split("&");
  if (load_page) {pages[0] = load_page; }
- //pages[0] = (pages[0]?pages[0]:window.location.pathname.substring(window.location.pathname.lastIndexOf('/')+1));
  pages[0] = (pages[0]?pages[0]:'index');
  ajax.get(pages[0]+'.json?'+Math.random(),{},function(response) {
   document.getElementById('download-json').href = pages[0]+".json";
@@ -151,10 +150,6 @@ function setContent(stage,load_page) {
 
        jsonResponse.sossionLogin = sessionStorage.getItem('sossionLogin');
 
-       //if (jsonPage.title[0]['title']) {
-       // document.title = renameBlock(jsonResponse, jsonPage.title[0]['title']);
-       // // document.getElementById('title').innerHTML = renameBlock(jsonResponse, jsonPage.title);
-       //}
        var element_title=document.getElementById('title');
        if(element_title){element_title.innerHTML = '';}
        if (jsonPage.class) {document.getElementById('content').className = jsonPage.class;}
@@ -184,7 +179,7 @@ function setContent(stage,load_page) {
        // if (jsonPage.configs[fileNumber].indexOf('ws://')  >= 0){
        //  var connection = new WebSocket(jsonPage.configs[fileNumber]+":81", ['arduino']);
        //  connection.onopen = function () {
-       //   connection.send('Connect ' + new Date());
+       //   connection.send('Connect '+new Date());
        //  };
        //  connection.onerror = function (error) {
        //   console.log('WebSocket Error ', error);
@@ -212,7 +207,7 @@ function setContent(stage,load_page) {
    ajax.get('/list?dir=/',{},function(response) {
     html('file-list',' ');
     var jsonFiles = JSON.parse(response);
-    jsonFiles.sort(function(a,b){return (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+    jsonFiles.sort(function(a,b){return (a.name < b.name)?1:((b.name < a.name)?-1:0);});
     for(var i = 0;i<jsonFiles.length;i++) {
      if (jsonFiles[i].name.substr(-4) == 'json' || jsonFiles[i].name.substr(-7) == 'json.gz'){
       document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.split('.')[0]+'">'+jsonFiles[i].name+'<\/a><br>';
@@ -257,7 +252,6 @@ function viewTemplate(jsonPage,jsonResponse) {
      var action_val = renameGet(obj.action);
      var actiondown_val = renameGet(obj.actiondown);
      var name_val = (obj.name?obj.name:'');
-     //    var title_val = renameBlock(jsonResponse, obj.title);
      var class_val = (obj.class?renameBlock(jsonResponse, obj.class):'');
      var style_val = (obj.style?'style="'+renameBlock(jsonResponse, obj.style)+'"':'');
      var pattern_val = (obj.pattern?obj.pattern:'');
@@ -270,6 +264,9 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
       element.innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/'+type_val+'>';
+     }
+     if (type_val == 'none') {
+      element.innerHTML += renameBlock(jsonResponse, obj.title);
      }
      if (type_val == 'input') {
       if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
@@ -460,7 +457,6 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<br><br>';
       option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff TH16 / Wi-Fi Smart Socket<\/option><option value="sonoff-pow">Sonoff-Pow ('+jsonResponse.LangSoon+')<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="rgb-shim">RGB SHIM (5050/3528/2835)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
       option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form>';
-
       option += '<\/span><\/div>';
       element.innerHTML += option;
      }
@@ -472,14 +468,8 @@ function viewTemplate(jsonPage,jsonResponse) {
 }
 
 function toggleCheckbox(element) {
- if (element.checked) {
-  for (i = 0; i < 7; i++) {
-   document.getElementById("day-"+i).checked = true;
-  }
- } else {
-  for (i = 0; i < 7; i++) {
-   document.getElementById("day-"+i).checked = false;
-  }
+ for (i = 0; i < 7; i++) {
+  document.getElementById("day-"+i).checked = (element.checked?true:false);
  }
 }
 
@@ -558,16 +548,7 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
   var timeDevice=JSON.parse(response);
   for (var i in timeDevice['timer']) {
    var day_view = timeDevice['timer'][i].day.split("");
-   var day_view_add = '';
-   for (var y in day_view) {
-    if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
-    if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
-    if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangTue+'</span> '; }
-    if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangWed+'</span> '; }
-    if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangThu+'</span> '; }
-    if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
-    if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
-   }
+   var day_view_add = dayTemplate(day_view,jsonResponse);
    if (timeDevice['timer'][i]['run1'] == 1) {
     day_view_add += '<span class="label label-warning">'+jsonResponse.LangRun1+'</span>';
    }
@@ -577,17 +558,28 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
  },true);
 }
 
+function dayTemplate(day_view, jsonResponse) {
+ var day_view_add = '';
+ for (var y in day_view) {
+  if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
+  if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
+  if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangTue+'</span> '; }
+  if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangWed+'</span> '; }
+  if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangThu+'</span> '; }
+  if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
+  if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
+ }
+ return day_view_add;
+}
 
 function loadScenaryList(jsonResponse,selectDevice,ip) {
  ajax.get((ip?'http://'+ip:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
   if (selectDevice == 'loadInTextarea') {
-   //html("scenary-list-edit",response);
    document.getElementById("scenary-list-edit").innerHTML = response;
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
   } else {
-   //  alert(selectDevice+' '+ip);
    var createText = '';
    var block = response.split(/\n|\r| /);
    //var block = response.split(/\n\r|\r\n|\n|\r| /g);
@@ -628,21 +620,12 @@ function loadNewAnd(where) {
  var number = parseInt(document.getElementById("hidden-val-and").value)+1;
  document.getElementById("hidden-val-and").value = number;
  option += '<h3>'+jsonResponse.LangAnd+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
- //option += '<select class="form-control" id="ssdp-list-and'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-and'+number+'\');toggle(\'ssdp-module-and'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="ssdp-module-and'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-and'+number+'\');toggle(\'hidden-if-and'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-and'+number+'"><select class="form-control" id="ssdp-condition-and'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
  option += '<input class="form-control" id="ssdp-command-and'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-and'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-and'+number+'\',\'ssdp-command-and'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
  document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
  loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-and'+number+'');
  toggle('ssdp-module-and'+number+'','hidden');
- //ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
- // var options = '';
- // var ip=JSON.parse(response);
- // for (var i in ip) {
- //  options += '<option value="'+ip[i]+'">'+i+'<\/option>';
- // }
- // html("ssdp-list-and"+number,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+options);
- //},true);
 }
 
 function loadNewOr(where) {
@@ -650,7 +633,6 @@ function loadNewOr(where) {
  var number = parseInt(document.getElementById("hidden-val-or").value)+1;
  document.getElementById("hidden-val-or").value = number;
  option += '<h3>'+jsonResponse.LangOr+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
- //option += '<select class="form-control" id="ssdp-list-or'+number+'" onchange="loadLive(this.value,\'config.live.json\',\'ssdp-module-or'+number+'\');toggle(\'ssdp-module-or'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="ssdp-module-or'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-or'+number+'\');toggle(\'hidden-if-or'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-or'+number+'"><select class="form-control" id="ssdp-condition-or'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
  option += '<input class="form-control" id="ssdp-command-or'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-or'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-or'+number+'\',\'ssdp-command-or'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
@@ -697,33 +679,31 @@ function loadScenary(jsonResponse,loadList) {
 
 function loadMacros(jsonResponse,where,domain,class_val) {
  html(where, 'Loading...');
- file = 'scenary.save.txt';
  if (!domain) {domain=window.location.hostname}
- ajax.get('http://'+domain+'/'+file+'?'+Math.random(),{},function(response) {
+ ajax.get('http://'+domain+'/scenary.save.txt?'+Math.random(),{},function(response) {
   html(where, ' ');
-  var option = '';
-  var ip=response.split("if voice = ");
-  for (var i in ip) {
-   var command = ip[i].substr(0,ip[i].indexOf("\n"));
-   if (command && command.indexOf(" = ") == -1 ) {
-    option+='<input onclick="send_request(this, \'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
-   }
-  }
+  var option = macrosTemplate(response,domain);
   html(where, (option?option+'<hr>':''));
  },true);
 }
 
+function macrosTemplate(response,domain) {
+ var options = '';
+ var macros_ip=response.split("if voice = ");
+ for (var i in macros_ip) {
+  var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
+  if (command && command.indexOf(" = ") == -1 ) {
+   options+='<input onclick="send_request(this, \'http://'+domain+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+  }
+ }
+ return options;
+}
+
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
- var file = 'command-help.json';
- document.getElementById(to).readOnly = false;
- if (jsonParam == 'voice') {
-  file = 'scenary.save.txt';
-  document.getElementById(to).readOnly = true;
- }
-
+ document.getElementById(to).readOnly = (jsonParam=='voice'?true:false);
  var domain = document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
- ajax.get('http://'+domain+'/'+file+'?'+Math.random(),{},function(response) {
+ ajax.get('http://'+domain+'/'+(jsonParam=='voice'?'scenary.save.txt':'command-help.json')+'?'+Math.random(),{},function(response) {
   html(where, ' ');
   var option = '';
   if (jsonParam == 'voice') {
@@ -743,7 +723,7 @@ function loadCommandHelp(jsonParam,where,to) {
     option+='<li><a href="#" onclick="val(\''+to+'\',\''+ip[jsonParam][i].command+'\');return false">'+ip[jsonParam][i].command+'</a> <sup>'+renameBlock(jsonResponse,ip[jsonParam][i].title)+'</sup>';
    }
   }
-  html(where, (ip.title?ip.title:'')+'<ul>'+option+'</ul>'+(ip.titleEnd?ip.titleEnd:''));
+  html(where, (ip.header?ip.header:'')+'<ul>'+option+'</ul>'+(ip.footer?ip.footer:''));
  },true);
 }
 
@@ -753,13 +733,10 @@ function loadLive(ip,file,where) {
   var option = '';
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
-
    if ((file == 'config.live.json' && key == 'time') || (file == 'config.live.json' && key == 'weekday')) {
    } else {
     option += '<option value="'+key+'" title="'+typeof jsonLive[key]+'">'+(renameBlock(jsonResponse, '{{Lang'+key+'}}')===undefined?key:renameBlock(jsonResponse, '{{Lang'+key+'}}'))+'<\/option>';
-
    }
-
   }
   html(where,'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
  },true);
@@ -801,19 +778,16 @@ function loadInTextarea() {
  var y = 1;
  while (y < val_and) {
   y++;
-  //var scenary_list = document.getElementById("ssdp-list-and"+y).options[document.getElementById("ssdp-list-and"+y).selectedIndex].text;
   element.innerHTML += '\r\nand '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value.replace(/ /g,'_');
  }
  var z = 1;
  while (z < val_or) {
   z++;
-  // var scenary_list = document.getElementById("ssdp-list-or"+z).options[document.getElementById("ssdp-list-or"+z).selectedIndex].text;
   element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value.replace(/ /g,'_');
  }
  var i = 1;
  while (i < val_then) {
   i++;
-  // element.innerHTML += '\r\nthen '+i;
   var scenary_list = document.getElementById("ssdp-list"+i).options[document.getElementById("ssdp-list"+i).selectedIndex].text;
   var scenary_then = document.getElementById("scenary-then"+i).options[document.getElementById("scenary-then"+i).selectedIndex].value;
   if (scenary_then != ''){
@@ -826,7 +800,6 @@ function loadInTextarea() {
  val('hidden-val-or',1);
  val('hidden-val-then',1);
  val('or-and',1);
- //document.getElementById('ssdp-module').options.length=0;
 }
 
 function val(id,val){
@@ -835,8 +808,7 @@ function val(id,val){
   if (val) {
    element.value=(val==' '?'':val);
   } else {
-   var v = element.value;
-   return v;
+   return element.value;
   }
  }
 }
@@ -850,8 +822,7 @@ function html(id,val){
    if (val) {
     element.innerHTML=(val==' '?'':val);
    } else {
-    var v = element.innerHTML;
-    return v;
+    return element.innerHTML;
    }
   }
  }
@@ -988,7 +959,7 @@ function loadWifi(id,hiddenIds){
  html(id, '<li><a href="#">Loading...</a></li>');
  ajax.get('/wifi.scan.json',{},function(response) {
   var jsonWifi=JSON.parse(response);
-  jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm) ? 1 : ((b.dbm < a.dbm) ? -1 : 0);});
+  jsonWifi.networks.sort(function(a,b){return (a.dbm < b.dbm)?1:((b.dbm < a.dbm)?-1:0);});
   var html = '';
   for(var i = 0;i<jsonWifi.networks.length;i++) {
    var wifiSignal = '';
@@ -1006,7 +977,7 @@ function loadWifi(id,hiddenIds){
 function loadBuild(buildids,typeFile){
  ajax.get('http://backup.privet.lv/esp/build/'+buildids,{},function(response) {
   var jsonBuild=JSON.parse(response);
-  jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+  jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
   var html = '';
   for(var i = 0;i<jsonBuild.length;i++) {
    if (typeFile == 'all' && jsonBuild[i].name.substring(0,5) == 'spiff') {
@@ -1042,15 +1013,15 @@ function real_time(hours,min,sec) {
 function setCookie(name,value,days) {
  if (days) {
   var date = new Date();
-  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  var expires = "; expires=" + date.toGMTString();
+  date.setTime(date.getTime()+(days * 24 * 60 * 60 * 1000));
+  var expires = "; expires="+date.toGMTString();
  }
  else expires = "";
- document.cookie = name + "=" + value + expires + "; path=/";
+ document.cookie = name+"="+value+expires+"; path=/";
 }
 
 function readCookie(name) {
- var nameEQ = name + "=";
+ var nameEQ = name+"=";
  var ca = document.cookie.split(';');
  for (var i = 0; i < ca.length; i++) {
   var c = ca[i];
@@ -1065,8 +1036,8 @@ function delAllCookies() {
  for (var i = 0; i < cookies.length; i++) {
   var cookie = cookies[i];
   var eqPos = cookie.indexOf("=");
-  var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-  document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  var name = eqPos > -1?cookie.substr(0, eqPos):cookie;
+  document.cookie = name+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  }
 }
 
@@ -1117,12 +1088,10 @@ function findError(className,valueName) {
  var dubleId=0;
  for (var i = 0; i < id.length; i++) {
   id[i].classList.remove('btn-danger');
-  //id[i].style.border = "0px";
   if (valueName == id[i].value) {
    dubleId++;
    if (dubleId>=2) {
     id[i].classList.add('btn-danger');
-    //id[i].style.border = "2px solid red !important;";
    }
   }
  }
@@ -1155,7 +1124,11 @@ function cloudUpload(mac,file) {
 
 function cloudDownload(mac,file) {
  ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.random(),{},function(response) {
-  send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');toggle(\'restart-esp\');setTimeout(function(){toggle(\'restart-esp\');},20000);};');
+  if (response!='FileNotFound'){
+   send_request_edit(this, response,'configs/'+file+'','loadConfigs("'+file+'");if(confirm(\''+jsonResponse.LangReset2+' '+jsonResponse.LangReset3+'\')){send_request(this,\'/restart?device=ok\');toggle(\'restart-esp\');setTimeout(function(){toggle(\'restart-esp\');},20000);};');
+  } else {
+   alert('File not found in cloud!');
+  }
  },true);
 }
 
@@ -1174,16 +1147,6 @@ function loadTable(file, jsonTable) {
   for (var i = 0; i < timers[setTable].length; i++) {
    var tbody = '';
    for(var keys in jsonTable) {
-    if (timers[setTable][i][keys] == "on") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOnM"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "off") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangOffM"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "open") {timers[setTable][i][keys] = '<span class="label label-success">'+jsonResponse["LangOpen"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "close") {timers[setTable][i][keys] = '<span class="label label-danger">'+jsonResponse["LangClose"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "not") {timers[setTable][i][keys] = '<span class="label label-info">'+jsonResponse["LangSwitch"]+'<\/span>';}
-    if (timers[setTable][i][keys] == "relay") {timers[setTable][i][keys] = '<span class="label label-danger">relay<\/span>';}
-    if (timers[setTable][i][keys] == "rgb") {timers[setTable][i][keys] = '<span class="label label-info">rgb<\/span>';}
-    if (timers[setTable][i][keys] == "jalousie") {timers[setTable][i][keys] = '<span class="label label-success">jalousie<\/span>';}
-    if (jsonTable[keys] == '{{LangDay}}') {timers[setTable][i][keys] = jsonResponse["Lang"+timers[setTable][i][keys]];}
-    if (jsonTable[keys] == '{{LangDel}}') {timers[setTable][i][keys] = '<input class="btn btn-sm btn-danger" value="Удалить" onclick="if(confirm(\''+jsonResponse["LangDel"]+'?\')){send_request(this, renameGet(\'/timersDel?id='+timers[setTable][i][keys]+'\'),\'[[timer-list]]\');}" type="button">'}
     tbody += '<td>'+timers[setTable][i][keys]+'<\/td>';
    }
    document.getElementById('tbody-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
@@ -1275,10 +1238,10 @@ function _(el){
 }
 function componentToHex(c) {
  var hex = c.toString(16);
- return hex.length == 1 ? "0" + hex : hex;
+ return hex.length == 1?"0"+hex:hex;
 }
 function rgbToHex(r, g, b) {
- return componentToHex(r) + componentToHex(g) + componentToHex(b);
+ return componentToHex(r)+componentToHex(g)+componentToHex(b);
 }
 function findPos(obj) {
  var curleft = 0, curtop = 0;
@@ -1294,11 +1257,11 @@ function findPos(obj) {
 
 function hexToRgb(hex) {
  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
- return result ? {
+ return result?{
   r: parseInt(result[1], 16),
   g: parseInt(result[2], 16),
   b: parseInt(result[3], 16)
- } : null;
+ }:null;
 }
 //alert( hexToRgb("#0033ff").g ); // "51";
 
@@ -1307,7 +1270,7 @@ function loadCommits(repos,commitCount){
  ajax.get('https://api.github.com/repos/'+repos+'/commits',{},function(response) {
   html('commits-list', ' ');
   var jsonCommits=JSON.parse(response);
-  //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+  //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at)?1:((b.updated_at < a.updated_at)?-1:0);});
   for(var key in jsonCommits) {
    if (key < commitCount) {
     document.getElementById('commits-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
@@ -1321,7 +1284,7 @@ function loadIssues(repos,issuesCount){
  ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
   html('issues-list', ' ');
   var jsonIssues=JSON.parse(response);
-  jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at) ? 1 : ((b.updated_at < a.updated_at) ? -1 : 0);});
+  jsonIssues.sort(function(a,b){return (a.updated_at< b.updated_at)?1:((b.updated_at < a.updated_at)?-1:0);});
   for(var key in jsonIssues) {
    if (jsonIssues[key].user.login == 'renat2985' || jsonIssues[key].user.login == 'tretyakovsa') {
     for(var label in jsonIssues[key].labels) {
@@ -1346,7 +1309,7 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
  setTimeout(function() {
   ajax.put('https://api.github.com/repos/'+repos+'/contents/build',{},function(response) {
    var jsonBuild=JSON.parse(response);
-   jsonBuild.sort(function(a,b){return (a.name< b.name) ? 1 : ((b.name < a.name) ? -1 : 0);});
+   jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
    if (jsonBuild[0].name != spiffs) {
     document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
    }
@@ -1385,7 +1348,6 @@ function delCb(path){
  return function(){
   if (xmlHttp.readyState == 4){
    if(xmlHttp.status != 200){
-    //alert("ERROR["+xmlHttp.status+"]: "+xmlHttp.responseText);
    } else {
     if(path.lastIndexOf('/') < 1){
      path = '/';
@@ -1412,5 +1374,5 @@ function httpDelete(file){
 }
 
 function timeout(command,times){
- setTimeout(command,times)
+ setTimeout(command,times);
 }
