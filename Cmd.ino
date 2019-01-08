@@ -5,9 +5,9 @@ void initCMD() {
   //sCmd.addCommand("ONEWIRE",        initOneWire);
   sCmd.addCommand("NTP",        initNTP);
   sCmd.addCommand("UPGRADE",    initUpgrade);
-  #ifdef ddnsM
+#ifdef ddnsM
   sCmd.addCommand("DDNS",       initDDNS);
-  #endif
+#endif
   sCmd.addCommand("A0",       initA0);
   sCmd.addCommand("TACH",       initTach);
   sCmd.addCommand("DHT",       initDHT);
@@ -19,6 +19,9 @@ void initCMD() {
 #ifdef pinOutM
   sCmd.addCommand("PINOUT",       initPinOut);
   sCmd.addCommand("RELAY",       initRelay);
+#endif
+#ifdef DimmerM
+  sCmd.addCommand("DIMMER",       initDimmer);
 #endif
 #ifdef POW
   sCmd.addCommand("POW",       initHLW8012);

@@ -38,6 +38,7 @@ void initRGB() {
   if (state) {
     ws2812fx.start();
   }
+
   modulesReg(rgbS);
 }
 

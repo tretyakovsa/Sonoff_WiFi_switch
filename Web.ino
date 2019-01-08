@@ -200,20 +200,20 @@ void initHTTP() {
     String rn = "\n";
     String found = "if voice =";
     String temp  = Scenary;
-    String macrosJson ="{\"macros\":[";
+    String macrosJson = "{\"macros\":[";
     do {
       String comm = selectToMarker (temp, rn);
       if (comm.indexOf(found) != -1)   {
-       comm = deleteBeforeDelimiter(comm, found+" ");
-       String out = "{}";
-       jsonWrite(out,"command",comm);
-       macrosJson += out+",";
+        comm = deleteBeforeDelimiter(comm, found + " ");
+        String out = "{}";
+        jsonWrite(out, "command", comm);
+        macrosJson += out + ",";
       }
       temp = deleteBeforeDelimiter(temp, rn);
       //yield();
     } while (temp.indexOf(rn) != -1);
-    macrosJson=deleteToMarkerLast(macrosJson,",");
-    macrosJson +="]}";
+    macrosJson = deleteToMarkerLast(macrosJson, ",");
+    macrosJson += "]}";
     httpOkJson(macrosJson);
   });
 #endif
@@ -407,39 +407,8 @@ String FileList(String path) {
 }
 
 
-#ifdef webSocket
-  // webSocket
+#ifdef webSocketM
 
-  void initWebSocket(){
 
-  // start webSocket server
-    webSocket.begin();
-    webSocket.onEvent(webSocketEvent);
-  }
-  void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
 
-    switch(type) {
-        case WStype_DISCONNECTED:
-            sendOptions(webSocketS,getOptionsInt(webSocketS)-1);
-            break;
-        case WStype_CONNECTED: {
-            IPAddress ip = webSocket.remoteIP(num);
-            sendOptions(webSocketS,getOptionsInt(webSocketS)+1);
-            sendOptions(webSocketS, num);
-            //USE_SERIAL.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
-
-            // send message to client
-            //webSocket.sendTXT(num, "Connected");
-        }
-            break;
-        case WStype_TEXT:
-            //USE_SERIAL.printf("[%u] get Text: %s\n", num, payload);
-      // send message to server
-      //webSocket.sendTXT(num,"message here");
-      //webSocket.broadcastTXT(configJson);
-
-            break;
-    }
-
-  }
 #endif

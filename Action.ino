@@ -1,13 +1,13 @@
 #ifdef pinOutM
 // ------------------- Инициализация Реле
 void initRelay() {
- uint8_t pin = readArgsInt(); // первый аргумент pin
- pin =  pinTest(pin);
- String num = readArgsString(); // второй аргумент прификс реле 0 1 2
- boolean state = readArgsInt(); // третий  аргумент состояние на старте
- boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
- String title = readArgsString(); // Пятый аргумент подпись
- initPin(pin, num, state, inv, relayS, title);
+  uint8_t pin = readArgsInt(); // первый аргумент pin
+  pin =  pinTest(pin);
+  String num = readArgsString(); // второй аргумент прификс реле 0 1 2
+  boolean state = readArgsInt(); // третий  аргумент состояние на старте
+  boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
+  String title = readArgsString(); // Пятый аргумент подпись
+  initPin(pin, num, state, inv, relayS, title);
   sCmd.addCommand(relayS.c_str(), relay); //
   commandsReg(relayS);
   actionsReg(relayS + num);
@@ -23,7 +23,7 @@ void initPinOut() {
   boolean inv = readArgsInt(); // четвертый аргумент инверсия выхода
   String title = readArgsString(); // Пятый аргумент подпись
   //String name = pinOutS;
- //initPin(pin, num, state, inv, name, title);
+  //initPin(pin, num, state, inv, name, title);
   initPin(pin, num, state, inv, pinOutS, title);
   sCmd.addCommand(pinOutS.c_str(), pinOut); //
   commandsReg(pinOutS);
@@ -31,13 +31,13 @@ void initPinOut() {
   modulesReg(pinOutS + num);
 }
 
- void initPin(uint8_t pin, String num, boolean state, boolean inv, String name, String title) {
+void initPin(uint8_t pin, String num, boolean state, boolean inv, String name, String title) {
   String nameR = name + num;
   if (title == "") title = nameR;
   sendStatus(nameR, state);
   sCmd.readStr("wReg toggle " + nameR + " " + title);
-  sendOptions(name+PinS + num, pin);
-  sendOptions(name+NotS + num, inv);
+  sendOptions(name + PinS + num, pin);
+  sendOptions(name + NotS + num, inv);
   // 19 pin это реле через UART
   if (pin > 19 ) {
     Serial.begin(9600);
@@ -65,10 +65,10 @@ void pinOut() {
 }
 
 void pinSet(String num, String com, String name) {
-  String kayPin = name+PinS + num; // Получим имя ячейки пин по номеру
+  String kayPin = name + PinS + num; // Получим имя ячейки пин по номеру
   String kay = name + num; // Имя реле
   uint8_t pin = getOptionsInt(kayPin); // Получим пин по Имени реле
-  uint8_t inv = getOptionsInt(name+NotS + num); // Получим признак инверсии по Имени реле
+  uint8_t inv = getOptionsInt(name + NotS + num); // Получим признак инверсии по Имени реле
   uint8_t state = getStatusInt(kay); // Получим статус реле по Имени
   // Проверим команду приготовим новый state
   if (com == onS || com == "1" ) state = 1;
@@ -176,3 +176,53 @@ void handleRfLivolo() {
   gLivolo->sendButton(cod, len);
 }
 
+#ifdef DimmerM
+// ------------------- Инициализация Dimmer
+void initDimmer() {
+  uint8_t outPin = readArgsInt(); // первый аргумент pin
+  outPin =  pinTest(outPin);
+  sendOptions(dimmerS, outPin);
+  uint8_t zcPin = readArgsInt(); // второй аргумент pin zerro
+  zcPin =  pinTest(zcPin);
+  pinMode(zcPin, INPUT_PULLUP);
+  pinMode(outPin, OUTPUT);
+  digitalWrite(outPin, 0);
+  sendStatus(dimmerS, 0);
+  hw_timer_init(FRC1_SOURCE, 0);
+  hw_timer_set_func(dimTimerISR);
+  attachInterrupt(zcPin, zcDetectISR, RISING);
+  String title = readArgsString(); // Третий аргумент подпись
+  sCmd.addCommand(dimmerS.c_str(), dimmerOn); //
+  commandsReg(dimmerS);
+  actionsReg(dimmerS);
+  modulesReg(dimmerS);
+}
+
+void zcDetectISR() {
+
+}
+void dimTimerISR() {
+
+}
+void dimmerOn() {
+  String com = readArgsString(); //состояние
+  String brightness = readArgsString(); //яркость
+  uint8_t state = getStatusInt(dimmerS);
+  Serial.println(com);
+  if (com == "on" || com == "1") {
+    fade == 1;
+    flag = sendStatus(dimmerS, 1);
+  }
+  if (com == "off" || com == "0") {
+    fade == 0;
+    flag = sendStatus(dimmerS, 0);
+  }
+  if (com == "not") {
+    flag = sendStatus(dimmerS, !state);
+  }
+  if (com == "set") {
+    tarBrightness = brightness.toInt();
+  }
+}
+
+#endif

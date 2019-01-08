@@ -63,7 +63,9 @@ HLW8012 hlw8012;
 #define VOLTAGE_RESISTOR_UPSTREAM       ( 5 * 470000 ) // Real: 2280k
 #define VOLTAGE_RESISTOR_DOWNSTREAM     ( 1000 ) // Real 1.009k
 #endif
-
+#ifdef DimmerM
+#include "hw_timer.h"
+#endif
 #include <Ticker.h>
 Ticker flipper[8];
 
@@ -73,7 +75,10 @@ Ticker flipper[8];
 boolean but[NUM_BUTTONS];
 Bounce * buttons = new Bounce[NUM_BUTTONS];
 
-
+byte fade = 0;
+byte tarBrightness = 255;
+byte curBrightness = 0;
+byte zcState = 0; // 0 = ready; 1 = processing;
 String mqttCom;
 boolean flag = false;
 boolean thenOk;
@@ -173,7 +178,12 @@ const String PinS   = "Pin"; // Для хранения ножек реле
 const String NotS   = "Not"; // Для хранения признака инверсии
 // PinOut
 const String pinOutS   = "pinout"; //"stateRelay"; // Состояние реле
-
+#ifdef DimmerM
+// Dimmer
+const String dimmerS   = "dimmer"; //"DimmerS"; // Состояние димера
+  byte stateDim=1;
+  byte outPinDim;
+#endif
 
 
 // RGB WS

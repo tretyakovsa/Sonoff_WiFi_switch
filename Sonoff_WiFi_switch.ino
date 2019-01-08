@@ -1,4 +1,4 @@
-// 400 249
+// 402 249
 //#define Si7021
 //#define POW
 //#define mqttM //9496
@@ -8,9 +8,10 @@
 #define irTransmitterM //9312
 #define pinOutM // 1608
 #define JalousieM //1408
+//#define DimmerM // 784
 //#define safeData
 //#define macros
-//#define webSocket
+//#define webSocketM
 #include "sets.h"
 
 void setup() {
@@ -29,8 +30,8 @@ void setup() {
   initSSDP();
   initScenary();
   setupToInit();
-#ifdef webSocket
-  initWebSocket();
+#ifdef webSocketM
+
 #endif
   //testPin();
 }
@@ -45,10 +46,13 @@ void loop() {
   #ifdef mqttM
   handleMQTT();
   #endif
+  #ifdef rgbM
   ws2812fx.service();
+  //ws2812fx[1].service();
+  #endif
   handleRfReceiv();
   handleButtons();
-#ifdef webSocket
+#ifdef webSocketM
   webSocket.loop();
 #endif
 }
