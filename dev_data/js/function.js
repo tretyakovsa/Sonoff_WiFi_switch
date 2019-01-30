@@ -393,7 +393,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       var option = '';
       option += '<select class="form-control" id="ssdp-list0" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\');toggle(\'ssdp-module\',\'hidden\');"><\/select>';
       option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command\');toggle(\'hidden-if\',\'hidden\');toggle(\'or-and\',\'hidden\');"><\/select>';
-      option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
+      option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=" disabled>'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=) '+jsonResponse.LangSoon+'<\/option><option value=">=" disabled>'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=) '+jsonResponse.LangSoon+'<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
       option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module\',\'ssdp-command\');return false"><i class="find-replace-img"></i></a></span>';
       option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
       option += '<input type="hidden" id="hidden-val-and" value="1"><input type="hidden" id="hidden-val-or" value="1"><div id="new-and-or"></div>';
@@ -693,7 +693,7 @@ function macrosTemplate(response,domain) {
  for (var i in macros_ip) {
   var command = macros_ip[i].substr(0,macros_ip[i].indexOf("\n"));
   if (command && command.indexOf(" = ") == -1 ) {
-   options+='<input onclick="send_request(this, \'http://'+domain+'/voice?command='+command+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
+   options+='<input onclick="send_request(this, \'http://'+domain+'/voice?command='+command.replace(/\n|\r/g,"")+'\')" class="btn btn-block btn-primary" value="'+command.replace(/_/g,' ')+'" type="button">';
   }
  }
  return options;
@@ -715,7 +715,7 @@ function loadCommandHelp(jsonParam,where,to) {
     }
    }
    if (option=='') {
-    option+='<li>Пожалуйста сначало создайте Макрос в сценариях</li>';
+    option+='<li>'+jsonResponse.LangvoiceError+'</li>';
    }
   } else {
    var ip=JSON.parse(response);
@@ -981,7 +981,7 @@ function loadBuild(buildids,typeFile){
   var html = '';
   for(var i = 0;i<jsonBuild.length;i++) {
    if (typeFile == 'all' && jsonBuild[i].name.substring(0,5) == 'spiff') {
-    html += '<li><a href="/upgrade?spiffs=http://backup.privet.lv/esp/'+buildids+'/spiffs.0xBB000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin&build=http://backup.privet.lv/esp/'+buildids+'/build.0x00000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin" '+(jsonResponse.spiffsData==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' (Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+')?\')">Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+'<\/a><\/li>';
+    html += '<li><a href="/upgrade?spiffs=http://backup.privet.lv/esp/'+buildids+'/spiffs.0xBB000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin&build=http://backup.privet.lv/esp/'+buildids+'/build.0x00000_flash_size_1Mb.256Kb_'+jsonBuild[i].name.slice(36, -4)+'.bin" '+(jsonResponse.spiffsData==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' (Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+')? \\n '+jsonResponse.LangUpgradeInfo+'\')">Build & Spiffs (flash 1Mb 256Kb) '+jsonBuild[i].name.slice(36, -4)+'<\/a><\/li>';
    }
    if (jsonBuild[i].name.substring(0,5) == typeFile.substring(0,5)) {
     html += '<li><a href="/upgrade?'+typeFile+'=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
@@ -1068,9 +1068,11 @@ function loadConfigs(file_module,jsonResponse) {
     element.innerHTML += '<label><input type="checkbox" '+(configsLine[key].substring(0,2)!='# '?"checked":"")+'> '+configsLinePin[0]+'<\/label> ';
     for (var i = 1; i < configsLinePin.length; i++) {
      if (configsLinePin[0]=='RELAY') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._а-яА-Я]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-relay':'')+''+(i==2?' name-relay':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-relay\',this.value)"':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._а-яА-Я]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else if (configsLinePin[0]=='TACH') {
-      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)")':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==2?' name-tach':'')+'" '+(i==2?'onkeyup="findError(\'name-tach\',this.value)"':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,25}" value="'+configsLinePin[i]+'"> ':'');
+     } else if (configsLinePin[0]=='PINOUT') {
+      element.innerHTML += (configsLinePin[i]?' <input class="form-control'+(i==1?' pin-pinout':'')+''+(i==2?' name-pinout':'')+'" '+(i==1 || i==2?'onkeyup="findError(\''+(i==1?'pin':'name')+'-pinout\',this.value)"':'')+' style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9._а-яА-Я]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      } else {
       element.innerHTML += (configsLinePin[i]?' <input class="form-control" style="display:inline;width:'+Number(configsLinePin[i].length+3)+'0px;" pattern="[a-zA-Z0-9.]{1,25}" value="'+configsLinePin[i]+'"> ':'');
      }
@@ -1311,7 +1313,7 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
    var jsonBuild=JSON.parse(response);
    jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
    if (jsonBuild[0].name != spiffs) {
-    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
+    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+' \\n '+jsonResponse.LangUpgradeInfo+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
    }
   },true);
  }, LoadDelay);

@@ -5,7 +5,7 @@
   "space": "home",
   "ssid": "",
   "ssidPass": "",
-  "wifiConnect": 30,
+  "wifiConnect": 15,
   "wifiBlink": 13,
   "checkboxIP": "0",
   "ip": "",

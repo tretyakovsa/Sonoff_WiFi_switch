@@ -36,7 +36,7 @@
 
   {
    "type":"text",
-   "title":"('{{flashChip}}'.slice(4)=='85'?'<div class=\"alert alert-danger\">YOU ESP8266 BED FLASH CHIP: {{flashChip}}</div>':'')"
+   "title":"('{{flashChip}}'.slice(4)=='85'?'<div class=\"alert alert-danger\">YOU ESP8266 BED FLASH CHIP: {{flashChip}}</div>':'<b class=hidden>'+set_time_zone(this)+'</b>')"
   },
 
   {
