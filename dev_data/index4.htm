@@ -25,7 +25,11 @@ From: Latvia, Valmiera
   <script type="text/javascript">
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
-    deviceList('first');
+    if (window.location.hash.substring(1)) {
+     deviceList('first', decodeURIComponent(window.location.hash.substring(1)));
+    } else {
+     deviceList('first');
+    }
    }
 
    function deviceList(stage,sorting) {
@@ -34,7 +38,6 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
-     // ipDevice = Object.keys(ipDevice).sort(function(a,b){return ipDevice[a]-ipDevice[b]});
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -44,89 +47,126 @@ From: Latvia, Valmiera
       break;
      }
     },true);
-    if (stage == 'first') {
-     html("space-button", ' ');
-    }
    }
 
    function loadModule(ip,stage,sorting,ipDevice) {
     ajax.get('http://'+ip+'/modules.json',{},function(response) {
      var ipModule=JSON.parse(response);
+     var allModules = [];
+     var allSpace = [];
+     // for(var key in ipModule) {
+     if (stage == 'search') {
+      loadBlock(ip,'content','first',ipModule.module);
+     }
      // Сортировка
-     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting)) {
+     if (stage == 'first' && sorting == null || searchModule(ipModule.module,sorting) || ipModule.space == sorting) {
+
+
       if (window.location.hostname == ip) {
        ajax.get('http://'+ip+'/lang/lang.'+ipModule.lang+'.json',{},function(response) {
         jsonLang=JSON.parse(response);
-        loadBlock(ip,'first',ipModule.module);
-        setContent('first','index4.htm');
+        loadBlock(ip,'content','first',ipModule.module);
+        setContent('first','index.htm');
+
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
+
        },true);
       } else {
-       loadBlock(ip,'first',ipModule.module);
+       loadBlock(ip,'content','first',ipModule.module);
       }
+
+      ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
+       var options = macrosTemplate(response,ip);
+       if (options){
+        loadBlock(ip,'content','first','macros',options);
+       }
+      },true);
+
      }
-     ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
-      var options = macrosTemplate(response,ip);
-      if (options){
-       loadBlock(ip,'first','macros',options);
+
+
+     for (var s in ipModule.module) {
+      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
+      allModules.push(ipModule.module[s]);
+     }
+     allSpace.push(ipModule.space);
+     // }
+     if (stage == 'first' || stage == 'search') {
+      var spaceArray = [];
+      var space_lookup  = {};
+      for (var i in allSpace) {space_lookup[allSpace[i]] = allSpace[i];}
+      for (i in space_lookup) {spaceArray.push(space_lookup[i]);}
+      if (spaceArray.length == 1) {toggle('sorting-space','show');}
+      html("sorting-space",'<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-default" onclick="deviceList(\'first\');">all<\/a>');
+      for(var key in spaceArray) {
+       if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
       }
-     },true);
+      //   var moduleArray = [];
+      //   var lookup  = {};
+      //   for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
+      //   for (i in lookup) {moduleArray.push(lookup[i]);}
+      //   if (ipModule.length == 1) {toggle('sorting-module','show');}
+      //   html('sorting-module','<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>');
+      //   for(var key in moduleArray) {
+      //    if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
+      //   }
+     }
     },true);
    }
 
-   function loadBlock(ip, stage, modules, macrosList) {
+   function loadBlock(ip, content, stage, modules, macrosList) {
     ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
      var jsonIndexResponse0 = JSON.parse(response);
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
-      if(/relay/.test(modules)) {
+      if(searchModule(modules,"relay")) {
        for (var i = 0; i < 6; i++) {
         if (!searchModule(modules,"relay"+i)){
          jsonIndexResponse["hiddenRelay"+i] = 'hidden';
         }
        }
-       loadBlock2('relay','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('relay','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModuleOld(modules,"rgb")){
-       loadBlock2('rgb','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('rgb','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"rgbs")){
-       loadBlock2('rgbs','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('rgbs','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (modules == 'macros'){
        jsonIndexResponse.macrosList = macrosList;
-       loadBlock2('macros','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('macros','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"rfLivolo")){
-       loadBlock2('livolo','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('livolo','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"jalousie")){
-       loadBlock2('jalousie','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('jalousie','timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"leakag")){
-       loadBlock2('leakag','timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('leakag','timer.save',ip, content, stage, jsonIndexResponse);
       }
       for (var i = 0; i < 10; i++) {
        if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
-        loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, jsonIndexResponse.space, stage, jsonIndexResponse,(i==0?'':i));
+        loadBlock2('temperature','charts.json?data=temperature'+(i==0?'':i)+'&data1=highAlarmTemp'+(i==0?'':i)+'&data2=lowAlarmTemp'+(i==0?'':i)+'&',ip, content, stage, jsonIndexResponse,(i==0?'':i));
        }
       }
       if (searchModule(modules,"humidity")){
-       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
-      }
-      if (searchModule(modules,"A0")){
-       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, content, stage, jsonIndexResponse);
       }
       if (searchModule(modules,"pow")){
-       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+       loadBlock2('pow','charts.json?data=pow&data1=highAlarmPow&data2=lowAlarmPow&',ip, content, stage, jsonIndexResponse);
       }
-      if (!stage && jsonIndexResponse.space == "relay" || jsonIndexResponse.space == "rgb" || jsonIndexResponse.space == "jalousie" || jsonIndexResponse.space == "leakag"){
-       loadBlock2(jsonIndexResponse.space,'timer.save',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
+      if (searchModule(modules,"A0")){
+       loadBlock2('A0','charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0&',ip, content, stage, jsonIndexResponse);
+      }
+      if (!stage && content == "relay" || content == "rgb" || content == "jalousie" || content == "leakag"){
+       loadBlock2(content,'timer.save',ip, content, stage, jsonIndexResponse);
       }
       if (window.location.hostname == ip && stage == 'first') {
        var new_string2;
@@ -139,21 +179,14 @@ From: Latvia, Valmiera
        if (searchModule(modules,"upgrade")){
         loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonIndexResponse.spiffsData, jsonIndexResponse.LangUpgrade, 10000);
        }
-       //setContent('first');
+       //setContent('first',jsonIndexResponse);
       }
      },true);
     },true);
    }
 
-   function loadBlock2(page, jsonPage, ip, content, stage, jsonIndexResponse,idModule){
+   function loadBlock2(page, jsonPage, ip, content, stage, jsonIndexResponse, idModule){
     if (stage == 'first'){
-     var element = document.getElementById(content);
-     if (typeof(element) != 'undefined' && element != null && element != ''){
-      //  document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
-     } else {
-      document.getElementById("content").innerHTML += '<div class="row" id="'+content+'"><h2 id="'+content+'-title">'+content+'<\/h2><hr id="'+content+'-title"><\/div>';
-      document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
-     }
      document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+(idModule?idModule:'')+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
     }
     ajax.get('http://'+ip+'/block-'+page+'.htm',{},function(response) {
@@ -166,12 +199,13 @@ From: Latvia, Valmiera
        for (var i = 0; i < timers.timer.length; i++) {
         var day_view = timers.timer[i].day.split("");
         var day_view_add = dayTemplate(day_view,jsonIndexResponse);
-        timerList += '<li><b>'+timers.timer[i].time1+'</b> <span class="label label-default">'+day_view_add+'</span> '+timers.timer[i].com1+'</li>';
+        timerList += '<li><span class="label label-warning">'+(timers.timer[i].active==1 || typeof timers.timer[i].active=='undefined'?'on':'off')+'</span> <span class="label label-default"><i class="clock-new-img"></i> '+timers.timer[i].time1+'</span> '+timers.timer[i].com1+'<br>'+day_view_add+'</li>';
        }
        jsonIndexResponse.timerList = (timerList?timerList:'<li>'+jsonIndexResponse.LangNoTimers+'<\/li>');
-       jsonIndexResponse.timerListHidden = 'hidden';
       }
+
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
+      //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -215,13 +249,17 @@ From: Latvia, Valmiera
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    // document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="show" id="hide-'+datetext+'"><br><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;
-     var response=JSON.parse(response);
-     if (response.title && response.title!='undefined') {
-      if (submit.tagName == 'INPUT') {submit.value = jsonLang[response.title.slice(2, -2)];}
+     if (pagename.slice(0, 9) == 'lang?set=') {
+      window.location = '/';
+     } else {
+      var response=JSON.parse(response);
+      if (response.title && response.title!='undefined') {
+       if (submit.tagName == 'INPUT') {submit.value = jsonLang[response.title.slice(2, -2)];}
+      }
      }
     },true);
    }
@@ -235,16 +273,23 @@ From: Latvia, Valmiera
     <div class="btn-group pull-right" id="header-right" style="margin-top:35px;"></div>
     <div id="header-left"></div>
    </div>
-   <div class="col-sm-12 col-md-9 btn-group btn-block" id="space-button" style="margin-top:-10px"></div>
+   <div class="col-sm-12 col-md-3">
+    <h5 style="background-color:#C0C7CA;cursor:pointer" class="hidden-xs" onclick="toggle('history');return false">{{LangHistory}}</h5>
+    <ul id="history" class="hidden-xs hidden"></ul>
+    <hr>
+    <div id="left-content"></div>
+    <!--div class="block" id="sorting-space"></div>
+<div class="block" id="sorting-module"></div-->
+    <div class="row"></div>
+   </div>
    <div class="col-sm-12 col-md-9" id="top-content"></div>
    <div class="col-sm-12 col-md-9" id="content"></div>
-   <div class="col-sm-12 col-md-3" id="right-content"></div>
   </div>
   <div id="edit-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;">
    <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
    <div id="error-json"></div>
    <div class="btn-group btn-block">
-    <input class="btn btn-danger" style="width:80%" id="edit-save" onclick="httpDelete('/index4.htm.json.gz');send_request_edit(this, val('edit-json'),'index4.htm.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
+    <input class="btn btn-danger" style="width:80%" id="edit-save" onclick="httpDelete('/index.htm.json.gz');send_request_edit(this, val('edit-json'),'index.htm.json');toggle('edit-content');toggle('url-content');" value="Save" type="button">
     <a class="btn btn-info" style="width:20%" href="#" id="download-json" download=""><i class="download-img"></i></a>
    </div>
   </div>
