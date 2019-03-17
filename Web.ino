@@ -414,7 +414,61 @@ String FileList(String path) {
 
 
 #ifdef webSocketM
+void initWebSoket() {
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
+  sendOptions(webSocketS, 1);
+}
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
+  switch (type) {
+    case WStype_DISCONNECTED:  // Событие происходит при отключени клиента
+      //Serial.println("web Socket disconnected");
+      break;
+    case WStype_CONNECTED: // Событие происходит при подключении клиента
+      {
+        //Serial.println("web Socket Connected");
+        webSocket.sendTXT(num, configJson); // Отправим в всю строку с данными используя номер клиента он в num
+      }
+      break;
+    case WStype_TEXT: // Событие происходит при получении данных текстового формата из webSocket
+      if (length > 0) {
+        String command = String((const char *)payload);
+        String cmd = jsonRead(command, "cmd");
+        if (cmd == "") {
+          cmd = jsonRead(command, voiceS);
+          sendOptions(voiceS, cmd);
+          flag = sendStatus(voiceS, cmd);
+        } else {
+          sendOptions("test", cmd);
+          sCmd.readStr(cmd);
+        }
 
+        //Serial.print("cmd=");
+        //Serial.println(cmd);
+
+      }
+
+      //webSocket.sendTXT(num, "message here"); // Можно отправлять любое сообщение как строку по номеру соединения
+      // webSocket.broadcastTXT("message here");
+      break;
+    case WStype_BIN:      // Событие происходит при получении бинарных данных из webSocket
+      // webSocket.sendBIN(num, payload, length);
+      break;
+  }
+}
+// Отправка данных в Socket всем получателям
+// Параметры Имя ключа, Данные, Предыдущее значение
+void SoketData (String key, String data, String data_old)  {
+
+  if(getOptions(webSocketS) != "") {
+    if (data_old != data) {
+      String broadcast = "{}";
+      jsonWrite(broadcast, key, data);
+      webSocket.broadcastTXT(broadcast);
+      //Serial.println(getOptions(webSocketS));
+    }
+  }
+}
 
 
 #endif

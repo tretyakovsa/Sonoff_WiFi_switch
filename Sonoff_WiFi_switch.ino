@@ -11,12 +11,12 @@
 //#define DimmerM // 784
 //#define safeData
 //#define macros
-//#define webSocketM
+#define webSocketM
 #include "sets.h"
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println();
+  //Serial.begin(115200);
+  //Serial.println();
   chipID = String( ESP.getChipId() ) + "-" + String( ESP.getFlashChipId() );
   TickerScheduler(1);
   SPIFFS.begin();
@@ -31,7 +31,7 @@ void setup() {
   initScenary();
   setupToInit();
 #ifdef webSocketM
-
+initWebSoket();
 #endif
   //testPin();
 }

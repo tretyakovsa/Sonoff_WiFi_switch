@@ -28,7 +28,7 @@ TickerScheduler ts(15);
 StringCommand sCmd;                   // Обьект для работы с командами
 //#include <ESP8266LLMNR.h>
 //#include <ESP8266NetBIOS.h>
-#ifdef webSocket
+#ifdef webSocketM
 #include <WebSocketsServer.h>    //https://github.com/Links2004/arduinoWebSockets
 WebSocketsServer webSocket = WebSocketsServer(81);
 #endif
