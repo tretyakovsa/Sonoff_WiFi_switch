@@ -174,7 +174,7 @@ void sendMQTTstatus(String topicN, String key1, int date1) {
 // --------------------- Включаем DDNS
 void initDDNS() {
   if ( getOptions(messageS) != emptyS) { // Если нет связи с интернет не запускать
-    HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
+    //HTTPWAN = ESP8266WebServer (getSetupInt(ddnsPortS));
     // ------------------Выполнение команды из запроса
     HTTPWAN.on("/cmd", HTTP_GET, []() {
       String com = HTTPWAN.arg("command");

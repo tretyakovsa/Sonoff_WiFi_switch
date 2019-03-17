@@ -17,8 +17,10 @@ WiFiClient wclient;
 #include <DNSServer.h>               //Содержится в пакете
 DNSServer dnsServer;
 #include <ArduinoJson.h>             //Ставим через менеджер библиотек
+#ifdef mqttM
 #include <PubSubClient.h>           //https://github.com/Imroy/pubsubclient
 PubSubClient client(wclient);
+#endif
 #include <TickerScheduler.h>         //https://github.com/Toshik/TickerScheduler
 enum { tNTP, tSSDP, tIP, tA0, tDS, tDHT, tSI, tIR, tRC, tPOW, tRSSI, tMQTT, tDDNS, tCRIB };
 TickerScheduler ts(15);
@@ -39,7 +41,8 @@ OneWire *oneWire;
 DallasTemperature sensors;
 #include <Adafruit_NeoPixel.h>       //https://github.com/adafruit/Adafruit_NeoPixel
 #include <WS2812FX.h>                //https://github.com/renat2985/WS2812FX
-WS2812FX ws2812fx = WS2812FX();
+//WS2812FX ws2812fx = WS2812FX();
+WS2812FX ws2812fx = WS2812FX(60, 5, NEO_GRB + NEO_KHZ800);
 #include <RCSwitch.h>                //https://github.com/sui77/rc-switch/
 #include <IRremoteESP8266.h>         //https://github.com/markszabo/IRremoteESP8266
 #include <IRrecv.h>
@@ -264,10 +267,3 @@ const String apparentpowervaS   = "apparentpowerva";
 const String powerfactorS   = "powerfactor";
 const String aggenergywsS   = "aggenergyws";
 #endif
-
-
-
-
-
-
-

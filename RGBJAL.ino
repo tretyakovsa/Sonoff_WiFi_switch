@@ -31,7 +31,9 @@ void initRGB() {
   ws2812fx.init();
   ws2812fx.setMode(getStatusInt(modeRGBS)); // Режим
   setColorString(colorRGBS);   // Начальный цвет
-  ws2812fx.setSpeed(getStatusInt(speedRGBS)); // Скорость
+  int temp = getStatusInt(speedRGBS);
+  temp = map(temp, 0, 255, 65535, 10);
+  ws2812fx.setSpeed(temp); // Скорость
   ws2812fx.setBrightness(getStatusInt(brightnessRGBS)); //Яркость
   //регистрируем модуль
 
@@ -74,6 +76,7 @@ void rgb() {
       if (speed == "-") {}
       else {
         temp = speed.toInt();
+        temp = map(temp, 0, 255, 65535, 10);
         sendStatus(speedRGBS,  temp);
         ws2812fx.setSpeed(temp);
       }
@@ -310,4 +313,3 @@ void setMotor(boolean a, boolean b) {
   digitalWrite(getOptionsInt(pinMotorS + "2"),  b);
 }
 #endif
-

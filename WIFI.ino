@@ -1,32 +1,40 @@
 // Сообщает статус wifi соединения
 void WiFiEvent(WiFiEvent_t event) {
-  flag = sendStatus(wifiS, event);
-
-    switch(event) {
-        case WIFI_EVENT_STAMODE_DISCONNECTED:
-        //Serial.println("Recconnect start");
-             //WiFi.reconnect();
-             //wifiConnect();
-        case WIFI_EVENT_STAMODE_GOT_IP:
-            sendSetup(ipS, WiFi.localIP().toString());
-            sendSetup(getwayS, WiFi.gatewayIP().toString());
-            sendSetup(subnetS, WiFi.subnetMask().toString());
-            break;
-        case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
-            sendSetup(ipS, WiFi.softAPIP().toString());
-            break;
-    }
-    // 0 WIFI_EVENT_STAMODE_CONNECTED    подключение к роутеру получение ip
-    // 1 WIFI_EVENT_STAMODE_DISCONNECTED попытка переподключения к роутеру
-    // 2 WIFI_EVENT_STAMODE_AUTHMODE_CHANGE
-    // 3 WIFI_EVENT_STAMODE_GOT_IP подключен к роутеру
-    // 4 WIFI_EVENT_STAMODE_DHCP_TIMEOUT Не получен адрес DHCP
-    // 5 WIFI_EVENT_SOFTAPMODE_STACONNECTED подключен клент
-    // 6 WIFI_EVENT_SOFTAPMODE_STADISCONNECTED отключен клент
-    // 7 WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED Режим точки доступа
-    // 8 WIFI_EVENT_MAX,
-    // 9 WIFI_EVENT_ANY = WIFI_EVENT_MAX,
-    // 10 WIFI_EVENT_MODE_CHANGE
+  //flag = sendStatus(wifiS, event);
+  sendStatus(wifiS, event);
+  switch (event) {
+    case WIFI_EVENT_STAMODE_CONNECTED:
+      Serial.println("WIFI_EVENT_STAMODE_CONNECTED");
+//      sendSetup(ipS, WiFi.localIP().toString());
+//      sendSetup(getwayS, WiFi.gatewayIP().toString());
+//      sendSetup(subnetS, WiFi.subnetMask().toString());
+      break;
+    case WIFI_EVENT_STAMODE_AUTHMODE_CHANGE:
+      Serial.println("WIFI_EVENT_STAMODE_AUTHMODE_CHANGE");
+      break;
+    case WIFI_EVENT_STAMODE_GOT_IP:
+      Serial.println("WIFI_EVENT_STAMODE_GOT_IP");
+      Serial.println(WiFi.localIP().toString());
+      break;
+    case WIFI_EVENT_STAMODE_DISCONNECTED:
+      Serial.println("WIFI_EVENT_STAMODE_DISCONNECTED");
+      break;
+    case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
+      Serial.println("WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED");
+//      sendSetup(ipS, WiFi.softAPIP().toString());
+      break;
+  }
+  // 0 WIFI_EVENT_STAMODE_CONNECTED    подключение к роутеру получение ip
+  // 1 WIFI_EVENT_STAMODE_DISCONNECTED попытка переподключения к роутеру
+  // 2 WIFI_EVENT_STAMODE_AUTHMODE_CHANGE
+  // 3 WIFI_EVENT_STAMODE_GOT_IP подключен к роутеру
+  // 4 WIFI_EVENT_STAMODE_DHCP_TIMEOUT Не получен адрес DHCP
+  // 5 WIFI_EVENT_SOFTAPMODE_STACONNECTED подключен клент
+  // 6 WIFI_EVENT_SOFTAPMODE_STADISCONNECTED отключен клент
+  // 7 WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED Режим точки доступа
+  // 8 WIFI_EVENT_MAX,
+  // 9 WIFI_EVENT_ANY = WIFI_EVENT_MAX,
+  // 10 WIFI_EVENT_MODE_CHANGE
 
 }
 
