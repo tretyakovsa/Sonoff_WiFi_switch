@@ -88,5 +88,10 @@ If you like this project, you can give me a cup of coffee :)
 
 #### PayPal
 
-- [wul@inbox.lv](https://www.paypal.me/renat2985/5)
+- [Send 5Eur](https://www.paypal.me/renat2985/5)
+
+#### Revolut
+
+- [Send 2Eur](https://rev.money/r/ABpLzS4IIV)
+- [Send 5Eur](https://rev.money/r/7iw2mWpy3n)
 

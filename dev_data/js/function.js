@@ -265,7 +265,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
       element.innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/'+type_val+'>';
      }
-     if (type_val == 'none') {
+     if (type_val == 'none' || typeof type_val === 'undefined') {
       element.innerHTML += renameBlock(jsonResponse, obj.title);
      }
      if (type_val == 'input') {
@@ -274,7 +274,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'textarea') {
       if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'"</textarea>';
+      element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'</textarea>';
      }
      if (type_val == 'password') {
       if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';

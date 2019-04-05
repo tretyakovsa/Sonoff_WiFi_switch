@@ -5,9 +5,9 @@
   "/modules.json"
  ],
  "title": [{
-   "type":"text",
-   "title":"Configs"
-  }],
+  "type":"text",
+  "title":"Configs"
+ }],
  "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
  "content": [
   {
@@ -27,15 +27,21 @@
   },
   {
    "type":"text",
-   "name":"alert-cloud",
-   "title":"<button class=\"close\" onclick=\"hide('alert-cloud',this)\" type=\"button\">×</button>{{LangCloud}}<br><b>NodeMCU, Wemos to ESP GPIO PIN:</b><br><small><span style=\"width:20%;float:left;\">RX = GPIO 3<br>TX = GPIO 1<br>D0 = GPIO 16</span><span style=\"width:20%;float:left;\">D1 = GPIO 5<br>D2 = GPIO 4<br>D3 = GPIO 0</span><span style=\"width:20%;float:left;\">D4 = GPIO 2<br>D5 = GPIO 14<br>D6 = GPIO 12</span><span style=\"width:20%;\">D7 = GPIO 13<br>D8 = GPIO 15</span></small>",
-   "class":"alert alert-info {{alert-cloud}}"
+   "name":"alert-gpio",
+   "title":"<button class=\"close\" onclick=\"hide('alert-gpio',this)\" type=\"button\">×</button><b>NodeMCU, Wemos to ESP GPIO PIN:</b><br><small style=\"display: block;margin-bottom:20px;\"><span style=\"width:20%;float:left;\">RX = GPIO 3<br>TX = GPIO 1<br>D0 = GPIO 16</span><span style=\"width:20%;float:left;\">D1 = GPIO 5<br>D2 = GPIO 4<br>D3 = GPIO 0</span><span style=\"width:20%;float:left;\">D4 = GPIO 2<br>D5 = GPIO 14<br>D6 = GPIO 12</span><span style=\"width:20%;\">D7 = GPIO 13<br>D8 = GPIO 15</span></small>",
+   "class":"alert alert-info {{alert-gpio}}"
   },
   {
    "type":"configs",
    "state":"{{urlArray1}}.txt"
   },
-
+  {
+   "type":"text",
+   "name":"alert-cloud",
+   "title":"<button class=\"close\" onclick=\"hide('alert-cloud',this)\" type=\"button\">×</button>{{LangCloud}}",
+   "class":"alert alert-info {{alert-cloud}}",
+   "style":"margin-top:20px;"
+  },
   {
    "type":"hr"
   },
