@@ -1195,7 +1195,11 @@ function renameGet(str) {
      }
      else if (element.tagName=='INPUT'){
       txt=encodeURIComponent(element.value);
-     } else {
+     }
+     else if (element.tagName=='TEXTAREA'){
+      txt=encodeURIComponent(element.value);
+     }
+     else {
       txt=element.innerHTML;
      }
      str = str.replace(new RegExp('\\[\\['+id+'\\]\\]','g'), txt);
