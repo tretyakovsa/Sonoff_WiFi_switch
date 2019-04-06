@@ -363,6 +363,12 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
       loadJson(state_val, obj.refresh, jsonResponse);
      }
+     if (type_val == 'file') {
+      //if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+      element.innerHTML += '<textarea '+style_val+' id="file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'">'+jsonResponse.LangLoading+'</textarea>';
+      element.innerHTML += '<input class="'+class_val+'" onclick="send_request_edit(this, val(\'file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\');t" value="'+jsonResponse.LangSave+'" type="button">';
+      loadFile(state_val, jsonResponse);
+     }
      if (type_val == 'time-list') {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
       loadTime(jsonResponse);
@@ -523,6 +529,12 @@ function loadJson(file, setDelay, jsonResponse) {
  } else {
   setLoad();
  }
+}
+
+function loadFile(file, jsonResponse) {
+  ajax.get(file+'?'+Math.random(),{},function(response) {
+   val('file-'+file.replace(/[^a-z0-9]/gi,'-'), response);
+  },true);
 }
 
 function pattern(str,id) {
