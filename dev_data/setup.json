@@ -288,7 +288,7 @@
    "type":"text",
    "module":"ddns",
    "name":"alert-ddns",
-   "title":"<button class=\"close\" onclick=\"hide('alert-ddns',this)\" type=\"button\">×</button>{{LangDdns2}}",
+   "title":"<button class=\"close\" onclick=\"hide('alert-ddns',this)\">×</button>{{LangDdns2}}",
    "class":"alert alert-info {{alert-ddns}}"
   },
   {

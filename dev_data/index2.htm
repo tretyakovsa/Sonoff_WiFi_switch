@@ -33,6 +33,9 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -175,8 +178,6 @@ From: Latvia, Valmiera
 
    function loadTimers(ip, content, jsonIndexResponse) {
     ajax.get('http://'+ip+'/timer.save.json',{},function(response) {
-     //  var timers=JSON.parse(response);
-     //  timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var timerList = '';
      var timeDevice=JSON.parse(response);
      for (var i in timeDevice['timer']) {
@@ -196,7 +197,6 @@ From: Latvia, Valmiera
     ajax.get('http://'+ip+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
      document.getElementById(content).innerHTML+='<tr><td>'+(jsonIndexResponse.space?'<a class="label label-default" href="#'+jsonIndexResponse.space+'" onclick="deviceList(\'first\',\''+jsonIndexResponse.space+'\');">'+jsonIndexResponse.space+'<\/a>':'')+' <\/td><td><b><a href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+module.replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'">'+jsonIndexResponse.SSDP+'<\/a><\/b><\/td><\/tr><tr><td>'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^a-zA-Z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/td><td><b id="sensor-'+ip+'-'+module+'">'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+(sensors.data3?', '+sensors.data3:'')+'<\/b><\/td><\/tr>';
-     //  if (sensors.refresh) {setTimeout("reloadSensor('"+ip+"','"+module+"')", sensors.refresh);}
     },false);
    }
 

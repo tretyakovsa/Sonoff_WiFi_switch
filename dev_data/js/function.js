@@ -303,9 +303,8 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'table') {
       var thead = '';
-      var jsonTable = obj.title;
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
-      loadTable(state_val, jsonTable);
+      loadTable(state_val, obj.title);
      }
      if (type_val == 'select') {
       if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
@@ -332,13 +331,13 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<div class="btn-group"><a href="#" class="dropdown-toggle '+class_val+'" '+style_val+' onclick="toggle(\''+name_val+'\');return false">'+title1+'</a><ul class="dropdown-menu hidden" id="'+name_val+'">'+option+'<\/ul><\/div>';
      }
      if (type_val == 'configs') {
-      var htmlopt = '';
-      htmlopt += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
-      htmlopt += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');toggle(\\'restart-esp\\');setTimeout(function(){toggle(\\'restart-esp\\');},20000);};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
-      htmlopt += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
-      htmlopt += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
-      htmlopt += '</div>';
-      element.innerHTML += htmlopt;
+      var option = '';
+      option += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
+      option += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');toggle(\\'restart-esp\\');setTimeout(function(){toggle(\\'restart-esp\\');},20000);};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      option += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
+      option += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
+      option += '</div>';
+      element.innerHTML += option;
       setTimeout("loadConfigs('"+state_val+"',jsonResponse)", 500);
      }
      if (type_val == 'link') {
@@ -354,7 +353,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += renameBlock(jsonResponse, obj.title)+'<iframe src="'+state_val+'" id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/iframe>';
      }
      if (type_val == 'chart') {
-      element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)" type="button">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+      element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
       if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
        setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+",'"+obj.chartist+"')", 1500);
       }
@@ -376,15 +375,16 @@ function viewTemplate(jsonPage,jsonResponse) {
       loadTime(jsonResponse);
      }
      if (type_val == 'time-add') {
+      const template = (x,y,i,z) => ' <label class="label label-'+x+'"><input type="checkbox" name="day-'+y+'" id="day-'+i+'" checked>'+jsonResponse['Lang'+z]+'</label> ';
       var option = '';
-      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += ' <h4><label class="label label-danger"><input type="checkbox" name="day-sun" id="day-0" checked>'+jsonResponse.LangSun+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-mon" id="day-1" checked>'+jsonResponse.LangMon+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-tue" id="day-2" checked>'+jsonResponse.LangTue+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-wed" id="day-3" checked>'+jsonResponse.LangWed+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-thu" id="day-4" checked>'+jsonResponse.LangThu+'</label>';
-      option += ' <label class="label label-info"><input type="checkbox" name="day-fri" id="day-5" checked>'+jsonResponse.LangFri+'</label>';
-      option += ' <label class="label label-danger"><input type="checkbox" name="day-sat" id="day-6" checked>'+jsonResponse.LangSat+'</label>';
+      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div> <h4>';
+      option += template('danger','sun','0','Sun');
+      option += template('info','mon','1','Mon');
+      option += template('info','tue','2','Tue');
+      option += template('info','wed','3','Wed');
+      option += template('info','thu','4','Thu');
+      option += template('info','fri','5','Fri');
+      option += template('danger','sat','6','Sat');
       option += ' <label class="label label-default"><input type="checkbox" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br>';
       option += ' <label class="label label-default"><input type="checkbox" name="run1" id="run-1">'+jsonResponse.LangRun1+'</label></h4>';
       option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\'Loading...\');ajax.get(\'/config.live.json\',{},function(response){var jsonFiles=JSON.parse(response);val(\'set-time\',jsonFiles[\'time\']);},true);return false"><i class="clock-img"></i></a>';
@@ -574,14 +574,15 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
 
 function dayTemplate(day_view, jsonResponse) {
  var day_view_add = '';
+ const template = (x,y) => ' <span class="label label-'+x+'">'+jsonResponse['Lang'+y]+'</span> ';
  for (var y in day_view) {
-  if (y == 0 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSun+'</span> '; }
-  if (y == 1 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangMon+'</span> '; }
-  if (y == 2 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangTue+'</span> '; }
-  if (y == 3 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangWed+'</span> '; }
-  if (y == 4 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangThu+'</span> '; }
-  if (y == 5 && day_view[y] == 1){  day_view_add+=' <span class="label label-info">'+jsonResponse.LangFri+'</span> '; }
-  if (y == 6 && day_view[y] == 1){  day_view_add+=' <span class="label label-danger">'+jsonResponse.LangSat+'</span> '; }
+  if (y == 0 && day_view[y] == 1){ day_view_add+=template('danger','Sun'); }
+  if (y == 1 && day_view[y] == 1){ day_view_add+=template('info','Mon'); }
+  if (y == 2 && day_view[y] == 1){ day_view_add+=template('info','Tue'); }
+  if (y == 3 && day_view[y] == 1){ day_view_add+=template('info','Wed'); }
+  if (y == 4 && day_view[y] == 1){ day_view_add+=template('info','Thu'); }
+  if (y == 5 && day_view[y] == 1){ day_view_add+=template('info','Fri'); }
+  if (y == 6 && day_view[y] == 1){ day_view_add+=template('danger','Sat'); }
  }
  return day_view_add;
 }
@@ -907,7 +908,12 @@ function send_request(submit,server,state){
     if (block[i].slice(0, 2) != '[[') {
      window.location = block[i];
     } else {
-     var response=JSON.parse(responses);
+     var response;
+     if (block.length > 1) {
+      response = JSON.parse(responses)[i];
+     } else {
+      response = JSON.parse(responses);
+     }
      var htmlblock = document.getElementById(block[i].slice(2,-2));
      if (response.class && response.class!='undefined') {htmlblock.className = response.class;}
      if (response.style && response.style!='undefined') {htmlblock.style = response.style;}
@@ -989,7 +995,7 @@ function loadWifi(id,hiddenIds){
 }
 
 function loadBuild(buildids,typeFile){
- ajax.get('http://backup.privet.lv/esp/build/'+buildids,{},function(response) {
+ ajax.get('https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',{},function(response) {
   var jsonBuild=JSON.parse(response);
   jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
   var html = '';
@@ -1094,7 +1100,6 @@ function loadConfigs(file_module,jsonResponse) {
     element.innerHTML += '</br>';
    }
   }
-  //changeTextarea(file_module.replace(/[^a-z0-9]/gi,'-'));
  },true);
  element.innerHTML += '<textarea id="'+file_module.replace(/[^a-z0-9]/gi,'-')+'-edit" style="display:none" class="form-control"></textarea>';
 }
@@ -1137,7 +1142,6 @@ function cloudUpload(mac,file) {
  },true);
 }
 
-
 function cloudDownload(mac,file) {
  ajax.get("http://backup.privet.lv/configs/"+mac+"-"+file+"?"+Math.random(),{},function(response) {
   if (response!='FileNotFound'){
@@ -1147,7 +1151,6 @@ function cloudDownload(mac,file) {
   }
  },true);
 }
-
 
 function loadTable(file, jsonTable) {
  ajax.get(file+"?"+Math.random(),{},function(response) {
@@ -1238,9 +1241,6 @@ function createRGB(valID,actionID,moduleID,responseID){
   useCanvas(canvas,img,function(){
    // get image data
    var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
-   // nex_color = rgbToHex(p[0],p[1],p[2]);
-   //on_rgb(this,p[0],p[1],p[2]);
-   // alert(p[0]+" "+p[1]+" "+p[2]);
    if (valID){val(valID, rgbToHex(p[0],p[1],p[2]));}
    if (actionID){send_request(valID, (moduleID!='undefined'?'cmd?command=':'')+renameGet(actionID), responseID);}
    document.body.style.background = "#"+rgbToHex(p[0],p[1],p[2]);
@@ -1283,14 +1283,11 @@ function hexToRgb(hex) {
   b: parseInt(result[3], 16)
  }:null;
 }
-//alert( hexToRgb("#0033ff").g ); // "51";
-
 
 function loadCommits(repos,commitCount){
  ajax.get('https://api.github.com/repos/'+repos+'/commits',{},function(response) {
   html('commits-list', ' ');
   var jsonCommits=JSON.parse(response);
-  //  jsonCommits.sort(function(a,b){return (a.updated_at< b.updated_at)?1:((b.updated_at < a.updated_at)?-1:0);});
   for(var key in jsonCommits) {
    if (key < commitCount) {
     document.getElementById('commits-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
@@ -1310,7 +1307,7 @@ function loadIssues(repos,issuesCount){
     for(var label in jsonIssues[key].labels) {
      if (jsonIssues[key].labels[label].name == 'news') {
       if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
-       document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this)" type="button">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+       document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this)">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
       }
      }
     }

@@ -26,7 +26,7 @@
    "type":"text",
    "module":"ddns",
    "name":"alert-ifttt",
-   "title":"<button class=\"close\" onclick=\"hide('alert-ifttt',this)\" type=\"button\">×</button>{{LangIfttt1}}",
+   "title":"<button class=\"close\" onclick=\"hide('alert-ifttt',this)\">×</button>{{LangIfttt1}}",
    "class":"alert alert-info {{alert-ifttt}}"
   },
 

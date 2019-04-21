@@ -23,14 +23,6 @@ From: Latvia, Valmiera
    var jsonIndexResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
- //  if (readCookie("issues-hidden") != "hidden") {
- //   loadIssues('tretyakovsa/Sonoff_WiFi_switch',5);
- //  } else {
- //   document.getElementById('issues-list').parentNode.classList.add('hidden');}
- //  if (readCookie("commits-hidden") != "hidden") {
- //   loadCommits('tretyakovsa/Sonoff_WiFi_switch',5);
- //  } else {
- //   document.getElementById('commits-list').parentNode.classList.add('hidden');}
    }
 
    function deviceList(stage,sorting) {
@@ -39,6 +31,9 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -67,7 +62,6 @@ From: Latvia, Valmiera
         }
        },true);
       } else {
-       //var testd = setTimeout(function() {loadBlock(ip,ipModule.space,'first',ipModule.module);}, 3000);
        loadBlock(ip,ipModule.space,'first',ipModule.module);
       }
      }
@@ -98,7 +92,6 @@ From: Latvia, Valmiera
       }
       if(/relay/.test(modules)) {
        if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
-       // document.getElementById("button-"+ip+"-relay").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'relay\',this);" value="'+(jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.relay?'info':'primary')+'" type="button">';
        html("button-"+ip+"-relay",' ');
        for (var i = 0; i < 6; i++) {
         if (searchModule(modules,"relay"+i) == '1'){

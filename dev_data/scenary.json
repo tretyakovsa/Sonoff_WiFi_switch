@@ -50,7 +50,7 @@
   {
    "type":"text",
    "name":"alert-scenary",
-   "title":"<button class=\"close\" onclick=\"hide('alert-scenary',this)\" type=\"button\">×</button>{{LangScenery1}}",
+   "title":"<button class=\"close\" onclick=\"hide('alert-scenary',this)\">×</button>{{LangScenery1}}",
    "class":"alert alert-info {{alert-scenary}}"
   },
 

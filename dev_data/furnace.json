@@ -21,7 +21,6 @@
    "type":"loadJson",
    "state":"header.json"
   },
-
   {
    "type":"button",
    "title":"&#8657; 0",
@@ -76,9 +75,6 @@
   {
    "type":"hr"
   },
-
-
-
   {
    "type":"link",
    "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",

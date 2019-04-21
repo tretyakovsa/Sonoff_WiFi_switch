@@ -38,6 +38,9 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -67,13 +70,11 @@ From: Latvia, Valmiera
         jsonLang=JSON.parse(response);
         loadBlock(ip,'content','first',ipModule.module);
         setContent('first','index.htm');
-
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
-
        },true);
       } else {
        loadBlock(ip,'content','first',ipModule.module);
@@ -90,7 +91,6 @@ From: Latvia, Valmiera
 
 
      for (var s in ipModule.module) {
-      // if (ipModule.module[s] != 'ntp' && ipModule.module[s] != 'ddns' && ipModule.module[s] != 'timers' && ipModule.module[s] != 'mqtt')
       allModules.push(ipModule.module[s]);
      }
      allSpace.push(ipModule.space);
@@ -105,15 +105,6 @@ From: Latvia, Valmiera
       for(var key in spaceArray) {
        if (spaceArray[key]) document.getElementById("sorting-space").innerHTML += '<a href="#'+spaceArray[key]+'" class="btn btn-default" onclick="deviceList(\'first\',\''+spaceArray[key]+'\')">'+spaceArray[key]+'<\/a>';
       }
-      //   var moduleArray = [];
-      //   var lookup  = {};
-      //   for (var i in allModules) {lookup[allModules[i]] = allModules[i];}
-      //   for (i in lookup) {moduleArray.push(lookup[i]);}
-      //   if (ipModule.length == 1) {toggle('sorting-module','show');}
-      //   html('sorting-module','<h5 class="alert-default">{{LangSorting}}<\/h5><a href="#" class="btn btn-sm btn-default" onclick="deviceList(\'first\');">all<\/a>');
-      //   for(var key in moduleArray) {
-      //    if (moduleArray[key]) document.getElementById("sorting-module").innerHTML += '<a href="#'+moduleArray[key]+'" class="btn btn-sm btn-default" onclick="deviceList(\'first\',\''+moduleArray[key]+'\')">'+moduleArray[key]+'<\/a>';
-      //   }
      }
     },true);
    }
@@ -205,7 +196,6 @@ From: Latvia, Valmiera
       }
 
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
@@ -278,8 +268,6 @@ From: Latvia, Valmiera
     <ul id="history" class="hidden-xs hidden"></ul>
     <hr>
     <div id="left-content"></div>
-    <!--div class="block" id="sorting-space"></div>
-<div class="block" id="sorting-module"></div-->
     <div class="row"></div>
    </div>
    <div class="col-sm-12 col-md-9" id="top-content"></div>

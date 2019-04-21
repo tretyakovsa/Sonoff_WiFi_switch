@@ -67,7 +67,9 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
-     // ipDevice = Object.keys(ipDevice).sort(function(a,b){return ipDevice[a]-ipDevice[b]});
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -93,13 +95,11 @@ From: Latvia, Valmiera
         jsonLang=JSON.parse(response);
         loadBlock(ip,'first',ipModule.module);
         setContent('first','index5.htm');
-
         for (var i in ipDevice) {
          if (window.location.hostname != ipDevice[i]) {
           loadModule(ipDevice[i],stage,sorting);
          }
         }
-
        },true);
       } else {
        loadBlock(ip,'first',ipModule.module);
@@ -115,7 +115,6 @@ From: Latvia, Valmiera
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
       var jsonIndexResponse1 = JSON.parse(response);
       jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
       if(/relay/.test(modules)) {
        for (var i = 0; i < 6; i++) {
         if (!searchModule(modules,"relay"+i)){
@@ -147,8 +146,6 @@ From: Latvia, Valmiera
         }
        }
       }
-
-
 
       if (searchModule(modules,"humidity")){
        loadBlock2('humidity','charts.json?data=humidity&data1=highAlarmHum&data2=lowAlarmHum&',ip, jsonIndexResponse.space, stage, jsonIndexResponse);
@@ -183,7 +180,6 @@ From: Latvia, Valmiera
     if (stage == 'first'){
      var element = document.getElementById(content);
      if (typeof(element) != 'undefined' && element != null && element != ''){
-      //  document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
      } else {
       document.getElementById("content").innerHTML += '<h2 id="'+content+'-title">'+content+'<\/h2><hr><div class="row" id="'+content+'"><\/div>';
       document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
@@ -195,15 +191,16 @@ From: Latvia, Valmiera
      ajax.get('http://'+ip+'/'+jsonPage+'.json',{},function(response) {
       var timers=JSON.parse(response);
       var timerList = '';
+       const template = (x,y) => ' <span class="label label-'+x+'">'+y+'</span> ';
       if (timers.timer) {
        timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
        for (var i = 0; i < timers.timer.length; i++) {
         if(timers.timer[i].module == page) {
-         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
-         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangOffM"]+'<\/span>';}
-         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
-         if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOpen"]+'<\/span>';}
-         if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
+         if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = template('success',jsonIndexResponse["LangOnM"]);}
+         if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = template('danger',jsonIndexResponse["LangOffM"]);}
+         if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = template('info',jsonIndexResponse["LangSwitch"]);}
+         if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = template('success',jsonIndexResponse["LangOpen"]);}
+         if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = template('danger',jsonIndexResponse["LangClose"]);}
          timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
          timerList += '<li><b>'+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'.<\/b> '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<\/li>';
         }
@@ -213,13 +210,11 @@ From: Latvia, Valmiera
       }
 
       jsonIndexResponse = mergeObject(jsonIndexResponse, timers);
-      //jsonIndexResponse = Object.assign(jsonIndexResponse, timers);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
        jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       jsonIndexResponse.ip = ip;
-      //jsonIndexResponse.relay = (jsonIndexResponse.relay?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       for (var i = 0; i < 6; i++) {
        jsonIndexResponse["relay"+i] = (jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn);
       }
@@ -257,7 +252,6 @@ From: Latvia, Valmiera
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    // document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;

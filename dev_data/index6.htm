@@ -28,6 +28,9 @@ From: Latvia, Valmiera
    window.onload = function() {
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";

@@ -34,7 +34,9 @@ From: Latvia, Valmiera
     html('header-right',' ');
     ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
      var ipDevice=JSON.parse(response);
-     // ipDevice = Object.keys(ipDevice).sort(function(a,b){return ipDevice[a]-ipDevice[b]});
+     if (Object.keys(ipDevice).length == 0) {
+      location.href = "/page.htm?first-connect";
+     }
      for (var i in ipDevice) {
       if (ipDevice[i] == '0.0.0.0') {
        location.href = "/page.htm?first-connect";
@@ -149,7 +151,6 @@ From: Latvia, Valmiera
     if (stage == 'first'){
      var element = document.getElementById(content);
      if (typeof(element) != 'undefined' && element != null && element != ''){
-      //  document.getElementById(content).innerHTML+='<div id="block-'+ip+'-'+page+'"><div class="col-md-6"><div class="block"><div class="loader"><\/div> <center><a href="http://'+ip+'">http://'+ip+'<\/a><\/center><\/div><\/div><\/div>';
      } else {
       document.getElementById("content").innerHTML += '<div class="row" id="'+content+'"><h2 id="'+content+'-title">'+content+'<\/h2><hr id="'+content+'-title"><\/div>';
       document.getElementById("space-button").innerHTML += '<a href="#'+content+'-title" class="btn btn-default">'+content+'<\/a>';
@@ -215,7 +216,6 @@ From: Latvia, Valmiera
     var d = new Date(); // for now
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = submit.parentNode.childNodes[1].innerHTML;
-    // document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span><span class="history" style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><br><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><hr>URL: <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;
