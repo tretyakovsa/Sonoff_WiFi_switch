@@ -16,7 +16,7 @@ void initHTTP() {
     sendOptions("pageSize", fs_info.pageSize);
     sendOptions("maxOpenFiles", fs_info.maxOpenFiles);
     sendOptions("maxPathLength", fs_info.maxPathLength);
-    HTTP.sendHeader("Access-Control-Allow-Origin", "*");
+
     httpOkJson(configOptions);
   });
 
@@ -109,7 +109,7 @@ void initHTTP() {
 
   // --------------------Выдаем данные configJson
   HTTP.on("/config.live.json", HTTP_GET, []() {
-    HTTP.sendHeader("Access-Control-Allow-Origin", "*");
+
     httpOkJson(configJson);
   });
 
@@ -129,7 +129,7 @@ void initHTTP() {
 
   // --------------------Узнать какие модули есть в устройстве
   HTTP.on("/modules.json", HTTP_GET, []() {
-    HTTP.sendHeader("Access-Control-Allow-Origin", "*");
+
     httpOkJson(modules);
   });
   // --------------------Узнать какие модули есть в устройстве
@@ -169,7 +169,7 @@ void initHTTP() {
       }
     }
     message += "\"points\":\"10\",\"refresh\":\"1000\"}";
-    HTTP.sendHeader("Access-Control-Allow-Origin", "*");
+
     httpOkText(message);
   });
 
@@ -232,21 +232,27 @@ void macros() {
 
 
 void httpOkText() {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(200, "text/plain", "Ok");
 }
 void httpOkText(String text) {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(200, "text/plain", text);
 }
 void httpOkHtml(String text) {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(200, "text/html", text);
 }
 void httpOkJson(String text) {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(200, "application/json", text);
 }
 void http500send(String text) {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(500, "text/plain", text);
 }
 void http404send() {
+  HTTP.sendHeader("Access-Control-Allow-Origin", "*");
   HTTP.send(404, "text/plain", "FileNotFound");
 }
 // Инициализация FFS
