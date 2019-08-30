@@ -46,7 +46,7 @@ switch(ret) {
     saveConfigSetup ();
     ESPhttpUpdate.rebootOnUpdate(true);
     String updatePatch = "http://backup.privet.lv/esp/sonoff/Sonoff_Updater.ino.generic.bin";
-    Serial.println(updatePatch);
+    //Serial.println(updatePatch);
     t_httpUpdate_return jet = ESPhttpUpdate.update(updatePatch);
 switch(jet) {
             case HTTP_UPDATE_FAILED:

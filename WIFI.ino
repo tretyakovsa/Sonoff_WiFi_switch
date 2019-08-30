@@ -4,24 +4,31 @@ void WiFiEvent(WiFiEvent_t event) {
   sendStatus(wifiS, event);
   switch (event) {
     case WIFI_EVENT_STAMODE_CONNECTED:
-      Serial.println("WIFI_EVENT_STAMODE_CONNECTED");
-//      sendSetup(ipS, WiFi.localIP().toString());
-//      sendSetup(getwayS, WiFi.gatewayIP().toString());
-//      sendSetup(subnetS, WiFi.subnetMask().toString());
+      //Serial.println("WIFI_EVENT_STAMODE_CONNECTED");
+           sendSetup(ipS, WiFi.localIP().toString());
+           sendSetup(getwayS, WiFi.gatewayIP().toString());
+           sendSetup(subnetS, WiFi.subnetMask().toString());
+           sendStatus(wifiS, event);
+           //sendStatus(ipS, WiFi.localIP().toString());
       break;
     case WIFI_EVENT_STAMODE_AUTHMODE_CHANGE:
-      Serial.println("WIFI_EVENT_STAMODE_AUTHMODE_CHANGE");
+      //Serial.println("WIFI_EVENT_STAMODE_AUTHMODE_CHANGE");
+      flag = sendStatus(wifiS, event);
       break;
     case WIFI_EVENT_STAMODE_GOT_IP:
-      Serial.println("WIFI_EVENT_STAMODE_GOT_IP");
-      Serial.println(WiFi.localIP().toString());
+     // Serial.println("WIFI_EVENT_STAMODE_GOT_IP");
+     // Serial.println(WiFi.localIP().toString());
+      flag = sendStatus(wifiS, event);
       break;
     case WIFI_EVENT_STAMODE_DISCONNECTED:
-      Serial.println("WIFI_EVENT_STAMODE_DISCONNECTED");
+      //Serial.println("WIFI_EVENT_STAMODE_DISCONNECTED");
+      flag = sendStatus(wifiS, event);
       break;
     case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
-      Serial.println("WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED");
-//      sendSetup(ipS, WiFi.softAPIP().toString());
+     // Serial.println("WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED");
+      flag = sendStatus(wifiS, event);
+        sendSetup(ipS, WiFi.softAPIP().toString());
+      //sendStatus(ipS, WiFi.softAPIP().toString());
       break;
   }
   // 0 WIFI_EVENT_STAMODE_CONNECTED    подключение к роутеру получение ip
@@ -38,37 +45,37 @@ void WiFiEvent(WiFiEvent_t event) {
 
 }
 
-String scanWIFI(){
-   uint8_t n = WiFi.scanNetworks();
-    DynamicJsonBuffer jsonBuffer;
-    JsonObject& json = jsonBuffer.createObject();
-    JsonArray& networks = json.createNestedArray("networks");
-    for (uint8_t i = 0; i < n; i++) {
-      JsonObject& data = networks.createNestedObject();
-      String ssidMy = WiFi.SSID(i);
-      data["ssid"] = ssidMy;
-      data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? emptyS : "*";
-      int8_t dbm = WiFi.RSSI(i);
-      data["dbm"] = dbm;
-      if (ssidMy == getSetup(ssidS)) {
-      sendStatus("dbm",dbm);
-      }
+String scanWIFI() {
+  uint8_t n = WiFi.scanNetworks();
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& json = jsonBuffer.createObject();
+  JsonArray& networks = json.createNestedArray("networks");
+  for (uint8_t i = 0; i < n; i++) {
+    JsonObject& data = networks.createNestedObject();
+    String ssidMy = WiFi.SSID(i);
+    data["ssid"] = ssidMy;
+    data["pass"] = (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? emptyS : "*";
+    int8_t dbm = WiFi.RSSI(i);
+    data["dbm"] = dbm;
+    if (ssidMy == getSetup(ssidS)) {
+      sendStatus("dbm", dbm);
     }
-    String root;
-    json.printTo(root);
-    return root;
   }
+  String root;
+  json.printTo(root);
+  return root;
+}
 
 void initWIFI() {
   startWIFI();
   HTTP.on("/wifi.scan.json", HTTP_GET, []() {
     httpOkJson(scanWIFI());
   });
-   // задача проверять уровень сети каждые две минуты.
+  // задача проверять уровень сети каждые две минуты.
   ts.add(tRSSI, 300000, [&](void*) {
-        scanWIFI();
-        //Serial.println(ssdpList);
-        //Serial.println("requestSSDP "+GetTime());
+    scanWIFI();
+    //Serial.println(ssdpList);
+    //Serial.println("requestSSDP "+GetTime());
   }, nullptr, true);
   HTTP.on("/ssid", HTTP_GET, []() {
     sendSetupArg(ssidS);
@@ -93,6 +100,7 @@ void initWIFI() {
     httpOkText();
     saveConfigSetup();
   });
+//restart?device=ok
   HTTP.on("/restart", HTTP_GET, []() {
     if (HTTP.arg("device") == "ok") {               // Если значение равно Ок
       httpOkText("Reset OK"); // Oтправляем ответ Reset OK
@@ -163,7 +171,7 @@ boolean startSTA() {
   String ssid = getSetup(ssidS);
   String pass = getSetup(ssidPassS);
   WiFi.persistent(false);
-   if (ssid == emptyS && pass == emptyS) {
+  if (ssid == emptyS && pass == emptyS) {
     WiFi.begin();
   }
   else {

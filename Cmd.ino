@@ -53,13 +53,17 @@ void initCMD() {
   sCmd.addCommand("GET",       initGet);
   sCmd.addCommand("ADMIN",       initAdmin);
   commandsReg("GET");
+  sCmd.addCommand("reset",       initReset);
+  commandsReg("reset");
   sCmd.setDefaultHandler(unrecognized);
 }
 
 void unrecognized(const char *command) {
   Serial.println("What?");
 }
-
+void initReset() {
+  ESP.restart();
+}
 void alarmComm() {
   //Serial.println("Comment?");
 }
@@ -81,6 +85,8 @@ void alarmGet() {
 
 void initGet() {
   String urls = readArgsString();
+  if (urls.indexOf("/") == 0) urls = "http://"+getSetup(ipS)+urls;
+  //Serial.println(urls);
   if (urls.indexOf("{{") != -1) {
     String param = urls;
     do {

@@ -28,13 +28,12 @@ void idNot() {}
 
 void handleScenary() {
   yield();
-  //Serial.println(flag);
   if (flag) { // если произошло изменение в данных config.live.json
-
+  //Serial.println(flag);
     //addFileString("events.txt",configJson+"\r\n");
     goCommands(Scenary); // Делаем разбор сценариев
     webSocket.broadcastTXT(configJson);
-//    Serial.println("test");
+    //Serial.println(configJson);
     sendStatus("voice", emptyS);
     flag = false;
   }
