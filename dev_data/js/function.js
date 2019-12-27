@@ -559,12 +559,10 @@ function loadCSV(file,title) {
     if (i == 0) {
      tbody += '<th>'+table_td[y]+'<\/th>';
     } else {
-     if (title[y] == 'input') {
-      tbody += '<td><input class="form-control" type="text" value="'+table_td[y]+'"><\/td>';
-     } else if (title[y] == 'checkbox') {
-      tbody += '<td><input class="form-control" type="checkbox" onclick="(this.checked?this.value=1:this.value=0)" value="'+table_td[y]+'" '+(table_td[y]==1?'checked':'')+'><\/td>';
-     } else {
+     if (title[y] == 'html') {
       tbody += '<td>'+table_td[y]+'<\/td>';
+     } else {
+      tbody += '<td><input class="form-control" type="'+title[y]+'" value="'+table_td[y]+'" '+(title[y]=='checkbox'?'onclick="(this.checked?this.value=1:this.value=0)"':'')+' '+(title[y]=='checkbox' && table_td[y]==1?'checked':'')+'><\/td>';
      }
     }
    }
