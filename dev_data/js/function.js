@@ -370,6 +370,14 @@ function viewTemplate(jsonPage,jsonResponse) {
       element.innerHTML += '<textarea '+style_val+' id="file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'">'+jsonResponse.LangLoading+'</textarea><input class="'+class_val+'" onclick="send_request_edit(this, val(\'file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
       loadFile(state_val);
      }
+     if (type_val == 'csv') {
+      var set_action = '';
+      if (obj.action != undefined) {
+       set_action = ",'send_request(this,\\'"+obj.action+"\\')'";
+      }
+      element.innerHTML += '<table id="table-csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" '+style_val+'></table><textarea style="display:none" id="csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"></textarea><input class="'+class_val+'" onclick="html_to_csv(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="Save" type="button">';
+      loadCSV(state_val,obj.title);
+     }
      if (type_val == 'time-list') {
       element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
       loadTime(jsonResponse);
@@ -537,6 +545,52 @@ function loadFile(file) {
  ajax.get(file+'?'+Math.random(),{},function(response) {
   val('file-'+file.replace(/[^a-z0-9]/gi,'-'), response);
  },true);
+}
+
+function loadCSV(file,title) {
+ ajax.get(file+'?'+Math.random(),{},function(response) {
+  //val('csv-'+file.replace(/[^a-z0-9]/gi,'-'), response);
+  var tbody = '';
+  var table_tr = response.split(/\n/);
+  for (var i = 0; i < table_tr.length; i++) {
+   var table_td = table_tr[i].split(";");
+   tbody += '<tr>';
+   for (var y = 0; y < table_td.length; y++) {
+    if (i == 0) {
+     tbody += '<th>'+table_td[y]+'<\/th>';
+    } else {
+     if (title[y] == 'input') {
+      tbody += '<td><input class="form-control" type="text" value="'+table_td[y]+'"><\/td>';
+     } else {
+      tbody += '<td>'+table_td[y]+'<\/td>';
+     }
+    }
+   }
+   tbody += '</tr>';
+  }
+  document.getElementById('table-csv-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += ''+tbody+'';
+ },true);
+}
+
+function html_to_csv(file) {
+ var csv = [];
+ var fixed = '';
+ var rows = document.querySelectorAll('[id^="table-'+file+'"] tr')
+ for (var i = 0; i < rows.length; i++) {
+  var row = [], cols = rows[i].querySelectorAll("td, th, input");
+  for (var j = 0; j < cols.length; j++) {
+   if (typeof cols[j].value !== "undefined") {
+    fixed = cols[j].value;
+   } else {
+    fixed = cols[j].innerHTML;
+   }
+   if (fixed.indexOf("<input") == -1) {
+    row.push(fixed);
+   }
+  }
+  csv.push(row.join(";"));
+ }
+ val(file, csv.join("\n\r"));
 }
 
 function pattern(str,id) {
