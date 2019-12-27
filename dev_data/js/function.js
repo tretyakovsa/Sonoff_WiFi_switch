@@ -551,7 +551,7 @@ function loadCSV(file,title) {
  ajax.get(file+'?'+Math.random(),{},function(response) {
   //val('csv-'+file.replace(/[^a-z0-9]/gi,'-'), response);
   var tbody = '';
-  var table_tr = response.split(/\n/);
+  var table_tr = response.replace(/\r\n|\n\r|\n|\r/g,"\n").split("\n");
   for (var i = 0; i < table_tr.length; i++) {
    var table_td = table_tr[i].split(";");
    tbody += '<tr>';
@@ -590,7 +590,7 @@ function html_to_csv(file) {
   }
   csv.push(row.join(";"));
  }
- val(file, csv.join("\n\r"));
+ val(file, csv.join("\r\n"));
 }
 
 function pattern(str,id) {
