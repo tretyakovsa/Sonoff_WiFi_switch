@@ -80,7 +80,7 @@ var jsonResponse;
 
 document.onkeydown = function(e){
  var evtobj = window.event?event:e
- var element=document.getElementById('edit-content');
+ var element=elem('edit-content');
  var charCode = String.fromCharCode(evtobj.which).toLowerCase();
  if (charCode === 'e' && evtobj.ctrlKey && element) {window.open('/edit','_blank');}
  if (charCode === 'm' && evtobj.ctrlKey && element) {toggle('edit-content');toggle('url-content');}
@@ -101,7 +101,7 @@ function run_socket(url) {
   console.log('Server: ', e.data);
   var socket_data=JSON.parse(e.data);
   jsonResponse_new = mergeObject(jsonResponse, socket_data);
-  document.getElementById('content').innerHTML = '';
+  elem('content').innerHTML = '';
   viewTemplate(jsonPage,jsonResponse_new);
  }
 }
@@ -112,7 +112,7 @@ function setContent(stage,load_page) {
  if (load_page) {pages[0] = load_page; }
  pages[0] = (pages[0]?pages[0]:'index');
  ajax.get(pages[0]+'.json?'+Math.random(),{},function(response) {
-  document.getElementById('download-json').href = pages[0]+".json";
+  elem('download-json').href = pages[0]+".json";
   // var jsonPage;
   if (response!='FileNotFound'){
    jsonPage=JSON.parse(response);
@@ -126,15 +126,15 @@ function setContent(stage,load_page) {
        var jsonResponseOld = jsonResponse;
        jsonResponse = mergeObject(jsonResponseNew, jsonResponseOld);
        //jsonResponse = Object.assign(jsonResponseNew, jsonResponseOld);
-       document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
+       elem('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">200 OK</span></li>';
       } else {
        if (jsonPage.configs[fileNumber].indexOf('socket ')  >= 0){
         if (stage == 'first') {
          run_socket(jsonPage.configs[fileNumber]);
         }
-        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>';
+        elem('url-content').innerHTML += '<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>';
        } else {
-        document.getElementById('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
+        elem('url-content').innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-danger">File Not Found</span></li>';
        }
       }
       fileNumber++;
@@ -150,17 +150,17 @@ function setContent(stage,load_page) {
 
        jsonResponse.sossionLogin = sessionStorage.getItem('sossionLogin');
 
-       var element_title=document.getElementById('title');
+       var element_title=elem('title');
        if(element_title){element_title.innerHTML = '';}
-       if (jsonPage.class) {document.getElementById('content').className = jsonPage.class;}
-       if (jsonPage.style) {document.getElementById('content').style = jsonPage.style;}
+       if (jsonPage.class) {elem('content').className = jsonPage.class;}
+       if (jsonPage.style) {elem('content').style = jsonPage.style;}
        if (jsonPage.reload) {set_real_time = setTimeout("setContent('edit')", jsonPage.reload);}
        if (stage == 'first') {
         document.body.innerHTML += '<a href="/donate.htm" class="hidden-xs btn btn-link" target="_blank" style="position:fixed;bottom:0;"><i class="fav-img"></i> '+(jsonResponse.LangDonate?jsonResponse.LangDonate:'Donate')+'<\/a>';
         val('edit-json', jsonEdit);
         toggle('container_column','hide');
        } else {
-        document.getElementById('content').innerHTML = '';
+        elem('content').innerHTML = '';
         jsonPage=JSON.parse(val('edit-json'));
        }
        val('edit-view','view');
@@ -168,8 +168,8 @@ function setContent(stage,load_page) {
         viewTemplate(jsonPage,jsonResponse);
         html("edit-save","oncli"+"ck");
        } else {
-        document.getElementById('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0;">content array not found in "'+pages[0]+'.json"<\/li>';
-        document.getElementById('content').innerHTML += '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>You can edit it right.<\/h2>';
+        elem('url-content').innerHTML += '<li class="alert alert-danger" style="margin:5px 0;">content array not found in "'+pages[0]+'.json"<\/li>';
+        elem('content').innerHTML += '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>You can edit it right.<\/h2>';
         toggle('edit-content');
         toggle('url-content');
        }
@@ -195,14 +195,14 @@ function setContent(stage,load_page) {
      },true);
     })()
    } else {
-    document.getElementById('content').innerHTML = '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>Please add configs array.<br>Example: "configs":["/config.live.json"]<br>You can edit this file on right side of this page.<\/h2>';
+    elem('content').innerHTML = '<br><br><h1>File "'+pages[0]+'.json" cannot view.<\/h1><hr><h2>Please add configs array.<br>Example: "configs":["/config.live.json"]<br>You can edit this file on right side of this page.<\/h2>';
     val('edit-json', jsonEdit);
     toggle('container_column','hide');
     toggle('edit-content');
     toggle('url-content');
    }
   } else {
-   document.getElementById('content').innerHTML += '<br><br><h1>Files "'+pages[0]+'.json" not found.<\/h1><hr><h2>Maybe you want to open some file of these:<\/h2><h3 id="file-list"><span class="loader"></span>Loading...<\/h3>';
+   elem('content').innerHTML += '<br><br><h1>Files "'+pages[0]+'.json" not found.<\/h1><hr><h2>Maybe you want to open some file of these:<\/h2><h3 id="file-list"><span class="loader"></span>Loading...<\/h3>';
    toggle('container_column','hide');
    ajax.get('/list?dir=/',{},function(response) {
     html('file-list',' ');
@@ -210,7 +210,7 @@ function setContent(stage,load_page) {
     jsonFiles.sort(function(a,b){return (a.name < b.name)?1:((b.name < a.name)?-1:0);});
     for(var i = 0;i<jsonFiles.length;i++) {
      if (jsonFiles[i].name.substr(-4) == 'json' || jsonFiles[i].name.substr(-7) == 'json.gz'){
-      document.getElementById('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.split('.')[0]+'">'+jsonFiles[i].name+'<\/a><br>';
+      elem('file-list').innerHTML += '<a href="/page.htm?'+jsonFiles[i].name.split('.')[0]+'">'+jsonFiles[i].name+'<\/a><br>';
      }
     }
    },true);
@@ -241,7 +241,7 @@ function searchModuleOld(modules,find) {
 function viewTemplate(jsonPage,jsonResponse) {
  var i = 0;
  for(var key in jsonPage) {
-  var element=document.getElementById(key);
+  var element=elem(key);
   if(Array.isArray(jsonPage[key]) && element){
 
    var arr = jsonPage[key];
@@ -417,7 +417,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<input onclick="loadNewOr(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangOr+'" type="button"></div>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
       option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-sm btn-block btn-default" value="+ '+jsonResponse.LangThen+'" type="button">';
-      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+document.getElementById(\\'ssdp-list0\\').options[document.getElementById(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');val(\\'ssdp-list0\\',\\' \\');loadScenary(jsonResponse,\\'loadList\\');',document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+elem(\\'ssdp-list0\\').options[elem(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');val(\\'ssdp-list0\\',\\' \\');loadScenary(jsonResponse,\\'loadList\\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
       html("load-life-opt","onclick");
@@ -427,7 +427,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<select class="form-control" id="ssdp-list2" style="display:none"><option value="'+location.host+'">-</option></select>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
       option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
-      option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list2\').options[document.getElementById(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then2\').options[document.getElementById(\'scenary-then2\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
+      option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+elem(\'ssdp-list2\').options[elem(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+elem(\'scenary-then2\').options[elem(\'scenary-then2\').selectedIndex].value+\' \'+elem(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
       element.innerHTML += '<h4 style="float:left;">Module:</h4> '+option;
       setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
      }
@@ -468,7 +468,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      if (type_val == 'dev') {
       var option = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
       if (searchModule(jsonResponse.module,"upgrade")){
-       option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+       option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\',\''+state_val+'\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
       }
       option += '<br><br>';
       option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff TH16 / Wi-Fi Smart Socket<\/option><option value="sonoff-pow">Sonoff-Pow ('+jsonResponse.LangSoon+')<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="rgb-shim">RGB SHIM (5050/3528/2835)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
@@ -485,7 +485,7 @@ function viewTemplate(jsonPage,jsonResponse) {
 
 function toggleCheckbox(element) {
  for (i = 0; i < 7; i++) {
-  document.getElementById("day-"+i).checked = (element.checked?true:false);
+  elem("day-"+i).checked = (element.checked?true:false);
  }
 }
 
@@ -510,17 +510,17 @@ function activeTimer(ids,ip,active) {
 }
 
 function addTimer() {
- var ip = document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value;
- var command = document.getElementById('scenary-then2').options[document.getElementById('scenary-then2').selectedIndex].value+' '+document.getElementById('scenary-othe2').value;
+ var ip = elem('ssdp-list2').options[elem('ssdp-list2').selectedIndex].value;
+ var command = elem('scenary-then2').options[elem('scenary-then2').selectedIndex].value+' '+elem('scenary-othe2').value;
  ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   var daycheck = '';
   for (i = 0; i < 7; i++) {
-   daycheck+=(document.getElementById("day-"+i).checked?'1':'0');
+   daycheck+=(elem("day-"+i).checked?'1':'0');
   }
-  var run1=(document.getElementById("run-1").checked?'1':'0');
+  var run1=(elem("run-1").checked?'1':'0');
   timerList.timer.push({"id":Math.floor(Math.random()*10000),"day":daycheck,"time1":val('set-time'),"com1":command,"run1":run1,"active":1});
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', document.getElementById('ssdp-list2').options[document.getElementById('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', elem('ssdp-list2').options[elem('ssdp-list2').selectedIndex].value);
  },true);
 }
 
@@ -594,7 +594,7 @@ function html_to_csv(file) {
 }
 
 function pattern(str,id) {
- document.getElementById(id).setAttribute("pattern","["+(str=='number'?'0-9-':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
+ elem(id).setAttribute("pattern","["+(str=='number'?'0-9-':'0-9a-zA-Zа-яА-Яё:_. ')+"]{1,100}");
 }
 
 function loadTime(jsonResponse) {
@@ -622,7 +622,7 @@ function loadDeviceTime(jsonResponse,ssdp,ip) {
    }
    options += '<tr><td><input id="active" type="checkbox" onchange="activeTimer(\''+timeDevice['timer'][i]['id']+'\',\''+ip+'\',(this.checked?\'1\':\'0\'))" '+(timeDevice['timer'][i]['active']==1 || typeof timeDevice['timer'][i]['active']=='undefined'?'checked':'')+'></td><td><span class="label label-default"><i class="clock-new-img"></i> '+timeDevice['timer'][i].time1+'</span></td><td>'+day_view_add+'</td><td>'+timeDevice['timer'][i].com1+' <a href="#" onclick="send_request(this, \'http://'+ip+'/cmd?command='+timeDevice['timer'][i].com1+'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img" style="opacity:0.2;"></i></a></td><td><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){deleteTimer(\''+i+'\',\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a></td><tr>';
   }
-  document.getElementById("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td></td><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
+  elem("time-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+ssdp+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr><tr><td></td><td><b>'+jsonResponse.LangTime4+'</b></td><td><b>'+jsonResponse.LangDay+'</b></td><td><b>command</b></td><td></td></tr>'+options;
  },true);
 }
 
@@ -644,7 +644,7 @@ function dayTemplate(day_view, jsonResponse) {
 function loadScenaryList(jsonResponse,selectDevice,ip) {
  ajax.get((ip?'http://'+ip:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
   if (selectDevice == 'loadInTextarea') {
-   document.getElementById("scenary-list-edit").innerHTML = response;
+   elem("scenary-list-edit").innerHTML = response;
   } else if (Number.isInteger(selectDevice) == true) {
    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
@@ -655,15 +655,15 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
    for (var i = 0 ; i < block.length; i++) {
     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
    }
-   document.getElementById("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   elem("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
   }
  },true);
 }
 
 function loadNewThen(where,titles) {
  var option = '';
- var number = parseInt(document.getElementById("hidden-val-then").value)+1;
- document.getElementById("hidden-val-then").value = number;
+ var number = parseInt(elem("hidden-val-then").value)+1;
+ elem("hidden-val-then").value = number;
  if (titles) {
   option += '<h3>'+titles+'<sup>'+(number>2?jsonResponse.LangOptional:'')+'</sup></h3>';
  } else {
@@ -671,8 +671,8 @@ function loadNewThen(where,titles) {
  }
  option += '<select class="form-control" id="ssdp-list'+number+'" onchange="loadCommand(this.value,\'command.json\',\'scenary-then'+number+'\');toggle(\'scenary-then'+number+'\',\'hidden\');"><\/select>';
  option += '<select class="form-control hidden" id="scenary-then'+number+'" onchange="loadCommandHelp(this.value,\'command-help'+number+'\',\'scenary-othe'+number+'\');toggle(\'if-then'+number+'\',\'hidden\');"><option value=""><\/option><\/select>';
- option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+document.getElementById(\'ssdp-list'+number+'\').options[document.getElementById(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+document.getElementById(\'scenary-then'+number+'\').options[document.getElementById(\'scenary-then'+number+'\').selectedIndex].value+\' \'+document.getElementById(\'scenary-othe'+number+'\').value.replace(/&/g,\'%26\'),\'\');return false"  title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';
- document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
+ option += '<div id="if-then'+number+'" class="hidden"><div id="command-help'+number+'" class="alert alert-warning"></div><a href="#" id="scenary-othe-play'+number+'" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+elem(\'ssdp-list'+number+'\').options[elem(\'ssdp-list'+number+'\').selectedIndex].value+\'/cmd?command=\'+elem(\'scenary-then'+number+'\').options[elem(\'scenary-then'+number+'\').selectedIndex].value+\' \'+elem(\'scenary-othe'+number+'\').value.replace(/&/g,\'%26\'),\'\');return false"  title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="'+jsonResponse.LangAction+'" id="scenary-othe'+number+'" type="text" /></div>';
+ elem(where).insertAdjacentHTML('beforeEnd', option);
  ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
   var options = '';
   var ip=sortObject(JSON.parse(response));
@@ -686,27 +686,27 @@ function loadNewThen(where,titles) {
 
 function loadNewAnd(where) {
  var option = '';
- var number = parseInt(document.getElementById("hidden-val-and").value)+1;
- document.getElementById("hidden-val-and").value = number;
+ var number = parseInt(elem("hidden-val-and").value)+1;
+ elem("hidden-val-and").value = number;
  option += '<h3>'+jsonResponse.LangAnd+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
  option += '<select class="form-control hidden" id="ssdp-module-and'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-and'+number+'\');toggle(\'hidden-if-and'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-and'+number+'"><select class="form-control" id="ssdp-condition-and'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
  option += '<input class="form-control" id="ssdp-command-and'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-and'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-and'+number+'\',\'ssdp-command-and'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
- document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
- loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-and'+number+'');
+ elem(where).insertAdjacentHTML('beforeEnd', option);
+ loadLive(elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-and'+number+'');
  toggle('ssdp-module-and'+number+'','hidden');
 }
 
 function loadNewOr(where) {
  var option = '';
- var number = parseInt(document.getElementById("hidden-val-or").value)+1;
- document.getElementById("hidden-val-or").value = number;
+ var number = parseInt(elem("hidden-val-or").value)+1;
+ elem("hidden-val-or").value = number;
  option += '<h3>'+jsonResponse.LangOr+'<sup>'+jsonResponse.LangOptional+'</sup></h3>';
  option += '<select class="form-control hidden" id="ssdp-module-or'+number+'" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command-or'+number+'\');toggle(\'hidden-if-or'+number+'\',\'hidden\');"><\/select>';
  option += '<span class="hidden" id="hidden-if-or'+number+'"><select class="form-control" id="ssdp-condition-or'+number+'" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=">'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=)<\/option><option value=">=">'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=)<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
  option += '<input class="form-control" id="ssdp-command-or'+number+'" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt-or'+number+'" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module-or'+number+'\',\'ssdp-command-or'+number+'\');return false"><i class="find-replace-img"></i></a></span>';
- document.getElementById(where).insertAdjacentHTML('beforeEnd', option);
- loadLive(document.getElementById('ssdp-list0').options[document.getElementById('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-or'+number+'');
+ elem(where).insertAdjacentHTML('beforeEnd', option);
+ loadLive(elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value,'config.live.json','ssdp-module-or'+number+'');
  toggle('ssdp-module-or'+number+'','hidden');
 }
 
@@ -770,8 +770,8 @@ function macrosTemplate(response,domain) {
 
 function loadCommandHelp(jsonParam,where,to) {
  html(where, 'Loading...');
- document.getElementById(to).readOnly = (jsonParam=='voice'?true:false);
- var domain = document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[document.getElementById('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
+ elem(to).readOnly = (jsonParam=='voice'?true:false);
+ var domain = elem('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[elem('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
  ajax.get('http://'+domain+'/'+(jsonParam=='voice'?'scenary.save.txt':'command-help.json')+'?'+Math.random(),{},function(response) {
   html(where, ' ');
   var option = '';
@@ -825,42 +825,42 @@ function loadCommand(ip,file,where) {
 
 function loadLive2(ssdp_list,ssdp_module,ssdp_command) {
  val(ssdp_command,"Loading...");
- var ip = document.getElementById(ssdp_list).options[document.getElementById(ssdp_list).selectedIndex].value;
- var who = document.getElementById(ssdp_module).options[document.getElementById(ssdp_module).selectedIndex].value;
+ var ip = elem(ssdp_list).options[elem(ssdp_list).selectedIndex].value;
+ var who = elem(ssdp_module).options[elem(ssdp_module).selectedIndex].value;
  ajax.get('http://'+ip+'/'+(who=='voice'?'config.options.json':'config.live.json'),{},function(response) {
   var jsonLive=JSON.parse(response);
   for(var key in jsonLive) {
    if (key == who) {
-    document.getElementById(ssdp_command).value= jsonLive[key];
+    elem(ssdp_command).value= jsonLive[key];
    }
   }
  },true);
 }
 
 function loadInTextarea() {
- var scenary_if = document.getElementById("ssdp-list0").options[document.getElementById("ssdp-list0").selectedIndex].text;
- var val_and = document.getElementById("hidden-val-and").value;
- var val_or = document.getElementById("hidden-val-or").value;
- var val_then = document.getElementById("hidden-val-then").value;
- var element = document.getElementById("scenary-list-edit");
- element.innerHTML += '\r\nif '+document.getElementById("ssdp-module").options[document.getElementById("ssdp-module").selectedIndex].value+' '+document.getElementById("ssdp-condition").options[document.getElementById("ssdp-condition").selectedIndex].value+' '+document.getElementById("ssdp-command").value.replace(/ /g,'_');
+ var scenary_if = elem("ssdp-list0").options[elem("ssdp-list0").selectedIndex].text;
+ var val_and = elem("hidden-val-and").value;
+ var val_or = elem("hidden-val-or").value;
+ var val_then = elem("hidden-val-then").value;
+ var element = elem("scenary-list-edit");
+ element.innerHTML += '\r\nif '+elem("ssdp-module").options[elem("ssdp-module").selectedIndex].value+' '+elem("ssdp-condition").options[elem("ssdp-condition").selectedIndex].value+' '+elem("ssdp-command").value.replace(/ /g,'_');
  var y = 1;
  while (y < val_and) {
   y++;
-  element.innerHTML += '\r\nand '+document.getElementById("ssdp-module-and"+y).options[document.getElementById("ssdp-module-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-condition-and"+y).options[document.getElementById("ssdp-condition-and"+y).selectedIndex].value+' '+document.getElementById("ssdp-command-and"+y).value.replace(/ /g,'_');
+  element.innerHTML += '\r\nand '+elem("ssdp-module-and"+y).options[elem("ssdp-module-and"+y).selectedIndex].value+' '+elem("ssdp-condition-and"+y).options[elem("ssdp-condition-and"+y).selectedIndex].value+' '+elem("ssdp-command-and"+y).value.replace(/ /g,'_');
  }
  var z = 1;
  while (z < val_or) {
   z++;
-  element.innerHTML += '\r\nor '+document.getElementById("ssdp-module-or"+z).options[document.getElementById("ssdp-module-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-condition-or"+z).options[document.getElementById("ssdp-condition-or"+z).selectedIndex].value+' '+document.getElementById("ssdp-command-or"+z).value.replace(/ /g,'_');
+  element.innerHTML += '\r\nor '+elem("ssdp-module-or"+z).options[elem("ssdp-module-or"+z).selectedIndex].value+' '+elem("ssdp-condition-or"+z).options[elem("ssdp-condition-or"+z).selectedIndex].value+' '+elem("ssdp-command-or"+z).value.replace(/ /g,'_');
  }
  var i = 1;
  while (i < val_then) {
   i++;
-  var scenary_list = document.getElementById("ssdp-list"+i).options[document.getElementById("ssdp-list"+i).selectedIndex].text;
-  var scenary_then = document.getElementById("scenary-then"+i).options[document.getElementById("scenary-then"+i).selectedIndex].value;
+  var scenary_list = elem("ssdp-list"+i).options[elem("ssdp-list"+i).selectedIndex].text;
+  var scenary_then = elem("scenary-then"+i).options[elem("scenary-then"+i).selectedIndex].value;
   if (scenary_then != ''){
-   element.innerHTML += '\r\nthen '+(scenary_if==scenary_list?'this':scenary_list)+' '+scenary_then+' '+document.getElementById("scenary-othe"+i).value;
+   element.innerHTML += '\r\nthen '+(scenary_if==scenary_list?'this':scenary_list)+' '+scenary_then+' '+elem("scenary-othe"+i).value;
   }
  }
  element.innerHTML += '\r\nid '+Math.floor(Math.random()*10000);
@@ -872,7 +872,7 @@ function loadInTextarea() {
 }
 
 function val(id,val){
- var element = document.getElementById(id);
+ var element = elem(id);
  if (element){
   if (val) {
    element.value=(val==' '?'':val);
@@ -883,7 +883,7 @@ function val(id,val){
 }
 
 function html(id,val){
- var element = document.getElementById(id);
+ var element = elem(id);
  if (element){
   if (val=='on'+'click') {if (jsonResponse["mes"+"sa"+"ge"]=='No'+'t r'+active+'red') {
    element.setAttribute(val,"alert('"+jsonResponse["Lan"+"gNotR"+active+"red"]+"');return false");
@@ -895,6 +895,31 @@ function html(id,val){
    }
   }
  }
+}
+
+function elem(id){
+ return document.getElementById(id);
+}
+
+/*
+window.SavePhoto = async function SavePhoto(e) {
+ let formData = new FormData();
+ let photo = e.files[0];
+ formData.append("data", photo);
+ try {
+  let r = await fetch('/edit', {method: "POST", body: formData});
+  console.log('HTTP response code:',r.status);
+ } catch(e) {
+  console.log('Huston we have problem...:', e);
+ }
+}
+*/
+
+function SavePhoto(e) {
+ var formData = new FormData();
+ var photo = e.files[0];
+ formData.append("data", photo);
+ ajax.post('/edit',{body:formData},function(response) {},true);
 }
 
 function send_request_edit(submit,server,filename,geturl,gethost){
@@ -924,7 +949,7 @@ function send_request_post(submit,server,state){
    var response=JSON.parse(response);
    var block = state.split(',');
    for (var i = 0 ; i < block.length; i++) {
-    var element = document.getElementById(block[i].slice(2,-2));
+    var element = elem(block[i].slice(2,-2));
     if (response.class && response.class!='undefined') {element.className = response.class;}
     if (response.style && response.style!='undefined') {element.style = response.style;}
     if (response.title && response.title!='undefined') {
@@ -944,15 +969,15 @@ function send_request(submit,server,state){
  submit.value = jsonResponse.LangLoading;
  ajax.get(server,{},function(responses) {
   submit.value=old_submit;
-  var element =  document.getElementById('url-content');
+  var element =  elem('url-content');
   if (typeof(element) != 'undefined' && element != null){
    element.innerHTML += '<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(responses=='FileNotFound'?'danger':'default')+'">'+(responses=='FileNotFound'?'File Not Found':'200 OK')+'</span></li>';
   }
-  var ddnsUrl1 =  document.getElementById('ddns-url1');
+  var ddnsUrl1 =  elem('ddns-url1');
   if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
    ddnsUrl1.innerHTML = '<a href="http://'+location.hostname+'/'+server+'">http://'+location.hostname+'/'+server+'</a>';
   }
-  var ddnsUrl2 =  document.getElementById('ddns-url2');
+  var ddnsUrl2 =  elem('ddns-url2');
   if (typeof(ddnsUrl2) != 'undefined' && ddnsUrl2 != null && jsonResponse.ddnsName){
    ddnsUrl2.innerHTML = '<a href="http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'">http://'+jsonResponse.ddnsName+':'+jsonResponse.ddnsPort+'/'+server+'</a>';
   }
@@ -968,7 +993,7 @@ function send_request(submit,server,state){
      } else {
       response = JSON.parse(responses);
      }
-     var htmlblock = document.getElementById(block[i].slice(2,-2));
+     var htmlblock = elem(block[i].slice(2,-2));
      if (response.class && response.class!='undefined') {htmlblock.className = response.class;}
      if (response.style && response.style!='undefined') {htmlblock.style = response.style;}
      if (response.title && response.title!='undefined') {
@@ -1013,8 +1038,8 @@ function submit_disabled(request){
 }
 
 function toggle(id,toggle) {
- if (document.getElementById(id)){
-  var element = document.getElementById(id).classList;
+ if (elem(id)){
+  var element = elem(id).classList;
   if (element.contains('hidden')) {
    if (toggle != 'show') {
     element.remove('hidden');
@@ -1044,12 +1069,12 @@ function loadWifi(id,hiddenIds){
    if (jsonWifi.networks[i].dbm <= -90) { wifiSignal = '90-100';}
    html += '<li><a href="#" onclick="val(\''+hiddenIds+'\',\''+jsonWifi.networks[i].ssid+'\');toggle(\'ssid-select\');html(\'ssid-name\',\''+jsonWifi.networks[i].ssid+'\');return false"><div style="float:right">'+(jsonWifi.networks[i].pass?'<i class="wifi wifi-key"></i>':'')+' <i class="wifi wifi-'+wifiSignal+'"></i> <span class="label label-default">'+jsonWifi.networks[i].dbm+' dBm</span></div><b>'+jsonWifi.networks[i].ssid+'</b></a></li>';
   }
-  document.getElementById(id).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
+  elem(id).innerHTML = (html?html:'<li><a href="#">Not found WiFi</a></li>')+'<li><a href="#" onclick="toggle(\'ssid-group\');toggle(\'ssid\');return false"><b>'+jsonResponse.LangHiddenWifi+'</b></a></li>';
  },true);
 }
 
-function loadBuild(buildids,typeFile){
- ajax.get('https://api.github.com/repos/tretyakovsa/Sonoff_WiFi_switch/contents/build',{},function(response) {
+function loadBuild(buildids,typeFile,urlbuild){
+ ajax.get(urlbuild,{},function(response) {
   var jsonBuild=JSON.parse(response);
   jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
   var html = '';
@@ -1061,7 +1086,7 @@ function loadBuild(buildids,typeFile){
     html += '<li><a href="/upgrade?'+typeFile+'=http://backup.privet.lv/esp/'+buildids+'/'+jsonBuild[i].name+'" '+(jsonResponse[typeFile+"Data"]==jsonBuild[i].name?'style="font-weight:bold;"':'')+' onclick="return confirm(\''+jsonResponse.LangRefresh+' '+typeFile+' ('+jsonBuild[i].name+')?\')">'+jsonBuild[i].name+'<\/a><\/li>';
    }
   }
-  document.getElementById(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
+  elem(buildids+'-'+typeFile).innerHTML = (html?html:'<li><a href="#">No build in folder<\/a><\/li>');
  },true);
 }
 
@@ -1123,7 +1148,7 @@ function hide(name,submit) {
 }
 
 function loadConfigs(file_module,jsonResponse) {
- var element = document.getElementById(file_module.replace(/[^a-z0-9]/gi,'-'));
+ var element = elem(file_module.replace(/[^a-z0-9]/gi,'-'));
  element.innerHTML = '';
  ajax.get("/configs/"+file_module,{},function(response) {
   response = renameBlock(jsonResponse, response);
@@ -1216,13 +1241,13 @@ function loadTable(file, jsonTable) {
   for(var key in jsonTable) {
    thead += '<th>'+renameBlock(jsonResponse, jsonTable[key])+'<\/th>';
   }
-  document.getElementById('thead-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += thead;
+  elem('thead-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += thead;
   for (var i = 0; i < timers[setTable].length; i++) {
    var tbody = '';
    for(var keys in jsonTable) {
     tbody += '<td>'+timers[setTable][i][keys]+'<\/td>';
    }
-   document.getElementById('tbody-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
+   elem('tbody-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += '<tr>'+tbody+'<\/tr>';
   }
  },true);
 }
@@ -1258,7 +1283,7 @@ function renameGet(str) {
   if (arr) {
    for (var i=0; i<arr.length; i++) {
     var id=arr[i].slice(2, -2);
-    var element = document.getElementById(id);
+    var element = elem(id);
     if (element) {
      var txt='';
      if (element.tagName=='SELECT'){
@@ -1344,14 +1369,14 @@ function loadCommits(repos,commitCount){
   var jsonCommits=JSON.parse(response);
   for(var key in jsonCommits) {
    if (key < commitCount) {
-    document.getElementById('commits-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
+    elem('commits-list').innerHTML += '<p><span class="label label-default"><i class="clock-new-img"></i> '+jsonCommits[key].commit.author.date.substring(0,10)+'<\/span> <a href="'+jsonCommits[key].html_url+'" target="_blank">'+jsonCommits[key].commit.message+'<\/a><\/p>';
    }
   }
  },true);
 }
 
 function loadIssues(repos,issuesCount){
- var issues_list = document.getElementById('issues-list');
+ var issues_list = elem('issues-list');
  ajax.get('https://api.github.com/repos/'+repos+'/issues',{},function(response) {
   html('issues-list', ' ');
   var jsonIssues=JSON.parse(response);
@@ -1361,7 +1386,7 @@ function loadIssues(repos,issuesCount){
     for(var label in jsonIssues[key].labels) {
      if (jsonIssues[key].labels[label].name == 'news') {
       if (readCookie("news-"+jsonIssues[key].id) != "hidden") {
-       document.getElementById('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this)">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
+       elem('news').innerHTML = '<div class="alert alert-dismissible alert-info"><button class="close" onclick="hide(\'news-'+jsonIssues[key].id+'\',this)">×<\/button>'+jsonIssues[key].title.substr(0, 100)+' <a href="'+jsonIssues[key].html_url+'" target="_blank">подробнее...<\/a><\/div>';
       }
      }
     }
@@ -1382,7 +1407,7 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
    var jsonBuild=JSON.parse(response);
    jsonBuild.sort(function(a,b){return (a.name< b.name)?1:((b.name < a.name)?-1:0);});
    if (jsonBuild[0].name != spiffs) {
-    document.getElementById('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+' \\n '+jsonResponse.LangUpgradeInfo+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
+    elem('update').innerHTML += '<sup><a href="/upgrade?spiffs=http://backup.privet.lv/esp/sonoff/'+jsonBuild[0].name+'&build=http://backup.privet.lv/esp/sonoff/build.0x00000'+jsonBuild[0].name.substring(14)+'" onclick="return confirm(\''+LangUpgrade+' \\n - New build: '+jsonBuild[0].name.split('_')[4].slice(0,-4)+' \\n - You build: '+(spiffs.length>35?spiffs.split('_')[4].slice(0,-4):'Not found')+' \\n '+jsonResponse.LangUpgradeInfo+'\')" title="'+LangUpgrade+'"><i class="warning-img"><\/i><\/a><sup>';
    }
   },true);
  }, LoadDelay);
@@ -1391,11 +1416,11 @@ function loadUpdate(repos, spiffs, LangUpgrade, LoadDelay){
 function isValidJson(str,id) {
  try {
   JSON.parse(str);
-  document.getElementById(id).style.border = "";
+  elem(id).style.border = "";
   html(id,' ');
   submit_disabled(false);
  } catch (e) {
-  document.getElementById(id).style.border = "2px solid red";
+  elem(id).style.border = "2px solid red";
   html(id,'<div class="alert alert-danger">'+e.message+'<\/div><br><br><br>');
   submit_disabled(true);
   return false;
@@ -1426,7 +1451,7 @@ function delCb(path){
      httpGet(treeRoot, "/");
     } else {
      path = path.substring(0, path.lastIndexOf('/'));
-     var leaf = document.getElementById(path).parentNode;
+     var leaf = elem(path).parentNode;
      if(leaf.childNodes.length == 3) leaf.removeChild(leaf.childNodes[2]);
      httpGet(leaf, path);
     }

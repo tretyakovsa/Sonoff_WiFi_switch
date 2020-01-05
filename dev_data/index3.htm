@@ -20,7 +20,7 @@ From: Latvia, Valmiera
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="h-title">Device Page</title>
   <script type="text/javascript">
-   var jsonIndexResponse, jsonLang;
+   var jsonInResponse, jsonLang;
    window.onload = function() {
     deviceList('first');
    }
@@ -72,8 +72,8 @@ From: Latvia, Valmiera
    function loadBlock(ip, content, stage, modules) {
     if (!modules) {
      ajax.get('http://'+ip+'/modules.json',{},function(response) {
-      var jsonIndexResponse3=JSON.parse(response);
-      loadBlock2(jsonIndexResponse3.module,stage,ip);
+      var jsonInResponse3=JSON.parse(response);
+      loadBlock2(jsonInResponse3.module,stage,ip);
      },true);
     } else {
      loadBlock2(modules,stage,ip);
@@ -82,76 +82,76 @@ From: Latvia, Valmiera
 
    function loadBlock2(modules,stage,ip){
     ajax.get('http://'+ip+'/config.live.json?'+Math.random(),{},function(response) {
-     var jsonIndexResponse0 = JSON.parse(response);
+     var jsonInResponse0 = JSON.parse(response);
      ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
-      var jsonIndexResponse1 = JSON.parse(response);
-      jsonIndexResponse = mergeObject(jsonIndexResponse0, jsonIndexResponse1, jsonLang);
+      var jsonInResponse1 = JSON.parse(response);
+      jsonInResponse = mergeObject(jsonInResponse0, jsonInResponse1, jsonLang);
       var theCookies = document.cookie.split(';');
       for (var i = 1 ; i <= theCookies.length; i++) {
-       jsonIndexResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
+       jsonInResponse[theCookies[i-1].split("=")[0].replace(/^ /,'')] = theCookies[i-1].split("=")[1];
       }
       if(/relay/.test(modules)) {
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'relay','danger');}
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'relay','danger');}
        html("button-"+ip+"-relay",' ');
        for (var i = 0; i < 6; i++) {
         if (searchModule(modules,"relay"+i) == '1'){
-         document.getElementById("button-"+ip+"-relay").innerHTML += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonIndexResponse["relay"+i]?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse["relay"+i]?'info':'primary')+'" type="button">';
+         elem("button-"+ip+"-relay").innerHTML += '<input onclick="ajaxm(\''+ip+'\',\'cmd?command=relay not '+i+'\',this);" value="'+(jsonInResponse["relay"+i]?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse["relay"+i]?'info':'primary')+'" type="button">';
         }
        }
       }
       if (searchModuleOld(modules,"rgb")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgb','info');}
-       document.getElementById("button-"+ip+"-rgb").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgb?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'rgb','info');}
+       elem("button-"+ip+"-rgb").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonInResponse.rgb?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.rgb?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"rfLivolo")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'livolo','default');}
-       document.getElementById("button-"+ip+"-livolo").innerHTML='';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'livolo','default');}
+       elem("button-"+ip+"-livolo").innerHTML='';
       }
       if (searchModule(modules,"crib")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'crib','default');}
-       document.getElementById("button-"+ip+"-crib").innerHTML='';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'crib','default');}
+       elem("button-"+ip+"-crib").innerHTML='';
       }
       if (searchModule(modules,"rgbs")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'rgbs','info');}
-       document.getElementById("button-"+ip+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonIndexResponse.rgb?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.rgb?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'rgbs','info');}
+       elem("button-"+ip+"-rgbs").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgbs not\',this);" value="'+(jsonInResponse.rgb?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.rgb?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"jalousie")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'jalousie','success');}
-       document.getElementById("button-"+ip+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonIndexResponse.jalousie?jsonIndexResponse.LangClose:jsonIndexResponse.LangOpen)+'" class="btn btn-'+(jsonIndexResponse.jalousie?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'jalousie','success');}
+       elem("button-"+ip+"-jalousie").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=jalousie not\',this);" value="'+(jsonInResponse.jalousie?jsonInResponse.LangClose:jsonInResponse.LangOpen)+'" class="btn btn-'+(jsonInResponse.jalousie?'info':'primary')+'" type="button">';
       }
       if (searchModule(modules,"leakag")){
-       if (stage == 'first'){loadElement(ip,jsonIndexResponse.SSDP,jsonIndexResponse.space,'leakag','success');}
-       document.getElementById("button-"+ip+"-leakag").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=leakag not\',this);" value="'+(jsonIndexResponse.stateLeakag?jsonIndexResponse.LangOff:jsonIndexResponse.LangOn)+'" class="btn btn-'+(jsonIndexResponse.stateLeakag?'info':'primary')+'" type="button">';
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'leakag','success');}
+       elem("button-"+ip+"-leakag").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=leakag not\',this);" value="'+(jsonInResponse.stateLeakag?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.stateLeakag?'info':'primary')+'" type="button">';
       }
       if (stage == 'first'){
         for (var i = 0; i < 10; i++) {
          if (searchModuleOld(modules,'temperature'+(i==0?'':i))){
-          loadSensor(ip,'table-sensors',jsonIndexResponse,"temperature"+(i==0?'':i));
+          loadSensor(ip,'table-sensors',jsonInResponse,"temperature"+(i==0?'':i));
          }
         }
        if (searchModule(modules,"humidity")){
-        loadSensor(ip,'table-sensors',jsonIndexResponse,"humidity");
+        loadSensor(ip,'table-sensors',jsonInResponse,"humidity");
        }
        if (searchModule(modules,"A0")){
-        loadSensor(ip,'table-sensors',jsonIndexResponse,"A0");
+        loadSensor(ip,'table-sensors',jsonInResponse,"A0");
        }
        if (searchModule(modules,"pow")){
-        loadSensor(ip,'table-sensors',jsonIndexResponse,"pow");
+        loadSensor(ip,'table-sensors',jsonInResponse,"pow");
        }
        if (searchModule(modules,"movement")){
-        loadSensor(ip,'table-sensors',jsonIndexResponse,"movement");
+        loadSensor(ip,'table-sensors',jsonInResponse,"movement");
        }
       }
       if (window.location.hostname == ip && stage == 'first') {
        var new_string2;
        var bodyData = document.getElementsByTagName('body')[0].innerHTML;
-       for (var key in jsonIndexResponse) {
-        new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonIndexResponse[key]);
+       for (var key in jsonInResponse) {
+        new_string2 = bodyData.replace(new RegExp('{{'+key+'}}', 'g'), jsonInResponse[key]);
         bodyData = new_string2;
        }
        document.getElementsByTagName('body')[0].innerHTML = new_string2;
        if (searchModule(modules,"upgrade")){
-        loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonIndexResponse.spiffsData, jsonIndexResponse.LangUpgrade, 10000);
+        loadUpdate('tretyakovsa/Sonoff_WiFi_switch', jsonInResponse.spiffsData, jsonInResponse.LangUpgrade, 10000);
        }
        // setContent('first');
       }
@@ -160,30 +160,30 @@ From: Latvia, Valmiera
    }
 
    function loadElement(ip, ssdpVal, spaceVal, moduleVal, classVal) {
-    var element = document.getElementById(spaceVal);
-    var blockButton = '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ip+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ip+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ip+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonIndexResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ip+'/page.htm?setup" class="btn btn-default" title="'+jsonIndexResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ip+'" colspan="2"><\/td><\/tr>';
+    var element = elem(spaceVal);
+    var blockButton = '<tr><td><span class="label label-'+classVal+'">'+moduleVal+'<\/span> <\/td><td> <b><a href="http://'+ip+'">'+ssdpVal+'<\/a><\/b> <\/td><td style="text-align:right;"><span id="button-'+ip+'-'+moduleVal+'"><\/span><div class="btn-group pull-right"><a href="http://'+ip+'/page.htm?'+moduleVal+'" class="btn btn-default" title="'+jsonInResponse.LangOptions1+'"><i class="set-img"><\/i><\/a><a href="http://'+ip+'/page.htm?setup" class="btn btn-default" title="'+jsonInResponse.LangSetting3+'"><i class="opt-img"><\/i><\/a><\/div><\/tr><\/td> <tr><td><\/td><td id="timers-'+ip+'" colspan="2"><\/td><\/tr>';
     if (typeof(element) != 'undefined' && element != null && element != ''){
      element.innerHTML += blockButton;
     } else {
-     document.getElementById('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"> '+blockButton+' <\/table><\/div><\/div><\/div>';
+     elem('content').innerHTML += '<div class="col-md-6"><div class="block"><h5 class="alert-info">'+spaceVal+'<\/h5><table style="width:100%;" id="'+spaceVal+'"> '+blockButton+' <\/table><\/div><\/div><\/div>';
     }
    }
 
-   function loadTimers(ip, content, jsonIndexResponse) {
+   function loadTimers(ip, content, jsonInResponse) {
     ajax.get('http://'+ip+'/timer.save.json',{},function(response) {
      var timers=JSON.parse(response);
      timers.timer.sort(function(a,b){return (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0);});
      var timerList = '';
      for (var i = 0; i < timers.timer.length; i++) {
-      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOnM"]+'<\/span>';}
-      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangOffM"]+'<\/span>';}
-      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonIndexResponse["LangOpen"]+'<\/span>';}
-      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonIndexResponse["LangClose"]+'<\/span>';}
-      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonIndexResponse["LangSwitch"]+'<\/span>';}
-      timers.timer[i].day = jsonIndexResponse["Lang"+timers.timer[i].day];
-      timerList += '<a class="label label-default" href="http://'+ip+'/page.htm?timer">'+jsonIndexResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
+      if (timers.timer[i].trigger == "on") {timers.timer[i].trigger = '<span class="label label-success">'+jsonInResponse["LangOnM"]+'<\/span>';}
+      if (timers.timer[i].trigger == "off") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonInResponse["LangOffM"]+'<\/span>';}
+      if (timers.timer[i].trigger == "open") {timers.timer[i].trigger = '<span class="label label-success">'+jsonInResponse["LangOpen"]+'<\/span>';}
+      if (timers.timer[i].trigger == "close") {timers.timer[i].trigger = '<span class="label label-danger">'+jsonInResponse["LangClose"]+'<\/span>';}
+      if (timers.timer[i].trigger == "not") {timers.timer[i].trigger = '<span class="label label-info">'+jsonInResponse["LangSwitch"]+'<\/span>';}
+      timers.timer[i].day = jsonInResponse["Lang"+timers.timer[i].day];
+      timerList += '<a class="label label-default" href="http://'+ip+'/page.htm?timer">'+jsonInResponse.LangTimer+'<\/a> '+timers.timer[i].trigger+' '+timers.timer[i].day.substring(0,7)+'. '+timers.timer[i].time+(timers.timer[i].work?' - '+timers.timer[i].work:'')+'<br>';
      }
-     document.getElementById("timers-"+ip).innerHTML+=''+(timerList?timerList:'')+'';
+     elem("timers-"+ip).innerHTML+=''+(timerList?timerList:'')+'';
     },true);
    }
 
@@ -191,10 +191,10 @@ From: Latvia, Valmiera
     return string.charAt(0).toUpperCase() + string.slice(1);
    }
 
-   function loadSensor(ip, content, jsonIndexResponse, module) {
+   function loadSensor(ip, content, jsonInResponse, module) {
     ajax.get('http://'+ip+'/charts.json?data='+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&data1=highAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,'')+'&data2=lowAlarm'+cFirstLetter(module.replace(/[^A-Za-z0]/g,''))+''+module.replace(/[^1-9]/g,''),{},function(response) {
      var sensors=JSON.parse(response);
-     document.getElementById("timers-"+ip).innerHTML+='<a class="label label-default" href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonIndexResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
+     elem("timers-"+ip).innerHTML+='<a class="label label-default" href="http://'+ip+'/page.htm?chart&'+module.replace(/[^A-Za-z0]/g,'')+''+module.replace(/[^1-9]/g,'')+'&highAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'&lowAlarm'+module.replace(/[^A-Za-z0]/g,'').replace(/temperature/g,'Temp').replace(/humidity/g,'Hum')+''+module.replace(/[^1-9]/g,'')+'" style="margin-right:5px;">'+jsonInResponse['Lang'+module.charAt(0).toUpperCase()+module.substr(1).replace(/[^A-Za-z0]/g,'')]+' '+module.replace(/[^1-9]/g,'')+'<\/a><b>'+sensors.data+(sensors.data1?', '+sensors.data1:'')+(sensors.data2?', '+sensors.data2:'')+'<\/b><br>';
     },true);
    }
 
@@ -204,7 +204,7 @@ From: Latvia, Valmiera
     var datetext = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
     var parent = '';
     var parent = submit.parentNode.parentNode.parentNode.children[0].innerHTML;
-    document.getElementById('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
+    elem('history').insertAdjacentHTML('afterbegin', '<li><span class="label label-default"><i class="clock-new-img"><\/i> '+datetext+'<\/span> <span style="cursor:pointer" onclick="toggle(\'hide-'+datetext+'\');return false"><b>'+parent+'<\/b><em>'+old_submit+'<\/em><small class="hidden" id="hide-'+datetext+'"><span class="label label-warning">GET<\/span> <a href="http://'+ipHost+'/'+pagename+'">http://'+ipHost+'/'+pagename+'<\/a><\/small><\/span><\/li>');
     submit.value = 'Loading...';
     ajax.get('http://'+ipHost+'/'+pagename,{},function(response) {
      submit.value=old_submit;
@@ -220,7 +220,7 @@ From: Latvia, Valmiera
  </head>
  <body>
   <div id="news"></div>
-  <ul id="url-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;"></ul>
+  <ul id="url-content" class="hidden" onclick="elem('container').style.zIndex=0;"></ul>
   <div class="container device index3" id="container" onclick="this.style.position='relative';this.style.zIndex=10">
    <div id="header">
     <div class="btn-group pull-right" id="header-right" style="margin-top:35px;"></div>
@@ -236,7 +236,7 @@ From: Latvia, Valmiera
     </div>
    </div>
   </div>
-  <div id="edit-content" class="hidden" onclick="document.getElementById('container').style.zIndex=0;">
+  <div id="edit-content" class="hidden" onclick="elem('container').style.zIndex=0;">
    <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
    <div id="error-json"></div>
    <div class="btn-group btn-block">

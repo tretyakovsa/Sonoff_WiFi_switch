@@ -34,14 +34,14 @@ From: Latvia, Valmiera
   <div id="news"></div>
   <div class="container loader-bg">
 
-   <ul id="url-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;"></ul>
+   <ul id="url-content" class="hidden" onclick="elem('content').style.zIndex=0;"></ul>
    <div id="headers"></div>
    <div class="row hidden" id="container_column">
     <h1 id="title"></h1>
     <div id="content" onclick="this.style.zIndex=10"></div>
    </div>
    <div id="footer"></div>
-   <div id="edit-content" class="hidden" onclick="document.getElementById('content').style.zIndex=0;">
+   <div id="edit-content" class="hidden" onclick="elem('content').style.zIndex=0;">
     <a target="_blank" style="position:fixed;right:0;color:#000;" href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8-page.htm%3F*" title="GitHub Wiki"><i class="help-img"></i>wiki</a>
     <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>

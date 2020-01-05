@@ -52,6 +52,7 @@
   {
    "type":"dev",
    "title":"{{LangSetting}}",
+   "state":"http://backup.privet.lv/esp/build/sonoff",
    "class":"alert alert-dismissible alert-info"
   },
 
