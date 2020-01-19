@@ -310,8 +310,12 @@ function viewTemplate(jsonPage,jsonResponse) {
       if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
       var option = '';
       jsonSelect = obj.title;
-      for(var key in jsonSelect) {
-       option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+      if (isObject(jsonSelect)) {
+       for(var key in jsonSelect) {
+        option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+       }
+      } else {
+       loadSelect(jsonSelect, name_val, state_val);
       }
       element.innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
      }
@@ -483,6 +487,10 @@ function viewTemplate(jsonPage,jsonResponse) {
  }
 }
 
+function isObject(obj){
+ return obj != null && obj.constructor.name === "Object"
+}
+
 function toggleCheckbox(element) {
  for (i = 0; i < 7; i++) {
   elem("day-"+i).checked = (element.checked?true:false);
@@ -539,6 +547,17 @@ function loadJson(file, setDelay, jsonResponse) {
  } else {
   setLoad();
  }
+}
+
+function loadSelect(file,name_val,state_val) {
+  ajax.get(file+'?'+Math.random(),{},function(response) {
+   var result = JSON.parse(response);
+   option = '';
+   for(var key in result) {
+    option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, result[key])+'<\/option>';
+   }
+   elem(name_val).innerHTML = option;
+  },true);
 }
 
 function loadFile(file) {
