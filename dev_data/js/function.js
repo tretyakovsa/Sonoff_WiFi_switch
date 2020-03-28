@@ -108,11 +108,11 @@ function run_socket(url) {
   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Connected</span></li>');
  };
  connection.onerror = function (error) {
- // console.log('WebSocket Error ', error);
+  // console.log('WebSocket Error ', error);
   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-danger">'+error+'</span></li>');
  };
  connection.onmessage = function (e) {
- // console.log('Server: ', e.data);
+  // console.log('Server: ', e.data);
   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
   var socket_data=JSON.parse(e.data);
   jsonResponse_new = mergeObject(jsonResponse, socket_data);
@@ -685,23 +685,71 @@ function dayTemplate(day_view, jsonResponse) {
  return day_view_add;
 }
 
-function loadScenaryList(jsonResponse,selectDevice,ip) {
- ajax.get((ip?'http://'+ip:'')+"/scenary.save.txt?"+Math.random(),{},function(response) {
-  if (selectDevice == 'loadInTextarea') {
-   elem("scenary-list-edit").innerHTML = response;
-  } else if (Number.isInteger(selectDevice) == true) {
-   var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
-   send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),'scenary.save.txt','html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
-  } else {
-   var createText = '';
-   var block = response.split(/\n|\r| /);
-   //var block = response.split(/\n\r|\r\n|\n|\r| /g);
-   for (var i = 0 ; i < block.length; i++) {
-    createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
+
+
+
+function saveScenary(jsonResponse,loadList) {
+
+ loadInTextarea();
+// send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+
+}
+
+
+
+function loadScenary(jsonResponse,loadList) {
+ html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
+ ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
+  html('scenary-list', ' ');
+  toggle('hidden-if','show');
+  toggle('ssdp-module','show');
+  html('new-and-or',' ');
+  html('new-then',' ');
+  var option = '';
+  var ip=sortObject(JSON.parse(response));
+  if (loadList) {
+   for (var i in ip) {
+    loadScenaryList(jsonResponse,i,ip[i]);
    }
-   elem("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/scenary.save.txt?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   val('hidden-val-then',1);
+   loadNewThen('new-then');
+  } else {
+   for (var i in ip) {
+    option += '<option value="'+ip[i]+'">'+i+'<\/option>';
+   }
+   html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
+   val('hidden-val-and',1);
+   val('hidden-val-or',1);
+   val('hidden-val-then',1);
+   loadNewThen('new-then');
   }
  },true);
+}
+
+function loadScenaryList(jsonResponse,selectDevice,ip) {
+
+ ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
+  var view=JSON.parse(response);
+
+  ajax.get((ip?'http://'+ip:'')+"/"+(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt')+"?"+Math.random(),{},function(response) {
+   if (selectDevice == 'loadInTextarea') {
+    elem("scenary-list-edit").innerHTML = response;
+   } else if (Number.isInteger(selectDevice) == true) {
+    var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
+    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt'),'html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
+   } else {
+    var createText = '';
+    var block = response.split(/\n|\r| /);
+    //var block = response.split(/\n\r|\r\n|\n|\r| /g);
+    for (var i = 0 ; i < block.length; i++) {
+     createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
+    }
+    elem("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/'+(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt')+'?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+   }
+  },true);
+
+ },true);
+
 }
 
 function loadNewThen(where,titles) {
@@ -761,42 +809,19 @@ function sortObject(obj) {
  }, {});
 }
 
-function loadScenary(jsonResponse,loadList) {
- html('scenary-list', '<tr><td colspan="2"><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr>');
- ajax.get('/ssdp.list.json?'+Math.random(),{},function(response) {
-  html('scenary-list', ' ');
-  toggle('hidden-if','show');
-  toggle('ssdp-module','show');
-  html('new-and-or',' ');
-  html('new-then',' ');
-  var option = '';
-  var ip=sortObject(JSON.parse(response));
-  if (loadList) {
-   for (var i in ip) {
-    loadScenaryList(jsonResponse,i,ip[i]);
-   }
-   val('hidden-val-then',1);
-   loadNewThen('new-then');
-  } else {
-   for (var i in ip) {
-    option += '<option value="'+ip[i]+'">'+i+'<\/option>';
-   }
-   html("ssdp-list0",'<option value="">'+jsonResponse.LangSelect+'<\/option>'+option);
-   val('hidden-val-and',1);
-   val('hidden-val-or',1);
-   val('hidden-val-then',1);
-   loadNewThen('new-then');
-  }
- },true);
-}
-
 function loadMacros(jsonResponse,where,domain,class_val) {
  html(where, 'Loading...');
  if (!domain) {domain=window.location.hostname}
- ajax.get('http://'+domain+'/scenary.save.txt?'+Math.random(),{},function(response) {
-  html(where, ' ');
-  var option = macrosTemplate(response,domain);
-  html(where, (option?option+'<hr>':''));
+
+ ajax.get('http://'+domain+'/config.options.json?'+Math.random(),{},function(response) {
+  var view=JSON.parse(response);
+
+  ajax.get('http://'+domain+'/'+(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt')+'?'+Math.random(),{},function(response) {
+   html(where, ' ');
+   var option = macrosTemplate(response,domain);
+   html(where, (option?option+'<hr>':''));
+  },true);
+
  },true);
 }
 
