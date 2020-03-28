@@ -3,7 +3,10 @@ UPGRADE
 // {{LangConfPinout}}
 # PINOUT 13 1 1 0 LedConnectedWiFi
 // {{LangConfRelay}}
-RELAY 20 1 1 0 {{LangrelayName}}_1
+RELAY 18 1 1 0 {{LangrelayName}}_1
+RELAY 19 2 1 0 {{LangrelayName}}_2
+RELAY 20 3 1 0 {{LangrelayName}}_3
+RELAY 21 4 1 0 {{LangrelayName}}_4
 // {{LangConfNTP}}
 NTP ntp1.vniiftri.ru ntp2.vniiftri.ru
 // {{LangConfTIMERS}}
