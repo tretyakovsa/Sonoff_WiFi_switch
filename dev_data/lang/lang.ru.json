@@ -127,6 +127,7 @@
  "LangNotEqual":"Не равно",
  "LangAnd":"И",
  "LangOr":"Или",
+ "Langparam":"Параметр",
  "Langrgbon":"Включить RGB",
  "Langrgboff":"Выключить RGB",
  "Langrgbnot":"Переключить RGB",

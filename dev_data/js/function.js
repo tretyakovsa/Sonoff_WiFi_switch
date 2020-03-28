@@ -77,6 +77,7 @@ var set_real_time;
 var active = 'egiste';
 var jsonPage;
 var jsonResponse;
+var connection;
 
 document.onkeydown = function(e){
  var evtobj = window.event?event:e
@@ -101,7 +102,7 @@ function log(log) {
 }
 
 function run_socket(url) {
- var connection = new WebSocket(url.replace('socket ','ws://'), ['arduino']);
+ connection = new WebSocket(url.replace('socket ','ws://'), ['arduino']);
  connection.onopen = function () {
   connection.send('Connect '+new Date());
   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Connected</span></li>');
@@ -112,7 +113,7 @@ function run_socket(url) {
  };
  connection.onmessage = function (e) {
  // console.log('Server: ', e.data);
-  log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Send</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
+  log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
   var socket_data=JSON.parse(e.data);
   jsonResponse_new = mergeObject(jsonResponse, socket_data);
   elem('content').innerHTML = '';
@@ -305,7 +306,7 @@ function viewTemplate(jsonPage,jsonResponse) {
      }
      if (type_val == 'button') {
       if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      if (socket_val) action_val = 'onclick="send_socket(this, \'\', \''+action_val+'\')"';
+      if (socket_val) action_val = 'onclick="send_socket(this, \'\', \''+socket_val+'\')"';
       if (actiondown_val) actiondown_val = 'onmouseup="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
       element.innerHTML += '<input id="'+name_val+'" '+action_val+' '+actiondown_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
      }
@@ -1081,6 +1082,9 @@ function send_socket(submit,server,state){
  //for (var i = 0; i < element.length; i++) {
  // if (element[i].type === 'button') {element[i].disabled = request;}
  //}
+ //log('<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>');
+ log('<li><span class="label label-warning">WS</span> <small>Soon</small> <span class="label label-default">Send</span></li><li style="margin:5px 0;" class="alert alert-info">'+state+'</li>');
+
  connection.send(state);
 }
 

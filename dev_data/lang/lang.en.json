@@ -127,6 +127,7 @@
  "LangNotEqual":"Not equal",
  "LangAnd":"And",
  "LangOr":"Or",
+ "Langparam":"Parametr",
  "Langrgbon":"On RGB",
  "Langrgboff":"Off RGB",
  "Langrgbnot":"Turn RGB",

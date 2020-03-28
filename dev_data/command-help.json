@@ -82,6 +82,36 @@
    "title":"{{Langrgbon}}, цвет, "
   }
  ],
+ "param":[
+  {
+   "command":"param add fire 0",
+   "title":"Добавляет переменную fire с значением 0"
+  },
+  {
+   "command":"param set fire 1",
+   "title":"Присвоить fire значение 1"
+  },
+  {
+   "command":"param on fire",
+   "title":"Присвоить fire значение on"
+  },
+  {
+   "command":"param off fire",
+   "title":"Присвоить fire значение off"
+  },
+  {
+   "command":"param not fire",
+   "title":"Переключить значение fire с 0 на 1 или наоборот"
+  },
+  {
+   "command":"param + fire 1",
+   "title":"Прибавить число к параметру fire"
+  },
+  {
+   "command":"param - fire 1",
+   "title":"Отнять число от параметра fire"
+  }
+ ],
  "lvsend":[
   {
    "command":"6400 0",
