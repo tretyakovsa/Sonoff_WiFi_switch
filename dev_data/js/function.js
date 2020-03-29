@@ -100,7 +100,6 @@ function log(log) {
  elem('url-content').innerHTML += log;
  elem('url-content').scrollTop = elem('url-content').scrollHeight;
 }
-
 function run_socket(url) {
  connection = new WebSocket(url.replace('socket ','ws://'), ['arduino']);
  connection.onopen = function () {
@@ -115,9 +114,18 @@ function run_socket(url) {
   // console.log('Server: ', e.data);
   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
   var socket_data=JSON.parse(e.data);
-  jsonResponse_new = mergeObject(jsonResponse, socket_data);
+  var jsonResponse_new_sock = mergeObject(jsonResponse, socket_data);
+  jsonResponse = jsonResponse_new_sock;
   elem('content').innerHTML = '';
-  viewTemplate(jsonPage,jsonResponse_new);
+  elem('title').innerHTML = '';
+
+
+  console.log(JSON.stringify(jsonPage));
+
+  // var jsonpage = ('content');
+  // viewTemplate(jsonpage,jsonResponse);
+
+  viewTemplate(jsonPage,jsonResponse);
  }
 }
 function array_socket(socket) {
@@ -561,8 +569,8 @@ function loadJson(file, setDelay, jsonResponse) {
  function setLoad(){
   ajax.get(file+'?'+Math.random(),{},function(response) {
    html('json-'+file.replace(/[^a-z0-9]/gi,'-'), ' ');
-   jsonPage=JSON.parse(response);
-   viewTemplate(jsonPage,jsonResponse);
+   var jsonPage2=JSON.parse(response);
+   viewTemplate(jsonPage2,jsonResponse);
   },true);
  };
  if (!isNaN(setDelay)) {
@@ -691,7 +699,12 @@ function dayTemplate(day_view, jsonResponse) {
 function saveScenary(jsonResponse,loadList) {
 
  loadInTextarea();
-// send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+ // send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+
+
+ //send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+
+
 
 }
 
@@ -730,13 +743,14 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
 
  ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
   var view=JSON.parse(response);
+  var scenary_file = (view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt');
 
-  ajax.get((ip?'http://'+ip:'')+"/"+(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt')+"?"+Math.random(),{},function(response) {
+  ajax.get((ip?'http://'+ip:'')+"/"+scenary_file+"?"+Math.random(),{},function(response) {
    if (selectDevice == 'loadInTextarea') {
     elem("scenary-list-edit").innerHTML = response;
    } else if (Number.isInteger(selectDevice) == true) {
     var reg = new RegExp("([\\s\\S]+?)(id\\s+\\d+)", "mig");
-    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt'),'html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
+    send_request_edit(this, response.replace(reg,function(a,b,c){return new RegExp("^id+\\s+"+selectDevice+"$").test(c)?"":a}),scenary_file,'html(\'scenary-list\', \' \');send_request(this,\'http://'+ip+'/setscenary\');loadScenary(jsonResponse,\'loadList\');',ip);
    } else {
     var createText = '';
     var block = response.split(/\n|\r| /);
@@ -744,7 +758,7 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
     for (var i = 0 ; i < block.length; i++) {
      createText += ' '+(renameBlock(jsonResponse, '{{Lang'+block[i]+'}}')===undefined?block[i]:renameBlock(jsonResponse, '{{Lang'+block[i]+'}}'));
     }
-    elem("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/'+(view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt')+'?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
+    elem("scenary-list").innerHTML += '<tr><td colspan="2"><h4><a href="http://'+ip+'">'+selectDevice+'</a> <a href="http://'+ip+'/'+scenary_file+'?download=true" download="" title="'+jsonResponse.LangCloudPC+'"><i class="download-img" style="opacity:0.2"><\/i><\/a></h4></td></tr>'+createText.replace(/if /gi,'<tr><td><b>'+jsonResponse.LangIf+'</b> ').replace(/_/g,' ').replace(/or /gi,'<br><b>'+jsonResponse.LangOr+'</b> ').replace(/this /gi,' ').replace(/and /gi,'<br><b>'+jsonResponse.LangAnd+'</b> ').replace(/then /gi,'<br><b>'+jsonResponse.LangThen+'</b> ').replace(/(id)\s+(\d+)/mg,'<hr><\/td><td style="vertical-align:top;"><a class="btn btn-sm btn-danger" style="float:right;" href="#" onclick="if(confirm(\''+jsonResponse.LangDel+'?\')){loadScenaryList(jsonResponse,$2,\''+ip+'\');}return false"><i class="del-img"></i> <span class="hidden-xs">'+jsonResponse.LangDel+'</span></a><\/td><\/tr>');
    }
   },true);
 

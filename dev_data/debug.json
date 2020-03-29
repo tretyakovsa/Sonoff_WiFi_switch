@@ -2,6 +2,7 @@
  "configs":[
   "/config.options.json",
   "/lang/lang.{{lang}}.json",
+  "/config.admin.json",
   "/modules.json"
  ],
  "title": [{
