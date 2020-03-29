@@ -78,6 +78,7 @@ var active = 'egiste';
 var jsonPage;
 var jsonResponse;
 var connection;
+var socket_input = '0';
 
 document.onkeydown = function(e){
  var evtobj = window.event?event:e
@@ -112,20 +113,17 @@ function run_socket(url) {
  };
  connection.onmessage = function (e) {
   // console.log('Server: ', e.data);
-  log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
-  var socket_data=JSON.parse(e.data);
-  var jsonResponse_new_sock = mergeObject(jsonResponse, socket_data);
-  jsonResponse = jsonResponse_new_sock;
-  elem('content').innerHTML = '';
-  elem('title').innerHTML = '';
-
-
-  console.log(JSON.stringify(jsonPage));
-
-  // var jsonpage = ('content');
-  // viewTemplate(jsonpage,jsonResponse);
-
-  viewTemplate(jsonPage,jsonResponse);
+  if (socket_input == '1') {
+   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info"><b>No replacement. Remove focus on input.</b><br>'+e.data+'</li>');
+  } else {
+   log('<li><span class="label label-warning">WS</span> <small>'+url+'</small> <span class="label label-default">Receiving</span></li><li style="margin:5px 0;" class="alert alert-info">'+e.data+'</li>');
+   var socket_data=JSON.parse(e.data);
+   var jsonResponse_new_sock = mergeObject(jsonResponse, socket_data);
+   jsonResponse = jsonResponse_new_sock;
+   elem('content').innerHTML = '';
+   elem('title').innerHTML = '';
+   viewTemplate(jsonPage,jsonResponse);
+  }
  }
 }
 function array_socket(socket) {
@@ -518,6 +516,19 @@ function viewTemplate(jsonPage,jsonResponse) {
   }
   i++;
  }
+ disable_socket();
+}
+
+function disable_socket(){
+ var inputs = document.querySelectorAll('input');
+ for(var i=0,len=inputs.length;i<len;i++){
+  inputs[i].addEventListener('focus',function(){
+   socket_input = '1';
+  });
+  inputs[i].addEventListener('blur',function(){
+   socket_input = '0';
+  })
+ }
 }
 
 function isObject(obj){
@@ -824,7 +835,7 @@ function sortObject(obj) {
 }
 
 function loadMacros(jsonResponse,where,domain,class_val) {
- html(where, 'Loading...');
+ html(where, 'Macros loading...');
  if (!domain) {domain=window.location.hostname}
 
  ajax.get('http://'+domain+'/config.options.json?'+Math.random(),{},function(response) {
