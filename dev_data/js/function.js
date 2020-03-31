@@ -716,7 +716,7 @@ function saveScenary(jsonResponse,loadList) {
 
  loadInTextarea();
  // send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
-    send_request_edit(this, val('scenary-list-edit'),scenary_file,'send_request(this, \'http://\'+elem(\'ssdp-list0\').options[elem(\'ssdp-list0\').selectedIndex].value+\'/setscenary\');val(\'ssdp-list0\',\' \');loadScenary(jsonResponse,\'loadList\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+    send_request_edit(this, val('scenary-list-edit')+'\r\n',scenary_file,'send_request(this, \'http://\'+elem(\'ssdp-list0\').options[elem(\'ssdp-list0\').selectedIndex].value+\'/setscenary\');val(\'ssdp-list0\',\' \');loadScenary(jsonResponse,\'loadList\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
  },true);
 
 }
