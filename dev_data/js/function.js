@@ -545,7 +545,7 @@ function deleteTimer(id,ip) {
  ajax.get('http://'+ip+'/timer.save.json?'+Math.random(),{},function(response) {
   var timerList=JSON.parse(response);
   timerList.timer.splice(id,1);
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', ip);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/settimer\');', ip);
  },true);
 }
 
@@ -557,7 +557,7 @@ function activeTimer(ids,ip,active) {
     timerList['timer'][i]['active'] = active;
    }
   }
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', ip);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/settimer\');', ip);
  },true);
 }
 
