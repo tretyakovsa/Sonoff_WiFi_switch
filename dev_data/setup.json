@@ -4,10 +4,6 @@
   "/lang/lang.{{lang}}.json",
   "/modules.json"
  ],
- "h-title": [{
-  "type":"none",
-  "title":"{{LangSetting3}}"
- }],
  "title": [{
   "type":"text",
   "title":"{{LangSetting3}}"

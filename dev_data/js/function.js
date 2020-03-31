@@ -452,7 +452,7 @@ function viewTemplate(jsonPage,jsonResponse) {
       option += '<input onclick="loadNewOr(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangOr+'" type="button"></div>';
       option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
       option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-sm btn-block btn-default" value="+ '+jsonResponse.LangThen+'" type="button">';
-      option += "<input onclick=\"loadInTextarea();send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\\'http://\\'+elem(\\'ssdp-list0\\').options[elem(\\'ssdp-list0\\').selectedIndex].value+\\'/setscenary\\');val(\\'ssdp-list0\\',\\' \\');loadScenary(jsonResponse,\\'loadList\\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+      option += "<input onclick=\"saveScenary(jsonResponse,'')\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
       element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
       loadScenary(jsonResponse);
       html("load-life-opt","onclick");
@@ -572,7 +572,7 @@ function addTimer() {
   }
   var run1=(elem("run-1").checked?'1':'0');
   timerList.timer.push({"id":Math.floor(Math.random()*10000),"day":daycheck,"time1":val('set-time'),"com1":command,"run1":run1,"active":1});
-  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/setscenary\');', elem('ssdp-list2').options[elem('ssdp-list2').selectedIndex].value);
+  send_request_edit(this, JSON.stringify(timerList), 'timer.save.json', 'html(\'time-list\');loadTime(jsonResponse);send_request(this,\'http://'+ip+'/settimer\');', elem('ssdp-list2').options[elem('ssdp-list2').selectedIndex].value);
  },true);
 }
 
@@ -709,13 +709,15 @@ function dayTemplate(day_view, jsonResponse) {
 
 function saveScenary(jsonResponse,loadList) {
 
+
+  ajax.get('http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/config.options.json?'+Math.random(),{},function(response) {
+  var view=JSON.parse(response);
+  var scenary_file = (view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt');
+
  loadInTextarea();
  // send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
-
-
- //send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this,\'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
-
-
+    send_request_edit(this, val('scenary-list-edit'),scenary_file,'send_request(this, \'http://\'+elem(\'ssdp-list0\').options[elem(\'ssdp-list0\').selectedIndex].value+\'/setscenary\');val(\'ssdp-list0\',\' \');loadScenary(jsonResponse,\'loadList\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+ },true);
 
 }
 
@@ -1124,20 +1126,10 @@ function send_request(submit,server,state){
  },true);
 }
 
-
 function send_socket(submit,server,state){
- //var old_submit = submit.value;
- //submit.value = jsonResponse.LangLoading;
- //var element = document.getElementsByTagName("input");
- //for (var i = 0; i < element.length; i++) {
- // if (element[i].type === 'button') {element[i].disabled = request;}
- //}
- //log('<li><span class="label label-warning">WS</span> <a href="'+jsonPage.configs[fileNumber]+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline" target="_blank">'+jsonPage.configs[fileNumber]+'</a> <span class="label label-default">Connected</span></li>');
- log('<li><span class="label label-warning">WS</span> <small>Soon</small> <span class="label label-default">Send</span></li><li style="margin:5px 0;" class="alert alert-info">'+state+'</li>');
-
+ log('<li><span class="label label-warning">WS</span> <small>ip</small> <span class="label label-default">Send</span></li><li style="margin:5px 0;" class="alert alert-info">'+state+'</li>');
  connection.send(state);
 }
-
 
 function submit_disabled(request){
  var element = document.getElementsByTagName("input");
