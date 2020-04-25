@@ -94,7 +94,7 @@ document.onkeydown = function(e){
 }
 
 function activeDragDrop(status) {
- elem('content').innerHTML+='<a href="#" onclick="toggle(\'new-element\');" class="btn btn-block btn-default">Add new element</a>';
+ elem('content').innerHTML+='<input class="btn btn-block btn-default" onclick="toggle(\'new-element\');" value="Add new element" type="button">';
  patterns = jsonPage.content.slice(0);
  let cols = document.querySelectorAll("#content .fs-block");
  cols.forEach(addDnDHandlers);
@@ -113,7 +113,7 @@ function create_new_element(status) {
  if (elem('new-element-action').value !='') { new_element['action'] = elem('new-element-action').value; }
  if (elem('new-element-socket').value !='') { new_element['socket'] = elem('new-element-socket').value; }
  if (elem('new-element-response').value !='') { new_element['response'] = elem('new-element-response').value; }
- if (elem('new-element-name').value !='') { new_element['name'] = elem('new-element-name').value; }
+ if (elem('new-element-id').value !='') { new_element['id'] = elem('new-element-id').value; }
  if (elem('new-element-pattern').value !='') { new_element['pattern'] = elem('new-element-pattern').value; }
  if (elem('new-element-module').value !='') { new_element['module'] = elem('new-element-module').value; }
  //elem('content').innerHTML+=JSON.stringify(new_element);
