@@ -32,9 +32,8 @@ From: Latvia, Valmiera
  </head>
  <body>
   <div id="news"></div>
-  <a href="#" onclick="toggle('edit-content');toggle('url-content');"><i class="opt-img" style="position:fixed;right:1px;top:1px;opacity:0.1;"></i></a>
+  <a href="#" onclick="toggle('edit-content');toggle('url-content');activeDragDrop(true);"><i class="opt-img" style="position:fixed;right:1px;top:1px;opacity:0.1;"></i></a>
   <div class="container loader-bg">
-
    <ul id="url-content" class="hidden" onclick="elem('content').style.zIndex=0;"></ul>
    <div id="headers"></div>
    <div class="row hidden" id="container_column">
@@ -43,7 +42,7 @@ From: Latvia, Valmiera
    </div>
    <div id="footer"></div>
    <div id="edit-content" class="hidden" onclick="elem('content').style.zIndex=0;">
-    <a target="_blank" style="position:fixed;right:0;color:#000;" href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/wiki/%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8-page.htm%3F*" title="GitHub Wiki"><i class="help-img"></i>wiki</a>
+    <a target="_blank" style="position:fixed;right:0;color:#000;" href="https://github.com/renat2985/easy_Iot_file_system/wiki" title="GitHub Wiki"><i class="help-img"></i>wiki</a>
     <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
     <div class="btn-group btn-block">
@@ -52,7 +51,57 @@ From: Latvia, Valmiera
      <a class="btn btn-info" style="width:20%" href="#" id="download-json" download="" title="Save to PC"><i class="download-img"></i></a>
     </div>
    </div>
+  </div>
 
+
+
+  <div id="new-element" class="hidden pop-up show" style="position:fixed;top:15%;left:50%;width:400px;margin-left:-200px;text-align:center;">
+   <select id="new-element-type" required="" onchange="create_new_element_show(this.options[this.selectedIndex].value)" class="form-control">
+    <option value="" disabled="" selected="">Please select Type</option>
+    <option value="style,class,id,title,module">h1</option>
+    <option value="style,class,id,title,module">h2</option>
+    <option value="style,class,id,title,module">h3</option>
+    <option value="style,class,id,title,module">h4</option>
+    <option value="style,class,id,title,module">h5</option>
+    <option value="style,class,id,title,module">h6</option>
+    <option value="style,class,id,title,module">text</option>
+    <option value="style,class,id,title,action,socket,response,module">link</option>
+    <option value="style,class,id,module">hr</option>
+    <option value="style,class,id,pattern,title,state,action,socket,response,module,name">input</option>
+    <option value="style,class,id,pattern,title,state,action,socket,response,module,name">password</option>
+    <option value="style,class,id,pattern,title,state,action,socket,response,module,name">textarea</option>
+    <option value="style,class,id,title,action,socket,response,module">button</option>
+    <option value="style,class,id,title,action,socket,state,response,module,name">select</option>
+    <option value="style,class,id,title,action,socket,module">dropdown</option>
+    <option value="style,class,id,pattern,title,state,action,socket,response,module,name">checkbox</option>
+    <option value="style,class,id,state,module">iframe</option>
+    <option value="style,class,id,pattern,title,state,action,socket,response,module,name">range</option>
+    <option value="style,class,id,title,module">table</option>
+    <option value="style,class,id,module,state,module">csv</option>
+    <option value="style,class,id,module,state,style,class,module">chart</option>
+    <option value="style,class,id,title,state,action,socket,module">img</option>
+    <option value="style,class,id,module">macros</option>
+    <option value="style,class,id,title,status,state,module">login</option>
+    <option value="style,class,id,state,module">file</option>
+    <option value="style,class,id,state,module">loadJson</option>
+    <option value="style,class,id,state,module">issues</option>
+    <option value="style,class,id,state,module">commits</option>
+   </select>
+   <br>
+   <div id="new-element-ipnut">
+    <input id="new-element-title" placeholder="Title, text in your element, can use {{variable}}" class="form-control hidden" value="">
+    <input id="new-element-state" placeholder="State, variable, can use {{variable}}" class="form-control hidden" value="">
+    <input id="new-element-class" placeholder="Class (Bootstrap)" class="form-control hidden" value="" style="width: 50%;float: left;">
+    <input id="new-element-style" placeholder="Style" class="form-control hidden" value="" style="width: 50%;">
+    <input id="new-element-id" placeholder="Name (ID)" class="form-control hidden" value="">
+    <input id="new-element-action" placeholder="Action (GET), can use [[Name]]" class="form-control hidden" value="">
+    <input id="new-element-socket" placeholder="Socket, can use [[Name]]" class="form-control hidden" value="">
+    <input id="new-element-response" placeholder="Response name (ID). Example: [[Name]]" class="form-control hidden" value="">
+    <input id="new-element-pattern" placeholder="Pattern. Example: [0-9a-zA-Zа-яА-Я.\\- ]{1,20}" class="form-control hidden" value="">
+    <input id="new-element-module" placeholder="Module name, for show/hidden element" class="form-control hidden" value="">
+    <br><input class="btn btn-success" style="width:40%" onclick="create_new_element()" value="Save" type="button">
+    <a class="btn btn-default" target="_blank" href="https://github.com/renat2985/easy_Iot_file_system/wiki" title="GitHub Wiki"><i class="help-img"></i>GitHub Wiki</a>
+   </div>
   </div>
  </body>
 </html>

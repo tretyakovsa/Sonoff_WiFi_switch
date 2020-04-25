@@ -154,7 +154,7 @@ ul#history {
 .dropdown-menu {
  display: block;
 }
-.NaN,.nan {
+.NaN,.nan,.none,.hidden {
  display: none;
 }
 .ct-label{
@@ -228,7 +228,7 @@ ul#history {
 .big-size .knobs::before{width:56%;height:55%;font-size:15px;line-height:0.1;padding:28% 4px;}
 .big-size {width:104px;height:66px;}
 
-.opt-img, .clock-new-img, .dashboard-img, .hourglass-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img, .clock-img, .eye-img {
+.opt-img, .clock-new-img, .dashboard-img, .hourglass-img, .fav-img, .popup-img, .refresh-img, .help-img, .warning-img, .set-img, .download-img, .find-replace-img, .cloud-download-img, .cloud-upload-img, .cloud-img, .del-img, .clock-img, .eye-img,.range-img {
  display:inline-block;
  width:16px;
  height:16px;
@@ -238,9 +238,9 @@ ul#history {
  vertical-align:middle;
  margin-right:3px;
 }
-
+.range-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaklEQVQ4jWNgGErgPwMDQwg+BWtw4AIkA44jiWOAFThwHpIBR5DEqe8FGIiAKiYZwPx2AsmAYgbcYYMBYH47hmRAAQPusKG+F7CBNYRsQ1eM7sc1DAwMj7HIEZUOYAY8xCJHkqvISjT0AwCiojUjvxm5+AAAAABJRU5ErkJggg==);}
 .popup-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAk0lEQVQ4jb3SPQoCMRDF8R/iobT1DBYeQq1EPcSCWFuInYU3EDxa1iaCzn6Qtdg/PEgm8x6TEEZigmlQgxsS6iB4dNR/SKiwDIJZXr/6AuovQxv73PP8J+BjXmM1NOCQzzZ5P8e9NCCae4kBx1zbhr6iK+w6zMUBC91jD37E4oCEU27o0zn3Nrhq/8pRCZeCSUfiDcCiQPltyYq/AAAAAElFTkSuQmCC);}
-.opt-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaklEQVQ4jWNgGErgPwMDQwg+BWtw4AIkA44jiWOAFThwHpIBR5DEqe8FGIiAKiYZwPx2AsmAYgbcYYMBYH47hmRAAQPusKG+F7CBNYRsQ1eM7sc1DAwMj7HIEZUOYAY8xCJHkqvISjT0AwCiojUjvxm5+AAAAABJRU5ErkJggg==);}
+.opt-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA30lEQVQ4jbXSMUqDURAE4O8GKvZCFJXgHcQYRLAQwVNYBDyFFl5ERCK2SWE6LfQAQvASYqWJFq7y2DzwJ+DAwIPZGXaWxz/iFNfB3jwBT/gMPjQxrOICmzjGWxHwiiO0Y6ZVC7gtDH+xn817laEPDDGId9Z3yoA2xsncKfQuJoX+jI28xRKmMTCsVLwL7R0LtRssFwGDij4qAhazuIWXVKFb6Pupwth37V/smj3SJNYeJfMPt/MWNyFMK8OZV7UbtHCGNRya/UgHWMc5VmoBGY9FwH0TQ0YPl8GTeQIa4Quuh2Jx+tLtOAAAAABJRU5ErkJggg==);}
 .refresh-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAtElEQVQ4jaWSUQrCMAyGv1eZY8/K5o4jDOrOIHgJ33olYUdQ8Aa7gNdw+pAMOnUpnT8UWtL/S0gCtopIPGq+/2t+AS1QpwJOag5PB1QpEK/GDHBADzyAMmbKP96jCoVc5sw7zbg3EhyAAdj+CrYKWBmAtf5pLEC2FFBr0BkABzyBzdyHDmlUuIE+uOfA2UhAhYyqRxo2luwNz5dKZFQD00U6pkBARtWo+arVLNKN6XIlyzS/AZEiKCyi36BoAAAAAElFTkSuQmCC);}
 .help-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA5ElEQVQ4jbXSMUpDQRDG8V9lI4hi6QEkRRAEvYW1tZAUNtaxSS4gBFsbQ0gCKXKRiFgExNp7+LR4WwzL7sNCBxaW+eb778zu8k9xhgmWWGCM/m+Mx9jgu7LWOOoyv4fiLYYY4CXkdzgsATaZeQ+XuEj716CvSjPHVofJ3KR1jtugN+hFwKRj7q90wF2Wv4+AZcXc4AYn+My0WQQsKoAn7OOjoD1HwLgCuMZVRRtFQL/jDmqjncpiXSh8wLSQn+dm2h+2ywqneMxybzgoAWh/2Cq1WGp73mWO0dO+80x726PSzH8SPybKeuRlGqcXAAAAAElFTkSuQmCC);}
 .warning-img {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAA+0lEQVQ4je3RMUoDURSF4S8qiDZiI9gLrsPGJdjYmMbGDQjauAWbNCJo4xos7Ay4BEFRQRBiIyLCaN7j2UxgHGaGTNKJF07x3uX8nMPlf8qTmA2cBU4TM1MDI3uJlGt3Ktgnq5H3ETDy9sHKxMDARSFdSqTA+USwIZsFyHWgP3oP2WgFe2Yhcl8AdgPdQvXbO+bbpDsqVd3JlQrQw7FgGeuRrzGAWcZaIyzRCVxVHOJX5cL/ZaJTCwxsl025sR+4qdlt1aVbjgyqTJFB5LVm95JYqkrXqzLk2o8c1O0Dx+V0i5HYAGxU5DsxVz7GSeQx8tRSD4Fe47X/9vwAgKkTxeU5B+oAAAAASUVORK5CYII=);}
@@ -264,3 +264,24 @@ ul#history {
 .wifi-key {background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmUlEQVQ4je3QvwqBYRgF8F8mVkZGuRq2b1AuQhnYldyMzaCU2ahcA8kNUL6B5VVvL58/M6fO8jznnOfp8EeMHrbIsccUlU/NA1yfcIXSO3MN52C4YI5DFDJBt4AN6ETiYQhtFnyUMoN2NBiFgNY3AVWcwiDHAsdINA7CDOvEXL/30C+4sExKnEW7B3SxCV/sQnnlRPMy4FdxA96PRYPg7eb3AAAAAElFTkSuQmCC)}
 .wifi {display:inline-block;width:16px;height:16px;background-size:16px;background-position:center center;background-repeat:no-repeat;vertical-align:middle;margin-right:3px;}
 
+[draggable] {
+ -moz-user-select: none;
+ -khtml-user-select: none;
+ -webkit-user-select: none;
+ user-select: none;
+ /* Required to make elements draggable in old WebKit */
+ -khtml-user-drag: element;
+ -webkit-user-drag: element;
+}
+[draggable=true] {
+ cursor: ns-resize;
+}
+.fs-block header {
+ border: 4px solid #ff1103;
+}
+.fs-block.dragElem {
+ opacity: 0.4;
+}
+.fs-block.over {
+ border-top: 2px solid #ff1103;
+}

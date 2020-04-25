@@ -79,17 +79,72 @@ var jsonPage;
 var jsonResponse;
 var connection;
 var socket_input = '0';
+let dragSrcEl = null;
+let patterns = null;
 
 document.onkeydown = function(e){
  var evtobj = window.event?event:e
  var element=elem('edit-content');
  var charCode = String.fromCharCode(evtobj.which).toLowerCase();
  if (charCode === 'e' && evtobj.ctrlKey && element) {window.open('/edit','_blank');}
- if (charCode === 'm' && evtobj.ctrlKey && element) {toggle('edit-content');toggle('url-content');}
+ if (charCode === 'm' && evtobj.ctrlKey && element) {toggle('edit-content');toggle('url-content');activeDragDrop(true);}
  if (charCode === 's' && evtobj.ctrlKey && element) {
-  evtobj.preventDefault();send_request_edit(this, val('edit-json'), window.location.search.substring(1).split("&")[0]+'.json');toggle('edit-content');toggle('url-content');
+  evtobj.preventDefault();send_request_edit(this, val('edit-json'), window.location.search.substring(1).split("&")[0]+'.json');toggle('edit-content');toggle('url-content');activeDragDrop(true);
  }
 }
+
+function activeDragDrop(status) {
+ elem('content').innerHTML+='<a href="#" onclick="toggle(\'new-element\');" class="btn btn-block btn-default">Add new element</a>';
+ patterns = jsonPage.content.slice(0);
+ let cols = document.querySelectorAll("#content .fs-block");
+ cols.forEach(addDnDHandlers);
+ document.querySelectorAll('#content .fs-block').forEach((el) => {
+  el.setAttribute('draggable', status);
+ });
+}
+
+function create_new_element(status) {
+ var new_element = {};
+ new_element['type'] = elem('new-element-type').options[elem('new-element-type').selectedIndex].innerHTML;
+ if (elem('new-element-title').value !='') { new_element['title'] = elem('new-element-title').value; }
+ if (elem('new-element-state').value !='') { new_element['state'] = elem('new-element-state').value; }
+ if (elem('new-element-class').value !='') { new_element['class'] = elem('new-element-class').value; }
+ if (elem('new-element-style').value !='') { new_element['style'] = elem('new-element-style').value; }
+ if (elem('new-element-action').value !='') { new_element['action'] = elem('new-element-action').value; }
+ if (elem('new-element-socket').value !='') { new_element['socket'] = elem('new-element-socket').value; }
+ if (elem('new-element-response').value !='') { new_element['response'] = elem('new-element-response').value; }
+ if (elem('new-element-name').value !='') { new_element['name'] = elem('new-element-name').value; }
+ if (elem('new-element-pattern').value !='') { new_element['pattern'] = elem('new-element-pattern').value; }
+ if (elem('new-element-module').value !='') { new_element['module'] = elem('new-element-module').value; }
+ //elem('content').innerHTML+=JSON.stringify(new_element);
+ // jsonPage.content = temp;
+ // console.log(jsonPage.content)//
+ oldjson = JSON.parse(val('edit-json'));
+ oldjson['content'].push(new_element);
+ val('edit-json',JSON.stringify(oldjson).replace(/"},/g, '"},\n\n').replace(/],"/g, '],\n"'));
+ // viewTemplate(jsonPage,jsonResponse);
+ toggle('new-element');
+ setContent('edit');
+ activeDragDrop(true);
+}
+
+
+function create_new_element_show(status) {
+
+ document.querySelectorAll('#new-element-ipnut .form-control').forEach((el) => {
+  if( el.classList != 'hidden') {el.classList.add('hidden')}
+ });
+
+
+ status = status.split(",");
+ for (var i = 0; i < status.length; i++) {
+  toggle('new-element-'+status[i],'shows');
+  //alert('new-element-'+status[i]);
+
+ }
+}
+
+
 
 function log(log) {
  var listitems = document.getElementById("url-content").getElementsByTagName("li")
@@ -277,246 +332,264 @@ function viewTemplate(jsonPage,jsonResponse) {
    for (var j = 0; j<arr.length; j++) {
     var obj = arr[j];
 
+    // if (!obj.module || searchModule(jsonResponse.module,obj.module)) {
+    var action_val = renameGet(obj.action);
+    var socket_val = renameGet(obj.socket);
+    var actiondown_val = renameGet(obj.actiondown);
+    var name_val = (obj.name?obj.name:'');
+    var class_val = (obj.class?renameBlock(jsonResponse, obj.class):'');
+    var style_val = (obj.style?'style="'+renameBlock(jsonResponse, obj.style)+'"':'');
+    var pattern_val = (obj.pattern?obj.pattern:'');
+    var state_val = renameBlock(jsonResponse, obj.state);
+    var response_val = renameBlock(jsonResponse, obj.response);
+    var module_val = obj.module;
+    var type_val=obj.type;
+
+    var hidden = 'fs-block hidden ';
     if (!obj.module || searchModule(jsonResponse.module,obj.module)) {
-     var action_val = renameGet(obj.action);
-     var socket_val = renameGet(obj.socket);
-     var actiondown_val = renameGet(obj.actiondown);
-     var name_val = (obj.name?obj.name:'');
-     var class_val = (obj.class?renameBlock(jsonResponse, obj.class):'');
-     var style_val = (obj.style?'style="'+renameBlock(jsonResponse, obj.style)+'"':'');
-     var pattern_val = (obj.pattern?obj.pattern:'');
-     var state_val = renameBlock(jsonResponse, obj.state);
-     var response_val = renameBlock(jsonResponse, obj.response);
-     var module_val = obj.module;
-     var type_val=obj.type;
-     if (type_val == 'hr') {
-      element.innerHTML += '<hr id="'+name_val+'" class="'+class_val+'" '+style_val+'>';
-     }
-     if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
-      element.innerHTML += '<'+type_val+' id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/'+type_val+'>';
-     }
-     if (type_val == 'none' || typeof type_val === 'undefined') {
-      element.innerHTML += renameBlock(jsonResponse, obj.title);
-     }
-     if (type_val == 'input') {
-      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'">';
-     }
-     if (type_val == 'textarea') {
-      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'</textarea>';
-     }
-     if (type_val == 'password') {
-      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
-     }
-     if (type_val == 'button') {
-      if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      if (socket_val) action_val = 'onclick="send_socket(this, \'\', \''+socket_val+'\')"';
-      if (actiondown_val) actiondown_val = 'onmouseup="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<input id="'+name_val+'" '+action_val+' '+actiondown_val+' class="'+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
-     }
-     if (type_val == 'checkbox') {
-      var checked = '';
-      if (!obj.design) {
-       if (state_val == 1){ checked = 'checked'; }
-       if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
-       element.innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+class_val+'" '+checked+'> '+renameBlock(jsonResponse, obj.title)+'<\/label>';
-      } else {
-       if (state_val == 0){ checked = 'checked=""'; }
-       if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));"'; }
-       element.innerHTML += '<div class="toggle-button-cover" '+style_val+'><div class="button-cover"><div class="button r '+obj.design+'"><input type="checkbox" id="'+name_val+'" '+action_val+' class="checkbox" '+checked+'><div class="knobs"></div><div class="layer"></div></div></div><label for="'+name_val+'">'+renameBlock(jsonResponse, obj.title)+'<\/label></div>';
-      }
-     }
-     if (type_val == 'range') {
-      if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      element.innerHTML += '<label id="'+(name_val?'label-'+name_val:'')+'" '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, obj.title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label>';
-     }
-     if (type_val == 'table') {
-      var thead = '';
-      element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
-      loadTable(state_val, obj.title);
-     }
-     if (type_val == 'select') {
-      if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-      var option = '';
-      jsonSelect = obj.title;
-      if (isObject(jsonSelect)) {
-       for(var key in jsonSelect) {
-        option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
-       }
-      } else {
-       loadSelect(jsonSelect, name_val, state_val);
-      }
-      element.innerHTML += '<select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
-     }
-     if (type_val == 'dropdown') {
-      var option = '';
-      var i = 0;
-      var title1 = '';
-      jsonSelect = obj.title;
-      for(var key in jsonSelect) {
-       if (i == 0) {
-        title1 += renameBlock(jsonResponse, jsonSelect[key]);
-       } else {
-        option += '<li><a href="'+renameBlock(jsonResponse, key)+'">'+renameBlock(jsonResponse, jsonSelect[key])+'</a><\/li>';
-       }
-       i++;
-      }
-      element.innerHTML += '<div class="btn-group"><a href="#" class="dropdown-toggle '+class_val+'" '+style_val+' onclick="toggle(\''+name_val+'\');return false">'+title1+'</a><ul class="dropdown-menu hidden" id="'+name_val+'">'+option+'<\/ul><\/div>';
-     }
-     if (type_val == 'configs') {
-      var option = '';
-      option += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
-      option += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');toggle(\\'restart-esp\\');setTimeout(function(){toggle(\\'restart-esp\\');},20000);};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
-      option += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
-      option += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
-      option += '</div>';
-      element.innerHTML += option;
-      setTimeout("loadConfigs('"+state_val+"',jsonResponse)", 500);
-     }
-     if (type_val == 'link') {
-      element.innerHTML += '<a id="'+name_val+'" class="'+class_val+'" '+style_val+' href="'+renameGet(obj.action)+'">'+renameBlock(jsonResponse, obj.title)+'<\/a>';
-     }
-     if (type_val == 'img') {
-      element.innerHTML += '<img id="'+name_val+'" class="'+class_val+'" '+style_val+' src="'+renameGet(obj.state)+'" onclick="'+renameGet(obj.action)+'" title="'+renameBlock(jsonResponse, obj.title)+'"\/>';
-     }
-     if (type_val == 'text') {
-      element.innerHTML += '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/div>';
-     }
-     if (type_val == 'iframe') {
-      element.innerHTML += renameBlock(jsonResponse, obj.title)+'<iframe src="'+state_val+'" id="'+name_val+'" class="'+class_val+'" '+style_val+'><\/iframe>';
-     }
-     if (type_val == 'chart') {
-      element.innerHTML += '<div id="'+name_val+'" class="'+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
-      if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
-       setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+",'"+obj.chartist+"')", 1500);
-      }
-     }
-     if (type_val == 'loadJson') {
-      element.innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
-      loadJson(state_val, obj.refresh, jsonResponse);
-     }
-     if (type_val == 'file') {
-      var set_action = '';
-      if (obj.action != undefined) {
-       set_action = ",'send_request(this,\\'"+obj.action+"\\')'";
-      }
-      element.innerHTML += '<textarea '+style_val+' id="file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'">'+jsonResponse.LangLoading+'</textarea><input class="'+class_val+'" onclick="send_request_edit(this, val(\'file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
-      loadFile(state_val);
-     }
-     if (type_val == 'csv') {
-      var set_action = '';
-      if (obj.action != undefined) {
-       set_action = ",'send_request(this,\\'"+obj.action+"\\')'";
-      }
-      element.innerHTML += '<table id="table-csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" '+style_val+'></table><textarea style="display:none" id="csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"></textarea><input class="'+class_val+'" onclick="html_to_csv(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="Save" type="button">';
-      loadCSV(state_val,obj.title);
-     }
-     if (type_val == 'time-list') {
-      element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
-      loadTime(jsonResponse);
-     }
-     if (type_val == 'time-add') {
-      const template = (x,y,i,z) => ' <label class="label label-'+x+'"><input type="checkbox" name="day-'+y+'" id="day-'+i+'" checked>'+jsonResponse['Lang'+z]+'</label> ';
-      var option = '';
-      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div> <h4>';
-      option += template('danger','sun','0','Sun');
-      option += template('info','mon','1','Mon');
-      option += template('info','tue','2','Tue');
-      option += template('info','wed','3','Wed');
-      option += template('info','thu','4','Thu');
-      option += template('info','fri','5','Fri');
-      option += template('danger','sat','6','Sat');
-      option += ' <label class="label label-default"><input type="checkbox" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br>';
-      option += ' <label class="label label-default"><input type="checkbox" name="run1" id="run-1">'+jsonResponse.LangRun1+'</label></h4>';
-      option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\'Loading...\');ajax.get(\'/config.live.json\',{},function(response){var jsonFiles=JSON.parse(response);val(\'set-time\',jsonFiles[\'time\']);},true);return false"><i class="clock-img"></i></a>';
-      option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
-      element.innerHTML += option;
-      loadNewThen('new-then',' ');
-      html("load-life-opt","onclick");
-     }
-     if (type_val == 'scenary-list') {
-      element.innerHTML += '<table class="'+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
-      loadScenary(jsonResponse,'loadList');
-     }
-     if (type_val == 'scenary-add') {
-      var option = '';
-      option += '<select class="form-control" id="ssdp-list0" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\');toggle(\'ssdp-module\',\'hidden\');"><\/select>';
-      option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command\');toggle(\'hidden-if\',\'hidden\');toggle(\'or-and\',\'hidden\');"><\/select>';
-      option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=" disabled>'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=) '+jsonResponse.LangSoon+'<\/option><option value=">=" disabled>'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=) '+jsonResponse.LangSoon+'<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
-      option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module\',\'ssdp-command\');return false"><i class="find-replace-img"></i></a></span>';
-      option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
-      option += '<input type="hidden" id="hidden-val-and" value="1"><input type="hidden" id="hidden-val-or" value="1"><div id="new-and-or"></div>';
-      option += '<div class="btn-group hidden" id="or-and" style="width:100%;"><input onclick="loadNewAnd(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangAnd+'" type="button">';
-      option += '<input onclick="loadNewOr(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangOr+'" type="button"></div>';
-      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-sm btn-block btn-default" value="+ '+jsonResponse.LangThen+'" type="button">';
-      option += "<input onclick=\"saveScenary(jsonResponse,'')\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
-      element.innerHTML += '<h3>'+jsonResponse.LangIf+'</h3> '+option;
-      loadScenary(jsonResponse);
-      html("load-life-opt","onclick");
-     }
-     if (type_val == 'scenary-test') {
-      var option = '';
-      option += '<select class="form-control" id="ssdp-list2" style="display:none"><option value="'+location.host+'">-</option></select>';
-      option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
-      option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
-      option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+elem(\'ssdp-list2\').options[elem(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+elem(\'scenary-then2\').options[elem(\'scenary-then2\').selectedIndex].value+\' \'+elem(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
-      element.innerHTML += '<h4 style="float:left;">Module:</h4> '+option;
-      setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
-     }
-     if (type_val == 'macros') {
-      element.innerHTML += '<div class="'+class_val+'" '+style_val+' id="'+(name_val?name_val:'loadMacros')+'"><\/div>';
-      loadMacros(jsonResponse,(name_val?name_val:'loadMacros'));
-     }
-     if (type_val == 'login') {
-      var option = '';
-      option += '<h2>'+jsonResponse.LangAuthorization+'</h2><div class="alert alert-warning" style="width:45%;float:right;">'+renameBlock(jsonResponse, obj.title)+'</div>';
-      option += '<input id="passLogin" class="form-control " style="width:50%;display:inline" placeholder="'+jsonResponse.LangPass+'" value="" onfocus="this.type=\'text\'" type="password">';
-      option += '<a class="btn btn-block btn-success" style="width:50%;display:block" href="#" onclick="if(\''+state_val+'\'==val(\'passLogin\')){sessionStorage.setItem(\'sossionLogin\', \'hidden\');toggle(\'loginForm\');}else{alert(\'The password is incorrect\')}">'+jsonResponse.LangSave+'</a>';
-      element.innerHTML += '<div id="loginForm" class="'+jsonResponse.sossionLogin+'" style="background-color:#fff;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;padding:10% 30%;">'+option+'</div>';
-     }
-     if (type_val == 'wifi') {
-      element.innerHTML += '<div class="btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
-      element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">';
-     }
-     if (type_val == 'time' && typeof jsonResponse.time !== "undefined") {
-      element.innerHTML += '<h2 id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
-      clearTimeout(set_real_time);
-      var res = jsonResponse.time.split(":");
-      real_time(hours=res[0],min=res[1],sec=res[2]);
-     }
-     if (type_val == 'rgb') {
-      element.innerHTML += '<div class="'+name_val+'-thumb '+class_val+'"><div class="'+name_val+'-preview"><\/div><img alt="" '+style_val+' src="'+renameBlock(jsonResponse, obj.title)+'"><\/div><canvas id="'+name_val+'-cs" style="display:none"><\/canvas>';
-      element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden">';
-      setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
-     }
-     if (type_val == 'issues') {
-      element.innerHTML += '<div id="issues-list" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
-      setTimeout("loadIssues('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
-     }
-     if (type_val == 'commits') {
-      element.innerHTML += '<div id="commits-list" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
-      setTimeout("loadCommits('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
-     }
-     if (type_val == 'dev') {
-      var option = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
-      if (searchModule(jsonResponse.module,"upgrade")){
-       option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\',\''+state_val+'\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
-      }
-      option += '<br><br>';
-      option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff TH16 / Wi-Fi Smart Socket<\/option><option value="sonoff-pow">Sonoff-Pow ('+jsonResponse.LangSoon+')<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="rgb-shim">RGB SHIM (5050/3528/2835)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
-      option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form>';
-      option += '<\/span><\/div>';
-      element.innerHTML += option;
+     hidden = 'fs-block ';
+    }
+
+    if (type_val == 'hr') {
+     element.innerHTML += '<hr id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+'>';
+    }
+    if (type_val == 'h1' || type_val == 'h2' || type_val == 'h3' || type_val == 'h4' || type_val == 'h5' || type_val == 'h6') {
+     element.innerHTML += '<'+type_val+' id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/'+type_val+'>';
+    }
+    if (type_val == 'none' || typeof type_val === 'undefined') {
+     element.innerHTML += '<div id="'+name_val+'" class="'+hidden+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'</div>';
+    }
+    if (type_val == 'input') {
+     if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'">';
+    }
+    if (type_val == 'textarea') {
+     if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'</textarea>';
+    }
+    if (type_val == 'password') {
+     if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
+    }
+    if (type_val == 'button') {
+     if (action_val) action_val = 'onclick="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     if (socket_val) action_val = 'onclick="send_socket(this, \'\', \''+socket_val+'\')"';
+     if (actiondown_val) actiondown_val = 'onmouseup="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<input id="'+name_val+'" '+action_val+' '+actiondown_val+' class="'+hidden+class_val+'" '+style_val+' value="'+renameBlock(jsonResponse, obj.title)+'" type="button">';
+    }
+    if (type_val == 'checkbox') {
+     var checked = '';
+     if (!obj.design) {
+      if (state_val == 1){ checked = 'checked'; }
+      if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'1\':\'0\'));"'; }
+      element.innerHTML += '<label '+style_val+'><input id="'+name_val+'" value="'+state_val+'" '+action_val+' type="checkbox" class="'+hidden+class_val+'" '+checked+'> '+renameBlock(jsonResponse, obj.title)+'<\/label>';
+     } else {
+      if (state_val == 0){ checked = 'checked=""'; }
+      if (action_val) { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"'; } else { action_val = 'onchange="val(this.id,(this.checked?\'0\':\'1\'));"'; }
+      element.innerHTML += '<div class="toggle-button-cover" '+style_val+'><div class="button-cover"><div class="button r '+obj.design+'"><input type="checkbox" id="'+name_val+'" '+action_val+' class="checkbox" '+checked+'><div class="knobs"></div><div class="layer"></div></div></div><label for="'+name_val+'">'+renameBlock(jsonResponse, obj.title)+'<\/label></div>';
      }
     }
+    if (type_val == 'range') {
+     if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<div class="'+hidden+'"><label id="'+(name_val?'label-'+name_val:'')+'" '+style_val+' style="display:block;"><h4>'+renameBlock(jsonResponse, obj.title)+'<\/h4> <input id="'+name_val+'" class="form-control '+class_val+'" '+action_val+' '+pattern_val+' value="'+state_val+'" type="range"><\/label></div>';
+    }
+    if (type_val == 'table') {
+     var thead = '';
+     element.innerHTML += '<table class="'+hidden+class_val+'" '+style_val+' id="'+name_val+'"><thead id="thead-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><tr><td><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center></td></tr><\/thead><tbody id="tbody-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"><\/tbody><\/table>';
+     loadTable(state_val, obj.title);
+    }
+    if (type_val == 'select') {
+     if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     var option = '';
+     jsonSelect = obj.title;
+     if (isObject(jsonSelect)) {
+      for(var key in jsonSelect) {
+       option += '<option value="'+renameBlock(jsonResponse, key)+'"'+(state_val==key?' selected':'')+'>'+renameBlock(jsonResponse, jsonSelect[key])+'<\/option>';
+      }
+     } else {
+      loadSelect(jsonSelect, name_val, state_val);
+     }
+     element.innerHTML += '<select class="form-control '+hidden+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
+    }
+    if (type_val == 'dropdown') {
+     var option = '';
+     var i = 0;
+     var title1 = '';
+     jsonSelect = obj.title;
+     for(var key in jsonSelect) {
+      if (i == 0) {
+       title1 += renameBlock(jsonResponse, jsonSelect[key]);
+      } else {
+       option += '<li><a href="'+renameBlock(jsonResponse, key)+'">'+renameBlock(jsonResponse, jsonSelect[key])+'</a><\/li>';
+      }
+      i++;
+     }
+     element.innerHTML += '<div class="'+hidden+' btn-group"><a href="#" class="dropdown-toggle '+class_val+'" '+style_val+' onclick="toggle(\''+name_val+'\');return false">'+title1+'</a><ul class="dropdown-menu hidden" id="'+name_val+'">'+option+'<\/ul><\/div>';
+    }
+    if (type_val == 'configs') {
+     var option = '';
+     option += '<div id="'+name_val+'"><div id="'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div><\/div>';
+     option += "<div class=\"btn-group btn-block\"><input style=\"width:85%\" onclick=\"changeTextarea('"+state_val.replace(/[^a-z0-9]/gi,'-')+"');send_request_edit(this, val('"+state_val.replace(/[^a-z0-9]/gi,'-')+"-edit'),'configs/"+state_val+"','if(confirm(\\'"+jsonResponse.LangReset2+" "+jsonResponse.LangReset3+"\\')){send_request(this,\\'/restart?device=ok\\');toggle(\\'restart-esp\\');setTimeout(function(){toggle(\\'restart-esp\\');},20000);};');\" class=\"btn btn-block btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+     option += '<a href="#" style="width:15%" class="btn btn-info dropdown-toggle" onclick="toggle(\'cloud\');return false"><i class="cloud-img"></i> <span class="caret"></span></a>';
+     option += '<ul class="dropdown-menu hidden" style="right:0;left:auto" id="cloud"><li><a onclick="toggle(\'cloud\');cloudUpload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudUpload+'</a></li><li><a onclick="toggle(\'cloud\');cloudDownload(\''+jsonResponse.mac+'\',\''+jsonResponse.configs+'.txt\');return false" href="#"><i class="cloud-img"></i> '+jsonResponse.LangCloudDownload+'</a></li><li><a href="/configs/'+jsonResponse.configs+'.txt?download=true" download=""><i class="download-img"></i> '+jsonResponse.LangCloudPC+'</a></li></ul>';
+     option += '</div>';
+     element.innerHTML += '<div class="'+hidden+'">'+option+'</div>';
+     setTimeout("loadConfigs('"+state_val+"',jsonResponse)", 500);
+    }
+    if (type_val == 'link') {
+     element.innerHTML += '<a id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+' href="'+renameGet(obj.action)+'">'+renameBlock(jsonResponse, obj.title)+'<\/a>';
+    }
+    if (type_val == 'img') {
+     element.innerHTML += '<img id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+' src="'+renameGet(obj.state)+'" onclick="'+renameGet(obj.action)+'" title="'+renameBlock(jsonResponse, obj.title)+'"\/>';
+    }
+    if (type_val == 'text') {
+     element.innerHTML += '<div id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'<\/div>';
+    }
+    if (type_val == 'iframe') {
+     element.innerHTML += renameBlock(jsonResponse, obj.title)+'<iframe src="'+state_val+'" id="'+name_val+'" class="'+hidden+class_val+'" '+style_val+'><\/iframe>';
+    }
+    if (type_val == 'chart') {
+     element.innerHTML += '<div id="'+name_val+'" class="'+hidden+' '+renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}')+'"><button class="close" onclick="hide(\''+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden\',this)">×<\/button><a href="'+renameGet(obj.action)+'" target="_blank" class="close">'+(typeof action_val!='undefined'&&action_val?'<i class="popup-img"><\/i>':'')+'<\/a><h2><span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-title">'+renameBlock(jsonResponse, obj.title)+'</span> <span id="'+state_val.replace(/[^a-z0-9]/gi,'')+'-data"></span><\/h2><div id="'+state_val.replace(/[^a-z0-9]/gi,'')+'" class="'+class_val+'" '+style_val+'><\/div><hr><\/div>';
+     if (renameBlock(jsonResponse, '{{'+state_val.replace(/[^a-z0-9]/gi,'')+'-hidden}}') != 'hidden') {
+      setTimeout("loadChart('"+state_val.replace(/[^a-z0-9]/gi,'')+"','"+state_val+"', {"+obj.options+"},"+obj.refresh+","+obj.points+",'"+obj.chartist+"')", 1500);
+     }
+    }
+    if (type_val == 'loadJson') {
+     element.innerHTML += '<div id="json-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" class="'+hidden+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
+     loadJson(state_val, obj.refresh, jsonResponse);
+    }
+    if (type_val == 'file') {
+     var set_action = '';
+     if (obj.action != undefined) {
+      set_action = ",'send_request(this,\\'"+obj.action+"\\')'";
+     }
+     element.innerHTML += '<div class="'+hidden+'"><textarea '+style_val+' id="file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'">'+jsonResponse.LangLoading+'</textarea><input class="'+class_val+'" onclick="send_request_edit(this, val(\'file-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="'+renameBlock(jsonResponse, obj.title)+'" type="button"></div>';
+     loadFile(state_val);
+    }
+    if (type_val == 'csv') {
+     var set_action = '';
+     if (obj.action != undefined) {
+      set_action = ",'send_request(this,\\'"+obj.action+"\\')'";
+     }
+     element.innerHTML += '<div class="'+hidden+'"><table id="table-csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'" '+style_val+'></table><textarea style="display:none" id="csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'"></textarea><input class="'+class_val+'" onclick="html_to_csv(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\');send_request_edit(this, val(\'csv-'+state_val.replace(/[^a-z0-9]/gi,'-')+'\'),\''+state_val+'\' '+set_action+');" value="Save" type="button"></div>';
+     loadCSV(state_val,obj.title);
+    }
+    if (type_val == 'time-list') {
+     element.innerHTML += '<table class="'+hidden+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="time-list"><\/tbody><\/table>';
+     loadTime(jsonResponse);
+    }
+    if (type_val == 'time-add') {
+     const template = (x,y,i,z) => ' <label class="label label-'+x+'"><input type="checkbox" name="day-'+y+'" id="day-'+i+'" checked>'+jsonResponse['Lang'+z]+'</label> ';
+     var option = '';
+     option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div> <h4>';
+     option += template('danger','sun','0','Sun');
+     option += template('info','mon','1','Mon');
+     option += template('info','tue','2','Tue');
+     option += template('info','wed','3','Wed');
+     option += template('info','thu','4','Thu');
+     option += template('info','fri','5','Fri');
+     option += template('danger','sat','6','Sat');
+     option += ' <label class="label label-default"><input type="checkbox" onchange="toggleCheckbox(this)" checked>'+jsonResponse.LangAll+'</label><br>';
+     option += ' <label class="label label-default"><input type="checkbox" name="run1" id="run-1">'+jsonResponse.LangRun1+'</label></h4>';
+     option += '<input id="set-time" class="form-control" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9]){2}" placeholder="'+jsonResponse.LangTime4+'. '+jsonResponse.LangExample+': 07:09:30" value="" style="width:90%;display:inline"><a href="#" class="btn btn-default" style="width:10%;" onclick="val(\'set-time\',\'Loading...\');ajax.get(\'/config.live.json\',{},function(response){var jsonFiles=JSON.parse(response);val(\'set-time\',jsonFiles[\'time\']);},true);return false"><i class="clock-img"></i></a>';
+     option += "<input class=\"btn btn-block btn-lg btn-success\" onclick=\"addTimer();\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+     element.innerHTML += '<div class="'+hidden+'">'+option+'</div>';
+     loadNewThen('new-then',' ');
+     html("load-life-opt","onclick");
+    }
+    if (type_val == 'scenary-list') {
+     element.innerHTML += '<table class="'+hidden+class_val+'" '+style_val+' id="'+name_val+'"><tbody id="scenary-list"><\/tbody><\/table>';
+     loadScenary(jsonResponse,'loadList');
+    }
+    if (type_val == 'scenary-add') {
+     var option = '';
+     option += '<select class="form-control" id="ssdp-list0" onchange="loadScenaryList(0,\'loadInTextarea\',this.options[this.selectedIndex].value);loadLive(this.value,\'config.live.json\',\'ssdp-module\');toggle(\'ssdp-module\',\'hidden\');"><\/select>';
+     option += '<select class="form-control hidden" id="ssdp-module" onchange="pattern(this.querySelector(\':checked\').getAttribute(\'title\'),\'ssdp-command\');toggle(\'hidden-if\',\'hidden\');toggle(\'or-and\',\'hidden\');"><\/select>';
+     option += '<span class="hidden" id="hidden-if"><select class="form-control" id="ssdp-condition" style="width:50%;display:inline"><option value="=">'+jsonResponse.LangEqual+' (=)<\/option><option value="<">'+jsonResponse.LangLess+' (<)<\/option><option value=">">'+jsonResponse.LangMore+' (>)<\/option><option value="<=" disabled>'+jsonResponse.LangLess+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (<=) '+jsonResponse.LangSoon+'<\/option><option value=">=" disabled>'+jsonResponse.LangMore+' '+jsonResponse.LangOr+' '+jsonResponse.LangEqual+' (>=) '+jsonResponse.LangSoon+'<\/option><option value="!=">'+jsonResponse.LangNotEqual+' (!=)<\/option><\/select>';
+     option += '<input class="form-control" id="ssdp-command" pattern="" style="width:40%;display:inline" value=""><a href="#" id="load-life-opt" class="btn btn-default" style="width:10%;" onclick="loadLive2(\'ssdp-list0\',\'ssdp-module\',\'ssdp-command\');return false"><i class="find-replace-img"></i></a></span>';
+     option += '<textarea id="scenary-list-edit" style="display:none" class="form-control"></textarea>';
+     option += '<input type="hidden" id="hidden-val-and" value="1"><input type="hidden" id="hidden-val-or" value="1"><div id="new-and-or"></div>';
+     option += '<div class="btn-group hidden" id="or-and" style="width:100%;"><input onclick="loadNewAnd(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangAnd+'" type="button">';
+     option += '<input onclick="loadNewOr(\'new-and-or\');" class="btn btn-sm btn-default" style="width:50%;" value="+ '+jsonResponse.LangOr+'" type="button"></div>';
+     option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
+     option += '<input onclick="loadNewThen(\'new-then\');" class="btn btn-sm btn-block btn-default" value="+ '+jsonResponse.LangThen+'" type="button">';
+     option += "<input onclick=\"saveScenary(jsonResponse,'')\" class=\"btn btn-block btn-lg btn-success\" value=\""+jsonResponse.LangSave+"\" type=\"button\">";
+     element.innerHTML += '<div class="'+hidden+'"><h3>'+jsonResponse.LangIf+'</h3> '+option+'</div>';
+     loadScenary(jsonResponse);
+     html("load-life-opt","onclick");
+    }
+    if (type_val == 'scenary-test') {
+     var option = '';
+     option += '<select class="form-control" id="ssdp-list2" style="display:none"><option value="'+location.host+'">-</option></select>';
+     option += '<input type="hidden" id="hidden-val-then" value="1"><div id="new-then"></div>';
+     option += '<select class="form-control hidden" id="scenary-then2" style="width:50%;" onchange="loadCommandHelp(this.value,\'command-help2\',\'scenary-othe2\');toggle(\'if-then2\',\'hidden\');"><option value=""></option></select>';
+     option += '<div id="if-then2" class="hidden"><div id="command-help2" class="alert alert-warning"></div><a href="#" id="scenary-othe-play2" class="btn btn-default" style="width:10%;float:right;" onclick="send_request(this, \'http://\'+elem(\'ssdp-list2\').options[elem(\'ssdp-list2\').selectedIndex].value+\'/cmd?command=\'+elem(\'scenary-then2\').options[elem(\'scenary-then2\').selectedIndex].value+\' \'+elem(\'scenary-othe2\').value.replace(/&/g,\'%26\'),\'\');return false" title="'+jsonResponse.LangRun+'"><i class="eye-img"></i></a><input class="form-control" style="width:90%" placeholder="Действие" id="scenary-othe2" type="text"></div>';
+     element.innerHTML += '<div class="'+hidden+'"><h4 style="float:left;">Module:</h4> '+option+'</div>';
+     setTimeout("loadCommand('"+location.host+"','command.json','scenary-then2');toggle('scenary-then2','hidden');", 500);
+    }
+    if (type_val == 'macros') {
+     element.innerHTML += '<div class="'+hidden+class_val+'" '+style_val+' id="'+(name_val?name_val:'loadMacros')+'"><\/div>';
+     loadMacros(jsonResponse,(name_val?name_val:'loadMacros'));
+    }
+    if (type_val == 'login') {
+     var option = '';
+     option += '<h2>'+jsonResponse.LangAuthorization+'</h2><div class="alert alert-warning" style="width:45%;float:right;">'+renameBlock(jsonResponse, obj.title)+'</div>';
+     option += '<input id="passLogin" class="form-control" style="width:50%;display:inline" placeholder="'+jsonResponse.LangPass+'" value="" onfocus="this.type=\'text\'" type="password">';
+     option += '<a class="btn btn-block btn-success" style="width:50%;display:block" href="#" onclick="if(\''+state_val+'\'==val(\'passLogin\')){sessionStorage.setItem(\'sossionLogin\', \'hidden\');toggle(\'loginForm\');}else{alert(\'The password is incorrect\')}">'+jsonResponse.LangSave+'</a>';
+     element.innerHTML += '<div id="loginForm" class="'+hidden+' '+jsonResponse.sossionLogin+'" style="background-color:#fff;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;padding:10% 30%;">'+option+'</div>';
+    }
+    if (type_val == 'wifi') {
+     element.innerHTML += '<div class="'+hidden+' btn-group btn-block" id="ssid-group"><a href="#" class="btn btn-default btn-block dropdown-toggle" onclick="toggle(\'ssid-select\');loadWifi(\'ssid-select\',\''+name_val+'\');return false"><span id="ssid-name">'+state_val+'<\/span> <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="ssid-select"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/div>';
+     element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden '+class_val+'" '+style_val+' '+pattern_val+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">';
+    }
+    if (type_val == 'time' && typeof jsonResponse.time !== "undefined") {
+     element.innerHTML += '<h2 class="'+hidden+'" id="'+name_val+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+' <strong id="time" class="'+class_val+'">'+state_val+'<\/strong><\/h2>';
+     clearTimeout(set_real_time);
+     var res = jsonResponse.time.split(":");
+     real_time(hours=res[0],min=res[1],sec=res[2]);
+    }
+    if (type_val == 'rgb') {
+     element.innerHTML += '<div class="'+hidden+' '+name_val+'-thumb '+class_val+'"><div class="'+name_val+'-preview"><\/div><img alt="" '+style_val+' src="'+renameBlock(jsonResponse, obj.title)+'"><\/div><canvas id="'+name_val+'-cs" style="display:none"><\/canvas>';
+     element.innerHTML += '<input id="'+name_val+'" value="'+state_val+'" class="form-control hidden">';
+     setTimeout("createRGB('"+name_val+"', '"+obj.action+"','"+module_val+"','"+response_val+"')", 500);
+    }
+    if (type_val == 'issues') {
+     element.innerHTML += '<div id="issues-list" class="'+hidden+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
+     setTimeout("loadIssues('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
+    }
+    if (type_val == 'commits') {
+     element.innerHTML += '<div id="commits-list" class="'+hidden+class_val+'" '+style_val+'><center><span class="loader"></span>'+jsonResponse.LangLoading+'</center><\/div>';
+     setTimeout("loadCommits('tretyakovsa/Sonoff_WiFi_switch',"+(state_val)+");", 1500);
+    }
+    if (type_val == 'dev') {
+     var option = '<div id="'+name_val+'" class="'+class_val+'" '+style_val+'><a href="/help.htm" target="_blank" class="close"><i class="help-img"><\/i><\/a>'+renameBlock(jsonResponse, obj.title)+'<span id="dev-update" class="hidden"><a href="/edit" class="btn btn-primary" target="_blank">File manager<\/a> <a href="/page.htm?starting" class="btn btn-primary">Starting log<\/a> <a href="/page.htm?debug" class="btn btn-primary">Debug<\/a> ';
+     if (searchModule(jsonResponse.module,"upgrade")){
+      option += ' <div class="btn-group"><a href="#" class="btn btn-danger dropdown-toggle" onclick="toggle(\'repos-all\');loadBuild(\'sonoff\',\'all\',\''+state_val+'\');return false">Upgrade <span class="caret"><\/span><\/a><ul class="dropdown-menu hidden" id="repos-all" style="min-width:350px"><li><a href="https://github.com/tretyakovsa/Sonoff_WiFi_switch/commits/master" style="text-align:right" target="_blank"><i class="help-img"><\/i> Github code history<\/a><ul id="sonoff-all" style="margin-right:20px"><li><a href="#">'+jsonResponse.LangLoading+'<\/a><\/li><\/ul><\/li><\/ul><\/div>';
+     }
+     option += '<br><br>';
+     option += jsonResponse.LangType+': <div class="btn-group"><select class="btn btn-default btn-sx" onchange="send_request(this, \'/configs?set=\'+this.value,\'[[configs-edit-button]]\')"><option value="'+jsonResponse.configs+'">'+jsonResponse.configs+'<\/option><option value="sonoff-rf">Sonoff-rf / Sonoff TH16 / Wi-Fi Smart Socket<\/option><option value="sonoff-pow">Sonoff-Pow ('+jsonResponse.LangSoon+')<\/option><option value="rgb">RGB (WS2811/WS2812/NeoPixel LEDs)<\/option><option value="rgb-shim">RGB SHIM (5050/3528/2835)<\/option><option value="jalousie">Jalousie<\/option><option value="smart-room">Smart-Room<\/option><option value="wifi-relay-5v">WiFi Relay 5v<\/option><option value="manually">Manually</option></select> <a href="/page.htm?configs&'+jsonResponse.configs.toLowerCase()+'" id="configs-edit-button" class="btn btn-primary"><i class="opt-img"></i><\/a><\/div><hr>';
+     option += '<form method="POST" action="/update" enctype="multipart/form-data"><div class="btn-group"><input type="file" class="btn btn-primary btn-xs" name="update" style="height:33px" accept=".bin"><input type="submit" class="btn btn-default btn-sm" value="Update build" onclick="this.value=\''+jsonResponse.LangLoading+'\';" style="height:33px"><\/div><\/form>';
+     option += '<\/span><\/div>';
+     element.innerHTML += '<div class="'+hidden+'">'+option+'</div>';
+    }
+
+
+    //  }
    }
   }
   i++;
  }
+
+
+ if (elem('edit-content').classList == 'show') {
+  activeDragDrop(true);
+ }
+
+
+
+
  disable_socket();
+
 }
 
 function disable_socket(){
@@ -708,15 +781,13 @@ function dayTemplate(day_view, jsonResponse) {
 
 
 function saveScenary(jsonResponse,loadList) {
-
-
-  ajax.get('http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/config.options.json?'+Math.random(),{},function(response) {
+ ajax.get('http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/config.options.json?'+Math.random(),{},function(response) {
   var view=JSON.parse(response);
   var scenary_file = (view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt');
 
- loadInTextarea();
- // send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
-    send_request_edit(this, val('scenary-list-edit')+'\r\n',scenary_file,'send_request(this, \'http://\'+elem(\'ssdp-list0\').options[elem(\'ssdp-list0\').selectedIndex].value+\'/setscenary\');val(\'ssdp-list0\',\' \');loadScenary(jsonResponse,\'loadList\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+  loadInTextarea();
+  // send_request_edit(this, val('scenary-list-edit'),'scenary.save.txt','send_request(this, \'http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/setscenary');val('ssdp-list0',' ');loadScenary(jsonResponse,'loadList');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
+  send_request_edit(this, val('scenary-list-edit')+'\r\n',scenary_file,'send_request(this, \'http://\'+elem(\'ssdp-list0\').options[elem(\'ssdp-list0\').selectedIndex].value+\'/setscenary\');val(\'ssdp-list0\',\' \');loadScenary(jsonResponse,\'loadList\');',elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value);
  },true);
 
 }
@@ -753,7 +824,6 @@ function loadScenary(jsonResponse,loadList) {
 }
 
 function loadScenaryList(jsonResponse,selectDevice,ip) {
-
  ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
   var view=JSON.parse(response);
   var scenary_file = (view['configs']?'scenary/'+view['configs']+'.txt':'scenary.save.txt');
@@ -776,7 +846,6 @@ function loadScenaryList(jsonResponse,selectDevice,ip) {
   },true);
 
  },true);
-
 }
 
 function loadNewThen(where,titles) {
@@ -839,7 +908,6 @@ function sortObject(obj) {
 function loadMacros(jsonResponse,where,domain,class_val) {
  html(where, 'Macros loading...');
  if (!domain) {domain=window.location.hostname}
-
  ajax.get('http://'+domain+'/config.options.json?'+Math.random(),{},function(response) {
   var view=JSON.parse(response);
 
@@ -1572,4 +1640,61 @@ function httpDelete(file){
 
 function timeout(command,times){
  setTimeout(command,times);
+}
+
+
+
+
+function handleDragStart(e) {
+ dragSrcEl = this;
+ e.dataTransfer.effectAllowed = "move";
+ this.classList.add("dragElem");
+}
+function handleDragOver(e) {
+ if (e.preventDefault) {
+  e.preventDefault();
+ }
+ this.classList.add("over");
+ e.dataTransfer.dropEffect = "move";
+ return false;
+}
+function handleDragEnter(e) {
+}
+function handleDragLeave(e) {
+ this.classList.remove("over");
+}
+function handleDrop(e) {
+ if (e.stopPropagation) {
+  e.stopPropagation();
+ }
+ if (dragSrcEl != this) {
+  this.before(dragSrcEl);
+ }
+ this.classList.remove("over");
+ return false;
+}
+
+function handleDragEnd(e) {
+ this.classList.remove("over");
+ dragSrcEl.classList.remove("dragElem");
+ let temp = [];
+ document.querySelectorAll("#content .fs-block").forEach(function(el) {
+  let index = el.dataset.i;
+  temp.push(patterns[index]);
+ });
+ jsonPage.content = temp;
+ // console.log(jsonPage.content)//
+ oldjson = JSON.parse(val('edit-json'));
+ oldjson.content = temp;
+ val('edit-json',JSON.stringify(oldjson).replace(/"},/g, '"},\n\n').replace(/],"/g, '],\n"'));
+}
+
+function addDnDHandlers(elem, i) {
+ elem.addEventListener("dragstart", handleDragStart, false);
+ elem.addEventListener("dragenter", handleDragEnter, false);
+ elem.addEventListener("dragover", handleDragOver, false);
+ elem.addEventListener("dragleave", handleDragLeave, false);
+ elem.addEventListener("drop", handleDrop, false);
+ elem.addEventListener("dragend", handleDragEnd, false);
+ elem.dataset.i = i;
 }
