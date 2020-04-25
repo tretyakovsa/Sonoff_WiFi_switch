@@ -322,7 +322,7 @@ function searchModuleOld(modules,find) {
  return findModules;
 }
 
-function viewTemplate(jsonPage,jsonResponse) {
+function viewTemplate(jsonPage,jsonResponse,othe_opt) {
  var i = 0;
  for(var key in jsonPage) {
   var element=elem(key);
@@ -345,9 +345,17 @@ function viewTemplate(jsonPage,jsonResponse) {
     var module_val = obj.module;
     var type_val=obj.type;
 
-    var hidden = 'fs-block hidden ';
+    var hidden = '';
     if (!obj.module || searchModule(jsonResponse.module,obj.module)) {
      hidden = 'fs-block ';
+     if (othe_opt == 'loadJson') {
+      hidden = ' ';
+     }
+    } else {
+     var hidden = 'fs-block hidden ';
+     if (othe_opt == 'loadJson') {
+      hidden = 'hidden ';
+     }
     }
 
     if (type_val == 'hr') {
@@ -654,7 +662,7 @@ function loadJson(file, setDelay, jsonResponse) {
   ajax.get(file+'?'+Math.random(),{},function(response) {
    html('json-'+file.replace(/[^a-z0-9]/gi,'-'), ' ');
    var jsonPage2=JSON.parse(response);
-   viewTemplate(jsonPage2,jsonResponse);
+   viewTemplate(jsonPage2,jsonResponse,'loadJson');
   },true);
  };
  if (!isNaN(setDelay)) {
