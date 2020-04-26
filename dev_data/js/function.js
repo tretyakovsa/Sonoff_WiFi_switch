@@ -94,7 +94,7 @@ document.onkeydown = function(e){
 }
 
 function activeDragDrop(status) {
- elem('content').innerHTML+='<input class="btn btn-block btn-default" onclick="toggle(\'new-element\');" value="Add new element" type="button">';
+ elem('content-edit-button').innerHTML='<input class="btn btn-block btn-default" onclick="toggle(\'new-element\');" value="Add new element" type="button">';
  patterns = jsonPage.content.slice(0);
  let cols = document.querySelectorAll("#content .fs-block");
  cols.forEach(addDnDHandlers);
@@ -366,14 +366,14 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
     if (type_val == 'none' || typeof type_val === 'undefined') {
      element.innerHTML += '<div id="'+name_val+'" class="'+hidden+'" '+style_val+'>'+renameBlock(jsonResponse, obj.title)+'</div>';
     }
+    if (type_val == 'textarea') {
+     if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     element.innerHTML += '<div class="'+hidden+'"><textarea '+action_val+' id="'+name_val+'" class="form-control '+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'</textarea></div>';
+    }
     if (type_val == 'input') {
      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
      if (socket_val) action_val = 'onfocusout="send_socket(this, \'\', \''+socket_val+'\')"';
      element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'">';
-    }
-    if (type_val == 'textarea') {
-     if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
-     element.innerHTML += '<textarea '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'">'+state_val+'</textarea>';
     }
     if (type_val == 'password') {
      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
@@ -419,7 +419,7 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
      } else {
       loadSelect(jsonSelect, name_val, state_val);
      }
-     element.innerHTML += '<select class="form-control '+hidden+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select>';
+     element.innerHTML += '<div class="'+hidden+'"><select class="form-control '+class_val+'" '+style_val+' '+action_val+' id="'+name_val+'">'+option+'<\/select></div>';
     }
     if (type_val == 'dropdown') {
      var option = '';
@@ -589,17 +589,11 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
   }
   i++;
  }
-
-
+ elem('content').innerHTML += '<div id="content-edit-button"></div>';
  if (elem('edit-content').classList == 'show') {
   activeDragDrop(true);
  }
-
-
-
-
  disable_socket();
-
 }
 
 function disable_socket(){
@@ -1681,7 +1675,11 @@ function handleDrop(e) {
   this.before(dragSrcEl);
  }
  this.classList.remove("over");
- return false;
+ if (e.preventDefault) {
+  e.preventDefault();
+ } else {
+  return false;
+ }
 }
 
 function handleDragEnd(e) {
