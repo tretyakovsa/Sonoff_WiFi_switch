@@ -58,47 +58,47 @@ From: Latvia, Valmiera
   <div id="new-element" class="hidden pop-up show" style="position:fixed;top:15%;left:50%;width:400px;margin-left:-200px;text-align:center;">
    <select id="new-element-type" required="" onchange="create_new_element_show(this.options[this.selectedIndex].value)" class="form-control">
     <option value="" disabled="" selected="">Please select Type</option>
-    <option value="style,class,id,title,module">h1</option>
-    <option value="style,class,id,title,module">h2</option>
-    <option value="style,class,id,title,module">h3</option>
-    <option value="style,class,id,title,module">h4</option>
-    <option value="style,class,id,title,module">h5</option>
-    <option value="style,class,id,title,module">h6</option>
-    <option value="style,class,id,title,module">text</option>
-    <option value="style,class,id,title,action,socket,response,module">link</option>
+    <option value="style,class,id,module,title">h1</option>
+    <option value="style,class,id,module,title">h2</option>
+    <option value="style,class,id,module,title">h3</option>
+    <option value="style,class,id,module,title">h4</option>
+    <option value="style,class,id,module,title">h5</option>
+    <option value="style,class,id,module,title">h6</option>
+    <option value="style,class,id,module,title">text</option>
+    <option value="style,class,id,module,title,action,response">link</option>
     <option value="style,class,id,module">hr</option>
-    <option value="style,class,id,pattern,title,state,action,socket,response,module">input</option>
-    <option value="style,class,id,pattern,title,state,action,socket,response,module">password</option>
-    <option value="style,class,id,pattern,title,state,action,socket,response,module">textarea</option>
-    <option value="style,class,id,title,action,socket,response,module">button</option>
-    <option value="style,class,id,title,action,socket,state,response,module">select</option>
-    <option value="style,class,id,title,action,socket,module">dropdown</option>
-    <option value="style,class,id,pattern,title,state,action,socket,response,module">checkbox</option>
-    <option value="style,class,id,state,module">iframe</option>
-    <option value="style,class,id,pattern,title,state,action,socket,response,module">range</option>
-    <option value="style,class,id,title,module">table</option>
-    <option value="style,class,id,module,state,module">csv</option>
-    <option value="style,class,id,module,state,style,class,module">chart</option>
-    <option value="style,class,id,title,state,action,socket,module">img</option>
+    <option value="style,class,id,module,pattern,title,state,action,socket,response">input</option>
+    <option value="style,class,id,module,pattern,title,state,action,socket,response">password</option>
+    <option value="style,class,id,module,pattern,title,state,action,response">textarea</option>
+    <option value="style,class,id,module,title,action,socket,response">button</option>
+    <option value="style,class,id,module,title,action,socket,state,response">select</option>
+    <option value="style,class,id,module,title">dropdown</option>
+    <option value="style,class,id,module,pattern,title,state,action,response">checkbox</option>
+    <option value="style,class,id,module,state">iframe</option>
+    <option value="style,class,id,module,pattern,title,state,action,response">range</option>
+    <option value="style,class,id,module,state,title">table</option>
+    <option value="style,class,id,module,title,state">csv</option>
+    <option value="style,class,id,module,state">chart</option>
+    <option value="style,class,id,module,title,state,action">img</option>
     <option value="style,class,id,module">macros</option>
-    <option value="style,class,id,title,status,state,module">login</option>
-    <option value="style,class,id,state,module">file</option>
-    <option value="style,class,id,state,module">loadJson</option>
-    <option value="style,class,id,state,module">issues</option>
-    <option value="style,class,id,state,module">commits</option>
+    <option value="style,class,id,module,title,status,state">login</option>
+    <option value="style,class,id,module,title,state">file</option>
+    <option value="style,class,id,module,state">loadJson</option>
+    <option value="style,class,id,module,state">issues</option>
+    <option value="style,class,id,module,state">commits</option>
    </select>
    <br>
    <div id="new-element-ipnut">
-    <input id="new-element-title" placeholder="Title, text in your element, can use {{variable}}" class="form-control hidden" value="">
-    <input id="new-element-state" placeholder="State, variable, can use {{variable}}" class="form-control hidden" value="">
-    <input id="new-element-class" placeholder="Class (Bootstrap)" class="form-control hidden" value="" style="width: 50%;float: left;">
-    <input id="new-element-style" placeholder="Style" class="form-control hidden" value="" style="width: 50%;">
-    <input id="new-element-id" placeholder="Name (ID)" class="form-control hidden" value="">
-    <input id="new-element-action" placeholder="Action (GET), can use [[Name]]" class="form-control hidden" value="">
-    <input id="new-element-socket" placeholder="Socket, can use [[Name]]" class="form-control hidden" value="">
-    <input id="new-element-response" placeholder="Response name (ID). Example: [[Name]]" class="form-control hidden" value="">
-    <input id="new-element-pattern" placeholder="Pattern. Example: [0-9a-zA-Zа-яА-Я.\\- ]{1,20}" class="form-control hidden" value="">
-    <input id="new-element-module" placeholder="Module name, for show/hidden element" class="form-control hidden" value="">
+    <input class="form-control hidden" id="new-element-title" placeholder="Title, text in your element, can use {{variable}}" value="">
+    <input class="form-control hidden" id="new-element-state" placeholder="State, variable, can use {{variable}}" value="">
+    <input class="form-control hidden" id="new-element-class" placeholder="Class (Bootstrap)" value="" style="width: 50%;float: left;">
+    <input class="form-control hidden" id="new-element-style" placeholder="Style" value="" style="width: 50%;">
+    <input class="form-control hidden" id="new-element-id" placeholder="Name (ID)" value="">
+    <input class="form-control hidden" id="new-element-action" placeholder="Action (GET), can use [[Name]]" value="">
+    <input class="form-control hidden" id="new-element-socket" placeholder="Socket, can use [[Name]]" value="">
+    <input class="form-control hidden" id="new-element-response" placeholder="Response name (ID). Example: [[Name]]" value="">
+    <input class="form-control hidden" id="new-element-pattern" placeholder="Pattern. Example: [0-9a-zA-Zа-яА-Я.\\- ]{1,20}" value="">
+    <input class="form-control hidden" id="new-element-module" placeholder="Module name, for show/hidden element" value="">
     <br><input class="btn btn-success" style="width:40%" onclick="create_new_element()" value="ADD" type="button">
     <input class="btn btn-default" onclick="toggle('new-element')" value="Close" type="button">
     <a class="btn btn-default" target="_blank" href="https://github.com/renat2985/easy_Iot_file_system/wiki" title="GitHub Wiki"><i class="help-img"></i>Wiki</a>

@@ -125,12 +125,12 @@ function create_new_element(status) {
  // viewTemplate(jsonPage,jsonResponse);
  toggle('new-element');
  setContent('edit');
+ html('url-content', ' ');
  activeDragDrop(true);
 }
 
 
 function create_new_element_show(status) {
-
  document.querySelectorAll('#new-element-ipnut .form-control').forEach((el) => {
   if( el.classList != 'hidden') {el.classList.add('hidden')}
  });
@@ -139,8 +139,7 @@ function create_new_element_show(status) {
  status = status.split(",");
  for (var i = 0; i < status.length; i++) {
   toggle('new-element-'+status[i],'shows');
-  //alert('new-element-'+status[i]);
-
+  elem('new-element-'+status[i]).value='';
  }
 }
 
@@ -369,6 +368,7 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
     }
     if (type_val == 'input') {
      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     if (socket_val) action_val = 'onfocusout="send_socket(this, \'\', \''+socket_val+'\')"';
      element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'">';
     }
     if (type_val == 'textarea') {
@@ -377,6 +377,7 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
     }
     if (type_val == 'password') {
      if (action_val) action_val = 'onfocusout="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     if (socket_val) action_val = 'onfocusout="send_socket(this, \'\', \''+socket_val+'\')"';
      element.innerHTML += '<input '+action_val+' id="'+name_val+'" class="form-control '+hidden+class_val+'" '+style_val+' '+(pattern_val?'pattern="'+pattern_val+'"':'')+' placeholder="'+renameBlock(jsonResponse, obj.title)+'" value="'+state_val+'" onfocus="this.type=\'text\'" type="password">';
     }
     if (type_val == 'button') {
@@ -408,6 +409,7 @@ function viewTemplate(jsonPage,jsonResponse,othe_opt) {
     }
     if (type_val == 'select') {
      if (action_val) action_val = 'onchange="send_request(this, \''+(typeof module_val!='undefined'&&module_val?'cmd?command=':'')+'\'+renameGet(\''+obj.action+'\'),\''+response_val+'\')"';
+     if (socket_val) action_val = 'onchange="send_socket(this, \'\', \''+socket_val+'\')"';
      var option = '';
      jsonSelect = obj.title;
      if (isObject(jsonSelect)) {
