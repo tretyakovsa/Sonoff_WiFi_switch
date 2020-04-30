@@ -71,12 +71,22 @@ From: Latvia, Valmiera
        loadBlock(ip,'first',ipModule.module);
       }
      }
-     ajax.get('http://'+ip+'/scenary.save.txt?'+Math.random(),{},function(response) {
+
+ ajax.get('http://'+ip+'/config.options.json?'+Math.random(),{},function(response) {
+  var view=JSON.parse(response);
+
+
+     ajax.get('http://'+ip+'/scenary/'+view['configs']+'.txt?'+Math.random(),{},function(response) {
       var options = macrosTemplate(response,ip);
       if (options){
        loadBlock(ip,'first','macros',options);
       }
      },true);
+
+
+    },true);
+
+
     },true);
    }
 

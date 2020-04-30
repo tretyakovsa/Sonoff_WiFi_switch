@@ -941,15 +941,10 @@ function loadCommandHelp(jsonParam,where,to) {
  elem(to).readOnly = (jsonParam=='voice'?true:false);
  var domain = elem('ssdp-list'+where.replace(/[^0-9]/gi,'')).options[elem('ssdp-list'+where.replace(/[^0-9]/gi,'')).selectedIndex].value;
 
-
-
- ajax.get('http://'+elem('ssdp-list0').options[elem('ssdp-list0').selectedIndex].value+'/config.options.json?'+Math.random(),{},function(response) {
+ ajax.get('http://'+domain+'/config.options.json?'+Math.random(),{},function(response) {
   var view=JSON.parse(response);
 
-
-
-
- ajax.get('http://'+domain+'/'+(jsonParam=='voice'?view['configs'].'/scenary.save.txt':'command-help.json')+'?'+Math.random(),{},function(response) {
+ ajax.get('http://'+domain+'/'+(jsonParam=='voice'?'scenary/'+view['configs']+'.txt':'command-help.json')+'?'+Math.random(),{},function(response) {
   html(where, ' ');
   var option = '';
   if (jsonParam == 'voice') {
@@ -973,7 +968,11 @@ function loadCommandHelp(jsonParam,where,to) {
  },true);
 
 
- }
+
+ },true);
+
+
+
 
 }
 
