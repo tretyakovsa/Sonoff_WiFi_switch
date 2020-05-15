@@ -1,0 +1,13 @@
+{
+ "configs":[
+  "./lang/lang.ru.json"
+ ],
+ "title": [{
+  "type":"text",
+  "title":"NewPage"
+ }],
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content":[
+
+ ]
+}

@@ -106,6 +106,8 @@ function activeDragDrop(status) {
 function create_new_element(status) {
  var new_element = {};
  new_element['type'] = elem('new-element-type').options[elem('new-element-type').selectedIndex].innerHTML;
+ if (new_element['type'] != 'Create new page') {
+
  if (elem('new-element-title').value !='') { new_element['title'] = elem('new-element-title').value; }
  if (elem('new-element-state').value !='') { new_element['state'] = elem('new-element-state').value; }
  if (elem('new-element-class').value !='') { new_element['class'] = elem('new-element-class').value; }
@@ -122,6 +124,24 @@ function create_new_element(status) {
  oldjson = JSON.parse(val('edit-json'));
  oldjson['content'].push(new_element);
  val('edit-json',JSON.stringify(oldjson).replace(/"},/g, '"},\n\n').replace(/],"/g, '],\n"'));
+ } else {
+    ajax.get('/new_page.json',{},function(response) {
+     var formData = new FormData();
+     formData.append("path", "/"+elem('new-element-id').value+'.json');
+     xmlHttp.open("PUT", "/edit");
+     xmlHttp.onload = function() {
+ var formData = new FormData();
+ formData.append("data", new Blob([response], { type: 'text/json' }), "/"+elem('new-element-id').value+'.json');
+ xmlHttp.open("POST", "/edit");
+      xmlHttp.onload = function() {
+        location.href = "/?"+elem('new-element-id').value;
+      }
+     xmlHttp.send(formData);
+     }
+     xmlHttp.send(formData);
+   },true);
+
+ }
  // viewTemplate(jsonPage,jsonResponse);
  toggle('new-element');
  setContent('edit');
