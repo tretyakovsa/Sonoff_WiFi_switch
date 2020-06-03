@@ -34,14 +34,14 @@ From: Latvia, Valmiera
   <div id="news"></div>
   <a href="#" onclick="toggle('edit-content');toggle('url-content');activeDragDrop(true);"><i class="opt-img" style="position:fixed;right:1px;top:1px;opacity:0.1;"></i></a>
   <div class="container loader-bg">
-   <ul id="url-content" class="hidden" onclick="elem('content').style.zIndex=0;"></ul>
+   <ul id="url-content" class="hidden animated tdFadeInRight" onclick="elem('content').style.zIndex=0;"></ul>
    <div id="headers"></div>
    <div class="row hidden" id="container_column">
     <h1 id="title"></h1>
     <div id="content" onclick="this.style.zIndex=10"></div>
    </div>
    <div id="footer"></div>
-   <div id="edit-content" class="hidden" onclick="elem('content').style.zIndex=0;">
+   <div id="edit-content" class="hidden animated tdFadeInLeft" onclick="elem('content').style.zIndex=0;">
     <a target="_blank" style="position:fixed;right:0;color:#000;" href="https://github.com/renat2985/easy_Iot_file_system/wiki" title="GitHub Wiki"><i class="help-img"></i>wiki</a>
     <textarea class="form-control" onkeyup="isValidJson(this.value,'edit-json')" spellcheck="false" id="edit-json"></textarea>
     <div id="error-json"></div>
@@ -55,7 +55,7 @@ From: Latvia, Valmiera
 
 
 
-  <div id="new-element" class="hidden pop-up show" style="position:fixed;top:15%;left:50%;width:400px;margin-left:-200px;text-align:center;">
+  <div id="new-element" class="hidden pop-up animated tdExpandIn" style="position:fixed;top:15%;left:50%;width:400px;margin-left:-200px;text-align:center;">
    <select id="new-element-type" required="" onchange="create_new_element_show(this.options[this.selectedIndex].value)" class="form-control">
     <option value="" disabled="" selected="">Please select Type</option>
     <option value="style,class,id,module,title">h1</option>

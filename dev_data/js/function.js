@@ -168,6 +168,7 @@ function create_new_element_show(status) {
 function log(log) {
  var listitems = document.getElementById("url-content").getElementsByTagName("li")
  for (var i = 0; i < listitems.length; i++) {
+    listitems[i].classList.remove("tdFadeInRight");
   if (i > 70) {
    document.getElementById("url-content").removeChild(listitems[0]);
   }
@@ -1171,7 +1172,7 @@ function send_request(submit,server,state){
   submit.value=old_submit;
   var element =  elem('url-content');
   if (typeof(element) != 'undefined' && element != null){
-   log('<li><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(responses=='FileNotFound'?'danger':'default')+'">'+(responses=='FileNotFound'?'File Not Found':'200 OK')+'</span></li>');
+   log('<li class="animated tdFadeInRight"><span class="label label-warning">GET</span> <a href="'+server+'" class="btn btn-link" style="text-transform:none;text-align:left;white-space:normal;display:inline">'+server+'</a> <span class="label label-'+(responses=='FileNotFound'?'danger':'default')+'">'+(responses=='FileNotFound'?'File Not Found':'200 OK')+'</span></li>');
   }
   var ddnsUrl1 =  elem('ddns-url1');
   if (typeof(ddnsUrl1) != 'undefined' && ddnsUrl1 != null){
@@ -1217,13 +1218,13 @@ function send_request(submit,server,state){
       htmlblock.href = response.action;
      }
      if (typeof(element) != 'undefined' && element != null){
-      log('<li class="alert alert-info" style="margin:5px 0;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+responses.replace(/</g,'&lt;')+'</li>');
+      log('<li class="alert alert-info animated tdFadeInRight" style="margin:5px 0;"><a href="#'+block[i].slice(2,-2)+'" class="label label-success">'+block[i]+'</a> '+responses.replace(/</g,'&lt;')+'</li>');
      }
     }
    }
   } else {
    if (typeof(element) != 'undefined' && element != null){
-    log('<li class="alert alert-info" style="margin:5px 0;">'+responses.replace(/</g,'&lt;')+'</li>');
+    log('<li class="alert alert-info animated tdFadeInRight" style="margin:5px 0;">'+responses.replace(/</g,'&lt;')+'</li>');
    }
   }
   // load('next');
