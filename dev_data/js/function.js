@@ -729,7 +729,7 @@ function loadCSV(file,title) {
    }
    tbody += '</tr>';
   }
-  document.getElementById('table-csv-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML += ''+tbody+'';
+  document.getElementById('table-csv-'+file.replace(/[^a-z0-9]/gi,'-')).innerHTML = ''+tbody+'';
  },true);
 }
 
