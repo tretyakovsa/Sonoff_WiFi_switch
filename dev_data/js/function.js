@@ -722,6 +722,8 @@ function loadCSV(file,title) {
     } else {
      if (title[y] == 'html') {
       tbody += '<td>'+table_td[y]+'<\/td>';
+     } else if (title[y] == 'del') {
+      tbody += '<td><input class="btn btn-danger" type="button" value="'+table_td[y]+'" onclick="location.href=\'/del?file='+file+'&line='+i+'\'"><\/td>';
      } else {
       tbody += '<td><input class="form-control" type="'+title[y]+'" value="'+table_td[y]+'" '+(title[y]=='checkbox'?'onclick="(this.checked?this.value=1:this.value=0)"':'')+' '+(title[y]=='checkbox' && table_td[y]==1?'checked':'')+'><\/td>';
      }
