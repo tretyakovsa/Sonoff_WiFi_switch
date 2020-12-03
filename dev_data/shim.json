@@ -29,7 +29,7 @@
    "name":"shim0",
    "module":"shim0",
    "state":"{{shim0}}",
-   "action":"shim {{shim0}} 0",
+   "action":"shim [[shim0]] 0",
    "pattern":"min=0 max=1023 step=1"
   },
   {
@@ -38,7 +38,7 @@
    "name":"shim1",
    "module":"shim1",
    "state":"{{shim1}}",
-   "action":"shim {{shim1}} 1",
+   "action":"shim [[shim1]] 1",
    "pattern":"min=0 max=1023 step=1"
   },
   {
@@ -47,7 +47,7 @@
    "name":"shim2",
    "module":"shim2",
    "state":"{{shim2}}",
-   "action":"shim {{shim0}} 2",
+   "action":"shim [[shim0]] 2",
    "pattern":"min=0 max=1023 step=1"
   },
   {
@@ -56,7 +56,7 @@
    "name":"shim3",
    "module":"shim3",
    "state":"{{shim3}}",
-   "action":"shim {{shim3}} 3",
+   "action":"shim [[shim3]] 3",
    "pattern":"min=0 max=1023 step=1"
   },
   {
@@ -65,7 +65,7 @@
    "name":"shim4",
    "module":"shim4",
    "state":"{{shim4}}",
-   "action":"shim {{shim4}} 4",
+   "action":"shim [[shim4]] 4",
    "pattern":"min=0 max=1023 step=1"
   },
 

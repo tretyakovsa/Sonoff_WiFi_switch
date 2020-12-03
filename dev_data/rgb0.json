@@ -35,6 +35,7 @@
    "title":"/img/swatches.png",
    "name":"color",
    "state":"{{colorRGB}}",
+   "module":"rgb",
    "response":"[[rgb]]",
    "action":"nrgb set 0 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "style":"cursor:pointer;width:100%"
@@ -45,6 +46,7 @@
    "title":"R",
    "name":"colorR",
    "state":"parseInt(val('color').substr(0,2),12)",
+   "module":"rgb",
    "response":"[[rgb]]",
    "action":"nrgb set 0 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
@@ -54,6 +56,7 @@
    "title":"G",
    "name":"colorG",
    "state":"parseInt(val('color').substr(2,2),12)",
+   "module":"rgb",
    "response":"[[rgb]]",
    "action":"nrgb set 0 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
@@ -63,6 +66,7 @@
    "title":"B",
    "name":"colorB",
    "state":"parseInt(val('color').substr(4,2),12)",
+   "module":"rgb",
    "response":"[[rgb]]",
    "action":"nrgb set 0 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
@@ -77,6 +81,7 @@
    "state":"{{modeRGB}}",
    "name":"dynamic",
    "response":"[[rgb]]",
+   "module":"rgb",
    "action":"nrgb set 0 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "title":{
     "0":"Static",
@@ -146,6 +151,7 @@
    "state":"{{timeRGB}}",
    "name":"time",
    "response":"[[rgb]]",
+   "module":"rgb",
    "action":"pulse on nrgb [[time]]s",
    "title":{
     "60":"1",
@@ -166,6 +172,7 @@
    "name":"speed",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
+   "module":"rgb",
    "action":"nrgb set 0 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
@@ -175,6 +182,7 @@
    "name":"brightness",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
+   "module":"rgb",
    "action":"nrgb set 0 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
@@ -186,6 +194,7 @@
    "title":"({{rgb}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
    "response":"[[rgb]]",
+   "module":"rgb",
    "action":"nrgb not 0",
    "class":"'btn btn-block btn-lg btn-'+({{rgb}}?'info':'primary')"
   },
