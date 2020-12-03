@@ -55,6 +55,22 @@
   },
   {
    "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} RGB 0",
+   "module":"rgb0",
+   "action":"/page.htm?rgb0",
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='rgb0'?'display:none':'')"
+  },
+  {
+   "type":"link",
+   "title":"<i class=\"set-img\"></i>{{LangOptions1}} RGB 1",
+   "module":"rgb1",
+   "action":"/page.htm?rgb1",
+   "class":"btn btn-block btn-default",
+   "style":"('{{urlArray0}}'=='rgb1'?'display:none':'')"
+  },
+  {
+   "type":"link",
    "title":"<i class=\"set-img\"></i>{{LangOptions1}} Relay",
    "module":"relay",
    "action":"/page.htm?relay",

@@ -37,7 +37,7 @@
    "module":"rgb",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb 1 set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "style":"cursor:pointer;width:100%"
   },
 
@@ -48,7 +48,7 @@
    "state":"parseInt(val('color').substr(0,2),12)",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb 1 set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -58,7 +58,7 @@
    "state":"parseInt(val('color').substr(2,2),12)",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb 1 set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -68,7 +68,7 @@
    "state":"parseInt(val('color').substr(4,2),12)",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb 1 set '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
@@ -82,7 +82,7 @@
    "name":"dynamic",
    "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb 1 set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "title":{
     "0":"Static",
     "1":"Blink",
@@ -173,7 +173,7 @@
    "module":"rgb",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb 1 set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -183,7 +183,7 @@
    "module":"rgb",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb 1 set [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
