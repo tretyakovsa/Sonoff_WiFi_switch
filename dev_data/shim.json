@@ -1,0 +1,104 @@
+{
+ "configs":[
+  "/config.live.json",
+  "/config.options.json",
+  "/lang/lang.{{lang}}.json",
+  "/modules.json"
+ ],
+ "title": [{
+   "type":"text",
+   "title":"{{LangOptions1}}"
+  }],
+ "class":"col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6",
+ "content":[
+  {
+   "type":"h5",
+   "title":"{{SSDP}}",
+   "class":"alert-info"
+  },
+
+  {
+   "type":"loadJson",
+   "state":"header.json"
+  },
+
+
+  {
+   "type":"range",
+   "title":"Shim0",
+   "name":"shim0",
+   "module":"shim0",
+   "state":"{{shim0}}",
+   "action":"shim {{shim0}} 0",
+   "pattern":"min=0 max=1023 step=1"
+  },
+  {
+   "type":"range",
+   "title":"Shim1",
+   "name":"shim1",
+   "module":"shim1",
+   "state":"{{shim1}}",
+   "action":"shim {{shim1}} 1",
+   "pattern":"min=0 max=1023 step=1"
+  },
+  {
+   "type":"range",
+   "title":"Shim2",
+   "name":"shim2",
+   "module":"shim2",
+   "state":"{{shim2}}",
+   "action":"shim {{shim0}} 2",
+   "pattern":"min=0 max=1023 step=1"
+  },
+  {
+   "type":"range",
+   "title":"Shim3",
+   "name":"shim3",
+   "module":"shim3",
+   "state":"{{shim3}}",
+   "action":"shim {{shim3}} 3",
+   "pattern":"min=0 max=1023 step=1"
+  },
+  {
+   "type":"range",
+   "title":"Shim4",
+   "name":"shim4",
+   "module":"shim4",
+   "state":"{{shim4}}",
+   "action":"shim {{shim4}} 4",
+   "pattern":"min=0 max=1023 step=1"
+  },
+
+
+  {
+   "type":"hr"
+  },
+
+  {
+   "type":"macros"
+  },
+
+  {
+   "type":"chart",
+   "title":"{{LangA0}}",
+   "state":"charts.json?data=A0&data1=highAlarmA0&data2=lowAlarmA0",
+   "module":"A0",
+   "action":"/page.htm?chart&A0&highAlarmA0&lowAlarmA0",
+   "style":"height:200px;margin-left:-20px"
+  },
+
+  {
+   "type":"link",
+   "title":"<i class=\"opt-img\"></i> {{LangSetting3}}",
+   "action":"/page.htm?setup",
+   "class":"btn btn-block btn-default"
+  },
+  {
+   "type":"link",
+   "module":"admin",
+   "title":"{{LangReset1}}",
+   "action":"javascript:if(confirm(renameBlock(jsonResponse,'{{LangReset3}}'))){send_request(this,'/restart?device=ok');toggle('restart-esp');timeout('toggle(\\'restart-esp\\')',20000);}",
+   "class":"btn btn-block btn-warning"
+  }
+ ]
+}

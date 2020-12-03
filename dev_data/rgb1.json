@@ -34,10 +34,9 @@
    "type":"rgb",
    "title":"/img/swatches.png",
    "name":"color",
-   "module":"rgb",
    "state":"{{colorRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "style":"cursor:pointer;width:100%"
   },
 
@@ -46,9 +45,8 @@
    "title":"R",
    "name":"colorR",
    "state":"parseInt(val('color').substr(0,2),12)",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -56,9 +54,8 @@
    "title":"G",
    "name":"colorG",
    "state":"parseInt(val('color').substr(2,2),12)",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
@@ -66,9 +63,8 @@
    "title":"B",
    "name":"colorB",
    "state":"parseInt(val('color').substr(4,2),12)",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 '+rgbToHex(Number(val('colorR')),Number(val('colorG')),Number(val('colorB')))+' [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
@@ -80,9 +76,8 @@
    "type":"select",
    "state":"{{modeRGB}}",
    "name":"dynamic",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "title":{
     "0":"Static",
     "1":"Blink",
@@ -150,9 +145,8 @@
    "type":"select",
    "state":"{{timeRGB}}",
    "name":"time",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"pulse on rgb [[time]]s",
+   "action":"pulse on nrgb [[time]]s",
    "title":{
     "60":"1",
     "300":"5",
@@ -170,20 +164,18 @@
    "type":"range",
    "title":"{{LangSpeed}}",
    "name":"speed",
-   "module":"rgb",
    "state":"{{speedRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
   {
    "type":"range",
    "title":"{{LengBrightness}}",
    "name":"brightness",
-   "module":"rgb",
    "state":"{{brightnessRGB}}",
    "response":"[[rgb]]",
-   "action":"rgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
+   "action":"nrgb set 1 [[color]] [[speed]] [[brightness]] [[dynamic]]",
    "pattern":"min=0 max=255 step=1"
   },
 
@@ -193,9 +185,8 @@
    "type":"button",
    "title":"({{rgb}}?'{{LangOff}}':'{{LangOn}}')",
    "name":"rgb",
-   "module":"rgb",
    "response":"[[rgb]]",
-   "action":"rgb not 1",
+   "action":"nrgb not 1",
    "class":"'btn btn-block btn-lg btn-'+({{rgb}}?'info':'primary')"
   },
 

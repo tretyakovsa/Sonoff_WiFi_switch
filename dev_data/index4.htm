@@ -130,13 +130,16 @@ From: Latvia, Valmiera
        }
        loadBlock2('relay','timer.save',ip, content, stage, jsonInResponse);
       }
+      if(searchModule(modules,"shim")) {
+       loadBlock2('shim','timer.save',ip, content, stage, jsonInResponse);
+      }
       if (searchModuleOld(modules,"rgb")){
        loadBlock2('rgb','timer.save',ip, content, stage, jsonInResponse);
       }
-      if (searchModuleOld(modules,"rgb0")){
+      if (searchModuleOld(modules,"nrgb0")){
        loadBlock2('rgb0','timer.save',ip, content, stage, jsonInResponse);
       }
-      if (searchModuleOld(modules,"rgb1")){
+      if (searchModuleOld(modules,"nrgb1")){
        loadBlock2('rgb1','timer.save',ip, content, stage, jsonInResponse);
       }
       if (searchModule(modules,"rgbs")){
