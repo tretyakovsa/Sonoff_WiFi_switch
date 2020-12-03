@@ -103,6 +103,14 @@ From: Latvia, Valmiera
        if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'rgb','info');}
        elem("button-"+ip+"-rgb").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not\',this);" value="'+(jsonInResponse.rgb?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.rgb?'info':'primary')+'" type="button">';
       }
+      if (searchModuleOld(modules,"rgb0")){
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'rgb0','info');}
+       elem("button-"+ip+"-rgb0").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not 0\',this);" value="'+(jsonInResponse.rgb0?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.rgb0?'info':'primary')+'" type="button">';
+      }
+      if (searchModuleOld(modules,"rgb1")){
+       if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'rgb1','info');}
+       elem("button-"+ip+"-rgb1").innerHTML='<input onclick="ajaxm(\''+ip+'\',\'cmd?command=rgb not 1\',this);" value="'+(jsonInResponse.rgb1?jsonInResponse.LangOff:jsonInResponse.LangOn)+'" class="btn btn-'+(jsonInResponse.rgb1?'info':'primary')+'" type="button">';
+      }
       if (searchModule(modules,"rfLivolo")){
        if (stage == 'first'){loadElement(ip,jsonInResponse.SSDP,jsonInResponse.space,'livolo','default');}
        elem("button-"+ip+"-livolo").innerHTML='';
