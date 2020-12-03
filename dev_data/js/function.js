@@ -1729,7 +1729,8 @@ function handleDragEnd(e) {
  // console.log(jsonPage.content)//
  oldjson = JSON.parse(val('edit-json'));
  oldjson.content = temp;
- val('edit-json',JSON.stringify(oldjson).replace(/"},/g, '"},\n\n').replace(/],"/g, '],\n"'));
+ val('edit-json',JSON.stringify(oldjson,null,' '));
+ //val('edit-json',JSON.stringify(oldjson).replace(/"},/g, '"},\n\n').replace(/],"/g, '],\n"'));
 }
 
 function addDnDHandlers(elem, i) {
