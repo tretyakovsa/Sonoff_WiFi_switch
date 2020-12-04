@@ -124,6 +124,19 @@
    "title":"Build: <small>{{buildData}}</small>",
    "style":"text-align:left"
   },
+
+  {
+   "type":"h4",
+   "title":"buildDay: <small>{{buildDay}}</small>",
+   "style":"text-align:left"
+  },
+  {
+   "type":"h4",
+   "title":"buildTime: <small>{{buildTime}}</small>",
+   "style":"text-align:left"
+  },
+
+
   {
    "type":"hr"
   },
