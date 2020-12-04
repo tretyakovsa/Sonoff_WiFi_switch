@@ -37,6 +37,9 @@ TACH 0 0 20 0
 # BUZZER 16
 // {{LangConfRGB}}
 RGB 2 15 0 ff0000 100 255 3 {{LangrgbName}}
+// {{LangConfNRGB}}
+# NRGB 1 0 0 15 0 ff5000 200 255 0
+# NRGB 3 1 1 15 0 ff5000 200 255 0
 // {{LangConfRGBS}}
 # SRGB 12 4 5 0 ffffff 100 255 {{LangrgbName}}
 // {{LangConfJalousie}}
